@@ -1,0 +1,299 @@
+#ifndef NonTerminal_H
+#define NonTerminal_H
+
+#include <list>
+#include "WordParser.h"
+#include "ExprRunTime.h"
+#include "Matrix.h"
+#include "ExprException.h"
+#include "ExprAdapter.h"
+#include <crtdbg.h>
+
+//---------------------------------------------------------------------
+// BaseNonTerminal - class
+//---------------------------------------------------------------------
+class BaseNonTerminal
+{
+private :
+    ResultTypeEnum _ResultType;
+public :
+    // Static Methods
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef) = 0;
+    ResultTypeEnum ResultType(void);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment) = 0;
+protected :
+    // Constructor
+    BaseNonTerminal(): _ResultType(RT_None) { }
+    // Methods
+    virtual ResultTypeEnum GetResultType(void) { _ASSERT(0); return RT_None; }
+};
+
+//---------------------------------------------------------------------
+// ExprNT - class declare
+//---------------------------------------------------------------------
+class ExprNT;
+//---------------------------------------------------------------------
+// ListNT - class
+//---------------------------------------------------------------------
+class ListNT : public BaseNonTerminal
+{
+private :
+    typedef std::list<ExprNT*> ExprList_t;
+    ExprList_t _ExprList;
+    bool _IsEndWithSemicolon;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    ListNT(void): _IsEndWithSemicolon(true), _ExprList(), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~ListNT();
+};
+
+//---------------------------------------------------------------------
+// StartNT - class
+//---------------------------------------------------------------------
+class StartNT : public BaseNonTerminal
+{
+private :
+    ListNT _ListNT;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    StartNT(void): _ListNT(), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+};
+
+//---------------------------------------------------------------------
+// SubExprNT - class declare
+//---------------------------------------------------------------------
+class SubExprNT;
+//---------------------------------------------------------------------
+// ExprNT - class
+//---------------------------------------------------------------------
+class ExprNT : public BaseNonTerminal
+{
+private :
+    SubExprNT *_pSubExprNT;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    ExprNT(void): _pSubExprNT(NULL), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~ExprNT();
+protected :
+    virtual ResultTypeEnum GetResultType(void);
+};
+
+//---------------------------------------------------------------------
+// SubTermNT - class declare
+//---------------------------------------------------------------------
+class SubTermNT;
+//---------------------------------------------------------------------
+// TermNT - class
+//---------------------------------------------------------------------
+class TermNT : public BaseNonTerminal
+{
+private :
+    SubTermNT *_pSubTermNT;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    TermNT(void): _pSubTermNT(NULL), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~TermNT();
+protected :
+    virtual ResultTypeEnum GetResultType();
+};
+
+//---------------------------------------------------------------------
+// SubExprNT - class
+//---------------------------------------------------------------------
+class SubExprNT : public BaseNonTerminal
+{
+private :
+    bool _IsFirstOne;
+    WordTypeEnum _OperatorWordType;
+    TermNT _TermNT;
+    SubExprNT *_pLeftOne;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType, bool isFirstOne);
+    // Constructor
+    SubExprNT(void);
+    SubExprNT(SubExprNT *pLeftOne);
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~SubExprNT();
+private :
+    bool OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx);
+    void AppendPlusIL(ExprILSegment &exprILSegment);
+    void AppendMinusIL(ExprILSegment &exprILSegment);
+protected :
+    virtual ResultTypeEnum GetResultType(void);
+};
+
+//---------------------------------------------------------------------
+// MatrixNT - class declare
+//---------------------------------------------------------------------
+class MatrixNT;
+//---------------------------------------------------------------------
+// FactorNT - class
+//---------------------------------------------------------------------
+class FactorNT : public BaseNonTerminal
+{
+private :
+    ResultTypeEnum _ResultType;
+    ExprNT *_pExprNT;
+    MatrixNT *_pMatrixNT;
+    ExprILUnit *_pExprILUnit;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    FactorNT(void): _ResultType(RT_None), _pExprNT(NULL), _pMatrixNT(NULL), _pExprILUnit(NULL), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~FactorNT();
+protected :
+    virtual ResultTypeEnum GetResultType(void);
+};
+
+//---------------------------------------------------------------------
+// SubTermNT - class
+//---------------------------------------------------------------------
+class SubTermNT : public BaseNonTerminal
+{
+private :
+    bool _IsFirstOne;
+    WordTypeEnum _OperatorWordType;
+    FactorNT _FactorNT;
+    SubTermNT *_pLeftOne;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType, bool isFirstOne);
+    // Constructor
+    SubTermNT(void);
+    SubTermNT(SubTermNT *pLeftOne);
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~SubTermNT();
+private :
+    bool OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx);
+    void AppendMultiplyIL(ExprILSegment &exprILSegment);
+    void AppendDotMultiplyIL(ExprILSegment &exprILSegment);
+    void AppendDivideIL(ExprILSegment &exprILSegment);
+    void AppendDotDivideIL(ExprILSegment &exprILSegment);
+protected :
+    virtual ResultTypeEnum GetResultType(void);
+};
+
+//---------------------------------------------------------------------
+// MatrixColNT - class
+//---------------------------------------------------------------------
+class MatrixColNT : public BaseNonTerminal
+{
+private :
+    ExprNT _ExprNT;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    MatrixColNT(void): _ExprNT(), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+protected :
+    virtual ResultTypeEnum GetResultType(void) { return _ExprNT.ResultType(); }
+};
+
+//---------------------------------------------------------------------
+// MatrixColsNT - class
+//---------------------------------------------------------------------
+class MatrixColsNT : public BaseNonTerminal
+{
+private :
+    typedef std::list<MatrixColNT*> ColList_t;
+    ColList_t _ColList;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    MatrixColsNT(void): _ColList(), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    Matrix::Row_Col_t Cols() const { return _ColList.size(); }
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~MatrixColsNT();
+private :
+    MatrixColsNT(const MatrixColsNT &matrixColsNTRef);
+};
+
+//---------------------------------------------------------------------
+// MatrixRowsNT - class
+//---------------------------------------------------------------------
+class MatrixRowsNT : public BaseNonTerminal
+{
+private :
+    typedef std::list<MatrixColsNT*> RowList_t;
+    RowList_t _RowList;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    MatrixRowsNT(void): _RowList(), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    Matrix::Row_Col_t Rows() const { return _RowList.size(); }
+    Matrix::Row_Col_t Cols() const { return _RowList.front()->Cols(); }
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    // Destructor
+    ~MatrixRowsNT();
+private :
+    MatrixRowsNT(const MatrixRowsNT &matrixRowsNTRef);
+};
+
+//---------------------------------------------------------------------
+// MatrixNT - class
+//---------------------------------------------------------------------
+class MatrixNT : public BaseNonTerminal
+{
+private :
+    MatrixRowsNT _MatrixRows;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    MatrixNT(void): _MatrixRows(), BaseNonTerminal() { }
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    Matrix::Row_Col_t Rows() const { return _MatrixRows.Rows(); }
+    Matrix::Row_Col_t Cols() const { return _MatrixRows.Cols(); }
+    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+protected :
+    virtual ResultTypeEnum GetResultType(void) { return RT_Matrix; }
+};
+
+#endif
