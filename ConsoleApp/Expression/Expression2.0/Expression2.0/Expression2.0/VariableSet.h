@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include "Matrix.h"
 
 //---------------------------------------------------------------------
@@ -150,5 +151,39 @@ private :
     // Do not allow to copy constructor
     VariableSet(const VariableSet&);
 };
+
+//---------------------------------------------------------------------
+// VariableStack - class
+//---------------------------------------------------------------------
+class VariableStack
+{
+private :
+    typedef std::vector<Variable*> VariableVec_t;
+    typedef VariableVec_t::iterator VarVecIter_t;
+    VariableVec_t _VariableVec;
+public :
+    // Constructor
+    VariableStack();
+    ~VariableStack();
+    // Methods
+    Variable* TopVar();
+    int Count() const;
+    void PushVar(Variable *pVariable);
+    void PopVar(Variable **ppVariable);
+    void RemoveTopVar();
+private :
+    // Do not allow to copy constructor
+    VariableStack(const VariableStack&);
+};
+
+inline Variable* VariableStack::TopVar()
+{
+    return _VariableVec.back();
+}
+
+inline int VariableStack::Count() const
+{
+    return static_cast<int>(_VariableVec.size());
+}
 
 #endif

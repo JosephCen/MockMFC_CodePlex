@@ -1,7 +1,9 @@
 #include "stdafx.h"
+#include "ExprRunTime.h"
 #include "VariableSet.h"
 #include <string>
 using std::string;
+#include <crtdbg.h>
 
 //---------------------------------------------------------------------
 // Class member - Variable
@@ -16,7 +18,7 @@ Variable::~Variable()
 //---------------------------------------------------------------------
 // Class member - IntVariable
 //---------------------------------------------------------------------
-const int IntVariable::TypeId = 1;
+const int IntVariable::TypeId = RT_Integer;
 
 IntVariable::IntVariable(int value) :
 Variable(TypeId), _Value(value)
@@ -28,7 +30,7 @@ IntVariable::~IntVariable()
 //---------------------------------------------------------------------
 // Class member - RealVariable
 //---------------------------------------------------------------------
-const int RealVariable::TypeId = 2;
+const int RealVariable::TypeId = RT_RealVal;
 
 RealVariable::RealVariable(Matrix::RealVal_t realVal) :
 Variable(TypeId), _RealVal(realVal)
@@ -40,7 +42,7 @@ RealVariable::~RealVariable()
 //---------------------------------------------------------------------
 // Class member - StrVariable
 //---------------------------------------------------------------------
-const int StrVariable::TypeId = 3;
+const int StrVariable::TypeId = RT_String;
 
 StrVariable::StrVariable(const string &strVal) :
 Variable(TypeId), _StrVal(strVal)
@@ -56,7 +58,7 @@ StrVariable::~StrVariable()
 //---------------------------------------------------------------------
 // Class member - MatrixVariable
 //---------------------------------------------------------------------
-const int MatrixVariable::TypeId = 4;
+const int MatrixVariable::TypeId = RT_Matrix;
 
 MatrixVariable::MatrixVariable(const Matrix &matrixVal) :
 Variable(TypeId), _MatrixVal(matrixVal)
@@ -107,6 +109,8 @@ Variable* VariableSet::SearchVar(const std::string &varName)
 
 void VariableSet::InsertVar(const std::string &varName, Variable *pVariable)
 {
+    _ASSERT(NULL != pVariable);
+
     VarMapIter_t foundIter = _VariableMap.find(varName);
 
     if (foundIter != _VariableMap.end())
@@ -123,4 +127,39 @@ void VariableSet::RemoveVar(const std::string &varName)
         delete delIter->second;
         _VariableMap.erase(delIter);
     }
+}
+
+//---------------------------------------------------------------------
+// Class member - VariableStack
+//---------------------------------------------------------------------
+VariableStack::VariableStack()
+{ }
+
+VariableStack::~VariableStack()
+{
+    for (VarVecIter_t iter = _VariableVec.begin(); iter != _VariableVec.end(); ++iter)
+        delete *iter;
+}
+
+void VariableStack::PushVar(Variable *pVariable)
+{
+    _ASSERT(NULL != pVariable);
+
+    _VariableVec.push_back(pVariable);
+}
+
+void VariableStack::PopVar(Variable **ppVariable)
+{
+    _ASSERT(0 != _VariableVec.size());
+
+    *ppVariable = _VariableVec.back();
+    _VariableVec.pop_back();
+}
+
+void VariableStack::RemoveTopVar()
+{
+    _ASSERT(0 != _VariableVec.size());
+
+    delete _VariableVec.back();
+    _VariableVec.pop_back();
 }

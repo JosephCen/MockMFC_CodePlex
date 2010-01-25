@@ -1,12 +1,12 @@
 #ifndef ExprRunTime_H
 #define ExprRunTime_H
 
-#include "Matrix.h"
-#include "ParameterSet.h"
 #include <vector>
 #include <stack>
 #include <string>
 #include <crtdbg.h>
+#include "Matrix.h"
+#include "ParameterSet.h"
 
 enum ExprILCodeEnum
 {
@@ -81,6 +81,7 @@ enum ResultTypeEnum
     RT_None,
     RT_String,
     RT_Matrix,
+    RT_Integer,
     RT_RealVal
 };
 
