@@ -60,6 +60,10 @@ StrVariable::~StrVariable()
 //---------------------------------------------------------------------
 const int MatrixVariable::TypeId = RT_Matrix;
 
+MatrixVariable::MatrixVariable() :
+Variable(TypeId), _MatrixVal()
+{ }
+
 MatrixVariable::MatrixVariable(const Matrix &matrixVal) :
 Variable(TypeId), _MatrixVal(matrixVal)
 { }
@@ -148,12 +152,14 @@ void VariableStack::PushVar(Variable *pVariable)
     _VariableVec.push_back(pVariable);
 }
 
-void VariableStack::PopVar(Variable **ppVariable)
+int VariableStack::PopVar(Variable **ppVariable)
 {
     _ASSERT(0 != _VariableVec.size());
 
     *ppVariable = _VariableVec.back();
     _VariableVec.pop_back();
+
+    return (*ppVariable)->GetTypeId();
 }
 
 void VariableStack::RemoveTopVar()
@@ -162,4 +168,14 @@ void VariableStack::RemoveTopVar()
 
     delete _VariableVec.back();
     _VariableVec.pop_back();
+}
+
+void VariableStack::RemoveTopVar(int topCount)
+{
+    _ASSERT(topCount >= 0);
+
+    while (--topCount >= 0) {
+        delete _VariableVec.back();
+        _VariableVec.pop_back();
+    }
 }

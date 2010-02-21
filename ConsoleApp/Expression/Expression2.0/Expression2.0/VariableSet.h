@@ -41,9 +41,15 @@ public :
     virtual ~IntVariable();
     // Methods
     int GetValue() const;
+    int& GetValueRef();
 };
 
 inline int IntVariable::GetValue() const
+{
+    return _Value;
+}
+
+inline int& IntVariable::GetValueRef()
 {
     return _Value;
 }
@@ -63,9 +69,15 @@ public :
     virtual ~RealVariable();
     // Methods
     Matrix::RealVal_t GetValue() const;
+    Matrix::RealVal_t& GetValueRef();
 };
 
 inline Matrix::RealVal_t RealVariable::GetValue() const
+{
+    return _RealVal;
+}
+
+inline Matrix::RealVal_t& RealVariable::GetValueRef()
 {
     return _RealVal;
 }
@@ -110,6 +122,7 @@ public :
     // Fields
     static const int TypeId;
     // Constructor
+    MatrixVariable();
     explicit MatrixVariable(const Matrix &matrixVal);
     virtual ~MatrixVariable();
     // Methods
@@ -166,19 +179,30 @@ public :
     VariableStack();
     ~VariableStack();
     // Methods
-    Variable* TopVar();
+    int TopVar(Variable **ppVariable);
+    int TopVar(Variable **ppVariable, int topIdx);
     int Count() const;
     void PushVar(Variable *pVariable);
-    void PopVar(Variable **ppVariable);
+    int PopVar(Variable **ppVariable);
     void RemoveTopVar();
+    void RemoveTopVar(int topCount);
 private :
     // Do not allow to copy constructor
     VariableStack(const VariableStack&);
 };
 
-inline Variable* VariableStack::TopVar()
+inline int VariableStack::TopVar(Variable **ppVariable)
 {
-    return _VariableVec.back();
+    *ppVariable = _VariableVec.back();
+
+    return (*ppVariable)->GetTypeId();
+}
+
+inline int VariableStack::TopVar(Variable **ppVariable, int topIdx)
+{
+    *ppVariable = _VariableVec[_VariableVec.size() - 1 - topIdx];
+
+    return (*ppVariable)->GetTypeId();
 }
 
 inline int VariableStack::Count() const

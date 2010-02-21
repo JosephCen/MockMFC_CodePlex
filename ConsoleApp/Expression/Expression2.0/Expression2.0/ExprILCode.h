@@ -41,12 +41,177 @@ inline VariableStack* ExprILRunState::GetVariableStack()
 class ExprILCode
 {
 private :
-    ExprILCodeEnum _Code;
+    ExprILRunState *_pILRunState;
 public :
     // Constructor
     ExprILCode();
     // Methods
-    
+    virtual ExprILCodeEnum GetCodeEnum() const = 0;
+    virtual bool RunCode() = 0;
+protected :
+    ExprILRunState* GetILRunState();
+    VariableSet* GetVariableSet();
+    VariableStack* GetVariableStack();
+};
+
+inline ExprILRunState* ExprILCode::GetILRunState()
+{
+    _ASSERT(NULL != _pILRunState);
+
+    return _pILRunState;
+}
+
+inline VariableSet* ExprILCode::GetVariableSet()
+{
+    _ASSERT(NULL != _pILRunState);
+
+    return _pILRunState->GetVariableSet();
+}
+
+inline VariableStack* ExprILCode::GetVariableStack()
+{
+    _ASSERT(NULL != _pILRunState);
+
+    return _pILRunState->GetVariableStack();
+}
+
+//---------------------------------------------------------------------
+// PushIntegerILCode - class
+//---------------------------------------------------------------------
+class PushIntegerILCode : public ExprILCode
+{
+private :
+    int _IntValue;
+public :
+    // Constructor
+    explicit PushIntegerILCode(int intValue);
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual bool RunCode();
+};
+
+//---------------------------------------------------------------------
+// PushRealValILCode - class
+//---------------------------------------------------------------------
+class PushRealValILCode : public ExprILCode
+{
+private :
+    Matrix::RealVal_t _RealValue;
+public :
+    // Constructor
+    explicit PushRealValILCode(Matrix::RealVal_t realValue);
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual bool RunCode();
+};
+
+//---------------------------------------------------------------------
+// RealValBinaryOperILCode - class
+//---------------------------------------------------------------------
+class RealValBinaryOperILCode : public ExprILCode
+{
+private :
+public :
+    // Constructor
+    RealValBinaryOperILCode();
+    // Methods
+    virtual bool RunCode();
+protected :
+    // Methods
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR) = 0;
+};
+
+//---------------------------------------------------------------------
+// RealValPlusILCode - class
+//---------------------------------------------------------------------
+class RealValPlusILCode : public RealValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    RealValPlusILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+protected :
+    // Methods
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// RealValMinusILCode - class
+//---------------------------------------------------------------------
+class RealValMinusILCode : public RealValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    RealValMinusILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+protected :
+    // Methods
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// RealValMultiplyILCode - class
+//---------------------------------------------------------------------
+class RealValMultiplyILCode : public RealValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    RealValMultiplyILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+protected :
+    // Methods
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// RealValDivideILCode - class
+//---------------------------------------------------------------------
+class RealValDivideILCode : public RealValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    RealValDivideILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+protected :
+    // Methods
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// CtorMatrixILCode - class
+//---------------------------------------------------------------------
+class CtorMatrixILCode : public ExprILCode
+{
+private :
+    Matrix::RowCol_t _RowColPair;
+public :
+    // Constructor
+    CtorMatrixILCode(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols);
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual bool RunCode();
+};
+
+//---------------------------------------------------------------------
+// MatrixPlusILCode - class
+//---------------------------------------------------------------------
+class MatrixPlusILCode : public ExprILCode
+{
+private :
+public :
+    // Constructor
+    MatrixPlusILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual bool RunCode();
 };
 
 #endif

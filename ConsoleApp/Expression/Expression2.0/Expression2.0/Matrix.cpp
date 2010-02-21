@@ -95,6 +95,19 @@ void Matrix::Swap(Matrix &matrix)
     _ValueVec.swap(matrix._ValueVec);
 }
 
+void Matrix::Swap(Matrix::RowCol_t rowcol, Matrix::RealValVec_t &realValVecRef)
+{
+    RowCol_t tempRowCol;
+
+    tempRowCol._Cols = _Cols;
+    tempRowCol._Rows = _Rows;
+    _Cols = rowcol._Cols;
+    _Rows = rowcol._Rows;
+    rowcol._Cols = tempRowCol._Cols;
+    rowcol._Rows = tempRowCol._Rows;
+    _ValueVec.swap(realValVecRef);
+}
+
 Matrix& Matrix::operator *=(const Matrix &matrix)
 {
     if (matrix._Rows == _Cols) {

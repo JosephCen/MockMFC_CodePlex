@@ -41,6 +41,7 @@ public :
     bool IsSingleValue() const { return (1 == _Rows && 1 == _Cols); }
     RealVal_t At(Row_Col_t rows, Row_Col_t cols) const { _ASSERT(rows < _Rows && cols < _Cols); return _ValueVec[rows * _Cols + cols]; }
     void Swap(Matrix &matrix);
+    void Swap(RowCol_t rowcol, RealValVec_t &realValVecRef);
     // Override Operators
     Matrix& operator+=(const Matrix &matrix) { return this->DotAssignmentOperator(matrix, '+'); }
     Matrix& operator+=(RealVal_t realVal) { return this->DotAssignmentOperator(realVal, '+'); }
