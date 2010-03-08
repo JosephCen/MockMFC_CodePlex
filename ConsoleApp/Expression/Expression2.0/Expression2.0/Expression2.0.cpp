@@ -2,10 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "WordParser.h"
-#include "NonTerminal.h"
-#include "ParameterSet.h"
-#include "ExprAdapter.h"
+#include "ExprWorkSpace.h"
+#include "ExprILCodeSegment.h"
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -57,43 +55,13 @@ using std::exception;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    string inputStr("[(123.4 +55.78), 5.7, 11; 1.2-0.8, 2.1, 1.1].* [12,+56.2, 1.3;-0.34, 12.0, 1.11]");
-    //WordParser parser(inputStr);
-    //WordUnit curWordUnit;
-    //StartNT startNT;
-    ExprAdapter exprAdapter;
-
-    if (exprAdapter.Parse(inputStr)) {
-        cout << exprAdapter.GetILSegment().ToString() << endl;
+    ExprWorkSpace curWorkSpace;
+    string inputStr("[(123.4+55.78), 5.7, 11; 1.2-0.8, 2.1, 1.1].* [12,+56.2, 1.3;-0.34, 12.0, 1.11]");
+    ExprILCodeSegment ilCodeSegment;
+    
+    if (curWorkSpace.ParseILCodeSegment(inputStr, &ilCodeSegment)) {
+        cout << ilCodeSegment.ToString() << endl;
     }
-    else {
-        if (exprAdapter.GetException().ErrorChIdx() >= 0) {
-            cout << "Error at: " << exprAdapter.GetException().ErrorChIdx() << endl;
-            cout << inputStr << endl;
-            cout << string(exprAdapter.GetException().ErrorChIdx(), ' ') << '^' << endl;
-        }
-        cout << exprAdapter.GetException().what() << endl;
-    }
-
-
-    /*if (parser.NextWord()) {
-        if (startNT.Parse(parser))
-            cout << startNT.ILSegment().ToString() << endl;
-        else
-            cout << startNT.GetException().what() << endl;
-    }*/
-
-    //ExprRunTime runTime(startNT.ILSegment());
-    //runTime.Run();
-
-    //while (curWordUnit = parser.NextWord()) {
-    //    cout << curWordUnit.ToString() << endl;
-    //}
-
-    //if (!parser) {
-    //    cout << inputStr << endl;
-    //    cout << parser.ErrorMsg() << endl;
-    //}
 
 	return 0;
 }

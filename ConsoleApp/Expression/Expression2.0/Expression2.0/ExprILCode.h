@@ -1,8 +1,11 @@
 #ifndef ExprILCode_H
 #define ExprILCode_H
 
+#include <string>
+#include <sstream>
 #include "VariableSet.h"
 #include "ExprRunTime.h"
+#include "ExprException.h"
 
 //---------------------------------------------------------------------
 // ExprILRunState - class
@@ -15,7 +18,7 @@ private :
     VariableStack _VarStack;
 public :
     // Constructor
-    ExprILRunState(VariableSet *pVarSet, bool isOwnVarSet);
+    ExprILRunState(VariableSet *pVarSet, bool isNewVarSet);
     ~ExprILRunState();
     // Methods
     VariableSet* GetVariableSet();
@@ -41,38 +44,22 @@ inline VariableStack* ExprILRunState::GetVariableStack()
 class ExprILCode
 {
 private :
-    ExprILRunState *_pILRunState;
 public :
     // Constructor
     ExprILCode();
+    virtual ~ExprILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const = 0;
-    virtual bool RunCode() = 0;
+    virtual bool RunCode(ExprILRunState *pILRunState) = 0;
+    virtual void ToString(std::ostringstream *pOStrStream) const = 0;
+    std::string ToString() const;
 protected :
-    ExprILRunState* GetILRunState();
-    VariableSet* GetVariableSet();
-    VariableStack* GetVariableStack();
+    static VariableStack* GetVariableStack(ExprILRunState *pILRunState);
 };
 
-inline ExprILRunState* ExprILCode::GetILRunState()
+inline VariableStack* ExprILCode::GetVariableStack(ExprILRunState *pILRunState)
 {
-    _ASSERT(NULL != _pILRunState);
-
-    return _pILRunState;
-}
-
-inline VariableSet* ExprILCode::GetVariableSet()
-{
-    _ASSERT(NULL != _pILRunState);
-
-    return _pILRunState->GetVariableSet();
-}
-
-inline VariableStack* ExprILCode::GetVariableStack()
-{
-    _ASSERT(NULL != _pILRunState);
-
-    return _pILRunState->GetVariableStack();
+    return pILRunState->GetVariableStack();
 }
 
 //---------------------------------------------------------------------
@@ -87,7 +74,8 @@ public :
     explicit PushIntegerILCode(int intValue);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual bool RunCode();
+    virtual bool RunCode(ExprILRunState *pILRunState);
+    virtual void ToString(std::ostringstream *pOStrStream) const;
 };
 
 //---------------------------------------------------------------------
@@ -102,7 +90,8 @@ public :
     explicit PushRealValILCode(Matrix::RealVal_t realValue);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual bool RunCode();
+    virtual bool RunCode(ExprILRunState *pILRunState);
+    virtual void ToString(std::ostringstream *pOStrStream) const;
 };
 
 //---------------------------------------------------------------------
@@ -115,7 +104,7 @@ public :
     // Constructor
     RealValBinaryOperILCode();
     // Methods
-    virtual bool RunCode();
+    virtual bool RunCode(ExprILRunState *pILRunState);
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR) = 0;
@@ -132,6 +121,7 @@ public :
     RealValPlusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -148,6 +138,7 @@ public :
     RealValMinusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -164,6 +155,7 @@ public :
     RealValMultiplyILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -180,6 +172,7 @@ public :
     RealValDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -197,13 +190,30 @@ public :
     CtorMatrixILCode(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual bool RunCode();
+    virtual bool RunCode(ExprILRunState *pILRunState);
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+};
+
+//---------------------------------------------------------------------
+// MatrixBinaryOperILCode - class
+//---------------------------------------------------------------------
+class MatrixBinaryOperILCode : public ExprILCode
+{
+private :
+public :
+    // Constructor
+    MatrixBinaryOperILCode();
+    // Methods
+    virtual bool RunCode(ExprILRunState *pILRunState);
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR) = 0;
 };
 
 //---------------------------------------------------------------------
 // MatrixPlusILCode - class
 //---------------------------------------------------------------------
-class MatrixPlusILCode : public ExprILCode
+class MatrixPlusILCode : public MatrixBinaryOperILCode
 {
 private :
 public :
@@ -211,7 +221,145 @@ public :
     MatrixPlusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual bool RunCode();
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// MatrixMinusILCode - class
+//---------------------------------------------------------------------
+class MatrixMinusILCode : public MatrixBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixMinusILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// MatrixDotMultiplyILCode - class
+//---------------------------------------------------------------------
+class MatrixDotMultiplyILCode : public MatrixBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixDotMultiplyILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// MatrixDotDivideILCode - class
+//---------------------------------------------------------------------
+class MatrixDotDivideILCode : public MatrixBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixDotDivideILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// MatrixValBinaryOperILCode - class
+//---------------------------------------------------------------------
+class MatrixValBinaryOperILCode : public ExprILCode
+{
+private :
+public :
+    // Constructor
+    MatrixValBinaryOperILCode();
+    // Methods
+    virtual bool RunCode(ExprILRunState *pILRunState);
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR) = 0;
+};
+
+//---------------------------------------------------------------------
+// MatrixValPlusILCode - class
+//---------------------------------------------------------------------
+class MatrixValPlusILCode : public MatrixValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixValPlusILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// MatrixValMinusILCode - class
+//---------------------------------------------------------------------
+class MatrixValMinusILCode : public MatrixValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixValMinusILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// MatrixValMultiplyILCode - class
+//---------------------------------------------------------------------
+class MatrixValMultiplyILCode : public MatrixValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixValMultiplyILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
+};
+
+//---------------------------------------------------------------------
+// MatrixValDivideILCode - class
+//---------------------------------------------------------------------
+class MatrixValDivideILCode : public MatrixValBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixValDivideILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostringstream *pOStrStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
 };
 
 #endif

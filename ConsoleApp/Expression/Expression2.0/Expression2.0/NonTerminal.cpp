@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "NonTerminal.h"
 #include "WordParser.h"
-#include "ExprRunTime.h"
+#include "ExprILCode.h"
+#include "ExprILCodeSegment.h"
 #include <list>
 using std::list;
 #include <crtdbg.h>
@@ -439,9 +440,9 @@ FactorNT::~FactorNT()
         delete _pMatrixNT;
         _pMatrixNT = NULL;
     }
-    if (NULL != _pExprILUnit) {
-        delete _pExprILUnit;
-        _pExprILUnit = NULL;
+    if (NULL != _pExprILCode) {
+        delete _pExprILCode;
+        _pExprILCode = NULL;
     }
 }
 
@@ -497,7 +498,7 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
             case WT_RealValue :
                 // factor => Num
 
-                _pExprILUnit = new ExprILUnit(EIL_PushRealVal, wordCursorRef.CurrentWord().RealValue());
+                _pExprILCode = new PushRealValILCode(wordCursorRef.CurrentWord().RealValue());
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
                 if (isSuccess)
                     _ResultType = RT_RealVal;
@@ -684,54 +685,54 @@ bool MatrixColNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef
 //---------------------------------------------------------------------
 // Class member - StartNT
 //---------------------------------------------------------------------
-ExprILSegment& StartNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& StartNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
-    return _ListNT.AppendILSegment(exprILSegment);
+    return _ListNT.AppendILSegment(ilSegment);
 }
 
 //---------------------------------------------------------------------
 // Class member - ListNT
 //---------------------------------------------------------------------
-ExprILSegment& ListNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& ListNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     for (ExprList_t::iterator iter = _ExprList.begin(); _ExprList.end() != iter; ++iter) {
-        (*iter)->AppendILSegment(exprILSegment);
+        (*iter)->AppendILSegment(ilSegment);
 
         if (_IsEndWithSemicolon || _ExprList.back() != *iter) {
             // TODO: Remove run stack top node.
         }
     }
 
-    return exprILSegment;
+    return ilSegment;
 }
 
 //---------------------------------------------------------------------
 // Class member - ExprNT
 //---------------------------------------------------------------------
-ExprILSegment& ExprNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& ExprNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(NULL != _pSubExprNT);
 
-    return _pSubExprNT->AppendILSegment(exprILSegment);
+    return _pSubExprNT->AppendILSegment(ilSegment);
 }
 
 //---------------------------------------------------------------------
 // Class member - SubExprNT
 //---------------------------------------------------------------------
-ExprILSegment& SubExprNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& SubExprNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     if (_IsFirstOne) {
-        _TermNT.AppendILSegment(exprILSegment);
+        _TermNT.AppendILSegment(ilSegment);
     }
     else {
         _ASSERT(NULL != _pLeftOne);
 
         switch (_OperatorWordType) {
             case WT_Plus :
-                AppendPlusIL(exprILSegment);
+                AppendPlusIL(ilSegment);
                 break;
             case WT_Minus :
-                AppendMinusIL(exprILSegment);
+                AppendMinusIL(ilSegment);
                 break;
             default :
                 _ASSERT(0);
@@ -739,10 +740,10 @@ ExprILSegment& SubExprNT::AppendILSegment(ExprILSegment &exprILSegment)
         }
     }
 
-    return exprILSegment;
+    return ilSegment;
 }
 
-void SubExprNT::AppendPlusIL(ExprILSegment &exprILSegment)
+void SubExprNT::AppendPlusIL(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(WT_Plus == _OperatorWordType);
 
@@ -752,26 +753,26 @@ void SubExprNT::AppendPlusIL(ExprILSegment &exprILSegment)
     switch (resultType_L) {
         case RT_Matrix :
             if (RT_Matrix == resultType_R) {
-                _pLeftOne->AppendILSegment(exprILSegment);
-                _TermNT.AppendILSegment(exprILSegment);
-                exprILSegment.Append(ExprILUnit(EIL_MatrixPlus));
+                _pLeftOne->AppendILSegment(ilSegment);
+                _TermNT.AppendILSegment(ilSegment);
+                ilSegment.Append(new MatrixPlusILCode());
             }
             else {
-                _pLeftOne->AppendILSegment(exprILSegment);
-                _TermNT.AppendILSegment(exprILSegment);
-                exprILSegment.Append(ExprILUnit(EIL_MatrixValPlus));
+                _pLeftOne->AppendILSegment(ilSegment);
+                _TermNT.AppendILSegment(ilSegment);
+                ilSegment.Append(new MatrixValPlusILCode());
             }
             break;
         case RT_RealVal :
             if (RT_Matrix == resultType_R) {
-                _TermNT.AppendILSegment(exprILSegment);
-                _pLeftOne->AppendILSegment(exprILSegment);
-                exprILSegment.Append(ExprILUnit(EIL_MatrixValPlus));
+                _TermNT.AppendILSegment(ilSegment);
+                _pLeftOne->AppendILSegment(ilSegment);
+                ilSegment.Append(new MatrixValPlusILCode());
             }
             else {
-                _pLeftOne->AppendILSegment(exprILSegment);
-                _TermNT.AppendILSegment(exprILSegment);
-                exprILSegment.Append(ExprILUnit(EIL_RealValPlus));
+                _pLeftOne->AppendILSegment(ilSegment);
+                _TermNT.AppendILSegment(ilSegment);
+                ilSegment.Append(new RealValPlusILCode());
             }
             break;
         case RT_String :
@@ -784,7 +785,7 @@ void SubExprNT::AppendPlusIL(ExprILSegment &exprILSegment)
     }
 }
 
-void SubExprNT::AppendMinusIL(ExprILSegment &exprILSegment)
+void SubExprNT::AppendMinusIL(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(WT_Minus == _OperatorWordType);
 
@@ -795,14 +796,14 @@ void SubExprNT::AppendMinusIL(ExprILSegment &exprILSegment)
 
     if (RT_Matrix == resultType_L) {
         if (RT_Matrix == resultType_R) {
-            _pLeftOne->AppendILSegment(exprILSegment);
-            _TermNT.AppendILSegment(exprILSegment);
-            exprILSegment.Append(ExprILUnit(EIL_MatrixMinus));
+            _pLeftOne->AppendILSegment(ilSegment);
+            _TermNT.AppendILSegment(ilSegment);
+            ilSegment.Append(new MatrixMinusILCode());
         }
         else {
-            _pLeftOne->AppendILSegment(exprILSegment);
-            _TermNT.AppendILSegment(exprILSegment);
-            exprILSegment.Append(ExprILUnit(EIL_MatrixValMinus));
+            _pLeftOne->AppendILSegment(ilSegment);
+            _TermNT.AppendILSegment(ilSegment);
+            ilSegment.Append(new MatrixValMinusILCode());
         }
     }
     else {
@@ -811,9 +812,9 @@ void SubExprNT::AppendMinusIL(ExprILSegment &exprILSegment)
             _ASSERT(0);
         }
         else {
-            _pLeftOne->AppendILSegment(exprILSegment);
-            _TermNT.AppendILSegment(exprILSegment);
-            exprILSegment.Append(ExprILUnit(EIL_RealValMinus));
+            _pLeftOne->AppendILSegment(ilSegment);
+            _TermNT.AppendILSegment(ilSegment);
+            ilSegment.Append(new RealValMinusILCode());
         }
     }
 }
@@ -821,36 +822,36 @@ void SubExprNT::AppendMinusIL(ExprILSegment &exprILSegment)
 //---------------------------------------------------------------------
 // Class member - TermNT
 //---------------------------------------------------------------------
-ExprILSegment& TermNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& TermNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(NULL != _pSubTermNT);
 
-    return _pSubTermNT->AppendILSegment(exprILSegment);
+    return _pSubTermNT->AppendILSegment(ilSegment);
 }
 
 //---------------------------------------------------------------------
 // Class member - SubTermNT
 //---------------------------------------------------------------------
-ExprILSegment& SubTermNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& SubTermNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     if (_IsFirstOne) {
-        _FactorNT.AppendILSegment(exprILSegment);
+        _FactorNT.AppendILSegment(ilSegment);
     }
     else {
         _ASSERT(NULL != _pLeftOne);
 
         switch (_OperatorWordType) {
             case WT_Multiply :
-                AppendMultiplyIL(exprILSegment);
+                AppendMultiplyIL(ilSegment);
                 break;
             case WT_DotMultiply:
-                AppendDotMultiplyIL(exprILSegment);
+                AppendDotMultiplyIL(ilSegment);
                 break;
             case WT_Divide :
-                AppendDivideIL(exprILSegment);
+                AppendDivideIL(ilSegment);
                 break;
             case WT_DotDivide :
-                AppendDotDivideIL(exprILSegment);
+                AppendDotDivideIL(ilSegment);
                 break;
             default :
                 _ASSERT(0);
@@ -858,10 +859,10 @@ ExprILSegment& SubTermNT::AppendILSegment(ExprILSegment &exprILSegment)
         }
     }
 
-    return exprILSegment;
+    return ilSegment;
 }
 
-void SubTermNT::AppendMultiplyIL(ExprILSegment &exprILSegment)
+void SubTermNT::AppendMultiplyIL(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(WT_Multiply == _OperatorWordType);
 
@@ -870,136 +871,145 @@ void SubTermNT::AppendMultiplyIL(ExprILSegment &exprILSegment)
 
     if (RT_Matrix == resultType_L) {
         if (RT_Matrix == resultType_R) {
-            _pLeftOne->AppendILSegment(exprILSegment);
-            _FactorNT.AppendILSegment(exprILSegment);
-            exprILSegment.Append(ExprILUnit(EIL_MatrixMultiply));
+            _pLeftOne->AppendILSegment(ilSegment);
+            _FactorNT.AppendILSegment(ilSegment);
+            // TODO:
+            _ASSERT(0);
+            // ilSegment.Append(new MatrixMultiplyILCode());
         }
         else {
-            _pLeftOne->AppendILSegment(exprILSegment);
-            _FactorNT.AppendILSegment(exprILSegment);
-            exprILSegment.Append(ExprILUnit(EIL_MatrixValMultiply));
+            _pLeftOne->AppendILSegment(ilSegment);
+            _FactorNT.AppendILSegment(ilSegment);
+            ilSegment.Append(new MatrixValMultiplyILCode());
         }
     }
     else {
         if (RT_Matrix == resultType_R) {
-            _FactorNT.AppendILSegment(exprILSegment);
-            _pLeftOne->AppendILSegment(exprILSegment);
-            exprILSegment.Append(ExprILUnit(EIL_MatrixValMultiply));
+            _FactorNT.AppendILSegment(ilSegment);
+            _pLeftOne->AppendILSegment(ilSegment);
+            ilSegment.Append(new MatrixValMultiplyILCode());
         }
         else {
-            _pLeftOne->AppendILSegment(exprILSegment);
-            _FactorNT.AppendILSegment(exprILSegment);
-            exprILSegment.Append(ExprILUnit(EIL_RealValMultiply));
+            _pLeftOne->AppendILSegment(ilSegment);
+            _FactorNT.AppendILSegment(ilSegment);
+            ilSegment.Append(new RealValMultiplyILCode());
         }
     }
 }
 
-void SubTermNT::AppendDotMultiplyIL(ExprILSegment &exprILSegment)
+void SubTermNT::AppendDotMultiplyIL(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(WT_DotMultiply == _OperatorWordType);
 
-    _pLeftOne->AppendILSegment(exprILSegment);
-    _FactorNT.AppendILSegment(exprILSegment);
+    _pLeftOne->AppendILSegment(ilSegment);
+    _FactorNT.AppendILSegment(ilSegment);
 
     _ASSERT(_pLeftOne->ResultType() == _FactorNT.ResultType());
 
     if (RT_Matrix == _pLeftOne->ResultType())
-        exprILSegment.Append(ExprILUnit(EIL_MatrixDotMultiply));
+        ilSegment.Append(new MatrixDotMultiplyILCode());
     if (RT_RealVal == _pLeftOne->ResultType())
-        exprILSegment.Append(ExprILUnit(EIL_RealValMultiply));
+        ilSegment.Append(new RealValMultiplyILCode());
 }
 
-void SubTermNT::AppendDivideIL(ExprILSegment &exprILSegment)
+void SubTermNT::AppendDivideIL(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(WT_Divide == _OperatorWordType);
 
     ResultTypeEnum resultType_L = _pLeftOne->ResultType();
     ResultTypeEnum resultType_R = _FactorNT.ResultType();
 
-    _pLeftOne->AppendILSegment(exprILSegment);
-    _FactorNT.AppendILSegment(exprILSegment);
+    _pLeftOne->AppendILSegment(ilSegment);
+    _FactorNT.AppendILSegment(ilSegment);
 
     if (RT_Matrix == resultType_L) {
         if (RT_Matrix == resultType_L)
-            exprILSegment.Append(ExprILUnit(EIL_MatrixDivide));
+            // TODO:
+            _ASSERT(0);
+            //ilSegment.Append(new MatrixDivideILCode());
         else
-            exprILSegment.Append(ExprILUnit(EIL_MatrixValDivide));
+            ilSegment.Append(new MatrixValDivideILCode());
     }
     else {
         if (RT_Matrix == resultType_L)
+            // TODO:
             _ASSERT(0);
         else
-            exprILSegment.Append(ExprILUnit(EIL_RealValDivide));
+            ilSegment.Append(new RealValDivideILCode());
     }
 }
 
-void SubTermNT::AppendDotDivideIL(ExprILSegment &exprILSegment)
+void SubTermNT::AppendDotDivideIL(ExprILCodeSegment &ilSegment)
 {
     _ASSERT(WT_DotDivide == _OperatorWordType);
 
-    _pLeftOne->AppendILSegment(exprILSegment);
-    _FactorNT.AppendILSegment(exprILSegment);
+    _pLeftOne->AppendILSegment(ilSegment);
+    _FactorNT.AppendILSegment(ilSegment);
 
     _ASSERT(_pLeftOne->ResultType() == _FactorNT.ResultType());
 
     if (RT_Matrix == _pLeftOne->ResultType())
-        exprILSegment.Append(ExprILUnit(EIL_MatrixDotDivide));
+        ilSegment.Append(new MatrixDotDivideILCode());
     if (RT_RealVal == _pLeftOne->ResultType())
-        exprILSegment.Append(ExprILUnit(EIL_RealValDivide));
+        ilSegment.Append(new RealValDivideILCode());
 }
 
 //---------------------------------------------------------------------
 // Class member - FactorNT
 //---------------------------------------------------------------------
-ExprILSegment& FactorNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& FactorNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
-    if (NULL != _pExprNT)
-        _pExprNT->AppendILSegment(exprILSegment);
-    else if (NULL != _pMatrixNT)
-        _pMatrixNT->AppendILSegment(exprILSegment);
-    else
-        exprILSegment.Append(*_pExprILUnit);
+    if (NULL != _pExprNT) {
+        _pExprNT->AppendILSegment(ilSegment);
+    }
+    else if (NULL != _pMatrixNT) {
+        _pMatrixNT->AppendILSegment(ilSegment);
+    }
+    else {
+        ilSegment.Append(_pExprILCode);
+        _pExprILCode = NULL;
+    }
 
-    return exprILSegment;
+    return ilSegment;
 }
 
 //---------------------------------------------------------------------
 // Class member - MatrixNT
 //---------------------------------------------------------------------
-ExprILSegment& MatrixNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& MatrixNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
-    _MatrixRows.AppendILSegment(exprILSegment);
-    exprILSegment.Append(ExprILUnit(EIL_CtorMatrix, Rows(), Cols()));
+    _MatrixRows.AppendILSegment(ilSegment);
+    ilSegment.Append(new CtorMatrixILCode(Rows(), Cols()));
 
-    return exprILSegment;
+    return ilSegment;
 }
 
 //---------------------------------------------------------------------
 // Class member - MatrixRowsNT
 //---------------------------------------------------------------------
-ExprILSegment& MatrixRowsNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& MatrixRowsNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     for (RowList_t::iterator iter = _RowList.begin(); _RowList.end() != iter; ++iter)
-        (*iter)->AppendILSegment(exprILSegment);
+        (*iter)->AppendILSegment(ilSegment);
 
-    return exprILSegment;
+    return ilSegment;
 }
 
 //---------------------------------------------------------------------
 // Class member - MatrixColsNT
 //---------------------------------------------------------------------
-ExprILSegment& MatrixColsNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& MatrixColsNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     for (ColList_t::iterator iter = _ColList.begin(); _ColList.end() != iter; ++iter)
-        (*iter)->AppendILSegment(exprILSegment);
+        (*iter)->AppendILSegment(ilSegment);
 
-    return exprILSegment;
+    return ilSegment;
 }
 
 //---------------------------------------------------------------------
 // Class member - MatrixColNT
 //---------------------------------------------------------------------
-ExprILSegment& MatrixColNT::AppendILSegment(ExprILSegment &exprILSegment)
+ExprILCodeSegment& MatrixColNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
-    return _ExprNT.AppendILSegment(exprILSegment);
+    return _ExprNT.AppendILSegment(ilSegment);
 }

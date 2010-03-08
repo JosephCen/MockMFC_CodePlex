@@ -22,27 +22,4 @@ public :
     ~ExprContext();
 };
 
-class ExprAdapter
-{
-private :
-    bool _IsParsed;
-    ExprContext _CurContext;
-    ExprILSegment _ILSegment;
-public :
-    // Constructor
-    ExprAdapter(void): _IsParsed(false), _CurContext(), _ILSegment() { }
-    // Methods
-    bool Parse(const std::string &exprStr);
-    bool ParsedSucceed() const { return (bool)_CurContext; }
-    const ExprException& GetException() const { return _CurContext.GetException(); }
-    const ExprILSegment& GetILSegment() const { return _ILSegment; }
-    // Destructor
-    ~ExprAdapter();
-};
-
-#else
-
-class ExprContext;
-class ExprAdapter;
-
 #endif
