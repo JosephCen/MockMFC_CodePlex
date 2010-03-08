@@ -187,11 +187,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExprException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ExprILCode.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\ExprILCodeSegment.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ExprRunTime.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ExprWorkSpace.cpp"
 				>
 			</File>
 			<File
@@ -241,6 +253,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\DoubleComparison.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ExprAdapter.h"
 				>
 			</File>
@@ -257,7 +273,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExprILCodeSegment.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ExprRunTime.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExprWorkSpace.h"
 				>
 			</File>
 			<File

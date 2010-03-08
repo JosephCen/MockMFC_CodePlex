@@ -29,29 +29,3 @@ void ExprContext::SetError(const char *errorCh, int chIdx)
 
     _pExprEx = new ExprException(errorCh, chIdx);
 }
-
-// Member of class 'ExprContext'
-
-ExprAdapter::~ExprAdapter()
-{
-}
-
-bool ExprAdapter::Parse(const string &exprStr)
-{
-    _ASSERT(false == _IsParsed);
-    
-    _IsParsed = true;
-    WordParser wordParser;
-    StartNT startNT;
-
-    WordFwCursor wordFwCursor = wordParser.GenWordFwCursor(exprStr);
-    // TODO: !!!
-    //if (wordParser.NextWord(_CurContext)) {
-    //    
-    //    /*if (startNT.Parse(_CurContext, wordParser)) {
-    //        startNT.AppendILSegment(_ILSegment);
-    //    }*/
-    //}
-
-    return (bool)_CurContext;
-}

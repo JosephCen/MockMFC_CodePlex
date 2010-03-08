@@ -3,7 +3,8 @@
 
 #include <list>
 #include "WordParser.h"
-#include "ExprRunTime.h"
+#include "ExprILCode.h"
+#include "ExprILCodeSegment.h"
 #include "Matrix.h"
 #include "ExprException.h"
 #include "ExprAdapter.h"
@@ -21,7 +22,7 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef) = 0;
     ResultTypeEnum ResultType(void);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment) = 0;
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment) = 0;
 protected :
     // Constructor
     BaseNonTerminal(): _ResultType(RT_None) { }
@@ -49,7 +50,7 @@ public :
     ListNT(void): _IsEndWithSemicolon(true), _ExprList(), BaseNonTerminal() { }
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~ListNT();
 };
@@ -68,7 +69,7 @@ public :
     StartNT(void): _ListNT(), BaseNonTerminal() { }
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
 };
 
 //---------------------------------------------------------------------
@@ -89,7 +90,7 @@ public :
     ExprNT(void): _pSubExprNT(NULL), BaseNonTerminal() { }
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~ExprNT();
 protected :
@@ -114,7 +115,7 @@ public :
     TermNT(void): _pSubTermNT(NULL), BaseNonTerminal() { }
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~TermNT();
 protected :
@@ -139,13 +140,13 @@ public :
     SubExprNT(SubExprNT *pLeftOne);
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~SubExprNT();
 private :
     bool OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx);
-    void AppendPlusIL(ExprILSegment &exprILSegment);
-    void AppendMinusIL(ExprILSegment &exprILSegment);
+    void AppendPlusIL(ExprILCodeSegment &ilSegment);
+    void AppendMinusIL(ExprILCodeSegment &ilSegment);
 protected :
     virtual ResultTypeEnum GetResultType(void);
 };
@@ -163,15 +164,15 @@ private :
     ResultTypeEnum _ResultType;
     ExprNT *_pExprNT;
     MatrixNT *_pMatrixNT;
-    ExprILUnit *_pExprILUnit;
+    ExprILCode *_pExprILCode;
 public :
     // Static Methods
     static bool IsInFirstSet(WordTypeEnum wordType);
     // Constructor
-    FactorNT(void): _ResultType(RT_None), _pExprNT(NULL), _pMatrixNT(NULL), _pExprILUnit(NULL), BaseNonTerminal() { }
+    FactorNT(void): _ResultType(RT_None), _pExprNT(NULL), _pMatrixNT(NULL), _pExprILCode(NULL), BaseNonTerminal() { }
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~FactorNT();
 protected :
@@ -196,15 +197,15 @@ public :
     SubTermNT(SubTermNT *pLeftOne);
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~SubTermNT();
 private :
     bool OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx);
-    void AppendMultiplyIL(ExprILSegment &exprILSegment);
-    void AppendDotMultiplyIL(ExprILSegment &exprILSegment);
-    void AppendDivideIL(ExprILSegment &exprILSegment);
-    void AppendDotDivideIL(ExprILSegment &exprILSegment);
+    void AppendMultiplyIL(ExprILCodeSegment &ilSegment);
+    void AppendDotMultiplyIL(ExprILCodeSegment &ilSegment);
+    void AppendDivideIL(ExprILCodeSegment &ilSegment);
+    void AppendDotDivideIL(ExprILCodeSegment &ilSegment);
 protected :
     virtual ResultTypeEnum GetResultType(void);
 };
@@ -223,7 +224,7 @@ public :
     MatrixColNT(void): _ExprNT(), BaseNonTerminal() { }
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
 protected :
     virtual ResultTypeEnum GetResultType(void) { return _ExprNT.ResultType(); }
 };
@@ -244,7 +245,7 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     Matrix::Row_Col_t Cols() const { return _ColList.size(); }
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~MatrixColsNT();
 private :
@@ -268,7 +269,7 @@ public :
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     Matrix::Row_Col_t Rows() const { return _RowList.size(); }
     Matrix::Row_Col_t Cols() const { return _RowList.front()->Cols(); }
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
     ~MatrixRowsNT();
 private :
@@ -291,7 +292,7 @@ public :
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     Matrix::Row_Col_t Rows() const { return _MatrixRows.Rows(); }
     Matrix::Row_Col_t Cols() const { return _MatrixRows.Cols(); }
-    virtual ExprILSegment& AppendILSegment(ExprILSegment& exprILSegment);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
 protected :
     virtual ResultTypeEnum GetResultType(void) { return RT_Matrix; }
 };
