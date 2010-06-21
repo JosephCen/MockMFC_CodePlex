@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <crtdbg.h>
 
 //---------------------------------------------------------------------
 // Matrix - class
@@ -33,13 +32,13 @@ public :
 	Matrix(Row_Col_t rows, Row_Col_t cols, RealVal_t *realValArr);
     Matrix(RowCol_t rowcol, RealValVec_t &realValVecRef);
     // Methods
-    Row_Col_t Rows() const { return _Rows; }
-    Row_Col_t Cols() const { return _Cols; }
-    Matrix& DotAssignmentMultiply(const Matrix &matrix) { return this->DotAssignmentOperator(matrix, '*'); }
-    Matrix& DotAssignmentDivid(const Matrix &matrix) { return this->DotAssignmentOperator(matrix, '/'); }
+    Row_Col_t Rows() const;
+    Row_Col_t Cols() const;
+    Matrix& DotAssignmentMultiply(const Matrix &matrix);
+    Matrix& DotAssignmentDivid(const Matrix &matrix);
     std::string ToString() const;
-    bool IsSingleValue() const { return (1 == _Rows && 1 == _Cols); }
-    RealVal_t At(Row_Col_t rows, Row_Col_t cols) const { _ASSERT(rows < _Rows && cols < _Cols); return _ValueVec[rows * _Cols + cols]; }
+    bool IsSingleValue() const;
+    RealVal_t At(Row_Col_t rows, Row_Col_t cols) const;
     void Swap(Matrix &matrix);
     void Swap(RowCol_t rowcol, RealValVec_t &realValVecRef);
     // Override Operators
@@ -55,5 +54,35 @@ public :
 Matrix operator+(const Matrix &matrix1, const Matrix &matrix2);
 Matrix operator-(const Matrix &matrix1, const Matrix &matrix2);
 Matrix operator*(const Matrix &matrix1, const Matrix &matrix2);
+
+inline Matrix::Row_Col_t Matrix::Rows() const
+{
+    return (_Rows);
+}
+
+inline Matrix::Row_Col_t Matrix::Cols() const
+{
+    return (_Cols);
+}
+
+inline Matrix& Matrix::DotAssignmentMultiply(const Matrix &matrix)
+{
+    return (this->DotAssignmentOperator(matrix, '*'));
+}
+
+inline Matrix& Matrix::DotAssignmentDivid(const Matrix &matrix)
+{
+    return (this->DotAssignmentOperator(matrix, '/'));
+}
+
+inline bool Matrix::IsSingleValue() const
+{
+    return (1 == _Rows && 1 == _Cols);
+}
+
+inline Matrix::RealVal_t Matrix::At(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols) const
+{
+    return (_ValueVec[rows * _Cols + cols]);
+}
 
 #endif

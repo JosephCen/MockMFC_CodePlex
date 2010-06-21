@@ -172,13 +172,18 @@ string Matrix::ToString() const
 {
     string tempStr;
     string resultStr;
+    const int bufferLen = 20;
+    char buffer[bufferLen];
 
     string::size_type maxValueLen = 0;
     for (Row_Col_t r = 0; r < _Rows; ++r) {
         vector<RealVal_t>::const_iterator valIter = _ValueVec.begin() + r*_Cols;
         for (Row_Col_t c = 0; c < _Cols; ++c) {
-            char buffer[20];
-            _ASSERT(sprintf(buffer, "%f", *valIter) < sizeof(buffer) / sizeof(char));
+#ifdef _DEBUG
+            _ASSERT(sprintf(buffer, "%f", *valIter) < bufferLen);
+#else
+            sprintf(buffer, "%f", *valIter);
+#endif
             char *chPtr = buffer + strlen(buffer);
             while ('0' == *(--chPtr))
                 ;
