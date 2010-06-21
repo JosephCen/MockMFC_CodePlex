@@ -13,11 +13,14 @@ class Variable
 {
 private :
     int _TypeId;
-public :
+protected :
     // Constructor
     explicit Variable(int typeId);
+public :
+    // Constructor
     virtual ~Variable();
     // Methods
+    virtual Variable* Duplicate() const = 0;
     int GetTypeId() const;
 };
 
@@ -40,6 +43,7 @@ public :
     explicit IntVariable(int value);
     virtual ~IntVariable();
     // Methods
+    virtual Variable* Duplicate() const;
     int GetValue() const;
     int& GetValueRef();
 };
@@ -68,6 +72,7 @@ public :
     explicit RealVariable(Matrix::RealVal_t realVal);
     virtual ~RealVariable();
     // Methods
+    virtual Variable* Duplicate() const;
     Matrix::RealVal_t GetValue() const;
     Matrix::RealVal_t& GetValueRef();
 };
@@ -97,6 +102,7 @@ public :
     explicit StrVariable(const std::string *pStrVal);
     virtual ~StrVariable();
     // Methods
+    virtual Variable* Duplicate() const;
     std::string GetValue() const;
     std::string& GetValueRef();
 };
@@ -126,6 +132,7 @@ public :
     explicit MatrixVariable(const Matrix &matrixVal);
     virtual ~MatrixVariable();
     // Methods
+    virtual Variable* Duplicate() const;
     Matrix GetValue() const;
     Matrix& GetValueRef();
 };
@@ -181,6 +188,7 @@ public :
     // Methods
     int TopVar(Variable **ppVariable);
     int TopVar(Variable **ppVariable, int topIdx);
+    Variable* DupTopVar() const;
     int Count() const;
     void PushVar(Variable *pVariable);
     int PopVar(Variable **ppVariable);
@@ -203,6 +211,11 @@ inline int VariableStack::TopVar(Variable **ppVariable, int topIdx)
     *ppVariable = _VariableVec[_VariableVec.size() - 1 - topIdx];
 
     return (*ppVariable)->GetTypeId();
+}
+
+inline Variable* VariableStack::DupTopVar() const
+{
+    return (_VariableVec.back()->Duplicate());
 }
 
 inline int VariableStack::Count() const

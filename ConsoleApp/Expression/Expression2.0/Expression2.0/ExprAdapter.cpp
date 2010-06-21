@@ -6,26 +6,8 @@ using std::string;
 #include "NonTerminal.h"
 #include <crtdbg.h>
 
-// Member of class 'ExprContext'
-
-ExprContext::~ExprContext()
-{
-    if (NULL != _pExprEx) {
-        delete _pExprEx;
-        _pExprEx = NULL;
-    }
-}
-
-void ExprContext::SetError(const ExprException &exprExRef)
-{
-    _ASSERT(NULL == _pExprEx);
-
-    _pExprEx = new ExprException(exprExRef);
-}
-
-void ExprContext::SetError(const char *errorCh, int chIdx)
-{
-    _ASSERT(NULL == _pExprEx);
-
-    _pExprEx = new ExprException(errorCh, chIdx);
-}
+//---------------------------------------------------------------------
+// Class member - ExprContext
+//---------------------------------------------------------------------
+ExprContext::ExprContext()
+{ }

@@ -22,18 +22,20 @@ ExprILCodeSegment::~ExprILCodeSegment()
         delete *codeIter;
 }
 
-bool ExprILCodeSegment::Run(Variable **ppVariable)
+bool ExprILCodeSegment::Run(VariableSet *pVariableSet, Variable **ppVariable)
 {
+    _ASSERT(NULL != pVariableSet);
+    _ASSERT(NULL != ppVariable);
+
     bool state = true;
-    VariableSet varSet(NULL, true); // Temp resolution
-    ExprILRunState runState(&varSet, false);
+    ExprILRunState runState(pVariableSet, false);
 
     for (ILCodeIter_t codeIter = _ILCodeVec.begin(); state && _ILCodeVec.end() != codeIter; ++codeIter) {
         state &= (*codeIter)->RunCode(&runState);
     }
 
     if (state && 1 == runState.GetVariableStack()->Count())
-        runState.GetVariableStack()->TopVar(ppVariable);
+        *ppVariable = runState.GetVariableStack()->DupTopVar();
 
     return state;
 }
