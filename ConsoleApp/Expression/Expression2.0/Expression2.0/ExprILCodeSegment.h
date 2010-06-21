@@ -22,7 +22,7 @@ public :
     ~ExprILCodeSegment();
     // Methods
     void Append(ExprILCode *pILCode);
-    bool Run(Variable **ppVariable);
+    bool Run(VariableSet *pVariableSet, Variable **ppVariable);
     int Length() const;
     virtual void ToString(std::ostringstream *pOStrStream) const;
     std::string ToString() const;

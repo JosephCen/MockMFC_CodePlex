@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ExprWorkSpace.h"
 #include "ExprILCodeSegment.h"
+#include "VariableSet.h"
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -23,16 +24,37 @@ using std::exception;
 //    TestCls(const TestCls &ref);
 //    virtual int Method() { return _a++; }
 //    operator bool() const { return 0 == _a; }
-//    ~TestCls() { cout << "Call Destructor." << "IsCopy: " << _IsCopy << endl; }
+//    ~TestCls() { cout << "Call Destructor." << "IsCopy: " << (_IsCopy ? "True" : "False") << endl; }
 //private :
 //    
 //};
 //
-//TestCls TestFn()
+//TestCls TestCopy1()
 //{
 //    TestCls cls = TestCls(5);
 //
 //    return cls;
+//}
+//
+//TestCls TestCopy2()
+//{
+//    return TestCls(4);
+//}
+//
+//void TestCopy3(TestCls cls)
+//{
+//    cls.Method();
+//}
+//
+//void TestFun()
+//{
+//    TestCls cls1 = TestCopy1();
+//    TestCls cls2 = TestCopy2();
+//
+//    TestCopy1();
+//    TestCopy2();
+//
+//    TestCopy3(cls2);
 //}
 //
 //TestCls::TestCls(int val_a) :
@@ -57,10 +79,18 @@ int _tmain(int argc, _TCHAR* argv[])
 {
     ExprWorkSpace curWorkSpace;
     string inputStr("[(123.4+55.78), 5.7, 11; 1.2-0.8, 2.1, 1.1].* [12,+56.2, 1.3;-0.34, 12.0, 1.11]");
-    ExprILCodeSegment ilCodeSegment;
+    ExprILCodeSegment *pILCodeSegment = NULL;
+    Variable *pVariable = NULL;
     
-    if (curWorkSpace.ParseILCodeSegment(inputStr, &ilCodeSegment)) {
-        cout << ilCodeSegment.ToString() << endl;
+    if (curWorkSpace.ParseILCodeSegment(inputStr, &pILCodeSegment)) {
+        cout << pILCodeSegment->ToString() << endl;
+        curWorkSpace.RunILCodeSegment(pILCodeSegment, &pVariable);
+    }
+
+    if (NULL != pVariable)
+    {
+        delete pVariable;
+        pVariable = NULL;
     }
 
 	return 0;
