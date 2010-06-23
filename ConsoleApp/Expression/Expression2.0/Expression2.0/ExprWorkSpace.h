@@ -4,6 +4,7 @@
 #include "VariableSet.h"
 #include "WordParser.h"
 #include "ExprILCode.h"
+#include "ExprException.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -18,7 +19,7 @@ class ExprWorkSpace;
 //---------------------------------------------------------------------
 // ExprILCodeSegment - class
 //---------------------------------------------------------------------
-class ExprILCodeSegment
+class ExprILCodeSegment : public ExprErrHolder
 {
 private :
     typedef std::vector<ExprILCode*> ILCodeVec_t;
@@ -55,7 +56,7 @@ inline int ExprILCodeSegment::Length() const
 //---------------------------------------------------------------------
 // ExprWorkSpace - class
 //---------------------------------------------------------------------
-class ExprWorkSpace
+class ExprWorkSpace : public ExprErrHolder
 {
 private :
     typedef std::vector<ExprILCodeSegment*> ILCodeSegmentVec_t;

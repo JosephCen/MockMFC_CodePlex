@@ -10,7 +10,7 @@
 //---------------------------------------------------------------------
 // ExprILRunState - class
 //---------------------------------------------------------------------
-class ExprILRunState
+class ExprILRunState : public ExprErrHolder
 {
 private :
     bool  _IsNewVarSet;
@@ -107,7 +107,7 @@ public :
     virtual bool RunCode(ExprILRunState *pILRunState);
 protected :
     // Methods
-    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR) = 0;
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState) = 0;
 };
 
 //---------------------------------------------------------------------
@@ -124,7 +124,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -141,7 +141,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -158,7 +158,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -175,7 +175,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -207,7 +207,7 @@ public :
     virtual bool RunCode(ExprILRunState *pILRunState);
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR) = 0;
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState) = 0;
 };
 
 //---------------------------------------------------------------------
@@ -224,7 +224,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -241,7 +241,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -258,7 +258,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -275,7 +275,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -291,7 +291,7 @@ public :
     virtual bool RunCode(ExprILRunState *pILRunState);
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR) = 0;
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState) = 0;
 };
 
 //---------------------------------------------------------------------
@@ -308,7 +308,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -325,7 +325,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -342,7 +342,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 //---------------------------------------------------------------------
@@ -359,7 +359,7 @@ public :
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
-    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
+    virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
 };
 
 #endif
