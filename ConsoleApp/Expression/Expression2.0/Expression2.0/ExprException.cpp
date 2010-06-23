@@ -1,23 +1,36 @@
 #include "stdafx.h"
 #include "ExprException.h"
-#include <crtdbg.h>
 #include <string>
 using std::string;
 #include <exception>
+using std::exception;
 #include <sstream>
+using std::ostream;
 using std::ostringstream;
+#include <vector>
+using std::vector;
+#include <crtdbg.h>
 
 //---------------------------------------------------------------------
 // Class member - ExprException
 //---------------------------------------------------------------------
-void ExprException::ToString(ostringstream *pOStrStream) const
+ExprException::ExprException(const char *msgCh, int chIdx/* = -1*/) :
+exception(msgCh), _ChIndex(chIdx), _RefCount(1)
+{ }
+
+ExprException::~ExprException()
 {
-    _ASSERT(NULL != pOStrStream);
+    _ASSERT(1 == _RefCount);
+}
+
+void ExprException::ToString(ostream *pOStream) const
+{
+    _ASSERT(NULL != pOStream);
 
     if (_ChIndex >= 0)
-        *pOStrStream << "At [" << _ChIndex << "]: " << Message();
+        *pOStream << "At [" << _ChIndex << "]: " << Message();
     else
-        *pOStrStream << Message();
+        *pOStream << Message();
 }
 
 string ExprException::ToString() const
@@ -30,56 +43,108 @@ string ExprException::ToString() const
 }
 
 //---------------------------------------------------------------------
-// Class member - ExprExHolder
+// Class member - ExprError
 //---------------------------------------------------------------------
-ExprExHolder::ExprExHolder() :
+ExprError::ExprError() :
 _pExprEx(NULL)
 { }
 
-ExprExHolder::~ExprExHolder()
+ExprError::ExprError(const ExprError &exprErrRef) :
+_pExprEx(exprErrRef._pExprEx)
 {
-    if (_pExprEx) {
-        delete _pExprEx;
+     if (NULL != _pExprEx)
+        ++_pExprEx->_RefCount;
+}
+
+ExprError::~ExprError()
+{
+    if (IsContainError())
+        ReleaseCurrentEx();
+}
+
+ExprError& ExprError::operator=(const ExprError &exprErrRef)
+{
+    if (this != &exprErrRef)
+    {
+        // Release original ExprException instance
+        if (IsContainError())
+            ReleaseCurrentEx();
+
+        // Reference new ExprException instance
+        _pExprEx = exprErrRef._pExprEx;
+        if (NULL != _pExprEx)
+            ++_pExprEx->_RefCount;
+    }
+
+    return *this;
+}
+
+void ExprError::Set(const ExprException &exprExRef)
+{
+    if (IsContainError())
+        ReleaseCurrentEx();
+    _pExprEx = new ExprException(exprExRef);
+}
+
+void ExprError::Set(const char *errorCh, int chIdx)
+{
+    _ASSERT(NULL != errorCh);
+
+    if (IsContainError())
+        ReleaseCurrentEx();
+    _pExprEx = new ExprException(errorCh, chIdx);
+}
+
+const ExprException& ExprError::GetExprException() const
+{
+    _ASSERT(NULL != _pExprEx);
+
+    return (*_pExprEx);
+}
+
+string ExprError::ToString() const
+{
+    ostringstream oStrStream;
+
+    ToString(&oStrStream);
+
+    return (oStrStream.str());
+}
+
+void ExprError::ReleaseCurrentEx()
+{
+    if (NULL != _pExprEx)
+    {
+        if (1 == _pExprEx->_RefCount)
+            delete _pExprEx;
+        else
+            --_pExprEx->_RefCount;
+
         _pExprEx = NULL;
     }
 }
 
-void ExprExHolder::SetError(const ExprException &exprExRef)
-{
-    _ASSERT(NULL == _pExprEx);
+//---------------------------------------------------------------------
+// Class member - ExprExHolder
+//---------------------------------------------------------------------
+ExprErrHolder::ExprErrHolder() :
+_ExprErrVec(0)
+{ }
 
-    _pExprEx = new ExprException(exprExRef);
-}
+ExprErrHolder::~ExprErrHolder()
+{ }
 
-void ExprExHolder::SetError(const char *errorCh, int chIdx)
-{
-    _ASSERT(NULL == _pExprEx);
-
-    _pExprEx = new ExprException(errorCh, chIdx);
-}
-
-const ExprException& ExprExHolder::GetException() const
-{
-    _ASSERT(NULL == _pExprEx);
-
-    return *_pExprEx;
-}
-
-ExprExHolder::operator bool() const
-{
-    return (NULL == _pExprEx);
-}
-
-void ExprExHolder::GetExceptionStr(std::string *pExStr) const
+void ExprErrHolder::GetExceptionStr(std::string *pExStr) const
 {
     _ASSERT(NULL != pExStr);
 
-    pExStr->clear();
-    if (NULL != _pExprEx)
+    ostringstream oStrStream;
+    
+    for (ExprErrorCIter_t iter = _ExprErrVec.begin(); _ExprErrVec.end() != iter; ++iter)
     {
-        ostringstream oStrStream;
-
-        _pExprEx->ToString(&oStrStream);
-        pExStr->append(oStrStream.str());
+        iter->ToString(&oStrStream);
+        oStrStream << '\n';
     }
+    // Assign error content into current string. (Remove the last '\n' char)
+    pExStr->assign(oStrStream.str(), 0, oStrStream.str().length() - 1);
 }

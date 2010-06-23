@@ -15,7 +15,7 @@ using std::ostringstream;
 // Class member - ExprILRunState
 //---------------------------------------------------------------------
 ExprILRunState::ExprILRunState(VariableSet *pVarSet, bool isNewVarSet) : 
-_IsNewVarSet(isNewVarSet), _pVarSet(NULL), _VarStack()
+ExprErrHolder(), _IsNewVarSet(isNewVarSet), _pVarSet(NULL), _VarStack()
 {
     _ASSERT(NULL != pVarSet);
 
@@ -120,11 +120,15 @@ bool RealValBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 
     if (RealVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableR)
         && RealVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableL, 1)) {
-            if (DoOperator((RealVariable*)pVariableL, (RealVariable*)pVariableR)) {
+            if (DoOperator((RealVariable*)pVariableL, (RealVariable*)pVariableR, pILRunState)) {
                 GetVariableStack(pILRunState)->RemoveTopVar();
 
                 return true;
             }
+    }
+    else
+    {
+        pILRunState->SetError("One or more operand is invalid!");
     }
     
     return false;
@@ -141,7 +145,7 @@ ExprILCodeEnum RealValPlusILCode::GetCodeEnum() const
     return EIL_RealValPlus;
 }
 
-bool RealValPlusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR)
+bool RealValPlusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
     pVariableL->GetValueRef() += pVariableR->GetValue();
 
@@ -164,7 +168,7 @@ ExprILCodeEnum RealValMinusILCode::GetCodeEnum() const
     return EIL_RealValMinus;
 }
 
-bool RealValMinusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR)
+bool RealValMinusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
     pVariableL->GetValueRef() -= pVariableR->GetValue();
 
@@ -187,7 +191,7 @@ ExprILCodeEnum RealValMultiplyILCode::GetCodeEnum() const
     return EIL_RealValMultiply;
 }
 
-bool RealValMultiplyILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR)
+bool RealValMultiplyILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
     pVariableL->GetValueRef() *= pVariableR->GetValue();
 
@@ -210,12 +214,18 @@ ExprILCodeEnum RealValDivideILCode::GetCodeEnum() const
     return EIL_RealValDivide;
 }
 
-bool RealValDivideILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR)
+bool RealValDivideILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
+    _ASSERT(NULL != pILRunState);
+
     if (DOUBLE_NEQZ(pVariableR->GetValue())) {
         pVariableL->GetValueRef() /= pVariableR->GetValue();
 
         return true;
+    }
+    else
+    {
+        pILRunState->SetError("The second operand of '/' (divide) is Zero.");
     }
 
     return false;
@@ -259,6 +269,7 @@ bool CtorMatrixILCode::RunCode(ExprILRunState *pILRunState)
         }
         else {
             state = false;
+            pILRunState->SetError("One or more invalid variable is given in a matrix.");
             break;
         }
     }
@@ -295,7 +306,7 @@ bool MatrixBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 
     if (MatrixVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableR)
         && MatrixVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableL, 1)) {
-            if (DoOperator((MatrixVariable*)pVariableL, (MatrixVariable*)pVariableR)) {
+            if (DoOperator((MatrixVariable*)pVariableL, (MatrixVariable*)pVariableR, pILRunState)) {
                 GetVariableStack(pILRunState)->RemoveTopVar();
 
                 return true;
@@ -316,15 +327,18 @@ ExprILCodeEnum MatrixPlusILCode::GetCodeEnum() const
     return EIL_MatrixPlus;
 }
 
-bool MatrixPlusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR)
+bool MatrixPlusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState)
 {
+    _ASSERT(NULL != pILRunState);
+
     bool state = true;
 
     try {
         pVariableL->GetValueRef() += pVariableR->GetValueRef();
     }
-    catch (ExprException&) {
+    catch (ExprException &ex) {
         state = false;
+        pILRunState->SetError(ex);
     }
 
     return state;
@@ -346,15 +360,18 @@ ExprILCodeEnum MatrixMinusILCode::GetCodeEnum() const
     return EIL_MatrixMinus;
 }
 
-bool MatrixMinusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR)
+bool MatrixMinusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState)
 {
+    _ASSERT(NULL != pILRunState);
+
     bool state = true;
 
     try {
         pVariableL->GetValueRef() -= pVariableR->GetValueRef();
     }
-    catch (ExprException&) {
+    catch (ExprException &ex) {
         state = false;
+        pILRunState->SetError(ex);
     }
 
     return state;
@@ -376,15 +393,18 @@ ExprILCodeEnum MatrixDotMultiplyILCode::GetCodeEnum() const
     return EIL_MatrixDotMultiply;
 }
 
-bool MatrixDotMultiplyILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR)
+bool MatrixDotMultiplyILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState)
 {
+    _ASSERT(NULL != pILRunState);
+
     bool state = true;
 
     try {
         pVariableL->GetValueRef().DotAssignmentMultiply(pVariableR->GetValueRef());
     }
-    catch (ExprException&) {
+    catch (ExprException &ex) {
         state = false;
+        pILRunState->SetError(ex);
     }
 
     return state;
@@ -406,15 +426,18 @@ ExprILCodeEnum MatrixDotDivideILCode::GetCodeEnum() const
     return EIL_MatrixDotDivide;
 }
 
-bool MatrixDotDivideILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR)
+bool MatrixDotDivideILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState)
 {
+    _ASSERT(NULL != pILRunState);
+
     bool state = true;
 
     try {
         pVariableL->GetValueRef().DotAssignmentDivid(pVariableR->GetValueRef());
     }
-    catch (ExprException&) {
+    catch (ExprException &ex) {
         state = false;
+        pILRunState->SetError(ex);
     }
 
     return state;
@@ -440,11 +463,15 @@ bool MatrixValBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 
     if (MatrixVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableR)
         && RealVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableL, 1)) {
-            if (DoOperator((MatrixVariable*)pVariableL, (RealVariable*)pVariableR)) {
+            if (DoOperator((MatrixVariable*)pVariableL, (RealVariable*)pVariableR, pILRunState)) {
                 GetVariableStack(pILRunState)->RemoveTopVar();
 
                 return true;
             }
+    }
+    else
+    {
+        pILRunState->SetError("One or more operand is invalid!");
     }
 
     return false;
@@ -461,7 +488,7 @@ ExprILCodeEnum MatrixValPlusILCode::GetCodeEnum() const
     return EIL_MatrixValPlus;
 }
 
-bool MatrixValPlusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR)
+bool MatrixValPlusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
     pVariableL->GetValueRef() += pVariableR->GetValue();
 
@@ -484,7 +511,7 @@ ExprILCodeEnum MatrixValMinusILCode::GetCodeEnum() const
     return EIL_MatrixValMinus;
 }
 
-bool MatrixValMinusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR)
+bool MatrixValMinusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
     pVariableL->GetValueRef() -= pVariableR->GetValue();
 
@@ -507,7 +534,7 @@ ExprILCodeEnum MatrixValMultiplyILCode::GetCodeEnum() const
     return EIL_MatrixValMultiply;
 }
 
-bool MatrixValMultiplyILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR)
+bool MatrixValMultiplyILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
     pVariableL->GetValueRef() *= pVariableR->GetValue();
 
@@ -530,15 +557,18 @@ ExprILCodeEnum MatrixValDivideILCode::GetCodeEnum() const
     return EIL_MatrixValDivide;
 }
 
-bool MatrixValDivideILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR)
+bool MatrixValDivideILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState)
 {
+    _ASSERT(NULL != pILRunState);
+
     bool state = true;
 
     try {
         pVariableL->GetValueRef() /= pVariableR->GetValue();
     }
-    catch (ExprException&) {
+    catch (ExprException &ex) {
         state = false;
+        pILRunState->SetError(ex);
     }
 
     return state;

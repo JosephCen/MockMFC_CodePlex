@@ -21,7 +21,7 @@ using std::ostringstream;
 // Class member - ExprILCodeSegment
 //---------------------------------------------------------------------
 ExprILCodeSegment::ExprILCodeSegment(ExprWorkSpace *pWorkSpace) :
-_pWorkSpace(pWorkSpace), _ILCodeVec()
+ExprErrHolder(), _pWorkSpace(pWorkSpace), _ILCodeVec()
 {
     _ASSERT(NULL != pWorkSpace);
 }
@@ -40,12 +40,23 @@ bool ExprILCodeSegment::Run(Variable **ppVariable)
     bool state = true;
     ExprILRunState runState(&(_pWorkSpace->_GlobalVarSet), false); // Use friend declaration
 
+    // Clear all existing Error info
+    this->ClearError();
     for (ILCodeIter_t codeIter = _ILCodeVec.begin(); state && _ILCodeVec.end() != codeIter; ++codeIter) {
         state &= (*codeIter)->RunCode(&runState);
     }
 
-    if (state && 1 == runState.GetVariableStack()->Count())
-        *ppVariable = runState.GetVariableStack()->DupTopVar();
+    if (state)
+    {
+        if (1 == runState.GetVariableStack()->Count())
+            *ppVariable = runState.GetVariableStack()->DupTopVar();
+        // TODO: add else part (Given a default empty return Variable)
+    }
+    else
+    {
+        // Collect all error info generate during run
+        this->MergeError(runState);
+    }
 
     return state;
 }
@@ -72,7 +83,7 @@ string ExprILCodeSegment::ToString() const
 // Class member - ExprWorkSpace
 //---------------------------------------------------------------------
 ExprWorkSpace::ExprWorkSpace() :
-_GlobalVarSet(), _WordParser(), _ILCodeSegmentSet(), _IsDesructing(false)
+ExprErrHolder(), _GlobalVarSet(), _WordParser(), _ILCodeSegmentSet(), _IsDesructing(false)
 { }
 
 ExprWorkSpace::~ExprWorkSpace()
@@ -90,6 +101,8 @@ bool ExprWorkSpace::ParseILCodeSegment(const std::string &codeStr, ExprILCodeSeg
     WordFwCursor wordCursor = _WordParser.GenWordFwCursor(codeStr);
     ExprContext exprContext;
 
+    // Clear all existing Error info
+    this->ClearError();
     if (wordCursor.NextWord(exprContext)) {
         StartNT startNT;
 
@@ -103,6 +116,8 @@ bool ExprWorkSpace::ParseILCodeSegment(const std::string &codeStr, ExprILCodeSeg
             return true;
         }
     }
+    // Collect all error info generate during run
+    this->MergeError(exprContext);
 
     return false;
 }
@@ -112,7 +127,18 @@ bool ExprWorkSpace::RunILCodeSegment(ExprILCodeSegment *pILSegment, Variable **p
     _ASSERT(NULL != pILSegment);
     _ASSERT(NULL != ppVariable);
 
-    return (pILSegment->Run(ppVariable));
+    // Clear all existing Error info
+    this->ClearError();
+    if (pILSegment->Run(ppVariable))
+    {
+        return true;
+    }
+    else
+    {
+        this->MergeError(pILSegment);
+
+        return false;
+    }
 }
 
 void ExprWorkSpace::RemoveILCodeSegment(ExprILCodeSegment *pILSegment)

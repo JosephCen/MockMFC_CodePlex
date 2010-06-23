@@ -5,7 +5,7 @@
 #include "ExprRunTime.h"
 #include "ExprException.h"
 
-class ExprContext : public ExprExHolder
+class ExprContext : public ExprErrHolder
 {
 private :
 public :
