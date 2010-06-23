@@ -195,10 +195,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ExprILCodeSegment.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ExprRunTime.cpp"
 				>
 			</File>
@@ -270,10 +266,6 @@
 			</File>
 			<File
 				RelativePath=".\ExprILCode.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ExprILCodeSegment.h"
 				>
 			</File>
 			<File

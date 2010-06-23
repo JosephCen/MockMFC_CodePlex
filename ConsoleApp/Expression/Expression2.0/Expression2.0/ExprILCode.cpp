@@ -7,6 +7,7 @@ using std::vector;
 #include <string>
 using std::string;
 #include <sstream>
+using std::ostream;
 using std::ostringstream;
 #include <crtdbg.h>
 
@@ -72,9 +73,9 @@ bool PushIntegerILCode::RunCode(ExprILRunState *pILRunState)
     return true;
 }
 
-void PushIntegerILCode::ToString(ostringstream *pOStrStream) const
+void PushIntegerILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "PushInteger " << _IntValue;
+    *pOStream << "PushInteger " << _IntValue;
 }
 
 //---------------------------------------------------------------------
@@ -99,9 +100,9 @@ bool PushRealValILCode::RunCode(ExprILRunState *pILRunState)
     return true;
 }
 
-void PushRealValILCode::ToString(ostringstream *pOStrStream) const
+void PushRealValILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "PushRealVal " << _RealValue;
+    *pOStream << "PushRealVal " << _RealValue;
 }
 
 //---------------------------------------------------------------------
@@ -147,9 +148,9 @@ bool RealValPlusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVari
     return true;
 }
 
-void RealValPlusILCode::ToString(ostringstream *pOStrStream) const
+void RealValPlusILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "RealValPlus";
+    *pOStream << "RealValPlus";
 }
 
 //---------------------------------------------------------------------
@@ -170,9 +171,9 @@ bool RealValMinusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVar
     return true;
 }
 
-void RealValMinusILCode::ToString(ostringstream *pOStrStream) const
+void RealValMinusILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "RealValMinus";
+    *pOStream << "RealValMinus";
 }
 
 //---------------------------------------------------------------------
@@ -193,9 +194,9 @@ bool RealValMultiplyILCode::DoOperator(RealVariable *pVariableL, RealVariable *p
     return true;
 }
 
-void RealValMultiplyILCode::ToString(ostringstream *pOStrStream) const
+void RealValMultiplyILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "RealValMultiply";
+    *pOStream << "RealValMultiply";
 }
 
 //---------------------------------------------------------------------
@@ -220,9 +221,9 @@ bool RealValDivideILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVa
     return false;
 }
 
-void RealValDivideILCode::ToString(ostringstream *pOStrStream) const
+void RealValDivideILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "RealValDivide";
+    *pOStream << "RealValDivide";
 }
 
 //---------------------------------------------------------------------
@@ -274,9 +275,9 @@ bool CtorMatrixILCode::RunCode(ExprILRunState *pILRunState)
     return state;
 }
 
-void CtorMatrixILCode::ToString(ostringstream *pOStrStream) const
+void CtorMatrixILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "CtorMatrix [" << _RowColPair._Rows << ',' << _RowColPair._Cols << ']';
+    *pOStream << "CtorMatrix [" << _RowColPair._Rows << ',' << _RowColPair._Cols << ']';
 }
 
 //---------------------------------------------------------------------
@@ -329,9 +330,9 @@ bool MatrixPlusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pV
     return state;
 }
 
-void MatrixPlusILCode::ToString(ostringstream *pOStrStream) const
+void MatrixPlusILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixPlus";
+    *pOStream << "MatrixPlus";
 }
 
 //---------------------------------------------------------------------
@@ -359,9 +360,9 @@ bool MatrixMinusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *p
     return state;
 }
 
-void MatrixMinusILCode::ToString(ostringstream *pOStrStream) const
+void MatrixMinusILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixMinus";
+    *pOStream << "MatrixMinus";
 }
 
 //---------------------------------------------------------------------
@@ -389,9 +390,9 @@ bool MatrixDotMultiplyILCode::DoOperator(MatrixVariable *pVariableL, MatrixVaria
     return state;
 }
 
-void MatrixDotMultiplyILCode::ToString(ostringstream *pOStrStream) const
+void MatrixDotMultiplyILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixDotMultiply";
+    *pOStream << "MatrixDotMultiply";
 }
 
 //---------------------------------------------------------------------
@@ -419,9 +420,9 @@ bool MatrixDotDivideILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariabl
     return state;
 }
 
-void MatrixDotDivideILCode::ToString(ostringstream *pOStrStream) const
+void MatrixDotDivideILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixDotDivide";
+    *pOStream << "MatrixDotDivide";
 }
 
 //---------------------------------------------------------------------
@@ -467,9 +468,9 @@ bool MatrixValPlusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *p
     return true;
 }
 
-void MatrixValPlusILCode::ToString(ostringstream *pOStrStream) const
+void MatrixValPlusILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixValPlus";
+    *pOStream << "MatrixValPlus";
 }
 
 //---------------------------------------------------------------------
@@ -490,9 +491,9 @@ bool MatrixValMinusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *
     return true;
 }
 
-void MatrixValMinusILCode::ToString(ostringstream *pOStrStream) const
+void MatrixValMinusILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixValMinus";
+    *pOStream << "MatrixValMinus";
 }
 
 //---------------------------------------------------------------------
@@ -513,9 +514,9 @@ bool MatrixValMultiplyILCode::DoOperator(MatrixVariable *pVariableL, RealVariabl
     return true;
 }
 
-void MatrixValMultiplyILCode::ToString(ostringstream *pOStrStream) const
+void MatrixValMultiplyILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixValMultiply";
+    *pOStream << "MatrixValMultiply";
 }
 
 //---------------------------------------------------------------------
@@ -543,7 +544,7 @@ bool MatrixValDivideILCode::DoOperator(MatrixVariable *pVariableL, RealVariable 
     return state;
 }
 
-void MatrixValDivideILCode::ToString(ostringstream *pOStrStream) const
+void MatrixValDivideILCode::ToString(ostream *pOStream) const
 {
-    *pOStrStream << "MatrixValDivide";
+    *pOStream << "MatrixValDivide";
 }

@@ -2,7 +2,7 @@
 #include "NonTerminal.h"
 #include "WordParser.h"
 #include "ExprILCode.h"
-#include "ExprILCodeSegment.h"
+#include "ExprWorkSpace.h"
 #include <list>
 using std::list;
 #include <crtdbg.h>
