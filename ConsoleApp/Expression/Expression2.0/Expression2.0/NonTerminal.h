@@ -4,7 +4,7 @@
 #include <list>
 #include "WordParser.h"
 #include "ExprILCode.h"
-#include "ExprILCodeSegment.h"
+#include "ExprWorkSpace.h"
 #include "Matrix.h"
 #include "ExprException.h"
 #include "ExprAdapter.h"

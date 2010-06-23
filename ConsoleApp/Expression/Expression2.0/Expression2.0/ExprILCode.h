@@ -51,7 +51,7 @@ public :
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const = 0;
     virtual bool RunCode(ExprILRunState *pILRunState) = 0;
-    virtual void ToString(std::ostringstream *pOStrStream) const = 0;
+    virtual void ToString(std::ostream *pOStream) const = 0;
     std::string ToString() const;
 protected :
     static VariableStack* GetVariableStack(ExprILRunState *pILRunState);
@@ -75,7 +75,7 @@ public :
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual bool RunCode(ExprILRunState *pILRunState);
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 };
 
 //---------------------------------------------------------------------
@@ -91,7 +91,7 @@ public :
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual bool RunCode(ExprILRunState *pILRunState);
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 };
 
 //---------------------------------------------------------------------
@@ -121,7 +121,7 @@ public :
     RealValPlusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -138,7 +138,7 @@ public :
     RealValMinusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -155,7 +155,7 @@ public :
     RealValMultiplyILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -172,7 +172,7 @@ public :
     RealValDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR);
@@ -191,7 +191,7 @@ public :
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual bool RunCode(ExprILRunState *pILRunState);
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 };
 
 //---------------------------------------------------------------------
@@ -221,7 +221,7 @@ public :
     MatrixPlusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
@@ -238,7 +238,7 @@ public :
     MatrixMinusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
@@ -255,7 +255,7 @@ public :
     MatrixDotMultiplyILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
@@ -272,7 +272,7 @@ public :
     MatrixDotDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR);
@@ -305,7 +305,7 @@ public :
     MatrixValPlusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
@@ -322,7 +322,7 @@ public :
     MatrixValMinusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
@@ -339,7 +339,7 @@ public :
     MatrixValMultiplyILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
@@ -356,7 +356,7 @@ public :
     MatrixValDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
-    virtual void ToString(std::ostringstream *pOStrStream) const;
+    virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR);
