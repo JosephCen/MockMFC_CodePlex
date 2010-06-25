@@ -105,6 +105,7 @@ public :
     virtual Variable* Duplicate() const;
     std::string GetValue() const;
     std::string& GetValueRef();
+    const std::string& GetValueRef() const;
 };
 
 inline std::string StrVariable::GetValue() const
@@ -113,6 +114,11 @@ inline std::string StrVariable::GetValue() const
 }
 
 inline std::string& StrVariable::GetValueRef()
+{
+    return _StrVal;
+}
+
+inline const std::string& StrVariable::GetValueRef() const
 {
     return _StrVal;
 }
@@ -135,6 +141,7 @@ public :
     virtual Variable* Duplicate() const;
     Matrix GetValue() const;
     Matrix& GetValueRef();
+    const Matrix& GetValueRef() const;
 };
 
 inline Matrix MatrixVariable::GetValue() const
@@ -143,6 +150,11 @@ inline Matrix MatrixVariable::GetValue() const
 }
 
 inline Matrix& MatrixVariable::GetValueRef()
+{
+    return _MatrixVal;
+}
+
+inline const Matrix& MatrixVariable::GetValueRef() const
 {
     return _MatrixVal;
 }

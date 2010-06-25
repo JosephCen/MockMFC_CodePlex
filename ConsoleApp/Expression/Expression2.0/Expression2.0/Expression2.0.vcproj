@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Formatter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Matrix.cpp"
 				>
 			</File>
@@ -274,6 +278,10 @@
 			</File>
 			<File
 				RelativePath=".\ExprWorkSpace.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Formatter.h"
 				>
 			</File>
 			<File
