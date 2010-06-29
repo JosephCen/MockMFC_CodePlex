@@ -139,12 +139,17 @@ void ExprErrHolder::GetExceptionStr(std::string *pExStr) const
     _ASSERT(NULL != pExStr);
 
     ostringstream oStrStream;
-    
-    for (ExprErrorCIter_t iter = _ExprErrVec.begin(); _ExprErrVec.end() != iter; ++iter)
+
+    if (_ExprErrVec.size() > 0)
     {
-        iter->ToString(&oStrStream);
-        oStrStream << '\n';
+        for (ExprErrorCIter_t iter = _ExprErrVec.begin(); ; )
+        {
+            iter->ToString(&oStrStream);
+            ++iter;
+            if (_ExprErrVec.end() == iter)
+                break;
+            oStrStream << '\n';
+        }
     }
-    // Assign error content into current string. (Remove the last '\n' char)
-    pExStr->assign(oStrStream.str(), 0, oStrStream.str().length() - 1);
+    pExStr->assign(oStrStream.str());
 }

@@ -3,13 +3,15 @@
 
 #include "stdafx.h"
 #include "ExprWorkSpace.h"
-#include "ExprILCodeSegment.h"
 #include "VariableSet.h"
+#include "Formatter.h"
 #include <iostream>
 using std::cout;
+using std::cin;
 using std::endl;
 #include <string>
 using std::string;
+using std::getline;
 #include <exception>
 using std::exception;
 
@@ -78,19 +80,39 @@ using std::exception;
 int _tmain(int argc, _TCHAR* argv[])
 {
     ExprWorkSpace curWorkSpace;
-    string inputStr("[(123.4+55.78), 5.7, 11; 1.2-0.8, 2.1, 1.1].* [12,+56.2, 1.3;-0.34, 12.0, 1.11]");
+    Formatter formatter;
+    string inputStr;
+    string errorStr;
+    string resultStr;
     ExprILCodeSegment *pILCodeSegment = NULL;
     Variable *pVariable = NULL;
-    
-    if (curWorkSpace.ParseILCodeSegment(inputStr, &pILCodeSegment)) {
-        cout << pILCodeSegment->ToString() << endl;
-        curWorkSpace.RunILCodeSegment(pILCodeSegment, &pVariable);
-    }
 
-    if (NULL != pVariable)
+    while (getline(cin, inputStr))
     {
-        delete pVariable;
-        pVariable = NULL;
+        if (curWorkSpace.ParseILCodeSegment(inputStr, &pILCodeSegment))
+        {
+            if (pILCodeSegment->Run(&pVariable))
+            {
+                formatter.FormatVariable(pVariable, &resultStr);
+                cout << "Result: " << endl;
+                cout << resultStr << endl;
+
+                delete pVariable;
+                pVariable = NULL;
+            }
+            else
+            {
+                pILCodeSegment->GetExceptionStr(&errorStr);
+                cout << "Execute Error: " << endl;
+                cout << errorStr << endl;
+            }
+        }
+        else
+        {
+            curWorkSpace.GetExceptionStr(&errorStr);
+            cout << "Parse Error: " << endl;
+            cout << errorStr << endl;
+        }
     }
 
 	return 0;
