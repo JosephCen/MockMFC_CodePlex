@@ -447,7 +447,7 @@ EndMatch :
             strType = NST_OperatorFail;
             break;
         case 'C' :
-            if (!isdigit(*current.iter))
+            if (current.iter == iter2 || !isdigit(*current.iter))
                 strType = NST_RealVal;
             else
                 strType = NST_RealValFail;
