@@ -245,6 +245,23 @@ protected :
 };
 
 //---------------------------------------------------------------------
+// MatrixMultiplyILCode - class
+//---------------------------------------------------------------------
+class MatrixMultiplyILCode : public MatrixBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixMultiplyILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostream *pOStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState);
+};
+
+//---------------------------------------------------------------------
 // MatrixDotMultiplyILCode - class
 //---------------------------------------------------------------------
 class MatrixDotMultiplyILCode : public MatrixBinaryOperILCode
@@ -253,6 +270,23 @@ private :
 public :
     // Constructor
     MatrixDotMultiplyILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual void ToString(std::ostream *pOStream) const;
+protected :
+    // Methods
+    virtual bool DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState);
+};
+
+//---------------------------------------------------------------------
+// MatrixDivideILCode - class
+//---------------------------------------------------------------------
+class MatrixDivideILCode : public MatrixBinaryOperILCode
+{
+private :
+public :
+    // Constructor
+    MatrixDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual void ToString(std::ostream *pOStream) const;
