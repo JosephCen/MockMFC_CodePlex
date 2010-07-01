@@ -873,9 +873,7 @@ void SubTermNT::AppendMultiplyIL(ExprILCodeSegment &ilSegment)
         if (RT_Matrix == resultType_R) {
             _pLeftOne->AppendILSegment(ilSegment);
             _FactorNT.AppendILSegment(ilSegment);
-            // TODO:
-            _ASSERT(0);
-            // ilSegment.Append(new MatrixMultiplyILCode());
+            ilSegment.Append(new MatrixMultiplyILCode());
         }
         else {
             _pLeftOne->AppendILSegment(ilSegment);
@@ -923,16 +921,14 @@ void SubTermNT::AppendDivideIL(ExprILCodeSegment &ilSegment)
     _FactorNT.AppendILSegment(ilSegment);
 
     if (RT_Matrix == resultType_L) {
-        if (RT_Matrix == resultType_L)
-            // TODO:
-            _ASSERT(0);
-            //ilSegment.Append(new MatrixDivideILCode());
+        if (RT_Matrix == resultType_R)
+            ilSegment.Append(new MatrixDivideILCode());
         else
             ilSegment.Append(new MatrixValDivideILCode());
     }
     else {
-        if (RT_Matrix == resultType_L)
-            // TODO:
+        if (RT_Matrix == resultType_R)
+            // This is invalid. Relative check is done in Method 'SubTermNT::OperatorValidate'.;
             _ASSERT(0);
         else
             ilSegment.Append(new RealValDivideILCode());

@@ -383,6 +383,39 @@ void MatrixMinusILCode::ToString(ostream *pOStream) const
 }
 
 //---------------------------------------------------------------------
+// Class member - MatrixMultiplyILCode
+//---------------------------------------------------------------------
+MatrixMultiplyILCode::MatrixMultiplyILCode()
+{ }
+
+ExprILCodeEnum MatrixMultiplyILCode::GetCodeEnum() const
+{
+    return EIL_MatrixMultiply;
+}
+
+bool MatrixMultiplyILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState)
+{
+    _ASSERT(NULL != pILRunState);
+
+    bool state = true;
+
+    try {
+        pVariableL->GetValueRef() *= pVariableR->GetValueRef();
+    }
+    catch (ExprException &ex) {
+        state = false;
+        pILRunState->SetError(ex);
+    }
+
+    return state;
+}
+
+void MatrixMultiplyILCode::ToString(ostream *pOStream) const
+{
+    *pOStream << "MatrixMultiply";
+}
+
+//---------------------------------------------------------------------
 // Class member - MatrixDotMultiplyILCode
 //---------------------------------------------------------------------
 MatrixDotMultiplyILCode::MatrixDotMultiplyILCode()
@@ -413,6 +446,39 @@ bool MatrixDotMultiplyILCode::DoOperator(MatrixVariable *pVariableL, MatrixVaria
 void MatrixDotMultiplyILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixDotMultiply";
+}
+
+//---------------------------------------------------------------------
+// Class member - MatrixDivideILCode
+//---------------------------------------------------------------------
+MatrixDivideILCode::MatrixDivideILCode()
+{ }
+
+ExprILCodeEnum MatrixDivideILCode::GetCodeEnum() const
+{
+    return EIL_MatrixDivide;
+}
+
+bool MatrixDivideILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pVariableR, ExprILRunState *pILRunState)
+{
+    _ASSERT(NULL != pILRunState);
+
+    bool state = true;
+
+    try {
+        (pVariableL->GetValueRef()) /= (pVariableR->GetValueRef());
+    }
+    catch (ExprException &ex) {
+        state = false;
+        pILRunState->SetError(ex);
+    }
+
+    return state;
+}
+
+void MatrixDivideILCode::ToString(ostream *pOStream) const
+{
+    *pOStream << "MatrixDivide";
 }
 
 //---------------------------------------------------------------------
