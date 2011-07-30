@@ -21,12 +21,15 @@ Matrix::Matrix(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols, char signCh) :
 _Rows(rows), _Cols(cols), _ValueVec(rows * cols, 0.0)
 {
     if ('e' == signCh || 'E' == signCh) {
-        _ASSERT(rows == cols);
-
+        if (rows == cols) {
         Row_Col_t increment = cols + 1;
 
         for (Row_Col_t idx = 0; idx < _ValueVec.size(); idx += increment)
             _ValueVec[idx] = 1.0;
+        }
+        else {
+            throw ExprException("E Matrix must be a square Matrix.");
+        }
     }
     else { 
         _ASSERT(0); // unknow sign char
@@ -146,9 +149,10 @@ Matrix& Matrix::operator*=(const Matrix &matrix)
 Matrix& Matrix::operator/=(const Matrix &matrix)
 {
     Matrix invMatrix(matrix);
+    string exprExStr;
 
-    invMatrix.ToInversion();
-    (*this) *= invMatrix;
+    if (!invMatrix.InversionTransToC(this, &exprExStr))
+        throw ExprException(exprExStr.c_str());
 
     return (*this);
 }
@@ -184,10 +188,13 @@ Matrix operator*(const Matrix &matrix1, const Matrix &matrix2)
 
 Matrix& Matrix::ToInversion()
 {
+    if (_Rows != _Cols)
+        throw ExprException("Inversion Matrix just can be compute on a square Matrix.");
+
     Matrix invMatrix(_Rows, _Cols, 'E');
     string exprExStr;
 
-    if (!this->InversionTransToR(&invMatrix, &exprExStr))
+    if (!this->InversionTransToC(&invMatrix, &exprExStr))
         throw ExprException(exprExStr.c_str());
     this->Swap(invMatrix);
 
@@ -197,9 +204,9 @@ Matrix& Matrix::ToInversion()
 bool Matrix::InversionTransToR(Matrix *pInvMatrix, std::string *pErrStr)
 {
     _ASSERT(NULL != pInvMatrix);
-    _ASSERT(this->_Rows == pInvMatrix->_Rows);
+    _ASSERT(this->_Rows == this->_Cols);
 
-    if (this->_Rows == this->_Cols) {
+    if (this->_Rows == pInvMatrix->_Rows) {
         // Clear below triangle
         for (Row_Col_t rcIdx = 0; rcIdx < (_Rows - 1); ++rcIdx) {
             if (DOUBLE_EQZ(this->At(rcIdx, rcIdx))) {
@@ -249,7 +256,7 @@ bool Matrix::InversionTransToR(Matrix *pInvMatrix, std::string *pErrStr)
     }
     else {
         if (NULL != pErrStr)
-            pErrStr->assign("Inversion Matrix just can be compute on a square Matrix.");
+            pErrStr->assign("Row count of target Matrix must be equal with current Matrix.");
 
         return false;
     }
@@ -260,9 +267,9 @@ bool Matrix::InversionTransToR(Matrix *pInvMatrix, std::string *pErrStr)
 bool Matrix::InversionTransToC(Matrix *pInvMatrix, std::string *pErrStr)
 {
     _ASSERT(NULL != pInvMatrix);
-    _ASSERT(this->_Cols == pInvMatrix->_Cols);
+    _ASSERT(this->_Rows == this->_Cols);
 
-    if (this->_Rows == this->_Cols) {
+    if (this->_Cols == pInvMatrix->_Cols) {
         // Clear left triangle
         for (Row_Col_t rcIdx = 1; rcIdx < _Cols; ++rcIdx) {
             if (DOUBLE_EQZ(this->At(rcIdx, rcIdx))) {
@@ -312,7 +319,7 @@ bool Matrix::InversionTransToC(Matrix *pInvMatrix, std::string *pErrStr)
     }
     else {
         if (NULL != pErrStr)
-            pErrStr->assign("Inversion Matrix just can be compute on a square Matrix.");
+            pErrStr->assign("Column count of target Matrix must be equal with current Matrix.");
 
         return false;
     }
@@ -334,10 +341,10 @@ bool Matrix::MultiplyInto(const Matrix &matrixL, const Matrix &matrixR, string *
 
         for (Row_Col_t r = 0; r < resultRows; ++r) {
             for (Row_Col_t c = 0; c < resultCols; ++c) {
-                RealValCIter_t iter_1 = matrixL._ValueVec.begin() + r*_Cols;
+                RealValCIter_t iter_1 = matrixL._ValueVec.begin() + r * matrixL._Cols;
                 RealValCIter_t iter_2 = matrixR._ValueVec.begin() + c;
                 RealVal_t val = (*iter_1) * (*iter_2);
-                for (Row_Col_t i = 1; i < _Cols; ++i) {
+                for (Row_Col_t i = 1; i < matrixL._Cols; ++i) {
                     ++iter_1;
                     iter_2 += matrixR._Cols;
                     val += (*iter_1) * (*iter_2);
@@ -362,25 +369,25 @@ void Matrix::ElementaryTransferR(Matrix::Row_Col_t rIdx1, Matrix::Row_Col_t rIdx
     _ASSERT(rIdx2 >= 0 && rIdx2 < _Rows);
 
     if (rIdx1 != rIdx2) {
-        RealValIter_t iter_r1 = _ValueVec.begin() + rIdx1*_Cols;
-        RealValIter_t iter_end1 = iter_r1 + _Cols;
-        RealValIter_t iter_r2 = _ValueVec.begin() + rIdx2*_Cols;
+        Row_Col_t r1 = rIdx1*_Cols;
+        Row_Col_t r1_end = r1 + _Cols;
+        Row_Col_t r2 = rIdx2*_Cols;
 
         if (DOUBLE_NEQZ(multiple)) {
             // Row-addition transformations (rIdx1 =>(+) rIdx2)
-            for (; iter_end1 != iter_r1; ++iter_r1, ++iter_r2) {
-                if (DOUBLE_NEQZ(*iter_r1))
-                    *iter_r2 += (*iter_r1) * multiple;
+            for (; r1_end != r1; ++r1, ++r2) {
+                if (DOUBLE_NEQZ(_ValueVec[r1]))
+                    _ValueVec[r2] += _ValueVec[r1] * multiple;
             }
         }
         else {
             // Row-switching transformations (rIdx1 <=> rIdx2)
             RealVal_t tempVal = 0.0;
 
-            for (; iter_end1 != iter_r1; ++iter_r1, ++iter_r2) {
-                tempVal = *iter_r1;
-                *iter_r1 = *iter_r2;
-                *iter_r2 = tempVal;
+            for (; r1_end != r1; ++r1, ++r2) {
+                tempVal = _ValueVec[r1];
+                _ValueVec[r1] = _ValueVec[r2];
+                _ValueVec[r2] = tempVal;
             }
         }
     }
@@ -388,11 +395,11 @@ void Matrix::ElementaryTransferR(Matrix::Row_Col_t rIdx1, Matrix::Row_Col_t rIdx
         // Row-multiplying transformations
         _ASSERT(DOUBLE_NEQZ(multiple));
 
-        RealValIter_t iter_r = _ValueVec.begin() + rIdx1*_Cols;
-        RealValIter_t iter_end = iter_r + _Cols;
+        Row_Col_t r = rIdx1*_Cols;
+        Row_Col_t r_end = r + _Cols;
 
-        for (; iter_end != iter_r; ++iter_r)
-            *iter_r *= multiple;
+        for (; r_end != r; ++r)
+            _ValueVec[r] *= multiple;
     }
 }
 
@@ -402,32 +409,24 @@ void Matrix::ElementaryTransferC(Matrix::Row_Col_t cIdx1, Matrix::Row_Col_t cIdx
     _ASSERT(cIdx2 >= 0 && cIdx2 < _Cols);
 
     if (cIdx1 != cIdx2) {
-        RealValIter_t iter_c1 = _ValueVec.begin() + cIdx1;
-        RealValIter_t iter_end1 = _ValueVec.end() - _Cols;
-        RealValIter_t iter_c2 = _ValueVec.begin() + cIdx2;
+        Row_Col_t c1 = cIdx1;
+        Row_Col_t c1_end = c1 + _ValueVec.size();
+        Row_Col_t c2 = cIdx2;
         if (DOUBLE_NEQZ(multiple)) {
             // Col-addition transformations (cIdx1 =>(+) cIdx2)
-            for ( ; ; ) {
-                if (DOUBLE_NEQZ(*iter_c1))
-                    *iter_c2 += (*iter_c1) * multiple;
-                if (iter_c1 >= iter_end1)
-                    break;
-                iter_c1 += _Cols;
-                iter_c2 += _Cols;
+            for (; c1 != c1_end; c1 += _Cols, c2 += _Cols) {
+                if (DOUBLE_NEQZ(_ValueVec[c1]))
+                    _ValueVec[c2] += _ValueVec[c1] * multiple;
             }
         }
         else {
             // Col-switching transformations (cIdx1 <=> cIdx2)
             RealVal_t tempVal = 0.0;
 
-            for ( ; ; ) {
-                tempVal = *iter_c1;
-                *iter_c1 = *iter_c2;
-                *iter_c2 = tempVal;
-                if (iter_c1 >= iter_end1)
-                    break;
-                iter_c1 += _Cols;
-                iter_c2 += _Cols;
+            for (; c1 != c1_end; c1 += _Cols, c2 += _Cols) {
+                tempVal = _ValueVec[c1];
+                _ValueVec[c1] = _ValueVec[c2];
+                _ValueVec[c2] = tempVal;
             }
         }
     }
@@ -435,15 +434,11 @@ void Matrix::ElementaryTransferC(Matrix::Row_Col_t cIdx1, Matrix::Row_Col_t cIdx
         // Col-multiplying transformations
         _ASSERT(DOUBLE_NEQZ(multiple));
 
-        RealValIter_t iter_c = _ValueVec.begin() + cIdx1;
-        RealValIter_t iter_end = _ValueVec.end() - _Cols;
+        Row_Col_t c = cIdx1;
+        Row_Col_t c_end = c + _ValueVec.size();
 
-        for ( ; ; ) {
-            *iter_c *= multiple;
-            if (iter_c >= iter_end)
-                break;
-            iter_c += _Cols;
-        }
+        for (; c != c_end; c += _Cols)
+            _ValueVec[c] *= multiple;
     }
 }
 

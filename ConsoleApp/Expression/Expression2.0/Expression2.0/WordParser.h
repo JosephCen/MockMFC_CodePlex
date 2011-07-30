@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <crtdbg.h>
+#include "ClsPreDeclaration.h"
 #include "Matrix.h"
 #include "ExprAdapter.h"
 #include "ExprException.h"
@@ -67,15 +68,10 @@ enum NextStrTypeEnum
 };
 
 //---------------------------------------------------------------------
-// WordFwCursor - class declare
-//---------------------------------------------------------------------
-class WordFwCursor;
-//---------------------------------------------------------------------
 // WordParser - class
 //---------------------------------------------------------------------
 class WordParser
 {
-friend class WordFwCursor;
 private :
     typedef std::string::const_iterator StrIter_t;
     typedef std::map<std::string, WordTypeEnum> OperatorMap_t;
@@ -83,10 +79,13 @@ private :
     static OperatorMap_t s_OperatorMap;
     static bool s_IsInitialized;
     static WordParser *s_pDefaultParser;
+
+    ExprWorkSpace *_pCurExprWS;
 public :
     // Constructs
     WordParser(void);
     // Methods
+    void SetExprWorkSpace(ExprWorkSpace *pExprWorkSpace);
     WordFwCursor GenWordFwCursor(const std::string &inputStr);
     WordFwCursor* GenWordFwCursorPtr(const std::string &inputStr);
     // Static Methods
@@ -94,18 +93,25 @@ public :
 private :
     // Static Methods
     static void Initialize();
-    static NextStrTypeEnum GetNextWordEndIter(StrIter_t iter1, StrIter_t iter2, StrIter_t &endIterRef);
-    static bool ParseRealVal(const std::string &str, WordUnit &wordRef);
-    static bool ParseFuncVar(const std::string &str, WordUnit &wordRef);
-    static bool ParseOperator(const std::string &str, WordUnit &wordRef);
-    static OperatorMap_t& GetOperatorMap();
     // Methods
+    NextStrTypeEnum GetNextWordEndIter(StrIter_t iter1, StrIter_t iter2, StrIter_t &endIterRef);
+    bool ParseRealVal(const std::string &str, WordUnit &wordRef);
+    bool ParseFuncVar(const std::string &str, WordUnit &wordRef);
+    bool ParseOperator(const std::string &str, WordUnit &wordRef);
+    static OperatorMap_t& GetOperatorMap();
     bool NextWord(WordFwCursor &wordCursorRef);
+    // Friend declaration
+    friend class WordFwCursor;
 };
 
 //---------------------------------------------------------------------
 // Inline methods - WordParser
 //---------------------------------------------------------------------
+inline void WordParser::SetExprWorkSpace(ExprWorkSpace *pExprWorkSpace)
+{
+    _pCurExprWS = pExprWorkSpace;
+}
+
 inline WordParser::OperatorMap_t& WordParser::GetOperatorMap() 
 {
     if (!s_IsInitialized)

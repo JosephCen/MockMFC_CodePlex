@@ -1,6 +1,7 @@
 #ifndef ExprWorkSpace_H
 #define ExprWorkSpace_H
 
+#include "ClsPreDeclaration.h"
 #include "VariableSet.h"
 #include "WordParser.h"
 #include "ExprILCode.h"
@@ -8,13 +9,6 @@
 #include <vector>
 #include <string>
 #include <sstream>
-
-//---------------------------------------------------------------------
-// class declaration
-//---------------------------------------------------------------------
-class ExprILCodeSegment;
-
-class ExprWorkSpace;
 
 //---------------------------------------------------------------------
 // ExprILCodeSegment - class
@@ -79,6 +73,7 @@ private :
     ExprWorkSpace(const ExprWorkSpace&);
     // Friend declaration
     friend class ExprILCodeSegment;
+    friend class WordParser;
 };
 
 #endif

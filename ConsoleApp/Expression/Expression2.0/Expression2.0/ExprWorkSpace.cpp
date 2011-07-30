@@ -29,6 +29,7 @@ ExprErrHolder(), _pWorkSpace(pWorkSpace), _ILCodeVec()
 ExprILCodeSegment::~ExprILCodeSegment()
 {
     _pWorkSpace->RemoveILCodeSegment(this);
+    _pWorkSpace = NULL;
     for (ILCodeIter_t codeIter = _ILCodeVec.begin(); _ILCodeVec.end() != codeIter; ++codeIter)
         delete *codeIter;
 }
@@ -46,14 +47,14 @@ bool ExprILCodeSegment::Run(Variable **ppVariable)
         state &= (*codeIter)->RunCode(&runState);
     }
 
-    if (state)
-    {
-        if (1 == runState.GetVariableStack()->Count())
+    if (state) {
+        if (1 == runState.GetVariableStack()->Count()) {
             *ppVariable = runState.GetVariableStack()->DupTopVar();
+            _pWorkSpace->_GlobalVarSet.InsertVar("Ans", *ppVariable);
+        }
         // TODO: add else part (Given a default empty return Variable)
     }
-    else
-    {
+    else {
         // Collect all error info generate during run
         this->MergeError(runState);
     }
@@ -84,7 +85,9 @@ string ExprILCodeSegment::ToString() const
 //---------------------------------------------------------------------
 ExprWorkSpace::ExprWorkSpace() :
 ExprErrHolder(), _GlobalVarSet(), _WordParser(), _ILCodeSegmentSet(), _IsDesructing(false)
-{ }
+{
+    _WordParser.SetExprWorkSpace(this);
+}
 
 ExprWorkSpace::~ExprWorkSpace()
 {
@@ -109,11 +112,20 @@ bool ExprWorkSpace::ParseILCodeSegment(const std::string &codeStr, ExprILCodeSeg
         if (startNT.Parse(exprContext, wordCursor)) {
             ExprILCodeSegment *pILSegment = new ExprILCodeSegment(this);
 
-            _ILCodeSegmentSet.push_back(pILSegment);
             startNT.AppendILSegment(*pILSegment);
-            *ppILSegment = pILSegment;
+            if (pILSegment->Length() > 0) {
+                _ILCodeSegmentSet.push_back(pILSegment);
+                *ppILSegment = pILSegment;
 
-            return true;
+                return true;
+            }
+            else {
+                delete pILSegment;
+                pILSegment = NULL;
+                this->SetError("Empty code string");
+
+                return false;
+            }
         }
     }
     // Collect all error info generate during run

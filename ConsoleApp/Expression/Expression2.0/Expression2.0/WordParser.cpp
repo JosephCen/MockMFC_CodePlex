@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WordParser.h"
+#include "ExprWorkSpace.h"
 #include <exception>
 using std::exception;
 #include <string>
@@ -136,7 +137,8 @@ WordParser* WordParser::GetDefaultParserPtr()
     return s_pDefaultParser;
 }
 
-WordParser::WordParser(void)
+WordParser::WordParser(void):
+_pCurExprWS(NULL)
 { }
 
 WordFwCursor WordParser::GenWordFwCursor(const string &inputStr)
@@ -209,66 +211,6 @@ bool WordParser::NextWord(WordFwCursor &wordCursorRef)
     return (bool)newWord;
 }
 
-//bool WordParser::NextWord(void)
-//{
-//    _ASSERT(*this);
-//
-//    WordUnit newWord;
-//
-//    if (!IsEof()) {
-//        StrIter_t startIter = _CurStrIter;
-//        StrIter_t endIter = _CurStrIter;
-//        StrIter_t eofIter = _InputStr.end();
-//
-//        while (startIter != eofIter && isspace(*startIter))
-//            ++startIter;
-//        if (startIter != eofIter) {
-//            switch (GetNextWordEndIter(startIter, eofIter, endIter)) {
-//                case NST_Operator :
-//                    if (ParseOperator(string(startIter, endIter), newWord))
-//                        break;
-//                case NST_OperatorFail :
-//                    SetError(startIter, "Fail to parse a operator");
-//                    break;
-//                case NST_FuncVar :
-//                    if (ParseFuncVar(string(startIter, endIter), newWord))
-//                        break;
-//                case NST_FuncVarFail :
-//                    SetError(startIter, "Fail to parse a function or variable");
-//                    break;
-//                case NST_RealVal :
-//                    if (strchr("+-", *startIter) && _CurWordUnit && (strchr("])", *(startIter - 1)) || WT_RealValue == _CurWordUnit.WordType())) {
-//                        endIter = startIter + 1;
-//                        ParseOperator(string(startIter, endIter), newWord);
-//                        break;
-//                    }
-//                    else {
-//                        if (ParseRealVal(string(startIter, endIter), newWord))
-//                            break;
-//                    }
-//                case NST_RealValFail :
-//                    SetError(startIter, "Fail to parse a real value");
-//                    break;
-//                case NST_UnknowFail :
-//                    SetError(startIter, "A unknow parse fail happend");
-//                    break;
-//            }
-//
-//            if (!_IsErrorState) {
-//                _CurWordUnit = newWord;
-//                _CurStrIter = endIter;
-//            }
-//        }
-//        else {
-//            newWord = WordUnit(WT_Eof);
-//            _CurWordUnit = newWord;
-//            _CurStrIter = eofIter;
-//        }
-//    }
-//
-//    return newWord;
-//}
-
 //void WordParser::SetError(StrIter_t iter, const char *errorCh)
 //{
 //    _ASSERT(!_IsErrorState);
@@ -304,7 +246,14 @@ bool WordParser::ParseFuncVar(const string &str, WordUnit &wordRef)
     _ASSERT(str.length() != 0);
 
     // TODO: Parse a defined function or variable
-    wordRef = WordUnit(WT_UndefFuncVal, str);
+    if (NULL != _pCurExprWS) {
+        if (NULL != _pCurExprWS->_GlobalVarSet.SearchVar(str))
+            wordRef = WordUnit(WT_DefVariable, str);
+        else
+            wordRef = WordUnit(WT_UndefFuncVal, str);
+    }
+    else
+        wordRef = WordUnit(WT_UndefFuncVal, str);
 
     return true;
 }

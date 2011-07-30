@@ -139,7 +139,15 @@ void VariableSet::InsertVar(const std::string &varName, Variable *pVariable)
 
     if (foundIter != _VariableMap.end())
         delete foundIter->second;
-    foundIter->second = pVariable;
+    _VariableMap[varName] = pVariable;
+}
+
+void VariableSet::InsertVar(const char *pCStrVarName, Variable *pVariable)
+{
+    _ASSERT(NULL != pCStrVarName);
+    _ASSERT(NULL != pVariable);
+
+    InsertVar(string(pCStrVarName), pVariable);
 }
 
 void VariableSet::RemoveVar(const std::string &varName)
