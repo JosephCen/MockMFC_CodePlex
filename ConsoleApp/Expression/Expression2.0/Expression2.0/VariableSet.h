@@ -178,6 +178,7 @@ public :
     // Methods
     Variable* SearchVar(const std::string &varName);
     void InsertVar(const std::string &varName, Variable *pVariable);
+    void InsertVar(const char *pCStrVarName, Variable *pVariable);
     void RemoveVar(const std::string &varName);
 private :
     // Do not allow to copy constructor

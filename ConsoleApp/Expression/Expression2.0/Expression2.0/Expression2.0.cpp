@@ -97,7 +97,6 @@ int _tmain(int argc, _TCHAR* argv[])
                 cout << "Result: " << endl;
                 cout << resultStr << endl;
 
-                delete pVariable;
                 pVariable = NULL;
             }
             else
@@ -114,6 +113,7 @@ int _tmain(int argc, _TCHAR* argv[])
             cout << errorStr << endl;
         }
     }
+    cin.clear();
 
 	return 0;
 }
