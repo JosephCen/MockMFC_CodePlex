@@ -95,6 +95,22 @@ public :
 };
 
 //---------------------------------------------------------------------
+// PushDefValILCode - class
+//---------------------------------------------------------------------
+class PushDefValILCode : public ExprILCode
+{
+private :
+    std::string _DefValName;
+public :
+    // Constructor
+    explicit PushDefValILCode(const std::string &defValName);
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual bool RunCode(ExprILRunState *pILRunState);
+    virtual void ToString(std::ostream *pOStream) const;
+};
+
+//---------------------------------------------------------------------
 // RealValBinaryOperILCode - class
 //---------------------------------------------------------------------
 class RealValBinaryOperILCode : public ExprILCode

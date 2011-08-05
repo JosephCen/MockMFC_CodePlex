@@ -106,6 +106,40 @@ void PushRealValILCode::ToString(ostream *pOStream) const
 }
 
 //---------------------------------------------------------------------
+// PushDefValILCode - class
+//---------------------------------------------------------------------
+PushDefValILCode::PushDefValILCode(const string &defValName) :
+_DefValName(defValName)
+{ }
+
+ExprILCodeEnum PushDefValILCode::GetCodeEnum() const
+{
+    return EIL_PushDefVal;
+}
+
+bool PushDefValILCode::RunCode(ExprILRunState *pILRunState)
+{
+    Variable *pVariable = NULL;
+
+    pVariable = pILRunState->GetVariableSet()->SearchVar(_DefValName);
+    if (NULL != pVariable) {
+        pILRunState->GetVariableStack()->PushVar(pVariable->Duplicate());
+
+        return true;
+    }
+    else {
+        pILRunState->SetError("Defined variable cannot be found.");
+    }
+
+    return false;
+}
+
+void PushDefValILCode::ToString(std::ostream *pOStream) const
+{
+    *pOStream << "PushDefVal " << _DefValName;
+}
+
+//---------------------------------------------------------------------
 // Class member - RealValBinaryOperILCode
 //---------------------------------------------------------------------
 RealValBinaryOperILCode::RealValBinaryOperILCode()
@@ -304,13 +338,14 @@ bool MatrixBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
     Variable *pVariableR = NULL;
     Variable *pVariableL = NULL;
 
-    if (MatrixVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableR)
-        && MatrixVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableL, 1)) {
-            if (DoOperator((MatrixVariable*)pVariableL, (MatrixVariable*)pVariableR, pILRunState)) {
-                GetVariableStack(pILRunState)->RemoveTopVar();
+    GetVariableStack(pILRunState)->TopVar(&pVariableR);
+    GetVariableStack(pILRunState)->TopVar(&pVariableL, 1);
+    if (MatrixVariable::TypeId == pVariableR->GetTypeId() && MatrixVariable::TypeId == pVariableL->GetTypeId()) {
+        if (DoOperator((MatrixVariable*)pVariableL, (MatrixVariable*)pVariableR, pILRunState)) {
+            GetVariableStack(pILRunState)->RemoveTopVar();
 
-                return true;
-            }
+            return true;
+        }
     }
     
     return false;
@@ -527,13 +562,14 @@ bool MatrixValBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
     Variable *pVariableR = NULL;
     Variable *pVariableL = NULL;
 
-    if (MatrixVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableR)
-        && RealVariable::TypeId == GetVariableStack(pILRunState)->TopVar(&pVariableL, 1)) {
-            if (DoOperator((MatrixVariable*)pVariableL, (RealVariable*)pVariableR, pILRunState)) {
-                GetVariableStack(pILRunState)->RemoveTopVar();
+    GetVariableStack(pILRunState)->TopVar(&pVariableR);
+    GetVariableStack(pILRunState)->TopVar(&pVariableL, 1);
+    if (RealVariable::TypeId == pVariableR->GetTypeId() && MatrixVariable::TypeId == pVariableL->GetTypeId()) {
+        if (DoOperator((MatrixVariable*)pVariableL, (RealVariable*)pVariableR, pILRunState)) {
+            GetVariableStack(pILRunState)->RemoveTopVar();
 
-                return true;
-            }
+            return true;
+        }
     }
     else
     {

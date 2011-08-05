@@ -13,6 +13,7 @@ enum ExprILCodeEnum
     EIL_NUL = -1,
     EIL_PushInteger,
     EIL_PushRealVal,
+    EIL_PushDefVal,
     EIL_RealValPlus,
     EIL_RealValMinus,
     EIL_RealValMultiply,
