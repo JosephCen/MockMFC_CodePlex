@@ -4,10 +4,10 @@
 #include "DoubleComparison.h"
 #include <stdio.h>
 #include <vector>
-using std::vector;
 #include <string>
-using std::string;
+#include <sstream>
 #include <crtdbg.h>
+using namespace std;
 
 Matrix::Matrix() : 
 _Rows(0), _Cols(0), _ValueVec()
@@ -66,7 +66,7 @@ Matrix& Matrix::DotAssignmentOperator(const Matrix &matrix, char operCh)
             case '/' :
                 for (Row_Col_t i = 0; i < valueVecLen; ++i)
                 {
-                    if (DOUBLE_EQZ(matrix._ValueVec[i]))
+                    if (DOUBLE_NEQZ(matrix._ValueVec[i]))
                         _ValueVec[i] /= matrix._ValueVec[i];
                     else
                         throw ExprException("The right matrix of './' (dot divide) contains Zero.");
@@ -444,58 +444,42 @@ void Matrix::ElementaryTransferC(Matrix::Row_Col_t cIdx1, Matrix::Row_Col_t cIdx
 
 string Matrix::ToString() const
 {
-    string tempStr;
-    string resultStr;
-    const int bufferLen = 20;
-    char buffer[bufferLen];
+    vector<ostringstream::pos_type> posVec;
+    ostringstream strStream;
+    string::size_type maxStrLen = 0;
 
-    string::size_type maxValueLen = 0;
-    for (Row_Col_t r = 0; r < _Rows; ++r) {
-        vector<RealVal_t>::const_iterator valIter = _ValueVec.begin() + r*_Cols;
-        for (Row_Col_t c = 0; c < _Cols; ++c) {
-            if (DOUBLE_NEQZ(*valIter)) {
-#ifdef _DEBUG
-                _ASSERT(sprintf(buffer, "%f", *valIter) < bufferLen);
-#else
-                sprintf(buffer, "%f", *valIter);
-#endif
-                char *chPtr = buffer + strlen(buffer);
-                while ('0' == *(--chPtr))
-                    ;
-                if ('.' == *chPtr)
-                    *chPtr = '\0';
-                else
-                    *(++chPtr) = '\0';
+    strStream << ' ';
+    posVec.push_back(strStream.tellp());
+    for (RealValCIter_t iter = _ValueVec.begin(); iter != _ValueVec.end(); ++iter)
+    {
+        ostringstream::pos_type sPos = strStream.tellp();
 
-                tempStr.append(buffer);
-            }
-            else {
-                tempStr.append("0");
-            }
-            tempStr.append(1, '|');
-            if (strlen(buffer) > maxValueLen) maxValueLen = strlen(buffer);
+        strStream << *iter;
+        posVec.push_back(strStream.tellp());
 
-            ++valIter;
+        string::size_type curStrLen = strStream.tellp() - sPos;
+
+        maxStrLen = (curStrLen > maxStrLen ? curStrLen : maxStrLen); // Get max double string length
+    }
+
+    string spaceStr(maxStrLen, ' ');
+    string valStr(strStream.str());
+
+    strStream.str("");
+    for (Row_Col_t r = 0; r < _Rows; ++r)
+    {
+        Row_Col_t rSIdx = r * _Cols;
+        for (Row_Col_t c = 0; c < _Cols; ++c)
+        {
+            ostringstream::pos_type strSIdx = posVec[rSIdx + c];
+            ostringstream::pos_type strEIdx = posVec[rSIdx + c + 1];
+
+            strStream.put(' ');
+            strStream.write(spaceStr.c_str(), (maxStrLen - (strEIdx - strSIdx)));
+            strStream.write(valStr.c_str() + strSIdx, (strEIdx - strSIdx));
         }
+        strStream.put('\n');
     }
 
-    // Generate final result string;
-    ++maxValueLen;
-    Row_Col_t valueStrIdx = 0;
-    for (string::const_iterator strIter_1 = tempStr.begin(); strIter_1 != tempStr.end(); ) {
-        string::const_iterator strIter_2 = strIter_1;
-        while ('|' != *strIter_2)
-            ++strIter_2;
-
-        resultStr.append(maxValueLen - (strIter_2 - strIter_1), ' ');
-        resultStr.append(strIter_1, strIter_2);
-
-        if (0 == (++valueStrIdx % _Cols))
-            resultStr.append(1, '\n');
-
-        strIter_1 = strIter_2 + 1;
-    }
-    resultStr.erase(resultStr.length() - 1, 1);
-
-    return resultStr;
+    return (strStream.str());
 }

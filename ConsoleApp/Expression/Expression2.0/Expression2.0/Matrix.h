@@ -42,6 +42,7 @@ public :
     std::string ToString() const;
     bool IsSingleValue() const;
     RealVal_t At(Row_Col_t rows, Row_Col_t cols) const;
+    RealVal_t& At(Row_Col_t rows, Row_Col_t cols);
     void Swap(Matrix &matrix);
     void Swap(RowCol_t rowcol, RealValVec_t &realValVecRef);
     // Override Operators
@@ -95,6 +96,11 @@ inline bool Matrix::IsSingleValue() const
 }
 
 inline Matrix::RealVal_t Matrix::At(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols) const
+{
+    return (_ValueVec[rows * _Cols + cols]);
+}
+
+inline Matrix::RealVal_t& Matrix::At(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols)
 {
     return (_ValueVec[rows * _Cols + cols]);
 }
