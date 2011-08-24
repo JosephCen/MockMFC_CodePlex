@@ -6,15 +6,11 @@
 #include "NonTerminal.h"
 #include "ExprILCode.h"
 #include <vector>
-using std::vector;
 #include <algorithm>
-using std::find;
 #include <string>
-using std::string;
 #include <sstream>
-using std::ostream;
-using std::ostringstream;
 #include <crtdbg.h>
+using namespace std;
 
 
 //---------------------------------------------------------------------
@@ -30,8 +26,11 @@ ExprILCodeSegment::~ExprILCodeSegment()
 {
     _pWorkSpace->RemoveILCodeSegment(this);
     _pWorkSpace = NULL;
-    for (ILCodeIter_t codeIter = _ILCodeVec.begin(); _ILCodeVec.end() != codeIter; ++codeIter)
-        delete *codeIter;
+    for (ILCodeIter_t codeIter = _ILCodeVec.begin(); _ILCodeVec.end() != codeIter; ++codeIter) {
+        if (this == (*codeIter)->GetOwner())
+            delete *codeIter;
+        *codeIter = NULL;
+    }
 }
 
 bool ExprILCodeSegment::Run(Variable **ppVariable)

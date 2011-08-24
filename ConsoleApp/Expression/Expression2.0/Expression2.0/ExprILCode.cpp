@@ -3,13 +3,10 @@
 #include "ExprException.h"
 #include "DoubleComparison.h"
 #include <vector>
-using std::vector;
 #include <string>
-using std::string;
 #include <sstream>
-using std::ostream;
-using std::ostringstream;
 #include <crtdbg.h>
+using namespace std;
 
 //---------------------------------------------------------------------
 // Class member - ExprILRunState
@@ -36,11 +33,17 @@ ExprILRunState::~ExprILRunState()
 //---------------------------------------------------------------------
 // Class member - ExprILCode
 //---------------------------------------------------------------------
-ExprILCode::ExprILCode()
+ExprILCode::ExprILCode(bool bShared) :
+_pOwner(NULL)
 { }
 
 ExprILCode::~ExprILCode()
 { }
+
+ResultTypeEnum ExprILCode::GetReturnType(void) const
+{
+    return RT_None;
+}
 
 string ExprILCode::ToString() const
 {
@@ -61,6 +64,11 @@ _IntValue(intValue)
 ExprILCodeEnum PushIntegerILCode::GetCodeEnum() const
 {
     return EIL_PushInteger;
+}
+
+ResultTypeEnum PushIntegerILCode::GetReturnType(void) const
+{
+    return RT_Integer;
 }
 
 bool PushIntegerILCode::RunCode(ExprILRunState *pILRunState)
@@ -88,6 +96,11 @@ _RealValue(realValue)
 ExprILCodeEnum PushRealValILCode::GetCodeEnum() const
 {
     return EIL_PushRealVal;
+}
+
+ResultTypeEnum PushRealValILCode::GetReturnType(void) const
+{
+    return RT_RealVal;
 }
 
 bool PushRealValILCode::RunCode(ExprILRunState *pILRunState)
@@ -140,10 +153,61 @@ void PushDefValILCode::ToString(std::ostream *pOStream) const
 }
 
 //---------------------------------------------------------------------
+// ReverseBinaryOperILCode - class
+//---------------------------------------------------------------------
+ReverseBinaryOperILCode::ReverseBinaryOperILCode(ExprILCode *pBinaryILCode) :
+_pBinaryILCode(pBinaryILCode)
+{
+    _ASSERT(NULL != pBinaryILCode);
+}
+
+ReverseBinaryOperILCode::~ReverseBinaryOperILCode()
+{
+    delete _pBinaryILCode;
+    _pBinaryILCode = NULL;
+}
+
+ExprILCodeEnum ReverseBinaryOperILCode::GetCodeEnum() const
+{
+    return (_pBinaryILCode->GetCodeEnum());
+}
+
+ResultTypeEnum ReverseBinaryOperILCode::GetReturnType(void) const
+{
+    return (_pBinaryILCode->GetReturnType());
+}
+
+bool ReverseBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
+{
+    _ASSERT(GetVariableStack(pILRunState)->Count() >= 2);
+
+    Variable *pVariable1 = NULL;
+    Variable *pVariable2 = NULL;
+
+    GetVariableStack(pILRunState)->PopVar(&pVariable1);
+    GetVariableStack(pILRunState)->PopVar(&pVariable2);
+    GetVariableStack(pILRunState)->PushVar(pVariable1);
+    GetVariableStack(pILRunState)->PushVar(pVariable2);
+
+    return (_pBinaryILCode->RunCode(pILRunState));
+}
+
+void ReverseBinaryOperILCode::ToString(ostream *pOStream) const
+{
+    *pOStream << "Reverse ";
+    _pBinaryILCode->ToString(pOStream);
+}
+
+//---------------------------------------------------------------------
 // Class member - RealValBinaryOperILCode
 //---------------------------------------------------------------------
-RealValBinaryOperILCode::RealValBinaryOperILCode()
+RealValBinaryOperILCode::RealValBinaryOperILCode(void)
 { }
+
+ResultTypeEnum RealValBinaryOperILCode::GetReturnType(void) const
+{
+    return RT_RealVal;
+}
 
 bool RealValBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 {
@@ -171,7 +235,7 @@ bool RealValBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 //---------------------------------------------------------------------
 // Class member - RealValPlusILCode
 //---------------------------------------------------------------------
-RealValPlusILCode::RealValPlusILCode()
+RealValPlusILCode::RealValPlusILCode(void)
 { }
 
 ExprILCodeEnum RealValPlusILCode::GetCodeEnum() const
@@ -194,7 +258,7 @@ void RealValPlusILCode::ToString(ostream *pOStream) const
 //---------------------------------------------------------------------
 // Class member - RealValMinusILCode
 //---------------------------------------------------------------------
-RealValMinusILCode::RealValMinusILCode()
+RealValMinusILCode::RealValMinusILCode(void)
 { }
 
 ExprILCodeEnum RealValMinusILCode::GetCodeEnum() const
@@ -217,7 +281,7 @@ void RealValMinusILCode::ToString(ostream *pOStream) const
 //---------------------------------------------------------------------
 // Class member - RealValMultiplyILCode
 //---------------------------------------------------------------------
-RealValMultiplyILCode::RealValMultiplyILCode()
+RealValMultiplyILCode::RealValMultiplyILCode(void)
 { }
 
 ExprILCodeEnum RealValMultiplyILCode::GetCodeEnum() const
@@ -240,7 +304,7 @@ void RealValMultiplyILCode::ToString(ostream *pOStream) const
 //---------------------------------------------------------------------
 // Class member - RealValDivideILCode
 //---------------------------------------------------------------------
-RealValDivideILCode::RealValDivideILCode()
+RealValDivideILCode::RealValDivideILCode(void)
 { }
 
 ExprILCodeEnum RealValDivideILCode::GetCodeEnum() const
@@ -284,6 +348,11 @@ CtorMatrixILCode::CtorMatrixILCode(Matrix::Row_Col_t rows, Matrix::Row_Col_t col
 ExprILCodeEnum CtorMatrixILCode::GetCodeEnum() const
 {
     return EIL_CtorMatrix;
+}
+
+ResultTypeEnum CtorMatrixILCode::GetReturnType(void) const
+{
+    return RT_Matrix;
 }
 
 bool CtorMatrixILCode::RunCode(ExprILRunState *pILRunState)
@@ -330,6 +399,11 @@ void CtorMatrixILCode::ToString(ostream *pOStream) const
 //---------------------------------------------------------------------
 MatrixBinaryOperILCode::MatrixBinaryOperILCode()
 { }
+
+ResultTypeEnum MatrixBinaryOperILCode::GetReturnType() const
+{
+    return RT_Matrix;
+}
 
 bool MatrixBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 {
@@ -554,6 +628,11 @@ void MatrixDotDivideILCode::ToString(ostream *pOStream) const
 //---------------------------------------------------------------------
 MatrixValBinaryOperILCode::MatrixValBinaryOperILCode()
 { }
+
+ResultTypeEnum MatrixValBinaryOperILCode::GetReturnType(void) const
+{
+    return RT_Matrix;
+}
 
 bool MatrixValBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 {

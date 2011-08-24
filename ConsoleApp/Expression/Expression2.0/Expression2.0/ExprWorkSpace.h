@@ -39,6 +39,7 @@ private :
 
 inline void ExprILCodeSegment::Append(ExprILCode *pILCode)
 {
+    pILCode->SetOwner(this);
     _ILCodeVec.push_back(pILCode);
 }
 

@@ -8,6 +8,7 @@
 #include "Matrix.h"
 #include "ExprException.h"
 #include "ExprAdapter.h"
+#include "FunctionSet.h"
 #include <crtdbg.h>
 
 //---------------------------------------------------------------------
@@ -28,6 +29,8 @@ protected :
     BaseNonTerminal(): _ResultType(RT_None) { }
     // Methods
     virtual ResultTypeEnum GetResultType(void) { _ASSERT(0); return RT_None; }
+    ExprILCode* FindExprILCode(const FuncParamsInfo &funcInfo);
+    ExprILCode* FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
 };
 
 //---------------------------------------------------------------------
@@ -129,7 +132,7 @@ class SubExprNT : public BaseNonTerminal
 {
 private :
     bool _IsFirstOne;
-    WordTypeEnum _OperatorWordType;
+    ExprILCode *_pExprILCode;
     TermNT _TermNT;
     SubExprNT *_pLeftOne;
 public :
@@ -144,9 +147,7 @@ public :
     // Destructor
     ~SubExprNT();
 private :
-    bool OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx);
-    void AppendPlusIL(ExprILCodeSegment &ilSegment);
-    void AppendMinusIL(ExprILCodeSegment &ilSegment);
+    bool OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx);
 protected :
     virtual ResultTypeEnum GetResultType(void);
 };
@@ -186,7 +187,7 @@ class SubTermNT : public BaseNonTerminal
 {
 private :
     bool _IsFirstOne;
-    WordTypeEnum _OperatorWordType;
+    ExprILCode *_pExprILCode;
     FactorNT _FactorNT;
     SubTermNT *_pLeftOne;
 public :
@@ -201,11 +202,7 @@ public :
     // Destructor
     ~SubTermNT();
 private :
-    bool OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx);
-    void AppendMultiplyIL(ExprILCodeSegment &ilSegment);
-    void AppendDotMultiplyIL(ExprILCodeSegment &ilSegment);
-    void AppendDivideIL(ExprILCodeSegment &ilSegment);
-    void AppendDotDivideIL(ExprILCodeSegment &ilSegment);
+    bool OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx);
 protected :
     virtual ResultTypeEnum GetResultType(void);
 };
