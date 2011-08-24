@@ -3,9 +3,9 @@
 #include "WordParser.h"
 #include "ExprILCode.h"
 #include "ExprWorkSpace.h"
-#include <list>
-using std::list;
+#include "ExprILHelper.h"
 #include <crtdbg.h>
+using namespace std;
 
 //---------------------------------------------------------------------
 // Class member - BaseNonTerminal
@@ -16,6 +16,18 @@ ResultTypeEnum BaseNonTerminal::ResultType(void)
         _ResultType = GetResultType();
 
     return _ResultType;
+}
+
+ExprILCode* BaseNonTerminal::FindExprILCode(const FuncParamsInfo &funcInfo)
+{
+    // TODO: Add logic of override operator
+
+    return ExprILHelper::FindOperatorILCode(funcInfo);
+}
+
+ExprILCode* BaseNonTerminal::FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType)
+{
+    return ExprILHelper::FindOperatorILCode(operWordType, lParamType, rParamType);
 }
 
 //---------------------------------------------------------------------
@@ -140,11 +152,11 @@ ResultTypeEnum ExprNT::GetResultType(void)
 // Class member - SubExprNT
 //---------------------------------------------------------------------
 SubExprNT::SubExprNT(void):
-_IsFirstOne(true), _pLeftOne(NULL), _OperatorWordType(WT_Nul), _TermNT(), BaseNonTerminal()
+_IsFirstOne(true), _pLeftOne(NULL), _pExprILCode(NULL), _TermNT(), BaseNonTerminal()
 { }
 
 SubExprNT::SubExprNT(SubExprNT *pLeftOne):
-_IsFirstOne(false), _pLeftOne(pLeftOne), _OperatorWordType(WT_Nul), _TermNT(), BaseNonTerminal()
+_IsFirstOne(false), _pLeftOne(pLeftOne), _pExprILCode(NULL), _TermNT(), BaseNonTerminal()
 {
     _ASSERT(NULL != pLeftOne);
 }
@@ -191,10 +203,11 @@ bool SubExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
         if (IsInFirstSet(wordCursorRef.CurrentWord().WordType(), false)) {
             int operatorWordIdx = wordCursorRef.CurrentIdx();
-            _OperatorWordType = wordCursorRef.CurrentWord().WordType();
+            WordTypeEnum operatorWordType = wordCursorRef.CurrentWord().WordType();
+
             isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
             isSuccess = isSuccess && _TermNT.Parse(exprContextRef, wordCursorRef);
-            isSuccess = isSuccess && OperatorValidate(exprContextRef, operatorWordIdx);
+            isSuccess = isSuccess && OperatorValidate(exprContextRef, operatorWordType, operatorWordIdx);
         }
         else {
             exprContextRef.SetError("Expect a plus or a minus operator.", wordCursorRef.CurrentIdx());
@@ -205,32 +218,20 @@ bool SubExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
     return isSuccess;
 }
 
-bool SubExprNT::OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx)
+bool SubExprNT::OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx)
 {
-    ResultTypeEnum resultType_L = _pLeftOne->ResultType();
-    ResultTypeEnum resultType_R = _TermNT.ResultType();
+    _pExprILCode = FindExprILCode(operWordType, _pLeftOne->ResultType(), _TermNT.ResultType());
 
-    if (resultType_L == resultType_R) {
-        if (WT_Minus == _OperatorWordType && RT_String == resultType_R) {
-            exprContextRef.SetError("Minus can not be done between two 'string' operand.", operatorWordIdx);
-
-            return false;
-        }
+    if (NULL != _pExprILCode) {
+        return true;
     }
     else {
-        if (RT_String == resultType_L || RT_String == resultType_R) {
-            exprContextRef.SetError("Plus or minus can not be done between a 'string' operand and a 'real value' or a 'matrix' operand.", operatorWordIdx);
+        string errStr = ExprILHelper::GenOperNotFoundErr(operWordType, _pLeftOne->ResultType(), _TermNT.ResultType());
 
-            return false;
-        }
-        if (WT_Minus == _OperatorWordType && (RT_RealVal == resultType_L || RT_Matrix == resultType_R)) {
-            exprContextRef.SetError("Can not minus a 'real value' by a 'matrix'.", operatorWordIdx);
+        exprContextRef.SetError(errStr.c_str(), operWordIdx);
 
-            return false;
-        }
+        return false;
     }
-
-    return true;
 }
 
 ResultTypeEnum SubExprNT::GetResultType(void)
@@ -241,18 +242,7 @@ ResultTypeEnum SubExprNT::GetResultType(void)
     else {
         _ASSERT(NULL != _pLeftOne);
 
-        ResultTypeEnum resultType_L = _pLeftOne->ResultType();
-        ResultTypeEnum resultType_R = _TermNT.ResultType();
-
-        if (resultType_L == resultType_R) {
-            return resultType_R;
-        }
-        else {
-            if (RT_Matrix == _pLeftOne->ResultType() || RT_Matrix == _TermNT.ResultType())
-            return RT_Matrix;
-        else
-            return RT_RealVal;
-        }
+        return (_pExprILCode->GetReturnType());
     }
 }
 
@@ -307,11 +297,11 @@ ResultTypeEnum TermNT::GetResultType(void)
 // Class member - SubTermNT
 //---------------------------------------------------------------------
 SubTermNT::SubTermNT(void):
-_IsFirstOne(true), _pLeftOne(NULL), _OperatorWordType(WT_Nul), _FactorNT(), BaseNonTerminal()
+_IsFirstOne(true), _pLeftOne(NULL), _pExprILCode(NULL), _FactorNT(), BaseNonTerminal()
 { }
 
 SubTermNT::SubTermNT(SubTermNT *pLeftOne):
-_IsFirstOne(false), _pLeftOne(pLeftOne), _OperatorWordType(WT_Nul), _FactorNT(), BaseNonTerminal()
+_IsFirstOne(false), _pLeftOne(pLeftOne), _pExprILCode(NULL), _FactorNT(), BaseNonTerminal()
 {
     _ASSERT(NULL != pLeftOne);
 }
@@ -363,10 +353,11 @@ bool SubTermNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
         if (IsInFirstSet(wordCursorRef.CurrentWord().WordType(), false)) {
             int operatorWordIdx = wordCursorRef.CurrentIdx();
-            _OperatorWordType = wordCursorRef.CurrentWord().WordType();
+            WordTypeEnum operatorWordType = wordCursorRef.CurrentWord().WordType();
+
             isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
             isSuccess = isSuccess && _FactorNT.Parse(exprContextRef, wordCursorRef);
-            isSuccess = isSuccess && OperatorValidate(exprContextRef, operatorWordIdx);
+            isSuccess = isSuccess && OperatorValidate(exprContextRef, operatorWordType, operatorWordIdx);
         }
         else {
             exprContextRef.SetError("Expect a divide or a multiply operator.", wordCursorRef.CurrentIdx());
@@ -377,39 +368,20 @@ bool SubTermNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
     return isSuccess;
 }
 
-bool SubTermNT::OperatorValidate(ExprContext &exprContextRef, int operatorWordIdx)
+bool SubTermNT::OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx)
 {
-    ResultTypeEnum resultType_L = _pLeftOne->ResultType();
-    ResultTypeEnum resultType_R = _FactorNT.ResultType();
+    _pExprILCode = FindExprILCode(operWordType, _pLeftOne->ResultType(), _FactorNT.ResultType());
 
-    if (RT_String == resultType_L || RT_String == resultType_R) {
-        exprContextRef.SetError("Divide or multiply operator can not take a 'string' operand.", operatorWordIdx);
-        
+    if (NULL != _pExprILCode) {
+        return true;
+    }
+    else {
+        string errStr = ExprILHelper::GenOperNotFoundErr(operWordType, _pLeftOne->ResultType(), _FactorNT.ResultType());
+
+        exprContextRef.SetError(errStr.c_str(), operWordIdx);
+
         return false;
     }
-    if (WT_DotMultiply == _OperatorWordType) {
-        if ((RT_Matrix == resultType_L && RT_RealVal == resultType_R) || RT_RealVal == resultType_L && RT_Matrix == resultType_R) {
-            exprContextRef.SetError("Dot multiply operator can not be done between a 'real value' operand and a 'matrix' operand.", operatorWordIdx);
-        
-            return false;
-        }
-    }
-    if (WT_DotDivide == _OperatorWordType) {
-        if ((RT_Matrix == resultType_L && RT_RealVal == resultType_R) || RT_RealVal == resultType_L && RT_Matrix == resultType_R) {
-            exprContextRef.SetError("Dot divide operator can not be done between a 'real value' operand and a 'matrix' operand.", operatorWordIdx);
-        
-            return false;
-        }
-    }
-    if (WT_Divide == _OperatorWordType) {
-        if (RT_RealVal == resultType_L && RT_Matrix == resultType_R) {
-            exprContextRef.SetError("Can not divide a 'real value' by a 'matrix' divisor.", operatorWordIdx);
-
-            return false;
-        }
-    }
-
-    return true;
 }
 
 ResultTypeEnum SubTermNT::GetResultType(void)
@@ -420,10 +392,7 @@ ResultTypeEnum SubTermNT::GetResultType(void)
     else {
         _ASSERT(NULL != _pLeftOne);
 
-        if (RT_Matrix == _pLeftOne->ResultType() || RT_Matrix == _FactorNT.ResultType())
-            return RT_Matrix;
-        else
-            return RT_RealVal;
+        return (_pExprILCode->GetReturnType());
     }
 }
 
@@ -726,97 +695,14 @@ ExprILCodeSegment& SubExprNT::AppendILSegment(ExprILCodeSegment &ilSegment)
     }
     else {
         _ASSERT(NULL != _pLeftOne);
+        _ASSERT(NULL != _pExprILCode);
 
-        switch (_OperatorWordType) {
-            case WT_Plus :
-                AppendPlusIL(ilSegment);
-                break;
-            case WT_Minus :
-                AppendMinusIL(ilSegment);
-                break;
-            default :
-                _ASSERT(0);
-                break;
-        }
+        _pLeftOne->AppendILSegment(ilSegment);
+        _TermNT.AppendILSegment(ilSegment);
+        ilSegment.Append(_pExprILCode);
     }
 
     return ilSegment;
-}
-
-void SubExprNT::AppendPlusIL(ExprILCodeSegment &ilSegment)
-{
-    _ASSERT(WT_Plus == _OperatorWordType);
-
-    ResultTypeEnum resultType_L = _pLeftOne->ResultType();
-    ResultTypeEnum resultType_R = _TermNT.ResultType();
-
-    switch (resultType_L) {
-        case RT_Matrix :
-            if (RT_Matrix == resultType_R) {
-                _pLeftOne->AppendILSegment(ilSegment);
-                _TermNT.AppendILSegment(ilSegment);
-                ilSegment.Append(new MatrixPlusILCode());
-            }
-            else {
-                _pLeftOne->AppendILSegment(ilSegment);
-                _TermNT.AppendILSegment(ilSegment);
-                ilSegment.Append(new MatrixValPlusILCode());
-            }
-            break;
-        case RT_RealVal :
-            if (RT_Matrix == resultType_R) {
-                _TermNT.AppendILSegment(ilSegment);
-                _pLeftOne->AppendILSegment(ilSegment);
-                ilSegment.Append(new MatrixValPlusILCode());
-            }
-            else {
-                _pLeftOne->AppendILSegment(ilSegment);
-                _TermNT.AppendILSegment(ilSegment);
-                ilSegment.Append(new RealValPlusILCode());
-            }
-            break;
-        case RT_String :
-            _ASSERT(resultType_L == resultType_R);
-            // TODO: String add operation.
-            break;
-        default :
-            _ASSERT(0);
-            break;
-    }
-}
-
-void SubExprNT::AppendMinusIL(ExprILCodeSegment &ilSegment)
-{
-    _ASSERT(WT_Minus == _OperatorWordType);
-
-    ResultTypeEnum resultType_L = _pLeftOne->ResultType();
-    ResultTypeEnum resultType_R = _TermNT.ResultType();
-
-    _ASSERT(RT_String != resultType_L && RT_String != resultType_R);
-
-    if (RT_Matrix == resultType_L) {
-        if (RT_Matrix == resultType_R) {
-            _pLeftOne->AppendILSegment(ilSegment);
-            _TermNT.AppendILSegment(ilSegment);
-            ilSegment.Append(new MatrixMinusILCode());
-        }
-        else {
-            _pLeftOne->AppendILSegment(ilSegment);
-            _TermNT.AppendILSegment(ilSegment);
-            ilSegment.Append(new MatrixValMinusILCode());
-        }
-    }
-    else {
-        if (RT_Matrix == resultType_R) {
-            // Can not minus a 'real value' by a 'matrix'
-            _ASSERT(0);
-        }
-        else {
-            _pLeftOne->AppendILSegment(ilSegment);
-            _TermNT.AppendILSegment(ilSegment);
-            ilSegment.Append(new RealValMinusILCode());
-        }
-    }
 }
 
 //---------------------------------------------------------------------
@@ -839,115 +725,14 @@ ExprILCodeSegment& SubTermNT::AppendILSegment(ExprILCodeSegment &ilSegment)
     }
     else {
         _ASSERT(NULL != _pLeftOne);
+        _ASSERT(NULL != _pExprILCode);
 
-        switch (_OperatorWordType) {
-            case WT_Multiply :
-                AppendMultiplyIL(ilSegment);
-                break;
-            case WT_DotMultiply:
-                AppendDotMultiplyIL(ilSegment);
-                break;
-            case WT_Divide :
-                AppendDivideIL(ilSegment);
-                break;
-            case WT_DotDivide :
-                AppendDotDivideIL(ilSegment);
-                break;
-            default :
-                _ASSERT(0);
-                break;
-        }
+        _pLeftOne->AppendILSegment(ilSegment);
+        _FactorNT.AppendILSegment(ilSegment);
+        ilSegment.Append(_pExprILCode);
     }
 
     return ilSegment;
-}
-
-void SubTermNT::AppendMultiplyIL(ExprILCodeSegment &ilSegment)
-{
-    _ASSERT(WT_Multiply == _OperatorWordType);
-
-    ResultTypeEnum resultType_L = _pLeftOne->ResultType();
-    ResultTypeEnum resultType_R = _FactorNT.ResultType();
-
-    if (RT_Matrix == resultType_L) {
-        if (RT_Matrix == resultType_R) {
-            _pLeftOne->AppendILSegment(ilSegment);
-            _FactorNT.AppendILSegment(ilSegment);
-            ilSegment.Append(new MatrixMultiplyILCode());
-        }
-        else {
-            _pLeftOne->AppendILSegment(ilSegment);
-            _FactorNT.AppendILSegment(ilSegment);
-            ilSegment.Append(new MatrixValMultiplyILCode());
-        }
-    }
-    else {
-        if (RT_Matrix == resultType_R) {
-            _FactorNT.AppendILSegment(ilSegment);
-            _pLeftOne->AppendILSegment(ilSegment);
-            ilSegment.Append(new MatrixValMultiplyILCode());
-        }
-        else {
-            _pLeftOne->AppendILSegment(ilSegment);
-            _FactorNT.AppendILSegment(ilSegment);
-            ilSegment.Append(new RealValMultiplyILCode());
-        }
-    }
-}
-
-void SubTermNT::AppendDotMultiplyIL(ExprILCodeSegment &ilSegment)
-{
-    _ASSERT(WT_DotMultiply == _OperatorWordType);
-
-    _pLeftOne->AppendILSegment(ilSegment);
-    _FactorNT.AppendILSegment(ilSegment);
-
-    _ASSERT(_pLeftOne->ResultType() == _FactorNT.ResultType());
-
-    if (RT_Matrix == _pLeftOne->ResultType())
-        ilSegment.Append(new MatrixDotMultiplyILCode());
-    if (RT_RealVal == _pLeftOne->ResultType())
-        ilSegment.Append(new RealValMultiplyILCode());
-}
-
-void SubTermNT::AppendDivideIL(ExprILCodeSegment &ilSegment)
-{
-    _ASSERT(WT_Divide == _OperatorWordType);
-
-    ResultTypeEnum resultType_L = _pLeftOne->ResultType();
-    ResultTypeEnum resultType_R = _FactorNT.ResultType();
-
-    _pLeftOne->AppendILSegment(ilSegment);
-    _FactorNT.AppendILSegment(ilSegment);
-
-    if (RT_Matrix == resultType_L) {
-        if (RT_Matrix == resultType_R)
-            ilSegment.Append(new MatrixDivideILCode());
-        else
-            ilSegment.Append(new MatrixValDivideILCode());
-    }
-    else {
-        if (RT_Matrix == resultType_R)
-            // This is invalid. Relative check is done in Method 'SubTermNT::OperatorValidate'.;
-            _ASSERT(0);
-        else
-            ilSegment.Append(new RealValDivideILCode());
-    }
-}
-
-void SubTermNT::AppendDotDivideIL(ExprILCodeSegment &ilSegment)
-{
-    _ASSERT(WT_DotDivide == _OperatorWordType);
-
-    _pLeftOne->AppendILSegment(ilSegment);
-    _FactorNT.AppendILSegment(ilSegment);
-
-    _ASSERT(_pLeftOne->ResultType() == _FactorNT.ResultType());
-
-    if (RT_Matrix == _pLeftOne->ResultType())
-        ilSegment.Append(new MatrixDotDivideILCode());
-    if (RT_RealVal == _pLeftOne->ResultType())
-        ilSegment.Append(new RealValDivideILCode());
 }
 
 //---------------------------------------------------------------------

@@ -13,9 +13,10 @@
 class ExprILRunState : public ExprErrHolder
 {
 private :
-    bool  _IsNewVarSet;
     VariableSet *_pVarSet;
     VariableStack _VarStack;
+protected :
+    bool _IsNewVarSet;
 public :
     // Constructor
     ExprILRunState(VariableSet *pVarSet, bool isNewVarSet);
@@ -44,18 +45,34 @@ inline VariableStack* ExprILRunState::GetVariableStack()
 class ExprILCode
 {
 private :
+    void* _pOwner;
 public :
-    // Constructor
-    ExprILCode();
+    // Deconstructor
     virtual ~ExprILCode();
     // Methods
+    void SetOwner(void* pOwner);
+    void* GetOwner();
     virtual ExprILCodeEnum GetCodeEnum() const = 0;
+    virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState) = 0;
     virtual void ToString(std::ostream *pOStream) const = 0;
     std::string ToString() const;
 protected :
+    // Constructor
+    explicit ExprILCode(bool bShared = false);
     static VariableStack* GetVariableStack(ExprILRunState *pILRunState);
 };
+
+inline void ExprILCode::SetOwner(void* pOwner)
+{
+    if (NULL == _pOwner)
+        _pOwner = pOwner;
+}
+
+inline void* ExprILCode::GetOwner()
+{
+    return _pOwner;
+}
 
 inline VariableStack* ExprILCode::GetVariableStack(ExprILRunState *pILRunState)
 {
@@ -74,6 +91,7 @@ public :
     explicit PushIntegerILCode(int intValue);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
 };
@@ -90,6 +108,7 @@ public :
     explicit PushRealValILCode(Matrix::RealVal_t realValue);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
 };
@@ -111,17 +130,36 @@ public :
 };
 
 //---------------------------------------------------------------------
+// ReverseBinaryOperILCode - class
+//---------------------------------------------------------------------
+class ReverseBinaryOperILCode : public ExprILCode
+{
+private :
+    ExprILCode *_pBinaryILCode;
+public :
+    // Constructor
+    explicit ReverseBinaryOperILCode(ExprILCode *pBinaryILCode);
+    virtual ~ReverseBinaryOperILCode();
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ResultTypeEnum GetReturnType(void) const;
+    virtual bool RunCode(ExprILRunState *pILRunState);
+    virtual void ToString(std::ostream *pOStream) const;
+};
+
+//---------------------------------------------------------------------
 // RealValBinaryOperILCode - class
 //---------------------------------------------------------------------
 class RealValBinaryOperILCode : public ExprILCode
 {
 private :
 public :
-    // Constructor
-    RealValBinaryOperILCode();
     // Methods
+    virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
 protected :
+    // Constructor
+    RealValBinaryOperILCode(void);
     // Methods
     virtual bool DoOperator(RealVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState) = 0;
 };
@@ -134,7 +172,7 @@ class RealValPlusILCode : public RealValBinaryOperILCode
 private :
 public :
     // Constructor
-    RealValPlusILCode();
+    RealValPlusILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual void ToString(std::ostream *pOStream) const;
@@ -151,7 +189,7 @@ class RealValMinusILCode : public RealValBinaryOperILCode
 private :
 public :
     // Constructor
-    RealValMinusILCode();
+    RealValMinusILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual void ToString(std::ostream *pOStream) const;
@@ -168,7 +206,7 @@ class RealValMultiplyILCode : public RealValBinaryOperILCode
 private :
 public :
     // Constructor
-    RealValMultiplyILCode();
+    RealValMultiplyILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual void ToString(std::ostream *pOStream) const;
@@ -185,7 +223,7 @@ class RealValDivideILCode : public RealValBinaryOperILCode
 private :
 public :
     // Constructor
-    RealValDivideILCode();
+    RealValDivideILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual void ToString(std::ostream *pOStream) const;
@@ -206,6 +244,7 @@ public :
     CtorMatrixILCode(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
 };
@@ -220,6 +259,7 @@ public :
     // Constructor
     MatrixBinaryOperILCode();
     // Methods
+    virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
 protected :
     // Methods
@@ -338,6 +378,7 @@ public :
     // Constructor
     MatrixValBinaryOperILCode();
     // Methods
+    virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
 protected :
     // Methods

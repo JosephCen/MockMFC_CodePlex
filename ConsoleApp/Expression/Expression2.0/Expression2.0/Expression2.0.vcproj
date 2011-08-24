@@ -120,7 +120,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExprILHelper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ExprRunTime.cpp"
 				>
 			</File>
@@ -204,6 +208,14 @@
 			</File>
 			<File
 				RelativePath=".\Formatter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FuncParamsInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FunctionSet.cpp"
 				>
 			</File>
 			<File
@@ -277,6 +289,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExprILHelper.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ExprRunTime.h"
 				>
 			</File>
@@ -286,6 +302,14 @@
 			</File>
 			<File
 				RelativePath=".\Formatter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FuncParamsInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FunctionSet.h"
 				>
 			</File>
 			<File
