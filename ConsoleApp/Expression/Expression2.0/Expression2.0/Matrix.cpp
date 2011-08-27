@@ -233,6 +233,12 @@ bool Matrix::InversionTransToR(Matrix *pInvMatrix, std::string *pErrStr)
                 }
             }
         }
+        if (DOUBLE_EQZ(this->At(_Rows - 1, _Cols - 1))) {
+            if (NULL != pErrStr)
+                pErrStr->assign("The rank value of this Matrix is Zero.");
+
+            return false;
+        }
         // Clear above triangle
         for (Row_Col_t rcIdx = 1; rcIdx < _Rows; ++rcIdx) {
             for (Row_Col_t rIdx = 0; rIdx < rcIdx; ++rIdx) {
@@ -270,10 +276,10 @@ bool Matrix::InversionTransToC(Matrix *pInvMatrix, std::string *pErrStr)
     _ASSERT(this->_Rows == this->_Cols);
 
     if (this->_Cols == pInvMatrix->_Cols) {
-        // Clear left triangle
-        for (Row_Col_t rcIdx = 1; rcIdx < _Cols; ++rcIdx) {
+        // Clear right triangle
+        for (Row_Col_t rcIdx = 0; rcIdx < (_Cols - 1); ++rcIdx) {
             if (DOUBLE_EQZ(this->At(rcIdx, rcIdx))) {
-                for (Row_Col_t cIdx = 0; cIdx < rcIdx; ++cIdx) {
+                for (Row_Col_t cIdx = (rcIdx + 1); cIdx < _Cols; ++cIdx) {
                     if (DOUBLE_NEQZ(this->At(rcIdx, cIdx))) {
                         this->ElementaryTransferC(rcIdx, cIdx, 0.0);
                         pInvMatrix->ElementaryTransferC(rcIdx, cIdx, 0.0);
@@ -287,7 +293,7 @@ bool Matrix::InversionTransToC(Matrix *pInvMatrix, std::string *pErrStr)
                     return false;
                 }
             }
-            for (Row_Col_t cIdx = 0; cIdx < rcIdx; ++cIdx) {
+            for (Row_Col_t cIdx = (rcIdx + 1); cIdx < _Cols; ++cIdx) {
                 if (DOUBLE_NEQZ(this->At(rcIdx, cIdx))) {
                     RealVal_t multiple = this->At(rcIdx, cIdx)/this->At(rcIdx, rcIdx)*-1.0;
 
@@ -296,9 +302,15 @@ bool Matrix::InversionTransToC(Matrix *pInvMatrix, std::string *pErrStr)
                 }
             }
         }
-        // Clear right triangle
-        for (Row_Col_t rcIdx = 0; rcIdx < (_Cols - 1); ++rcIdx) {
-            for (Row_Col_t cIdx = (rcIdx + 1); cIdx < _Cols; ++cIdx) {
+        if (DOUBLE_EQZ(this->At(_Rows - 1, _Cols - 1))) {
+            if (NULL != pErrStr)
+                pErrStr->assign("The rank value of this Matrix is Zero.");
+
+            return false;
+        }
+        // Clear left triangle
+        for (Row_Col_t rcIdx = 1; rcIdx < _Cols; ++rcIdx) {
+            for (Row_Col_t cIdx = 0; cIdx < rcIdx; ++cIdx) {
                 if (DOUBLE_NEQZ(this->At(rcIdx, cIdx))) {
                     RealVal_t multiple = this->At(rcIdx, cIdx)/this->At(rcIdx, rcIdx)*-1.0;
 
