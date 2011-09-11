@@ -116,7 +116,7 @@ ExprNT::~ExprNT()
 bool ExprNT::IsInFirstSet(WordTypeEnum wordType)
 {
     // First(expr) = { ( | Defparam | Num | [ }
-    return WT_Paranthese_L == wordType || WT_DefVariable == wordType || WT_RealValue == wordType || WT_S_Bracket_L == wordType;
+    return TermNT::IsInFirstSet(wordType);
 }
 
 bool ExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
@@ -163,10 +163,8 @@ _IsFirstOne(false), _pLeftOne(pLeftOne), _pExprILCode(NULL), _TermNT(), BaseNonT
 
 SubExprNT::~SubExprNT()
 {
-    if (NULL != _pLeftOne) {
-        delete _pLeftOne;
-        _pLeftOne = NULL;
-    }
+    delete _pLeftOne;
+    _pLeftOne = NULL;
 }
 
 bool SubExprNT::IsInFirstSet(WordTypeEnum wordType, bool isFirstOne)
@@ -260,7 +258,7 @@ TermNT::~TermNT()
 bool TermNT::IsInFirstSet(WordTypeEnum wordType)
 {
     // First(term) = { ( | Defparam | Num | [ }
-    return WT_Paranthese_L == wordType || WT_DefVariable == wordType || WT_RealValue == wordType || WT_S_Bracket_L == wordType;
+    return FactorNT::IsInFirstSet(wordType);
 }
 
 bool TermNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
@@ -308,10 +306,8 @@ _IsFirstOne(false), _pLeftOne(pLeftOne), _pExprILCode(NULL), _FactorNT(), BaseNo
 
 SubTermNT::~SubTermNT()
 {
-    if (NULL != _pLeftOne) {
-        delete _pLeftOne;
-        _pLeftOne = NULL;
-    }
+    delete _pLeftOne;
+    _pLeftOne = NULL;
 }
 
 bool SubTermNT::IsInFirstSet(WordTypeEnum wordType, bool isFirstOne)
@@ -399,26 +395,30 @@ ResultTypeEnum SubTermNT::GetResultType(void)
 //---------------------------------------------------------------------
 // Class member - FactorNT
 //---------------------------------------------------------------------
+FactorNT::FactorNT(void): 
+_pExprNT(NULL), _pMatrixNT(NULL), _pExprILCode(NULL), _pFunctionNT(NULL), BaseNonTerminal()
+{ }
+
 FactorNT::~FactorNT()
 {
-    if (NULL != _pExprNT) {
-        delete _pExprNT;
-        _pExprNT = NULL;
-    }
-    if (NULL != _pMatrixNT) {
-        delete _pMatrixNT;
-        _pMatrixNT = NULL;
-    }
-    if (NULL != _pExprILCode) {
-        delete _pExprILCode;
-        _pExprILCode = NULL;
-    }
+    delete _pExprNT;
+    _pExprNT = NULL;
+
+    delete _pMatrixNT;
+    _pMatrixNT = NULL;
+
+    delete _pFunctionNT;
+    _pFunctionNT = NULL;
+
+    delete _pExprILCode;
+    _pExprILCode = NULL;
 }
 
 bool FactorNT::IsInFirstSet(WordTypeEnum wordType)
 {
-    // First(factor) = { ( | Defparam | Num | [ }
-    return WT_Paranthese_L == wordType || WT_DefVariable == wordType || WT_RealValue == wordType || WT_S_Bracket_L == wordType;
+    // First(factor) = { ( | Defparam | Num | [ | Deffunc}
+    return WT_Paranthese_L == wordType || WT_DefVariable == wordType || WT_RealValue == wordType 
+           || MatrixNT::IsInFirstSet(wordType) || FunctionNT::IsInFirstSet(wordType);
 }
 
 bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
@@ -436,6 +436,12 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
         _pMatrixNT = new MatrixNT();
         isSuccess = isSuccess && _pMatrixNT->Parse(exprContextRef, wordCursorRef);
+    }
+    else if (FunctionNT::IsInFirstSet(wordType)) {
+        // factor => Deffunc
+
+        _pFunctionNT = new FunctionNT();
+        isSuccess = isSuccess && _pFunctionNT->Parse(exprContextRef, wordCursorRef);
     }
     else {
         int leftParantheseIdx = 0;
@@ -469,8 +475,6 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
                 _pExprILCode = new PushRealValILCode(wordCursorRef.CurrentWord().RealValue());
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
-                if (isSuccess)
-                    _ResultType = RT_RealVal;
                 break;
             default :
                 isSuccess = false;
@@ -488,8 +492,10 @@ ResultTypeEnum FactorNT::GetResultType(void)
         return _pExprNT->ResultType();
     else if (NULL != _pMatrixNT)
         return _pMatrixNT->ResultType();
+    else if (NULL != _pFunctionNT)
+        return _pFunctionNT->ResultType();
     else
-        return _ResultType;
+        return _pExprILCode->GetReturnType();
 }
 
 //---------------------------------------------------------------------
@@ -648,6 +654,84 @@ bool MatrixColNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef
 }
 
 //---------------------------------------------------------------------
+// Class member - FunctionNT
+//---------------------------------------------------------------------
+bool FunctionNT::IsInFirstSet(WordTypeEnum wordType)
+{
+    // function => deffunc (expr, ...)
+    return WT_DefFunction == wordType;
+}
+
+FunctionNT::FunctionNT(void):
+_ExprVec(), _pExprILCode(NULL), BaseNonTerminal()
+{ }
+
+bool FunctionNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
+{
+    _ASSERT(IsInFirstSet(wordCursorRef.CurrentWord().WordType()));
+
+    bool isSuccess = true;
+    int operatorWordIdx = wordCursorRef.CurrentIdx();
+    string funcName = wordCursorRef.CurrentWord().StringValue();
+
+    isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+    if (isSuccess) {
+        if (WT_Paranthese_L != wordCursorRef.CurrentWord().WordType()) {
+            exprContextRef.SetError("Function call missing left bracket of argument list.", wordCursorRef.CurrentIdx());
+            isSuccess = false;
+        }
+    }
+    isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+    if (ExprNT::IsInFirstSet(wordCursorRef.CurrentWord().WordType())) {
+        while (isSuccess) {
+            _ExprVec.push_back(new ExprNT());
+            isSuccess = isSuccess && _ExprVec.back()->Parse(exprContextRef, wordCursorRef);
+            if (isSuccess && WT_Comma == wordCursorRef.CurrentWord().WordType())
+                isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+            else
+                break;
+        }
+    }
+    if (isSuccess) {
+        if (WT_Paranthese_R != wordCursorRef.CurrentWord().WordType()) {
+            exprContextRef.SetError("Function call missing right bracket of argument list.", wordCursorRef.CurrentIdx());
+            isSuccess = false;
+        }
+    }
+    isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+    isSuccess = isSuccess && OperatorValidate(exprContextRef, funcName, operatorWordIdx);
+
+    return isSuccess;
+}
+
+bool FunctionNT::OperatorValidate(ExprContext &exprContextRef, std::string &funcName, int operWordIdx)
+{
+    vector<int> paramVec;
+
+    for (ExprVecIter_t iter = _ExprVec.begin(); _ExprVec.end() != iter; ++iter)
+        paramVec.push_back((*iter)->ResultType());
+
+    FuncParamsInfo funcInfo(funcName.c_str(), paramVec);
+
+    _pExprILCode = FindExprILCode(funcInfo);
+    if (NULL != _pExprILCode) {
+        return true;
+    }
+    else {
+        exprContextRef.SetError("Cannot find overloaded function for given arguments", operWordIdx);
+
+        return false;
+    }
+}
+
+ResultTypeEnum FunctionNT::GetResultType(void)
+{
+    _ASSERT(NULL != _pExprILCode);
+
+    return _pExprILCode->GetReturnType();
+}
+
+//---------------------------------------------------------------------
 // IL generate code
 //---------------------------------------------------------------------
 
@@ -746,10 +830,16 @@ ExprILCodeSegment& FactorNT::AppendILSegment(ExprILCodeSegment &ilSegment)
     else if (NULL != _pMatrixNT) {
         _pMatrixNT->AppendILSegment(ilSegment);
     }
+    else if (NULL != _pFunctionNT) {
+        _pFunctionNT->AppendILSegment(ilSegment);
+    }
     else {
+        _ASSERT(NULL != _pExprILCode);
+
         ilSegment.Append(_pExprILCode);
         _pExprILCode = NULL;
     }
+    
 
     return ilSegment;
 }
@@ -793,4 +883,16 @@ ExprILCodeSegment& MatrixColsNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 ExprILCodeSegment& MatrixColNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     return _ExprNT.AppendILSegment(ilSegment);
+}
+
+//---------------------------------------------------------------------
+// Class member - FunctionNT
+//---------------------------------------------------------------------
+ExprILCodeSegment& FunctionNT::AppendILSegment(ExprILCodeSegment &ilSegment)
+{
+    for (ExprVecIter_t iter = _ExprVec.begin(); _ExprVec.end() != iter; ++iter)
+        (*iter)->AppendILSegment(ilSegment);
+    ilSegment.Append(_pExprILCode);
+
+    return ilSegment;
 }

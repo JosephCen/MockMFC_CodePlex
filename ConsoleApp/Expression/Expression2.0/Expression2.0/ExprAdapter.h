@@ -2,7 +2,7 @@
 #define ExprAdapter_H
 
 #include <string>
-#include "ExprRunTime.h"
+#include "Symbol.h"
 #include "ExprException.h"
 
 class ExprContext : public ExprErrHolder

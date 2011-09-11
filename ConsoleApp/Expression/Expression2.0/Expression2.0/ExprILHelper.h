@@ -11,13 +11,14 @@ class ExprILHelper
 {
 private :
     static bool s_IsInitialized;
-    static FunctionSet s_OperatorSet;
+    static FunctionSet s_OperatorSet; // Set of all these internal operator and function.
 
     // Constructor
     ExprILHelper(); // Avoid another code create an instance of this class by mistake.
 public :
     // Methods
     static ExprILCode* FindOperatorILCode(const FuncParamsInfo &funcInfo);
+    static int FindOperatorILCount(const std::string &funcName);
     static ExprILCode* FindOperatorILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
     static std::string GenOperNotFoundErr(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
 private :
@@ -33,6 +34,14 @@ inline ExprILCode* ExprILHelper::FindOperatorILCode(const FuncParamsInfo &funcIn
         Initialize();
 
     return (s_OperatorSet.FindFunctionItem(funcInfo));
+}
+
+inline int ExprILHelper::FindOperatorILCount(const std::string &funcName)
+{
+    if (!s_IsInitialized)
+        Initialize();
+
+    return (s_OperatorSet.FindFunctionName(funcName));
 }
 
 #endif

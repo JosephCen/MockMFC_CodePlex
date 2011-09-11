@@ -2,6 +2,7 @@
 #define NonTerminal_H
 
 #include <list>
+#include <vector>
 #include "WordParser.h"
 #include "ExprILCode.h"
 #include "ExprWorkSpace.h"
@@ -157,20 +158,24 @@ protected :
 //---------------------------------------------------------------------
 class MatrixNT;
 //---------------------------------------------------------------------
+// FunctionNT - class declare
+//---------------------------------------------------------------------
+class FunctionNT;
+//---------------------------------------------------------------------
 // FactorNT - class
 //---------------------------------------------------------------------
 class FactorNT : public BaseNonTerminal
 {
 private :
-    ResultTypeEnum _ResultType;
     ExprNT *_pExprNT;
     MatrixNT *_pMatrixNT;
+    FunctionNT *_pFunctionNT;
     ExprILCode *_pExprILCode;
 public :
     // Static Methods
     static bool IsInFirstSet(WordTypeEnum wordType);
     // Constructor
-    FactorNT(void): _ResultType(RT_None), _pExprNT(NULL), _pMatrixNT(NULL), _pExprILCode(NULL), BaseNonTerminal() { }
+    FactorNT(void);
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
@@ -292,6 +297,31 @@ public :
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
 protected :
     virtual ResultTypeEnum GetResultType(void) { return RT_Matrix; }
+};
+
+//---------------------------------------------------------------------
+// FunctionNT - class
+//---------------------------------------------------------------------
+class FunctionNT : public BaseNonTerminal
+{
+private :
+    typedef std::vector<ExprNT*> ExprVec_t;
+    typedef std::vector<ExprNT*>::iterator ExprVecIter_t;
+    typedef std::vector<ExprNT*>::const_iterator ExprVecCIter_t;
+    ExprVec_t _ExprVec;
+    ExprILCode *_pExprILCode;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    FunctionNT(void);
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+private :
+    bool OperatorValidate(ExprContext &exprContextRef, std::string &funcName, int operWordIdx);
+protected :
+    virtual ResultTypeEnum GetResultType(void);
 };
 
 #endif

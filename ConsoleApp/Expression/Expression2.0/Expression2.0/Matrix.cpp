@@ -466,7 +466,7 @@ string Matrix::ToString() const
     {
         ostringstream::pos_type sPos = strStream.tellp();
 
-        strStream << *iter;
+        strStream << (DOUBLE_EQZ(*iter) ? abs(*iter) : *iter); // avoid '-0' appears in the result
         posVec.push_back(strStream.tellp());
 
         string::size_type curStrLen = strStream.tellp() - sPos;

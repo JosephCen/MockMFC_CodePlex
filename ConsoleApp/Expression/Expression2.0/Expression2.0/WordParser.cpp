@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "WordParser.h"
 #include "ExprWorkSpace.h"
+#include "ExprILHelper.h"
 #include <exception>
-using std::exception;
 #include <string>
-using std::string;
 #include <sstream>
-using std::ostringstream;
 #include <map>
-using std::map;
 #include <cctype>
 #include <crtdbg.h>
+using namespace std;
 
 //---------------------------------------------------------------------
 // Class member - WordUnit
@@ -35,16 +33,7 @@ _WordType(wordType), _RealVal(realVal)
 
 WordUnit::WordUnit(WordTypeEnum wordType, const string &strVal):
 _WordType(wordType), _StrVal(strVal)
-{
-    _ASSERT(WT_UndefFuncVal == _WordType);
-}
-
-Matrix::RealVal_t WordUnit::RealValue() const
-{
-    _ASSERT(WT_RealValue == _WordType);
-
-    return _RealVal;
-}
+{ }
 
 string WordUnit::ToString() const
 {
@@ -249,6 +238,8 @@ bool WordParser::ParseFuncVar(const string &str, WordUnit &wordRef)
     if (NULL != _pCurExprWS) {
         if (NULL != _pCurExprWS->_GlobalVarSet.SearchVar(str))
             wordRef = WordUnit(WT_DefVariable, str);
+        else if (ExprILHelper::FindOperatorILCount(str)) // TODO: Parse a defined function which's scope is current WorkSapce
+            wordRef = WordUnit(WT_DefFunction, str);
         else
             wordRef = WordUnit(WT_UndefFuncVal, str);
     }

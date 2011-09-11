@@ -3,6 +3,14 @@
 #include <crtdbg.h>
 using namespace std;
 
+FuncParamsInfo::FuncParamsInfo(const char *funcName, int paramType0) :
+_FuncName(funcName)
+{
+    _ASSERT(_FuncName.length() > 0);
+
+    _ParamTypes.push_back(paramType0);
+}
+
 FuncParamsInfo::FuncParamsInfo(const char *funcName, int paramType0, int paramType1) :
 _FuncName(funcName)
 {
@@ -10,6 +18,12 @@ _FuncName(funcName)
 
     _ParamTypes.push_back(paramType0);
     _ParamTypes.push_back(paramType1);
+}
+
+FuncParamsInfo::FuncParamsInfo(const char *funcName, const std::vector<int> &paramTypeVec) :
+_FuncName(funcName), _ParamTypes(paramTypeVec)
+{
+    _ASSERT(_FuncName.length() > 0);
 }
 
 bool operator < (const FuncParamsInfo &lVal, const FuncParamsInfo &rVal)
