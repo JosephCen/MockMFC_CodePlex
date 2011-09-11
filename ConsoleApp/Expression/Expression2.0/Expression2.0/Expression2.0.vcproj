@@ -179,6 +179,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\BaseFunction.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ExprAdapter.cpp"
 				>
 			</File>
@@ -199,10 +203,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ExprRunTime.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ExprWorkSpace.cpp"
 				>
 			</File>
@@ -212,6 +212,10 @@
 			</File>
 			<File
 				RelativePath=".\FuncParamsInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Functions.cpp"
 				>
 			</File>
 			<File
@@ -265,6 +269,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\BaseFunction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ClsPreDeclaration.h"
 				>
 			</File>
@@ -293,10 +301,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ExprRunTime.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ExprWorkSpace.h"
 				>
 			</File>
@@ -306,6 +310,10 @@
 			</File>
 			<File
 				RelativePath=".\FuncParamsInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Functions.h"
 				>
 			</File>
 			<File
@@ -325,7 +333,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SharedPtr.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Symbol.h"
 				>
 			</File>
 			<File

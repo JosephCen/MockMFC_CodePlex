@@ -47,6 +47,17 @@ void ExprILHelper::Initialize()
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("/", MatrixVariable::TypeId, RealVariable::TypeId),
                                       new MatrixValDivideILCode());
 
+        // Function
+        FunctionInfo *pFunctionInfo = FunctionInfo::s_pFirstFuncInfo;
+
+        while (NULL != pFunctionInfo)
+        {
+            BaseFunction *pFunction = pFunctionInfo->CreateFuncInst();
+
+            s_OperatorSet.AddFunctionItem(pFunction->GetFuncInfo(), new CallFunctionILCode(pFunction));
+            pFunctionInfo = pFunctionInfo->_pNextFuncInfo;
+        }
+
         s_IsInitialized = true;
     }
 }

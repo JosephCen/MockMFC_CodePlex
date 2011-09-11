@@ -4,7 +4,8 @@
 #include <string>
 #include <sstream>
 #include "VariableSet.h"
-#include "ExprRunTime.h"
+#include "BaseFunction.h"
+#include "Symbol.h"
 #include "ExprException.h"
 
 //---------------------------------------------------------------------
@@ -59,7 +60,7 @@ public :
     std::string ToString() const;
 protected :
     // Constructor
-    explicit ExprILCode(bool bShared = false);
+    ExprILCode(void);
     static VariableStack* GetVariableStack(ExprILRunState *pILRunState);
 };
 
@@ -107,7 +108,7 @@ public :
     // Constructor
     explicit PushRealValILCode(Matrix::RealVal_t realValue);
     // Methods
-    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
@@ -141,7 +142,7 @@ public :
     explicit ReverseBinaryOperILCode(ExprILCode *pBinaryILCode);
     virtual ~ReverseBinaryOperILCode();
     // Methods
-    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
@@ -243,7 +244,7 @@ public :
     // Constructor
     CtorMatrixILCode(Matrix::Row_Col_t rows, Matrix::Row_Col_t cols);
     // Methods
-    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
@@ -451,6 +452,23 @@ public :
 protected :
     // Methods
     virtual bool DoOperator(MatrixVariable *pVariableL, RealVariable *pVariableR, ExprILRunState *pILRunState);
+};
+
+//---------------------------------------------------------------------
+// CallFunctionILCode - class
+//---------------------------------------------------------------------
+class CallFunctionILCode : public ExprILCode
+{
+private :
+    BaseFunction_sp _spFunc;
+public :
+    // Constructor
+    explicit CallFunctionILCode(BaseFunction *pFunc);
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ResultTypeEnum GetReturnType(void) const;
+    virtual bool RunCode(ExprILRunState *pILRunState);
+    virtual void ToString(std::ostream *pOStream) const;
 };
 
 #endif

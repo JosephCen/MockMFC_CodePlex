@@ -33,7 +33,7 @@ ExprILRunState::~ExprILRunState()
 //---------------------------------------------------------------------
 // Class member - ExprILCode
 //---------------------------------------------------------------------
-ExprILCode::ExprILCode(bool bShared) :
+ExprILCode::ExprILCode(void) :
 _pOwner(NULL)
 { }
 
@@ -758,4 +758,53 @@ bool MatrixValDivideILCode::DoOperator(MatrixVariable *pVariableL, RealVariable 
 void MatrixValDivideILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixValDivide";
+}
+
+//---------------------------------------------------------------------
+// Class member - CallFunctionILCode
+//---------------------------------------------------------------------
+CallFunctionILCode::CallFunctionILCode(BaseFunction *pFunc) :
+_spFunc(pFunc)
+{ }
+
+ExprILCodeEnum CallFunctionILCode::GetCodeEnum() const
+{
+    return EIL_CallFunction;
+}
+
+ResultTypeEnum CallFunctionILCode::GetReturnType(void) const
+{
+    return _spFunc->GetReturnType();
+}
+
+bool CallFunctionILCode::RunCode(ExprILRunState *pILRunState)
+{
+    bool state = true;
+    int paramCount = _spFunc->GetFuncInfo().GetParamCount();
+    vector<Variable*> paramVec(paramCount, static_cast<Variable*>(NULL));
+    Variable* pRetVariable = NULL;
+
+    for (int i = 0; i < paramCount; ++i)
+        GetVariableStack(pILRunState)->TopVar(&(paramVec[paramCount - 1 - i]), i);
+
+    try {
+        pRetVariable = _spFunc->Call(&paramVec);
+    }
+    catch (ExprException &ex) {
+        state = false;
+        pILRunState->SetError(ex);
+    }
+
+    if (state) {
+        GetVariableStack(pILRunState)->RemoveTopVar(paramCount);
+        if (NULL != pRetVariable)
+            GetVariableStack(pILRunState)->PushVar(pRetVariable);
+    }
+
+    return state;
+}
+
+void CallFunctionILCode::ToString(ostream *pOStream) const
+{
+    *pOStream << "CallFunction";
 }

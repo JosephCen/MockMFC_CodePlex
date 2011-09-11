@@ -29,7 +29,8 @@ enum WordTypeEnum
    WT_Semicolon,     // ;
    WT_RealValue,     // [123.23]
    WT_UndefFuncVal,  // [a[a-1..]]
-   WT_DefVariable
+   WT_DefVariable,
+   WT_DefFunction
 };
 
 //---------------------------------------------------------------------
@@ -48,13 +49,29 @@ public :
     WordUnit(WordTypeEnum wordType, Matrix::RealVal_t realVal);
     WordUnit(WordTypeEnum wordType, const std::string &strVal);
     // Methods
-    WordTypeEnum WordType() const { return _WordType; }
-    Matrix::RealVal_t RealValue() const;
-    std::string StringValue() const;
+    WordTypeEnum WordType(void) const { return _WordType; }
+    Matrix::RealVal_t RealValue(void) const;
+    const std::string& StringValue(void) const;
     std::string ToString() const;
     // Override Operators
     operator bool() const { return WT_Invalid != _WordType; }
 };
+
+//---------------------------------------------------------------------
+// Inline methods - WordUnit
+//---------------------------------------------------------------------
+inline Matrix::RealVal_t WordUnit::RealValue(void) const
+{
+    _ASSERT(WT_RealValue == _WordType);
+
+    return _RealVal;
+}
+
+inline const std::string& WordUnit::StringValue(void) const
+{
+    return _StrVal;
+}
+
 
 enum NextStrTypeEnum
 {

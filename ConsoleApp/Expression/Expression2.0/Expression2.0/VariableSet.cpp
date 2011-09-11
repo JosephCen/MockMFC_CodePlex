@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "ExprRunTime.h"
+#include "Symbol.h"
 #include "VariableSet.h"
 #include <string>
-using std::string;
 #include <crtdbg.h>
+using namespace std;
 
 //---------------------------------------------------------------------
 // Class member - Variable
