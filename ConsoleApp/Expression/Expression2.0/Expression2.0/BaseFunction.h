@@ -10,18 +10,16 @@
 
 class BaseFunction
 {
-private :
-    FuncParamsInfo _FuncInfo;
 public :
     // destructor
     virtual ~BaseFunction();
     // Methods
     virtual ResultTypeEnum GetReturnType(void) const = 0;
-    const FuncParamsInfo& GetFuncInfo(void) const;
+    virtual FuncParamsInfo GetFuncInfo(void) const = 0;
     virtual Variable* Call(std::vector<Variable*> *pVarVec) = 0;
 protected :
     // Constructor
-    BaseFunction(FuncParamsInfo funcInfo);
+    BaseFunction(void);
 };
 
 typedef SharedPtr<BaseFunction> BaseFunction_sp;
@@ -53,11 +51,5 @@ struct FUNCTIONINFO_INIT
         class_name::CreateFuncInst, NULL \
         }; \
     FUNCTIONINFO_INIT _init_##class_name(&class_name::s_FuncInfo##class_name)
-
-
-inline const FuncParamsInfo& BaseFunction::GetFuncInfo(void) const
-{
-    return _FuncInfo;
-}
 
 #endif

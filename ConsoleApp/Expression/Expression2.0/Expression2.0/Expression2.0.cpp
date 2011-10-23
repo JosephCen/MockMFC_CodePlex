@@ -95,7 +95,7 @@ int _tmain(int argc, _TCHAR* argv[])
             {
                 formatter.FormatVariable(pVariable, &resultStr);
                 cout << "Result: " << endl;
-                cout << resultStr << endl;
+                cout << resultStr << '\n' << endl;
 
                 pVariable = NULL;
             }
@@ -103,14 +103,14 @@ int _tmain(int argc, _TCHAR* argv[])
             {
                 pILCodeSegment->GetExceptionStr(&errorStr);
                 cout << "Execute Error: " << endl;
-                cout << errorStr << endl;
+                cout << errorStr << '\n' << endl;
             }
         }
         else
         {
             curWorkSpace.GetExceptionStr(&errorStr);
             cout << "Parse Error: " << endl;
-            cout << errorStr << endl;
+            cout << errorStr << '\n' << endl;
         }
     }
     cin.clear();
