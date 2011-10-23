@@ -4,8 +4,7 @@
 using namespace std;
 
 
-BaseFunction::BaseFunction(FuncParamsInfo funcInfo) :
-_FuncInfo(funcInfo)
+BaseFunction::BaseFunction(void)
 { }
 
 BaseFunction::~BaseFunction()

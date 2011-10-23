@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <math.h>
 #include <crtdbg.h>
 using namespace std;
 
@@ -456,7 +457,7 @@ void Matrix::ElementaryTransferC(Matrix::Row_Col_t cIdx1, Matrix::Row_Col_t cIdx
 
 string Matrix::ToString() const
 {
-    vector<ostringstream::pos_type> posVec;
+    vector<ostream::pos_type> posVec;
     ostringstream strStream;
     string::size_type maxStrLen = 0;
 
@@ -466,7 +467,7 @@ string Matrix::ToString() const
     {
         ostringstream::pos_type sPos = strStream.tellp();
 
-        strStream << (DOUBLE_EQZ(*iter) ? abs(*iter) : *iter); // avoid '-0' appears in the result
+        strStream << (DOUBLE_EQZ(*iter) ? fabs(*iter) : *iter); // avoid '-0' appears in the result
         posVec.push_back(strStream.tellp());
 
         string::size_type curStrLen = strStream.tellp() - sPos;
@@ -483,14 +484,15 @@ string Matrix::ToString() const
         Row_Col_t rSIdx = r * _Cols;
         for (Row_Col_t c = 0; c < _Cols; ++c)
         {
-            ostringstream::pos_type strSIdx = posVec[rSIdx + c];
-            ostringstream::pos_type strEIdx = posVec[rSIdx + c + 1];
+            ostream::pos_type strSIdx = posVec[rSIdx + c];
+            ostream::pos_type strEIdx = posVec[rSIdx + c + 1];
 
             strStream.put(' ');
             strStream.write(spaceStr.c_str(), (maxStrLen - (strEIdx - strSIdx)));
             strStream.write(valStr.c_str() + strSIdx, (strEIdx - strSIdx));
         }
-        strStream.put('\n');
+        if (r + 1 < _Rows)
+            strStream.put('\n');
     }
 
     return (strStream.str());
