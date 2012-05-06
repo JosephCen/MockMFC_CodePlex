@@ -215,10 +215,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Functions.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\FunctionSet.cpp"
 				>
 			</File>
@@ -262,6 +258,18 @@
 				RelativePath=".\WordParser.cpp"
 				>
 			</File>
+			<Filter
+				Name="Functions"
+				>
+				<File
+					RelativePath=".\Functions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GameFunctions.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -313,10 +321,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Functions.h"
-				>
-			</File>
-			<File
 				RelativePath=".\FunctionSet.h"
 				>
 			</File>
@@ -352,6 +356,18 @@
 				RelativePath=".\WordParser.h"
 				>
 			</File>
+			<Filter
+				Name="Functions"
+				>
+				<File
+					RelativePath=".\Functions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GameFunctions.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
