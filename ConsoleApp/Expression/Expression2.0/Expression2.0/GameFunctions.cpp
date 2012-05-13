@@ -3,6 +3,7 @@
 #include "ExprException.h"
 #include "GameFunctions.h"
 #include <vector>
+#include <algorithm>
 #include <crtdbg.h>
 using namespace std;
 
@@ -14,6 +15,12 @@ struct SubExprInfo
     string SubExprStr;
     char OperCh;
     double Number;
+};
+
+struct TwoDouble
+{
+    double Val1;
+    double Val2;
 };
 
 class Point24
@@ -30,12 +37,29 @@ public :
     bool Calculate(string &exprStrRef);
 private :
     bool Calculate_Impl(size_t n);
-    static void BuildExpr(SubExprInfo &o, SubExprInfo &a, SubExprInfo &b, char operCh);
+    static bool AddIfNotDup(vector<TwoDouble> &twoDblVecRef, const TwoDouble &twoDblRef);
+    static void BuildExpr(SubExprInfo &o, const SubExprInfo &a, const SubExprInfo &b, char operCh);
 };
 
 //---------------------------------------------------------------------
 // Class member - Point24
 //---------------------------------------------------------------------
+bool operator<(const TwoDouble &a, const TwoDouble &b)
+{
+    int compRet1 = DOUBLE_COMP(a.Val1, b.Val1);
+    int compRet2 = DOUBLE_COMP(a.Val2, b.Val2);
+    
+    return ((compRet1 * 2 + compRet2) < 0);
+}
+
+bool operator==(const TwoDouble &a, const TwoDouble &b)
+{
+    int compRet1 = DOUBLE_COMP(a.Val1, b.Val1);
+    int compRet2 = DOUBLE_COMP(a.Val2, b.Val2);
+    
+    return ((compRet1 * 2 + compRet2) == 0);
+}
+
 int Point24::s_OperPriTab[48] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     3, // s_OperPriTab[' '] = 3
@@ -79,7 +103,32 @@ bool Point24::Calculate(string &exprStrRef)
     return false;
 }
 
-void Point24::BuildExpr(SubExprInfo &o, SubExprInfo &a, SubExprInfo &b, char operCh)
+bool Point24::AddIfNotDup(vector<TwoDouble> &twoDblVecRef, const TwoDouble &twoDblRef)
+{
+    if (twoDblVecRef.empty()) {
+        twoDblVecRef.push_back(twoDblRef);
+
+        return false;
+    }
+    else {
+        bool bExists = false;
+        vector<TwoDouble>::iterator it = lower_bound(twoDblVecRef.begin(), twoDblVecRef.end(), twoDblRef);
+
+        if (twoDblVecRef.begin() == it)
+            bExists = (*it == twoDblRef);
+        else if (twoDblVecRef.end() == it)
+            bExists = (*(it - 1) == twoDblRef);
+        else
+            bExists = ((*it == twoDblRef) || (*(it - 1) == twoDblRef));
+
+        if (!bExists)
+            twoDblVecRef.insert(it, twoDblRef);
+
+        return bExists;
+    }
+}
+
+void Point24::BuildExpr(SubExprInfo &o, const SubExprInfo &a, const SubExprInfo &b, char operCh)
 {
     int a_OpPri = s_OperPriTab[a.OperCh];
     int b_OpPri = s_OperPriTab[b.OperCh];
@@ -103,59 +152,72 @@ void Point24::BuildExpr(SubExprInfo &o, SubExprInfo &a, SubExprInfo &b, char ope
 
 bool Point24::Calculate_Impl(size_t n)
 {
-    if (1 == n)
+    if (1 == n) {
+        bool b = DOUBLE_EQ(_SubExprVec[0].Number, _FinalVal);
+
         return DOUBLE_EQ(_SubExprVec[0].Number, _FinalVal);
-    
-    for (size_t i = 0; i < _SubExprVec.size(); ++i) {
-        for (size_t j = i + 1; j < _SubExprVec.size(); ++j) {
-            SubExprInfo subExprA, subExprB;
+    }
+    else {
+        vector<TwoDouble> uniDblVec;
 
-            subExprA = _SubExprVec[i];
-            subExprB = _SubExprVec[j];
-            _SubExprVec[j] = _SubExprVec[n - 1];
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = i + 1; j < n; ++j) {
+                TwoDouble twoDbl;
 
-            _SubExprVec[i].Number = subExprA.Number + subExprB.Number;
-            BuildExpr(_SubExprVec[i], subExprA, subExprB, '+');
-            if (Calculate_Impl(n - 1))
-                return true;
+                twoDbl.Val1 = _SubExprVec[i].Number;
+                twoDbl.Val2 = _SubExprVec[j].Number;
+                if (DOUBLE_GT(twoDbl.Val1, twoDbl.Val2))
+                    swap(twoDbl.Val1, twoDbl.Val2);
 
-            _SubExprVec[i].Number = subExprA.Number * subExprB.Number;
-            BuildExpr(_SubExprVec[i], subExprA, subExprB, '*');
-            if (Calculate_Impl(n - 1))
-                return true;
+                if (!AddIfNotDup(uniDblVec, twoDbl)) {
+                    SubExprInfo subExprA(_SubExprVec[i]);
+                    SubExprInfo subExprB(_SubExprVec[j]);
 
-            _SubExprVec[i].Number = subExprA.Number - subExprB.Number;
-            BuildExpr(_SubExprVec[i], subExprA, subExprB, '-');
-            if (Calculate_Impl(n - 1))
-                return true;
+                    _SubExprVec[j] = _SubExprVec[n - 1];
 
-            if (DOUBLE_NEQZ(subExprB.Number)) {
-                _SubExprVec[i].Number = subExprA.Number / subExprB.Number;
-                BuildExpr(_SubExprVec[i], subExprA, subExprB, '/');
-                if (Calculate_Impl(n - 1))
-                    return true;
-            }
-
-            if (DOUBLE_NEQ(subExprA.Number, subExprB.Number)) {
-                _SubExprVec[i].Number = subExprB.Number - subExprA.Number;
-                BuildExpr(_SubExprVec[i], subExprB, subExprA, '-');
-                if (Calculate_Impl(n - 1))
-                    return true;
-
-                if (DOUBLE_NEQZ(subExprA.Number)) {
-                    _SubExprVec[i].Number = subExprB.Number / subExprA.Number;
-                    BuildExpr(_SubExprVec[i], subExprB, subExprA, '/');
+                    _SubExprVec[i].Number = subExprA.Number + subExprB.Number;
+                    BuildExpr(_SubExprVec[i], subExprA, subExprB, '+');
                     if (Calculate_Impl(n - 1))
                         return true;
+
+                    _SubExprVec[i].Number = subExprA.Number * subExprB.Number;
+                    BuildExpr(_SubExprVec[i], subExprA, subExprB, '*');
+                    if (Calculate_Impl(n - 1))
+                        return true;
+
+                    _SubExprVec[i].Number = subExprA.Number - subExprB.Number;
+                    BuildExpr(_SubExprVec[i], subExprA, subExprB, '-');
+                    if (Calculate_Impl(n - 1))
+                        return true;
+
+                    if (DOUBLE_NEQZ(subExprB.Number)) {
+                        _SubExprVec[i].Number = subExprA.Number / subExprB.Number;
+                        BuildExpr(_SubExprVec[i], subExprA, subExprB, '/');
+                        if (Calculate_Impl(n - 1))
+                            return true;
+                    }
+
+                    if (DOUBLE_NEQ(subExprA.Number, subExprB.Number)) {
+                        _SubExprVec[i].Number = subExprB.Number - subExprA.Number;
+                        BuildExpr(_SubExprVec[i], subExprB, subExprA, '-');
+                        if (Calculate_Impl(n - 1))
+                            return true;
+
+                        if (DOUBLE_NEQZ(subExprA.Number)) {
+                            _SubExprVec[i].Number = subExprB.Number / subExprA.Number;
+                            BuildExpr(_SubExprVec[i], subExprB, subExprA, '/');
+                            if (Calculate_Impl(n - 1))
+                                return true;
+                        }
+                    }
+                    _SubExprVec[i] = subExprA;
+                    _SubExprVec[j] = subExprB;
                 }
             }
-
-            _SubExprVec[i] = subExprA;
-            _SubExprVec[j] = subExprB;
         }
-    }
 
-    return false;
+        return false;
+    }
 }
 
 //---------------------------------------------------------------------
