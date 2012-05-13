@@ -33,4 +33,11 @@ inline bool DOUBLE_GT(double val1, double val2)
     return (val1 - val2 > ERR_VAL);
 }
 
+inline int DOUBLE_COMP(double val1, double val2)
+{
+    double diff = val1 - val2;
+
+    return ((diff > ERR_VAL ? 1 : (diff < -ERR_VAL ? -1 : 0)));
+}
+
 #endif
