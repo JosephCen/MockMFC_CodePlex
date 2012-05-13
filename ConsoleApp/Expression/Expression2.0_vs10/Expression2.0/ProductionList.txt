@@ -1,0 +1,82 @@
+Expression 2.0 production
+
+=============================
+start => list Eof
+
+list => expr ; list
+      | nul
+
+expr => expr + term
+      | expr - term
+      | term
+
+term => term * factor
+      | term / factor
+      | term .* factor
+      | factor
+
+factor => ( expr )
+        | defparam
+        | num
+        | matrix
+
+matrix => [ rows ]
+
+rows => row
+      | row ; rows
+
+row => cols
+
+cols => col
+      | col , cols
+
+col => expr
+
+=============================
+start => list Eof
+First(start) = { ( | Defparam | Num | [ | nul | Eof }
+
+list => expr ; list
+      | nul
+First(list) = { ( | Defparam | Num | [ | nul }
+
+expr => term moreterms
+First(expr) = { ( | Defparam | Num | [ }
+
+moreterms => + term moreterms
+           | - term moreterms
+           | nul
+First(moreterms) = { + | - | nul }
+
+term => factor morefactors
+First(term) = { ( | Defparam | Num | [ }
+
+morefactors => * factor morefactors
+             | / factor morefactors
+             | .* factor morefactors
+             | ./ factor morefactors
+             | nul
+First(morefactors) = { * | / | .* | ./ | nul }
+
+factor => ( expr )
+        | Defparam
+        | Num
+        | matrix
+First(factor) = { ( | Defparam | Num | [ }
+
+matrix => [ rows ]
+First(matrix) = { [ }
+
+rows => row
+      | row ; rows
+First(rows) = { ( | Defparam | Num | [ }
+
+row => cols
+First(row) = { ( | Defparam | Num | [ }
+
+cols => col
+      | col , cols
+First(cols) = { ( | Defparam | Num | [ }
+
+col => expr
+First(col) = { ( | Defparam | Num | [ }
