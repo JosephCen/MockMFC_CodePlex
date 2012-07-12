@@ -16,9 +16,9 @@
 class ExprILCodeSegment : public ExprErrHolder
 {
 private :
-    typedef std::vector<ExprILCode*> ILCodeVec_t;
-    typedef std::vector<ExprILCode*>::iterator ILCodeIter_t;
-    typedef std::vector<ExprILCode*>::const_iterator ILCodeCIter_t;
+    typedef std::vector<ExprILCode_sp> ILCodeVec_t;
+    typedef std::vector<ExprILCode_sp>::iterator ILCodeIter_t;
+    typedef std::vector<ExprILCode_sp>::const_iterator ILCodeCIter_t;
     
     ExprWorkSpace *_pWorkSpace;
     ILCodeVec_t _ILCodeVec;
@@ -27,7 +27,7 @@ public :
     ExprILCodeSegment(ExprWorkSpace *pWorkSpace);
     ~ExprILCodeSegment();
     // Methods
-    void Append(ExprILCode *pILCode);
+    void Append(ExprILCode_sp spILCode);
     bool Run(Variable **ppVariable);
     int Length() const;
     virtual void ToString(std::ostream *pOStream) const;
@@ -37,10 +37,9 @@ private :
     ExprILCodeSegment(const ExprILCodeSegment &other);
 };
 
-inline void ExprILCodeSegment::Append(ExprILCode *pILCode)
+inline void ExprILCodeSegment::Append(ExprILCode_sp spILCode)
 {
-    pILCode->SetOwner(this);
-    _ILCodeVec.push_back(pILCode);
+    _ILCodeVec.push_back(spILCode);
 }
 
 inline int ExprILCodeSegment::Length() const

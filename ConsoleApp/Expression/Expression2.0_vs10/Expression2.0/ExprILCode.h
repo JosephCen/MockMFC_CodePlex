@@ -1,6 +1,7 @@
 #ifndef ExprILCode_H
 #define ExprILCode_H
 
+#include <memory>
 #include <string>
 #include <sstream>
 #include "VariableSet.h"
@@ -45,14 +46,10 @@ inline VariableStack* ExprILRunState::GetVariableStack()
 //---------------------------------------------------------------------
 class ExprILCode
 {
-private :
-    void* _pOwner;
 public :
     // Deconstructor
     virtual ~ExprILCode();
     // Methods
-    void SetOwner(void* pOwner);
-    void* GetOwner();
     virtual ExprILCodeEnum GetCodeEnum() const = 0;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState) = 0;
@@ -64,16 +61,7 @@ protected :
     static VariableStack* GetVariableStack(ExprILRunState *pILRunState);
 };
 
-inline void ExprILCode::SetOwner(void* pOwner)
-{
-    if (NULL == _pOwner)
-        _pOwner = pOwner;
-}
-
-inline void* ExprILCode::GetOwner()
-{
-    return _pOwner;
-}
+typedef std::tr1::shared_ptr<ExprILCode> ExprILCode_sp;
 
 inline VariableStack* ExprILCode::GetVariableStack(ExprILRunState *pILRunState)
 {
@@ -460,10 +448,12 @@ protected :
 class CallFunctionILCode : public ExprILCode
 {
 private :
-    BaseFunction_sp _spFunc;
+    BaseFunction *_pFunc;
 public :
     // Constructor
     explicit CallFunctionILCode(BaseFunction *pFunc);
+	// Destructor
+	virtual ~CallFunctionILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual ResultTypeEnum GetReturnType(void) const;

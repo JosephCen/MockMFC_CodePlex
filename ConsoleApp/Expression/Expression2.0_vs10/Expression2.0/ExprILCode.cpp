@@ -33,8 +33,7 @@ ExprILRunState::~ExprILRunState()
 //---------------------------------------------------------------------
 // Class member - ExprILCode
 //---------------------------------------------------------------------
-ExprILCode::ExprILCode(void) :
-_pOwner(NULL)
+ExprILCode::ExprILCode(void)
 { }
 
 ExprILCode::~ExprILCode()
@@ -158,7 +157,7 @@ void PushDefValILCode::ToString(std::ostream *pOStream) const
 ReverseBinaryOperILCode::ReverseBinaryOperILCode(ExprILCode *pBinaryILCode) :
 _pBinaryILCode(pBinaryILCode)
 {
-    _ASSERT(NULL != pBinaryILCode);
+    _ASSERT(nullptr != pBinaryILCode);
 }
 
 ReverseBinaryOperILCode::~ReverseBinaryOperILCode()
@@ -764,8 +763,16 @@ void MatrixValDivideILCode::ToString(ostream *pOStream) const
 // Class member - CallFunctionILCode
 //---------------------------------------------------------------------
 CallFunctionILCode::CallFunctionILCode(BaseFunction *pFunc) :
-_spFunc(pFunc)
-{ }
+_pFunc(pFunc)
+{
+	_ASSERT(nullptr != pFunc);
+}
+
+CallFunctionILCode::~CallFunctionILCode()
+{
+	delete _pFunc;
+	_pFunc = nullptr;
+}
 
 ExprILCodeEnum CallFunctionILCode::GetCodeEnum() const
 {
@@ -774,13 +781,13 @@ ExprILCodeEnum CallFunctionILCode::GetCodeEnum() const
 
 ResultTypeEnum CallFunctionILCode::GetReturnType(void) const
 {
-    return _spFunc->GetReturnType();
+    return _pFunc->GetReturnType();
 }
 
 bool CallFunctionILCode::RunCode(ExprILRunState *pILRunState)
 {
     bool state = true;
-    int paramCount = _spFunc->GetFuncInfo().GetParamCount();
+    int paramCount = _pFunc->GetFuncInfo().GetParamCount();
     vector<Variable*> paramVec(paramCount, static_cast<Variable*>(NULL));
     Variable* pRetVariable = NULL;
 
@@ -788,7 +795,7 @@ bool CallFunctionILCode::RunCode(ExprILRunState *pILRunState)
         GetVariableStack(pILRunState)->TopVar(&(paramVec[paramCount - 1 - i]), i);
 
     try {
-        pRetVariable = _spFunc->Call(&paramVec);
+        pRetVariable = _pFunc->Call(&paramVec);
     }
     catch (ExprException &ex) {
         state = false;

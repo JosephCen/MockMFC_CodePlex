@@ -3,6 +3,7 @@
 
 #include <list>
 #include <vector>
+#include <memory>
 #include "WordParser.h"
 #include "ExprILCode.h"
 #include "ExprWorkSpace.h"
@@ -25,19 +26,38 @@ public :
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef) = 0;
     ResultTypeEnum ResultType(void);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment) = 0;
+	// Destructor
+    virtual ~BaseNonTerminal() { }
 protected :
     // Constructor
     BaseNonTerminal(): _ResultType(RT_None) { }
     // Methods
     virtual ResultTypeEnum GetResultType(void) { _ASSERT(0); return RT_None; }
-    ExprILCode* FindExprILCode(const FuncParamsInfo &funcInfo);
-    ExprILCode* FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
+    ExprILCode_sp FindExprILCode(const FuncParamsInfo &funcInfo);
+    ExprILCode_sp FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
 };
 
 //---------------------------------------------------------------------
-// ExprNT - class declare
+// class declare
 //---------------------------------------------------------------------
+class StartNT;
+
+class ListNT;
+
 class ExprNT;
+
+class SubExprNT;
+
+class TermNT;
+
+class SubTermNT;
+
+class FactorNT;
+
+class MatrixNT;
+
+class FunctionNT;
+
 //---------------------------------------------------------------------
 // ListNT - class
 //---------------------------------------------------------------------
@@ -77,10 +97,6 @@ public :
 };
 
 //---------------------------------------------------------------------
-// SubExprNT - class declare
-//---------------------------------------------------------------------
-class SubExprNT;
-//---------------------------------------------------------------------
 // ExprNT - class
 //---------------------------------------------------------------------
 class ExprNT : public BaseNonTerminal
@@ -96,15 +112,16 @@ public :
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
-    ~ExprNT();
+    virtual ~ExprNT();
 protected :
     virtual ResultTypeEnum GetResultType(void);
+private :
+    // Constructor (Do not allow copy construct)
+    ExprNT(const ExprNT&);
+	// Assignment operator (Do not allow assignment operator)
+	ExprNT& operator=(const ExprNT&);
 };
 
-//---------------------------------------------------------------------
-// SubTermNT - class declare
-//---------------------------------------------------------------------
-class SubTermNT;
 //---------------------------------------------------------------------
 // TermNT - class
 //---------------------------------------------------------------------
@@ -121,9 +138,14 @@ public :
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
-    ~TermNT();
+    virtual ~TermNT();
 protected :
     virtual ResultTypeEnum GetResultType();
+private :
+    // Constructor (Do not allow copy construct)
+    TermNT(const TermNT&);
+	// Assignment operator (Do not allow assignment operator)
+	TermNT& operator=(const TermNT&);
 };
 
 //---------------------------------------------------------------------
@@ -133,7 +155,7 @@ class SubExprNT : public BaseNonTerminal
 {
 private :
     bool _IsFirstOne;
-    ExprILCode *_pExprILCode;
+    ExprILCode_sp _spExprILCode;
     TermNT _TermNT;
     SubExprNT *_pLeftOne;
 public :
@@ -146,43 +168,43 @@ public :
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
-    ~SubExprNT();
+    virtual ~SubExprNT();
 private :
     bool OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx);
 protected :
     virtual ResultTypeEnum GetResultType(void);
+private :
+    // Constructor (Do not allow copy construct)
+    SubExprNT(const SubExprNT&);
+	// Assignment operator (Do not allow assignment operator)
+	SubExprNT& operator=(const SubExprNT&);
 };
 
-//---------------------------------------------------------------------
-// MatrixNT - class declare
-//---------------------------------------------------------------------
-class MatrixNT;
-//---------------------------------------------------------------------
-// FunctionNT - class declare
-//---------------------------------------------------------------------
-class FunctionNT;
 //---------------------------------------------------------------------
 // FactorNT - class
 //---------------------------------------------------------------------
 class FactorNT : public BaseNonTerminal
 {
 private :
-    ExprNT *_pExprNT;
-    MatrixNT *_pMatrixNT;
-    FunctionNT *_pFunctionNT;
-    ExprILCode *_pExprILCode;
+	BaseNonTerminal *_pInnerNT;
+    ExprILCode_sp _spExprILCode;
 public :
     // Static Methods
     static bool IsInFirstSet(WordTypeEnum wordType);
     // Constructor
     FactorNT(void);
+	// Destructor
+    virtual ~FactorNT();
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
-    // Destructor
-    ~FactorNT();
 protected :
     virtual ResultTypeEnum GetResultType(void);
+private :
+    // Constructor (Do not allow copy construct)
+    FactorNT(const FactorNT&);
+	// Assignment operator (Do not allow assignment operator)
+	FactorNT& operator=(const FactorNT&);
 };
 
 //---------------------------------------------------------------------
@@ -192,7 +214,7 @@ class SubTermNT : public BaseNonTerminal
 {
 private :
     bool _IsFirstOne;
-    ExprILCode *_pExprILCode;
+    ExprILCode_sp _spExprILCode;
     FactorNT _FactorNT;
     SubTermNT *_pLeftOne;
 public :
@@ -205,11 +227,16 @@ public :
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
-    ~SubTermNT();
+    virtual ~SubTermNT();
 private :
     bool OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx);
 protected :
     virtual ResultTypeEnum GetResultType(void);
+private :
+    // Constructor (Do not allow copy construct)
+    SubTermNT(const SubTermNT&);
+	// Assignment operator (Do not allow assignment operator)
+	SubTermNT& operator=(const SubTermNT&);
 };
 
 //---------------------------------------------------------------------
@@ -249,9 +276,12 @@ public :
     Matrix::Row_Col_t Cols() const { return _ColList.size(); }
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
-    ~MatrixColsNT();
+    virtual ~MatrixColsNT();
 private :
-    MatrixColsNT(const MatrixColsNT &matrixColsNTRef);
+	// Constructor (Do not allow copy construct)
+    MatrixColsNT(const MatrixColsNT&);
+	// Assignment operator (Do not allow assignment operator)
+	MatrixColsNT& operator=(const MatrixColsNT&);
 };
 
 //---------------------------------------------------------------------
@@ -273,9 +303,12 @@ public :
     Matrix::Row_Col_t Cols() const { return _RowList.front()->Cols(); }
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
     // Destructor
-    ~MatrixRowsNT();
+    virtual ~MatrixRowsNT();
 private :
-    MatrixRowsNT(const MatrixRowsNT &matrixRowsNTRef);
+	// Constructor (Do not allow copy construct)
+    MatrixRowsNT(const MatrixRowsNT&);
+	// Assignment operator (Do not allow assignment operator)
+	MatrixRowsNT& operator=(const MatrixRowsNT&);
 };
 
 //---------------------------------------------------------------------
@@ -309,7 +342,7 @@ private :
     typedef std::vector<ExprNT*>::iterator ExprVecIter_t;
     typedef std::vector<ExprNT*>::const_iterator ExprVecCIter_t;
     ExprVec_t _ExprVec;
-    ExprILCode *_pExprILCode;
+    ExprILCode_sp _spExprILCode;
 public :
     // Static Methods
     static bool IsInFirstSet(WordTypeEnum wordType);
@@ -318,10 +351,17 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+	// Destructor
+    virtual ~FunctionNT();
 private :
     bool OperatorValidate(ExprContext &exprContextRef, std::string &funcName, int operWordIdx);
 protected :
     virtual ResultTypeEnum GetResultType(void);
+private :
+    // Constructor (Do not allow copy construct)
+    FunctionNT(const FunctionNT&);
+	// Assignment operator (Do not allow assignment operator)
+	FunctionNT& operator=(const FunctionNT&);
 };
 
 #endif

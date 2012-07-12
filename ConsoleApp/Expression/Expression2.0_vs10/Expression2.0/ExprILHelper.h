@@ -17,9 +17,9 @@ private :
     ExprILHelper(); // Avoid another code create an instance of this class by mistake.
 public :
     // Methods
-    static ExprILCode* FindOperatorILCode(const FuncParamsInfo &funcInfo);
+    static ExprILCode_sp FindOperatorILCode(const FuncParamsInfo &funcInfo);
     static int FindOperatorILCount(const std::string &funcName);
-    static ExprILCode* FindOperatorILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
+    static ExprILCode_sp FindOperatorILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
     static std::string GenOperNotFoundErr(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
 private :
     // Private methods
@@ -28,7 +28,7 @@ private :
     static const char* GetResultTypeName(ResultTypeEnum paramType);
 };
 
-inline ExprILCode* ExprILHelper::FindOperatorILCode(const FuncParamsInfo &funcInfo)
+inline ExprILCode_sp ExprILHelper::FindOperatorILCode(const FuncParamsInfo &funcInfo)
 {
     if (!s_IsInitialized)
         Initialize();

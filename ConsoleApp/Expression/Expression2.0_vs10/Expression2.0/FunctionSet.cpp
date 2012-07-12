@@ -3,18 +3,9 @@
 #include <crtdbg.h>
 using namespace std;
 
-FunctionSet::~FunctionSet()
+void FunctionSet::AddFunctionItem(const FuncParamsInfo &funcInfo, ExprILCode_sp spILCode)
 {
-    for (FuncMapIter_t it = _FuncMap.begin(); _FuncMap.end() != it; ++it) {
-        if (this == it->second->GetOwner())
-            delete it->second;
-        it->second = NULL;
-    }
-}
-
-void FunctionSet::AddFunctionItem(const FuncParamsInfo &funcInfo, ExprILCode *pILCode)
-{
-    _ASSERT(NULL != pILCode);
+    _ASSERT((bool)spILCode);
 
     FuncMapIter_t it = _FuncMap.find(funcInfo);
 
@@ -22,25 +13,22 @@ void FunctionSet::AddFunctionItem(const FuncParamsInfo &funcInfo, ExprILCode *pI
         // If the function info is existing.
         // Delete original one.
         // Add the point of new one into _FuncMap
-        if (this == it->second->GetOwner())
-            delete it->second;
-        it->second = pILCode;
+        it->second = spILCode;
     }
     else {
         // If the function info is not existing.
         // Add the point of new one into _FuncMap.
         // Add the function name into _FuncNameMap.
-        pILCode->SetOwner(this);
-        _FuncMap[funcInfo] = pILCode;
+        _FuncMap[funcInfo] = spILCode;
         ++_FuncNameMap[funcInfo.GetFuncName()];
     }
 }
 
-ExprILCode* FunctionSet::FindFunctionItem(const FuncParamsInfo &funcInfo)
+ExprILCode_sp FunctionSet::FindFunctionItem(const FuncParamsInfo &funcInfo)
 {
     FuncMapIter_t it = _FuncMap.find(funcInfo);
 
-    return (_FuncMap.end() != it ? it->second : NULL);
+    return (_FuncMap.end() != it ? it->second : ExprILCode_sp(nullptr));
 }
 
 int FunctionSet::FindFunctionName(const std::string &funcName) const

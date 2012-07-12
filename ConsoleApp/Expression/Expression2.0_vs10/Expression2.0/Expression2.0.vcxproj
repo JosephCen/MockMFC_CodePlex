@@ -95,6 +95,7 @@
     <ClCompile Include="ExprILCode.cpp" />
     <ClCompile Include="ExprILHelper.cpp" />
     <ClCompile Include="ExprWorkSpace.cpp" />
+    <ClCompile Include="FactorNT.cpp" />
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="FuncParamsInfo.cpp" />
     <ClCompile Include="FunctionSet.cpp" />
@@ -126,7 +127,6 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="NonTerminal.h" />
     <ClInclude Include="ParameterSet.h" />
-    <ClInclude Include="SharedPtr.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="VariableSet.h" />
