@@ -19,6 +19,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Header Files\NonTerminal">
+      <UniqueIdentifier>{cb146f31-6686-47ee-a3e9-17aa47b360ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NonTerminal">
+      <UniqueIdentifier>{b0e7afdf-e4b2-4f34-aa48-4679f91bbc1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseFunction.cpp">
@@ -54,9 +60,6 @@
     <ClCompile Include="Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NonTerminal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ParameterSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,6 +77,12 @@
     </ClCompile>
     <ClCompile Include="GameFunctions.cpp">
       <Filter>Source Files\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="NonTerminal.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="FactorNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,13 +125,7 @@
     <ClInclude Include="Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NonTerminal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ParameterSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedPtr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="GameFunctions.h">
       <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="NonTerminal.h">
+      <Filter>Header Files\NonTerminal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

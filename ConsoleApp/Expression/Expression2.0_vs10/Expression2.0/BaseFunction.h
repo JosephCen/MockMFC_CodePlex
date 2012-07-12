@@ -2,7 +2,6 @@
 #define BaseFunction_H
 
 #include <vector>
-#include "SharedPtr.h"
 #include "FuncParamsInfo.h"
 #include "VariableSet.h"
 #include "Symbol.h"
@@ -21,8 +20,6 @@ protected :
     // Constructor
     BaseFunction(void);
 };
-
-typedef SharedPtr<BaseFunction> BaseFunction_sp;
 
 struct FunctionInfo
 {

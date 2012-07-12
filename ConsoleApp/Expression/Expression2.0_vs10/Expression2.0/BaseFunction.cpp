@@ -2,6 +2,7 @@
 #include "BaseFunction.h"
 #include <crtdbg.h>
 using namespace std;
+using namespace std::tr1;
 
 
 BaseFunction::BaseFunction(void)

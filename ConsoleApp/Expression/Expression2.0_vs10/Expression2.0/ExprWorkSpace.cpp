@@ -26,11 +26,6 @@ ExprILCodeSegment::~ExprILCodeSegment()
 {
     _pWorkSpace->RemoveILCodeSegment(this);
     _pWorkSpace = NULL;
-    for (ILCodeIter_t codeIter = _ILCodeVec.begin(); _ILCodeVec.end() != codeIter; ++codeIter) {
-        if (this == (*codeIter)->GetOwner())
-            delete *codeIter;
-        *codeIter = NULL;
-    }
 }
 
 bool ExprILCodeSegment::Run(Variable **ppVariable)
@@ -42,7 +37,7 @@ bool ExprILCodeSegment::Run(Variable **ppVariable)
 
     // Clear all existing Error info
     this->ClearError();
-    for (ILCodeIter_t codeIter = _ILCodeVec.begin(); state && _ILCodeVec.end() != codeIter; ++codeIter) {
+    for (auto codeIter = _ILCodeVec.begin(); state && _ILCodeVec.end() != codeIter; ++codeIter) {
         state &= (*codeIter)->RunCode(&runState);
     }
 
