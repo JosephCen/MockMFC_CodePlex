@@ -98,6 +98,8 @@ public :
 private :
     // Constructor (Do not allow copy construct)
     ExprErrHolder(const ExprErrHolder&);
+	// Assignment operator (Do not allow assignment operator)
+	ExprErrHolder& operator=(const ExprErrHolder&);
 };
 
 inline void ExprErrHolder::SetError(const ExprException &exprExRef)

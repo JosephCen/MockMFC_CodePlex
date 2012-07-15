@@ -5,15 +5,11 @@
 #include "ExprWorkSpace.h"
 #include "VariableSet.h"
 #include "Formatter.h"
+#include "ExprILHelper.h"
 #include <iostream>
-using std::cout;
-using std::cin;
-using std::endl;
 #include <string>
-using std::string;
-using std::getline;
 #include <exception>
-using std::exception;
+using namespace std;
 
 //class TestCls
 //{
@@ -77,31 +73,38 @@ using std::exception;
 //    cout << "Call Copy Constructor." << endl;
 //}
 
+void RunApplication();
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-    ExprWorkSpace curWorkSpace;
+	RunApplication();
+
+	return 0;
+}
+
+void RunApplication()
+{
+	ExprWorkSpace curWorkSpace;
     Formatter formatter;
     string inputStr;
     string errorStr;
     string resultStr;
-    ExprILCodeSegment *pILCodeSegment = NULL;
-    Variable *pVariable = NULL;
+    ExprILCodeSegment_sp spILCodeSegment;
+    Variable_sp spVariable;
 
     while (getline(cin, inputStr))
     {
-        if (curWorkSpace.ParseILCodeSegment(inputStr, &pILCodeSegment))
+        if ((bool)(spILCodeSegment = curWorkSpace.ParseILCodeSegment(inputStr)))
         {
-            if (pILCodeSegment->Run(&pVariable))
+            if ((bool)(spVariable = spILCodeSegment->Run()))
             {
-                formatter.FormatVariable(pVariable, &resultStr);
+                formatter.FormatVariable(spVariable.get(), &resultStr);
                 cout << "Result: " << endl;
                 cout << resultStr << '\n' << endl;
-
-                pVariable = NULL;
             }
             else
             {
-                pILCodeSegment->GetExceptionStr(&errorStr);
+                spILCodeSegment->GetExceptionStr(&errorStr);
                 cout << "Execute Error: " << endl;
                 cout << errorStr << '\n' << endl;
             }
@@ -113,8 +116,7 @@ int _tmain(int argc, _TCHAR* argv[])
             cout << errorStr << '\n' << endl;
         }
     }
+
+	ExprILHelper::ReleaseRes();
     cin.clear();
-
-	return 0;
 }
-

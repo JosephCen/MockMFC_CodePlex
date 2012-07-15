@@ -21,6 +21,7 @@ public :
     static int FindOperatorILCount(const std::string &funcName);
     static ExprILCode_sp FindOperatorILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
     static std::string GenOperNotFoundErr(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
+	static void ReleaseRes();
 private :
     // Private methods
     static void Initialize();
@@ -42,6 +43,12 @@ inline int ExprILHelper::FindOperatorILCount(const std::string &funcName)
         Initialize();
 
     return (s_OperatorSet.FindFunctionName(funcName));
+}
+
+inline void ExprILHelper::ReleaseRes()
+{
+	s_IsInitialized = false;
+	s_OperatorSet.Clear();
 }
 
 #endif

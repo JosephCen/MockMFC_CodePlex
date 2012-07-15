@@ -22,6 +22,7 @@ public :
     void AddFunctionItem(const FuncParamsInfo &funcInfo, ExprILCode_sp spILCode);
     ExprILCode_sp FindFunctionItem(const FuncParamsInfo &funcInfo);
     int FindFunctionName(const std::string &funcName) const;
+	void Clear();
 };
 
 #endif

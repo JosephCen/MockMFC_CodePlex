@@ -131,11 +131,10 @@ ExprILCodeEnum PushDefValILCode::GetCodeEnum() const
 
 bool PushDefValILCode::RunCode(ExprILRunState *pILRunState)
 {
-    Variable *pVariable = NULL;
+    Variable_sp spVariable = pILRunState->GetVariableSet()->SearchVar(_DefValName);
 
-    pVariable = pILRunState->GetVariableSet()->SearchVar(_DefValName);
-    if (NULL != pVariable) {
-        pILRunState->GetVariableStack()->PushVar(pVariable->Duplicate());
+    if ((bool)spVariable) {
+        pILRunState->GetVariableStack()->PushVar(spVariable->Duplicate());
 
         return true;
     }
