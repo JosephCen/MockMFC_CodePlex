@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 #include <vector>
 #include "Matrix.h"
 
@@ -23,6 +24,8 @@ public :
     virtual Variable* Duplicate() const = 0;
     int GetTypeId() const;
 };
+
+typedef std::tr1::shared_ptr<Variable> Variable_sp;
 
 inline int Variable::GetTypeId() const
 {
@@ -165,7 +168,7 @@ inline const Matrix& MatrixVariable::GetValueRef() const
 class VariableSet
 {
 private :
-    typedef std::map<std::string, Variable*> VariableMap_t;
+    typedef std::map<std::string, Variable_sp> VariableMap_t;
     typedef VariableMap_t::iterator VarMapIter_t;
     VariableMap_t _VariableMap;
     VariableSet *_pParentSet;
@@ -176,9 +179,9 @@ public :
     VariableSet(VariableSet *pParentSet, bool openToSubnetSet);
     ~VariableSet();
     // Methods
-    Variable* SearchVar(const std::string &varName);
-    void InsertVar(const std::string &varName, Variable *pVariable);
-    void InsertVar(const char *pCStrVarName, Variable *pVariable);
+    Variable_sp SearchVar(const std::string &varName);
+    void InsertVar(const std::string &varName, Variable_sp spVariable);
+    void InsertVar(const char *pCStrVarName, Variable_sp spVariable);
     void RemoveVar(const std::string &varName);
 private :
     // Do not allow to copy constructor

@@ -28,14 +28,18 @@ public :
     ~ExprILCodeSegment();
     // Methods
     void Append(ExprILCode_sp spILCode);
-    bool Run(Variable **ppVariable);
+    Variable_sp Run();
     int Length() const;
     virtual void ToString(std::ostream *pOStream) const;
     std::string ToString() const;
 private :
     // Constructor (Do not allow copy construct)
-    ExprILCodeSegment(const ExprILCodeSegment &other);
+    ExprILCodeSegment(const ExprILCodeSegment&);
+	// Assignment operator (Do not allow assignment operator)
+	ExprILCodeSegment& operator=(const ExprILCodeSegment&);
 };
+
+typedef std::tr1::shared_ptr<ExprILCodeSegment> ExprILCodeSegment_sp;
 
 inline void ExprILCodeSegment::Append(ExprILCode_sp spILCode)
 {
@@ -53,8 +57,8 @@ inline int ExprILCodeSegment::Length() const
 class ExprWorkSpace : public ExprErrHolder
 {
 private :
-    typedef std::vector<ExprILCodeSegment*> ILCodeSegmentVec_t;
-    typedef std::vector<ExprILCodeSegment*>::iterator ILCodeSegmentIter_t;
+    typedef std::vector<ExprILCodeSegment_sp> ILCodeSegmentVec_t;
+    typedef std::vector<ExprILCodeSegment_sp>::iterator ILCodeSegmentIter_t;
 
     VariableSet _GlobalVarSet;
     WordParser _WordParser;
@@ -65,10 +69,10 @@ public :
     ExprWorkSpace();
     ~ExprWorkSpace();
     // Methods
-    bool ParseILCodeSegment(const std::string &codeStr, ExprILCodeSegment **ppILSegment);
-    bool RunILCodeSegment(ExprILCodeSegment *pILSegment, Variable **ppVariable);
-    void RemoveILCodeSegment(ExprILCodeSegment *pILSegment);
+    ExprILCodeSegment_sp ParseILCodeSegment(const std::string &codeStr);
+    Variable_sp RunILCodeSegment(ExprILCodeSegment_sp spILSegment);
 private :
+	void RemoveILCodeSegment(ExprILCodeSegment *pILSegment);
     // Constructor (Do not allow copy construct)
     ExprWorkSpace(const ExprWorkSpace&);
     // Friend declaration

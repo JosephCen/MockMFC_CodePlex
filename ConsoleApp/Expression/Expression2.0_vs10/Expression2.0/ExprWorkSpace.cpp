@@ -28,11 +28,10 @@ ExprILCodeSegment::~ExprILCodeSegment()
     _pWorkSpace = NULL;
 }
 
-bool ExprILCodeSegment::Run(Variable **ppVariable)
+Variable_sp ExprILCodeSegment::Run()
 {
-    _ASSERT(NULL != ppVariable);
-
     bool state = true;
+    Variable_sp spVariable;
     ExprILRunState runState(&(_pWorkSpace->_GlobalVarSet), false); // Use friend declaration
 
     // Clear all existing Error info
@@ -43,8 +42,8 @@ bool ExprILCodeSegment::Run(Variable **ppVariable)
 
     if (state) {
         if (1 == runState.GetVariableStack()->Count()) {
-            *ppVariable = runState.GetVariableStack()->DupTopVar();
-            _pWorkSpace->_GlobalVarSet.InsertVar("Ans", *ppVariable);
+            spVariable = Variable_sp(runState.GetVariableStack()->DupTopVar());
+            _pWorkSpace->_GlobalVarSet.InsertVar("Ans", spVariable);
         }
         // TODO: add else part (Given a default empty return Variable)
     }
@@ -53,7 +52,7 @@ bool ExprILCodeSegment::Run(Variable **ppVariable)
         this->MergeError(runState);
     }
 
-    return state;
+    return spVariable;
 }
 
 void ExprILCodeSegment::ToString(ostream *pOStream) const
@@ -86,15 +85,13 @@ ExprErrHolder(), _GlobalVarSet(), _WordParser(), _ILCodeSegmentSet(), _IsDesruct
 ExprWorkSpace::~ExprWorkSpace()
 {
     _IsDesructing = true;
-    for (ILCodeSegmentIter_t iter = _ILCodeSegmentSet.begin(); _ILCodeSegmentSet.end() != iter; ++iter)
-        delete *iter;
+    //for (ILCodeSegmentIter_t iter = _ILCodeSegmentSet.begin(); _ILCodeSegmentSet.end() != iter; ++iter)
+    //    delete *iter;
     _ILCodeSegmentSet.clear();
 }
 
-bool ExprWorkSpace::ParseILCodeSegment(const std::string &codeStr, ExprILCodeSegment **ppILSegment)
+ExprILCodeSegment_sp ExprWorkSpace::ParseILCodeSegment(const std::string &codeStr)
 {
-    _ASSERT(NULL != ppILSegment);
-
     WordFwCursor wordCursor = _WordParser.GenWordFwCursor(codeStr);
     ExprContext exprContext;
 
@@ -104,58 +101,50 @@ bool ExprWorkSpace::ParseILCodeSegment(const std::string &codeStr, ExprILCodeSeg
         StartNT startNT;
 
         if (startNT.Parse(exprContext, wordCursor)) {
-            ExprILCodeSegment *pILSegment = new ExprILCodeSegment(this);
+            ExprILCodeSegment_sp spILSegment = ExprILCodeSegment_sp(new ExprILCodeSegment(this));
 
-            startNT.AppendILSegment(*pILSegment);
-            if (pILSegment->Length() > 0) {
-                _ILCodeSegmentSet.push_back(pILSegment);
-                *ppILSegment = pILSegment;
+            startNT.AppendILSegment(*spILSegment);
+            if (spILSegment->Length() > 0) {
+                _ILCodeSegmentSet.push_back(spILSegment);
 
-                return true;
+                return spILSegment;
             }
             else {
-                delete pILSegment;
-                pILSegment = NULL;
                 this->SetError("Empty code string");
-
-                return false;
             }
         }
     }
     // Collect all error info generate during run
     this->MergeError(exprContext);
 
-    return false;
+    return (ExprILCodeSegment_sp());
 }
 
-bool ExprWorkSpace::RunILCodeSegment(ExprILCodeSegment *pILSegment, Variable **ppVariable)
+Variable_sp ExprWorkSpace::RunILCodeSegment(ExprILCodeSegment_sp spILSegment)
 {
-    _ASSERT(NULL != pILSegment);
-    _ASSERT(NULL != ppVariable);
+    _ASSERT((bool)spILSegment);
+
+    Variable_sp spVariable;
 
     // Clear all existing Error info
     this->ClearError();
-    if (pILSegment->Run(ppVariable))
-    {
-        return true;
-    }
-    else
-    {
-        this->MergeError(pILSegment);
+    if (!(spVariable = spILSegment->Run()))
+        this->MergeError(spILSegment.get());
 
-        return false;
-    }
+    return spVariable;
 }
 
 void ExprWorkSpace::RemoveILCodeSegment(ExprILCodeSegment *pILSegment)
 {
-    _ASSERT(NULL != pILSegment);
+    _ASSERT(nullptr != pILSegment);
 
     if (!_IsDesructing)
     {
         ILCodeSegmentIter_t iter = _ILCodeSegmentSet.begin();
 
-        iter = find(iter, _ILCodeSegmentSet.end(), pILSegment);
+        iter = find_if(iter, _ILCodeSegmentSet.end(), [pILSegment](ExprILCodeSegment_sp &spILSegment) -> bool {
+			return (spILSegment.get() == pILSegment);
+		});
         if (_ILCodeSegmentSet.end() != iter)
             _ILCodeSegmentSet.erase(iter);
     }

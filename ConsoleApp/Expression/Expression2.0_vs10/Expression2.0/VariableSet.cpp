@@ -105,14 +105,10 @@ _pParentSet(pParentSet), _OpenToSubSet(openToSubnetSet)
 VariableSet::~VariableSet()
 {
     _pParentSet = NULL;
-
-    for (VarMapIter_t iter = _VariableMap.begin(); iter != _VariableMap.end(); ++iter) {
-        delete iter->second;
-        iter->second = NULL;
-    }
+	_VariableMap.clear();
 }
 
-Variable* VariableSet::SearchVar(const std::string &varName)
+Variable_sp VariableSet::SearchVar(const std::string &varName)
 {
     VariableSet *pCurSet = this;
     VarMapIter_t curIter = pCurSet->_VariableMap.find(varName);
@@ -128,26 +124,22 @@ Variable* VariableSet::SearchVar(const std::string &varName)
     if (NULL != pCurSet && curIter != pCurSet->_VariableMap.end())
         return curIter->second;
     else
-        return NULL;
+        return (Variable_sp());
 }
 
-void VariableSet::InsertVar(const std::string &varName, Variable *pVariable)
+void VariableSet::InsertVar(const std::string &varName, Variable_sp spVariable)
 {
-    _ASSERT(NULL != pVariable);
+    _ASSERT((bool)spVariable);
 
-    VarMapIter_t foundIter = _VariableMap.find(varName);
-
-    if (foundIter != _VariableMap.end())
-        delete foundIter->second;
-    _VariableMap[varName] = pVariable;
+    _VariableMap[varName] = spVariable;
 }
 
-void VariableSet::InsertVar(const char *pCStrVarName, Variable *pVariable)
+void VariableSet::InsertVar(const char *pCStrVarName, Variable_sp spVariable)
 {
     _ASSERT(NULL != pCStrVarName);
-    _ASSERT(NULL != pVariable);
+    _ASSERT((bool)spVariable);
 
-    InsertVar(string(pCStrVarName), pVariable);
+    InsertVar(string(pCStrVarName), spVariable);
 }
 
 void VariableSet::RemoveVar(const std::string &varName)
@@ -155,10 +147,7 @@ void VariableSet::RemoveVar(const std::string &varName)
     VarMapIter_t delIter = _VariableMap.find(varName);
 
     if (delIter != _VariableMap.end())
-    {
-        delete delIter->second;
         _VariableMap.erase(delIter);
-    }
 }
 
 //---------------------------------------------------------------------

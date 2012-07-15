@@ -37,3 +37,9 @@ int FunctionSet::FindFunctionName(const std::string &funcName) const
 
     return (_FuncNameMap.end() != it ? it->second : 0);
 }
+
+void FunctionSet::Clear()
+{
+	_FuncMap.clear();
+	_FuncNameMap.clear();
+}

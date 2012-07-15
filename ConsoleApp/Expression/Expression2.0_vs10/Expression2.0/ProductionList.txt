@@ -3,8 +3,13 @@ Expression 2.0 production
 =============================
 start => list Eof
 
-list => expr ; list
+list => codeline ; list
       | nul
+
+codeline => assign_expr
+
+assign_expr => assign_expr = expr
+             | expr
 
 expr => expr + term
       | expr - term
