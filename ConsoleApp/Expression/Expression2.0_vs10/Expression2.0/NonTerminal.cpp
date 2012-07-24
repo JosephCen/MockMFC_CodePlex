@@ -10,6 +10,16 @@ using namespace std;
 //---------------------------------------------------------------------
 // Class member - BaseNonTerminal
 //---------------------------------------------------------------------
+BaseNonTerminal::BaseNonTerminal(void) :
+_ResultType(RT_None)
+{ }
+
+BaseNonTerminal::BaseNonTerminal(BaseNonTerminal &&rValRef) :
+_ResultType(rValRef._ResultType)
+{
+    rValRef._ResultType = RT_None;
+}
+
 ResultTypeEnum BaseNonTerminal::ResultType(void)
 {
     if (RT_None == _ResultType)
@@ -53,49 +63,6 @@ bool StartNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
         {
             exprContextRef.SetError("A unexpected word.", wordCursorRef.CurrentIdx());
             isSuccess = false;
-        }
-    }
-
-    return isSuccess;
-}
-
-//---------------------------------------------------------------------
-// Class member - ListNT
-//---------------------------------------------------------------------
-ListNT::~ListNT()
-{
-    for (ExprList_t::iterator iter = _ExprList.begin(); _ExprList.end() != iter; ++iter) {
-        delete *iter;
-        *iter = NULL;
-    }
-}
-
-bool ListNT::IsInFirstSet(WordTypeEnum wordType)
-{
-    // First(list) = { ( | Defparam | Num | [ | nul }
-    return WT_Paranthese_L == wordType || WT_DefVariable == wordType || WT_RealValue == wordType
-           || WT_S_Bracket_L == wordType || WT_Nul == wordType;
-}
-
-bool ListNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
-{
-    bool isSuccess = true;
-
-    // list => expr ; list
-    //       | nul
-
-    while (isSuccess && ExprNT::IsInFirstSet(wordCursorRef.CurrentWord().WordType())) {
-        _ExprList.push_back(new ExprNT());
-        isSuccess = isSuccess && _ExprList.back()->Parse(exprContextRef, wordCursorRef);
-        if (isSuccess) {
-            if (WT_Semicolon == wordCursorRef.CurrentWord().WordType()) {
-                _IsEndWithSemicolon = true;
-                isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
-            }
-            else {
-                _IsEndWithSemicolon = false;
-                break;
-            }
         }
     }
 
@@ -643,22 +610,6 @@ ResultTypeEnum FunctionNT::GetResultType(void)
 ExprILCodeSegment& StartNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     return _ListNT.AppendILSegment(ilSegment);
-}
-
-//---------------------------------------------------------------------
-// Class member - ListNT
-//---------------------------------------------------------------------
-ExprILCodeSegment& ListNT::AppendILSegment(ExprILCodeSegment &ilSegment)
-{
-    for (ExprList_t::iterator iter = _ExprList.begin(); _ExprList.end() != iter; ++iter) {
-        (*iter)->AppendILSegment(ilSegment);
-
-        if (_IsEndWithSemicolon || _ExprList.back() != *iter) {
-            // TODO: Remove run stack top node.
-        }
-    }
-
-    return ilSegment;
 }
 
 //---------------------------------------------------------------------

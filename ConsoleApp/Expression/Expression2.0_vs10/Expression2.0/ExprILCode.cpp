@@ -41,6 +41,10 @@ ExprILCode::~ExprILCode()
 
 ResultTypeEnum ExprILCode::GetReturnType(void) const
 {
+    // The purpose for this method is used to avoid these empty 'GetReturnType()' methods defined 
+    // in derived class of ExprILCode.
+    _ASSERT_EXPR(0, L"Method 'ExprILCode::GetReturnType()' should not be called directly.");
+
     return RT_None;
 }
 
@@ -120,8 +124,8 @@ void PushRealValILCode::ToString(ostream *pOStream) const
 //---------------------------------------------------------------------
 // PushDefValILCode - class
 //---------------------------------------------------------------------
-PushDefValILCode::PushDefValILCode(const string &defValName) :
-_DefValName(defValName)
+PushDefValILCode::PushDefValILCode(const string &defValName, ResultTypeEnum resultType) :
+_DefValName(defValName), _ResultType(resultType)
 { }
 
 ExprILCodeEnum PushDefValILCode::GetCodeEnum() const
@@ -129,11 +133,18 @@ ExprILCodeEnum PushDefValILCode::GetCodeEnum() const
     return EIL_PushDefVal;
 }
 
+ResultTypeEnum PushDefValILCode::GetReturnType(void) const
+{
+    return _ResultType;
+}
+
 bool PushDefValILCode::RunCode(ExprILRunState *pILRunState)
 {
     Variable_sp spVariable = pILRunState->GetVariableSet()->SearchVar(_DefValName);
 
     if ((bool)spVariable) {
+		_ASSERT(spVariable->GetTypeId() == (int)_ResultType); // The type of varialbe should not be changed.
+
         pILRunState->GetVariableStack()->PushVar(spVariable->Duplicate());
 
         return true;
@@ -813,4 +824,35 @@ bool CallFunctionILCode::RunCode(ExprILRunState *pILRunState)
 void CallFunctionILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "CallFunction";
+}
+
+//---------------------------------------------------------------------
+// Class member - NewVariableILCode
+//---------------------------------------------------------------------
+NewVariableILCode::NewVariableILCode(const string &variableName) :
+_VariableName(variableName)
+{
+    _ASSERT_EXPR(_VariableName.length() > 0, L"Name of variable should contain at lease 1 character.");
+}
+
+ExprILCodeEnum NewVariableILCode::GetCodeEnum() const
+{
+    return EIL_NewVariable;
+}
+
+bool NewVariableILCode::RunCode(ExprILRunState *pILRunState)
+{
+    _ASSERT_EXPR(GetVariableStack(pILRunState)->Count() > 0, L"There should be at lease 1 variable in the variable stack.");
+
+    Variable *pVariable = nullptr;
+
+    GetVariableStack(pILRunState)->TopVar(&pVariable);
+    pILRunState->GetVariableSet()->InsertVar(_VariableName, Variable_sp(pVariable->Duplicate()));
+
+    return true;
+}
+
+void NewVariableILCode::ToString(ostream *pOStream) const
+{
+    *pOStream << "NewVariable " << _VariableName;
 }

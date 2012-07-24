@@ -16,9 +16,8 @@ BaseNonTerminal(), _pInnerNT(nullptr), _spExprILCode()
 
 FactorNT::~FactorNT()
 {
-	if (nullptr != _pInnerNT)
-		delete _pInnerNT;
-	_pInnerNT = nullptr;
+    delete _pInnerNT; // Call delete against a null pointer is harmless.
+    _pInnerNT = nullptr;
 }
 
 bool FactorNT::IsInFirstSet(WordTypeEnum wordType)
@@ -74,8 +73,9 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
             case WT_DefVariable :
                 // factor => Defparam
 
-                // TODO: Parse a define variable
-                _ASSERT(0);
+                _spExprILCode.reset(new PushDefValILCode(wordCursorRef.CurrentWord().StringValue(),
+                    static_cast<ResultTypeEnum>(wordCursorRef.CurrentWord().IntValue())));
+                isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
                 break;
             case WT_RealValue :
                 // factor => Num

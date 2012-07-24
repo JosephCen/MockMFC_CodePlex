@@ -85,8 +85,6 @@ ExprErrHolder(), _GlobalVarSet(), _WordParser(), _ILCodeSegmentSet(), _IsDesruct
 ExprWorkSpace::~ExprWorkSpace()
 {
     _IsDesructing = true;
-    //for (ILCodeSegmentIter_t iter = _ILCodeSegmentSet.begin(); _ILCodeSegmentSet.end() != iter; ++iter)
-    //    delete *iter;
     _ILCodeSegmentSet.clear();
 }
 

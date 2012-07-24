@@ -21,6 +21,7 @@ enum WordTypeEnum
    WT_DotMultiply,   // .*
    WT_DotDivide,     // ./
    WT_Negative,      
+   WT_Assignment,    // =
    WT_Paranthese_R,  // )
    WT_Paranthese_L,  // (
    WT_S_Bracket_R,   // ]
@@ -41,16 +42,19 @@ class WordUnit
 private :
     WordTypeEnum _WordType;
     Matrix::RealVal_t _RealVal;
+	int _IntVal;
     std::string _StrVal;
 public :
     // Constructs
     WordUnit();
     explicit WordUnit(WordTypeEnum wordType);
     WordUnit(WordTypeEnum wordType, Matrix::RealVal_t realVal);
+	WordUnit(WordTypeEnum wordType, const std::string &strVal, int intVal);
     WordUnit(WordTypeEnum wordType, const std::string &strVal);
     // Methods
     WordTypeEnum WordType(void) const { return _WordType; }
     Matrix::RealVal_t RealValue(void) const;
+	int IntValue(void) const;
     const std::string& StringValue(void) const;
     std::string ToString() const;
     // Override Operators
@@ -65,6 +69,11 @@ inline Matrix::RealVal_t WordUnit::RealValue(void) const
     _ASSERT(WT_RealValue == _WordType);
 
     return _RealVal;
+}
+
+inline int WordUnit::IntValue(void) const
+{
+	return _IntVal;
 }
 
 inline const std::string& WordUnit::StringValue(void) const
@@ -97,7 +106,7 @@ private :
     static bool s_IsInitialized;
     static WordParser *s_pDefaultParser;
 
-    ExprWorkSpace *_pCurExprWS;
+    ExprWorkSpace *_pCurWorkSpace;
 public :
     // Constructs
     WordParser(void);
@@ -126,7 +135,7 @@ private :
 //---------------------------------------------------------------------
 inline void WordParser::SetExprWorkSpace(ExprWorkSpace *pExprWorkSpace)
 {
-    _pCurExprWS = pExprWorkSpace;
+    _pCurWorkSpace = pExprWorkSpace;
 }
 
 inline WordParser::OperatorMap_t& WordParser::GetOperatorMap() 
@@ -142,7 +151,6 @@ inline WordParser::OperatorMap_t& WordParser::GetOperatorMap()
 //---------------------------------------------------------------------
 class WordFwCursor
 {
-friend class WordParser;
 public :
     typedef std::string::const_iterator StrIter_t;
 private :
@@ -177,6 +185,8 @@ public :
     // Override Operators
     operator bool() const;
     WordFwCursor& operator =(const WordFwCursor &wordCursor);
+    // Friend declaration
+    friend class WordParser;
 };
 
 //---------------------------------------------------------------------
@@ -220,18 +230,6 @@ inline int WordFwCursor::CurrentIdx() const
 inline bool WordFwCursor::NextWord()
 {
     return _pParser->NextWord(*this);
-}
-
-inline bool WordFwCursor::NextWord(ExprContext &exprContextRef)
-{
-    if (!NextWord())
-    {
-        exprContextRef.SetError(*_pExprEx);
-        
-        return false;
-    }
-
-    return true;
 }
 
 inline WordFwCursor::operator bool() const

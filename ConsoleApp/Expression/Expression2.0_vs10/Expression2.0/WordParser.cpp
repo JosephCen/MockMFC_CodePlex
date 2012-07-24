@@ -31,6 +31,10 @@ _WordType(wordType), _RealVal(realVal)
     _ASSERT(WT_RealValue == _WordType);
 }
 
+WordUnit::WordUnit(WordTypeEnum wordType, const string &strVal, int intVal) :
+_WordType(wordType), _IntVal(intVal), _StrVal(strVal)
+{ }
+
 WordUnit::WordUnit(WordTypeEnum wordType, const string &strVal):
 _WordType(wordType), _StrVal(strVal)
 { }
@@ -60,6 +64,9 @@ string WordUnit::ToString() const
             break;
         case WT_DotMultiply :
             resultStrS << "DotMultiply";
+            break;
+        case WT_Assignment :
+            resultStrS << "Assignment";
             break;
         case WT_Paranthese_R :
             resultStrS << "Paranthese_R";
@@ -107,6 +114,7 @@ void WordParser::Initialize()
         s_OperatorMap["/"] = WT_Divide;
         s_OperatorMap[".*"] = WT_DotMultiply;
         s_OperatorMap["./"] = WT_DotDivide;
+        s_OperatorMap["="] = WT_Assignment;
         s_OperatorMap[")"] = WT_Paranthese_R;
         s_OperatorMap["("] = WT_Paranthese_L;
         s_OperatorMap["]"] = WT_S_Bracket_R;
@@ -127,7 +135,7 @@ WordParser* WordParser::GetDefaultParserPtr()
 }
 
 WordParser::WordParser(void):
-_pCurExprWS(NULL)
+_pCurWorkSpace(nullptr)
 { }
 
 WordFwCursor WordParser::GenWordFwCursor(const string &inputStr)
@@ -235,9 +243,11 @@ bool WordParser::ParseFuncVar(const string &str, WordUnit &wordRef)
     _ASSERT(str.length() != 0);
 
     // TODO: Parse a defined function or variable
-    if (NULL != _pCurExprWS) {
-        if (NULL != _pCurExprWS->_GlobalVarSet.SearchVar(str))
-            wordRef = WordUnit(WT_DefVariable, str);
+    if (NULL != _pCurWorkSpace) {
+		Variable_sp spVariable;
+
+        if ((bool)(spVariable = _pCurWorkSpace->_GlobalVarSet.SearchVar(str)))
+            wordRef = WordUnit(WT_DefVariable, str, spVariable->GetTypeId());
         else if (ExprILHelper::FindOperatorILCount(str)) // TODO: Parse a defined function which's scope is current WorkSapce
             wordRef = WordUnit(WT_DefFunction, str);
         else
@@ -282,6 +292,7 @@ NextStrTypeEnum WordParser::GetNextWordEndIter(StrIter_t iter1, StrIter_t iter2,
             break;
         case '*' :
         case '/' :
+        case '=' :
         case '(' :
         case ')' :
         case '[' :
@@ -440,6 +451,17 @@ void WordFwCursor::SetError(const WordFwCursor::StrIter_t &strIter, const char *
 
     _IsErrorState = true;
     _pExprEx = new ExprException(errorCh, static_cast<int>(strIter - _InputStr.begin()));
+}
+
+bool WordFwCursor::NextWord(ExprContext &exprContextRef)
+{
+    if (!NextWord()) {
+        exprContextRef.SetError(*_pExprEx);
+        
+        return false;
+    }
+
+    return true;
 }
 
 string WordFwCursor::ErrorMsg() const

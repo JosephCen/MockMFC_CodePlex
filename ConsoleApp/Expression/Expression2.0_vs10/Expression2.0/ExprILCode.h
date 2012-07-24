@@ -109,11 +109,13 @@ class PushDefValILCode : public ExprILCode
 {
 private :
     std::string _DefValName;
+	ResultTypeEnum _ResultType;
 public :
     // Constructor
-    explicit PushDefValILCode(const std::string &defValName);
+    PushDefValILCode(const std::string &defValName, ResultTypeEnum resultType);
     // Methods
-    virtual ExprILCodeEnum GetCodeEnum() const;
+    virtual ExprILCodeEnum GetCodeEnum(void) const;
+	virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
 };
@@ -457,6 +459,22 @@ public :
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual ResultTypeEnum GetReturnType(void) const;
+    virtual bool RunCode(ExprILRunState *pILRunState);
+    virtual void ToString(std::ostream *pOStream) const;
+};
+
+//---------------------------------------------------------------------
+// NewVariableILCode - class
+//---------------------------------------------------------------------
+class NewVariableILCode : public ExprILCode
+{
+private :
+    std::string _VariableName;
+public :
+    // Constructor
+    NewVariableILCode(const std::string &variableName);
+    // Methods
+    virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
     virtual void ToString(std::ostream *pOStream) const;
 };
