@@ -84,6 +84,15 @@
     <ClCompile Include="FactorNT.cpp">
       <Filter>Source Files\NonTerminal</Filter>
     </ClCompile>
+    <ClCompile Include="CodeLineNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="AssignExprNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="ListNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseFunction.h">

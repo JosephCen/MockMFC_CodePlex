@@ -23,6 +23,8 @@ enum ExprILCodeEnum
     EIL_MatrixValMultiply,
     EIL_MatrixValDivide,
     EIL_CallFunction,
+    EIL_NewVariable,
+    //
     EIL_Count,
 };
 

@@ -88,7 +88,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssignExprNT.cpp" />
     <ClCompile Include="BaseFunction.cpp" />
+    <ClCompile Include="CodeLineNT.cpp" />
     <ClCompile Include="ExprAdapter.cpp" />
     <ClCompile Include="Expression2.0.cpp" />
     <ClCompile Include="ExprException.cpp" />
@@ -99,6 +101,7 @@
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="FuncParamsInfo.cpp" />
     <ClCompile Include="FunctionSet.cpp" />
+    <ClCompile Include="ListNT.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="NonTerminal.cpp" />
     <ClCompile Include="ParameterSet.cpp" />

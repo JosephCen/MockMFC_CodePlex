@@ -30,7 +30,8 @@ public :
     virtual ~BaseNonTerminal() { }
 protected :
     // Constructor
-    BaseNonTerminal(): _ResultType(RT_None) { }
+    BaseNonTerminal(void);
+    BaseNonTerminal(BaseNonTerminal &&rValRef);
     // Methods
     virtual ResultTypeEnum GetResultType(void) { _ASSERT(0); return RT_None; }
     ExprILCode_sp FindExprILCode(const FuncParamsInfo &funcInfo);
@@ -43,6 +44,10 @@ protected :
 class StartNT;
 
 class ListNT;
+
+class CodeLineNT;
+
+class AssignExprNT;
 
 class ExprNT;
 
@@ -64,19 +69,47 @@ class FunctionNT;
 class ListNT : public BaseNonTerminal
 {
 private :
-    typedef std::list<ExprNT*> ExprList_t;
-    ExprList_t _ExprList;
+    typedef std::vector<CodeLineNT> CodeList_t;
+    CodeList_t _CodeList;
     bool _IsEndWithSemicolon;
 public :
     // Static Methods
     static bool IsInFirstSet(WordTypeEnum wordType);
     // Constructor
-    ListNT(void): _IsEndWithSemicolon(true), _ExprList(), BaseNonTerminal() { }
+    ListNT(void);
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+private :
+    // Constructor (Do not allow copy construct)
+    ListNT(const ListNT&);
+    // Assignment operator (Do not allow assignment operator)
+    ListNT& operator=(const ListNT&);
+};
+
+//---------------------------------------------------------------------
+// CodeLineNT - class
+//---------------------------------------------------------------------
+class CodeLineNT : public BaseNonTerminal
+{
+private :
+	BaseNonTerminal *_pInnerNT;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    CodeLineNT(void);
+    CodeLineNT(CodeLineNT &&rValRef);
     // Destructor
-    ~ListNT();
+    virtual ~CodeLineNT();
+    // Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+private :
+    // Constructor (Do not allow copy construct)
+    CodeLineNT(const CodeLineNT&);
+    // Assignment operator (Do not allow assignment operator)
+    CodeLineNT& operator=(const CodeLineNT&);
 };
 
 //---------------------------------------------------------------------
@@ -120,6 +153,43 @@ private :
     ExprNT(const ExprNT&);
 	// Assignment operator (Do not allow assignment operator)
 	ExprNT& operator=(const ExprNT&);
+};
+
+//---------------------------------------------------------------------
+// AssignExprNT - class
+//---------------------------------------------------------------------
+class AssignExprNT : public BaseNonTerminal
+{
+private :
+    enum Flag
+    {
+        F_None,
+        F_JustExpr,
+        F_UnDefVar,
+        F_DefinedVar,
+    };
+
+    Flag _Flag;
+    ExprILCode_sp _spExprILCode;
+    ExprNT _Expr;
+    AssignExprNT *_pRightOne;
+public :
+    // Static Methods
+    static bool IsInFirstSet(WordTypeEnum wordType);
+    // Constructor
+    AssignExprNT(void);
+    // Destructor
+    virtual ~AssignExprNT();
+	// Methods
+    virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
+    virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+protected :
+    virtual ResultTypeEnum GetResultType();
+private :
+    // Constructor (Do not allow copy construct)
+    AssignExprNT(const AssignExprNT&);
+	// Assignment operator (Do not allow assignment operator)
+	AssignExprNT& operator=(const AssignExprNT&);
 };
 
 //---------------------------------------------------------------------
