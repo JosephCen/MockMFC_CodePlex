@@ -24,6 +24,11 @@ ExprErrHolder(), _pWorkSpace(pWorkSpace), _ILCodeVec()
 
 ExprILCodeSegment::~ExprILCodeSegment()
 {
+    for_each(_ILCodeVec.begin(), _ILCodeVec.end(), [](ExprILCode* &pILRef) {
+        delete pILRef;
+        pILRef = nullptr;
+    });
+    _ILCodeVec.clear();
     _pWorkSpace->RemoveILCodeSegment(this);
     _pWorkSpace = NULL;
 }

@@ -11,11 +11,13 @@ using namespace std;
 // Class member - FactorNT
 //---------------------------------------------------------------------
 FactorNT::FactorNT(void): 
-BaseNonTerminal(), _pInnerNT(nullptr), _spExprILCode() 
+BaseNonTerminal(), _pInnerNT(nullptr), _pExprILCode(nullptr) 
 { }
 
 FactorNT::~FactorNT()
 {
+    delete _pExprILCode;
+    _pExprILCode = nullptr;
     delete _pInnerNT; // Call delete against a null pointer is harmless.
     _pInnerNT = nullptr;
 }
@@ -73,14 +75,14 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
             case WT_DefVariable :
                 // factor => Defparam
 
-                _spExprILCode.reset(new PushDefValILCode(wordCursorRef.CurrentWord().StringValue(),
-                    static_cast<ResultTypeEnum>(wordCursorRef.CurrentWord().IntValue())));
+                _pExprILCode = new PushDefValILCode(wordCursorRef.CurrentWord().StringValue(),
+                                        static_cast<ResultTypeEnum>(wordCursorRef.CurrentWord().IntValue()));
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
                 break;
             case WT_RealValue :
                 // factor => Num
 
-                _spExprILCode.reset(new PushRealValILCode(wordCursorRef.CurrentWord().RealValue()));
+                _pExprILCode = new PushRealValILCode(wordCursorRef.CurrentWord().RealValue());
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
                 break;
             default :
@@ -98,7 +100,7 @@ ResultTypeEnum FactorNT::GetResultType(void)
     if (nullptr != _pInnerNT)
         return _pInnerNT->ResultType();
     else
-        return _spExprILCode->GetReturnType();
+        return _pExprILCode->GetReturnType();
 }
 
 ExprILCodeSegment& FactorNT::AppendILSegment(ExprILCodeSegment &ilSegment)
@@ -107,9 +109,9 @@ ExprILCodeSegment& FactorNT::AppendILSegment(ExprILCodeSegment &ilSegment)
         _pInnerNT->AppendILSegment(ilSegment);
     }
     else {
-        _ASSERT((bool)_spExprILCode);
+        _ASSERT(nullptr != _pExprILCode);
 
-        ilSegment.Append(_spExprILCode);
+        ilSegment.Append(_pExprILCode->Duplicate());
     }
     
     return ilSegment;

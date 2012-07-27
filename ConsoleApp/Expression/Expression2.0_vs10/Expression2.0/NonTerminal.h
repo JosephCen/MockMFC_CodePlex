@@ -34,8 +34,8 @@ protected :
     BaseNonTerminal(BaseNonTerminal &&rValRef);
     // Methods
     virtual ResultTypeEnum GetResultType(void) { _ASSERT(0); return RT_None; }
-    ExprILCode_sp FindExprILCode(const FuncParamsInfo &funcInfo);
-    ExprILCode_sp FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
+    ExprILCode* FindExprILCode(const FuncParamsInfo &funcInfo);
+    ExprILCode* FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType);
 };
 
 //---------------------------------------------------------------------
@@ -170,7 +170,7 @@ private :
     };
 
     Flag _Flag;
-    ExprILCode_sp _spExprILCode;
+    ExprILCode *_pExprILCode;
     ExprNT _Expr;
     AssignExprNT *_pRightOne;
 public :
@@ -225,7 +225,7 @@ class SubExprNT : public BaseNonTerminal
 {
 private :
     bool _IsFirstOne;
-    ExprILCode_sp _spExprILCode;
+    const ExprILCode *_pExprILCode;
     TermNT _TermNT;
     SubExprNT *_pLeftOne;
 public :
@@ -257,7 +257,7 @@ class FactorNT : public BaseNonTerminal
 {
 private :
 	BaseNonTerminal *_pInnerNT;
-    ExprILCode_sp _spExprILCode;
+    ExprILCode *_pExprILCode;
 public :
     // Static Methods
     static bool IsInFirstSet(WordTypeEnum wordType);
@@ -284,7 +284,7 @@ class SubTermNT : public BaseNonTerminal
 {
 private :
     bool _IsFirstOne;
-    ExprILCode_sp _spExprILCode;
+    ExprILCode *_pExprILCode;
     FactorNT _FactorNT;
     SubTermNT *_pLeftOne;
 public :
@@ -412,7 +412,7 @@ private :
     typedef std::vector<ExprNT*>::iterator ExprVecIter_t;
     typedef std::vector<ExprNT*>::const_iterator ExprVecCIter_t;
     ExprVec_t _ExprVec;
-    ExprILCode_sp _spExprILCode;
+    const ExprILCode *_pExprILCode;
 public :
     // Static Methods
     static bool IsInFirstSet(WordTypeEnum wordType);

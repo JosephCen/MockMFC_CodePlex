@@ -27,10 +27,7 @@ Variable(TypeId), _Value(value)
 IntVariable::~IntVariable()
 { }
 
-Variable* IntVariable::Duplicate() const
-{
-    return (new IntVariable(*this));
-}
+IMPLEMENT_VARDUP(IntVariable)
 
 //---------------------------------------------------------------------
 // Class member - RealVariable
@@ -44,10 +41,7 @@ Variable(TypeId), _RealVal(realVal)
 RealVariable::~RealVariable()
 { }
 
-Variable* RealVariable::Duplicate() const
-{
-    return (new RealVariable(*this));
-}
+IMPLEMENT_VARDUP(RealVariable)
 
 //---------------------------------------------------------------------
 // Class member - StrVariable
@@ -65,10 +59,7 @@ Variable(TypeId), _StrVal(*pStrVal)
 StrVariable::~StrVariable()
 { }
 
-Variable* StrVariable::Duplicate() const
-{
-    return (new StrVariable(*this));
-}
+IMPLEMENT_VARDUP(StrVariable)
 
 //---------------------------------------------------------------------
 // Class member - MatrixVariable
@@ -86,10 +77,7 @@ Variable(TypeId), _MatrixVal(matrixVal)
 MatrixVariable::~MatrixVariable()
 { }
 
-Variable* MatrixVariable::Duplicate() const
-{
-    return (new MatrixVariable(*this));
-}
+IMPLEMENT_VARDUP(MatrixVariable)
 
 //---------------------------------------------------------------------
 // Class member - VariableSet 

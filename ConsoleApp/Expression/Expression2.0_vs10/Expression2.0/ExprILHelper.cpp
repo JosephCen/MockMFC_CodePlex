@@ -13,39 +13,39 @@ void ExprILHelper::Initialize()
     if (!s_IsInitialized) {
         // RealValue & RealValue
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("+", RealVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new RealValPlusILCode()));
+                                      new RealValPlusILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("-", RealVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new RealValMinusILCode()));
+                                      new RealValMinusILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("*", RealVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new RealValMultiplyILCode()));
+                                      new RealValMultiplyILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("/", RealVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new RealValDivideILCode()));
+                                      new RealValDivideILCode());
         // Matrix & Matrix
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("+", MatrixVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new MatrixPlusILCode()));
+                                      new MatrixPlusILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("-", MatrixVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new MatrixMinusILCode()));
+                                      new MatrixMinusILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("*", MatrixVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new MatrixMultiplyILCode()));
+                                      new MatrixMultiplyILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo(".*", MatrixVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new MatrixDotMultiplyILCode()));
+                                      new MatrixDotMultiplyILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("/", MatrixVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new MatrixDivideILCode()));
+                                      new MatrixDivideILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("./", MatrixVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new MatrixDotDivideILCode()));
+                                      new MatrixDotDivideILCode());
         // Matrix & RealValue
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("+", MatrixVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new MatrixValPlusILCode()));
+                                      new MatrixValPlusILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("+", RealVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new ReverseBinaryOperILCode(new MatrixValPlusILCode())));
+                                      new ReverseBinaryOperILCode(new MatrixValPlusILCode()));
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("-", MatrixVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new MatrixValMinusILCode()));
+                                      new MatrixValMinusILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("*", MatrixVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new MatrixValMultiplyILCode()));
+                                      new MatrixValMultiplyILCode());
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("*", RealVariable::TypeId, MatrixVariable::TypeId),
-                                      ExprILCode_sp(new ReverseBinaryOperILCode(new MatrixValMultiplyILCode())));
+                                      new ReverseBinaryOperILCode(new MatrixValMultiplyILCode()));
         s_OperatorSet.AddFunctionItem(FuncParamsInfo("/", MatrixVariable::TypeId, RealVariable::TypeId),
-                                      ExprILCode_sp(new MatrixValDivideILCode()));
+                                      new MatrixValDivideILCode());
 
         // Function
         FunctionInfo *pFunctionInfo = FunctionInfo::s_pFirstFuncInfo;
@@ -54,7 +54,7 @@ void ExprILHelper::Initialize()
         {
             BaseFunction* pFunction = pFunctionInfo->CreateFuncInst();
 
-            s_OperatorSet.AddFunctionItem(pFunction->GetFuncInfo(), ExprILCode_sp(new CallFunctionILCode(pFunction)));
+            s_OperatorSet.AddFunctionItem(pFunction->GetFuncInfo(), new CallFunctionILCode(pFunctionInfo, pFunction));
             pFunctionInfo = pFunctionInfo->_pNextFuncInfo;
         }
 
@@ -120,7 +120,7 @@ const char* ExprILHelper::GetResultTypeName(ResultTypeEnum paramType)
     return typeNameStr;
 }
 
-ExprILCode_sp ExprILHelper::FindOperatorILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType)
+ExprILCode* ExprILHelper::FindOperatorILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType)
 {
     FuncParamsInfo funcInfo(GetOperatorStr(operWordType), lParamType, rParamType);
 
