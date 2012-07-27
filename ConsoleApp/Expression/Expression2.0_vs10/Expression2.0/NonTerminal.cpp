@@ -28,14 +28,14 @@ ResultTypeEnum BaseNonTerminal::ResultType(void)
     return _ResultType;
 }
 
-ExprILCode_sp BaseNonTerminal::FindExprILCode(const FuncParamsInfo &funcInfo)
+ExprILCode* BaseNonTerminal::FindExprILCode(const FuncParamsInfo &funcInfo)
 {
     // TODO: Add logic of override operator
 
     return ExprILHelper::FindOperatorILCode(funcInfo);
 }
 
-ExprILCode_sp BaseNonTerminal::FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType)
+ExprILCode* BaseNonTerminal::FindExprILCode(WordTypeEnum operWordType, ResultTypeEnum lParamType, ResultTypeEnum rParamType)
 {
     return ExprILHelper::FindOperatorILCode(operWordType, lParamType, rParamType);
 }
@@ -119,17 +119,19 @@ ResultTypeEnum ExprNT::GetResultType(void)
 // Class member - SubExprNT
 //---------------------------------------------------------------------
 SubExprNT::SubExprNT(void):
-BaseNonTerminal(), _IsFirstOne(true), _pLeftOne(NULL), _spExprILCode(), _TermNT()
+BaseNonTerminal(), _IsFirstOne(true), _pLeftOne(NULL), _pExprILCode(nullptr), _TermNT()
 { }
 
 SubExprNT::SubExprNT(SubExprNT *pLeftOne):
-BaseNonTerminal(), _IsFirstOne(false), _pLeftOne(pLeftOne), _spExprILCode(), _TermNT()
+BaseNonTerminal(), _IsFirstOne(false), _pLeftOne(pLeftOne), _pExprILCode(nullptr), _TermNT()
 {
     _ASSERT(NULL != pLeftOne);
 }
 
 SubExprNT::~SubExprNT()
 {
+    // This _pExprILCode point to a pointer stored in container FunctionSet.
+    _pExprILCode = nullptr;
     delete _pLeftOne;
     _pLeftOne = NULL;
 }
@@ -185,9 +187,9 @@ bool SubExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
 bool SubExprNT::OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx)
 {
-    _spExprILCode = FindExprILCode(operWordType, _pLeftOne->ResultType(), _TermNT.ResultType());
+    _pExprILCode = FindExprILCode(operWordType, _pLeftOne->ResultType(), _TermNT.ResultType());
 
-    if (_spExprILCode) {
+    if (nullptr != _pExprILCode) {
         return true;
     }
     else {
@@ -207,7 +209,7 @@ ResultTypeEnum SubExprNT::GetResultType(void)
     else {
         _ASSERT(NULL != _pLeftOne);
 
-        return (_spExprILCode->GetReturnType());
+        return (_pExprILCode->GetReturnType());
     }
 }
 
@@ -262,11 +264,11 @@ ResultTypeEnum TermNT::GetResultType(void)
 // Class member - SubTermNT
 //---------------------------------------------------------------------
 SubTermNT::SubTermNT(void):
-BaseNonTerminal(), _IsFirstOne(true), _pLeftOne(NULL), _spExprILCode(), _FactorNT()
+BaseNonTerminal(), _IsFirstOne(true), _pLeftOne(NULL), _pExprILCode(nullptr), _FactorNT()
 { }
 
 SubTermNT::SubTermNT(SubTermNT *pLeftOne):
-BaseNonTerminal(), _IsFirstOne(false), _pLeftOne(pLeftOne), _spExprILCode(), _FactorNT()
+BaseNonTerminal(), _IsFirstOne(false), _pLeftOne(pLeftOne), _pExprILCode(nullptr), _FactorNT()
 {
     _ASSERT(NULL != pLeftOne);
 }
@@ -333,9 +335,9 @@ bool SubTermNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
 bool SubTermNT::OperatorValidate(ExprContext &exprContextRef, WordTypeEnum operWordType, int operWordIdx)
 {
-    _spExprILCode = FindExprILCode(operWordType, _pLeftOne->ResultType(), _FactorNT.ResultType());
+    _pExprILCode = FindExprILCode(operWordType, _pLeftOne->ResultType(), _FactorNT.ResultType());
 
-    if (_spExprILCode) {
+    if (nullptr != _pExprILCode) {
         return true;
     }
     else {
@@ -355,7 +357,7 @@ ResultTypeEnum SubTermNT::GetResultType(void)
     else {
         _ASSERT(NULL != _pLeftOne);
 
-        return (_spExprILCode->GetReturnType());
+        return (_pExprILCode->GetReturnType());
     }
 }
 
@@ -524,11 +526,13 @@ bool FunctionNT::IsInFirstSet(WordTypeEnum wordType)
 }
 
 FunctionNT::FunctionNT(void):
-_ExprVec(), _spExprILCode(), BaseNonTerminal()
+_ExprVec(), _pExprILCode(nullptr), BaseNonTerminal()
 { }
 
 FunctionNT::~FunctionNT()
 {
+    // This _pExprILCode point to a pointer stored in container FunctionSet.
+    _pExprILCode = nullptr;
 	for (auto iter = _ExprVec.begin(); _ExprVec.end() != iter; ++iter) {
 		delete *iter;
 		*iter = nullptr;
@@ -582,8 +586,8 @@ bool FunctionNT::OperatorValidate(ExprContext &exprContextRef, std::string &func
 
     FuncParamsInfo funcInfo(funcName.c_str(), paramVec);
 
-    _spExprILCode = FindExprILCode(funcInfo);
-    if (_spExprILCode) {
+    _pExprILCode = FindExprILCode(funcInfo);
+    if (nullptr != _pExprILCode) {
         return true;
     }
     else {
@@ -595,9 +599,9 @@ bool FunctionNT::OperatorValidate(ExprContext &exprContextRef, std::string &func
 
 ResultTypeEnum FunctionNT::GetResultType(void)
 {
-    _ASSERT((bool)_spExprILCode);
+    _ASSERT(nullptr != _pExprILCode);
 
-    return _spExprILCode->GetReturnType();
+    return _pExprILCode->GetReturnType();
 }
 
 //---------------------------------------------------------------------
@@ -632,11 +636,11 @@ ExprILCodeSegment& SubExprNT::AppendILSegment(ExprILCodeSegment &ilSegment)
     }
     else {
         _ASSERT(NULL != _pLeftOne);
-        _ASSERT((bool)_spExprILCode);
+        _ASSERT(nullptr != _pExprILCode);
 
         _pLeftOne->AppendILSegment(ilSegment);
         _TermNT.AppendILSegment(ilSegment);
-        ilSegment.Append(_spExprILCode);
+        ilSegment.Append(_pExprILCode->Duplicate());
     }
 
     return ilSegment;
@@ -662,11 +666,11 @@ ExprILCodeSegment& SubTermNT::AppendILSegment(ExprILCodeSegment &ilSegment)
     }
     else {
         _ASSERT(NULL != _pLeftOne);
-        _ASSERT((bool)_spExprILCode);
+        _ASSERT(nullptr != _pExprILCode);
 
         _pLeftOne->AppendILSegment(ilSegment);
         _FactorNT.AppendILSegment(ilSegment);
-        ilSegment.Append(_spExprILCode);
+        ilSegment.Append(_pExprILCode->Duplicate());
     }
 
     return ilSegment;
@@ -678,7 +682,7 @@ ExprILCodeSegment& SubTermNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 ExprILCodeSegment& MatrixNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     _MatrixRows.AppendILSegment(ilSegment);
-    ilSegment.Append(ExprILCode_sp(new CtorMatrixILCode(Rows(), Cols())));
+    ilSegment.Append(new CtorMatrixILCode(Rows(), Cols()));
 
     return ilSegment;
 }
@@ -720,7 +724,7 @@ ExprILCodeSegment& FunctionNT::AppendILSegment(ExprILCodeSegment &ilSegment)
 {
     for (ExprVecIter_t iter = _ExprVec.begin(); _ExprVec.end() != iter; ++iter)
         (*iter)->AppendILSegment(ilSegment);
-    ilSegment.Append(_spExprILCode);
+    ilSegment.Append(_pExprILCode->Duplicate());
 
     return ilSegment;
 }

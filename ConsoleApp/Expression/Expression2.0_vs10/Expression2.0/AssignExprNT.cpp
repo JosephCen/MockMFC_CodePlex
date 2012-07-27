@@ -10,11 +10,13 @@ using namespace std;
 // Class member - AssignExprNT
 //---------------------------------------------------------------------
 AssignExprNT::AssignExprNT(void) :
-BaseNonTerminal(), _Flag(F_None), _spExprILCode(), _Expr(), _pRightOne(nullptr)
+BaseNonTerminal(), _Flag(F_None), _pExprILCode(nullptr), _Expr(), _pRightOne(nullptr)
 { }
 
 AssignExprNT::~AssignExprNT()
 {
+    delete _pExprILCode;
+    _pExprILCode = nullptr;
     delete _pRightOne;
     _pRightOne = nullptr;
 }
@@ -38,7 +40,7 @@ bool AssignExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRe
 
         int undefVarIdx = wordCursorRef.CurrentIdx();
 
-        _spExprILCode.reset(new NewVariableILCode(wordCursorRef.CurrentWord().StringValue()));
+        _pExprILCode = new NewVariableILCode(wordCursorRef.CurrentWord().StringValue());
         isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
         if (isSuccess && WT_Assignment == wordCursorRef.CurrentWord().WordType()) {
             isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
@@ -89,7 +91,7 @@ ExprILCodeSegment& AssignExprNT::AppendILSegment(ExprILCodeSegment &ilSegment)
         break;
     case F_UnDefVar :
         _pRightOne->AppendILSegment(ilSegment);
-        ilSegment.Append(_spExprILCode);
+        ilSegment.Append(_pExprILCode->Duplicate());
         break;
     case F_DefinedVar :
         _ASSERT_EXPR(0, L"Assign an existing variable has not been finished."); // TODO

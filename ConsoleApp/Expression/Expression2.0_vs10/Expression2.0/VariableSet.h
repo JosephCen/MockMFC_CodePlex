@@ -32,6 +32,15 @@ inline int Variable::GetTypeId() const
     return _TypeId;
 }
 
+#define DECLARE_VARDUP \
+    virtual Variable* Duplicate() const;
+
+#define IMPLEMENT_VARDUP(class_name) \
+    Variable* class_name::Duplicate() const \
+    { \
+        return (new class_name(*this)); \
+    }
+
 //---------------------------------------------------------------------
 // IntVariable - class
 //---------------------------------------------------------------------
@@ -46,7 +55,7 @@ public :
     explicit IntVariable(int value);
     virtual ~IntVariable();
     // Methods
-    virtual Variable* Duplicate() const;
+    DECLARE_VARDUP
     int GetValue() const;
     int& GetValueRef();
 };
@@ -75,7 +84,7 @@ public :
     explicit RealVariable(Matrix::RealVal_t realVal);
     virtual ~RealVariable();
     // Methods
-    virtual Variable* Duplicate() const;
+    DECLARE_VARDUP
     Matrix::RealVal_t GetValue() const;
     Matrix::RealVal_t& GetValueRef();
 };
@@ -105,7 +114,7 @@ public :
     explicit StrVariable(const std::string *pStrVal);
     virtual ~StrVariable();
     // Methods
-    virtual Variable* Duplicate() const;
+    DECLARE_VARDUP
     std::string GetValue() const;
     std::string& GetValueRef();
     const std::string& GetValueRef() const;
@@ -141,7 +150,7 @@ public :
     explicit MatrixVariable(const Matrix &matrixVal);
     virtual ~MatrixVariable();
     // Methods
-    virtual Variable* Duplicate() const;
+    DECLARE_VARDUP
     Matrix GetValue() const;
     Matrix& GetValueRef();
     const Matrix& GetValueRef() const;

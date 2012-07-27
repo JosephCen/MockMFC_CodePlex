@@ -84,6 +84,8 @@ bool PushIntegerILCode::RunCode(ExprILRunState *pILRunState)
     return true;
 }
 
+IMPLEMENT_EILDUP(PushIntegerILCode)
+
 void PushIntegerILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "PushInteger " << _IntValue;
@@ -115,6 +117,8 @@ bool PushRealValILCode::RunCode(ExprILRunState *pILRunState)
 
     return true;
 }
+
+IMPLEMENT_EILDUP(PushRealValILCode)
 
 void PushRealValILCode::ToString(ostream *pOStream) const
 {
@@ -156,6 +160,8 @@ bool PushDefValILCode::RunCode(ExprILRunState *pILRunState)
     return false;
 }
 
+IMPLEMENT_EILDUP(PushDefValILCode)
+
 void PushDefValILCode::ToString(std::ostream *pOStream) const
 {
     *pOStream << "PushDefVal " << _DefValName;
@@ -168,6 +174,11 @@ ReverseBinaryOperILCode::ReverseBinaryOperILCode(ExprILCode *pBinaryILCode) :
 _pBinaryILCode(pBinaryILCode)
 {
     _ASSERT(nullptr != pBinaryILCode);
+}
+
+ReverseBinaryOperILCode::ReverseBinaryOperILCode(const ReverseBinaryOperILCode &otherRef)
+{
+    _pBinaryILCode = otherRef._pBinaryILCode->Duplicate();
 }
 
 ReverseBinaryOperILCode::~ReverseBinaryOperILCode()
@@ -200,6 +211,8 @@ bool ReverseBinaryOperILCode::RunCode(ExprILRunState *pILRunState)
 
     return (_pBinaryILCode->RunCode(pILRunState));
 }
+
+IMPLEMENT_EILDUP(ReverseBinaryOperILCode)
 
 void ReverseBinaryOperILCode::ToString(ostream *pOStream) const
 {
@@ -259,6 +272,8 @@ bool RealValPlusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVari
     return true;
 }
 
+IMPLEMENT_EILDUP(RealValPlusILCode)
+
 void RealValPlusILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "RealValPlus";
@@ -282,6 +297,8 @@ bool RealValMinusILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVar
     return true;
 }
 
+IMPLEMENT_EILDUP(RealValMinusILCode)
+
 void RealValMinusILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "RealValMinus";
@@ -304,6 +321,8 @@ bool RealValMultiplyILCode::DoOperator(RealVariable *pVariableL, RealVariable *p
 
     return true;
 }
+
+IMPLEMENT_EILDUP(RealValMultiplyILCode)
 
 void RealValMultiplyILCode::ToString(ostream *pOStream) const
 {
@@ -337,6 +356,8 @@ bool RealValDivideILCode::DoOperator(RealVariable *pVariableL, RealVariable *pVa
 
     return false;
 }
+
+IMPLEMENT_EILDUP(RealValDivideILCode)
 
 void RealValDivideILCode::ToString(ostream *pOStream) const
 {
@@ -397,6 +418,8 @@ bool CtorMatrixILCode::RunCode(ExprILRunState *pILRunState)
 
     return state;
 }
+
+IMPLEMENT_EILDUP(CtorMatrixILCode)
 
 void CtorMatrixILCode::ToString(ostream *pOStream) const
 {
@@ -462,6 +485,8 @@ bool MatrixPlusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *pV
     return state;
 }
 
+IMPLEMENT_EILDUP(MatrixPlusILCode)
+
 void MatrixPlusILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixPlus";
@@ -494,6 +519,8 @@ bool MatrixMinusILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *p
 
     return state;
 }
+
+IMPLEMENT_EILDUP(MatrixMinusILCode)
 
 void MatrixMinusILCode::ToString(ostream *pOStream) const
 {
@@ -528,6 +555,8 @@ bool MatrixMultiplyILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable
     return state;
 }
 
+IMPLEMENT_EILDUP(MatrixMultiplyILCode)
+
 void MatrixMultiplyILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixMultiply";
@@ -560,6 +589,8 @@ bool MatrixDotMultiplyILCode::DoOperator(MatrixVariable *pVariableL, MatrixVaria
 
     return state;
 }
+
+IMPLEMENT_EILDUP(MatrixDotMultiplyILCode)
 
 void MatrixDotMultiplyILCode::ToString(ostream *pOStream) const
 {
@@ -594,6 +625,8 @@ bool MatrixDivideILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariable *
     return state;
 }
 
+IMPLEMENT_EILDUP(MatrixDivideILCode)
+
 void MatrixDivideILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixDivide";
@@ -626,6 +659,8 @@ bool MatrixDotDivideILCode::DoOperator(MatrixVariable *pVariableL, MatrixVariabl
 
     return state;
 }
+
+IMPLEMENT_EILDUP(MatrixDotDivideILCode)
 
 void MatrixDotDivideILCode::ToString(ostream *pOStream) const
 {
@@ -685,6 +720,8 @@ bool MatrixValPlusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *p
     return true;
 }
 
+IMPLEMENT_EILDUP(MatrixValPlusILCode)
+
 void MatrixValPlusILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixValPlus";
@@ -708,6 +745,8 @@ bool MatrixValMinusILCode::DoOperator(MatrixVariable *pVariableL, RealVariable *
     return true;
 }
 
+IMPLEMENT_EILDUP(MatrixValMinusILCode)
+
 void MatrixValMinusILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixValMinus";
@@ -730,6 +769,8 @@ bool MatrixValMultiplyILCode::DoOperator(MatrixVariable *pVariableL, RealVariabl
 
     return true;
 }
+
+IMPLEMENT_EILDUP(MatrixValMultiplyILCode)
 
 void MatrixValMultiplyILCode::ToString(ostream *pOStream) const
 {
@@ -764,6 +805,8 @@ bool MatrixValDivideILCode::DoOperator(MatrixVariable *pVariableL, RealVariable 
     return state;
 }
 
+IMPLEMENT_EILDUP(MatrixValDivideILCode)
+
 void MatrixValDivideILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "MatrixValDivide";
@@ -772,16 +815,24 @@ void MatrixValDivideILCode::ToString(ostream *pOStream) const
 //---------------------------------------------------------------------
 // Class member - CallFunctionILCode
 //---------------------------------------------------------------------
-CallFunctionILCode::CallFunctionILCode(BaseFunction *pFunc) :
-_pFunc(pFunc)
+CallFunctionILCode::CallFunctionILCode(FunctionInfo *pFuncInfo, BaseFunction *pFunc) :
+_pFuncInfo(pFuncInfo), _pFunc(pFunc)
 {
-	_ASSERT(nullptr != pFunc);
+	_ASSERT(nullptr != pFuncInfo);
+    _ASSERT(nullptr != pFunc);
+}
+
+CallFunctionILCode::CallFunctionILCode(const CallFunctionILCode &otherRef) :
+_pFuncInfo(otherRef._pFuncInfo), _pFunc(nullptr)
+{
+    _pFunc = _pFuncInfo->CreateFuncInst();
 }
 
 CallFunctionILCode::~CallFunctionILCode()
 {
 	delete _pFunc;
 	_pFunc = nullptr;
+    _pFuncInfo = nullptr;
 }
 
 ExprILCodeEnum CallFunctionILCode::GetCodeEnum() const
@@ -821,6 +872,8 @@ bool CallFunctionILCode::RunCode(ExprILRunState *pILRunState)
     return state;
 }
 
+IMPLEMENT_EILDUP(CallFunctionILCode)
+
 void CallFunctionILCode::ToString(ostream *pOStream) const
 {
     *pOStream << "CallFunction";
@@ -851,6 +904,8 @@ bool NewVariableILCode::RunCode(ExprILRunState *pILRunState)
 
     return true;
 }
+
+IMPLEMENT_EILDUP(NewVariableILCode)
 
 void NewVariableILCode::ToString(ostream *pOStream) const
 {

@@ -1,7 +1,6 @@
 #ifndef ExprILCode_H
 #define ExprILCode_H
 
-#include <memory>
 #include <string>
 #include <sstream>
 #include "VariableSet.h"
@@ -53,6 +52,7 @@ public :
     virtual ExprILCodeEnum GetCodeEnum() const = 0;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState) = 0;
+    virtual ExprILCode* Duplicate() const = 0;
     virtual void ToString(std::ostream *pOStream) const = 0;
     std::string ToString() const;
 protected :
@@ -61,12 +61,19 @@ protected :
     static VariableStack* GetVariableStack(ExprILRunState *pILRunState);
 };
 
-typedef std::tr1::shared_ptr<ExprILCode> ExprILCode_sp;
-
 inline VariableStack* ExprILCode::GetVariableStack(ExprILRunState *pILRunState)
 {
     return pILRunState->GetVariableStack();
 }
+
+#define DECLARE_EILDUP \
+    virtual ExprILCode* Duplicate() const;
+
+#define IMPLEMENT_EILDUP(class_name) \
+    ExprILCode* class_name::Duplicate() const \
+    { \
+        return (new class_name(*this)); \
+    }
 
 //---------------------------------------------------------------------
 // PushIntegerILCode - class
@@ -82,6 +89,7 @@ public :
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 };
 
@@ -99,6 +107,7 @@ public :
     virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 };
 
@@ -117,6 +126,7 @@ public :
     virtual ExprILCodeEnum GetCodeEnum(void) const;
 	virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 };
 
@@ -130,11 +140,13 @@ private :
 public :
     // Constructor
     explicit ReverseBinaryOperILCode(ExprILCode *pBinaryILCode);
+    ReverseBinaryOperILCode(const ReverseBinaryOperILCode &otherRef);
     virtual ~ReverseBinaryOperILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 };
 
@@ -166,6 +178,7 @@ public :
     RealValPlusILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -183,6 +196,7 @@ public :
     RealValMinusILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -200,6 +214,7 @@ public :
     RealValMultiplyILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -217,6 +232,7 @@ public :
     RealValDivideILCode(void);
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -237,6 +253,7 @@ public :
     virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 };
 
@@ -268,6 +285,7 @@ public :
     MatrixPlusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -285,6 +303,7 @@ public :
     MatrixMinusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -302,6 +321,7 @@ public :
     MatrixMultiplyILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -319,6 +339,7 @@ public :
     MatrixDotMultiplyILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -336,6 +357,7 @@ public :
     MatrixDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -353,6 +375,7 @@ public :
     MatrixDotDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -387,6 +410,7 @@ public :
     MatrixValPlusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -404,6 +428,7 @@ public :
     MatrixValMinusILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -421,6 +446,7 @@ public :
     MatrixValMultiplyILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -438,6 +464,7 @@ public :
     MatrixValDivideILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 protected :
     // Methods
@@ -450,16 +477,19 @@ protected :
 class CallFunctionILCode : public ExprILCode
 {
 private :
+    FunctionInfo *_pFuncInfo;
     BaseFunction *_pFunc;
 public :
     // Constructor
-    explicit CallFunctionILCode(BaseFunction *pFunc);
+    explicit CallFunctionILCode(FunctionInfo *pFuncInfo, BaseFunction *pFunc);
+    CallFunctionILCode(const CallFunctionILCode &otherRef);
 	// Destructor
 	virtual ~CallFunctionILCode();
     // Methods
     virtual ExprILCodeEnum GetCodeEnum() const;
     virtual ResultTypeEnum GetReturnType(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 };
 
@@ -476,6 +506,7 @@ public :
     // Methods
     virtual ExprILCodeEnum GetCodeEnum(void) const;
     virtual bool RunCode(ExprILRunState *pILRunState);
+    DECLARE_EILDUP
     virtual void ToString(std::ostream *pOStream) const;
 };
 
