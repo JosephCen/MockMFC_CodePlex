@@ -46,8 +46,7 @@ ExprILCode* BaseNonTerminal::FindExprILCode(WordTypeEnum operWordType, ResultTyp
 bool StartNT::IsInFirstSet(WordTypeEnum wordType)
 {
     // First(start) = { ( | Defparam | Num | [ | nul | Eof }
-    return WT_Paranthese_L == wordType || WT_DefVariable == wordType || WT_RealValue == wordType
-           || WT_S_Bracket_L == wordType || WT_Eof == wordType;
+    return WT_Eof == wordType || ListNT::IsInFirstSet(wordType);
 }
 
 bool StartNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)

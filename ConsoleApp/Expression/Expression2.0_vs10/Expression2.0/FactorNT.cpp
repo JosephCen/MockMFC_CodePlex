@@ -24,8 +24,9 @@ FactorNT::~FactorNT()
 
 bool FactorNT::IsInFirstSet(WordTypeEnum wordType)
 {
-    // First(factor) = { ( | Defparam | Num | [ | Deffunc}
-    return WT_Paranthese_L == wordType || WT_DefVariable == wordType || WT_RealValue == wordType 
+    // First(factor) = { ( | Defparam | + | - | Num | [ | Deffunc}
+    return WT_Paranthese_L == wordType || WT_DefVariable == wordType 
+           || WT_RealValue == wordType || WT_Plus == wordType || WT_Minus == wordType
            || MatrixNT::IsInFirstSet(wordType) || FunctionNT::IsInFirstSet(wordType);
 }
 
@@ -36,6 +37,8 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
     // factor => ( expr )
     //         | Defparam
     //         | Num
+    //         | + Num
+    //         | - Num
     //         | matrix
 
     WordTypeEnum wordType = wordCursorRef.CurrentWord().WordType();
@@ -53,6 +56,7 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
     }
     else {
         int leftParantheseIdx = 0;
+        int plusMinusIdx = 0;
 
         switch (wordType) {
             case WT_Paranthese_L :
@@ -84,6 +88,22 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
                 _pExprILCode = new PushRealValILCode(wordCursorRef.CurrentWord().RealValue());
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+                break;
+            case WT_Plus :
+            case WT_Minus :
+                plusMinusIdx = wordCursorRef.CurrentIdx();
+                isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+                if (isSuccess) {
+                    if (WT_RealValue == wordCursorRef.CurrentWord().WordType()) {
+                        _pExprILCode = new PushRealValILCode(
+                            WT_Minus == wordType ? (-1.0 * wordCursorRef.CurrentWord().RealValue()) : wordCursorRef.CurrentWord().RealValue());
+                        isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+                    }
+                    else {
+                        isSuccess = false;
+                        exprContextRef.SetError("A real value is expected after a - or +.", plusMinusIdx);
+                    }
+                }
                 break;
             default :
                 isSuccess = false;
