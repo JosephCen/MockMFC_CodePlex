@@ -2,6 +2,7 @@
 #include "WordParser.h"
 #include "ExprWorkSpace.h"
 #include "ExprILHelper.h"
+#include <algorithm>
 #include <exception>
 #include <string>
 #include <sstream>
@@ -100,9 +101,33 @@ string WordUnit::ToString() const
 //---------------------------------------------------------------------
 // Class member - WordParser
 //---------------------------------------------------------------------
+#ifdef _DEBUG
+int WordParser::s_InstanceCount = 0;
+#endif
+
 WordParser::OperatorMap_t WordParser::s_OperatorMap;
 bool WordParser::s_IsInitialized = false;
 WordParser* WordParser::s_pDefaultParser = NULL;
+
+NextStrTypeEnum WordParser::s_NextStrTypeArr[] = {
+    NST_UnknowFail,
+    NST_RealVal,
+    NST_Operator,
+    NST_FuncVar,
+};
+const char* WordParser::s_WordRegexPat = "\\s*(?:"
+    "([1-9]\\d*(?:\\.\\d+)?)|"
+    "([+\\-*/=\\(\\)\\[\\],;]|\\.[*/])|"
+    "([a-zA-Z]\\w*))";
+regex WordParser::s_WordRegex;
+
+void WordParser::ReleaseRes()
+{
+    _ASSERT_EXPR(0 == s_InstanceCount, L"Before call this function, all instance of WordParse should have been destructed!");
+    s_OperatorMap.clear();
+    s_WordRegex.assign("");
+    s_IsInitialized = false;
+}
 
 void WordParser::Initialize()
 {
@@ -122,6 +147,9 @@ void WordParser::Initialize()
         s_OperatorMap[","] = WT_Comma;
         s_OperatorMap[";"] = WT_Semicolon;
 
+        // Initialize 's_WordRegex'
+        s_WordRegex.assign(s_WordRegexPat);
+
         s_IsInitialized = true;
     }
 }
@@ -136,7 +164,20 @@ WordParser* WordParser::GetDefaultParserPtr()
 
 WordParser::WordParser(void):
 _pCurWorkSpace(nullptr)
-{ }
+{
+    if (!s_IsInitialized)
+        Initialize();
+#ifdef _DEBUG
+    ++s_InstanceCount;
+#endif
+}
+
+WordParser::~WordParser()
+{
+#ifdef _DEBUG
+    --s_InstanceCount;
+#endif
+}
 
 WordFwCursor WordParser::GenWordFwCursor(const string &inputStr)
 {
@@ -152,69 +193,51 @@ bool WordParser::NextWord(WordFwCursor &wordCursorRef)
 {
     WordUnit newWord;
 
-    if (!wordCursorRef.IsEof())
-    {
-        StrIter_t startIter = wordCursorRef.GetCurStrIter();
-        StrIter_t endIter = wordCursorRef.GetCurStrIter();
-        StrIter_t eofIter = wordCursorRef.GetCurInputStr().end();
+    if (!wordCursorRef.IsEof()) {
+        const sregex_iterator endRegexIter;
 
-        while (startIter != eofIter && isspace(*startIter))
-            ++startIter;
-        if (startIter != eofIter) {
-            switch (GetNextWordEndIter(startIter, eofIter, endIter)) {
+        if (endRegexIter != wordCursorRef._RegexIter) {
+            const smatch &m = *wordCursorRef._RegexIter;
+            unsigned i = 1; 
+
+            while (!m[i].matched)
+                ++i;
+
+            switch (s_NextStrTypeArr[i]) {
                 case NST_Operator :
-                    if (ParseOperator(string(startIter, endIter), newWord))
-                        break;
-                case NST_OperatorFail :
-                    wordCursorRef.SetError(startIter, "Fail to parse a operator");
+                    if (!ParseOperator(m[i].str(), newWord))
+                        wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a operator");
                     break;
                 case NST_FuncVar :
-                    if (ParseFuncVar(string(startIter, endIter), newWord))
-                        break;
-                case NST_FuncVarFail :
-                    wordCursorRef.SetError(startIter, "Fail to parse a function or variable");
+                    if (!ParseFuncVar(m[i].str(), newWord))
+                        wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a function or variable");
                     break;
                 case NST_RealVal :
-                    if (strchr("+-", *startIter) && wordCursorRef.CurrentWord() && (strchr("])", *(startIter - 1)) || WT_RealValue == wordCursorRef.CurrentWord().WordType())) {
-                        endIter = startIter + 1;
-                        ParseOperator(string(startIter, endIter), newWord);
-                        break;
-                    }
-                    else {
-                        if (ParseRealVal(string(startIter, endIter), newWord))
-                            break;
-                    }
-                case NST_RealValFail :
-                    wordCursorRef.SetError(startIter, "Fail to parse a real value");
-                    break;
-                case NST_UnknowFail :
-                    wordCursorRef.SetError(startIter, "A unknow parse fail happend");
+                    if (!ParseRealVal(m[i].str(), newWord))
+                        wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a real value");
                     break;
             }
 
-            if ((bool)wordCursorRef) {
+            if ((bool)newWord) {
                 wordCursorRef.SetCurWordUnit(newWord);
-                wordCursorRef.SetCurStrIter(endIter);
+
+                wordCursorRef._StrPos += m[0].length();
+                ++wordCursorRef._RegexIter;
             }
         }
         else {
-            newWord = WordUnit(WT_Eof);
-            wordCursorRef.SetCurWordUnit(newWord);
-            wordCursorRef.SetCurStrIter(eofIter);
+            if (wordCursorRef._InputStr.length() == wordCursorRef._StrPos) {
+                newWord = WordUnit(WT_Eof);
+                wordCursorRef.SetCurWordUnit(newWord);
+            }
+            else {
+                wordCursorRef.SetError(wordCursorRef._StrPos, "A unknow parse fail happend");
+            }
         }
     }
-    
 
     return (bool)newWord;
 }
-
-//void WordParser::SetError(StrIter_t iter, const char *errorCh)
-//{
-//    _ASSERT(!_IsErrorState);
-//
-//    _IsErrorState = true;
-//    _pExprEx = new ExprException(errorCh, static_cast<int>(iter - _InputStr.begin()));
-//}
 
 bool WordParser::ParseRealVal(const string &str, WordUnit &wordRef)
 {
@@ -272,168 +295,25 @@ bool WordParser::ParseOperator(const string &str, WordUnit &wordRef)
     return false;
 }
 
-NextStrTypeEnum WordParser::GetNextWordEndIter(StrIter_t iter1, StrIter_t iter2, StrIter_t &endIterRef)
-{
-    NextStrTypeEnum strType = NST_UnknowFail;
-    struct
-    {
-        char state;
-        StrIter_t iter;
-    } current; //, accepted;
-
-    _ASSERT(!isspace(*iter1));
-    switch (*iter1) {
-        case '+' :
-        case '-' :
-            current.state = 'B';
-            break;
-        case '0' :
-            current.state = 'C';
-            break;
-        case '*' :
-        case '/' :
-        case '=' :
-        case '(' :
-        case ')' :
-        case '[' :
-        case ']' :
-        case ',' :
-        case ';' :
-            current.state = 'G';
-            break;
-        case '.' :
-            current.state = 'O';
-            break;
-        default :
-            if (isalpha(*iter1))
-                current.state = 'E';
-            else if (isdigit(*iter1)) // It should be [1-9]. But 0 has been catch by "case '0'", so it is ok.
-                current.state = 'D';
-            else
-                current.state = '\0';
-            break;
-    }
-    current.iter = iter1 + 1;
-
-    while (current.iter != iter2) {
-        switch (current.state) {
-            case 'B' :
-                if (*current.iter == '0')
-                    current.state = 'C';
-                else if (isdigit(*current.iter))
-                    current.state = 'D';
-                else
-                    goto EndMatch;
-                break;
-            case 'C' :
-                if (*current.iter == '.')
-                    current.state = 'J';
-                else
-                    goto EndMatch;
-                break;
-            case 'D' :
-                if (isdigit(*current.iter))
-                    current.state = 'D';
-                else if (*current.iter == '.')
-                    current.state = 'J';
-                else
-                    goto EndMatch;
-                break;
-            case 'E' :
-                if (isalnum(*current.iter))
-                    current.state = 'E';
-                else
-                    goto EndMatch;
-                break;
-            case 'F' :
-                _ASSERT(0);
-                break;
-            case 'G' :
-                goto EndMatch;
-            case 'H' :
-                _ASSERT(0);
-                break;
-            case 'J' :
-                if (isdigit(*current.iter))
-                    current.state = 'M';
-                else
-                    goto EndMatch;
-                break;
-            case 'K' :
-                _ASSERT(0);
-                break;
-            case 'L' :
-                _ASSERT(0);
-                break;
-            case 'M' :
-                if (isdigit(*current.iter))
-                    current.state = 'M';
-                else
-                    goto EndMatch;
-                break;
-            case 'N' :
-                _ASSERT(0);
-                break;
-            case 'O' :
-                if (strchr("*/", *current.iter))
-                    current.state = 'G';
-                else
-                    goto EndMatch;
-                break;
-            default :
-                goto EndMatch;
-                break;
-        }
-        ++current.iter;
-    }
-
-EndMatch :
-    switch (current.state) {
-        case 'B' :
-        case 'G' :
-            strType = NST_Operator;
-            break;
-        case 'L' :
-        case 'O' :
-            strType = NST_OperatorFail;
-            break;
-        case 'C' :
-            if (current.iter == iter2 || !isdigit(*current.iter))
-                strType = NST_RealVal;
-            else
-                strType = NST_RealValFail;
-            break;
-        case 'D' :
-        case 'M' :
-            strType = NST_RealVal;
-            break;
-        case 'J' :
-            strType = NST_RealValFail;
-            break;
-        case 'E' :
-            strType = NST_FuncVar;
-            break;
-        default :
-            strType = NST_UnknowFail;
-            break;
-    }
-    endIterRef = current.iter;
-
-    return strType;
-}
-
 //---------------------------------------------------------------------
 // Class member - WordFwCursor
 //---------------------------------------------------------------------
 WordFwCursor::WordFwCursor(WordParser *pParser, const string &inputStr) :
-_pParser(pParser), _InputStr(inputStr), _IsErrorState(false), _pExprEx(NULL)
+    _pParser(pParser), _InputStr(inputStr), _IsErrorState(false), _pExprEx(NULL),
+    _RegexIter(inputStr.begin(), inputStr.end(), WordParser::s_WordRegex, regex_constants::match_continuous),
+    _StrPos(0)
 {
-    _CurStrIter = _InputStr.begin();
+    // rtrim _InputStr
+    auto p = find_if(_InputStr.rbegin(), _InputStr.rend(), [](string::value_type ch) -> bool {
+        return !isspace(ch);
+    });
+    _InputStr.erase(p.base(), _InputStr.end());
 }
 
 WordFwCursor::WordFwCursor(const WordFwCursor &wordCursor) :
-_pParser(wordCursor._pParser), _InputStr(wordCursor._InputStr), _IsErrorState(wordCursor._IsErrorState),
-_pExprEx(NULL),_CurStrIter(wordCursor._CurStrIter), _CurWordUnit(wordCursor._CurWordUnit)
+    _pParser(wordCursor._pParser), _InputStr(wordCursor._InputStr), _IsErrorState(wordCursor._IsErrorState),
+    _pExprEx(NULL), _CurWordUnit(wordCursor._CurWordUnit),
+    _StrPos(wordCursor._StrPos), _RegexIter(wordCursor._RegexIter)
 {
     if (NULL != wordCursor._pExprEx)
         _pExprEx = new ExprException(*wordCursor._pExprEx);
@@ -445,12 +325,12 @@ WordFwCursor::~WordFwCursor()
         delete _pExprEx;
 }
 
-void WordFwCursor::SetError(const WordFwCursor::StrIter_t &strIter, const char *errorCh)
+void WordFwCursor::SetError(size_t strPos, const char *errorCh)
 {
     _ASSERT(!_IsErrorState);
 
     _IsErrorState = true;
-    _pExprEx = new ExprException(errorCh, static_cast<int>(strIter - _InputStr.begin()));
+    _pExprEx = new ExprException(errorCh, static_cast<int>(strPos));
 }
 
 bool WordFwCursor::NextWord(ExprContext &exprContextRef)
@@ -481,7 +361,8 @@ WordFwCursor& WordFwCursor::operator =(const WordFwCursor &wordCursor)
     {
         _pParser = wordCursor._pParser;
         _InputStr = wordCursor._InputStr;
-        _CurStrIter = wordCursor._CurStrIter;
+        _StrPos = wordCursor._StrPos;
+        _RegexIter = wordCursor._RegexIter;
         _CurWordUnit = wordCursor._CurWordUnit;
         _IsErrorState = wordCursor._IsErrorState;
 

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <regex>
 #include <crtdbg.h>
 #include "ClsPreDeclaration.h"
 #include "Matrix.h"
@@ -102,7 +103,13 @@ private :
     typedef std::string::const_iterator StrIter_t;
     typedef std::map<std::string, WordTypeEnum> OperatorMap_t;
 
+#ifdef _DEBUG
+    static int s_InstanceCount;
+#endif
     static OperatorMap_t s_OperatorMap;
+    static const char *s_WordRegexPat;
+    static NextStrTypeEnum s_NextStrTypeArr[];
+    static std::regex s_WordRegex;
     static bool s_IsInitialized;
     static WordParser *s_pDefaultParser;
 
@@ -114,13 +121,15 @@ public :
     void SetExprWorkSpace(ExprWorkSpace *pExprWorkSpace);
     WordFwCursor GenWordFwCursor(const std::string &inputStr);
     WordFwCursor* GenWordFwCursorPtr(const std::string &inputStr);
+    // Destructor
+    ~WordParser();
     // Static Methods
     static WordParser* GetDefaultParserPtr();
+    static void ReleaseRes();
 private :
     // Static Methods
     static void Initialize();
     // Methods
-    NextStrTypeEnum GetNextWordEndIter(StrIter_t iter1, StrIter_t iter2, StrIter_t &endIterRef);
     bool ParseRealVal(const std::string &str, WordUnit &wordRef);
     bool ParseFuncVar(const std::string &str, WordUnit &wordRef);
     bool ParseOperator(const std::string &str, WordUnit &wordRef);
@@ -140,8 +149,7 @@ inline void WordParser::SetExprWorkSpace(ExprWorkSpace *pExprWorkSpace)
 
 inline WordParser::OperatorMap_t& WordParser::GetOperatorMap() 
 {
-    if (!s_IsInitialized)
-        Initialize();
+    _ASSERT_EXPR(s_IsInitialized, L"WordParser should has been initialized before call method 'GetOperatorMap'.");
 
     return s_OperatorMap;
 }
@@ -151,12 +159,11 @@ inline WordParser::OperatorMap_t& WordParser::GetOperatorMap()
 //---------------------------------------------------------------------
 class WordFwCursor
 {
-public :
-    typedef std::string::const_iterator StrIter_t;
 private :
     WordParser *_pParser;
     std::string _InputStr;
-    StrIter_t _CurStrIter;
+    size_t _StrPos;
+    std::sregex_iterator _RegexIter;
     WordUnit _CurWordUnit;
     // Error relative member
     bool _IsErrorState;
@@ -165,16 +172,14 @@ private :
     // Constructor
     WordFwCursor(WordParser *pParser, const std::string &inputStr);
     // Methods
-    void SetCurStrIter(const StrIter_t &strIter);
     void SetCurWordUnit(const WordUnit &wordUnit);
-    void SetError(const StrIter_t &strIter, const char *errorCh);
+    void SetError(size_t strPos, const char *errorCh);
 public :
     // Constructor
     WordFwCursor(const WordFwCursor &wordCursor);
     // Destructor
     ~WordFwCursor();
     // Methods
-    StrIter_t GetCurStrIter() const;
     const std::string& GetCurInputStr() const;
     WordUnit CurrentWord() const;
     bool IsEof() const;
@@ -192,16 +197,6 @@ public :
 //---------------------------------------------------------------------
 // Inline methods - WordFwCursor
 //---------------------------------------------------------------------
-inline void WordFwCursor::SetCurStrIter(const WordFwCursor::StrIter_t &strIter)
-{
-    _CurStrIter = strIter;
-}
-
-inline WordParser::StrIter_t WordFwCursor::GetCurStrIter() const
-{
-    return _CurStrIter;
-}
-
 inline void WordFwCursor::SetCurWordUnit(const WordUnit &wordUnit)
 {
     _CurWordUnit = wordUnit;
@@ -224,7 +219,7 @@ inline bool WordFwCursor::IsEof() const
 
 inline int WordFwCursor::CurrentIdx() const
 {
-    return static_cast<int>(_CurStrIter - _InputStr.begin());
+    return static_cast<int>(_StrPos);
 }
 
 inline bool WordFwCursor::NextWord()
