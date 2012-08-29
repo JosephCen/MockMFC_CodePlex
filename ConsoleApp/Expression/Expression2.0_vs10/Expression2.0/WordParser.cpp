@@ -112,11 +112,13 @@ WordParser* WordParser::s_pDefaultParser = NULL;
 NextStrTypeEnum WordParser::s_NextStrTypeArr[] = {
     NST_UnknowFail,
     NST_RealVal,
+    NST_HexInt,
     NST_Operator,
-    NST_FuncVar,
+    NST_FuncVar
 };
 const char* WordParser::s_WordRegexPat = "\\s*(?:"
     "([1-9]\\d*(?:\\.\\d+)?)|"
+    "(0[xX][0-9a-fA-F]+)|"
     "([+\\-*/=\\(\\)\\[\\],;]|\\.[*/])|"
     "([a-zA-Z]\\w*))";
 regex WordParser::s_WordRegex;
@@ -216,6 +218,10 @@ bool WordParser::NextWord(WordFwCursor &wordCursorRef)
                     if (!ParseRealVal(m[i].str(), newWord))
                         wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a real value");
                     break;
+                case NST_HexInt :
+                    if (!ParseHexInt(m[i].str(), newWord))
+                        wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a Hex integer value");
+                    break;
             }
 
             if ((bool)newWord) {
@@ -252,6 +258,29 @@ bool WordParser::ParseRealVal(const string &str, WordUnit &wordRef)
         Matrix::RealVal_t realVal = atof(str.c_str());
         if (0.0 != realVal) {
             wordRef = WordUnit(WT_RealValue, realVal);
+
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+bool WordParser::ParseHexInt(const std::string &str, WordUnit &wordRef)
+{
+    _ASSERT(str.length() != 0);
+
+    if (nullptr == strpbrk(str.c_str(), "123456789abcdefABCDEF")) {
+        wordRef = WordUnit(WT_RealValue, 0.0);
+
+        return true;
+    }
+    else {
+        long lInt = strtol(str.c_str() + 2, nullptr, 16); // '+ 2' is used to elimite the prefix 0x.
+
+        if (LONG_MAX != lInt && LONG_MIN != lInt) {
+            wordRef = WordUnit(WT_RealValue, static_cast<Matrix::RealVal_t>(lInt));
 
             return true;
         }

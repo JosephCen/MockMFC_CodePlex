@@ -91,7 +91,9 @@ enum NextStrTypeEnum
     NST_FuncVar,
     NST_FuncVarFail,
     NST_RealVal,
-    NST_RealValFail
+    NST_RealValFail,
+    NST_HexInt,
+    NST_HexIntFail
 };
 
 //---------------------------------------------------------------------
@@ -131,6 +133,7 @@ private :
     static void Initialize();
     // Methods
     bool ParseRealVal(const std::string &str, WordUnit &wordRef);
+    bool ParseHexInt(const std::string &str, WordUnit &wordRef);
     bool ParseFuncVar(const std::string &str, WordUnit &wordRef);
     bool ParseOperator(const std::string &str, WordUnit &wordRef);
     static OperatorMap_t& GetOperatorMap();
