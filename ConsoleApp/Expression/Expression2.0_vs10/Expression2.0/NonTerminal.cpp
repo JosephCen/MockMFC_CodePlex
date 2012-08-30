@@ -114,6 +114,11 @@ ResultTypeEnum ExprNT::GetResultType(void)
     return _pSubExprNT->ResultType();
 }
 
+SubExprNT* ExprNT::GetSubExpr()
+{
+    return _pSubExprNT;
+}
+
 //---------------------------------------------------------------------
 // Class member - SubExprNT
 //---------------------------------------------------------------------
@@ -212,6 +217,16 @@ ResultTypeEnum SubExprNT::GetResultType(void)
     }
 }
 
+SubExprNT* SubExprNT::GetLeftSubExpr()
+{
+    return _pLeftOne;
+}
+
+TermNT* SubExprNT::GetTerm()
+{
+    return &_TermNT;
+}
+
 //---------------------------------------------------------------------
 // Class member - TermNT
 //---------------------------------------------------------------------
@@ -257,6 +272,11 @@ ResultTypeEnum TermNT::GetResultType(void)
 {
     _ASSERT(NULL != _pSubTermNT);
     return _pSubTermNT->ResultType();
+}
+
+SubTermNT* TermNT::GetSubTerm()
+{
+    return _pSubTermNT;
 }
 
 //---------------------------------------------------------------------
@@ -358,6 +378,16 @@ ResultTypeEnum SubTermNT::GetResultType(void)
 
         return (_pExprILCode->GetReturnType());
     }
+}
+
+SubTermNT* SubTermNT::GetLeftSubTerm()
+{
+    return _pLeftOne;
+}
+
+FactorNT* SubTermNT::GetFactor()
+{
+    return &_FactorNT;
 }
 
 //---------------------------------------------------------------------

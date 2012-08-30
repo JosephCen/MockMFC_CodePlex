@@ -93,6 +93,9 @@
     <ClCompile Include="ListNT.cpp">
       <Filter>Source Files\NonTerminal</Filter>
     </ClCompile>
+    <ClCompile Include="LeftValueInterpreter.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseFunction.h">
@@ -156,6 +159,9 @@
       <Filter>Header Files\Functions</Filter>
     </ClInclude>
     <ClInclude Include="NonTerminal.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftValueInterpreter.h">
       <Filter>Header Files\NonTerminal</Filter>
     </ClInclude>
   </ItemGroup>

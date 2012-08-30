@@ -144,6 +144,7 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+    SubExprNT* GetSubExpr();
     // Destructor
     virtual ~ExprNT();
 protected :
@@ -161,15 +162,7 @@ private :
 class AssignExprNT : public BaseNonTerminal
 {
 private :
-    enum Flag
-    {
-        F_None,
-        F_JustExpr,
-        F_UnDefVar,
-        F_DefinedVar,
-    };
-
-    Flag _Flag;
+    int _Flag;
     ExprILCode *_pExprILCode;
     ExprNT _Expr;
     AssignExprNT *_pRightOne;
@@ -183,6 +176,9 @@ public :
 	// Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+    ExprNT* GetSubExpr();
+    bool GetIsDefinedVar();
+    bool GetIsUnDefinedVar();
 protected :
     virtual ResultTypeEnum GetResultType();
 private :
@@ -207,6 +203,7 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+    SubTermNT* GetSubTerm();
     // Destructor
     virtual ~TermNT();
 protected :
@@ -237,6 +234,8 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+    SubExprNT* GetLeftSubExpr();
+    TermNT* GetTerm();
     // Destructor
     virtual ~SubExprNT();
 private :
@@ -256,6 +255,7 @@ private :
 class FactorNT : public BaseNonTerminal
 {
 private :
+    int _Flag;
 	BaseNonTerminal *_pInnerNT;
     ExprILCode *_pExprILCode;
 public :
@@ -268,6 +268,11 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+    MatrixNT* GetInnerMatrix();
+    FunctionNT* GetInnerFunction();
+    AssignExprNT* GetSubAssignExpr();
+    bool GetIsDefVar();
+    bool GetIsRealVal();
 protected :
     virtual ResultTypeEnum GetResultType(void);
 private :
@@ -296,6 +301,8 @@ public :
     // Methods
     virtual bool Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef);
     virtual ExprILCodeSegment& AppendILSegment(ExprILCodeSegment &ilSegment);
+    SubTermNT* GetLeftSubTerm();
+    FactorNT* GetFactor();
     // Destructor
     virtual ~SubTermNT();
 private :
