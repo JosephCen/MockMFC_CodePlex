@@ -78,6 +78,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -101,6 +103,7 @@
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="FuncParamsInfo.cpp" />
     <ClCompile Include="FunctionSet.cpp" />
+    <ClCompile Include="LeftValueInterpreter.cpp" />
     <ClCompile Include="ListNT.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="NonTerminal.cpp" />
@@ -129,6 +132,7 @@
     <ClInclude Include="FunctionSet.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="NonTerminal.h" />
+    <ClInclude Include="LeftValueInterpreter.h" />
     <ClInclude Include="ParameterSet.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Symbol.h" />

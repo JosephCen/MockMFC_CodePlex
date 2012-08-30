@@ -10,8 +10,19 @@ using namespace std;
 //---------------------------------------------------------------------
 // Class member - FactorNT
 //---------------------------------------------------------------------
+enum Flag
+{
+    F_None,
+    F_Matrix,
+    F_Func,
+    F_SubAssignExpr,
+    F_DefVar,
+    F_RealVal
+};
+
 FactorNT::FactorNT(void): 
-BaseNonTerminal(), _pInnerNT(nullptr), _pExprILCode(nullptr) 
+    BaseNonTerminal(), _pInnerNT(nullptr), _pExprILCode(nullptr),
+    _Flag(F_None)
 { }
 
 FactorNT::~FactorNT()
@@ -47,12 +58,16 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
         _pInnerNT = new MatrixNT();
         isSuccess = isSuccess && _pInnerNT->Parse(exprContextRef, wordCursorRef);
+        if (isSuccess)
+            _Flag = F_Matrix;
     }
     else if (FunctionNT::IsInFirstSet(wordType)) {
         // factor => Deffunc
 
         _pInnerNT = new FunctionNT();
         isSuccess = isSuccess && _pInnerNT->Parse(exprContextRef, wordCursorRef);
+        if (isSuccess)
+            _Flag = F_Func;
     }
     else {
         int leftParantheseIdx = 0;
@@ -64,7 +79,7 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
 
                 leftParantheseIdx = wordCursorRef.CurrentIdx();
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
-                _pInnerNT = new ExprNT();
+                _pInnerNT = new AssignExprNT();
                 isSuccess = isSuccess && _pInnerNT->Parse(exprContextRef, wordCursorRef);
                 if (isSuccess) {
                     if (WT_Paranthese_R == wordCursorRef.CurrentWord().WordType()) {
@@ -75,6 +90,8 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
                         exprContextRef.SetError("Paranthese do not match. Missing the right paranthese.", leftParantheseIdx);
                     }
                 }
+                if (isSuccess)
+                    _Flag = F_SubAssignExpr;
                 break;
             case WT_DefVariable :
                 // factor => Defparam
@@ -82,12 +99,16 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
                 _pExprILCode = new PushDefValILCode(wordCursorRef.CurrentWord().StringValue(),
                                         static_cast<ResultTypeEnum>(wordCursorRef.CurrentWord().IntValue()));
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+                if (isSuccess)
+                    _Flag = F_DefVar;
                 break;
             case WT_RealValue :
                 // factor => Num
 
                 _pExprILCode = new PushRealValILCode(wordCursorRef.CurrentWord().RealValue());
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
+                if (isSuccess)
+                    _Flag = F_RealVal;
                 break;
             case WT_Plus :
             case WT_Minus :
@@ -104,6 +125,8 @@ bool FactorNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
                         exprContextRef.SetError("A real value is expected after a - or +.", plusMinusIdx);
                     }
                 }
+                if (isSuccess)
+                    _Flag = F_RealVal;
                 break;
             default :
                 isSuccess = false;
@@ -135,4 +158,29 @@ ExprILCodeSegment& FactorNT::AppendILSegment(ExprILCodeSegment &ilSegment)
     }
     
     return ilSegment;
+}
+
+MatrixNT* FactorNT::GetInnerMatrix()
+{
+    return (F_Matrix == _Flag ? (MatrixNT*)_pInnerNT : nullptr);
+}
+
+FunctionNT* FactorNT::GetInnerFunction()
+{
+    return (F_Func == _Flag ? (FunctionNT*)_pInnerNT : nullptr);
+}
+
+AssignExprNT* FactorNT::GetSubAssignExpr()
+{
+    return (F_SubAssignExpr == _Flag ? (AssignExprNT*)_pInnerNT : nullptr);
+}
+
+bool FactorNT::GetIsDefVar()
+{
+    return (F_DefVar == _Flag);
+}
+
+bool FactorNT::GetIsRealVal()
+{
+    return (F_RealVal == _Flag);
 }

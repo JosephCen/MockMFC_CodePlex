@@ -3,12 +3,21 @@
 #include "WordParser.h"
 #include "ExprILCode.h"
 #include "ExprWorkSpace.h"
+#include "LeftValueInterpreter.h"
 #include <crtdbg.h>
 using namespace std;
 
 //---------------------------------------------------------------------
 // Class member - AssignExprNT
 //---------------------------------------------------------------------
+enum Flag
+{
+    F_None,
+    F_JustExpr,
+    F_UnDefVar,
+    F_DefinedVar,
+};
+
 AssignExprNT::AssignExprNT(void) :
 BaseNonTerminal(), _Flag(F_None), _pExprILCode(nullptr), _Expr(), _pRightOne(nullptr)
 { }
@@ -44,9 +53,10 @@ bool AssignExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRe
         isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
         if (isSuccess && WT_Assignment == wordCursorRef.CurrentWord().WordType()) {
             isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
-            _Flag = F_UnDefVar;
             _pRightOne = new AssignExprNT();
             isSuccess = isSuccess && _pRightOne->Parse(exprContextRef, wordCursorRef);
+            if (isSuccess)
+                _Flag = F_UnDefVar;
         }
         else {
             isSuccess = false;
@@ -60,11 +70,24 @@ bool AssignExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRe
         isSuccess = isSuccess && _Expr.Parse(exprContextRef, wordCursorRef);
         if (isSuccess) {
             if (WT_Assignment == wordCursorRef.CurrentWord().WordType()) {
-                // TODO: Check the _Expr is a left value
+                int assignWordIdx = wordCursorRef.CurrentIdx();
+
                 isSuccess = isSuccess && wordCursorRef.NextWord(exprContextRef);
-                _Flag = F_DefinedVar;
-                _pRightOne = new AssignExprNT();
-                isSuccess = isSuccess && _pRightOne->Parse(exprContextRef, wordCursorRef);
+                if (isSuccess) {
+                    LeftValueInterpreter lValInterpreter;
+
+                    lValInterpreter.Interpret(&_Expr);
+                    if (lValInterpreter.GetIsDefinite() && lValInterpreter.GetIsLeftValue()) {
+                        _pRightOne = new AssignExprNT();
+                        isSuccess = isSuccess && _pRightOne->Parse(exprContextRef, wordCursorRef);
+                    }
+                    else {
+                        isSuccess = false;
+                        exprContextRef.SetError("Left side of Assignment expression (=) must be a left value.", assignWordIdx);
+                    }
+                }
+                if (isSuccess)
+                    _Flag = F_DefinedVar;
             }
             else {
                 _Flag = F_JustExpr;
@@ -102,4 +125,19 @@ ExprILCodeSegment& AssignExprNT::AppendILSegment(ExprILCodeSegment &ilSegment)
     }
     
     return ilSegment;
+}
+
+ExprNT* AssignExprNT::GetSubExpr()
+{
+    return (F_JustExpr == _Flag ? &_Expr : nullptr);
+}
+
+bool AssignExprNT::GetIsDefinedVar()
+{
+    return (F_DefinedVar == _Flag);
+}
+
+bool AssignExprNT::GetIsUnDefinedVar()
+{
+    return (F_UnDefVar == _Flag);
 }
