@@ -277,9 +277,9 @@ bool WordParser::ParseHexInt(const std::string &str, WordUnit &wordRef)
         return true;
     }
     else {
-        long lInt = strtol(str.c_str() + 2, nullptr, 16); // '+ 2' is used to elimite the prefix 0x.
+        unsigned __int64 lInt = _strtoui64(str.c_str() + 2, nullptr, 16); // '+ 2' is used to elimite the prefix 0x.
 
-        if (LONG_MAX != lInt && LONG_MIN != lInt) {
+        if (_UI64_MAX != lInt) {
             wordRef = WordUnit(WT_RealValue, static_cast<Matrix::RealVal_t>(lInt));
 
             return true;
