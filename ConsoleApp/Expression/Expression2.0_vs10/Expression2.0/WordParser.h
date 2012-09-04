@@ -30,7 +30,8 @@ enum WordTypeEnum
    WT_Comma,         // ,
    WT_Semicolon,     // ;
    WT_RealValue,     // [123.23]
-   WT_UndefFuncVal,  // [a[a-1..]]
+   WT_UndefFunction,  // [a[a-1..]]
+   WT_UndefVariable,
    WT_DefVariable,
    WT_DefFunction
 };
@@ -88,8 +89,10 @@ enum NextStrTypeEnum
     NST_UnknowFail,
     NST_Operator,
     NST_OperatorFail,
-    NST_FuncVar,
-    NST_FuncVarFail,
+    NST_Function,
+    NST_FunctionFail,
+    NST_Variable,
+    NST_VariableFail,
     NST_RealVal,
     NST_RealValFail,
     NST_HexInt,
@@ -134,7 +137,8 @@ private :
     // Methods
     bool ParseRealVal(const std::string &str, WordUnit &wordRef);
     bool ParseHexInt(const std::string &str, WordUnit &wordRef);
-    bool ParseFuncVar(const std::string &str, WordUnit &wordRef);
+    bool ParseFunction(const std::string &str, WordUnit &wordRef);
+    bool ParseVariable(const std::string &str, WordUnit &wordRef);
     bool ParseOperator(const std::string &str, WordUnit &wordRef);
     static OperatorMap_t& GetOperatorMap();
     bool NextWord(WordFwCursor &wordCursorRef);
