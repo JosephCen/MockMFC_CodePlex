@@ -32,7 +32,7 @@ AssignExprNT::~AssignExprNT()
 
 bool AssignExprNT::IsInFirstSet(WordTypeEnum wordType)
 {
-    return WT_UndefFuncVal == wordType || ExprNT::IsInFirstSet(wordType);
+    return WT_UndefVariable == wordType || ExprNT::IsInFirstSet(wordType);
 }
 
 bool AssignExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRef)
@@ -44,7 +44,7 @@ bool AssignExprNT::Parse(ExprContext &exprContextRef, WordFwCursor &wordCursorRe
     bool isSuccess = true;
 
     WordTypeEnum wordType = wordCursorRef.CurrentWord().WordType();
-    if (WT_UndefFuncVal == wordType) {
+    if (WT_UndefVariable == wordType) {
         // assign_expr => undeffuncval = assign_expr
 
         int undefVarIdx = wordCursorRef.CurrentIdx();

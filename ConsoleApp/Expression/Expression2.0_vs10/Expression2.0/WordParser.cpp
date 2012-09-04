@@ -90,8 +90,11 @@ string WordUnit::ToString() const
         case WT_RealValue :
             resultStrS << "RealValue" << ":" << _RealVal;
             break;
-        case WT_UndefFuncVal :
-            resultStrS << "UndefFuncVal" << ":" << _StrVal;
+        case WT_UndefFunction :
+            resultStrS << "UndefFunction" << ":" << _StrVal;
+            break;
+        case WT_UndefVariable :
+            resultStrS << "UndefVariable" << ":" << _StrVal;
             break;
     }
 
@@ -114,13 +117,16 @@ NextStrTypeEnum WordParser::s_NextStrTypeArr[] = {
     NST_RealVal,
     NST_HexInt,
     NST_Operator,
-    NST_FuncVar
+    NST_Function,
+    NST_Variable
 };
 const char* WordParser::s_WordRegexPat = "\\s*(?:"
-    "([1-9]\\d*(?:\\.\\d+)?)|"
-    "(0[xX][0-9a-fA-F]+)|"
+    "((?:[1-9]\\d*|0(?![xX]))(?:\\.\\d+)?)|" // Use negative lookahead to avoid 0 of a hexadecimal (i.e. 0 of 0x1) captured by this patten.
+    "(0[xX][[:xdigit:]]+)|"
     "([+\\-*/=\\(\\)\\[\\],;]|\\.[*/])|"
-    "([a-zA-Z]\\w*))";
+    "([[:alpha:]]\\w*)(?=\\s*\\()|" // A left paranthese '(' is expected after a name of a function.
+    "([[:alpha:]]\\w*)"
+    ")";
 regex WordParser::s_WordRegex;
 
 void WordParser::ReleaseRes()
@@ -210,9 +216,13 @@ bool WordParser::NextWord(WordFwCursor &wordCursorRef)
                     if (!ParseOperator(m[i].str(), newWord))
                         wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a operator");
                     break;
-                case NST_FuncVar :
-                    if (!ParseFuncVar(m[i].str(), newWord))
-                        wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a function or variable");
+                case NST_Function :
+                    if (!ParseFunction(m[i].str(), newWord))
+                        wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a function");
+                    break;
+                case NST_Variable :
+                    if (!ParseVariable(m[i].str(), newWord))
+                        wordCursorRef.SetError(wordCursorRef._StrPos, "Fail to parse a variable");
                     break;
                 case NST_RealVal :
                     if (!ParseRealVal(m[i].str(), newWord))
@@ -290,23 +300,36 @@ bool WordParser::ParseHexInt(const std::string &str, WordUnit &wordRef)
     }
 }
 
-bool WordParser::ParseFuncVar(const string &str, WordUnit &wordRef)
+bool WordParser::ParseFunction(const string &str, WordUnit &wordRef)
 {
     _ASSERT(str.length() != 0);
 
-    // TODO: Parse a defined function or variable
+    if (nullptr != _pCurWorkSpace) {
+        if (ExprILHelper::FindOperatorILCount(str) > 0) // TODO: Parse a defined function which's scope is current WorkSapce
+            wordRef = WordUnit(WT_DefFunction, str);
+        else
+            wordRef = WordUnit(WT_UndefFunction, str);
+    }
+    else
+        wordRef = WordUnit(WT_UndefFunction, str);
+
+    return true;
+}
+
+bool WordParser::ParseVariable(const string &str, WordUnit &wordRef)
+{
+    _ASSERT(str.length() != 0);
+
     if (NULL != _pCurWorkSpace) {
 		Variable_sp spVariable;
 
         if ((bool)(spVariable = _pCurWorkSpace->_GlobalVarSet.SearchVar(str)))
             wordRef = WordUnit(WT_DefVariable, str, spVariable->GetTypeId());
-        else if (ExprILHelper::FindOperatorILCount(str)) // TODO: Parse a defined function which's scope is current WorkSapce
-            wordRef = WordUnit(WT_DefFunction, str);
         else
-            wordRef = WordUnit(WT_UndefFuncVal, str);
+            wordRef = WordUnit(WT_UndefVariable, str);
     }
     else
-        wordRef = WordUnit(WT_UndefFuncVal, str);
+        wordRef = WordUnit(WT_UndefVariable, str);
 
     return true;
 }
