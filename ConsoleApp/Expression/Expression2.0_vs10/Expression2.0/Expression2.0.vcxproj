@@ -92,50 +92,74 @@
   <ItemGroup>
     <ClCompile Include="AssignExprNT.cpp" />
     <ClCompile Include="BaseFunction.cpp" />
+    <ClCompile Include="BaseNonTerminal.cpp" />
     <ClCompile Include="CodeLineNT.cpp" />
     <ClCompile Include="ExprAdapter.cpp" />
     <ClCompile Include="Expression2.0.cpp" />
     <ClCompile Include="ExprException.cpp" />
     <ClCompile Include="ExprILCode.cpp" />
     <ClCompile Include="ExprILHelper.cpp" />
+    <ClCompile Include="ExprNT.cpp" />
     <ClCompile Include="ExprWorkSpace.cpp" />
     <ClCompile Include="FactorNT.cpp" />
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="FuncParamsInfo.cpp" />
+    <ClCompile Include="FunctionNT.cpp" />
     <ClCompile Include="FunctionSet.cpp" />
     <ClCompile Include="LeftValueInterpreter.cpp" />
     <ClCompile Include="ListNT.cpp" />
     <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="NonTerminal.cpp" />
+    <ClCompile Include="MatrixColNT.cpp" />
+    <ClCompile Include="MatrixColsNT.cpp" />
+    <ClCompile Include="MatrixNT.cpp" />
+    <ClCompile Include="MatrixRowsNT.cpp" />
     <ClCompile Include="ParameterSet.cpp" />
+    <ClCompile Include="StartNT.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SubExprNT.cpp" />
+    <ClCompile Include="SubTermNT.cpp" />
+    <ClCompile Include="TermNT.cpp" />
     <ClCompile Include="VariableSet.cpp" />
     <ClCompile Include="WordParser.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="GameFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssignExprNT.h" />
     <ClInclude Include="BaseFunction.h" />
+    <ClInclude Include="BaseNonTerminal.h" />
     <ClInclude Include="ClsPreDeclaration.h" />
+    <ClInclude Include="CodeLineNT.h" />
     <ClInclude Include="DoubleComparison.h" />
     <ClInclude Include="ExprAdapter.h" />
     <ClInclude Include="ExprCompiler.h" />
     <ClInclude Include="ExprException.h" />
     <ClInclude Include="ExprILCode.h" />
     <ClInclude Include="ExprILHelper.h" />
+    <ClInclude Include="ExprNT.h" />
     <ClInclude Include="ExprWorkSpace.h" />
+    <ClInclude Include="FactorNT.h" />
     <ClInclude Include="Formatter.h" />
     <ClInclude Include="FuncParamsInfo.h" />
+    <ClInclude Include="FunctionNT.h" />
     <ClInclude Include="FunctionSet.h" />
+    <ClInclude Include="ListNT.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="NonTerminal.h" />
+    <ClInclude Include="MatrixColNT.h" />
+    <ClInclude Include="MatrixColsNT.h" />
+    <ClInclude Include="MatrixNT.h" />
+    <ClInclude Include="MatrixRowsNT.h" />
     <ClInclude Include="LeftValueInterpreter.h" />
     <ClInclude Include="ParameterSet.h" />
+    <ClInclude Include="StartNT.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SubExprNT.h" />
+    <ClInclude Include="SubTermNT.h" />
     <ClInclude Include="Symbol.h" />
+    <ClInclude Include="TermNT.h" />
     <ClInclude Include="VariableSet.h" />
     <ClInclude Include="WordParser.h" />
     <ClInclude Include="Functions.h" />

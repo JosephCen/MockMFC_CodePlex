@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "NonTerminal.h"
+#include "FactorNT.h"
+#include "AssignExprNT.h"
+#include "FunctionNT.h"
+#include "MatrixNT.h"
 #include "WordParser.h"
-#include "ExprILCode.h"
-#include "ExprWorkSpace.h"
-#include "ExprILHelper.h"
 #include <crtdbg.h>
 using namespace std;
 

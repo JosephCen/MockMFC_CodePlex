@@ -1,7 +1,7 @@
 #ifndef LeftValueInterpreter_H
 #define LeftValueInterpreter_H
 
-#include "NonTerminal.h"
+#include "BaseNonTerminal.h"
 
 class LeftValueInterpreter
 {

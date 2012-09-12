@@ -1,8 +1,6 @@
 #include "stdafx.h"
-#include "NonTerminal.h"
+#include "ListNT.h"
 #include "WordParser.h"
-#include "ExprILCode.h"
-#include "ExprWorkSpace.h"
 #include <crtdbg.h>
 using namespace std;
 

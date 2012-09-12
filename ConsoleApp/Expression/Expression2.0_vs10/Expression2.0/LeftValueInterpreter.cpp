@@ -1,5 +1,11 @@
 #include "stdafx.h"
 #include "LeftValueInterpreter.h"
+#include "AssignExprNT.h"
+#include "ExprNT.h"
+#include "SubExprNT.h"
+#include "TermNT.h"
+#include "SubTermNT.h"
+#include "FactorNT.h"
 #include <crtdbg.h>
 using namespace std;
 
