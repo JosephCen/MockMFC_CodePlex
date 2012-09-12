@@ -3,10 +3,11 @@
 #include "VariableSet.h"
 #include "ExprAdapter.h"
 #include "WordParser.h"
-#include "NonTerminal.h"
+#include "BaseNonTerminal.h"
 #include "ExprILCode.h"
 #include <vector>
 #include <algorithm>
+#include <memory>
 #include <string>
 #include <sstream>
 #include <crtdbg.h>
@@ -101,12 +102,12 @@ ExprILCodeSegment_sp ExprWorkSpace::ParseILCodeSegment(const std::string &codeSt
     // Clear all existing Error info
     this->ClearError();
     if (wordCursor.NextWord(exprContext)) {
-        StartNT startNT;
+        unique_ptr<BaseNonTerminal> upStartNT(BaseNonTerminal::NewStartNT());
 
-        if (startNT.Parse(exprContext, wordCursor)) {
+        if (upStartNT->Parse(exprContext, wordCursor)) {
             ExprILCodeSegment_sp spILSegment = ExprILCodeSegment_sp(new ExprILCodeSegment(this));
 
-            startNT.AppendILSegment(*spILSegment);
+            upStartNT->AppendILSegment(*spILSegment);
             if (spILSegment->Length() > 0) {
                 _ILCodeSegmentSet.push_back(spILSegment);
 

@@ -78,9 +78,6 @@
     <ClCompile Include="GameFunctions.cpp">
       <Filter>Source Files\Functions</Filter>
     </ClCompile>
-    <ClCompile Include="NonTerminal.cpp">
-      <Filter>Source Files\NonTerminal</Filter>
-    </ClCompile>
     <ClCompile Include="FactorNT.cpp">
       <Filter>Source Files\NonTerminal</Filter>
     </ClCompile>
@@ -94,6 +91,39 @@
       <Filter>Source Files\NonTerminal</Filter>
     </ClCompile>
     <ClCompile Include="LeftValueInterpreter.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseNonTerminal.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="StartNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="ExprNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="TermNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="SubExprNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="SubTermNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixColNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixColsNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixRowsNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixNT.cpp">
+      <Filter>Source Files\NonTerminal</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionNT.cpp">
       <Filter>Source Files\NonTerminal</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,10 +188,52 @@
     <ClInclude Include="GameFunctions.h">
       <Filter>Header Files\Functions</Filter>
     </ClInclude>
-    <ClInclude Include="NonTerminal.h">
+    <ClInclude Include="LeftValueInterpreter.h">
       <Filter>Header Files\NonTerminal</Filter>
     </ClInclude>
-    <ClInclude Include="LeftValueInterpreter.h">
+    <ClInclude Include="StartNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseNonTerminal.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="ListNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="CodeLineNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="ExprNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="AssignExprNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="TermNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="FactorNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="SubTermNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixColNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixColsNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixRowsNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionNT.h">
+      <Filter>Header Files\NonTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="SubExprNT.h">
       <Filter>Header Files\NonTerminal</Filter>
     </ClInclude>
   </ItemGroup>
