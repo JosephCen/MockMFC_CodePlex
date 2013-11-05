@@ -75,9 +75,14 @@ using namespace std;
 
 void RunApplication();
 
+void ReleaseRes();
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	RunApplication();
+    ReleaseRes();
+
+	//_CrtDumpMemoryLeaks();
 
 	return 0;
 }
@@ -116,7 +121,12 @@ void RunApplication()
             cout << errorStr << '\n' << endl;
         }
     }
-
-	ExprILHelper::ReleaseRes();
+	
     cin.clear();
+}
+
+void ReleaseRes()
+{
+    WordParser::ReleaseRes();
+    ExprILHelper::ReleaseRes();
 }
