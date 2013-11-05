@@ -27,7 +27,6 @@ class Point24
 {
 private :
     static int s_OperPriTab[48];
-    static SubExprInfo s_EmptySubExpr;
     double _FinalVal;
     vector<SubExprInfo> _SubExprVec;
 public :
@@ -72,23 +71,21 @@ int Point24::s_OperPriTab[48] = {
     2  // s_OperPriTab['/'] = 2
 };
 
-SubExprInfo Point24::s_EmptySubExpr = {
-    string(""), ' ', 0.0
-};
-
 Point24::Point24(const vector<double> &dblVecRef, double finalVal) :
-_SubExprVec(dblVecRef.size(), s_EmptySubExpr), _FinalVal(finalVal)
+_SubExprVec(), _FinalVal(finalVal)
 {
     _ASSERT(dblVecRef.size() > 0);
 
     ostringstream strStream;
     
+    _SubExprVec.reserve(dblVecRef.size());
     for (size_t i = 0; i < dblVecRef.size(); ++i) {
         strStream.str("");
         strStream << dblVecRef[i];
 
-        _SubExprVec[i].SubExprStr = strStream.str();
-        _SubExprVec[i].Number = dblVecRef[i];
+        SubExprInfo tempSubExpr = { strStream.str(), ' ', dblVecRef[i] };
+
+        _SubExprVec.push_back(tempSubExpr);
     }
 }
 
