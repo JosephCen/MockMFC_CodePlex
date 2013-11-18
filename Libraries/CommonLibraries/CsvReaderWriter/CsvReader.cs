@@ -180,8 +180,11 @@ namespace CsvReaderWriter
 
                 return strList.ToArray();
             }
-
-            return (null == lineStr ? null : new String[0]);
+            else
+            {
+                // null == lineStr
+                return null;
+            }
         }
 
         public void Dispose()
