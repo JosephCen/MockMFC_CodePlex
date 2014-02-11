@@ -1,0 +1,5 @@
+   at System.Net.HttpWebRequest.GetResponse()
+   at WordAssistantLib.SimpleHttpClient.GetHttpWebResponse(String requestUrlStr) in C:\Joseph_Data\ProjectData\MyProgram\WordAssistant\WordAssistantLib\SimpleHttpClient.cs:line 33
+   at WordAssistantLib.SimpleHttpClient.GetHttpString(String requestUrlStr) in C:\Joseph_Data\ProjectData\MyProgram\WordAssistant\WordAssistantLib\SimpleHttpClient.cs:line 80
+   at WordAssistantLib.HttpClientICiba.DownloadAudio(String wordStr, String audioFileName) in C:\Joseph_Data\ProjectData\MyProgram\WordAssistant\WordAssistantLib\AudioClientICiba.cs:line 84
+   at WordAssistant.MainWindow.GenerateMp3(WindowParams wndParams, BackgroundWorker bgWorker, Exception& exception) in C:\Joseph_Data\ProjectData\MyProgram\WordAssistant\WordAssistant\MainWindow.xaml.cs:line 166

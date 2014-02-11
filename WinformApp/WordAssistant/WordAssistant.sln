@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordAssistantTest", "WordAssistantTest\WordAssistantTest.csproj", "{E5822C65-8CC7-4802-98DD-B14A704BFFED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordAssistantLib", "WordAssistantLib\WordAssistantLib.csproj", "{AB8A36A8-8355-4561-AB5A-68131D51AC00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordAssistant", "WordAssistant\WordAssistant.csproj", "{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs10
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = WordAssistant\\WordAssistant.csproj
+		SccProjectName1 = WordAssistant
+		SccLocalPath1 = WordAssistant
+		SccProjectUniqueName2 = WordAssistantLib\\WordAssistantLib.csproj
+		SccProjectName2 = WordAssistantLib
+		SccLocalPath2 = WordAssistantLib
+		SccProjectUniqueName3 = WordAssistantTest\\WordAssistantTest.csproj
+		SccProjectName3 = WordAssistantTest
+		SccLocalPath3 = WordAssistantTest
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Debug|x86.ActiveCfg = Debug|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Debug|x86.Build.0 = Debug|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Release|Any CPU.ActiveCfg = Release|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Release|x86.ActiveCfg = Release|x86
+		{E5822C65-8CC7-4802-98DD-B14A704BFFED}.Release|x86.Build.0 = Release|x86
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AB8A36A8-8355-4561-AB5A-68131D51AC00}.Release|x86.ActiveCfg = Release|Any CPU
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Debug|x86.ActiveCfg = Debug|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Debug|x86.Build.0 = Debug|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Release|Any CPU.ActiveCfg = Release|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Release|Mixed Platforms.Build.0 = Release|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Release|x86.ActiveCfg = Release|x86
+		{19A3E1D4-8E78-4AB9-A298-B9F0E456A7DD}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
