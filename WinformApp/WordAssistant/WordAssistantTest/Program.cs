@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
 
-using WordAssistant;
+using WordAssistantLib;
 
 namespace WordAssistantTest
 {
@@ -58,7 +58,7 @@ namespace WordAssistantTest
 
         static void TestICibaClient()
         {
-            AudioClientICiba iCibaClient = new AudioClientICiba();
+            HttpClientICiba iCibaClient = new HttpClientICiba();
             String[] wordArr = new String[] { "aaabbbcccddd", "capacity", "buffer", "client" };
 
             foreach (String eachWord in wordArr)
@@ -82,7 +82,7 @@ namespace WordAssistantTest
                 Int32 wordIdx = 0;
                 String wordStr = String.Empty;
                 String fileName = String.Empty;
-                AudioClientICiba iCibaClient = new AudioClientICiba();
+                HttpClientICiba iCibaClient = new HttpClientICiba();
 
                 do
                 {

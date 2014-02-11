@@ -48,9 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WordAssistant\WordAssistant.csproj">
+    <ProjectReference Include="..\WordAssistantLib\WordAssistantLib.csproj">
       <Project>{AB8A36A8-8355-4561-AB5A-68131D51AC00}</Project>
-      <Name>WordAssistant</Name>
+      <Name>WordAssistantLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
