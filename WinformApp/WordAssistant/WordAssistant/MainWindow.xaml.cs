@@ -99,7 +99,9 @@ namespace WordAssistant
             WindowParams wndParams = (WindowParams)e.Argument;
             Exception innerEx = null;
 
-            if (!GenerateMp3(wndParams, bgWorker, out innerEx))
+            if (GenerateMp3(wndParams, bgWorker, out innerEx))
+                e.Result = wndParams;
+            else
                 throw new Exception("Generate mp3 failed", innerEx);
         }
 
@@ -112,6 +114,8 @@ namespace WordAssistant
 
         private void GenerateMp3_Completed(Object sender, RunWorkerCompletedEventArgs e)
         {
+            WindowParams wndParams = null;
+
             if (e.Error != null)
             {
                 Exception innerEx = null;
@@ -126,10 +130,27 @@ namespace WordAssistant
             {
                 WriteConfig();
 
-                MessageBox.Show("Mp3 file generated!", "Information");
+                MessageBoxResult dlgRet = MessageBoxResult.None;
+                dlgRet = MessageBox.Show("Mp3 file generated!\nDo you want to open located folder?", "Information", MessageBoxButton.YesNo);
+                if (MessageBoxResult.Yes == dlgRet)
+                {
+                    wndParams = (WindowParams)e.Result;
+                    OpenDestDirAndSeletFile(wndParams.FinalMp3File);
+                }
             }
             progBar.Visibility = Visibility.Hidden;
             gridWholeWnd.IsEnabled = true;
+        }
+
+        private void OpenDestDirAndSeletFile(String fileName)
+        {
+            // Reference 
+            //    http://bbs.csdn.net/topics/360258100
+            //    http://zhidao.baidu.com/link?url=mHE40oHLXcd2WDE7P95X8Pct74YJluHm8IwBb8OIdGebU-ZTOZqS2VCRQ8sgKIgNxB4JSMG8mZaPb9yUMs6H_q
+            
+            String parameterStr = String.Format("/select,{0}", fileName);
+
+            NativeApi.ShellExecute(IntPtr.Zero, "open", "explorer.exe", parameterStr, null, ShowCommands.SW_SHOWNORMAL);
         }
 
         private Boolean GenerateMp3(WindowParams wndParams, BackgroundWorker bgWorker, out Exception exception)
