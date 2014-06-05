@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="QueryDef"
+    targetNamespace="http://tempuri.org/QueryDef.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/QueryDef.xsd"
+    xmlns:mstns="http://tempuri.org/QueryDef.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="QueryDefination" type="QueryDefType" />
+
+  <xs:complexType name="QueryDefType">
+    <xs:sequence>
+      <xs:element name="QureyName" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="QueryString" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="Parameter" minOccurs="0" maxOccurs="unbounded" type="QueryParmDef" />
+      <xs:element name="ExtraColumn" minOccurs="0" maxOccurs="unbounded" type="ExtraColumnDef" />
+      <xs:element name="ContextMenu" minOccurs="0" maxOccurs="1" type="ContextMenuDef" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="QueryParmDef">
+    <xs:attribute name="Name" use="required" type="xs:string" />
+    <xs:attribute name="ParameterType" use="required" type="QueryParmType" />
+    <xs:attribute name="TableField" use="optional" type="xs:string" />
+  </xs:complexType>
+
+  <xs:simpleType name="QueryParmType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="String" />
+      <xs:enumeration value="TrimStr" />
+      <xs:enumeration value="Integer" />
+      <xs:enumeration value="Int64" />
+      <xs:enumeration value="Guid" />
+      <xs:enumeration value="DateTime" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ExtraColumnDef">
+    <xs:sequence>
+      <xs:element name="xPath" minOccurs="1" maxOccurs="1" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="SourceColumn" use="required" type="xs:string" />
+    <xs:attribute name="ColumnName" use="required" type="xs:string" />
+  </xs:complexType>
+  
+  <xs:complexType name="ContextMenuDef">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="MenuItemXmlViewer" minOccurs="1" maxOccurs="1" type="MenuItemXmlViewerDef" />
+      <xs:element name="MenuItemXmlSaver" minOccurs="1" maxOccurs="1" type="MenuItemXmlSaverDef" />
+    </xs:choice>
+    <xs:attribute name="Name" use="optional" type="xs:string" />
+  </xs:complexType>
+  
+  <xs:complexType name="ContextMenuItemDef">
+    <xs:sequence>
+      <xs:element name="SourceColumn" minOccurs="1" maxOccurs="unbounded" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="ItemName" use="required" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="MenuItemXmlViewerDef">
+    <xs:complexContent>
+      <xs:extension base="ContextMenuItemDef">
+        <xs:sequence>
+          <xs:element name="ViewApp" minOccurs="0" maxOccurs="1" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MenuItemXmlSaverDef">
+    <xs:complexContent>
+      <xs:extension base="ContextMenuItemDef">
+        <xs:sequence>
+          <xs:element name="SaveDirectory" minOccurs="0" maxOccurs="1" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
