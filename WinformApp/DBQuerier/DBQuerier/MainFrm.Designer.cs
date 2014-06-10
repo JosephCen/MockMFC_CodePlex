@@ -38,6 +38,7 @@
             this.dataGridVw = new System.Windows.Forms.DataGridView();
             this.cmuDataGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openXmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bgwRunQuery = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.splitConMain)).BeginInit();
             this.splitConMain.Panel1.SuspendLayout();
             this.splitConMain.Panel2.SuspendLayout();
@@ -153,6 +154,11 @@
             this.openXmlToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.openXmlToolStripMenuItem.Text = "Open Xml";
             // 
+            // bgwRunQuery
+            // 
+            this.bgwRunQuery.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwRunQuery_DoWork);
+            this.bgwRunQuery.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwRunQuery_RunWorkerCompleted);
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -185,6 +191,7 @@
         private System.Windows.Forms.Label lblQueryDef;
         private System.Windows.Forms.ContextMenuStrip cmuDataGrid;
         private System.Windows.Forms.ToolStripMenuItem openXmlToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker bgwRunQuery;
 
     }
 }
