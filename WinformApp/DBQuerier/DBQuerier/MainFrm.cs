@@ -88,11 +88,10 @@ namespace DBQuerier
 
             if (null != qryParmSets)
             {
-                DataTable dataTable = m_CurExQuery.RunQuery(m_DbConnStr, qryParmSets);
+                splitConMain.Panel1.Enabled = false;
+                splitConMain.Panel2.Enabled = false;
 
-                dataGridVw.DataSource = dataTable;
-                if (m_GridCtxMenuBuilder.CurrentContextMenu != cmuDataGrid)
-                    m_GridCtxMenuBuilder.BuildContextMenu(cmuDataGrid, dataTable);
+                bgwRunQuery.RunWorkerAsync(qryParmSets);
             }
         }
 
@@ -163,6 +162,35 @@ namespace DBQuerier
             GridContextMenuItem menuItemObj = (GridContextMenuItem)e.ClickedItem.Tag;
 
             this.BeginInvoke(new MenuClickHandler(menuItemObj.MenuClickWithNoParams));
+        }
+
+        private void bgwRunQuery_DoWork(object sender, DoWorkEventArgs e)
+        {
+            SearchParameterSet[] qryParmSets = e.Argument as SearchParameterSet[];
+
+            if (qryParmSets != null)
+            {
+                DataTable dataTable = m_CurExQuery.RunQuery(m_DbConnStr, qryParmSets);
+
+                e.Result = dataTable;
+            }
+        }
+
+        private void bgwRunQuery_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                DataTable dataTable = e.Result as DataTable;
+
+                if (dataTable != null)
+                {
+                    dataGridVw.DataSource = dataTable;
+                    m_GridCtxMenuBuilder.BuildContextMenu(cmuDataGrid, dataTable);
+                }
+            }
+
+            splitConMain.Panel1.Enabled = true;
+            splitConMain.Panel2.Enabled = true;
         }
     }
 }
