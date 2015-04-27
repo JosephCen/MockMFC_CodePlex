@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echCustInvoiceJour unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echCustInvoiceJour
+    PROPERTIES
+      Name                #echCustInvoiceJour
+      Label               #@SYS19627
+      HelpText            #@SYS1557
+      Object              #echCustInvoiceJour
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

@@ -1,0 +1,84 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: AxdEchPickingListReg unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #AxdEchPickingListReg
+  PROPERTIES
+    Name                #AxdEchPickingListReg
+    Version             #20
+    NextUniqueId        #1003
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #WMSPickingRoute
+      PROPERTIES
+        Name                #WMSPickingRoute
+        Table               #WMSPickingRoute
+        UniqueId            #1000
+        Update              #Yes
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+        BLOCK #WMSOrderTrans
+          PROPERTIES
+            Name                #WMSOrderTrans
+            Table               #WMSOrderTrans
+            UniqueId            #1001
+            Update              #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #WMSPickingRoute
+              MASTERFIELD  #pickingRouteID
+              DETAILSFIELD #routeId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

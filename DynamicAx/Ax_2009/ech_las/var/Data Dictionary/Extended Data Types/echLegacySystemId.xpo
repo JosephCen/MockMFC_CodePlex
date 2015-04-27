@@ -1,0 +1,35 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echLegacySystemId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echLegacySystemId
+  Id 30054
+  STRING
+    PROPERTIES
+      Name                #echLegacySystemId
+      Label               #@ECH357
+      HelpText            #@ECH350
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+      TYPEREFERENCETYPE DATASET
+      PROPERTIES
+        Table               #echLegacySystem
+        RelatedField        #Id
+      ENDPROPERTIES
+      
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

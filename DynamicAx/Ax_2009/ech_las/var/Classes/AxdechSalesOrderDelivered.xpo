@@ -1,0 +1,219 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdechSalesOrderDelivered unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdechSalesOrderDelivered
+    Id 30215
+    PROPERTIES
+      Name                #AxdechSalesOrderDelivered
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdechSalesOrderDelivered extends AxdBase
+        #{
+        #    AxechSalesOrderDelivered    axSalesOrderDelivered;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findList
+        #public AifDocumentXml findList(AifQueryCriteria            _queryCriteria,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel("@ECH328");
+        #    aifActionInfo.parmDescription("@ECH329");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #
+        #    echSalesOrderDelivered    echSalesOrderDelivered;
+        #    ;
+        #    if (_curRec.TableId != tablenum(echSalesOrderDelivered))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    echSalesOrderDelivered = _curRec ;
+        #    aifConstraint.parmType(AIFConstraintType::NoConstraint);
+        #
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "@ECH327";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getQueryName
+        #public QueryName getQueryName()
+        #{
+        #    return querystr(echSalesOrderDelivered);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00909
+        #// *** Customization Date: 16 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Don't save the record (won't work as this is a view). Instead handle the saving in the processingRecord method
+        #
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    ;
+        #    // store the ax class in a class variable
+        #    switch (classIdGet(_axdStack.top()))
+        #    {
+        #        case classnum(AxechSalesOrderDelivered):
+        #            axSalesOrderDelivered = _axdStack.top();
+        #            // don't save, handle the saving in the processingrecord method
+        #            return false;
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #processingRecord
+        #public void processingRecord(Common common)
+        #{
+        #    SalesTable              salesTable;
+        #    ShipCarrierPackage      shipCarrierPackage;
+        #
+        #    ;
+        #    super(common);
+        #
+        #    // don't use common as the record isn't saved, instead get the ax class
+        #    try
+        #    {
+        #
+        #        ttsbegin;
+        #        // Begin - Avanade.19.Oct.2012.nte.Project : < ECH_WI_01718 >
+        #        /*
+        #        select forupdate salesTable
+        #            where salesTable.SalesId    == axSalesOrderDelivered.parmSalesId();
+        #
+        #        if (salesTable)
+        #        {
+        #            salesTable.ECHAggStatus = echAggStatus::DeliveredAtCustomer;
+        #            salesTable.update();
+        #        }
+        #        else
+        #            throw error (strfmt("@ECH332", axSalesOrderDelivered.parmSalesId()));
+        #        */
+        #
+        #        select firstonly recId from salesTable
+        #            where salesTable.SalesId    == axSalesOrderDelivered.parmSalesId();
+        #
+        #        if (salesTable)
+        #            echUpdateAggStatus::updateStatus(SalesTable.SalesId, echAggStatus::DeliveredAtCustomer);
+        #        else
+        #            throw error (strfmt("@ECH332", axSalesOrderDelivered.parmSalesId()));
+        #        // End - Avanade.19.Oct.2012.nte.Project : < ECH_WI_01718 >
+        #
+        #        // update the sign info on the packing slip shipping info
+        #        select firstonly forupdate shipCarrierPackage
+        #            order by PackingSlipId desc
+        #            where shipCarrierPackage.SalesId    == axSalesOrderDelivered.parmSalesId();
+        #
+        #        if (shipCarrierPackage)
+        #        {
+        #            shipCarrierPackage.echSignDate      = axSalesOrderDelivered.parmechSignDate();
+        #            shipCarrierPackage.echSignPerson    = axSalesOrderDelivered.parmechSignPerson();
+        #            shipCarrierPackage.echDeliveryNote  = axSalesOrderDelivered.parmechDeliveryNote();
+        #
+        #            shipCarrierPackage.update();
+        #        }
+        #        else
+        #            throw error (strfmt("@ECH333", axSalesOrderDelivered.parmSalesId()));
+        #
+        #        ttscommit;
+        #
+        #    }
+        #    catch
+        #    {
+        #        ttsabort;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #readList
+        #public AifDocumentXml readList(AifEntityKeyList            _aifEntityKeyList,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateList
+        #public AifEntityKey updateList(AifEntityKeyList            _entityKeyList,
+        #                               AifDocumentXML              _xml,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListcollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

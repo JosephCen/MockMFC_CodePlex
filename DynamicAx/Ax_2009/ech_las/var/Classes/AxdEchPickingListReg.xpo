@@ -1,0 +1,212 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchPickingListReg unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchPickingListReg
+    Id 30077
+    PROPERTIES
+      Name                #AxdEchPickingListReg
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00235
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: added global variable
+        #
+        #class AxdEchPickingListReg extends AxdBase
+        #{
+        #    WMSPickingRoute     WMSPickingRoute;
+        #    Map                 map2RegLines;//key wmsOrderTrans.recId, Value: WMSOrderTrans.orderid;//used to hit best index
+        #}
+        #
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, findList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::QueryDocuments);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, findList));
+        #    aifActionInfo.parmLabel("@ECH89");
+        #    aifActionInfo.parmDescription("@ECH90");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel(strfmt("%1 ", "@SYS52744"));
+        #    aifActionInfo.parmDescription("@ECH87");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, updateList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ProcessEntityList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, updateList));
+        #    aifActionInfo.parmLabel(strfmt("%1 ", "@SYS71207"));
+        #    aifActionInfo.parmDescription("@ECH223");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #    WMSPickingRoute    WMSPickingRouteLocal;
+        #    ;
+        #    if (_curRec.TableId != tablenum(WMSPickingRoute))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    WMSPickingRouteLocal = _curRec ;
+        #    aifConstraint.parmType(AIFConstraintType::Vendor);
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    AxWMSPickingRoute   AxWMSPickingRoute;
+        #    AxWMSOrderTrans     AxWMSOrderTrans;
+        #    ;
+        #
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxWMSPickingRoute) :
+        #            AxWMSPickingRoute = _axdStack.top();
+        #            return true;
+        #
+        #        case classnum(AxWMSOrderTrans) :
+        #            AxWMSOrderTrans = _axdStack.top();
+        #            AxWMSPickingRoute = AxWMSOrderTrans.parentAxBC();
+        #            AxWMSOrderTrans.parmrouteId(AxWMSPickingRoute.parmpickingRouteID());
+        #            return true;
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #processingRecord
+        #public void processingRecord(Common common)
+        #{
+        #    WMSOrderTrans       WMSOrderTrans;
+        #    ;
+        #
+        #    super(common);
+        #
+        #    if (common.TableId == tablenum(WMSPickingRoute))
+        #        WMSPickingRoute.data(common);
+        #    else if (common.TableId == tablenum(WMSOrderTrans))
+        #    {
+        #        WMSOrderTrans.data(common);
+        #
+        #        if (!map2RegLines)
+        #            map2RegLines = new Map(Types::Int64,Types::Container);
+        #
+        #        map2RegLines.insert(WMSOrderTrans.RecId, [WMSOrderTrans.OrderId, WMSOrderTrans.RecVersion]);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #readList
+        #public AifDocumentXml readList(AifEntityKeyList            _aifEntityKeyList,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateNow
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00235
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: post picking list
+        #
+        #public void updateNow()
+        #{
+        #    //WMSOrderTrans       wmsOrderTrans;
+        #    int                 cnt = 0;
+        #    ;
+        #
+        #    super();
+        #
+        #    // finish lines in the message
+        #    WMSOrderTransType::finishPickingLinesMulti(map2RegLines.pack());
+        #    /*
+        #    //UPDATE STATUS CHANGE IS DONE HIGHER UP IN CODE IN ECH_E_003
+        #    // count qty of lines and how many are completed
+        #    while
+        #    select count(RecId), expeditionStatus from wmsOrderTrans
+        #        where wmsOrderTrans.routeId ==  WMSPickingRoute.PickingRouteID
+        #    {
+        #        if (wmsOrderTrans.expeditionStatus == WMSExpeditionStatus::Complete)
+        #            cnt++;
+        #    }
+        #
+        #    // if all lines are completed, change sales order status
+        #    if (cnt == wmsOrderTrans.RecId)
+        #        echUpdateAggStatus::updateStatus(WMSPickingRoute.TransRefId, echAggStatus::WaitShipping);
+        #    */
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

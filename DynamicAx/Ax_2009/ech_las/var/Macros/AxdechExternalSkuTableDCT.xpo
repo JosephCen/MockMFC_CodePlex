@@ -1,0 +1,15 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdechExternalSkuTableDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdechExternalSkuTableDCT
+    ##define.echExternalSkuTable('echExternalSkuTable')
+    ##define.echExternalSkuTable_echExternalSkuId('echExternalSkuTable.echExternalSkuId')
+  ENDSOURCE
+
+***Element: END

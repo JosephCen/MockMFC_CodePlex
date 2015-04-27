@@ -1,0 +1,199 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : EPInventTableList unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #EPInventTableList
+    PROPERTIES
+      Name                #EPInventTableList
+      HelpText            #
+      Filename            #EPInventTableList.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="EPInventTableList.ascx.cs"
+      #    Inherits="EPInventTableList" %> 
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #    Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="dsEPInventTableList" runat="server" 
+      #    DataSetName="EPInventTableList" ProviderView="InventTable" />
+      #<dynamics:AxGridView ID="gridEPInventTableList" runat="server" DataKeyNames="RecId"
+      #    DataMember="InventTable" DataSourceID="dsEPInventTableList">
+      #    <Columns>
+      #        <dynamics:AxHyperLinkBoundField DataSet="EPInventTableList" DataSetView="InventTable"
+      #            DataField="ItemId" SortExpression="ItemId" MenuItem="EPInventTableInfo" />
+      #        <dynamics:AxBoundField DataField="ItemName" DataSet="EPInventTableList" DataSetView="InventTable"
+      #            SortExpression="ItemName">
+      #        </dynamics:AxBoundField>        
+      #        <dynamics:AxBoundField DataField="externalItemId**" DataSet="EPInventTableList" 
+      #			DataSetView="InventTable">
+      #		</dynamics:AxBoundField>
+      #		<dynamics:AxBoundField DataField="externalItemTxt**" 
+      #			DataSet="EPInventTableList" DataSetView="InventTable">
+      #		</dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="ItemGroupId" DataSet="EPInventTableList" DataSetView="InventTable"
+      #            SortExpression="ItemGroupId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxDropDownBoundField DataField="ItemType" DataSet="EPInventTableList" DataSetView="InventTable"
+      #            SortExpression="ItemType">
+      #        </dynamics:AxDropDownBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #EPInventTableList_ascx_cs
+      HelpText            #
+      Filename            #EPInventTableList.ascx.cs
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Data;
+      #using System.Configuration;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Metadata.Ax;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Proxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using ApplicationProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #
+      #public partial class EPInventTableList : System.Web.UI.UserControl
+      #{
+      #    //Base Webpart private
+      #    private AxBaseWebPart _baseWebpart = null;
+      #
+      #    //Base Webpart value
+      #    private AxBaseWebPart BaseWebpart
+      #    {
+      #        get
+      #        {
+      #            //return the basewebpart if it is not null
+      #            if (this._baseWebpart != null)
+      #                return this._baseWebpart;
+      #
+      #            //get the webpart if basewebpart is null
+      #            this._baseWebpart = AxBaseWebPart.GetWebpart(this);
+      #            return this._baseWebpart;
+      #        }
+      #    }
+      #
+      #    //Web part session
+      #    ISession AxSession
+      #    {
+      #        get
+      #        {
+      #            //get the current webpart session
+      #            AxBaseWebPart webpart = AxBaseWebPart.GetWebpart(this);
+      #            return webpart == null ? null : webpart.Session;
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Returns a field given a name. Used to loop over form and grid collections
+      #    /// </summary>
+      #    /// <param name="fields"></param>
+      #    /// <param name="name"></param>
+      #    /// <returns></returns>
+      #    static AxBoundField GetField(DataControlFieldCollection fields, string name)
+      #    {
+      #        //loop through the field collection
+      #        foreach (DataControlField field in fields)
+      #        {
+      #            AxBoundField boundField = field as AxBoundField;
+      #
+      #            //check if the field present in the collection
+      #            if (boundField != null && String.Compare(boundField.DataField, name, true) == 0)
+      #            {
+      #                return boundField;
+      #            }
+      #        }
+      #        return null;
+      #    }
+      #
+      #    /// <summary>
+      #    /// set visibility for CustVendExternalItem!ExternalItemId and
+      #    ///     CustVendExternalItem!ExternalItemTxt columns 
+      #    ///     when the user is neither Vendor nor Customer
+      #    /// set hyperlink for ItemId column, when the user is Vendor
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #        //set visibility for columns
+      #        //Check the user is neither Vendor nor Customer
+      #        if (!ApplicationProxy.EP.isVendor(this.AxSession.AxaptaAdapter) &&
+      #                !ApplicationProxy.EP.isCustomer(this.AxSession.AxaptaAdapter))
+      #        {
+      #            //get the bound field from the grid
+      #            AxBoundField gcExternalItemId = (AxBoundField)GetField(
+      #				gridEPInventTableList.Columns, "externalItemId**");
+      #
+      #            //Set the visibility for the field
+      #            gcExternalItemId.Visible = false;
+      #
+      #            //get the bound field from the grid
+      #            AxBoundField gcExternalItemTxt = (AxBoundField)GetField(
+      #				gridEPInventTableList.Columns, "externalItemTxt**");
+      #
+      #            //Set the visibility for the field
+      #            gcExternalItemTxt.Visible = false;
+      #        }
+      #
+      #        //set hyperlink for ItemId column
+      #        //Check if the user is Vendor
+      #        if (ApplicationProxy.EP.isVendor(this.AxSession.AxaptaAdapter))
+      #        {
+      #            //get the bound field from the grid
+      #            AxHyperLinkBoundField hlItemId = (AxHyperLinkBoundField)GetField(
+      #                gridEPInventTableList.Columns, "ItemId");
+      #
+      #            //change the menu item for the field
+      #            hlItemId.MenuItem = "EPInventTableInfoVSS";
+      #        }
+      #    }
+      #    //Page init method - attaching events to controls
+      #    void Page_Init(object sender, EventArgs e)
+      #    {
+      #        // Setup event handler for toolbar connected via webpart connections
+      #        if (this.BaseWebpart != null)
+      #            this.BaseWebpart.SetMenuItemProperties +=
+      #                new EventHandler<SetMenuItemPropertiesEventArgs>(webpart_SetToolbarMenuItemProperties);
+      #    }
+      #    //setting the toolbar menuitem visibility
+      #    void webpart_SetToolbarMenuItemProperties(object sender, SetMenuItemPropertiesEventArgs e)
+      #    {
+      #        string menuItemName = e.MenuItem.MenuItemAOTName.ToLower();
+      #
+      #        //set the menu context
+      #        if ((menuItemName == "epinventtablebyqty" || menuItemName == "epinventtablebysales"
+      #           || menuItemName == "epinventtablebytime") && e.MenuItem is AxUrlMenuItem)
+      #            ((AxUrlMenuItem)e.MenuItem).MenuItemContext = null;
+      #    }
+      #
+      #}
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

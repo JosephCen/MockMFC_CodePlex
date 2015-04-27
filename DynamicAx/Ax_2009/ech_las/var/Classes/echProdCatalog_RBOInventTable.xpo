@@ -1,0 +1,792 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echProdCatalog_RBOInventTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echProdCatalog_RBOInventTable
+    Id 30323
+    PROPERTIES
+      Name                #echProdCatalog_RBOInventTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echProdCatalog_RBOInventTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.ZeroPriceValid('ZeroPriceValid')
+        #    #define.UseEanStandardBarcode('UseEanStandardBarcode')
+        #    #define.UnitPriceIncludingTax('UnitPriceIncludingTax')
+        #    #define.TempGroupId('TempGroupId')
+        #    #define.TempControl('TempControl')
+        #    #define.StyleGroup('StyleGroup')
+        #    #define.SizeGroup('SizeGroup')
+        #    #define.SeasonCode('SeasonCode')
+        #    #define.ScaleItem('ScaleItem')
+        #    #define.RetailGroup('RetailGroup')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.QtyBecomesNegative('QtyBecomesNegative')
+        #    #define.PrintVariantsShelfLabels('PrintVariantsShelfLabels')
+        #    #define.NoInventPosting('NoInventPosting')
+        #    #define.NoDiscountAllowed('NoDiscountAllowed')
+        #    #define.MustKeyInComment('MustKeyInComment')
+        #    #define.LifeTo('LifeTo')
+        #    #define.LifeFrom('LifeFrom')
+        #    #define.KeyingInQty('KeyingInQty')
+        #    #define.KeyingInPrice('KeyingInPrice')
+        #    #define.ItemType('ItemType')
+        #    #define.ItemId('ItemId')
+        #    #define.ItemDepartment('ItemDepartment')
+        #    #define.InventoryOnPrePack('InventoryOnPrePack')
+        #    #define.FabricComposition('FabricComposition')
+        #    #define.DivisionGroup('DivisionGroup')
+        #    #define.DispensePrintingDisabled('DispensePrintingDisabled')
+        #    #define.DispensePrinterGroupId('DispensePrinterGroupId')
+        #    #define.DEL_validSalesPrice('DEL_validSalesPrice')
+        #    #define.DEL_itemFamily('DEL_itemFamily')
+        #    #define.DateToBeBlocked('DateToBeBlocked')
+        #    #define.DateToActivateItem('DateToActivateItem')
+        #    #define.DateBlocked('DateBlocked')
+        #    #define.CostCalculationOnPOS('CostCalculationOnPOS')
+        #    #define.ConcessionVendAccount('ConcessionVendAccount')
+        #    #define.ConcessionContractItem('ConcessionContractItem')
+        #    #define.ColorGroup('ColorGroup')
+        #    #define.BusinessGroup('BusinessGroup')
+        #    #define.BlockedOnPOS('BlockedOnPOS')
+        #    #define.BaseComparisonUnitCode('BaseComparisonUnitCode')
+        #    #define.BarcodeSetupId('BarcodeSetupId')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsBarcodeSetupId
+        #public boolean existsBarcodeSetupId()
+        #{
+        #    return this.exists(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #existsBaseComparisonUnitCode
+        #public boolean existsBaseComparisonUnitCode()
+        #{
+        #    return this.exists(#BaseComparisonUnitCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsBlockedOnPOS
+        #public boolean existsBlockedOnPOS()
+        #{
+        #    return this.exists(#BlockedOnPOS);
+        #}
+      ENDSOURCE
+      SOURCE #existsBusinessGroup
+        #public boolean existsBusinessGroup()
+        #{
+        #    return this.exists(#BusinessGroup);
+        #}
+      ENDSOURCE
+      SOURCE #existsColorGroup
+        #public boolean existsColorGroup()
+        #{
+        #    return this.exists(#ColorGroup);
+        #}
+      ENDSOURCE
+      SOURCE #existsConcessionContractItem
+        #public boolean existsConcessionContractItem()
+        #{
+        #    return this.exists(#ConcessionContractItem);
+        #}
+      ENDSOURCE
+      SOURCE #existsConcessionVendAccount
+        #public boolean existsConcessionVendAccount()
+        #{
+        #    return this.exists(#ConcessionVendAccount);
+        #}
+      ENDSOURCE
+      SOURCE #existsCostCalculationOnPOS
+        #public boolean existsCostCalculationOnPOS()
+        #{
+        #    return this.exists(#CostCalculationOnPOS);
+        #}
+      ENDSOURCE
+      SOURCE #existsDateBlocked
+        #public boolean existsDateBlocked()
+        #{
+        #    return this.exists(#DateBlocked);
+        #}
+      ENDSOURCE
+      SOURCE #existsDateToActivateItem
+        #public boolean existsDateToActivateItem()
+        #{
+        #    return this.exists(#DateToActivateItem);
+        #}
+      ENDSOURCE
+      SOURCE #existsDateToBeBlocked
+        #public boolean existsDateToBeBlocked()
+        #{
+        #    return this.exists(#DateToBeBlocked);
+        #}
+      ENDSOURCE
+      SOURCE #existsDEL_itemFamily
+        #public boolean existsDEL_itemFamily()
+        #{
+        #    return this.exists(#DEL_itemFamily);
+        #}
+      ENDSOURCE
+      SOURCE #existsDEL_validSalesPrice
+        #public boolean existsDEL_validSalesPrice()
+        #{
+        #    return this.exists(#DEL_validSalesPrice);
+        #}
+      ENDSOURCE
+      SOURCE #existsDispensePrinterGroupId
+        #public boolean existsDispensePrinterGroupId()
+        #{
+        #    return this.exists(#DispensePrinterGroupId);
+        #}
+      ENDSOURCE
+      SOURCE #existsDispensePrintingDisabled
+        #public boolean existsDispensePrintingDisabled()
+        #{
+        #    return this.exists(#DispensePrintingDisabled);
+        #}
+      ENDSOURCE
+      SOURCE #existsDivisionGroup
+        #public boolean existsDivisionGroup()
+        #{
+        #    return this.exists(#DivisionGroup);
+        #}
+      ENDSOURCE
+      SOURCE #existsFabricComposition
+        #public boolean existsFabricComposition()
+        #{
+        #    return this.exists(#FabricComposition);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventoryOnPrePack
+        #public boolean existsInventoryOnPrePack()
+        #{
+        #    return this.exists(#InventoryOnPrePack);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemDepartment
+        #public boolean existsItemDepartment()
+        #{
+        #    return this.exists(#ItemDepartment);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemType
+        #public boolean existsItemType()
+        #{
+        #    return this.exists(#ItemType);
+        #}
+      ENDSOURCE
+      SOURCE #existsKeyingInPrice
+        #public boolean existsKeyingInPrice()
+        #{
+        #    return this.exists(#KeyingInPrice);
+        #}
+      ENDSOURCE
+      SOURCE #existsKeyingInQty
+        #public boolean existsKeyingInQty()
+        #{
+        #    return this.exists(#KeyingInQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsLifeFrom
+        #public boolean existsLifeFrom()
+        #{
+        #    return this.exists(#LifeFrom);
+        #}
+      ENDSOURCE
+      SOURCE #existsLifeTo
+        #public boolean existsLifeTo()
+        #{
+        #    return this.exists(#LifeTo);
+        #}
+      ENDSOURCE
+      SOURCE #existsMustKeyInComment
+        #public boolean existsMustKeyInComment()
+        #{
+        #    return this.exists(#MustKeyInComment);
+        #}
+      ENDSOURCE
+      SOURCE #existsNoDiscountAllowed
+        #public boolean existsNoDiscountAllowed()
+        #{
+        #    return this.exists(#NoDiscountAllowed);
+        #}
+      ENDSOURCE
+      SOURCE #existsNoInventPosting
+        #public boolean existsNoInventPosting()
+        #{
+        #    return this.exists(#NoInventPosting);
+        #}
+      ENDSOURCE
+      SOURCE #existsPrintVariantsShelfLabels
+        #public boolean existsPrintVariantsShelfLabels()
+        #{
+        #    return this.exists(#PrintVariantsShelfLabels);
+        #}
+      ENDSOURCE
+      SOURCE #existsQtyBecomesNegative
+        #public boolean existsQtyBecomesNegative()
+        #{
+        #    return this.exists(#QtyBecomesNegative);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsRetailGroup
+        #public boolean existsRetailGroup()
+        #{
+        #    return this.exists(#RetailGroup);
+        #}
+      ENDSOURCE
+      SOURCE #existsScaleItem
+        #public boolean existsScaleItem()
+        #{
+        #    return this.exists(#ScaleItem);
+        #}
+      ENDSOURCE
+      SOURCE #existsSeasonCode
+        #public boolean existsSeasonCode()
+        #{
+        #    return this.exists(#SeasonCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsSizeGroup
+        #public boolean existsSizeGroup()
+        #{
+        #    return this.exists(#SizeGroup);
+        #}
+      ENDSOURCE
+      SOURCE #existsStyleGroup
+        #public boolean existsStyleGroup()
+        #{
+        #    return this.exists(#StyleGroup);
+        #}
+      ENDSOURCE
+      SOURCE #existsTempControl
+        #public boolean existsTempControl()
+        #{
+        #    return this.exists(#TempControl);
+        #}
+      ENDSOURCE
+      SOURCE #existsTempGroupId
+        #public boolean existsTempGroupId()
+        #{
+        #    return this.exists(#TempGroupId);
+        #}
+      ENDSOURCE
+      SOURCE #existsUnitPriceIncludingTax
+        #public boolean existsUnitPriceIncludingTax()
+        #{
+        #    return this.exists(#UnitPriceIncludingTax);
+        #}
+      ENDSOURCE
+      SOURCE #existsUseEanStandardBarcode
+        #public boolean existsUseEanStandardBarcode()
+        #{
+        #    return this.exists(#UseEanStandardBarcode);
+        #}
+      ENDSOURCE
+      SOURCE #existsZeroPriceValid
+        #public boolean existsZeroPriceValid()
+        #{
+        #    return this.exists(#ZeroPriceValid);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echProdCatalog_RBOInventTable);
+        #}
+      ENDSOURCE
+      SOURCE #parmBarcodeSetupId
+        #public BarcodeSetupId parmBarcodeSetupId(BarcodeSetupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BarcodeSetupId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #parmBaseComparisonUnitCode
+        #public str parmBaseComparisonUnitCode(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BaseComparisonUnitCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BaseComparisonUnitCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmBlockedOnPOS
+        #public RBOBlocked parmBlockedOnPOS(RBOBlocked _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BlockedOnPOS, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BlockedOnPOS);
+        #}
+      ENDSOURCE
+      SOURCE #parmBusinessGroup
+        #public FSHBusinessGroupId parmBusinessGroup(FSHBusinessGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BusinessGroup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BusinessGroup);
+        #}
+      ENDSOURCE
+      SOURCE #parmColorGroup
+        #public RBOColorGroupId parmColorGroup(RBOColorGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ColorGroup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ColorGroup);
+        #}
+      ENDSOURCE
+      SOURCE #parmConcessionContractItem
+        #public NoYesId parmConcessionContractItem(NoYesId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ConcessionContractItem, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ConcessionContractItem);
+        #}
+      ENDSOURCE
+      SOURCE #parmConcessionVendAccount
+        #public str parmConcessionVendAccount(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ConcessionVendAccount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ConcessionVendAccount);
+        #}
+      ENDSOURCE
+      SOURCE #parmCostCalculationOnPOS
+        #public RBOCostCalculationOnPOS parmCostCalculationOnPOS(RBOCostCalculationOnPOS _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CostCalculationOnPOS, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CostCalculationOnPOS);
+        #}
+      ENDSOURCE
+      SOURCE #parmDateBlocked
+        #public RBODateBlocked parmDateBlocked(RBODateBlocked _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DateBlocked, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DateBlocked);
+        #}
+      ENDSOURCE
+      SOURCE #parmDateToActivateItem
+        #public RBODateToActivateItem parmDateToActivateItem(RBODateToActivateItem _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DateToActivateItem, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DateToActivateItem);
+        #}
+      ENDSOURCE
+      SOURCE #parmDateToBeBlocked
+        #public RBODateToBeBlocked parmDateToBeBlocked(RBODateToBeBlocked _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DateToBeBlocked, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DateToBeBlocked);
+        #}
+      ENDSOURCE
+      SOURCE #parmDEL_itemFamily
+        #public RBOItemFamilyId parmDEL_itemFamily(RBOItemFamilyId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DEL_itemFamily, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DEL_itemFamily);
+        #}
+      ENDSOURCE
+      SOURCE #parmDEL_validSalesPrice
+        #public RBOValidPOSSalesPrice parmDEL_validSalesPrice(RBOValidPOSSalesPrice _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DEL_validSalesPrice, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DEL_validSalesPrice);
+        #}
+      ENDSOURCE
+      SOURCE #parmDispensePrinterGroupId
+        #public POSDispensePrinterGroupId parmDispensePrinterGroupId(POSDispensePrinterGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DispensePrinterGroupId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DispensePrinterGroupId);
+        #}
+      ENDSOURCE
+      SOURCE #parmDispensePrintingDisabled
+        #public RBODispensePrintingDisabled parmDispensePrintingDisabled(RBODispensePrintingDisabled _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DispensePrintingDisabled, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DispensePrintingDisabled);
+        #}
+      ENDSOURCE
+      SOURCE #parmDivisionGroup
+        #public FSHDivisionGroupId parmDivisionGroup(FSHDivisionGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DivisionGroup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DivisionGroup);
+        #}
+      ENDSOURCE
+      SOURCE #parmFabricComposition
+        #public FSHFabricComposition parmFabricComposition(FSHFabricComposition _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#FabricComposition, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#FabricComposition);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventoryOnPrePack
+        #public RBOInventoryOnPrePack parmInventoryOnPrePack(RBOInventoryOnPrePack _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventoryOnPrePack, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventoryOnPrePack);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemDepartment
+        #public RBOItemDepartmentId parmItemDepartment(RBOItemDepartmentId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemDepartment, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemDepartment);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemType
+        #public RBOItemType parmItemType(RBOItemType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemType);
+        #}
+      ENDSOURCE
+      SOURCE #parmKeyingInPrice
+        #public RBOKeyingInPrice parmKeyingInPrice(RBOKeyingInPrice _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#KeyingInPrice, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#KeyingInPrice);
+        #}
+      ENDSOURCE
+      SOURCE #parmKeyingInQty
+        #public RBOKeyingInQty parmKeyingInQty(RBOKeyingInQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#KeyingInQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#KeyingInQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmLifeFrom
+        #public FSHLifeFrom parmLifeFrom(FSHLifeFrom _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LifeFrom, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LifeFrom);
+        #}
+      ENDSOURCE
+      SOURCE #parmLifeTo
+        #public FSHLifeTo parmLifeTo(FSHLifeTo _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LifeTo, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LifeTo);
+        #}
+      ENDSOURCE
+      SOURCE #parmMustKeyInComment
+        #public PosIsMustKeyInComment parmMustKeyInComment(PosIsMustKeyInComment _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MustKeyInComment, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MustKeyInComment);
+        #}
+      ENDSOURCE
+      SOURCE #parmNoDiscountAllowed
+        #public RBONoDiscountAllowed parmNoDiscountAllowed(RBONoDiscountAllowed _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#NoDiscountAllowed, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#NoDiscountAllowed);
+        #}
+      ENDSOURCE
+      SOURCE #parmNoInventPosting
+        #public RBONoInventPosting parmNoInventPosting(RBONoInventPosting _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#NoInventPosting, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#NoInventPosting);
+        #}
+      ENDSOURCE
+      SOURCE #parmPrintVariantsShelfLabels
+        #public RBOPrintVariantsShelfLabels parmPrintVariantsShelfLabels(RBOPrintVariantsShelfLabels _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PrintVariantsShelfLabels, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PrintVariantsShelfLabels);
+        #}
+      ENDSOURCE
+      SOURCE #parmQtyBecomesNegative
+        #public RBOQtyBecomesNegative parmQtyBecomesNegative(RBOQtyBecomesNegative _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#QtyBecomesNegative, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#QtyBecomesNegative);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmRetailGroup
+        #public RBORetailGroupId parmRetailGroup(RBORetailGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RetailGroup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RetailGroup);
+        #}
+      ENDSOURCE
+      SOURCE #parmScaleItem
+        #public RBOScaleItem parmScaleItem(RBOScaleItem _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ScaleItem, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ScaleItem);
+        #}
+      ENDSOURCE
+      SOURCE #parmSeasonCode
+        #public FSHSeasonCode parmSeasonCode(FSHSeasonCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SeasonCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SeasonCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmSizeGroup
+        #public RBOSizeGroupId parmSizeGroup(RBOSizeGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SizeGroup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SizeGroup);
+        #}
+      ENDSOURCE
+      SOURCE #parmStyleGroup
+        #public RBOStyleGroupId parmStyleGroup(RBOStyleGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#StyleGroup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#StyleGroup);
+        #}
+      ENDSOURCE
+      SOURCE #parmTempControl
+        #public RBOTempControl parmTempControl(RBOTempControl _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TempControl, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TempControl);
+        #}
+      ENDSOURCE
+      SOURCE #parmTempGroupId
+        #public RBOTempGroupId parmTempGroupId(RBOTempGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TempGroupId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TempGroupId);
+        #}
+      ENDSOURCE
+      SOURCE #parmUnitPriceIncludingTax
+        #public RBOUnitPriceIncludingTax parmUnitPriceIncludingTax(RBOUnitPriceIncludingTax _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#UnitPriceIncludingTax, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#UnitPriceIncludingTax);
+        #}
+      ENDSOURCE
+      SOURCE #parmUseEanStandardBarcode
+        #public RBOUseEanStandardBarcode parmUseEanStandardBarcode(RBOUseEanStandardBarcode _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#UseEanStandardBarcode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#UseEanStandardBarcode);
+        #}
+      ENDSOURCE
+      SOURCE #parmZeroPriceValid
+        #public RBOZeroPriceValid parmZeroPriceValid(RBOZeroPriceValid _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ZeroPriceValid, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ZeroPriceValid);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,236 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesFormLetter unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesFormLetter
+    Id 524
+    PROPERTIES
+      Name                #SalesFormLetter
+      Extends             #FormLetter
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: add send electronically to usage data and increment version
+        #
+        #abstract class   SalesFormLetter
+        #extends FormLetter
+        #{
+        #
+        #    RecordSortedList            recordListSalesParmLine;
+        #    RecordSortedList            recordListShippingLine;
+        #
+        #    SalesTotals                 salesTotals;
+        #    SalesQuantity               salesQuantity;
+        #
+        #    QueryRun                    salesTableQuery;
+        #
+        #    boolean                     ledgerVoucherIsSet;
+        #
+        #    LedgerVoucher               ledgerVoucher;
+        #    SalesCalcTax                salesCalcTax;
+        #
+        #    SalesTable                  salesTable;
+        #
+        #    SalesLine                   salesLine;
+        #    SalesParmUpdate             salesParmUpdate;
+        #    SalesParmTable              salesParmTable;
+        #    SalesParmLine               salesParmLine;
+        #
+        #    StartDateTime               startDateTimeUpdate;
+        #    StartDateTime               startDateTimeTable;
+        #
+        #    Markup                      markup;
+        #
+        #    SalesId                     salesId;
+        #    SalesQty                    updateNow;
+        #
+        #    NoYes                       released;
+        #    NoYes                       foundRemains;
+        #
+        #    boolean                     editLinesChanged;
+        #    NoYes                       creditNote;
+        #
+        #    container                   printerSettingsCODLabel;
+        #    container                   printerSettingsFreightSlip;
+        #    container                   printerSettingsShippingLabel;
+        #    container                   printerSettingsBillOfExchange;
+        #    NoYes                       printCODLabel;
+        #    NoYes                       printFreightSlip;
+        #    NoYes                       printShippingLabel;
+        #
+        #    FormDataSource              salesEditLinesDatasource;
+        #    FormDataSource              wmsShipment_ds;
+        #    FormDataSource              wmsArrival_ds;
+        #
+        #    #if.never //#SpeedTest
+        #    SpeedExecute_Sales          speedExecute_Sales;
+        #    #endif
+        #    LineNum                     sumByLineNum;
+        #
+        #    boolean                     useShippingStat;
+        #
+        #    CustAccount                 sumAccount;
+        #
+        #    PaymentStub                 giroType;
+        #    NoYes                       defaultGiroType;
+        #    CompanyBankAccountId        giroAccountId;
+        #    boolean                     giroAllSame;
+        #
+        #    tableId                     fromJournalTransList_TableId;
+        #    RecordSortedList            fromJournalTransList;
+        #
+        #    Factor                      statLineAmountFactor;
+        #
+        #    boolean                     createFromHistory;
+        #
+        #    SalesPurchCycleAction       salesPurchCycleAction;
+        #    boolean                     interCompanyUnitPriceEqualCostPrice;
+        #
+        #    boolean                     lockSalesUpdate;
+        #    boolean                     enableUpdateNow;
+        #
+        #    SalesUpdate                 salesUpdateValue;
+        #    AmountCur                   cashDiscAmount;
+        #
+        #    Set                         postedTableRefIds;
+        #    Set                         wmsShipmentIdSet;
+        #
+        #    InventSiteId                lineInventSiteId;
+        #
+        #    RecordInsertList            recordInsertSalesParmTable;
+        #    RecordInsertList            recordInsertSalesParmSubTable;
+        #    RecordInsertList            recordInsertSalesParmLine;
+        #    Map                         salesParmTableMap;
+        #    Map                         salesParmLineMap;
+        #    systemSequence              systemSequence;
+        #
+        #    // <GJP>
+        #    DocumentDate                documentDate;
+        #    Range                       shipDate;
+        #    // </GJP>
+        #
+        #    // <GBR>
+        #    Set                         createdParmTables;
+        #    // </GBR>
+        #
+        #    //shipping module
+        #    Addressing                  lineTPAddress;
+        #    ShipCarrierId               lineCarrierId;
+        #    ShipCarrierAccount          lineCarrierAccount;
+        #    WMSShipmentId               shipmentId;
+        #    boolean                     skipPrompt;
+        #
+        #    // Credit Card
+        #    SalesTable                  creditCardSalesTable;
+        #    SalesTotals_Sales           creditCardSalesTotals;
+        #
+        #    // <GIN>
+        #    CustomsExportOrderTable_IN  customsExportOrderTable;
+        #    CustomsExportOrderLine_IN   customsExportOrderLine;
+        #    CustomsExportOrderType_IN   customsExportOrderType;
+        #    NoYesId                     taxesMarked;
+        #    // </GIN>
+        #
+        #
+        #    //List of parameters common for SalesFormLetter_* classes that needs to be packed
+        #    //for the correct class transition between client and server.
+        #    //If you need some additional parameters on the client, add them to this list.
+        #    //All variables in the parmListCommonCS must also be added to the method resetParmListCommonCS.
+        #    //After any changes, both versions must be increased.
+        #    #define.ParentVersion(1)
+        #    /* <SYS>
+        #    #define.CurrentVersion(1)
+        #    </SYS> */
+        #    // <GBR><GJP>
+        #// CS - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #    #define.CurrentVersion(3)
+        #// CE - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #    // </GJP></GBR>
+        #    #LOCALMACRO.ParmListCommonCS
+        #        salesTable,
+        #        editLinesChanged,
+        #        reArrangeNow,
+        #        initAllowEmptyTable,
+        #        allowEmptyTable,
+        #        enableUpdateNow,
+        #        lockSalesUpdate,
+        #        createFromLines,
+        #        createFromHistory,
+        #        showQueryForm,
+        #        multiForm,
+        #        transDate,
+        #        giroType,
+        #        defaultGiroType
+        #        // <GBR>
+        #        ,blockPrintManagementOverride_BR
+        #        // </GBR>
+        #        // <GJP>
+        #        ,consolidationDate,
+        #        shipDate
+        #        // </GJP>
+        #// CS - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #        ,sendElectronically
+        #// CE - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #    #ENDMACRO
+        #
+        #    //List of parameters extracted from arguments for the transfer from main() to mainOnServer()
+        #    #LOCALMACRO.CachedArgsList
+        #        parmEnum,
+        #        callerFormName,
+        #        isProforma,
+        #        formHasInterCompanyRefreshCacheMethod,
+        #        parmSkipPrompt
+        #    #ENDMACRO
+        #}
+        #
+        #
+      ENDSOURCE
+      SOURCE #echGetRecId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Custom method to get the next reserved recid (used for auto posting)
+        #
+        #public Int64 echGetRecId()
+        #{
+        #    ;
+        #    return systemSequence.reserveValues(1,tablenum(SalesParmLine));
+        #}
+      ENDSOURCE
+      SOURCE #suspendRecIds
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Changed signature to public (used for auto posting)
+        #
+        #
+        #// CS - ECH_WI_01070 - Marijn Catthoor - 11 Sep 2012
+        #
+        #//protected void suspendRecIds()
+        #public void suspendRecIds()
+        #
+        #// CE - ECH_WI_01070 - Marijn Catthoor - 11 Sep 2012
+        #{
+        #    ;
+        #    systemSequence = new systemSequence();
+        #    systemSequence.suspendRecIds(tablenum(SalesParmLine));
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

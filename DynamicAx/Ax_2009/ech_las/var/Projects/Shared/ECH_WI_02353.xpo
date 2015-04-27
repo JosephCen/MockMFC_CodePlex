@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02353 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02353
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02353
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #DataDictionary
+      PROPERTIES
+        Name                #DataDictionary
+        ProjectGroupType    #DataDictionary
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Tables
+        PROPERTIES
+          Name                #Tables
+          ProjectGroupType    #Tables
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 44
+          UTILOBJECTID 30077
+          NODETYPE 204
+          NAME #echInventOnHandServiceExeLog
+        ENDNODE
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 44
+          UTILOBJECTID 30078
+          NODETYPE 204
+          NAME #echInventOnHandZeroSku
+        ENDNODE
+        ENDGROUP
+        
+      GROUP #Views
+        PROPERTIES
+          Name                #Views
+          ProjectGroupType    #Views
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 44
+          UTILOBJECTID 30079
+          NODETYPE 243
+          NAME #echInventSumUnionZeroSkuVw
+        ENDNODE
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #Classes
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30035
+        NODETYPE 329
+        NAME #AxdEchInventOnHand
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30037
+        NODETYPE 329
+        NAME #EchInventOnHandService
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 3606
+        NODETYPE 329
+        NAME #InventSiteActivateDimFieldsCheck
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Queries
+      PROPERTIES
+        Name                #Queries
+        ProjectGroupType    #Queries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 20
+        UTILOBJECTID 0
+        NODETYPE 330
+        NAME #AxdEchInventOnHand
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 20
+        UTILOBJECTID 0
+        NODETYPE 330
+        NAME #echInventSumUnionZeroSku
+      ENDNODE
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

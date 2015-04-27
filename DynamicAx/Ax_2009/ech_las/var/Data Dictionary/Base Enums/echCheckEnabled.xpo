@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echCheckEnabled unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echCheckEnabled
+    Id 30004
+    PROPERTIES
+      Name                #echCheckEnabled
+      Label               #@SYS58636
+      Help                #@ECH188
+      ConfigurationKey    #echProcesses
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #Enabled
+      PROPERTIES
+        Name                #Enabled
+        Label               #@SYS58636
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #Disabled
+      PROPERTIES
+        Name                #Disabled
+        Label               #@SYS88623
+        EnumValue           #1
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

@@ -1,0 +1,134 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echTMallItemSkuIdLoader unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echTMallItemSkuIdLoader
+    Id 30327
+    PROPERTIES
+      Name                #echTMallItemSkuIdLoader
+      Extends             #RunBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Add ECH_WI_02031 by mengqi.cen on 20130606
+        #class echTMallItemSkuIdLoader
+        #    extends RunBase
+        #{
+        #    DialogField  g_FieldXmlSearchPattern;
+        #    Filename     g_XmlSearchPattern;
+        #
+        #    #define.CurrentVersion(1)
+        #    #localmacro.CurrentList
+        #        g_XmlSearchPattern
+        #    #endmacro
+        #}
+      ENDSOURCE
+      SOURCE #dialog
+        #protected Object dialog(DialogRunbase dialog, boolean forceOnClient)
+        #{
+        #    dialog  _dlg;
+        #;
+        #    _dlg = super(dialog, forceOnClient);
+        #    _dlg.caption("@ECH798");
+        #    g_FieldXmlSearchPattern = _dlg.addFieldValue(typeId(Filename), g_XmlSearchPattern);
+        #
+        #    return _dlg;
+        #}
+      ENDSOURCE
+      SOURCE #getFromDialog
+        #public boolean getFromDialog()
+        #{
+        #;
+        #    g_XmlSearchPattern = g_FieldXmlSearchPattern.value();
+        #
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #pack
+        #public container pack()
+        #{
+        #;
+        #
+        #    return [#CurrentVersion, #CurrentList];
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #public void run()
+        #{
+        #;
+        #    super();
+        #    echExternalItemSkuIdLoader::LoadTMallData(g_XmlSearchPattern);
+        #}
+      ENDSOURCE
+      SOURCE #unpack
+        #public boolean unpack(container _packedClass)
+        #{
+        #    int     _version;
+        #    boolean _retVal;
+        #;
+        #    _version = RunBase::getVersion(_packedClass);
+        #    switch (_version)
+        #    {
+        #        case #CurrentVersion :
+        #            [_version, #CurrentList] = _packedClass;
+        #            _retVal = true;
+        #            break;
+        #        default :
+        #            _retVal = false;
+        #            break;
+        #    }
+        #
+        #    return _retVal;
+        #}
+      ENDSOURCE
+      SOURCE #validate
+        #public boolean validate(Object _calledFrom)
+        #{
+        #    boolean   _ret;
+        #    str       _fileName;
+        #    str       _filePath;
+        #    str       _fileExt;
+        #;
+        #    _ret = super(_calledFrom);
+        #    if (_ret)
+        #    {
+        #        [_filePath, _fileName, _fileExt] = fileNameSplit(g_XmlSearchPattern);
+        #
+        #        if (strlen(_fileExt) == 0)
+        #            _filePath += _fileName;
+        #        _ret = System.IO.Directory::Exists(_filePath);
+        #    }
+        #
+        #    return _ret;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echTMallItemSkuIdLoader construct()
+        #{
+        #;
+        #    return new echTMallItemSkuIdLoader();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #static void main(args _args)
+        #{
+        #    echTMallItemSkuIdLoader  _TMallItemSkuIdLoader;
+        #;
+        #    _TMallItemSkuIdLoader = echTMallItemSkuIdLoader::construct();
+        #
+        #    if (_TMallItemSkuIdLoader.prompt())
+        #        _TMallItemSkuIdLoader.run();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

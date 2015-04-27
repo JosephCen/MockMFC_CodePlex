@@ -1,0 +1,16 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdEchPickingListRegDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdEchPickingListRegDCT
+    ##define.EchPickingListReg('EchPickingListReg')
+    ##define.EchPickingListReg_WMSPickingRoute('EchPickingListReg.WMSPickingRoute')
+    ##define.EchPickingListReg_WMSOrderTrans('EchPickingListReg.WMSOrderTrans')
+  ENDSOURCE
+
+***Element: END

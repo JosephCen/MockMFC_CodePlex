@@ -1,0 +1,28 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: Job1 unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #Job1
+    #static void Job1(Args _args)
+    #{
+    #    CustTable   ct;
+    #    ;
+    #
+    #    ttsbegin;
+    #
+    #    while select forupdate ct
+    #        where !ct.echMsgPartnerId
+    #        {
+    #            ct.echMsgPartnerId = 'TB';
+    #            ct.doUpdate();
+    #        }
+    #    ttscommit;
+    #}
+  ENDSOURCE
+
+***Element: END

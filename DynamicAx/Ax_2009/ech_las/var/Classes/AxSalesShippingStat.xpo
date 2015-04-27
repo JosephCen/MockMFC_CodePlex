@@ -1,0 +1,43 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxSalesShippingStat unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxSalesShippingStat
+    Id 2048
+    PROPERTIES
+      Name                #AxSalesShippingStat
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #setVolumeQty_BR
+        #protected void setVolumeQty_BR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesShippingStat, VolumeQty_BR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setVolumeType_BR
+        #protected void setVolumeType_BR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesShippingStat, VolumeType_BR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

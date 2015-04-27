@@ -1,0 +1,60 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : EPInventTableInfoToolbar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #EPInventTableInfoToolbar
+    PROPERTIES
+      Name                #EPInventTableInfoToolbar
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS40422
+      PROPERTIES
+        Name                #Actions
+        Label               #@SYS40422
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Edit external description
+          MenuItemName        #EPVendExternalItemEdit
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS111665
+      PROPERTIES
+        Name                #RelatedInformation
+        Label               #@SYS111665
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Attributes
+          MenuItemName        #echItemAttributes
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #On-hand
+          MenuItemName        #EPInventOnhand
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Documents
+          MenuItemName        #EPDocuListFromInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

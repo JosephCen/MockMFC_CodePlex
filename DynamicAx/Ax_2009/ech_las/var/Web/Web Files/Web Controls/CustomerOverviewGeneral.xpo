@@ -1,0 +1,63 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : CustomerOverviewGeneral unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #CustomerOverviewGeneral
+    PROPERTIES
+      Name                #CustomerOverviewGeneral
+      HelpText            #
+      Filename            #CustomerOverviewGeneral.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CustomerOverviewGeneral.ascx.cs" Inherits="CustomerOverviewGeneral" %>
+      #<%@ Register Src="EntityMiniBase.ascx" TagName="EntityMiniBase" TagPrefix="Ax" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<Ax:EntityMiniBase ID="General" runat="server" DataSetName="CustomerMini" DataSetView="CustTable" FieldGroups ="EPCharacteristics,EPCharacteristics2,EPGeneral3,echMsgPartner" NoOfColumns="3" HeaderCssClass="MiniControl_Header" ItemCssClass="MiniControl_I[cr]
+      #tem" />
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #CustomerOverviewGeneral_ascx_cs
+      HelpText            #
+      Filename            #CustomerOverviewGeneral.ascx.cs
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Data;
+      #using System.Configuration;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #
+      #public partial class CustomerOverviewGeneral : System.Web.UI.UserControl
+      #{
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

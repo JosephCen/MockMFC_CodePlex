@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echSolCheckQuantityParamTable
+  PROPERTIES
+    Name                #echSolCheckQuantityParamTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_WI_00662
+      #// *** Customization Date: 25 Jun 2012
+      #// *** Customization Type: created
+      #// *** Description:
+      #
+      #public void init()
+      #{
+      #    ;
+      #
+      #    echSolCheckQuantityParamTable::find();
+      #
+      #    super();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSolCheckQuantityParamTable
+          Table               #echSolCheckQuantityParamTable
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH128
+      TitleDatasource     #echSolCheckQuantityParamTable
+      DataSource          #echSolCheckQuantityParamTable
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS19924
+              DataSource          #echSolCheckQuantityParamTable
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #OverviewGroup
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSolCheckQuantityParamTable
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_maxQuantity
+                        DataSource          #echSolCheckQuantityParamTable
+                        DataField           #maxQuantity
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echPickingList unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echPickingList
+    PROPERTIES
+      Name                #echPickingList
+      Label               #@SYS11791
+      HelpText            #@SYS50929
+      Object              #echEPSalesFormLetter_PickingList
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

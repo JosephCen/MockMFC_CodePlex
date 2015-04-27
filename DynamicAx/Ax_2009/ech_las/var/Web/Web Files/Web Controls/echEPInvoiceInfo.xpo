@@ -1,0 +1,182 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPInvoiceInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPInvoiceInfo
+    PROPERTIES
+      Name                #echEPInvoiceInfo
+      HelpText            #
+      Filename            #echEPInvoiceInfo.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPInvoiceInfo.ascx.cs" Inherits="echEPInvoiceInfo" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>
+      #
+      #<%@ Register assembly="ECH.AX.EP.CustomControlLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3c4f9127f02b162c" namespace="ECH.AX.EP.CustomControlLibrary" tagprefix="AXGroupInLine" %>
+      #
+      #<dynamics:AxDataSource ID="dsechEPInvoiceInfo" 
+      #    runat="server" DataSetName="echEPInvoiceInfo" ProviderView="SalesTable">
+      #</dynamics:AxDataSource>
+      #<dynamics:AxForm ID="formechEPInvoiceInfo" runat="server" CancelText="Cancel" 
+      #    DataKeyNames="SalesId" DataMember="SalesTable_Current" 
+      #    DataSourceID="dsechEPInvoiceInfo" EditText="Edit">
+      #    <table>
+      #        <tr align="left">
+      #            <td>
+      #                <dynamics:AxGroup ID="grpechEPInvoiceInfo" runat="server" Caption="<%$AxLabel:@ECH646 %>">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable" 
+      #                            DataField="SalesId" HeaderText="<%$AxLabel:@ECH507 %>" >
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable" 
+      #                            DataField="echInvoiceId" HeaderText="<%$AxLabel:@ECH536 %>" >
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceName" HeaderText="<%$AxLabel:@ECH537 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceCompanyName" HeaderText="<%$AxLabel:@ECH538 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceTitle" HeaderText="<%$AxLabel:@ECH539 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxDropDownBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceType" HeaderText="<%$AxLabel:@ECH540 %>" >
+      #                        </dynamics:AxDropDownBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceContent" HeaderText="<%$AxLabel:@ECH541 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceTaxPayerIdNumber" HeaderText="<%$AxLabel:@ECH542 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceBankAccountNumber" HeaderText="<%$AxLabel:@ECH543 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceDepositBank" HeaderText="<%$AxLabel:@ECH544 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceRegisteredPhoneNumber" HeaderText="<%$AxLabel:@ECH545 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceRegisteredAddress" HeaderText="<%$AxLabel:@ECH546 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxCheckBoxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceCreated" HeaderText="<%$AxLabel:@ECH1 %>">
+      #                        </dynamics:AxCheckBoxBoundField>
+      #                        <dynamics:AxCheckBoxBoundField DataSet="echEPInvoiceInfoEdit" DataSetView="SalesTable"
+      #                            DataField="echInvoiceRequested" HeaderText="<%$AxLabel:@ECH15 %>" ApplyFormatInEditMode="True" ReadOnly="False">
+      #                        </dynamics:AxCheckBoxBoundField>
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </td>
+      #        </tr>
+      #    </table>
+      #</dynamics:AxForm>
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPInvoiceInfo_ascx_cs
+      HelpText            #
+      Filename            #echEPInvoiceInfo.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      ##region using
+      #using System;
+      #using System.Data;
+      #using System.Configuration;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #using Microsoft.Dynamics.Framework.Metadata.Ax;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Proxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using ApplicationProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #using Microsoft.Dynamics.Framework.Portal.UI;
+      ##endregion
+      #
+      #public partial class echEPInvoiceInfo : AxBaseUserControl
+      #{
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #        
+      #
+      #    }
+      #
+      #    ////Datasource view (Dynamics datasource) of the Axform
+      #    //AxDataSourceView DataSourceViewSalesTable
+      #    //{
+      #    //    get
+      #    //    {
+      #    //        //get the datasource view from the current form
+      #    //        return this.dsECHEPInvoiceInfoEdit.GetDataSourceView(this.fromECHEPInvoiceInfo.DataMember);
+      #    //    }
+      #    //}
+      #    //#region LookUp
+      #
+      #    //#endregion
+      #
+      #
+      #    //public void InvoiceChanged_Click(object sender, EventArgs e)
+      #    //{
+      #    //    try
+      #    //    {
+      #    //        //// Save the last unsaved line if any
+      #    //        //if (fromECHEPInvoiceInfo.EditIndex != -1)
+      #    //        //{
+      #    //        //    this.fromECHEPInvoiceInfo.UpdateRow(fromECHEPInvoiceInfo.EditIndex, true);
+      #    //        //}
+      #
+      #    //        //Calling method of X++ to save the sales Table details
+      #    //        bool result = (bool)this.dsECHEPInvoiceInfoEdit.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("modifySalesOrder");
+      #
+      #    //        if (result)
+      #    //        {
+      #    //            //Redirecting to list page
+      #    //            AxUrlMenuItem urlMenuItem = new AxUrlMenuItem("echEPInvoiceInfo");
+      #    //            Response.Redirect(urlMenuItem.Url.OriginalString, false);
+      #    //        }
+      #    //    }
+      #    //    catch (System.Exception ex)
+      #    //    {
+      #    //        AxExceptionCategory exceptionCategory;
+      #    //        // This returns true if the exception can be handled here
+      #    //        if (!AxControlExceptionHandler.TryHandleException(this, ex, out exceptionCategory))
+      #    //        {
+      #    //            // The exception is system fatal - in this case we re-throw.                                    
+      #    //            throw;
+      #    //        }
+      #    //    }
+      #    //}
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

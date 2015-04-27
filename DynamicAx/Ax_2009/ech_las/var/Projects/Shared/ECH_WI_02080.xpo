@@ -1,0 +1,104 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02080 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02080
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02080
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 11
+      UTILOBJECTID 0
+      NODETYPE 201
+      NAME #SalesTable
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      UTILOBJECTID 17797
+      NODETYPE 329
+      NAME #AxWMSPickingRoute
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 16
+      UTILOBJECTID 0
+      NODETYPE 205
+      NAME #Cust
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 1
+      UTILOBJECTID 0
+      NODETYPE 296
+      NAME #echReturnOrderTable
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 3
+      UTILOBJECTID 0
+      NODETYPE 296
+      NAME #echCreateROfromTemplateTable
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      UTILOBJECTID 57722
+      NODETYPE 329
+      NAME #echCreateROfromTemplateTable
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 359
+      NODETYPE 204
+      NAME #SalesLine
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 11
+      UTILOBJECTID 0
+      NODETYPE 201
+      NAME #echReturnOrderTable
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 30059
+      NODETYPE 204
+      NAME #echReturnOrderTable
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 367
+      NODETYPE 204
+      NAME #SalesParameters
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      UTILOBJECTID 1447
+      NODETYPE 329
+      NAME #NumberSeqReference_SalesOrder
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 2417
+      NODETYPE 204
+      NAME #ReturnReasonCode
+    ENDNODE
+  ENDPROJECT
+  
+
+***Element: END

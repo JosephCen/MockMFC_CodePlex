@@ -1,0 +1,170 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchReturnOrderIn unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchReturnOrderIn
+    Id 30320
+    PROPERTIES
+      Name                #AxdEchReturnOrderIn
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdEchReturnOrderIn extends AxdBase
+        #{
+        #    #macroLib.AxdEchReturnOrderInDCT
+        #}
+        #
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findList
+        #public AifDocumentXml findList(AifQueryCriteria            _queryCriteria,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, readList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::SendDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, readList));
+        #    aifActionInfo.parmLabel(strFmt("@ECH675", "@ECH680"));
+        #    aifActionInfo.parmDescription(strFmt("@ECH677", "@ECH680"));
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel(strFmt("@ECH676", "@ECH680"));
+        #    aifActionInfo.parmDescription(strFmt("@ECH678", "@ECH680"));
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #    echReturnOrderTable    echReturnOrderTable;
+        #    ;
+        #    if (_curRec.TableId != tablenum(echReturnOrderTable))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    echReturnOrderTable = _curRec ;
+        #
+        #    aifConstraint.parmType(AIFConstraintType::NoConstraint);
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #;
+        #    return "@ECH680";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initFieldAccessOverrides
+        #// Create ECH_WI_02004 by mengqi.cen on 20130328
+        #protected void initFieldAccessOverrides()
+        #{
+        #;
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echInterfaces)))
+        #    {
+        #        this.overRideFieldAccess(tablenum(echReturnOrderTable), fieldnum(echReturnOrderTable, ReturnOrderId),
+        #                                 AxdFieldAccess::AllowEditOnCreate, NoYes::No);
+        #        // ReturnOrderIn on line record is not allowed to be set from inbound xml.
+        #        this.overRideFieldAccess(tablenum(echReturnOrderLine), fieldnum(echReturnOrderLine, ReturnOrderId),
+        #                                 AxdFieldAccess::AllowEditOnCreate, NoYes::No);
+        #        this.overRideFieldAccess(tablenum(echReturnOrderLine), fieldnum(echReturnOrderLine, ReturnOrderId),
+        #                                 AxdFieldAccess::AllowEdit, NoYes::No);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// Update ECH_WI_02004 by mengqi.cen on 20130328
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    AxechReturnOrderTable    axechReturnOrderTable;
+        #    AxechReturnOrderLine    axechReturnOrderLine;
+        #    ;
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxechReturnOrderTable) :
+        #            axechReturnOrderTable = _axdStack.top();
+        #            return true;
+        #
+        #        case classnum(AxechReturnOrderLine) :
+        #            axechReturnOrderLine = _axdStack.top();
+        #            axechReturnOrderTable = AxechReturnOrderLine.parentAxBC();
+        #
+        #            axechReturnOrderLine.parmReturnOrderId(axechReturnOrderTable.parmReturnOrderId());
+        #            return true;
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateList
+        #public AifEntityKey updateList(AifEntityKeyList            _entityKeyList,
+        #                               AifDocumentXML              _xml,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListcollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

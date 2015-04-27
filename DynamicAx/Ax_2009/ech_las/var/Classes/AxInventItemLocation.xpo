@@ -1,0 +1,43 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventItemLocation unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventItemLocation
+    Id 6279
+    PROPERTIES
+      Name                #AxInventItemLocation
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #setPickingLocationMaxQty
+        #protected void setPickingLocationMaxQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemLocation, PickingLocationMaxQty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setUseEmptyPalletLocation
+        #protected void setUseEmptyPalletLocation()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemLocation, UseEmptyPalletLocation)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

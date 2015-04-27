@@ -1,0 +1,109 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echWMSOrderTransType unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echWMSOrderTransType
+    Id 30087
+    PROPERTIES
+      Name                #echWMSOrderTransType
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 19 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: shadow class
+        #
+        #class echWMSOrderTransType
+        #{
+        #    WMSOrderTransType   wmsOrderTransType;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 19 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: new method
+        #
+        #void new(WMSOrderTransType  _wmsOrderTransType)
+        #{
+        #    ;
+        #
+        #    wmsOrderTransType = _wmsOrderTransType;
+        #}
+      ENDSOURCE
+      SOURCE #wmsOrderTransType
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 19 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: return variable
+        #
+        #WMSOrderTransType wmsOrderTransType()
+        #{
+        #    ;
+        #
+        #    return wmsOrderTransType;
+        #}
+      ENDSOURCE
+      SOURCE #finishPickingLinesMulti
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 19 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: update aggregate sales order when all the picking lines are selected
+        #
+        #static server void finishPickingLinesMulti(Map  _selectedWMSOrderTrans)
+        #{
+        #    WMSOrderTrans       wmsOrderTransLocal, wmsOrderTrans;
+        #    SalesId             salesId;
+        #    MapEnumerator       mapEnumerator;
+        #    int                 counter;
+        #    boolean             execute = false;
+        #    ;
+        #
+        #    mapEnumerator = _selectedWMSOrderTrans.getEnumerator();
+        #
+        #    while (mapEnumerator.moveNext())
+        #    {
+        #        select firstonly wmsOrderTransLocal
+        #            where wmsOrderTransLocal.recid == mapEnumerator.currentKey();
+        #
+        #        if (wmsOrderTransLocal)
+        #        {
+        #            salesId = wmsOrderTransLocal.inventTransRefId;
+        #            break;
+        #        }
+        #    }
+        #
+        #    if (salesId)
+        #    {
+        #        while select wmsOrderTrans
+        #            where wmsOrderTrans.inventTransRefId == salesId
+        #        {
+        #            if(wmsOrderTrans.canBeEdited())
+        #            {
+        #                counter++;
+        #            }
+        #        }
+        #
+        #        if(counter == 0)
+        #            echUpdateAggStatus::updateStatus(salesId, ECHAggStatus::WaitShipping);
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

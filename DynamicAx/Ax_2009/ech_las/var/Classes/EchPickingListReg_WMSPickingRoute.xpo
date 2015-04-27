@@ -1,0 +1,889 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchPickingListReg_WMSPickingRoute unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchPickingListReg_WMSPickingRoute
+    Id 30080
+    PROPERTIES
+      Name                #EchPickingListReg_WMSPickingRoute
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchPickingListReg_WMSPickingRoute extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchInvoiceContent('EchInvoiceContent')
+        #    #define.EchInvoiceType('EchInvoiceType')
+        #    #define.EchInvoiceTitle('EchInvoiceTitle')
+        #    #define.EchTotalDiscount('EchTotalDiscount')
+        #    #define.EchShippingFee('EchShippingFee')
+        #    #define.EchInvoiceCurrencyCode('EchInvoiceCurrencyCode')
+        #    #define.EchInvoiceAmount('EchInvoiceAmount')
+        #    #define.WMSOrderTrans('WMSOrderTrans')
+        #    #define.TransType('TransType')
+        #    #define.TransRefId('TransRefId')
+        #    #define.StartDateTime('StartDateTime')
+        #    #define.ShipmentType('ShipmentType')
+        #    #define.ShipmentId('ShipmentId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Priority('Priority')
+        #    #define.PrintMgmtSiteId('PrintMgmtSiteId')
+        #    #define.PickingRouteID('PickingRouteID')
+        #    #define.ParmId('ParmId')
+        #    #define.OptimizedPicking('OptimizedPicking')
+        #    #define.Operator('Operator')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.HandlingType('HandlingType')
+        #    #define.ExpeditionStatus('ExpeditionStatus')
+        #    #define.ExpectedExpeditionTime('ExpectedExpeditionTime')
+        #    #define.EndDateTime('EndDateTime')
+        #    #define.echMsgPartnerId('echMsgPartnerId')
+        #    #define.echMsgPartnerExtCode('echMsgPartnerExtCode')
+        #    #define.DlvTermId('DlvTermId')
+        #    #define.DlvModeId('DlvModeId')
+        #    #define.DlvDate('DlvDate')
+        #    #define.DeliveryZipCode('DeliveryZipCode')
+        #    #define.DeliveryStreet('DeliveryStreet')
+        #    #define.DeliveryState('DeliveryState')
+        #    #define.DeliveryName('DeliveryName')
+        #    #define.DeliveryCountryRegionId('DeliveryCountryRegionId')
+        #    #define.DeliveryCounty('DeliveryCounty')
+        #    #define.DeliveryCity('DeliveryCity')
+        #    #define.DeliveryAddress('DeliveryAddress')
+        #    #define.CustomerTeleFax('CustomerTeleFax')
+        #    #define.CustomerPhone('CustomerPhone')
+        #    #define.CustomerName('CustomerName')
+        #    #define.CustomerCellularPhone('CustomerCellularPhone')
+        #    #define.Customer('Customer')
+        #    #define.AutoDecreaseQty('AutoDecreaseQty')
+        #    #define.ActivationDateTime('ActivationDateTime')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createWMSOrderTrans
+        #public AfStronglyTypedDataContainerList createWMSOrderTrans()
+        #{
+        #    return this.get_NewList(#WMSOrderTrans);
+        #}
+      ENDSOURCE
+      SOURCE #exists_DocumentHash
+        #public boolean exists_DocumentHash()
+        #{
+        #    return this.exists(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #existsActivationDateTime
+        #public boolean existsActivationDateTime()
+        #{
+        #    return this.exists(#ActivationDateTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsAutoDecreaseQty
+        #public boolean existsAutoDecreaseQty()
+        #{
+        #    return this.exists(#AutoDecreaseQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsCustomer
+        #public boolean existsCustomer()
+        #{
+        #    return this.exists(#Customer);
+        #}
+      ENDSOURCE
+      SOURCE #existsCustomerCellularPhone
+        #public boolean existsCustomerCellularPhone()
+        #{
+        #    return this.exists(#CustomerCellularPhone);
+        #}
+      ENDSOURCE
+      SOURCE #existsCustomerName
+        #public boolean existsCustomerName()
+        #{
+        #    return this.exists(#CustomerName);
+        #}
+      ENDSOURCE
+      SOURCE #existsCustomerPhone
+        #public boolean existsCustomerPhone()
+        #{
+        #    return this.exists(#CustomerPhone);
+        #}
+      ENDSOURCE
+      SOURCE #existsCustomerTeleFax
+        #public boolean existsCustomerTeleFax()
+        #{
+        #    return this.exists(#CustomerTeleFax);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryAddress
+        #public boolean existsDeliveryAddress()
+        #{
+        #    return this.exists(#DeliveryAddress);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryCity
+        #public boolean existsDeliveryCity()
+        #{
+        #    return this.exists(#DeliveryCity);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryCountryRegionId
+        #public boolean existsDeliveryCountryRegionId()
+        #{
+        #    return this.exists(#DeliveryCountryRegionId);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryCounty
+        #// Add ECH_WI_02328 by mengqi.cen on 20130708
+        #public boolean existsDeliveryCounty()
+        #{
+        #    return this.exists(#DeliveryCounty);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryName
+        #public boolean existsDeliveryName()
+        #{
+        #    return this.exists(#DeliveryName);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryState
+        #public boolean existsDeliveryState()
+        #{
+        #    return this.exists(#DeliveryState);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryStreet
+        #public boolean existsDeliveryStreet()
+        #{
+        #    return this.exists(#DeliveryStreet);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryZipCode
+        #public boolean existsDeliveryZipCode()
+        #{
+        #    return this.exists(#DeliveryZipCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsDlvDate
+        #public boolean existsDlvDate()
+        #{
+        #    return this.exists(#DlvDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsDlvModeId
+        #public boolean existsDlvModeId()
+        #{
+        #    return this.exists(#DlvModeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsDlvTermId
+        #public boolean existsDlvTermId()
+        #{
+        #    return this.exists(#DlvTermId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceAmount
+        #public boolean existsEchInvoiceAmount()
+        #{
+        #    return this.exists(#EchInvoiceAmount);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceContent
+        #public boolean existsEchInvoiceContent()
+        #{
+        #    return this.exists(#EchInvoiceContent);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceCurrencyCode
+        #public boolean existsEchInvoiceCurrencyCode()
+        #{
+        #    return this.exists(#EchInvoiceCurrencyCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceTitle
+        #public boolean existsEchInvoiceTitle()
+        #{
+        #    return this.exists(#EchInvoiceTitle);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceType
+        #public boolean existsEchInvoiceType()
+        #{
+        #    return this.exists(#EchInvoiceType);
+        #}
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerExtCode
+        #public boolean existsechMsgPartnerExtCode()
+        #{
+        #    return this.exists(#echMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerId
+        #public boolean existsechMsgPartnerId()
+        #{
+        #    return this.exists(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchShippingFee
+        #public boolean existsEchShippingFee()
+        #{
+        #    return this.exists(#EchShippingFee);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchTotalDiscount
+        #public boolean existsEchTotalDiscount()
+        #{
+        #    return this.exists(#EchTotalDiscount);
+        #}
+      ENDSOURCE
+      SOURCE #existsEndDateTime
+        #public boolean existsEndDateTime()
+        #{
+        #    return this.exists(#EndDateTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsExpectedExpeditionTime
+        #public boolean existsExpectedExpeditionTime()
+        #{
+        #    return this.exists(#ExpectedExpeditionTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsExpeditionStatus
+        #public boolean existsExpeditionStatus()
+        #{
+        #    return this.exists(#ExpeditionStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsHandlingType
+        #public boolean existsHandlingType()
+        #{
+        #    return this.exists(#HandlingType);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationId
+        #public boolean existsInventLocationId()
+        #{
+        #    return this.exists(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #existsOperator
+        #public boolean existsOperator()
+        #{
+        #    return this.exists(#Operator);
+        #}
+      ENDSOURCE
+      SOURCE #existsOptimizedPicking
+        #public boolean existsOptimizedPicking()
+        #{
+        #    return this.exists(#OptimizedPicking);
+        #}
+      ENDSOURCE
+      SOURCE #existsParmId
+        #public boolean existsParmId()
+        #{
+        #    return this.exists(#ParmId);
+        #}
+      ENDSOURCE
+      SOURCE #existsPickingRouteID
+        #public boolean existsPickingRouteID()
+        #{
+        #    return this.exists(#PickingRouteID);
+        #}
+      ENDSOURCE
+      SOURCE #existsPrintMgmtSiteId
+        #public boolean existsPrintMgmtSiteId()
+        #{
+        #    return this.exists(#PrintMgmtSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #existsPriority
+        #public boolean existsPriority()
+        #{
+        #    return this.exists(#Priority);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsShipmentId
+        #public boolean existsShipmentId()
+        #{
+        #    return this.exists(#ShipmentId);
+        #}
+      ENDSOURCE
+      SOURCE #existsShipmentType
+        #public boolean existsShipmentType()
+        #{
+        #    return this.exists(#ShipmentType);
+        #}
+      ENDSOURCE
+      SOURCE #existsStartDateTime
+        #public boolean existsStartDateTime()
+        #{
+        #    return this.exists(#StartDateTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsTransRefId
+        #public boolean existsTransRefId()
+        #{
+        #    return this.exists(#TransRefId);
+        #}
+      ENDSOURCE
+      SOURCE #existsTransType
+        #public boolean existsTransType()
+        #{
+        #    return this.exists(#TransType);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSOrderTrans
+        #public boolean existsWMSOrderTrans()
+        #{
+        #    return this.exists(#WMSOrderTrans);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchPickingListReg_WMSPickingRoute);
+        #}
+      ENDSOURCE
+      SOURCE #parm_DocumentHash
+        #public str parm_DocumentHash(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#_DocumentHash, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #parmActivationDateTime
+        #public ActivationDateTime parmActivationDateTime(ActivationDateTime _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ActivationDateTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ActivationDateTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmAutoDecreaseQty
+        #public WMSAutoDecreaseQty parmAutoDecreaseQty(WMSAutoDecreaseQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AutoDecreaseQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AutoDecreaseQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomer
+        #public str parmCustomer(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Customer, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Customer);
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerCellularPhone
+        #public PhoneMobile parmCustomerCellularPhone(PhoneMobile _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CustomerCellularPhone, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CustomerCellularPhone);
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerName
+        #public CustName parmCustomerName(CustName _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CustomerName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CustomerName);
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerPhone
+        #public Phone parmCustomerPhone(Phone _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CustomerPhone, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CustomerPhone);
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerTeleFax
+        #public TeleFax parmCustomerTeleFax(TeleFax _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CustomerTeleFax, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CustomerTeleFax);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryAddress
+        #public Addressing parmDeliveryAddress(Addressing _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryAddress, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryAddress);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryCity
+        #public AddressCity parmDeliveryCity(AddressCity _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryCity, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryCity);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryCountryRegionId
+        #public AddressCountryRegionId parmDeliveryCountryRegionId(AddressCountryRegionId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryCountryRegionId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryCountryRegionId);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryCounty
+        #// Add ECH_WI_02328 by mengqi.cen on 20130708
+        #public AddressCountyId parmDeliveryCounty(AddressCountyId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryCounty, _value);
+        #    }
+        #    return this.get_Attribute(#DeliveryCounty);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryName
+        #public WMSDeliveryName parmDeliveryName(WMSDeliveryName _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryName);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryState
+        #public AddressStateId parmDeliveryState(AddressStateId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryState, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryState);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryStreet
+        #public AddressStreet parmDeliveryStreet(AddressStreet _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryStreet, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryStreet);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryZipCode
+        #public AddressZipCodeId parmDeliveryZipCode(AddressZipCodeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryZipCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryZipCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmDlvDate
+        #public WMSDlvDate parmDlvDate(WMSDlvDate _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DlvDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DlvDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmDlvModeId
+        #public str parmDlvModeId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DlvModeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DlvModeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmDlvTermId
+        #public str parmDlvTermId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DlvTermId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DlvTermId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceAmount
+        #public AmountCur parmEchInvoiceAmount(AmountCur _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceAmount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceAmount);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceContent
+        #public echInvoiceContent parmEchInvoiceContent(echInvoiceContent _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceContent, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceContent);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceCurrencyCode
+        #public CustCurrencyCode parmEchInvoiceCurrencyCode(CustCurrencyCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceCurrencyCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceCurrencyCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceTitle
+        #public echInvoiceTitle parmEchInvoiceTitle(echInvoiceTitle _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceTitle, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceTitle);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceType
+        #public echInvoiceType parmEchInvoiceType(echInvoiceType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceType);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerExtCode
+        #public echMsgPartnerExtCode parmechMsgPartnerExtCode(echMsgPartnerExtCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerExtCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchShippingFee
+        #public SalesLineAmount parmEchShippingFee(SalesLineAmount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchShippingFee, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchShippingFee);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchTotalDiscount
+        #public SalesEndDiscAmount parmEchTotalDiscount(SalesEndDiscAmount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchTotalDiscount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchTotalDiscount);
+        #}
+      ENDSOURCE
+      SOURCE #parmEndDateTime
+        #public EndDateTime parmEndDateTime(EndDateTime _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EndDateTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EndDateTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmExpectedExpeditionTime
+        #public WMSExpeditionTime parmExpectedExpeditionTime(WMSExpeditionTime _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ExpectedExpeditionTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ExpectedExpeditionTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmExpeditionStatus
+        #public WMSExpeditionStatus parmExpeditionStatus(WMSExpeditionStatus _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ExpeditionStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ExpeditionStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmHandlingType
+        #public WMSHandlingType parmHandlingType(WMSHandlingType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HandlingType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HandlingType);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #parmOperator
+        #public EmplId parmOperator(EmplId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Operator, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Operator);
+        #}
+      ENDSOURCE
+      SOURCE #parmOptimizedPicking
+        #public WMSOptimizedPicking parmOptimizedPicking(WMSOptimizedPicking _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OptimizedPicking, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OptimizedPicking);
+        #}
+      ENDSOURCE
+      SOURCE #parmParmId
+        #public ParmId parmParmId(ParmId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ParmId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ParmId);
+        #}
+      ENDSOURCE
+      SOURCE #parmPickingRouteID
+        #public WMSPickingRouteID parmPickingRouteID(WMSPickingRouteID _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PickingRouteID, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PickingRouteID);
+        #}
+      ENDSOURCE
+      SOURCE #parmPrintMgmtSiteId
+        #public InventSiteId parmPrintMgmtSiteId(InventSiteId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PrintMgmtSiteId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PrintMgmtSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #parmPriority
+        #public WMSPriority parmPriority(WMSPriority _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Priority, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Priority);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmShipmentId
+        #public WMSShipmentId parmShipmentId(WMSShipmentId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShipmentId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShipmentId);
+        #}
+      ENDSOURCE
+      SOURCE #parmShipmentType
+        #public WMSShipmentType parmShipmentType(WMSShipmentType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShipmentType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShipmentType);
+        #}
+      ENDSOURCE
+      SOURCE #parmStartDateTime
+        #public StartDateTime parmStartDateTime(StartDateTime _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#StartDateTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#StartDateTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmTransRefId
+        #public InventTransRefId parmTransRefId(InventTransRefId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TransRefId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TransRefId);
+        #}
+      ENDSOURCE
+      SOURCE #parmTransType
+        #public InventTransType parmTransType(InventTransType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TransType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TransType);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSOrderTrans
+        #public AfStronglyTypedDataContainerList parmWMSOrderTrans(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#WMSOrderTrans, _value);
+        #    }
+        #
+        #    return this.get_List(#WMSOrderTrans);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,2624 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : Cust unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #Cust
+    PROPERTIES
+      Name                #Cust
+      Label               #@SYS101692
+      HelpText            #@SYS86244
+      SetCompany          #Yes
+      NormalResource      #3480
+    ENDPROPERTIES
+    
+    MENU #@SYS11307
+      PROPERTIES
+        Name                #CustTableListPage
+        Label               #@SYS11307
+        HelpText            #@SYS116244
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #CustTableListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Customers on Hold
+          MenuItemName        #CustTableHoldListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Customers Past Due
+          MenuItemName        #CustTablePastDueListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS36916
+      PROPERTIES
+        Name                #SalesQuotationListPage
+        Label               #@SYS36916
+        HelpText            #@SYS122767
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #SalesQuotationListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #New Sales Quotations
+          MenuItemName        #SalesQuotationListPage_New
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Sent Sales Quotations
+          MenuItemName        #SalesQuotationListPage_Sent
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS80599
+      PROPERTIES
+        Name                #SalesTableListPage
+        Label               #@SYS80599
+        HelpText            #@SYS122768
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #SalesTableListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Open Sales Orders
+          MenuItemName        #SalesTableListPageOpen
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Shipped but not Invoiced Sales Orders
+          MenuItemName        #SalesTableListPageShippedNotInvoiced
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Sales Orders of Type Journal
+          MenuItemName        #SalesTableListPageJournal
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Open Sales Orders for Customers on Hold
+          MenuItemName        #SalesTableCustomersOnHoldListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS114902
+      PROPERTIES
+        Name                #SalesLineBackOrderListPage
+        Label               #@SYS114902
+        HelpText            #@SYS98889
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #SalesLineBackOrderListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Delayed Shipments
+          MenuItemName        #SalesLineBackOrderListPageDelayedShip
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS122574
+      PROPERTIES
+        Name                #ReturnTableListPage
+        Label               #@SYS122574
+        HelpText            #@SYS122778
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #ReturnTableListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Created Return Orders
+          MenuItemName        #ReturnTableListPage_Created
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Open Return Orders
+          MenuItemName        #ReturnTableListPage_Open
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Canceled Return Orders
+          MenuItemName        #ReturnTableListPage_Canceled
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Closed Return Orders
+          MenuItemName        #ReturnTableListPage_Closed
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS110029
+      PROPERTIES
+        Name                #CustOpenInvoicesListPage
+        Label               #@SYS110029
+        HelpText            #@SYS117385
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #CustOpenInvoicesListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Customer Invoices Due Today
+          MenuItemName        #CustOpenInvoicesDueTodayListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Customer Invoices Past Due
+          MenuItemName        #CustOpenInvoicesPastDueListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENUITEM
+      PROPERTIES
+        Name                #Free Text Invoices
+        MenuItemName        #CustFreeInvoiceListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Global Address Book
+        MenuItemName        #GlobalAddressBookListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Payment Journals
+        MenuItemName        #LedgerJournalTableCustPaymentListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Customer Details
+        MenuItemName        #CustTableDetails
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Sales Order Details
+        MenuItemName        #SalesTableDetails
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Sales Quotation Details
+        MenuItemName        #SalesQuotationTableDetails
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Return Order Details
+        MenuItemName        #ReturnTableDetails
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Free Text Invoice Details
+        MenuItemName        #CustFreeInvoiceDetails
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Export order
+        MenuItemName        #CustomsExportOrderTable_IN
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #eInvoice enrollment and answer
+        MenuItemName        #CustEInvoiceIntegrationeInvoice
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Global Address Book Details
+        MenuItemName        #DirPartyTableMain
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Create return order
+        MenuItemName        #echReturnOrderTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENU #@SYS9020
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS9020
+        HelpText            #@SYS72452
+        NormalResource      #3475
+      ENDPROPERTIES
+      
+      MENU #@SYS9694
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS9694
+          HelpText            #@SYS72444
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Sales journal
+            MenuItemName        #SalesTableJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Blanket order
+            MenuItemName        #SalesTableBlanket
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Picking list registration
+            MenuItemName        #wmsPickingRegistration
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS19789
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS19789
+          HelpText            #@SYS72446
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Price/discount agreement journals
+            MenuItemName        #PriceDiscAdmTable_sales
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS243
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS243
+          HelpText            #@SYS72447
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Payment journal
+            MenuItemName        #LedgerJournalTable_CustPaym
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment transfer
+            MenuItemName        #CustPaymReconciliation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS57540
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS57540
+          HelpText            #@SYS72448
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Remittance
+            MenuItemName        #CustPaymManFile
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment transactions
+            MenuItemName        #CustPaymManTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS69795
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS69795
+          HelpText            #@SYS85385
+          ConfigurationKey    #CustBillOfExchange
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Draw bill of exchange journal
+            MenuItemName        #LedgerJournalTable_CustDrawBill
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Protest bill of exchange journal
+            MenuItemName        #LedgerJournalTable_CustProtestBill
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Redraw bill of exchange journal
+            MenuItemName        #LedgerJournalTable_CustRedrawBill
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Remittance journal
+            MenuItemName        #LedgerJournalTable_CustPaymRemittance
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Settle bill of exchange journal
+            MenuItemName        #LedgerJournalTable_CustSettleBill
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS3850
+      PROPERTIES
+        Name                #@SYS3850
+        Label               #@SYS3850
+        HelpText            #@SYS72452
+        NormalResource      #3474
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Prices
+          MenuItemName        #priceDiscActual
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Payment fee
+          MenuItemName        #CustPaymFeeInquery
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Packing material transactions
+          MenuItemName        #InventPackagingMaterialTrans
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Intercompany orders
+          MenuItemName        #SalesTableInterCompany
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Credit card issues
+          MenuItemName        #CreditCardIssues
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Customer balance inquiry
+          MenuItemName        #CustBalanceList_CN
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@SYS71572
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71572
+          HelpText            #@SYS72453
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Open sales order lines
+            MenuItemName        #SalesLineOpenOrder
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Backorder Lines Details
+            MenuItemName        #SalesLineBackorder
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #C.O.D. outstanding
+            MenuItemName        #SalesCOD
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS71574
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71574
+          HelpText            #@SYS72454
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Shipments
+            MenuItemName        #SalesShippingStat
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bill of lading
+            MenuItemName        #WMSBillOfLading
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS21751
+        PROPERTIES
+          Name                #@SYS21751
+          Label               #@SYS21751
+          HelpText            #@SYS72455
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Collection letter journal
+            MenuItemName        #CustCollectionLetterJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Interest journal
+            MenuItemName        #CustInterestJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS69795
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS69795
+          HelpText            #@SYS85387
+          ConfigurationKey    #CustBillOfExchange
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Bill of exchange journal
+            MenuItemName        #CustBillOfExchangeJour
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bill of exchange statistics
+            MenuItemName        #CustBillOfExchangeStat
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS2827
+        PROPERTIES
+          Name                #@SYS2827
+          Label               #@SYS2827
+          HelpText            #@SYS72456
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Quotation
+            MenuItemName        #CustQuotationJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quotation confirmation
+            MenuItemName        #CustQuotationJournalConfirmation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Confirmation
+            MenuItemName        #CustConfirmJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Picking list
+            MenuItemName        #WMSPickingRoutesJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Packing slip
+            MenuItemName        #CustPackingSlipJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Invoice
+            MenuItemName        #CustInvoiceJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #CFD (electronic invoices)
+            MenuItemName        #EInvoiceJour_MX
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Shipping bill
+            MenuItemName        #CustomsCustShippingBillJournal_IN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS10575
+        PROPERTIES
+          Name                #@SYS26117
+          Label               #@SYS10575
+          HelpText            #@SYS72457
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Business statistics
+            MenuItemName        #custBusinessStatisticsDef
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Voided sales orders
+            MenuItemName        #SalesTableDelete
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENU #@SYS9694
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS9694
+            HelpText            #@SYS72555
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Confirmation
+              MenuItemName        #SalesPostingHistorylConfirmation
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Picking list
+              MenuItemName        #SalesPostingHistoryPickingList
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Packing slip
+              MenuItemName        #SalesPostingHistoryPackingSlip
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Invoice
+              MenuItemName        #SalesPostingHistoryInvoice
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Deleted orders
+              MenuItemName        #SalesDeleteHistory
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS57540
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS57540
+            HelpText            #@SYS72556
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #History on payment
+              MenuItemName        #CustPaymManTransHist
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #History on payment fee
+              MenuItemName        #CustPaymManFeeHist
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Credit card authorization history
+              MenuItemName        #CreditCardAuthTrans
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+    ENDMENU
+    MENU #@SYS6845
+      PROPERTIES
+        Name                #@SYS6845
+        Label               #@SYS6845
+        HelpText            #@SYS72432
+        NormalResource      #3477
+      ENDPROPERTIES
+      
+      MENU #@SYS9119
+        PROPERTIES
+          Name                #@SYS9119
+          Label               #@SYS9119
+          HelpText            #@SYS72464
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Customer
+            MenuItemType        #Output
+            MenuItemName        #Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer base data
+            MenuItemType        #Output
+            MenuItemName        #CustBasedata
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer phone list
+            MenuItemType        #Output
+            MenuItemName        #CustPhoneList
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS1084
+        PROPERTIES
+          Name                #@SYS57779
+          Label               #@SYS1084
+          HelpText            #@SYS72465
+        ENDPROPERTIES
+        
+        MENU #@GLS62504
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@GLS62504
+            HelpText            #@GLS62922
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Contingency
+              MenuItemType        #Output
+              MenuItemName        #EFiscalDocContingencyMode_BR
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS9694
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS9694
+            HelpText            #@SYS72468
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Sales order
+              MenuItemType        #Output
+              MenuItemName        #SalesHeading
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Order lines
+              MenuItemType        #Output
+              MenuItemName        #SalesLinesExtended
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Order lines not invoiced
+              MenuItemType        #Output
+              MenuItemName        #SalesNotInvoiced
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Ledger posting for sales orders
+              MenuItemType        #Output
+              MenuItemName        #CustSalesDistribution_NA
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS12128
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS12128
+            HelpText            #@SYS72470
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Invoice journal
+              MenuItemType        #Output
+              MenuItemName        #CustInvoice
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Invoice specification
+              MenuItemType        #Output
+              MenuItemName        #CustInvoiceSpec
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS302
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS302
+            HelpText            #@SYS72471
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Internal account statement
+              MenuItemType        #Output
+              MenuItemName        #CustAccountStatement
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Transactions
+              MenuItemType        #Output
+              MenuItemName        #CustTransList
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer Transactions *
+              MenuItemType        #Output
+              MenuItemName        #CustTransListSRSReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Open transactions
+              MenuItemType        #Output
+              MenuItemName        #CustTransOpenPerDate
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #History by transaction
+              MenuItemType        #Output
+              MenuItemName        #CustLedgerTrans
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Sales tax specification
+              MenuItemType        #Output
+              MenuItemName        #CustTransTaxTrans
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #C.O.D.
+              MenuItemType        #Output
+              MenuItemName        #CustCOD
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer auditor
+              MenuItemType        #Output
+              MenuItemName        #custreport_auditor
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #List of open customer drafts
+              MenuItemType        #Output
+              MenuItemName        #CustBillOpenTrans_FR
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENU #@SYS71734
+            PROPERTIES
+              Name                #France
+              Label               #@SYS71734
+              HelpText            #@SYS86210
+            ENDPROPERTIES
+            
+            MENUITEM
+              PROPERTIES
+                Name                #Customer account statement
+                MenuItemType        #Output
+                MenuItemName        #CustAccountStatement_FR
+              ENDPROPERTIES
+              
+            ENDMENUITEM
+          ENDMENU
+        ENDMENU
+        MENU #@SYS2489
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS2489
+            HelpText            #@SYS27347
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Transaction list
+              MenuItemType        #Output
+              MenuItemName        #CommissionTrans
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS57540
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS57540
+            HelpText            #@SYS72473
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Payment fee list
+              MenuItemType        #Output
+              MenuItemName        #CustPaymManFeeHist
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Voided payment transactions
+              MenuItemType        #Output
+              MenuItemName        #CustPaymManUnpaid
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Payment step process
+              MenuItemType        #Output
+              MenuItemName        #CustPaymManReport_StepPosting
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Reimbursement
+              MenuItemType        #Output
+              MenuItemName        #CustReimbursement
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer posted payment journal
+              MenuItemType        #Output
+              MenuItemName        #CustPostPaymJournal_NA
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@SYS25587
+        PROPERTIES
+          Name                #@USR5
+          Label               #@SYS25587
+          HelpText            #@SYS72475
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Bill of exchange journal
+            MenuItemType        #Output
+            MenuItemName        #CustBillOfExchangeReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Blanket order
+            MenuItemType        #Output
+            MenuItemName        #SalesBlanket
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer aging report
+            MenuItemType        #Output
+            MenuItemName        #CustAgingBalance
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer Aging Report *
+            MenuItemType        #Output
+            MenuItemName        #CustAgingBalanceSRSReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer balance list
+            MenuItemType        #Output
+            MenuItemName        #CustProvisionalBalance
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer balance list with credit limit
+            MenuItemType        #Output
+            MenuItemName        #CustBalanceList
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer Balance List with Credit Limit *
+            MenuItemType        #Output
+            MenuItemName        #CustBalanceListSRSReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer balance list with payments in transfer
+            MenuItemType        #Output
+            MenuItemName        #CustBalanceList_MY
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Detailed due day list
+            MenuItemType        #Output
+            MenuItemName        #CustDueReportDetail
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer Detailed Due Day List *
+            MenuItemType        #Output
+            MenuItemName        #CustDueReportDetailSRSReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Open sales orders
+            MenuItemType        #Output
+            MenuItemName        #CustSalesOpenOrders_NA
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Open Sales Orders *
+            MenuItemType        #Output
+            MenuItemName        #CustSalesOpenOrders_NASRSReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Open sales order lines by customer
+            MenuItemType        #Output
+            MenuItemName        #CustSalesOpenLinesbyCust_NA
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Open sales order lines by ship date
+            MenuItemType        #Output
+            MenuItemName        #CustSalesOpenLinesbyDelvDate_NA
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Open sales order lines by item
+            MenuItemType        #Output
+            MenuItemName        #CustSalesOpenLinesbyItem_NA
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Shipped not invoiced
+            MenuItemType        #Output
+            MenuItemName        #CustShippedNotInvoiced_NA
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Total Accounts Receivable in the Past Periods Chart *
+            MenuItemType        #Output
+            MenuItemName        #LedgerTotalAcctsReceivablePastXPeriods
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS326
+        PROPERTIES
+          Name                #@SYS326
+          Label               #@SYS326
+          HelpText            #@SYS72483
+        ENDPROPERTIES
+        
+        MENU #@SYS11779
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS11779
+            HelpText            #@SYS72485
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Top 100
+              MenuItemType        #Output
+              MenuItemName        #salesRankingReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Top Customers by YTD Sales *
+              MenuItemType        #Output
+              MenuItemName        #CustTopXCustomersbyYTDSales
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer turnover
+              MenuItemType        #Output
+              MenuItemName        #CustRevenue
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer/Item statistics
+              MenuItemType        #Output
+              MenuItemName        #SalesStatistics_CustItem
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Item/Customer statistics
+              MenuItemType        #Output
+              MenuItemName        #SalesStatistics_ItemCust
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Gross margin by customer
+              MenuItemType        #Output
+              MenuItemName        #CustGrossMarginbyAccount_NA
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Gross margin by item
+              MenuItemType        #Output
+              MenuItemName        #CustGrossMarginbyItem_NA
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Sales item group statistics
+              MenuItemType        #Output
+              MenuItemName        #CustSalesItemGroupStatistics_NA
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Cash Receipt Journal Totals and Transaction Count Chart *
+              MenuItemType        #Output
+              MenuItemName        #CustCashReceiptJournalTotalsandTrxCnt
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS12128
+          PROPERTIES
+            Name                #@SYS12128
+            Label               #@SYS12128
+            HelpText            #@SYS72486
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Invoice turnover report
+              MenuItemType        #Output
+              MenuItemName        #CustInvoiceVolume
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer invoice journal
+              MenuItemType        #Output
+              MenuItemName        #CustInvoiceJourReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer Invoice Journal *
+              MenuItemType        #Output
+              MenuItemName        #CustInvoiceJourSRSReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Posted Customer Invoice Totals and Transaction Count Chart *
+              MenuItemType        #Output
+              MenuItemName        #CustPostedCustInvoiceTotalsandTrxCount
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Sales by State
+              MenuItemType        #Output
+              MenuItemName        #SalesByState
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Sales analysis by invoice
+              MenuItemType        #Output
+              MenuItemName        #CustSalesAnalysisByInvoice_NA
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Sales in the Past Periods Chart *
+              MenuItemType        #Output
+              MenuItemName        #LedgerSalesPastXPeriods
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS97223
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS97223
+            HelpText            #@SYS97224
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Customer/Item statistics
+              MenuItemType        #Output
+              MenuItemName        #SalesOrderEntryStatistics_CustItem
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Item/Customer statistics
+              MenuItemType        #Output
+              MenuItemName        #SalesOrderEntryStatistics_ItemCust
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@SYS15183
+        PROPERTIES
+          Name                #@SYS3854
+          Label               #@SYS15183
+          HelpText            #@SYS72250
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Customer account statement
+            MenuItemType        #Output
+            MenuItemName        #CustAccountStatementExt
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Collection letter note
+            MenuItemType        #Output
+            MenuItemName        #CustReport_collectionLetterAll
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Interest note
+            MenuItemType        #Output
+            MenuItemName        #CustReport_interestNoteAll
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS19789
+        PROPERTIES
+          Name                #@SYS13536
+          Label               #@SYS19789
+          HelpText            #@SYS72482
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Customer price list
+            MenuItemType        #Output
+            MenuItemName        #PriceDiscCustExtern
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales prices
+            MenuItemType        #Output
+            MenuItemName        #PriceListAllSales
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Price list
+            MenuItemType        #Output
+            MenuItemName        #PriceList
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Price/Discount List
+            MenuItemType        #Output
+            MenuItemName        #PriceDiscTableSales
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS58282
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS58282
+          HelpText            #@SYS72490
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Supplementary item overview
+            MenuItemType        #Output
+            MenuItemName        #custsuppItemTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS99943
+        PROPERTIES
+          Name                #@SYS4508
+          Label               #@SYS99943
+          HelpText            #@SYS72491
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Contract shipment
+            MenuItemType        #Output
+            MenuItemName        #SalesContractShipment
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Supply capacity
+            MenuItemType        #Output
+            MenuItemName        #SalesSupplyCapacity
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bill of lading
+            MenuItemType        #Output
+            MenuItemName        #WMSBillOfLading
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS69795
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS69795
+          HelpText            #@SYS92686
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Open transactions
+            MenuItemType        #Output
+            MenuItemName        #CustTransOpenReport_ES
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Open cartera transactions
+            MenuItemType        #Output
+            MenuItemName        #CustBillOfExchangeReport_ES
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Open bills
+            MenuItemType        #Output
+            MenuItemName        #CustOpenBillId_ES
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bill-Invoice relation by transaction date
+            MenuItemType        #Output
+            MenuItemName        #CustInvoiceSettledTransDate_ES
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS104918
+        PROPERTIES
+          Name                #Return
+          Label               #@SYS104918
+          HelpText            #@SYS80004
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Return volume
+            MenuItemType        #Output
+            MenuItemName        #ReturnStatVolume
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Return statistics ranking
+            MenuItemType        #Output
+            MenuItemName        #ReturnStatRanking
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Return cycle time
+            MenuItemType        #Output
+            MenuItemName        #ReturnCycleTime
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Return&Refund report per week
+            MenuItemType        #Action
+            MenuItemName        #echRptReturnRefund
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS8782
+      PROPERTIES
+        Name                #@SYS8782
+        Label               #@SYS8782
+        HelpText            #@SYS72496
+        NormalResource      #3476
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Post the sales journal
+          MenuItemType        #Action
+          MenuItemName        #SalesJournalToSalesOrder
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Delete orders
+          MenuItemType        #Action
+          MenuItemName        #SalesDelete
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Delete return orders
+          MenuItemType        #Action
+          MenuItemName        #SalesDelete_Return
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Delete quotations
+          MenuItemType        #Action
+          MenuItemName        #SalesQuotationDelete
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Exchange adjustment
+          MenuItemName        #custexchRateAdjustment
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Reimbursement
+          MenuItemType        #Action
+          MenuItemName        #custoverpaym
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Recalculate credit limit
+          MenuItemType        #Action
+          MenuItemName        #SalesCreditLimitCheck
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Update invoice payment ID
+          MenuItemType        #Action
+          MenuItemName        #BankCustPaymIdUpdate_NO
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Import from file
+          MenuItemType        #Action
+          MenuItemName        #TaxImportInvoice_CN
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Export to file
+          MenuItemType        #Action
+          MenuItemName        #TaxExportInvoice_CN
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Consolidated Invoice
+          MenuItemName        #ConsolidatedInvoice_JP
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Sales order checks
+          MenuItemType        #Action
+          MenuItemName        #echSoCheckManager
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@SYS71597
+        PROPERTIES
+          Name                #@SYS26661
+          Label               #@SYS71597
+          HelpText            #@SYS72497
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Confirmation
+            MenuItemType        #Action
+            MenuItemName        #SalesFormLetter_Confirmation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Picking list
+            MenuItemType        #Action
+            MenuItemName        #SalesFormLetter_PickingList
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Packing slip
+            MenuItemType        #Action
+            MenuItemName        #SalesFormLetter_PackingSlip
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Delivery slip
+            MenuItemType        #Action
+            MenuItemName        #SalesFormLetter_PackingSlip_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Invoice
+            MenuItemType        #Action
+            MenuItemName        #SalesFormLetter_Invoice
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Free text invoice
+            MenuItemType        #Action
+            MenuItemName        #CustPostInvoiceJob
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS84497
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS84497
+          HelpText            #@SYS84588
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Quotation
+            MenuItemType        #Action
+            MenuItemName        #SalesQuotationEditLinesForm_Sales_Send
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Confirmation
+            MenuItemType        #Action
+            MenuItemName        #SalesQuotationEditLinesForm_Sales_Confir
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quotation lost
+            MenuItemType        #Action
+            MenuItemName        #SalesQuotationUpdate_Lost
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quotation canceled
+            MenuItemType        #Action
+            MenuItemName        #SalesQuotationUpdate_Cancelled
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Mass create quotations
+            MenuItemType        #Action
+            MenuItemName        #SalesQuotationMassCreate_Sales
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS57540
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS57540
+          HelpText            #@SYS72499
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Post
+            MenuItemType        #Action
+            MenuItemName        #CustPaymManTransPost
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Cancel
+            MenuItemType        #Action
+            MenuItemName        #CustPaymManTransPostCancel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Renegotiation
+            MenuItemType        #Action
+            MenuItemName        #CustPaymManTransPostRenegotiate
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS21751
+        PROPERTIES
+          Name                #@SYS21751
+          Label               #@SYS21751
+          HelpText            #@SYS72501
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Creation of collection letter
+            MenuItemType        #Action
+            MenuItemName        #CustCollectionLetterCreate
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Collection letter note
+            MenuItemName        #CustCollectionLetterNote
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Interest calculation
+            MenuItemType        #Action
+            MenuItemName        #CustInterestCreate
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Interest note
+            MenuItemName        #CustInterestNote
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS4160
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS4160
+          HelpText            #@SYS75230
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Sales update history clean up
+            MenuItemType        #Action
+            MenuItemName        #SalesParmCleanUp
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Order entry statistics clean up
+            MenuItemType        #Action
+            MenuItemName        #SalesOrderEntryStatisticsCleanUp
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYP3922
+        PROPERTIES
+          Name                #Einvoice_MX
+          Label               #@SYP3922
+          HelpText            #@SYS100854
+          ConfigurationKey    #CRSEMexico
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #EInvoice monthly report
+            MenuItemType        #Action
+            MenuItemName        #EInvoiceMonthlyReport_MX
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@GLS60430
+        PROPERTIES
+          Name                #ServiceEInvoice
+          Label               #@GLS60430
+          HelpText            #@GLS60607
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Export RPS file
+            MenuItemType        #Action
+            MenuItemName        #TaxServiceEInvoiceExport_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Import e-Invoice Services file
+            MenuItemType        #Action
+            MenuItemName        #TaxServiceEInvoiceImport_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@GLS62504
+        PROPERTIES
+          Name                #NFEProcess
+          Label               #@GLS62504
+          HelpText            #@GLS62584
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Contingency
+            MenuItemName        #EFDocContingencyMode_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #NF-e (federal)
+            MenuItemName        #EFDocument_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #History
+            MenuItemName        #EFDocHist_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Export/import NF-e process
+            MenuItemType        #Action
+            MenuItemName        #EFDocMsgExporter_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS2186
+      PROPERTIES
+        Name                #@SYS2186
+        Label               #@SYS2186
+        HelpText            #@SYS72504
+        NormalResource      #3478
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Customer groups
+          MenuItemName        #CustGroup
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Customer classification groups
+          MenuItemName        #CustClassificationGroup
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #sales reasons
+          MenuItemName        #echSalesReasonTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Posting profiles
+          MenuItemName        #CustPosting
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Workflow configurations
+          MenuItemName        #WorkflowConfigurationCust
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Customer reasons
+          MenuItemName        #CustReasons
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Parameters
+          MenuItemName        #CustParameters
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #VAT invoice description
+          MenuItemName        #VATInvoiceDescTable_CN
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUREFERENCE
+        PROPERTIES
+          Name                #echSalesAlerts
+        ENDPROPERTIES
+        
+      ENDMENUREFERENCE
+      MENUREFERENCE
+        PROPERTIES
+          Name                #echSalesOrderChecks
+        ENDPROPERTIES
+        
+      ENDMENUREFERENCE
+      MENU #@SYS19789
+        PROPERTIES
+          Name                #@SYS19789
+          Label               #@SYS19789
+          HelpText            #@SYS69420
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Customer price/discount groups
+            MenuItemName        #PriceDiscGroup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item discount groups
+            MenuItemName        #PriceDiscGroup_Invent
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Trade agreement journal names
+            MenuItemName        #pricediscadmname_sales
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Activate price/discount
+            MenuItemName        #PriceDiscActivation_Sales
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS8371
+        PROPERTIES
+          Name                #@SYS8371
+          Label               #@SYS8371
+          HelpText            #@SYS72515
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Misc. charges codes
+            MenuItemName        #MarkupTable_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer misc. charges groups
+            MenuItemName        #MarkupGroup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item misc. charges groups
+            MenuItemName        #MarkupGroup_Invent
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Auto-misc. charges
+            MenuItemName        #MarkupAutoSetup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS58282
+        PROPERTIES
+          Name                #@SYS58282
+          Label               #@SYS58282
+          HelpText            #@SYS69512
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Supplementary item - Customer groups
+            MenuItemName        #SuppItemGroup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Supplementary item - Item groups
+            MenuItemName        #SuppItemGroup_Invent
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS54845
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS54845
+          HelpText            #@SYS72520
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Item - Customer groups
+            MenuItemName        #CustItemGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS71574
+        PROPERTIES
+          Name                #Konteringsopsætning
+          Label               #@SYS71574
+          HelpText            #@SYS72524
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Terms of delivery
+            MenuItemName        #CustDeliveryTerms
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Modes of delivery
+            MenuItemName        #CustDeliveryMode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Reasons for delivery
+            MenuItemName        #DeliveryReason
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Destination codes
+            MenuItemName        #CustDestinationCode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Package appearance
+            MenuItemName        #SalesPackageAppearance
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Carrier
+            MenuItemName        #SalesCarrier
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS1402
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS1402
+          HelpText            #@SYS72527
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Form notes
+            MenuItemName        #CustFormLetterRemarks
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Form setup
+            MenuItemName        #CustFormletterParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Form sorting
+            MenuItemName        #SalesFormLetterSortingParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS9694
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS9694
+          HelpText            #@SYS72541
+        ENDPROPERTIES
+        
+        MENU #@SYS103614
+          PROPERTIES
+            Name                #Returns
+            Label               #@SYS103614
+            HelpText            #@SYS103616
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Return reason code groups
+              MenuItemName        #ReturnReasonCodeGroup
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Return reason codes
+              MenuItemName        #ReturnReasonCode
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Disposition codes
+              MenuItemName        #ReturnDispositionCode
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENUITEM
+          PROPERTIES
+            Name                #Exception/Cancel Reason
+            MenuItemName        #ECHCancelException
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales order aggregate status constrains
+            MenuItemName        #echSalesSendAggStatus
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales origin
+            MenuItemName        #SalesOrigin
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Order pools
+            MenuItemName        #SalesPool
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales texts
+            MenuItemName        #SalesLegalTxtSetup_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales operation types
+            MenuItemName        #SalesOperationType_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #CFOP matrix
+            MenuItemName        #SalesCFOPMatrix_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Taxes matrix
+            MenuItemName        #TaxesMatrixSales_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Invoice title
+            MenuItemName        #echInvoiceTitleTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Invoice content
+            MenuItemName        #echInvoiceContentTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS74062
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS74062
+          HelpText            #@SYS85443
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Type
+            MenuItemName        #SalesQuotationTypeGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Template groups
+            MenuItemName        #SalesQuotationTemplateGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS828
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS828
+          HelpText            #@SYS72531
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Terms of payment
+            MenuItemName        #CustPaymTerm
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Cash discounts
+            MenuItemName        #CustCashDisc
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment schedules
+            MenuItemName        #CustPaymSched
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment days
+            MenuItemName        #CustPaymDay
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment fee
+            MenuItemName        #CustPaymFee
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Methods of payment
+            MenuItemName        #CustPaymMode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment step
+            MenuItemName        #PaymManStepTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Credit card processors
+            MenuItemName        #CreditCardProcessors
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bank account 'trap'
+            MenuItemName        #BankAccountTrap
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment ID
+            MenuItemName        #BankCustPaymIdTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENU #@SYS119612
+          PROPERTIES
+            Name                #egiro
+            Label               #@SYS119612
+            HelpText            #@SYS119862
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Free text interpreter
+              MenuItemName        #CustEgiroFtxAnalyse
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Parameters
+              MenuItemName        #CustEgiroParameters
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENUITEM
+          PROPERTIES
+            Name                #Interest codes
+            MenuItemName        #CustInterestTable_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fine codes
+            MenuItemName        #CustFineTable_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS21751
+        PROPERTIES
+          Name                #@SYS21751
+          Label               #@SYS21751
+          HelpText            #@SYS72535
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Collection letter
+            MenuItemName        #CollectionLetterCourse
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Interest
+            MenuItemName        #Interest
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS2489
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS2489
+          HelpText            #@SYS27308
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Customer groups for commission
+            MenuItemName        #CommissionCustomerGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales groups
+            MenuItemName        #CommissionSalesGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item groups
+            MenuItemName        #CommissionItemGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Commission calculation
+            MenuItemName        #CommissionCalc
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Commission posting
+            MenuItemName        #CommissionPosting
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS326
+        PROPERTIES
+          Name                #@SYS22712
+          Label               #@SYS326
+          HelpText            #@SYS72537
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Aging buckets
+            MenuItemName        #CustReportInterval
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Line of business
+            MenuItemName        #CustLineOfBusiness
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Statistics group
+            MenuItemName        #CustStatGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@GLS60430
+        PROPERTIES
+          Name                #ServiceEInvoice
+          Label               #@GLS60430
+          HelpText            #@GLS60608
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Export RPS file
+            MenuItemType        #Action
+            MenuItemName        #TaxServiceEInvoiceExport_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Import e-Invoice Services file
+            MenuItemType        #Action
+            MenuItemName        #taxserviceEInvoiceimport_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS119483
+        PROPERTIES
+          Name                #einvoice
+          Label               #@SYS119483
+          HelpText            #@SYS119861
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #e-invoice
+            MenuItemName        #CustEInvoice
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Payment mode change
+            MenuItemName        #CustEInvoiceIntegrationTypePaymMode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Error codes
+            MenuItemName        #CustEInvoiceIntegrationError
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Integration type
+            MenuItemName        #CustEinvoiceIntegrationTypeTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@GLS60697
+        PROPERTIES
+          Name                #TaxIntegration
+          Label               #@GLS60697
+          HelpText            #@GLS60705
+          ConfigurationKey    #CRSEChina
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #External invoice
+            MenuItemName        #TaxExternalInvoiceTable_CN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Tax integration profiles
+            MenuItemName        #TaxProfileTable_CN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@GLS5007
+        PROPERTIES
+          Name                #Customs
+          Label               #@GLS5007
+          HelpText            #@GLS5797
+          ConfigurationKey    #CRSEIndia
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Shipping bill number
+            MenuItemName        #CustomsShippingBillNumberTable_IN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+  ENDMENU
+  
+
+***Element: END

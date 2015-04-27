@@ -1,0 +1,230 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesFormLetter_PickingList unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesFormLetter_PickingList
+    Id 1225
+    PROPERTIES
+      Name                #SalesFormLetter_PickingList
+      Extends             #SalesFormLetter
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #checkSales
+        #// Create ECH_WI_02037 by mengqi.cen on 20130405
+        #protected boolean checkSales()
+        #{
+        #    boolean ok;
+        #;
+        #    ttsbegin;
+        #
+        #    ok = true;
+        #    // Run sales order check
+        #    if (!this.runSoCheck(salesTable.SalesId))
+        #    {
+        #        error(strFmt('@ECH422', salesTable.SalesId));
+        #        ok = false;
+        #    }
+        #
+        #    if (ok)
+        #        ok = super();
+        #
+        #    ttscommit;
+        #
+        #    return ok;
+        #}
+      ENDSOURCE
+      SOURCE #insertJournal
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: modification
+        #// *** Description: update Aggregate status to 'Send to WMS'
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: update Aggregate status to 'Send to WMS' when the previous status is 'Check OK'
+        #
+        #protected void  insertJournal()
+        #{
+        #    // Do credit card pre-authorization when needed
+        #    if (!this.creditCardDoPreAuthorize())
+        #    {
+        #        return;
+        #    }
+        #
+        #    super();
+        #
+        #// CS - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #    {
+        #        echUpdateAggStatus::updateStatus(salesTable.SalesId, echAggStatus::SendToWMS);
+        #    }
+        #// CE - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #}
+      ENDSOURCE
+      SOURCE #runSoCheck
+        #// Update ECH_WI_02037 by mengqi.cen on 20130405
+        #// Create ECH_WI_01987 by mengqi.cen on 20130311
+        #private boolean runSoCheck(SalesId _salesId)
+        #{
+        #    boolean                        _checkSuccess;
+        #    echSoCheckManager              _soCheckMgr;
+        #    ECHAggStatus                   _checkStatus;
+        #;
+        #    _soCheckMgr = echSoCheckManager::construct();
+        #    _checkStatus = _soCheckMgr.checkSingleSo(_salesId, true);
+        #
+        #    _checkSuccess = (_checkStatus == ECHAggStatus::ChecksOK ? true : false);
+        #
+        #    return _checkSuccess;
+        #}
+      ENDSOURCE
+      SOURCE #updateNow
+        #// Update ECH_WI_02037 by mengqi.cen on 20130405
+        #//   Move the logical of Sales Order check into method 'checkSales()'.
+        #// Update ECH_WI_01987 by mengqi.cen on 20130311
+        #boolean  updateNow()
+        #{
+        #    InventOnhand            inventOnhand;
+        #    InventQty               qtyNow;
+        #    boolean                 abortIfMultipleWarehouses ;
+        #    InventDim               inventDim;
+        #    InventDimParm           inventDimParmPhysical;
+        #    InventDimParm           inventDimParm;
+        #    InventTransIdSum        inventTransIdSum;
+        #    ;
+        #
+        #    this.initJournal();
+        #
+        #    salesLine.clear();
+        #    salesParmLine.clear();
+        #
+        #    // <GIN>
+        #    if (TaxParameters::checkTaxParameters_IN())
+        #    {
+        #        if (this.tax())
+        #        {
+        #            this.tax().validate_IN();
+        #        }
+        #    }
+        #    // </GIN>
+        #    recordListSalesParmLine.first(salesParmLine);
+        #    abortIfMultipleWarehouses = AxdDocumentParameters::find().CheckMultipleWareHouses ;
+        #    lastInventLocationId = '' ;
+        #    while (salesParmLine)
+        #    {
+        #        if (!this.checkDiscardLine())
+        #        {
+        #            salesLine = this.getSalesLine(salesParmLine, true);
+        #
+        #            if (abortIfMultipleWarehouses)
+        #                this.checkForMultipleInventLocations() ;
+        #
+        #            setprefix(#PreFixField(salesLine, SalesId));
+        #
+        #            this.checkBeforePosting();
+        #            this.displayProgress();
+        #
+        #            #LinePrefix(salesLine,salesLine.inventdim().prefixitemdim(salesLine.inventTable().dimGroupId))
+        #
+        #            if (this.reduceOnHandForParmLine())
+        #            {
+        #                inventDim = salesLine.inventDim();
+        #                inventDimParmPhysical.initPhysicalInvent(InventTable::find(salesLine.ItemId).DimGroupId);
+        #                inventDimParm.initFromInventDim(inventDim);
+        #
+        #                inventOnhand    = InventOnhand::newParameters(salesLine.ItemId,inventDim,InventDimParm::andParms(inventDimParmPhysical,inventDimParm));
+        #                inventTransIdSum = new InventTransIdSum(salesLine.InventTransId, true);
+        #
+        #                //to get right qtyNow - adding reservedPhysical qty from this salesLine
+        #                qtyNow = min(salesParmLine.InventNow, max(inventOnhand.availPhysical() - inventTransIdSum.reservPhysical(),0));
+        #
+        #                if (qtyNow != salesParmLine.InventNow)
+        #                {
+        #                    salesParmLine.InventNow     = qtyNow;
+        #                    salesParmLine.DeliverNow    = UnitConvert::qty(salesParmLine.InventNow, salesLine.inventTable().inventUnitId(), salesLine.SalesUnit, salesLine.ItemId);
+        #                    info(strfmt("@SYS26397", qtyNow));
+        #                }
+        #            }
+        #
+        #            if(salesParmLine.InventNow)
+        #            {
+        #                this.calcLine(salesLine,salesParmLine);
+        #
+        #                this.reserveBuffer();
+        #
+        #                this.writeJournalLine();
+        #
+        #                if (!salesParmLine.wmsOrder)
+        #                {
+        #                    this.postMarkupLine();
+        #                }
+        #
+        #                if (salesParmTable.SalesId != salesParmLine.OrigSalesId)
+        #                    this.updateSumSalesId();
+        #
+        #
+        #                salesLine.SalesDeliverNow  = 0;
+        #                salesLine.InventDeliverNow = 0;
+        #                salesLine.doUpdate();
+        #
+        #                if (InventParameters::find().UseQualityManagement)
+        #                {
+        #                    InventQualityOrderType::newBuffer(salesLine, NoYes::No, InventTestDocumentStatus::PickingList, InventTestExecution::After).findAndCreate();
+        #                }
+        #
+        #                if (salesTable.InterCompanyCompanyId)
+        #                    SalesLineType::construct(salesLine).interCompanyResetDeliverNow();
+        #            }
+        #        }
+        #        if (! recordListSalesParmLine.next(salesParmLine))
+        #            break;
+        #    }
+        #
+        #    progress.setText("@SYS25781");
+        #
+        #    if (this.checkIfWMSOrderTransExist() && !this.checkifWMSorder())
+        #    {
+        #        this.writeJournal();
+        #        this.postMarkupTable();
+        #    }
+        #
+        #    if (!this.checkIfSomethingIsPosted())
+        #        return false;
+        #
+        #    return true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: return custom class
+        #
+        #static SalesFormLetter construct(boolean getParmId = true)
+        #{
+        #// CS - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #    ;
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #        return new echSalesFormLetter_PickingList(getParmId);
+        #    else
+        #// CE - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #        return new SalesFormLetter_PickingList(getParmId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

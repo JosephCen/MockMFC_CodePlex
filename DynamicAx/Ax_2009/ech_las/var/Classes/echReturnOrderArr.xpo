@@ -1,0 +1,120 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echReturnOrderArr unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echReturnOrderArr
+    Id 30046
+    PROPERTIES
+      Name                #echReturnOrderArr
+      Extends             #AifDocument
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echReturnOrderArr extends AifDocument
+        #{
+        #    #define.WMSArrivalOverviewTmp('WMSArrivalOverviewTmp')
+        #    #define.WMSArrivalDetailTmp('WMSArrivalDetailTmp')
+        #    #define.SenderId('SenderId')
+        #    #define.DocPurpose('DocPurpose')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createWMSArrivalDetailTmp
+        #public AfStronglyTypedDataContainerList createWMSArrivalDetailTmp()
+        #{
+        #    return this.get_NewList(#WMSArrivalDetailTmp);
+        #}
+      ENDSOURCE
+      SOURCE #createWMSArrivalOverviewTmp
+        #public AfStronglyTypedDataContainerList createWMSArrivalOverviewTmp()
+        #{
+        #    return this.get_NewList(#WMSArrivalOverviewTmp);
+        #}
+      ENDSOURCE
+      SOURCE #existsDocPurpose
+        #public boolean existsDocPurpose()
+        #{
+        #    return this.exists(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #existsSenderId
+        #public boolean existsSenderId()
+        #{
+        #    return this.exists(#SenderId);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSArrivalDetailTmp
+        #public boolean existsWMSArrivalDetailTmp()
+        #{
+        #    return this.exists(#WMSArrivalDetailTmp);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSArrivalOverviewTmp
+        #public boolean existsWMSArrivalOverviewTmp()
+        #{
+        #    return this.exists(#WMSArrivalOverviewTmp);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echReturnOrderArrivalService);
+        #}
+      ENDSOURCE
+      SOURCE #parmDocPurpose
+        #public XMLDocPurpose parmDocPurpose(XMLDocPurpose _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DocPurpose, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #parmSenderId
+        #public dataAreaId parmSenderId(dataAreaId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SenderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SenderId);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSArrivalDetailTmp
+        #public AfStronglyTypedDataContainerList parmWMSArrivalDetailTmp(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#WMSArrivalDetailTmp, _value);
+        #    }
+        #
+        #    return this.get_List(#WMSArrivalDetailTmp);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSArrivalOverviewTmp
+        #public AfStronglyTypedDataContainerList parmWMSArrivalOverviewTmp(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#WMSArrivalOverviewTmp, _value);
+        #    }
+        #
+        #    return this.get_List(#WMSArrivalOverviewTmp);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

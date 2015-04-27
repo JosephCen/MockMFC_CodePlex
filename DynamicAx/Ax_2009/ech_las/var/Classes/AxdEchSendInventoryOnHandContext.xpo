@@ -1,0 +1,108 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchSendInventoryOnHandContext unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchSendInventoryOnHandContext
+    Id 30326
+    PROPERTIES
+      Name                #AxdEchSendInventoryOnHandContext
+      Extends             #AxdSendContext
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdEchSendInventoryOnHandContext
+        #    extends AxdSendContext
+        #{
+        #    NoYes             isDeltaUpdate;
+        #    InventLocationId  invLocationId;
+        #
+        #    #define.CurrentVersion(1)
+        #    #localmacro.CurrentList
+        #        isDeltaUpdate,
+        #        invLocationId
+        #    #endmacro
+        #}
+      ENDSOURCE
+      SOURCE #pack
+        #public container pack()
+        #{
+        #;
+        #    return [#CurrentVersion, #CurrentList] + [super()];
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = invLocationId)
+        #{
+        #;
+        #    invLocationId = _value;
+        #
+        #    return invLocationId;
+        #}
+      ENDSOURCE
+      SOURCE #parmIsDeltaUpdate
+        #public NoYes parmIsDeltaUpdate(NoYes _value = isDeltaUpdate)
+        #{
+        #;
+        #    isDeltaUpdate = _value;
+        #
+        #    return isDeltaUpdate;
+        #}
+      ENDSOURCE
+      SOURCE #unpack
+        #public boolean unpack(container packedClass)
+        #{
+        #    int        version;
+        #    container  packedSuper;
+        #    boolean ret;
+        #;
+        #    version = RunBase::getVersion(packedClass);
+        #
+        #    switch (version)
+        #    {
+        #        case #CurrentVersion :
+        #            [version, #CurrentList, packedSuper] = packedClass;
+        #
+        #            if (packedSuper)
+        #                ret = super(packedSuper);
+        #            else
+        #                ret = true;
+        #            break;
+        #        default :
+        #            ret = false;
+        #            break;
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static AxdEchSendInventoryOnHandContext construct()
+        #{
+        #    AxdEchSendInventoryOnHandContext contectCls = new AxdEchSendInventoryOnHandContext();
+        #    ;
+        #    return contectCls;
+        #}
+      ENDSOURCE
+      SOURCE #create
+        #public static AxdEchSendInventoryOnHandContext create(container packedClass)
+        #{
+        #    AxdEchSendInventoryOnHandContext contextCls = AxdEchSendInventoryOnHandContext::construct();
+        #    ;
+        #
+        #    contextCls.unpack(packedClass);
+        #
+        #    return contextCls;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

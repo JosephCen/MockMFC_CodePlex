@@ -1,0 +1,95 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : EPInventTableListToolbar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #EPInventTableListToolbar
+    PROPERTIES
+      Name                #EPInventTableListToolbar
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS40422
+      PROPERTIES
+        Name                #Actions
+        Label               #@SYS40422
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Items
+          MenuItemName        #EPInventTableInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Edit external description
+          MenuItemName        #EPVendExternalItemEdit
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS111665
+      PROPERTIES
+        Name                #RelatedInformation
+        Label               #@SYS111665
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Attributes
+          MenuItemName        #echItemAttributes
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #On-hand
+          MenuItemName        #EPInventOnhand
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Documents
+          MenuItemName        #EPDocuListFromInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS7800
+      PROPERTIES
+        Name                #Reports
+        Label               #@SYS7800
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Top item by quantity
+          MenuItemName        #EPInventTableByQty
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Top item by sales
+          MenuItemName        #EPInventTableBySales
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Top item by time
+          MenuItemName        #EPInventTablebyTime
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

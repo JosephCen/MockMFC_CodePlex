@@ -1,0 +1,315 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : EPHomeQuickLaunch unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #EPHomeQuickLaunch
+    PROPERTIES
+      Name                #EPHomeQuickLaunch
+      Label               #@SYS60244
+      HelpText            #@SYS105502
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS9853
+      PROPERTIES
+        Name                #Administration
+        Label               #@SYS9853
+        HelpText            #@SYS97901
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Refresh AOD
+          MenuItemType        #Action
+          MenuItemName        #EPFlushAOD
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Refresh Data
+          MenuItemType        #Action
+          MenuItemName        #EPFlushData
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Refresh Dictionary
+          MenuItemType        #Action
+          MenuItemName        #EPFlushDictionary
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS116190
+      PROPERTIES
+        Name                #MainLists
+        Label               #@SYS116190
+        HelpText            #@SYS116193
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Alert rules
+          MenuItemName        #EPEventRuleList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Product catalog
+          MenuItemName        #EPCSSProductGroupPrint
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Campaign items
+          MenuItemName        #EPCSSPromotionalItem
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Service subscriptions
+          MenuItemName        #EPServiceSubscriptionList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Service agreements
+          MenuItemName        #EPServiceAgreementList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Service orders
+          MenuItemName        #EPServiceOrderList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Purchase orders
+          MenuItemName        #EPSalesTableListCSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Sales orders
+          MenuItemName        #EPSalesTableList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Return orders
+          MenuItemName        #EPSalesReturnItemList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Invoices
+          MenuItemName        #EPCustInvoiceJournalListCSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Price agreements
+          MenuItemName        #EPPriceDiscTableListPurchVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Packing slip journal
+          MenuItemName        #EPVendPackingSlipJournalListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Purchase order journal
+          MenuItemName        #EPVendPurchOrderJournalListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Customers
+          MenuItemName        #CustomersList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Business relations
+          MenuItemName        #smmEPBusRelTableList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Contacts
+          MenuItemName        #ContactPersonsList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Activities
+          MenuItemName        #ActivitiesList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #View workflow history
+          MenuItemName        #WorkflowHistoryList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Orders
+          MenuItemName        #EPPurchTableListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #All items
+          MenuItemName        #EPInventTableListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Invoice journal
+          MenuItemName        #EPVendInvoiceJournalListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Item arrival journal
+          MenuItemName        #echItemArrivalJournal
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS24500
+      PROPERTIES
+        Name                #Account
+        Label               #@SYS24500
+        HelpText            #@SYS116203
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Account Information
+          MenuItemName        #EPCustTableInfoCSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Quick entry
+          MenuItemName        #EPSalesTableCreateCSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Shopping cart
+          MenuItemName        #EPCSSSalesBasket
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Sign up
+          MenuItemName        #EPCSSCustSignUpUser
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Checkout
+          MenuItemName        #EPCSSCheckOut
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #View account
+          MenuItemName        #epvendtableinfovss
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS116201
+      PROPERTIES
+        Name                #MyInformation
+        Label               #@SYS116201
+        HelpText            #@SYS116202
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #My profile
+          MenuItemName        #EPMyProfileInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Delegation
+          MenuItemName        #WorkflowWorkItemDelegation
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS71402
+      PROPERTIES
+        Name                #Browse
+        Label               #@SYS71402
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Product catalog
+          MenuItemName        #EPCSSProductGroupPrintGuest
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Campaign items
+          MenuItemName        #EPCSSPromotionalItemGuest
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Sign up
+          MenuItemName        #EPCSSCustSignUpGuest
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

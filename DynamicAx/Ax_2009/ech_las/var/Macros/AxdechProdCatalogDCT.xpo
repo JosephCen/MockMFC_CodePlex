@@ -1,0 +1,28 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdechProdCatalogDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdechProdCatalogDCT
+    ##define.echProdCatalog('echProdCatalog')
+    ##define.echProdCatalog_InventTable('echProdCatalog.InventTable')
+    ##define.echProdCatalog_echItemAttributes('echProdCatalog.echItemAttributes')
+    ##define.echProdCatalog_echInventDimPriceDiscVw('echProdCatalog.echInventDimPriceDiscVw')
+    ##define.echProdCatalog_echItemStoreListVw('echProdCatalog.echItemStoreListVw')
+    ##define.echProdCatalog_InventColor('echProdCatalog.InventColor')
+    ##define.echProdCatalog_InventSize('echProdCatalog.InventSize')
+    ##define.echProdCatalog_ConfigTable('echProdCatalog.ConfigTable')
+    ##define.echProdCatalog_echInventDimBarcodeVw('echProdCatalog.echInventDimBarcodeVw')
+    ##define.echProdCatalog_echInventItemBarcodeVw('echProdCatalog.echInventItemBarcodeVw')
+    ##define.echProdCatalog_InventItemSalesSetup('echProdCatalog.InventItemSalesSetup')
+    ##define.echProdCatalog_RBOInventTable('echProdCatalog.RBOInventTable')
+    ##define.echProdCatalog_DocuRefHeader('echProdCatalog.DocuRefHeader')
+    ##define.echProdCatalog_echBarcodeTMallPropVal('echProdCatalog.echBarcodeTMallPropVal')
+    ##define.echProdCatalog_echInventTMallPropVal('echProdCatalog.echInventTMallPropVal')
+  ENDSOURCE
+
+***Element: END

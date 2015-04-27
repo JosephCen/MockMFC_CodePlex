@@ -1,0 +1,245 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : PriceDiscTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #PriceDiscTable
+    Id 315
+    PROPERTIES
+      Name                #PriceDiscTable
+      Label               #@SYS5926
+      FormRef             #PriceDiscTable_PriceSales
+      TitleField1         #relation
+      TitleField2         #ItemRelation
+      ConfigurationKey    #PriceDisc
+      SecurityKey         #BasicTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Group
+      PrimaryIndex        #RecId
+      ClusterIndex        #PriceDiscIdx
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS124474
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #InventDimId
+        Id 24
+        STRING
+        PROPERTIES
+          Name                #InventDimId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #PriceDiscTable
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PriceInclVAT
+          #InventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echLatestPriceDiscTable
+      PROPERTIES
+        Table               #echLatestPriceDiscTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echGetInventLocationId
+        #//BP deviation documented
+        #display InventLocationId echGetInventLocationId()
+        #{
+        #    InventDim   m_InventDim;
+        #    ;
+        #    select  m_InventDim
+        #        where m_InventDim.inventDimId == this.InventDimId;
+        #    return m_InventDim.InventLocationId;
+        #}
+      ENDSOURCE
+      SOURCE #echGetItemBarcode
+        #//BP deviation documented
+        #display ItemBarCode echGetItemBarcode()
+        #{
+        #    InventItemBarcode   m_InventTableItemBarcode;
+        #    InventDim   inventDim;
+        #    InventDim   inventDimNo;
+        #    ;
+        #    select inventDim
+        #        where inventDim.inventDimId == this.InventDimId;
+        #    inventDim.InventLocationId = '';
+        #    inventDim.inventSiteId = '';
+        #    inventDimNo = InventDim::findDim(inventDim);
+        #
+        #    select  m_InventTableItemBarcode
+        #        where m_InventTableItemBarcode.itemId == this.ItemRelation
+        #            && m_InventTableItemBarcode.inventDimId == inventDimNo.InventDimId;
+        #    return m_InventTableItemBarcode.itemBarCode;
+        #}
+      ENDSOURCE
+      SOURCE #echIsLatestPrice
+        #// Add ECH_WI_02049 by mengqi.cen on 20130522
+        #//
+        #//BP deviation documented
+        #display NoYes echIsLatestPrice()
+        #{
+        #    echLatestPriceDiscTable latestPriceTable;
+        #;
+        #    select firstonly TableId from latestPriceTable
+        #      where latestPriceTable.PriceDiscTableRefRecId == this.RecId;
+        #
+        #    return (latestPriceTable ? NoYes::Yes : NoYes::No);
+        #}
+      ENDSOURCE
+      SOURCE #Insert
+        #// Update ECH_WI_02049 by mengqi.cen on 20130419
+        #
+        #/*
+        #    AOSRunMode::Server
+        #*/
+        #void  insert()
+        #{
+        #    // <RETAIL>
+        #    Boolean replicate = false;
+        #;
+        #    replicate = DRMActionManagement::shouldReplicate(this, this.orig());
+        #
+        #
+        #    if( this.relation == PriceType::PriceSales )
+        #        this.PriceInclVAT = this.calcPriceIncVAT();
+        #
+        #        // </RETAIL>
+        #    if (this.accountCode == TableGroupAll::All)
+        #    {
+        #        this.accountRelation = '';
+        #    }
+        #
+        #    if (this.itemCode == TableGroupAll::All)
+        #    {
+        #        this.itemRelation   = '';
+        #        this.unitId         = '';
+        #        this.InventDimId    = InventDim::inventDimIdBlank();
+        #    }
+        #
+        #    if (this.itemCode != TableGroupAll::Table)
+        #    {
+        #        this.unitId         = '';
+        #        this.InventDimId    = InventDim::inventDimIdBlank();
+        #    }
+        #
+        #    super();
+        #    // <RETAIL>
+        #
+        #// Begin - Update ECH_WI_02049 by mengqi.cen on 20130419
+        #    echLatestPriceDiscTable::linkPriceDiscTable(this);
+        #// End - Update ECH_WI_02049 by mengqi.cen on 20130419
+        #
+        #    if (replicate)
+        #    {
+        #        DRMActionManagement::createActions(this, DRMActionUpdate::Insert);
+        #    // </RETAIL>
+        #    }
+        #// <RETAIL>
+        #}
+        #// </RETAIL>
+      ENDSOURCE
+      SOURCE #Update
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #// Update ECH_WI_02049 by mengqi.cen on 20130419
+        #
+        #/*
+        #    AOSRunMode::Server
+        #*/
+        #void  update()
+        #{
+        #    // <RETAIL>
+        #    Boolean replicate = false;
+        #;
+        #    replicate = DRMActionManagement::shouldReplicate(this, this.orig());
+        #
+        #
+        #    if( this.relation == PriceType::PriceSales )
+        #    {
+        #        if( this.orig().amount     != this.amount )
+        #            this.PriceInclVAT = this.calcPriceIncVAT();
+        #        else if( this.orig().PriceInclVAT     != this.PriceInclVAT)
+        #            this.amount = this.calcPriceExclVAT();
+        #    }
+        #
+        #    // </RETAIL>
+        #    if (this.accountCode == TableGroupAll::All)
+        #    {
+        #        this.accountRelation = '';
+        #    }
+        #
+        #    if (this.itemCode == TableGroupAll::All)
+        #    {
+        #        this.itemRelation   = '';
+        #        this.unitId         = '';
+        #        this.InventDimId    = InventDim::inventDimIdBlank();
+        #    }
+        #
+        #    if (this.itemCode != TableGroupAll::Table)
+        #    {
+        #        this.unitId         = '';
+        #        this.InventDimId    = InventDim::inventDimIdBlank();
+        #    }
+        #
+        #    super();
+        #    // <RETAIL>
+        #
+        #// Begin - Update ECH_WI_02049 by mengqi.cen on 20130419
+        #    echLatestPriceDiscTable::linkPriceDiscTable(this);
+        #// End - Update ECH_WI_02049 by mengqi.cen on 20130419
+        #
+        #// Begin - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #    if (this.ItemCode == TableGroupAll::Table && strLen(this.ItemRelation) > 0)
+        #        echSendProductCatalogLog::AddSendItemId(this.ItemRelation);
+        #// End - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #
+        #    if (replicate)
+        #    {
+        #        DRMActionManagement::createActions(this, DRMActionUpdate::Update);
+        #    // </RETAIL>
+        #    }
+        #// <RETAIL>
+        #}
+        #// </RETAIL>
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

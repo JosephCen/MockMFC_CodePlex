@@ -1,0 +1,342 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echProdCatalog_InventItemSalesSetup unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echProdCatalog_InventItemSalesSetup
+    Id 30322
+    PROPERTIES
+      Name                #echProdCatalog_InventItemSalesSetup
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echProdCatalog_InventItemSalesSetup extends AfStronglyTypedDataContainer
+        #{
+        #    #define.Stopped('Stopped')
+        #    #define.StandardQty('StandardQty')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Override('Override')
+        #    #define.MultipleQty('MultipleQty')
+        #    #define.MandatoryInventSite('MandatoryInventSite')
+        #    #define.MandatoryInventLocation('MandatoryInventLocation')
+        #    #define.LowestQty('LowestQty')
+        #    #define.LeadTime('LeadTime')
+        #    #define.ItemId('ItemId')
+        #    #define.InventDimIdDefault('InventDimIdDefault')
+        #    #define.InventDimId('InventDimId')
+        #    #define.HighestQty('HighestQty')
+        #    #define.DeliveryDateControlType('DeliveryDateControlType')
+        #    #define.ATPTimeFence('ATPTimeFence')
+        #    #define.ATPInclPlannedOrders('ATPInclPlannedOrders')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsATPInclPlannedOrders
+        #public boolean existsATPInclPlannedOrders()
+        #{
+        #    return this.exists(#ATPInclPlannedOrders);
+        #}
+      ENDSOURCE
+      SOURCE #existsATPTimeFence
+        #public boolean existsATPTimeFence()
+        #{
+        #    return this.exists(#ATPTimeFence);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryDateControlType
+        #public boolean existsDeliveryDateControlType()
+        #{
+        #    return this.exists(#DeliveryDateControlType);
+        #}
+      ENDSOURCE
+      SOURCE #existsHighestQty
+        #public boolean existsHighestQty()
+        #{
+        #    return this.exists(#HighestQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimId
+        #public boolean existsInventDimId()
+        #{
+        #    return this.exists(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimIdDefault
+        #public boolean existsInventDimIdDefault()
+        #{
+        #    return this.exists(#InventDimIdDefault);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsLeadTime
+        #public boolean existsLeadTime()
+        #{
+        #    return this.exists(#LeadTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsLowestQty
+        #public boolean existsLowestQty()
+        #{
+        #    return this.exists(#LowestQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsMandatoryInventLocation
+        #public boolean existsMandatoryInventLocation()
+        #{
+        #    return this.exists(#MandatoryInventLocation);
+        #}
+      ENDSOURCE
+      SOURCE #existsMandatoryInventSite
+        #public boolean existsMandatoryInventSite()
+        #{
+        #    return this.exists(#MandatoryInventSite);
+        #}
+      ENDSOURCE
+      SOURCE #existsMultipleQty
+        #public boolean existsMultipleQty()
+        #{
+        #    return this.exists(#MultipleQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsOverride
+        #public boolean existsOverride()
+        #{
+        #    return this.exists(#Override);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsStandardQty
+        #public boolean existsStandardQty()
+        #{
+        #    return this.exists(#StandardQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsStopped
+        #public boolean existsStopped()
+        #{
+        #    return this.exists(#Stopped);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echProdCatalog_InventItemSalesSetup);
+        #}
+      ENDSOURCE
+      SOURCE #parmATPInclPlannedOrders
+        #public SalesATPInclPlannedOrders parmATPInclPlannedOrders(SalesATPInclPlannedOrders _value = false)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ATPInclPlannedOrders, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ATPInclPlannedOrders);
+        #}
+      ENDSOURCE
+      SOURCE #parmATPTimeFence
+        #public SalesATPTimeFence parmATPTimeFence(SalesATPTimeFence _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ATPTimeFence, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ATPTimeFence);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryDateControlType
+        #public SalesDeliveryDateControlType parmDeliveryDateControlType(SalesDeliveryDateControlType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryDateControlType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryDateControlType);
+        #}
+      ENDSOURCE
+      SOURCE #parmHighestQty
+        #public QtyHighest parmHighestQty(QtyHighest _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HighestQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HighestQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #public InventDimId parmInventDimId(InventDimId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventDimId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimIdDefault
+        #public InventDimId parmInventDimIdDefault(InventDimId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventDimIdDefault, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventDimIdDefault);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmLeadTime
+        #public LeadTime parmLeadTime(LeadTime _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LeadTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LeadTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmLowestQty
+        #public QtyLowest parmLowestQty(QtyLowest _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LowestQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LowestQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmMandatoryInventLocation
+        #public NoYesId parmMandatoryInventLocation(NoYesId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MandatoryInventLocation, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MandatoryInventLocation);
+        #}
+      ENDSOURCE
+      SOURCE #parmMandatoryInventSite
+        #public NoYesId parmMandatoryInventSite(NoYesId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MandatoryInventSite, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MandatoryInventSite);
+        #}
+      ENDSOURCE
+      SOURCE #parmMultipleQty
+        #public QtyMultiples parmMultipleQty(QtyMultiples _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MultipleQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MultipleQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmOverride
+        #public NoYesId parmOverride(NoYesId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Override, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Override);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmStandardQty
+        #public QtyStandard parmStandardQty(QtyStandard _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#StandardQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#StandardQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmStopped
+        #public ItemStopped parmStopped(ItemStopped _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Stopped, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Stopped);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

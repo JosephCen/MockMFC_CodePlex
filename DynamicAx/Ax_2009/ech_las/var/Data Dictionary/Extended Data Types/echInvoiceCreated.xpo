@@ -1,0 +1,31 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTE
+
+; Microsoft Dynamics AX Enum: echInvoiceCreated unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echInvoiceCreated
+  Id 30008
+  ENUM
+    PROPERTIES
+      Name                #echInvoiceCreated
+      Label               #@ECH1
+      HelpText            #@ECH2
+      ConfigurationKey    #echProcesses
+      Extends             #NoYesId
+      EnumType            #NoYes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

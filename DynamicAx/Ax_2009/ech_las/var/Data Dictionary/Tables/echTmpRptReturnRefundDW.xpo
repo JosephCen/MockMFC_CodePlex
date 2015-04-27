@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echTmpRptReturnRefundDW unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echTmpRptReturnRefundDW
+    Id 30072
+    PROPERTIES
+      Name                #echTmpRptReturnRefundDW
+      Label               #@ECH836
+      TitleField1         #FieldName
+      TitleField2         #RecordDate
+      Temporary           #Yes
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #FieldName
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #FieldName
+          Table               #echTmpRptReturnRefundDW
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #LineType
+        Id 30002
+        ENUM
+        PROPERTIES
+          Name                #LineType
+          Table               #echTmpRptReturnRefundDW
+          EnumType            #echRptLineType
+        ENDPROPERTIES
+        
+      FIELD #LineNum
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #LineNum
+          Table               #echTmpRptReturnRefundDW
+          ExtendedDataType    
+            ARRAY 
+              #NumberOf
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #RecordDate
+        Id 30004
+        DATE
+        PROPERTIES
+          Name                #RecordDate
+          Table               #echTmpRptReturnRefundDW
+          ExtendedDataType    
+            ARRAY 
+              #TransDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Qty
+        Id 30005
+        INT64
+        PROPERTIES
+          Name                #Qty
+          Table               #echTmpRptReturnRefundDW
+          ExtendedDataType    
+            ARRAY 
+              #RefRecId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Val
+        Id 30006
+        REAL
+        PROPERTIES
+          Name                #Val
+          Table               #echTmpRptReturnRefundDW
+          ExtendedDataType    
+            ARRAY 
+              #LineAmount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #MsgPartnerId
+        Id 30007
+        STRING
+        PROPERTIES
+          Name                #MsgPartnerId
+          Table               #echTmpRptReturnRefundDW
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

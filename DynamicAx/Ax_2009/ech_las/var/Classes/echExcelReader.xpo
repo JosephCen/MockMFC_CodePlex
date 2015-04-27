@@ -1,0 +1,219 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echExcelReader unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echExcelReader
+    Id 30334
+    PROPERTIES
+      Name                #echExcelReader
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echExcelReader
+        #{
+        #    boolean              m_bClosed;
+        #    SysExcelApplication  m_ExcelApp;
+        #    SysExcelWorkbooks    m_WorkBooks;
+        #    SysExcelWorksheets   m_WorkSheets;
+        #    SysExcelCells        m_CurCells;
+        #    int                  m_RowIdx;
+        #    int                  m_TitleRowIdx;
+        #    Array                m_TitleArr;
+        #}
+      ENDSOURCE
+      SOURCE #close
+        #public void close()
+        #{
+        #;
+        #    if (!m_bClosed)
+        #    {
+        #        m_bClosed = true;
+        #        m_WorkBooks.close();
+        #        m_ExcelApp.quit();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #comVar2Str
+        #private str comVar2Str(COMVariant comVar)
+        #{
+        #;
+        #    return comVar.bStr();
+        #}
+      ENDSOURCE
+      SOURCE #getSheetNames
+        #// Update ECH_WI_02329 by mengqi.cen on 20130904
+        #public container getSheetNames()
+        #{
+        #    int        sheetNum;
+        #    container  sheetNameCon;
+        #    COM        workSheetCOM;
+        #;
+        #    sheetNameCon = connull();
+        #    for (sheetNum = 1; sheetNum <= m_WorkSheets.count(); sheetNum++)
+        #    {
+        #        workSheetCOM = m_WorkSheets.itemFromNum(sheetNum).comObject(); // Call '.name()' will result workbook be updated.
+        #        // BP deviation documented
+        #        sheetNameCon += workSheetCOM.name();
+        #    }
+        #
+        #    return sheetNameCon;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #void new()
+        #{
+        #;
+        #    m_bClosed = true;
+        #}
+      ENDSOURCE
+      SOURCE #open
+        #public boolean open(FileName fileName, boolean update = false)
+        #{
+        #    boolean status;
+        #;
+        #    status = true;
+        #    if (m_bClosed)
+        #    {
+        #        m_bClosed = false;
+        #        m_ExcelApp = SysExcelApplication::construct();
+        #        m_WorkBooks = m_ExcelApp.workbooks();
+        #        if (m_WorkBooks.open(fileName, 0, !update))
+        #            m_WorkSheets = m_WorkBooks.item(1).worksheets();
+        #        else
+        #            status = false;
+        #    }
+        #    else
+        #    {
+        #        status = false;
+        #    }
+        #
+        #    return status;
+        #}
+      ENDSOURCE
+      SOURCE #readRow
+        #public Array readRow(int rowIdx = m_RowIdx, int colCount = 0)
+        #{
+        #    int         colIdx;
+        #    COMVariant  cellVar;
+        #    Array       rowDataArr;
+        #    int         arrIdx;
+        #
+        #    #define.StartCol(1)
+        #;
+        #    if (COMVariantType::VT_EMPTY == m_CurCells.item(rowIdx, #StartCol).value().variantType())
+        #    {
+        #        rowDataArr = null;
+        #    }
+        #    else
+        #    {
+        #        arrIdx = 1;
+        #        rowDataArr = new Array(Types::String);
+        #        if (colCount > 0)
+        #        {
+        #            for (colIdx = #StartCol; colIdx < (#StartCol + colCount); ++colIdx)
+        #            {
+        #                cellVar = m_CurCells.item(rowIdx, colIdx).value();
+        #                if (COMVariantType::VT_EMPTY != cellVar.variantType())
+        #                    rowDataArr.value(arrIdx, this.comVar2Str(cellVar));
+        #                else
+        #                    rowDataArr.value(arrIdx, '');
+        #                arrIdx++;
+        #            }
+        #        }
+        #        else
+        #        {
+        #            colIdx = #StartCol;
+        #            cellVar = m_CurCells.item(rowIdx, colIdx).value();
+        #            while (COMVariantType::VT_EMPTY != cellVar.variantType())
+        #            {
+        #                rowDataArr.value(arrIdx, this.comVar2Str(cellVar));
+        #                arrIdx++;
+        #                colIdx++;
+        #                cellVar = m_CurCells.item(rowIdx, colIdx).value();
+        #            }
+        #        }
+        #        m_RowIdx = rowIdx;
+        #        m_RowIdx++;
+        #    }
+        #
+        #    return rowDataArr;
+        #}
+      ENDSOURCE
+      SOURCE #readRowWithTitle
+        #public Map readRowWithTitle(int rowIdx = m_RowIdx)
+        #{
+        #    Array  rowDataArr;
+        #    int    arrIdx;
+        #    Map    rowDataMap;
+        #;
+        #    rowDataArr = this.readRow(rowIdx, m_TitleArr.lastIndex());
+        #    if (rowDataArr)
+        #    {
+        #        rowDataMap = new Map(Types::String, Types::String);
+        #        for (arrIdx = 1; arrIdx <= rowDataArr.lastIndex(); arrIdx++)
+        #            rowDataMap.insert(m_TitleArr.value(arrIdx), rowDataArr.value(arrIdx));
+        #    }
+        #    else
+        #    {
+        #        rowDataMap = null;
+        #    }
+        #
+        #    return rowDataMap;
+        #}
+      ENDSOURCE
+      SOURCE #readTitleRow
+        #public boolean readTitleRow(int rowIdx)
+        #{
+        #    boolean status;
+        #;
+        #    m_TitleArr = this.readRow(rowIdx);
+        #    if (m_TitleArr)
+        #    {
+        #        m_TitleRowIdx = rowIdx;
+        #        status = true;
+        #    }
+        #    else
+        #    {
+        #        status = false;
+        #    }
+        #
+        #    return status;
+        #}
+      ENDSOURCE
+      SOURCE #resetVariation
+        #private void resetVariation()
+        #{
+        #;
+        #    m_RowIdx = 1;
+        #    m_TitleRowIdx = 0;
+        #    m_TitleArr = null;
+        #}
+      ENDSOURCE
+      SOURCE #selectSheet
+        #public void selectSheet(str sheetName)
+        #{
+        #;
+        #    m_CurCells = m_WorkSheets.itemFromName(sheetName).cells();
+        #    this.resetVariation();
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echExcelReader construct()
+        #{
+        #;
+        #    return (new echExcelReader());
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

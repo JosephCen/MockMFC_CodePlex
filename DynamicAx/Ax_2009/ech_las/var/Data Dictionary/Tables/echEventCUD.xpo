@@ -1,0 +1,359 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echEventCUD unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echEventCUD
+    Id 30048
+    PROPERTIES
+      Name                #echEventCUD
+      Label               #@SYS87603
+      TitleField1         #CompanyId
+      TitleField2         #CudTableId
+      ConfigurationKey    #Event
+      SecurityKey         #BasicTables
+      CreateRecIdIndex    #Yes
+      SaveDataPerCompany  #No
+      PrimaryIndex        #RecId
+      ClusterIndex        #RecId
+      CreatedDateTime     #Yes
+      DEL_createdTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS125267
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #CompanyId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #CompanyId
+          Mandatory           #Yes
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #selectableDataArea
+              #
+            ENDARRAY
+          StringSize          #4
+        ENDPROPERTIES
+        
+      FIELD #CudTableId
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #CudTableId
+          Mandatory           #Yes
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #EventCudTableId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #CudRecId
+        Id 30003
+        INT64
+        PROPERTIES
+          Name                #CudRecId
+          Mandatory           #Yes
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #EventRefRecId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Event
+        Id 30004
+        ENUM
+        PROPERTIES
+          Name                #Event
+          Table               #echEventCUD
+          EnumType            #EventLogType
+        ENDPROPERTIES
+        
+      FIELD #Data
+        Id 30005
+        QUEUE
+        PROPERTIES
+          Name                #Data
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #Blobdata
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #KeyFieldList
+        Id 30006
+        QUEUE
+        PROPERTIES
+          Name                #KeyFieldList
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #EventFieldList
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #KeyFieldData
+        Id 30007
+        QUEUE
+        PROPERTIES
+          Name                #KeyFieldData
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #EventFieldData
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Status
+        Id 30008
+        ENUM
+        PROPERTIES
+          Name                #Status
+          Table               #echEventCUD
+          EnumType            #BatchStatus
+        ENDPROPERTIES
+        
+      FIELD #SessionId
+        Id 30009
+        INT
+        PROPERTIES
+          Name                #SessionId
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #SessionId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #DEL_SessionLoginDate
+        Id 30010
+        DATE
+        PROPERTIES
+          Name                #DEL_SessionLoginDate
+          ConfigurationKey    #SysDeletedObjects41
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #StartDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #DEL_SessionLoginTime
+        Id 30011
+        TIME
+        PROPERTIES
+          Name                #DEL_SessionLoginTime
+          ConfigurationKey    #SysDeletedObjects41
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #timeOfDay
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PreviousRecord
+        Id 30012
+        QUEUE
+        PROPERTIES
+          Name                #PreviousRecord
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #Blobdata
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #SessionLoginDateTime
+        Id 30013
+        DATETIME
+        PROPERTIES
+          Name                #SessionLoginDateTime
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #SessionLoginDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #UserId
+        Id 30014
+        STRING
+        PROPERTIES
+          Name                #UserId
+          Table               #echEventCUD
+          ExtendedDataType    
+            ARRAY 
+              #userId
+              #
+            ENDARRAY
+          StringSize          #5
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Status
+          #Event
+          #cudTablelabel
+          #CompanyId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Identification
+        PROPERTIES
+          Name                #Identification
+          Label               #@SYS5711
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Status
+          #Event
+          #cudTablelabel
+          #CompanyId
+          #UserId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Session
+        PROPERTIES
+          Name                #Session
+          Label               #@SYS7115
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SessionId
+          #SessionLoginDateTime
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #System
+        PROPERTIES
+          Name                #System
+          Label               #@SYS4278
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #CudRecId
+          #CudTableId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #StatusIdx
+      Id 30001
+      PROPERTIES
+        Name                #StatusIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Status
+        #createdDateTime
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #CudRecId
+        PROPERTIES
+          Name                #CudRecId
+          Table               #Common
+          EntityRelationshipRole  #@SYS125264
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #CudRecId
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #alertBuffer
+        #Common alertBuffer()
+        #{
+        #    if (! this.CudTableId)
+        #        return null;
+        #
+        #    return SysDictTable::findFromKeyData(this.CudTableId,this.KeyFieldData);
+        #}
+      ENDSOURCE
+      SOURCE #cudRecCaption
+        #//BP Deviation Documented
+        #display Caption cudRecCaption()
+        #{
+        #    Common      buffer;
+        #
+        #    buffer = this.alertBuffer();
+        #
+        #    if (buffer)
+        #        return buffer.caption();
+        #
+        #    return '';
+        #}
+      ENDSOURCE
+      SOURCE #cudTablelabel
+        #//BP Deviation Documented
+        #display TableLabel cudTablelabel()
+        #{
+        #    return tableid2pname(this.CudTableId);
+        #}
+      ENDSOURCE
+      SOURCE #Find
+        #static echEventCUD find(refRecId            _recId,
+        #                        boolean             _forupdate = false,
+        #                        ConcurrencyModel    _concurrencyModel = ConcurrencyModel::Auto)
+        #{
+        #    echEventCUD echEventCUD;
+        #
+        #    if (_recId)
+        #    {
+        #        if (_forupdate)
+        #        {
+        #            echEventCUD.selectForUpdate(_forupdate);
+        #            if (_concurrencyModel != ConcurrencyModel::Auto)
+        #                echEventCUD.concurrencyModel(_concurrencyModel);
+        #        }
+        #        select echEventCUD
+        #            where echEventCUD.RecId == _recId;
+        #    }
+        #
+        #    return echEventCUD;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

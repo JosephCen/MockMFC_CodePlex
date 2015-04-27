@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echExternalSkuId unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echExternalSkuId
+    Type: 1
+    PROPERTIES
+      Name                #echExternalSkuId
+      Label               #@ECH306
+      HelpText            #@ECH308
+      Object              #echExternalSkuId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

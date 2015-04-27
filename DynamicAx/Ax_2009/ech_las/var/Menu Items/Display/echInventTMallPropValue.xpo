@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echInventTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echInventTMallPropValue
+    Type: 1
+    PROPERTIES
+      Name                #echInventTMallPropValue
+      Label               #@ECH821
+      HelpText            #@ECH861
+      Object              #echInventTMallPropValue
+      RunOn               #Called from
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

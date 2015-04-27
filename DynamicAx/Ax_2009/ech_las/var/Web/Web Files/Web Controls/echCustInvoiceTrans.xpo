@@ -1,0 +1,141 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echCustInvoiceTrans unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echCustInvoiceTrans
+    PROPERTIES
+      Name                #echCustInvoiceTrans
+      HelpText            #
+      Filename            #echCustInvoiceTrans.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echCustInvoiceTrans.ascx.cs" Inherits="echCustInvoiceTrans" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="FindSOLines_DS" runat="server" 
+      #    DataSetName="echCustInvoiceTrans" ProviderView="CustInvoiceTrans">
+      #</dynamics:AxDataSource> 
+      #<dynamics:AxGridView ID="FindSOLinesGrid" runat="server" DataKeyNames="invoiceId" 
+      #    DataMember="CustInvoiceTrans" DataSourceID="FindSOLines_DS" 
+      #    AllowPaging="False" UpdateOnPostBack="True">
+      #    <Columns>
+      #        <asp:TemplateField HeaderText="<%$ AxLabel:@SYS7444 %>">
+      #            <ItemTemplate>
+      #                <asp:CheckBox ID="check" Tag='<%# Eval("InventTransId")+";"+Eval("SalesId") %>' runat="server" OnCheckedChanged="Check_OnCheckedChanged"></asp:CheckBox>
+      #            </ItemTemplate>
+      #        </asp:TemplateField>        
+      #        <dynamics:AxBoundField DataField="ItemId" DataSet="echCustInvoiceTrans" 
+      #            DataSetView="CustInvoiceTrans" SortExpression="ItemId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="Qty" DataSet="echCustInvoiceTrans" 
+      #            DataSetView="CustInvoiceTrans" SortExpression="Qty">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="SalesUnit" DataSet="echCustInvoiceTrans" 
+      #            DataSetView="CustInvoiceTrans" SortExpression="SalesUnit">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="SalesPrice" DataSet="echCustInvoiceTrans" 
+      #            DataSetView="CustInvoiceTrans" SortExpression="SalesPrice">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="DiscAmount" DataSet="echCustInvoiceTrans" 
+      #            DataSetView="CustInvoiceTrans" SortExpression="DiscAmount">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="DiscPercent" DataSet="echCustInvoiceTrans" 
+      #            DataSetView="CustInvoiceTrans" SortExpression="DiscPercent">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="InvoiceId" DataSet="echCustInvoiceTrans" 
+      #            DataSetView="CustInvoiceTrans" SortExpression="InvoiceId" Visible="False">
+      #        </dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView> 
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echCustInvoiceTrans_ascx_cs
+      HelpText            #
+      Filename            #echCustInvoiceTrans.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Microsoft.Dynamics.Framework.Metadata.Ax;
+      #using Microsoft.Dynamics.Portal.Application.Proxy;
+      #
+      #public partial class echCustInvoiceTrans: System.Web.UI.UserControl
+      #{
+      #    DataSetViewRow custInvoiceTrans_current
+      #    {
+      #        get
+      #        {
+      #            return this.FindSOLines_DS.GetDataSourceView(this.FindSOLinesGrid.DataMember).DataSetView.GetCurrent();
+      #        }
+      #    }
+      #
+      #    protected void Page_Init(object sender, EventArgs e)
+      #    {
+      #        if (!IsPostBack)
+      #        {
+      #            Cache["CheckedLines"] = new Hashtable();
+      #        }
+      #    }
+      #
+      #    protected void Check_OnCheckedChanged(object sender, EventArgs e)
+      #    {
+      #        CheckBox cbSender = sender as CheckBox;
+      #        string[] cbText = cbSender.Attributes["Tag"].Split(new string[]{";"}, StringSplitOptions.RemoveEmptyEntries);
+      #        if (cbText.Length >= 2)
+      #        {
+      #            string inventTransId = cbText[0];
+      #            string salesId = cbText[1];
+      #
+      #            Hashtable lines = (Hashtable)Cache["CheckedLines"];
+      #
+      #            if (lines != null)
+      #            {
+      #                if (lines.Count > 0 && !lines.ContainsValue(salesId))
+      #                    lines = new Hashtable();
+      #
+      #                if (cbSender.Checked)
+      #                {
+      #                    if (!lines.ContainsKey(inventTransId))
+      #                        lines.Add(inventTransId, salesId);
+      #                }
+      #                else if (!cbSender.Checked)
+      #                {
+      #                    if (lines.ContainsKey(inventTransId))
+      #                        lines.Remove(inventTransId);
+      #                }
+      #            }
+      #
+      #            Cache["CheckedLines"] = lines;
+      #        }
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

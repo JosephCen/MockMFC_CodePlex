@@ -1,0 +1,625 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echWMSOnlineCountingServer unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echWMSOnlineCountingServer
+    Id 30024
+    PROPERTIES
+      Name                #echWMSOnlineCountingServer
+      Extends             #WMSOnlineCountingServer
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #AdditionAllocation
+        #// Add ECH_WI_01974 by mengqi.cen on 20130204
+        #private void additionAllocation(Qty               _wmsQty,
+        #                                Qty               _onHandSiteQty,
+        #                                InventDim         _inventDimSiteCriteria,
+        #                                InventLocationId  _tmpInventLocationId)
+        #{
+        #    InventLocation                    inventLocation;
+        #    InventDim                         inventDim;
+        #    RBOInventTable                    rboInventTable;
+        #    echStockAllocationRulePercentage  allocPcnt, totAllocPcnt;
+        #    Qty                               onHandSiteQty, allocatedQty;     // qty of a site (i.e. ECOM)
+        #    Qty                               onHandItemQty, allocatedItemQty; // qty of a warehouse (i.e. TMALL, ECOM)
+        #    InventLocationId                  tmpInventLocationId = _tmpInventLocationId;
+        #    InventDimId                       topLocationDimId; // InventDimId of the top warehouse, which's echStockAllocationPri is 1 (i.e. 00000028_092 - ECOM TMALL 12 grey)
+        #    Unit                              inventUnit;
+        #    Qty                               qtyToAlloc;
+        #;
+        #    onHandSiteQty = _onHandSiteQty;
+        #
+        #    inventDim.data(_inventDimSiteCriteria);
+        #
+        #    // get group from item
+        #    select firstonly retailGroup from rboInventTable
+        #        where rboInventTable.itemId == itemId;
+        #
+        #// CS - ECH_WI_01284 - Marijn Catthoor - 30 Aug 2012
+        #
+        #    inventUnit = Unit::find(InventTableModule::find(itemId, ModuleInventPurchSales::Invent).UnitId);
+        #
+        #// CE - ECH_WI_01284 - Marijn Catthoor - 30 Aug 2012
+        #
+        #// CS - ECH_WI_01477 - Marijn Catthoor - 14 Sep 2012
+        #
+        #    // Store the qty that needs to be allocated
+        #    qtyToAlloc = _wmsQty - onHandSiteQty;
+        #
+        #// CE - ECH_WI_01477 - Marijn Catthoor - 14 Sep 2012
+        #    while select inventLocationId from inventLocation
+        #            order by inventLocation.echStockAllocationPri asc
+        #            where inventLocation.InventSiteId     == _inventDimSiteCriteria.InventSiteId
+        #               && inventLocation.InventLocationId != tmpInventLocationId
+        #    {
+        #        // set inventDim
+        #        inventDim.InventLocationId  = inventLocation.InventLocationId;
+        #        inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #        // find allocation percentage
+        #        allocPcnt  = echStockAllocationRule::findRulePercentage(itemId, rboInventTable.retailGroup, inventDim);
+        #
+        #        if (allocPcnt > 0)
+        #        {
+        #            // Assign the InventDimId of the top warehouse to variable 'topLocationDimId'
+        #            if (!topLocationDimId)
+        #                topLocationDimId = tmpWMSOnlineCounting.InventDimId;
+        #
+        #            // get onHand Qty of item
+        #            onHandItemQty   = this.getOnHandQty(inventDim).PhysicalInvent();
+        #
+        #            // calculate counted qty based on allocation rules
+        #            allocatedItemQty  = (qtyToAlloc * allocPcnt / 100);
+        #
+        #            // round the calculated qty based on the number of decimals on the inventory unit
+        #            allocatedItemQty = decround(allocatedItemQty, inventUnit.UnitDecimals);
+        #
+        #            // If left un-allocated count is less than allocatedItemQty(qty will be allocated to current warehouse (i.e. TMALL))
+        #            // then just these un-allocated count can be allocated to current warehouse. (For detail, please refer TFS task 1970)
+        #            allocatedItemQty = min(allocatedItemQty, (qtyToAlloc - allocatedQty));
+        #
+        #            // insert into buffer
+        #            tmpWMSOnlineCounting.clear();
+        #            tmpWMSOnlineCounting.ItemId         = itemId;
+        #            tmpWMSOnlineCounting.InventDimId    = inventDim.inventDimId;
+        #            tmpWMSOnlineCounting.QtyOnHand      = onHandItemQty;
+        #            tmpWMSOnlineCounting.QtyCounted     = allocatedItemQty + onHandItemQty;
+        #            tmpWMSOnlineCounting.insert();
+        #
+        #            // add to allocated qty
+        #            allocatedQty += allocatedItemQty;
+        #            totAllocPcnt += allocPcnt;
+        #        }
+        #    }
+        #
+        #    // If the total allocation percentage is 100% and there are some left qty
+        #    // then these left qty will be allocated to the top warehouse
+        #    if (((qtyToAlloc - allocatedQty) > 0 && totAllocPcnt == 100) && topLocationDimId)
+        #    {
+        #        select firstonly tmpWMSOnlineCounting
+        #          where tmpWMSOnlineCounting.inventDimId == topLocationDimId;
+        #
+        #        tmpWMSOnlineCounting.QtyCounted += (qtyToAlloc - allocatedQty);
+        #        tmpWMSOnlineCounting.update();
+        #        allocatedQty = qtyToAlloc;
+        #    }
+        #
+        #    // If more than 100 percent is allocated or there are some remaining item
+        #    // then some adjustment will be done.
+        #    if ((qtyToAlloc - allocatedQty) > 0 || totAllocPcnt > 100)
+        #    {
+        #        if (totAllocPcnt > 100)
+        #        {
+        #            // if more than 100 percent is allocated, put all on temp warehouse
+        #            delete_from tmpWMSOnlineCounting;
+        #
+        #            allocatedItemQty = qtyToAlloc;
+        #        }
+        #        else
+        #        {
+        #            // if there is some unallocated items, put remaining unallocated items on temp warehouse
+        #            allocatedItemQty = qtyToAlloc - allocatedQty;
+        #        }
+        #
+        #        // get inventDim
+        #        inventDim.InventLocationId  = tmpInventLocationId;
+        #        inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #        // get onHand Qty of item
+        #        onHandItemQty   = this.getOnHandQty(inventDim).PhysicalInvent();
+        #
+        #        tmpWMSOnlineCounting.ItemId         = itemId;
+        #        tmpWMSOnlineCounting.InventDimId    = inventDim.inventDimId;
+        #        tmpWMSOnlineCounting.QtyOnHand      = onHandItemQty;
+        #// CS - ECH_WI_01284 - Marijn Catthoor - 30 Aug 2012
+        #        //tmpWMSOnlineCounting.QtyCounted     = countedItemQty;
+        #        tmpWMSOnlineCounting.QtyCounted     = allocatedItemQty + onHandItemQty;
+        #// CE - ECH_WI_01284 - Marijn Catthoor - 30 Aug 2012
+        #        tmpWMSOnlineCounting.insert();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02336 by mengqi.cen on 20130726
+        #//   Record Stock Allocation history in Ax table
+        #// Update ECH_WI_02335 by mengqi.cen on 20130722
+        #//   Refind Stock Allocation Logical - Allocate 0 to a channel if relevant item is not saled in this channel
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: custom child class
+        #
+        #class echWMSOnlineCountingServer extends WMSOnlineCountingServer
+        #{
+        #    ItemId                    itemId;
+        #    echStockAllocRuleCache    allocRuleCache;
+        #    echInventStockQueueSeqId  stockQueueSeqId;
+        #}
+      ENDSOURCE
+      SOURCE #fullAllocation
+        #// Update ECH_WI_02336 by mengqi.cen on 20130726
+        #//   Record Stock Allocation history in Ax table
+        #// Update ECH_WI_02335 by mengqi.cen on 20130722
+        #//   Refind Stock Allocation Logical - Allocate 0 to a channel if relevant item is not saled in this channel
+        #// Update ECH_WI_02332 by mengqi.cen on 20130715
+        #//   Record WMS qty even there is no over-allocation.
+        #// Add ECH_WI_02166 by mengqi.cen on 20130514
+        #private void fullAllocation(Qty               _wmsQty,
+        #                            Qty               _reservSiteQty,
+        #                            InventDim         _inventDimSiteCriteria,
+        #                            InventLocationId  _tmpInventLocationId)
+        #{
+        #    InventLocation                    inventLocation;
+        #    InventDim                         inventDim;
+        #    echStockAllocationRulePercentage  allocPcnt, totAllocPcnt, sumAllocPcnt; // sumAllocPcnt is the sum of these allocation percentage for all these channel for a given item
+        #    Qty                               reservSiteQty, allocatedQty;     // qty of a site (i.e. ECOM)
+        #    Qty                               reservItemQty, onHandItemQty, allocatedItemQty; // qty of a warehouse (i.e. TMALL, ECOM)
+        #    InventOnHand                      inventOnHand;
+        #    InventLocationId                  tmpInventLocationId = _tmpInventLocationId;
+        #    InventDimId                       topLocationDimId; // InventDimId of the top warehouse, which's echStockAllocationPri is 1 (i.e. 00000028_092 - ECOM TMALL 12 grey)
+        #    Unit                              inventUnit;
+        #    Qty                               qtyToAlloc;
+        #    container                         allocRuleCon;
+        #    Map                               inventLocMap;
+        #;
+        #    inventLocMap = allocRuleCache.getInventLocationMap();
+        #    allocRuleCon = allocRuleCache.getAllocPercentage(itemId);
+        #    sumAllocPcnt = conPeek(allocRuleCon, allocRuleCache.getPercentageSumIdx());
+        #
+        #    reservSiteQty = _reservSiteQty;
+        #
+        #    inventDim.data(_inventDimSiteCriteria);
+        #
+        #    inventUnit = Unit::find(InventTableModule::find(itemId, ModuleInventPurchSales::Invent).UnitId);
+        #
+        #    qtyToAlloc = _wmsQty - reservSiteQty;
+        #
+        #    while select inventLocationId from inventLocation
+        #            order by inventLocation.echStockAllocationPri asc
+        #            where inventLocation.InventSiteId       == _inventDimSiteCriteria.InventSiteId
+        #               && inventLocation.InventLocationType == InventLocationType::Standard
+        #               && inventLocation.InventLocationId   != tmpInventLocationId
+        #    {
+        #        // set inventDim
+        #        inventDim.InventLocationId  = inventLocation.InventLocationId;
+        #        inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #        // find allocation percentage
+        #        allocPcnt = conPeek(allocRuleCon, inventLocMap.lookup(inventDim.InventLocationId));
+        #
+        #        // Assign the InventDimId of the top warehouse to variable 'topLocationDimId'
+        #        if (allocPcnt > 0 && !topLocationDimId)
+        #            topLocationDimId = tmpWMSOnlineCounting.InventDimId;
+        #
+        #        // get Physical Reserved & OnHand Qty of item
+        #        inventOnHand   = this.getOnHandQty(inventDim);
+        #        onHandItemQty  = inventOnHand.physicalInvent();
+        #        reservItemQty  = inventOnHand.reservPhysical();
+        #
+        #        // calculate counted qty based on allocation rules
+        #        allocatedItemQty  = (qtyToAlloc * allocPcnt / sumAllocPcnt);
+        #
+        #        // round the calculated qty based on the number of decimals on the inventory unit
+        #        allocatedItemQty = decround(allocatedItemQty, inventUnit.UnitDecimals);
+        #
+        #        // If left un-allocated count is less than allocatedItemQty(qty will be allocated to current warehouse (i.e. TMALL))
+        #        // then just these un-allocated count can be allocated to current warehouse. (For detail, please refer TFS task 1970)
+        #        allocatedItemQty = min(allocatedItemQty, (qtyToAlloc - allocatedQty));
+        #
+        #        if ((reservItemQty + allocatedItemQty) != onHandItemQty || (reservItemQty + allocatedItemQty) > 0)
+        #        {
+        #            // insert into buffer
+        #            tmpWMSOnlineCounting.clear();
+        #            tmpWMSOnlineCounting.ItemId              = itemId;
+        #            tmpWMSOnlineCounting.InventDimId         = inventDim.inventDimId;
+        #            tmpWMSOnlineCounting.QtyOnHand           = onHandItemQty;
+        #            tmpWMSOnlineCounting.QtyCounted          = reservItemQty + allocatedItemQty;
+        #            tmpWMSOnlineCounting.echWMSQty           = _wmsQty;
+        #            tmpWMSOnlineCounting.echStockQueueSeqId  = this.parmStockQueueSeqId();
+        #            tmpWMSOnlineCounting.insert();
+        #        }
+        #
+        #        // add to allocated qty
+        #        allocatedQty += allocatedItemQty;
+        #        totAllocPcnt += allocPcnt;
+        #    }
+        #
+        #    // If the total allocation percentage is 100% and there are some left qty
+        #    // then these left qty will be allocated to the top warehouse
+        #    if (((qtyToAlloc - allocatedQty) > 0 && totAllocPcnt == sumAllocPcnt) && topLocationDimId)
+        #    {
+        #        select firstonly tmpWMSOnlineCounting
+        #          where tmpWMSOnlineCounting.inventDimId == topLocationDimId;
+        #
+        #        tmpWMSOnlineCounting.QtyCounted += (qtyToAlloc - allocatedQty);
+        #        tmpWMSOnlineCounting.update();
+        #        allocatedQty = qtyToAlloc;
+        #    }
+        #
+        #    // Allocate left item to temp warehouse
+        #
+        #    // get inventDim
+        #    inventDim.InventLocationId  = tmpInventLocationId;
+        #    inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #    // get Physical Reserved & OnHand Qty of item
+        #    inventOnHand   = this.getOnHandQty(inventDim);
+        #    onHandItemQty  = inventOnHand.physicalInvent();
+        #    reservItemQty  = inventOnHand.reservPhysical();
+        #
+        #    allocatedItemQty = qtyToAlloc - allocatedQty;
+        #
+        #    if ((reservItemQty + allocatedItemQty) != onHandItemQty)
+        #    {
+        #        tmpWMSOnlineCounting.clear();
+        #        tmpWMSOnlineCounting.ItemId              = itemId;
+        #        tmpWMSOnlineCounting.InventDimId         = inventDim.inventDimId;
+        #        tmpWMSOnlineCounting.QtyOnHand           = onHandItemQty;
+        #        tmpWMSOnlineCounting.QtyCounted          = reservItemQty + allocatedItemQty;
+        #        tmpWMSOnlineCounting.echWMSQty           = _wmsQty;
+        #        tmpWMSOnlineCounting.echStockQueueSeqId  = this.parmStockQueueSeqId();
+        #        tmpWMSOnlineCounting.insert();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #getOnHandQty
+        #// Update ECH_WI_01974 by mengqi.cen on 20130204
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get on hand qty of current item with certain inventdim criteria
+        #
+        #private InventOnHand getOnHandQty(InventDim  _inventDimCriteria)
+        #{
+        #    InventOnHand    inventOnHand;
+        #    InventDimParm   inventDimParm;
+        #    ;
+        #
+        #    inventDimParm.initFromInventDim(_inventDimCriteria);
+        #
+        #    inventOnHand = inventOnHand::newItemDim(itemId, _inventDimCriteria, inventDimParm);
+        #
+        #    return inventonHand;
+        #}
+      ENDSOURCE
+      SOURCE #getStdInventLocQty
+        #// Add ECH_WI_02166 by mengqi.cen on 20130517
+        #private InventSum getStdInventLocQty(InventDim  _invDimCriteria)
+        #{
+        #    InventDim          invDim;
+        #    InventDimParm      invDimParm;
+        #    InventLocation     invLoc;
+        #    InventSum          invSum;
+        #    ;
+        #
+        #    invDimParm.initFromInventDim(_invDimCriteria);
+        #
+        #    select #inventSumFields
+        #      from invSum
+        #      where invSum.ItemId == itemId
+        #         && invSum.Closed == NoYes::No
+        #      #InventDimExistsJoin(invSum.inventDimId, invDim, _invDimCriteria, invDimParm)
+        #        exists join tableId from invLoc
+        #          where invLoc.InventLocationId   == invDim.InventLocationId
+        #             && invLoc.InventLocationType == InventLocationType::Standard;
+        #
+        #    return invSum;
+        #}
+      ENDSOURCE
+      SOURCE #initOnHandItemAllocation
+        #// Update ECH_WI_02166 by mengqi.cen on 20130514
+        #// Update ECH_WI_01974 by mengqi.cen on 20130204
+        #// Update ECH_WI_01970 by mengqi.cen on 20130129
+        #//   Refine allocation logical in class 'echWMSOnlineCountingServer'
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01477
+        #// *** Customization Date: 14 Sep 2012
+        #// *** Customization Type: MOdified
+        #// *** Description: Changed check on qty to allocate on the TEMP warehouse
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01284
+        #// *** Customization Date: 30 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Take into accoun the number of decimals on the Inventory Unit of the item.
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// Update ECH_WI_02166 by mengqi.cen on 20130514
+        #//
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: fill buffer with allocated lines for invent counting
+        #
+        #protected void initOnHandItemAllocation(ItemId _itemId, Qty _qty, InventDim _inventDimSiteCriteria)
+        #{
+        #    Qty               onHandSiteQty;     // qty of a site (i.e. ECOM)
+        #    Qty               reservSiteQty;
+        #    InventLocationId  tmpInventLocationId = InventLocation::echFindTmpInventLocationId(_inventDimSiteCriteria.InventSiteId);
+        #;
+        #    if (!tmpInventLocationId)
+        #        error(strFmt("@ECH121", _inventDimSiteCriteria.InventSiteId));
+        #
+        #    itemId  = _itemId;
+        #
+        #    if (InventParameters::find().echIncStockAlloc)
+        #    {
+        #        onHandSiteQty   = this.getOnHandQty(_inventDimSiteCriteria).PhysicalInvent();
+        #
+        #        if (_qty > onHandSiteQty)
+        #            this.additionAllocation(_qty, onHandSiteQty, _inventDimSiteCriteria, tmpInventLocationId);
+        #        else if (_qty < onHandSiteQty)
+        #            this.subtractionAllocation(_qty, onHandSiteQty, _inventDimSiteCriteria, tmpInventLocationId);
+        #    }
+        #    else
+        #    {
+        #        reservSiteQty = this.getStdInventLocQty(_inventDimSiteCriteria).ReservPhysical;
+        #
+        #        if (_qty >= reservSiteQty)
+        #            this.fullAllocation(_qty, reservSiteQty, _inventDimSiteCriteria, tmpInventLocationId);
+        #        else
+        #            this.zeroAtsAllocation(_qty, reservSiteQty, _inventDimSiteCriteria, tmpInventLocationId);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #parmAllocRuleCache
+        #// Add ECH_WI_02335 by mengqi.cen on 20130722
+        #//   Refind Stock Allocation Logical - Allocate 0 to a channel if relevant item is not saled in this channel
+        #public echStockAllocRuleCache parmAllocRuleCache(echStockAllocRuleCache _value = null)
+        #{
+        #;
+        #    if (!prmisdefault(_value))
+        #        allocRuleCache = _value;
+        #
+        #    return allocRuleCache;
+        #}
+      ENDSOURCE
+      SOURCE #parmStockQueueSeqId
+        #// Add ECH_WI_02336 by mengqi.cen on 20130726
+        #//   Record Stock Allocation history in Ax table
+        #public echInventStockQueueSeqId parmStockQueueSeqId(echInventStockQueueSeqId _value = '')
+        #{
+        #;
+        #    if (!prmisdefault(_value))
+        #        stockQueueSeqId = _value;
+        #
+        #    return stockQueueSeqId;
+        #}
+      ENDSOURCE
+      SOURCE #subtractionAllocation
+        #// Add ECH_WI_01974 by mengqi.cen on 20130204
+        #private void subtractionAllocation(Qty               _wmsQty,
+        #                                   Qty               _onHandSiteQty,
+        #                                   InventDim         _inventDimSiteCriteria,
+        #                                   InventLocationId  _tmpInventLocationId)
+        #{
+        #    InventLocation                    inventLocation;
+        #    InventDim                         inventDim;
+        #    RBOInventTable                    rboInventTable;
+        #    echStockAllocationRulePercentage  allocPcnt, totAllocPcnt;
+        #    Qty                               onHandSiteQty, deductedQty;     // qty of a site (i.e. ECOM)
+        #    Qty                               deductedItemQty; // qty of a warehouse (i.e. TMALL, ECOM)
+        #    InventLocationId                  tmpInventLocationId = _tmpInventLocationId;
+        #    InventDimId                       tempLocationDimId;
+        #    Unit                              inventUnit;
+        #    Qty                               qtyToDeduct;
+        #    InventOnHand                      inventOnHand;
+        #;
+        #    onHandSiteQty = _onHandSiteQty;
+        #
+        #    inventDim.data(_inventDimSiteCriteria);
+        #
+        #    // get group from item
+        #    select firstonly retailGroup from rboInventTable
+        #        where rboInventTable.itemId == itemId;
+        #
+        #    inventUnit = Unit::find(InventTableModule::find(itemId, ModuleInventPurchSales::Invent).UnitId);
+        #
+        #    // Store the qty that needs to be allocated
+        #    qtyToDeduct = onHandSiteQty - _wmsQty;
+        #    deductedQty = 0;
+        #
+        #    while select inventLocationId from inventLocation
+        #            order by inventLocation.echStockAllocationPri desc
+        #            where inventLocation.InventSiteId     == _inventDimSiteCriteria.InventSiteId
+        #               && inventLocation.InventLocationId != tmpInventLocationId
+        #    {
+        #        // set inventDim
+        #        inventDim.InventLocationId  = inventLocation.InventLocationId;
+        #        inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #        // find allocation percentage
+        #        allocPcnt = echStockAllocationRule::findRulePercentage(itemId, rboInventTable.retailGroup, inventDim);
+        #
+        #        if (allocPcnt > 0)
+        #        {
+        #            // get availPhysical Qty of item
+        #            inventOnHand = this.getOnHandQty(inventDim);
+        #
+        #            // calculate counted qty based on allocation rules
+        #            deductedItemQty  = (qtyToDeduct * allocPcnt / 100);
+        #
+        #            // round the calculated qty based on the number of decimals on the inventory unit
+        #            deductedItemQty = decround(deductedItemQty, inventUnit.UnitDecimals);
+        #
+        #            // If left un-deducted count is less than deductedItemQty(qty will be deducted from current warehouse (i.e. DMW))
+        #            // then just these un-deducted count can be deducted from current warehouse.
+        #            deductedItemQty = min(deductedItemQty, (qtyToDeduct - deductedQty));
+        #
+        #            // If the deductedItemQty greated than availPhysical Qty of current warehouse.
+        #            // then just availPhysical Qty will be deducted from current warehouse.
+        #            deductedItemQty = min(deductedItemQty, inventOnHand.availPhysical());
+        #
+        #            // insert into buffer
+        #            tmpWMSOnlineCounting.clear();
+        #            tmpWMSOnlineCounting.itemId       = itemId;
+        #            tmpWMSOnlineCounting.inventDimId  = inventDim.inventDimId;
+        #            tmpWMSOnlineCounting.qtyOnHand    = inventOnHand.physicalInvent();
+        #            tmpWMSOnlineCounting.qtyCounted   = inventOnHand.physicalInvent() - deductedItemQty;
+        #            tmpWMSOnlineCounting.insert();
+        #
+        #            // add to allocated qty
+        #            deductedQty  += deductedItemQty;
+        #            totAllocPcnt += allocPcnt;
+        #        }
+        #    }
+        #
+        #    if ((qtyToDeduct - deductedQty) > 0)
+        #    {
+        #        inventDim.InventLocationId  = tmpInventLocationId;
+        #        inventDim                   = InventDim::findOrCreate(inventDim);
+        #        tempLocationDimId           = inventDim.inventDimId;
+        #
+        #        inventOnHand = this.getOnHandQty(inventDim);
+        #        deductedItemQty = min((qtyToDeduct - deductedQty), inventOnHand.physicalInvent());
+        #
+        #        // insert into buffer
+        #        tmpWMSOnlineCounting.clear();
+        #        tmpWMSOnlineCounting.itemId       = itemId;
+        #        tmpWMSOnlineCounting.inventDimId  = inventDim.inventDimId;
+        #        tmpWMSOnlineCounting.qtyOnHand    = inventOnHand.physicalInvent();
+        #        tmpWMSOnlineCounting.qtyCounted   = inventOnHand.physicalInvent() - deductedItemQty;
+        #        tmpWMSOnlineCounting.insert();
+        #
+        #        deductedQty  += deductedItemQty;
+        #
+        #        if ((qtyToDeduct - deductedQty) > 0)
+        #        {
+        #            while select inventLocationId from inventLocation
+        #                    order by inventLocation.echStockAllocationPri desc
+        #                    where inventLocation.InventSiteId == _inventDimSiteCriteria.InventSiteId
+        #            {
+        #                inventDim.InventLocationId  = inventLocation.InventLocationId;
+        #                inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #                inventOnHand = this.getOnHandQty(inventDim);
+        #
+        #                select forupdate tmpWMSOnlineCounting
+        #                  where tmpWMSOnlineCounting.itemId == itemId && tmpWMSOnlineCounting.inventDimId == inventDim.inventDimId;
+        #
+        #                if (tmpWMSOnlineCounting)
+        #                {
+        #                    deductedItemQty = min((qtyToDeduct - deductedQty), (tmpWMSOnlineCounting.qtyCounted - inventOnHand.reservPhysical()));
+        #                    tmpWMSOnlineCounting.qtyCounted -= deductedItemQty;
+        #                    tmpWMSOnlineCounting.update();
+        #
+        #                    deductedQty  += deductedItemQty;
+        #
+        #                    if ((qtyToDeduct - deductedQty) == 0)
+        #                        break;
+        #                }
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #zeroAtsAllocation
+        #// Update ECH_WI_02336 by mengqi.cen on 20130726
+        #//   Record Stock Allocation history in Ax table
+        #// Add ECH_WI_02166 by mengqi.cen on 20130515
+        #private void zeroAtsAllocation(Qty               _wmsQty,
+        #                               Qty               _reservSiteQty,
+        #                               InventDim         _inventDimSiteCriteria,
+        #                               InventLocationId  _tmpInventLocationId)
+        #{
+        #    InventLocation                    inventLocation;
+        #    InventDim                         inventDim;
+        #    Qty                               reservItemQty, onHandItemQty; // qty of a warehouse (i.e. TMALL, ECOM)
+        #    InventOnHand                      inventOnHand;
+        #    Qty                               qtyOverAlloc;
+        #;
+        #    qtyOverAlloc = _reservSiteQty - _wmsQty;
+        #
+        #    inventDim.data(_inventDimSiteCriteria);
+        #
+        #    while select inventLocationId from inventLocation
+        #            order by inventLocation.echStockAllocationPri asc
+        #            where inventLocation.InventSiteId       == _inventDimSiteCriteria.InventSiteId
+        #               && inventLocation.InventLocationType == InventLocationType::Standard
+        #    {
+        #        // set inventDim
+        #        inventDim.InventLocationId  = inventLocation.InventLocationId;
+        #        inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #        // get Physical Reserved & OnHand Qty of item
+        #        inventOnHand   = this.getOnHandQty(inventDim);
+        #        onHandItemQty  = inventOnHand.physicalInvent();
+        #        reservItemQty  = inventOnHand.reservPhysical();
+        #
+        #        if (onHandItemQty != reservItemQty || reservItemQty > 0)
+        #        {
+        #            // insert into buffer
+        #            tmpWMSOnlineCounting.clear();
+        #            tmpWMSOnlineCounting.ItemId              = itemId;
+        #            tmpWMSOnlineCounting.InventDimId         = inventDim.inventDimId;
+        #            tmpWMSOnlineCounting.QtyOnHand           = onHandItemQty;
+        #            tmpWMSOnlineCounting.QtyCounted          = reservItemQty;
+        #            tmpWMSOnlineCounting.echOverAllocQty     = qtyOverAlloc;
+        #            tmpWMSOnlineCounting.echWMSQty           = _wmsQty;
+        #            tmpWMSOnlineCounting.echStockQueueSeqId  = this.parmStockQueueSeqId();
+        #            tmpWMSOnlineCounting.insert();
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #constructOnHandItemAllocation
+        #// Update ECH_WI_02336 by mengqi.cen on 20130726
+        #//   Record Stock Allocation history in Ax table
+        #// Update ECH_WI_02335 by mengqi.cen on 20130723
+        #//   Refind Stock Allocation Logical - Allocate 0 to a channel if relevant item is not saled in this channel
+        #//
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #public static echWMSOnlineCountingServer constructOnHandItemAllocation(ItemId                    _itemId,
+        #                                                                       Qty                       _qty,
+        #                                                                       InventDim                 _inventDimCriteria,
+        #                                                                       echInventStockQueueSeqId  _stockQueueSeqId,
+        #                                                                       echStockAllocRuleCache    _allocRuleCache)
+        #{
+        #    echWMSOnlineCountingServer  echWMSOnlineCountingServer = new echWMSOnlineCountingServer();
+        #    ;
+        #    echWMSOnlineCountingServer.parmStockQueueSeqId(_stockQueueSeqId);
+        #    echWMSOnlineCountingServer.parmAllocRuleCache(_allocRuleCache);
+        #    echWMSOnlineCountingServer.initOnHandItemAllocation(_itemId, _qty, _inventDimCriteria);
+        #
+        #    return echWMSOnlineCountingServer;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

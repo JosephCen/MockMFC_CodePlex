@@ -1,0 +1,119 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: FormLetterMultiThread unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #FormLetterMultiThread
+    Id 12502
+    PROPERTIES
+      Name                #FormLetterMultiThread
+      Extends             #RunBaseBatch
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #formLetterConstruct
+        #// Update ECH_WI_01989 by mengqi.cen on 20130312
+        #//   Route classnum(echSalesFormLetter_PickingList) to DocumentStatus::PickingList.
+        #
+        #/// <summary>
+        #/// Constructs a FormLetter class based on the value of the class variable formLetterClassId.
+        #/// </summary>
+        #/// <returns>
+        #/// The constructed FormLetter class.
+        #/// </returns>
+        #protected FormLetter formLetterConstruct()
+        #{
+        #    // <GIN>
+        #    TaxParameters  taxParamers = TaxParameters::find();
+        #    // </GIN>
+        #    ;
+        #    switch (formLetterClassId)
+        #    {
+        #        //SalesFormLetter classes
+        #        case classnum(SalesFormLetter_Confirm) :
+        #            return SalesFormLetter::construct(DocumentStatus::Confirmation,false);
+        #
+        #        // Begin - ECH_WI_01989
+        #        case classnum(echSalesFormLetter_PickingList) :
+        #        // End - ECH_WI_01989
+        #        case classnum(SalesFormLetter_PickingList) :
+        #            return SalesFormLetter::construct(DocumentStatus::PickingList,false);
+        #
+        #        case classnum(SalesFormLetter_PackingSlip) :
+        #            return SalesFormLetter::construct(DocumentStatus::PackingSlip,false);
+        #
+        #        case classnum(SalesFormLetter_PackingSlipProject) :
+        #            return SalesFormLetter::construct(DocumentStatus::ProjectPackingSlip,false);
+        #
+        #        case classnum(SalesFormLetter_Invoice) :
+        #            return SalesFormLetter::construct(DocumentStatus::Invoice,false);
+        #
+        #        case classnum(SalesFormLetter_InvoiceProject) :
+        #            return SalesFormLetter::construct(DocumentStatus::ProjectInvoice,false);
+        #
+        #        case classnum(SalesFormLetter_FreeText) :
+        #            return SalesFormLetter::construct(DocumentStatus::FreeTextInvoice,false);
+        #
+        #        // <GIN>
+        #        case classnum(SalesFormLetter_ShippingBill_IN) :
+        #            if (taxParamers.Customs_IN)
+        #            {
+        #                return SalesFormLetter::construct(DocumentStatus::ShippingBill_IN,false);
+        #            }
+        #        // </GIN>
+        #
+        #        //PurchFormLetter
+        #        case classnum(PurchFormLetter_PurchOrder) :
+        #            return PurchFormLetter::construct(DocumentStatus::PurchaseOrder,false);
+        #
+        #        case classnum(PurchFormLetter_PackingSlip) :
+        #            return PurchFormLetter::construct(DocumentStatus::PackingSlip,false);
+        #
+        #        case classnum(PurchFormLetter_ReceiptsList) :
+        #            return PurchFormLetter::construct(DocumentStatus::ReceiptsList,false);
+        #
+        #        case classnum(PurchFormLetter_Invoice) :
+        #            return PurchFormLetter::construct(DocumentStatus::Invoice,false);
+        #
+        #        case classnum(PurchFormLetter_ApproveJournal) :
+        #            return PurchFormLetter::construct(DocumentStatus::ApproveJournal,false);
+        #
+        #        // <GIN>
+        #        case classnum(PurchFormLetter_BillOfEntry_IN) :
+        #            if (taxParamers.Customs_IN)
+        #            {
+        #                return PurchFormLetter::construct(DocumentStatus::BillOfEntry_IN,false);
+        #            }
+        #        // </GIN>
+        #
+        #        //PurchRFQFormLetter
+        #        case classnum(PurchRFQFormLetter_Accept) :
+        #            return PurchRFQFormLetter::construct(PurchRFQUpdateType::Accepted,false);
+        #
+        #        case classnum(PurchRFQFormLetter_Reject) :
+        #            return PurchRFQFormLetter::construct(PurchRFQUpdateType::Rejected,false);
+        #
+        #        case classnum(PurchRFQFormLetter_Send) :
+        #            return PurchRFQFormLetter::construct(PurchRFQUpdateType::Sent,false);
+        #
+        #        case classnum(PurchRFQFormLetter_ReSend) :
+        #            return PurchRFQFormLetter::construct(PurchRFQUpdateType::Resent,false);
+        #
+        #        //ProjFormLetter
+        #        case classnum(ProjFormLetter_Invoice) :
+        #            return new ProjFormLetter_Invoice(false);
+        #
+        #    }
+        #    throw error(strfmt("@SYS19306",funcname()));
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

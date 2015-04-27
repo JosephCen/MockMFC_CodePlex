@@ -1,0 +1,79 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchSendProductCatalog unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchSendProductCatalog
+    Id 30103
+    PROPERTIES
+      Name                #AxdEchSendProductCatalog
+      Extends             #AxdSend
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdEchSendProductCatalog extends AxdSend
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #sendDocumentsToAif
+        #// Update ECH_WI_02195 by mengqi.cen on 20130522
+        #//
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_PR01
+        #// *** Customization Date: 20 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: send document to all eligible endpoints
+        #
+        #public void sendDocumentsToAif()
+        #{
+        #    AifConstraint           aifConstraint;
+        #    ;
+        #
+        #    aifConstraint       = new AifConstraint();
+        #    aifConstraint.parmType(AifConstraintType::NoConstraint);
+        #
+        #    aifConstraintList   = new AifConstraintList();
+        #    aifConstraintList.addConstraint(aifConstraint);
+        #
+        #    aifDocumentClassId  = classnum(echProdCatalog);
+        #    serviceClassId      = classnum(echProdCatalogService);
+        #    aifSendMode         = AifSendMode::Async;
+        #    axdSendContext      = null;
+        #    sendActionType      =
+        #        (aifEntityKey != null) ? AifSendActionType::SendByKey : AifSendActionType::SendByQuery;
+        #    aifActionId         = this.getActionId() ;
+        #
+        #    this.retrieveEndPoints();
+        #
+        #    while select tmpAifEndPoint
+        #    {
+        #        this.parmEndPoint(tmpAifEndpoint.EndpointId);
+        #        super();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_PR01
+        #// *** Customization Date: 20 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #static AxdEchSendProductCatalog construct()
+        #{
+        #    ;
+        #
+        #    return new AxdEchSendProductCatalog();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

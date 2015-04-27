@@ -1,0 +1,521 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echStockAllocationRule unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echStockAllocationRule
+    Id 30005
+    PROPERTIES
+      Name                #echStockAllocationRule
+      Label               #@ECH52
+      TitleField1         #Type
+      TitleField2         #InventDimId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Type
+        Id 30001
+        ENUM
+        PROPERTIES
+          Name                #Type
+          Table               #echStockAllocationRule
+          EnumType            #TableGroupAll
+        ENDPROPERTIES
+        
+      FIELD #ItemId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Table               #echStockAllocationRule
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #AllocationRulePercentage
+        Id 30010
+        INT
+        PROPERTIES
+          Name                #AllocationRulePercentage
+          Table               #echStockAllocationRule
+          ExtendedDataType    
+            ARRAY 
+              #echStockAllocationRulePercentage
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #VirtualStock
+        Id 30011
+        INT
+        PROPERTIES
+          Name                #VirtualStock
+          Table               #echStockAllocationRule
+          ExtendedDataType    
+            ARRAY 
+              #echVirtualStock
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #InventDimId
+        Id 30012
+        STRING
+        PROPERTIES
+          Name                #InventDimId
+          Table               #echStockAllocationRule
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #RetailGroup
+        Id 30013
+        STRING
+        PROPERTIES
+          Name                #RetailGroup
+          Table               #echStockAllocationRule
+          ExtendedDataType    
+            ARRAY 
+              #RBORetailGroupId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AllocationRulePercentage
+          #ItemId
+          #RetailGroup
+          #Type
+          #VirtualStock
+          #InventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #DimensionNo
+        PROPERTIES
+          Name                #DimensionNo
+          Label               #@SYS53839
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #InventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Identification
+        PROPERTIES
+          Name                #Identification
+          Label               #@SYS36186
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Type
+          #RetailGroup
+          #ItemId
+          #itemName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Type
+          #RetailGroup
+          #ItemId
+          #itemName
+          #AllocationRulePercentage
+          #VirtualStock
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #StockAllocation
+        PROPERTIES
+          Name                #StockAllocation
+          Label               #@ECH53
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AllocationRulePercentage
+          #VirtualStock
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #RuleIdx
+      Id 30001
+      PROPERTIES
+        Name                #RuleIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Type
+        #RetailGroup
+        #ItemId
+        #InventDimId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #InventDim
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #InventDimId
+            RelatedField        #inventDimId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #initValue
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: init
+        #
+        #public void initValue()
+        #{
+        #    ;
+        #
+        #    super();
+        #
+        #    this.InventDimId = InventDim::inventDimIdBlank();
+        #}
+      ENDSOURCE
+      SOURCE #itemName
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 19 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: diplay itemName
+        #
+        #//BP Deviation Documented
+        #display itemName itemName()
+        #{
+        #    ;
+        #
+        #    return InventTable::find(this.ItemId).ItemName;
+        #}
+      ENDSOURCE
+      SOURCE #modifiedField
+        #// Update ECH_WI_01979 by mengqi.cen on 20130220
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 16 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: modified field
+        #
+        #public void modifiedField(fieldId _fieldId)
+        #{
+        #    super(_fieldId);
+        #
+        #    switch (_fieldId)
+        #    {
+        #        case fieldnum(echStockAllocationRule, Type):
+        #        case fieldnum(echStockAllocationRule, ItemId):
+        #            if (this.Type == TableGroupAll::All ||
+        #                this.Type == TableGroupAll::GroupId)
+        #            {
+        #                this.ItemId = '';
+        #
+        #                if (this.Type == TableGroupAll::All)
+        #                    this.RetailGroup = '';
+        #            }
+        #            else if (this.Type == TableGroupAll::Table)
+        #            {
+        #                this.RetailGroup = '';
+        #            }
+        #
+        #            this.InventDimId = InventDim::inventDimIdBlank();
+        #
+        #            break;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #validateField
+        #// Add ECH_WI_01967 by mengqi.cen on 20130128
+        #public boolean validateField(fieldId _fieldIdToCheck)
+        #{
+        #    boolean ret;
+        #;
+        #    ret = super(_fieldIdToCheck);
+        #    if (ret)
+        #    {
+        #        switch (_fieldIdToCheck)
+        #        {
+        #            case fieldnum(echStockAllocationRule, AllocationRulePercentage) :
+        #                if (this.AllocationRulePercentage < 0 || this.AllocationRulePercentage > 100)
+        #                    ret = checkFailed("@GLS61450");
+        #                break;
+        #            case fieldnum(echStockAllocationRule, VirtualStock) :
+        #                if (this.VirtualStock < 0)
+        #                    ret = checkFailed(strfmt("@ECH55", fieldid2pname(this.TableId, fieldnum(echStockAllocationRule, VirtualStock))));
+        #                break;
+        #        }
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #validateWrite
+        #// Update ECH_WI_01979 by mengqi.cen on 20130220
+        #// Update ECH_WI_01967 by mengqi.cen on 20130125
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: validate write
+        #
+        #public boolean validateWrite()
+        #{
+        #    boolean ret;
+        #    echStockAllocationRule allocRule;
+        #;
+        #    ret = super();
+        #
+        #    if (ret)
+        #    {
+        #        if ((this.Type == TableGroupAll::All || this.Type == TableGroupAll::GroupId) &&
+        #            this.VirtualStock)
+        #            ret = checkFailed("@ECH54");
+        #
+        #        if (this.VirtualStock > 0 && InventDim::find(this.InventDimId).inventLocation().echIsTemp)
+        #            ret = checkFailed("@ECH285");
+        #
+        #        switch (this.Type)
+        #        {
+        #            case TableGroupAll::Table :
+        #                if (this.ItemId == '')
+        #                {
+        #                    ret = checkFailed(strFmt("@SYS84378", fieldid2pname(this.TableId, fieldnum(echStockAllocationRule, ItemId))));
+        #                }
+        #                else
+        #                {
+        #                    select sum(AllocationRulePercentage) from allocRule
+        #                      where allocRule.Type == this.Type && allocRule.ItemId == this.ItemId
+        #                         && allocRule.RecId != this.RecId; // Eliminate current recode when current is updation operation.
+        #
+        #                    if ((allocRule.AllocationRulePercentage + this.AllocationRulePercentage) > 100)
+        #                        ret = checkFailed(strFmt("@ECH413", strFmt("@SYS70938", this.Type, this.ItemId)));
+        #                }
+        #                break;
+        #            case TableGroupAll::GroupId :
+        #                if (this.RetailGroup == '')
+        #                {
+        #                    ret = checkFailed(strFmt("@SYS84378", fieldid2pname(this.TableId, fieldnum(echStockAllocationRule, RetailGroup))));
+        #                }
+        #                else
+        #                {
+        #                    select sum(AllocationRulePercentage) from allocRule
+        #                      where allocRule.Type == this.Type && allocRule.RetailGroup == this.RetailGroup
+        #                         && allocRule.RecId != this.RecId; // Eliminate current recode when current is updation operation.
+        #
+        #                    if ((allocRule.AllocationRulePercentage + this.AllocationRulePercentage) > 100)
+        #                        ret = checkFailed(strFmt("@ECH413", strFmt("@SYS70938", this.Type, this.RetailGroup)));
+        #                }
+        #                break;
+        #            case TableGroupAll::All :
+        #                select sum(AllocationRulePercentage) from allocRule
+        #                  where allocRule.Type == this.Type
+        #                     && allocRule.RecId != this.RecId; // Eliminate current recode when current is updation operation.
+        #
+        #                if ((allocRule.AllocationRulePercentage + this.AllocationRulePercentage) > 100)
+        #                    ret = checkFailed(strFmt("@ECH413", this.Type));
+        #                break;
+        #            default :
+        #                ret = checkFailed(strfmt("@SYS118115", this.Type));
+        #                break;
+        #        }
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 16 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: exist method
+        #
+        #public static boolean exist(RecId _recId)
+        #{
+        #    echStockAllocationRule      echStockAllocationRule;
+        #    ;
+        #
+        #    select firstonly RecId from echStockAllocationRule
+        #        where   echStockAllocationRule.RecId == _recId;
+        #
+        #    return echStockAllocationRule.RecId ? true : false;
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 16 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: find allocation rule
+        #
+        #public static echStockAllocationRule find(RecId _recId, boolean _forUpdate = false)
+        #{
+        #    echStockAllocationRule      echStockAllocationRule;
+        #    ;
+        #
+        #    echStockAllocationRule.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echStockAllocationRule
+        #        where   echStockAllocationRule.RecId == _recId;
+        #
+        #    return echStockAllocationRule;
+        #}
+      ENDSOURCE
+      SOURCE #findRule
+        #// Create ECH_WI_01979 by mengqi.cen on 20130220
+        #private static echStockAllocationRule findRule(ItemId             _itemId             = '',
+        #                                               RBORetailGroupId   _retailGroupId      = '',
+        #                                               InventDim          _inventDimCriteria)
+        #{
+        #    echStockAllocationRule      echStockAllocationRule;
+        #    echStockAllocationRule      echStockAllocationRuleExists;
+        #    InventDim                   inventDim;
+        #    InventDim                   inventDimCritaria;
+        #    InventDimParm               inventDimParm;
+        #    ;
+        #
+        #    inventDimCritaria.data(_inventDimCriteria);
+        #
+        #    // set invent dimensions to include in search
+        #    inventDimParm.initDimActive((select dimGroupId from inventTable where inventTable.itemId == _itemId).dimGroupId);
+        #
+        #    // search with full invent dimensions on item
+        #    select firstonly echStockAllocationRule
+        #        where   echStockAllocationRule.Type      == TableGroupAll::Table   &&
+        #                echStockAllocationRule.ItemId    == _itemId
+        #        #InventDimExistsJoin(echStockAllocationRule.InventDimId, InventDim, inventDimCritaria, InventDimParm);
+        #
+        #    if (!echStockAllocationRule)
+        #    {
+        #        // if not found, clear all inventdimcriteria except site and location
+        #        inventDimCritaria.clear();
+        #        inventDimCritaria.InventSiteId      = _inventDimCriteria.InventSiteId;
+        #        inventDimCritaria.InventLocationId  = _inventDimCriteria.InventLocationId;
+        #
+        #        // search with site and location invent dimensions on item
+        #        select firstonly echStockAllocationRule
+        #            where   echStockAllocationRule.Type      == TableGroupAll::Table   &&
+        #                    echStockAllocationRule.ItemId    == _itemId
+        #            #InventDimExistsJoin(echStockAllocationRule.InventDimId, InventDim, inventDimCritaria, InventDimParm);
+        #
+        #        if (!echStockAllocationRule)
+        #            select firstonly TableId from echStockAllocationRuleExists
+        #              where echStockAllocationRuleExists.Type   == TableGroupAll::Table   &&
+        #                    echStockAllocationRuleExists.ItemId == _itemId;
+        #
+        #        if (!echStockAllocationRule && !echStockAllocationRuleExists)
+        #        {
+        #            // if not found, search with site and location invent dimensions on item group
+        #            select firstonly echStockAllocationRule
+        #                where   echStockAllocationRule.Type        == TableGroupAll::GroupId &&
+        #                        echStockAllocationRule.RetailGroup == _retailGroupId
+        #                #InventDimExistsJoin(echStockAllocationRule.InventDimId, InventDim, inventDimCritaria, InventDimParm);
+        #
+        #            if (!echStockAllocationRule)
+        #                select firstonly TableId from echStockAllocationRuleExists
+        #                  where echStockAllocationRuleExists.Type        == TableGroupAll::GroupId &&
+        #                        echStockAllocationRuleExists.RetailGroup == _retailGroupId;
+        #
+        #            if (!echStockAllocationRule && !echStockAllocationRuleExists)
+        #            {
+        #                // if not found, search with site and location invent dimension on line of type all
+        #                select firstonly echStockAllocationRule
+        #                    where   echStockAllocationRule.Type      == TableGroupAll::All
+        #                    #InventDimExistsJoin(echStockAllocationRule.InventDimId, InventDim, inventDimCritaria, InventDimParm);
+        #            }
+        #        }
+        #    }
+        #
+        #    return echStockAllocationRule;
+        #}
+      ENDSOURCE
+      SOURCE #findRulePercentage
+        #// Update ECH_WI_01979 by mengqi.cen on 20130220
+        #// Update ECH_WI_01972 by mengqi.cen on 20130131
+        #//   Update Stock Allocation Logical - If high level rule is specified for an Item, ignore these low level rules
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 16 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: find allocation rule
+        #
+        #public static echStockAllocationRulePercentage findRulePercentage(ItemId             _itemId             = '',
+        #                                                                  RBORetailGroupId   _retailGroupId      = '',
+        #                                                                  InventDim          _inventDimCriteria)
+        #{
+        #    echStockAllocationRule      echStockAllocationRule;
+        #    ;
+        #    echStockAllocationRule = echStockAllocationRule::findRule(_itemId, _retailGroupId, _inventDimCriteria);
+        #
+        #    return echStockAllocationRule.AllocationRulePercentage;
+        #}
+      ENDSOURCE
+      SOURCE #findRuleVirtualStock
+        #// Update ECH_WI_01979 by mengqi.cen on 20130220
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 16 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: find allocation rule vritual stock
+        #
+        #public static echVirtualStock findRuleVirtualStock(ItemId            _itemId             = '',
+        #                                                   RBORetailGroupId  _retailGroupId      = '',
+        #                                                   InventDim         _inventDimCriteria)
+        #{
+        #    echStockAllocationRule      echStockAllocationRule;
+        #    ;
+        #    echStockAllocationRule = echStockAllocationRule::findRule(_itemId, _retailGroupId, _inventDimCriteria);
+        #
+        #    return echStockAllocationRule.VirtualStock;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

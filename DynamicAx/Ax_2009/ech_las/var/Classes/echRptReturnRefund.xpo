@@ -1,0 +1,503 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echRptReturnRefund unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echRptReturnRefund
+    Id 30333
+    PROPERTIES
+      Name                #echRptReturnRefund
+      Extends             #RunBaseReport
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #class echRptReturnRefund extends RunBaseReport
+        #{
+        #    container                 rptRecordDataCon;
+        #    echTmpRptReturnRefundDW   rptReturnRefundDW;
+        #
+        #    TransDate                 g_RptDate;
+        #    DialogField               g_FieldRptDate;
+        #
+        #    #define.RptWkCount(4)
+        #    #define.DayInWk(7)
+        #    #define.BeijinTZOffset(8)
+        #    #define.TMallMsgId('TMALL')
+        #    #define.DMWMsgId('DMW')
+        #}
+      ENDSOURCE
+      SOURCE #dialog
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public Object dialog(DialogRunbase dialog, boolean forceOnClient)
+        #{
+        #    dialog _dlg;
+        #;
+        #    _dlg = super(dialog, forceOnClient);
+        #    g_FieldRptDate = _dlg.addFieldValue(typeid(TransDate), g_RptDate);
+        #
+        #    return _dlg;
+        #}
+      ENDSOURCE
+      SOURCE #getFromDialog
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public boolean getFromDialog()
+        #{
+        #    boolean _retVal;
+        #;
+        #    _retVal = super();
+        #    g_RptDate = g_FieldRptDate.value();
+        #
+        #    return _retVal;
+        #}
+      ENDSOURCE
+      SOURCE #getSplitDateConByWeek
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public container getSplitDateConByWeek(int weekCnt, date rptDate = today())
+        #{
+        #    container    dateCon;
+        #    utcDatetime  utcDate, utcLastSunday;
+        #    date         lastSunday;
+        #
+        #    #define.ZeroTimeStr('00:00:00')
+        #;
+        #    // Function 'dayOfWk' will return 7 for Sunday.
+        #    // Data period is [Sunday 00:00:00 - Saturday 23:59:59]. So if parameter 'rptDate' is Sunday, 'rptDate' just need be deducted 0 is enough.
+        #    lastSunday    = rptDate - (dayOfWk(rptDate) MOD #DayInWk);
+        #    utcLastSunday = DateTimeUtil::newDateTime(lastSunday, str2time(#ZeroTimeStr));
+        #    utcLastSunday = DateTimeUtil::addHours(utcLastSunday, -1 * #BeijinTZOffset);
+        #
+        #    dateCon = connull();
+        #    utcDate = DateTimeUtil::addDays(utcLastSunday, -1 * weekCnt * #DayInWk);
+        #    while (utcDate <= utcLastSunday)
+        #    {
+        #        dateCon += utcDate;
+        #        utcDate = DateTimeUtil::addDays(utcDate, #DayInWk);
+        #    }
+        #
+        #    return dateCon;
+        #}
+      ENDSOURCE
+      SOURCE #initParmDefault
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public void initParmDefault()
+        #{
+        #;
+        #    super();
+        #    g_RptDate = today();
+        #}
+      ENDSOURCE
+      SOURCE #InsertTmpData
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public void InsertTmpData()
+        #{
+        #    int       conIdx;
+        #    container splitDateCon;
+        #;
+        #    splitDateCon = this.getSplitDateConByWeek(#RptWkCount, g_RptDate);
+        #    rptRecordDataCon = connull();
+        #    for (conIdx = 1; conIdx <= #RptWkCount; ++ conIdx)
+        #    {
+        #        rptRecordDataCon += this.utcDate2RecordDate(conpeek(splitDateCon, conIdx));
+        #        this.InsertTmpDataDW(this.utcDate2RecordDate(conpeek(splitDateCon, conIdx)),
+        #                             conpeek(splitDateCon, conIdx),
+        #                             conpeek(splitDateCon, conIdx+1));
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #InsertTmpDataDW
+        #// Update ECH_WI_02338 by mengqi.cen on 20130822
+        #//   Caculate the LineAmount of these Cancelled return order line from original sales order.
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public void InsertTmpDataDW(date recordDate, utcdatetime utcStart, utcdatetime utcEnd)
+        #{
+        #    InventTable              inventTable;
+        #    SalesTable               returnTable;
+        #    SalesLine                returnLine, updReturnLine;
+        #    ReturnDispositionCode    rDispositionCode;
+        #    ReturnDispositionCodeId  dispCodeC, dispCodeR;
+        #    // Newly opened
+        #    Set         noTMallRoSet, noDmwRoSet;
+        #    LineAmount  noTMallRoAmt, noDmwRoAmt;
+        #    // Eligible For Refund
+        #    Set         efrTMallRoSet, efrDmwRoSet;
+        #    LineAmount  efrTMallRoAmt, efrDmwRoAmt;
+        #    // Ineligible For Refund
+        #    Set         ifrTMallRoSet, ifrDmwRoSet;
+        #    LineAmount  ifrTMallRoAmt, ifrDmwRoAmt;
+        #    // To be decided
+        #    Set         tbdTMallRoSet, tbdDmwRoSet;
+        #    LineAmount  tbdTMallRoAmt, tbdDmwRoAmt;
+        #    // Issued Refund
+        #    Set         irTMallRoSet, irDmwRoSet;
+        #    LineAmount  irTMallRoAmt, irDmwRoAmt;
+        #    // Closed
+        #    Set         cTMallRoSet, cDmwRoSet;
+        #    LineAmount  cTMallRoAmt, cDmwRoAmt;
+        #    // Total Return&Refund
+        #    Set         trrTMallRoSet, trrDmwRoSet;
+        #    LineAmount  trrTMallRoAmt, trrDmwRoAmt;
+        #    // Total Refund
+        #    Set         trTMallRoSet, trDmwRoSet;
+        #    LineAmount  trTMallRoAmt, trDmwRoAmt;
+        #
+        #    #localmacro.InitSetAmt
+        #        %1 = new Set(Types::String);
+        #        %2 = 0.00;
+        #        %3 = new Set(Types::String);
+        #        %4 = 0.00;
+        #    #endmacro
+        #
+        #    #localmacro.AddSetAmt
+        #        switch (%1.echMsgPartnerId)
+        #        {
+        #            case #TMallMsgId:
+        #                %3.add(%2.SalesId);
+        #                %4  += %2.LineAmount;
+        #                break;
+        #            case #DMWMsgId  :
+        #                %5.add(%2.SalesId);
+        #                %6  += %2.LineAmount;
+        #                break;
+        #        }
+        #    #endmacro
+        #
+        #    #localmacro.InsertDWLine
+        #        %1.clear();
+        #        %1.RecordDate   = recordDate;
+        #        %1.FieldName    = %2;
+        #        %1.LineNum      = %3;
+        #        %1.LineType     = echRptLineType::Data;
+        #        %1.MsgPartnerId = #TMallMsgId;
+        #        %1.Qty          = %4.elements();
+        #        %1.Val          = %5;
+        #
+        #        %1.insert();
+        #
+        #        %1.clear();
+        #        %1.RecordDate   = recordDate;
+        #        %1.FieldName    = %2;
+        #        %1.LineNum      = %3;
+        #        %1.LineType     = echRptLineType::Data;
+        #        %1.MsgPartnerId = #DMWMsgId;
+        #        %1.Qty          = %6.elements();
+        #        %1.Val          = %7;
+        #
+        #        %1.insert();
+        #    #endmacro
+        #
+        #    void initVariables()
+        #    {
+        #    ;
+        #        // Newly opened
+        #        #InitSetAmt(noTMallRoSet,  noTMallRoAmt,  noDmwRoSet,  noDmwRoAmt)
+        #        // Eligible For Refund
+        #        #InitSetAmt(efrTMallRoSet, efrTMallRoAmt, efrDmwRoSet, efrDmwRoAmt)
+        #        // Ineligible For Refund
+        #        #InitSetAmt(ifrTMallRoSet, ifrTMallRoAmt, ifrDmwRoSet, ifrDmwRoAmt)
+        #        // To be decided
+        #        #InitSetAmt(tbdTMallRoSet, tbdTMallRoAmt, tbdDmwRoSet, tbdDmwRoAmt)
+        #        // Issued Refund
+        #        #InitSetAmt(irTMallRoSet,  irTMallRoAmt,  irDmwRoSet,  irDmwRoAmt)
+        #        // Closed
+        #        #InitSetAmt(cTMallRoSet,   cTMallRoAmt,   cDmwRoSet,   cDmwRoAmt)
+        #        // Total Return&Refund
+        #        #InitSetAmt(trrTMallRoSet, trrTMallRoAmt, trrDmwRoSet, trrDmwRoAmt)
+        #        // Total Refund
+        #        #InitSetAmt(trTMallRoSet,  trTMallRoAmt,  trDmwRoSet,  trDmwRoAmt)
+        #    }
+        #
+        #    void insertDWData()
+        #    {
+        #    ;
+        #        #InsertDWLine(rptReturnRefundDW, 'Newly opened',          1, noTMallRoSet,  noTMallRoAmt,  noDmwRoSet,  noDmwRoAmt)
+        #        #InsertDWLine(rptReturnRefundDW, 'Eligible For Refund',   2, efrTMallRoSet, efrTMallRoAmt, efrDmwRoSet, efrDmwRoAmt)
+        #        #InsertDWLine(rptReturnRefundDW, 'Ineligible For Refund', 3, ifrTMallRoSet, ifrTMallRoAmt, ifrDmwRoSet, ifrDmwRoAmt)
+        #        #InsertDWLine(rptReturnRefundDW, 'To be decided',         4, tbdTMallRoSet, tbdTMallRoAmt, tbdDmwRoSet, tbdDmwRoAmt)
+        #        #InsertDWLine(rptReturnRefundDW, 'Issued Refund',         5, irTMallRoSet,  irTMallRoAmt,  irDmwRoSet,  irDmwRoAmt)
+        #        #InsertDWLine(rptReturnRefundDW, 'Closed',                6, cTMallRoSet,   cTMallRoAmt,   cDmwRoSet,   cDmwRoAmt)
+        #        #InsertDWLine(rptReturnRefundDW, 'Total Return&Refund',   7, trrTMallRoSet, trrTMallRoAmt, trrDmwRoSet, trrDmwRoAmt)
+        #        #InsertDWLine(rptReturnRefundDW, 'Total Refund',          8, trTMallRoSet,  trTMallRoAmt,  trDmwRoSet,  trDmwRoAmt)
+        #    }
+        #
+        #    void getDispCode()
+        #    {
+        #    ;
+        #        select firstonly rDispositionCode
+        #          where rDispositionCode.DispositionAction == DispositionAction::Credit;
+        #        dispCodeC = rDispositionCode.DispositionCodeId; // DispositionCodeId: C
+        #        select firstonly rDispositionCode
+        #          where rDispositionCode.DispositionAction == DispositionAction::ReturnToCust;
+        #        dispCodeR = rDispositionCode.DispositionCodeId; // DispositionCodeId: R
+        #    }
+        #
+        #    SalesLine getLineAmtFromOrigSo(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        SalesTable       origSoTable;
+        #        SalesLine        origSoLine, retRoLine;
+        #    ;
+        #        select firstonly LineAmount, SalesQty from origSoLine
+        #          where origSoLine.ItemId      == roLine.ItemId
+        #             && origSoLine.InventDimId == roLine.InventDimId
+        #          join TableId from origSoTable
+        #            where origSoTable.SalesId              == origSoLine.SalesId
+        #               && origSoTable.SalesType            == SalesType::Sales
+        #               && origSoTable.echMsgPartnerId      == roHdr.echMsgPartnerId
+        #               && origSoTable.echMsgPartnerExtCode == roHdr.echMsgPartnerExtCode;
+        #
+        #        if (origSoLine)
+        #        {
+        #            retRoLine.data(roLine);
+        #            retRoLine.LineAmount = origSoLine.LineAmount / origSoLine.SalesQty * roLine.ExpectedRetQty;
+        #        }
+        #        else
+        #        {
+        #            retRoLine = roLine;
+        #        }
+        #
+        #        return retRoLine;
+        #    }
+        #
+        #    void caclNewlyOpened(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Total number (amount) of return orders in OFMS (auto created through interface or manual created; status = created)
+        #        // -- [SalesTable.echAggStatus = Created]
+        #    ;
+        #        if (roHdr.ECHAggStatus == ECHAggStatus::Created)
+        #        {
+        #            #AddSetAmt(roHdr, roLine, noTMallRoSet, noTMallRoAmt, noDmwRoSet, noDmwRoAmt)
+        #        }
+        #    }
+        #
+        #    void caclEligibleRefund(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Total number (amount) of return orders in OFMS (status: refund)
+        #        // -- [(Just to C Ro)RefunedReplacement, Invoiced]
+        #    ;
+        #        if ((roHdr.ECHAggStatus == ECHAggStatus::RefundReplacement
+        #             || roHdr.ECHAggStatus == ECHAggStatus::Invoiced)
+        #            && roLine.ReturnDispositionCodeId == dispCodeC)
+        #        {
+        #            #AddSetAmt(roHdr, roLine, efrTMallRoSet, efrTMallRoAmt, efrDmwRoSet, efrDmwRoAmt)
+        #        }
+        #    }
+        #
+        #    void caclIneligibleRefund(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Total number (amount) of return orders in OFMS (status: return to customer) -- [(All R Ro) + Rejected]
+        #    ;
+        #        if (roHdr.ECHAggStatus == ECHAggStatus::Rejected
+        #            || roLine.ReturnDispositionCodeId == dispCodeR)
+        #        {
+        #            #AddSetAmt(roHdr, roLine, ifrTMallRoSet, ifrTMallRoAmt, ifrDmwRoSet, ifrDmwRoAmt)
+        #        }
+        #    }
+        #
+        #    void caclToBeDecided(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Total number (amount) of return orders (status:Approved) - Eligible For Refund
+        #        // - Ineligible For Refund -- [SalesTable.echAggStatus = Approved]
+        #    ;
+        #        if (roHdr.ECHAggStatus == ECHAggStatus::Approved)
+        #        {
+        #            #AddSetAmt(roHdr, roLine, tbdTMallRoSet, tbdTMallRoAmt, tbdDmwRoSet, tbdDmwRoAmt)
+        #        }
+        #    }
+        #
+        #    void caclIssuedRefund(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Total number (amount) of return orders (status: refunded) -- [Refunded]
+        #    ;
+        #        if (roHdr.ECHAggStatus == ECHAggStatus::Refunded)
+        #        {
+        #            #AddSetAmt(roHdr, roLine, irTMallRoSet, irTMallRoAmt, irDmwRoSet, irDmwRoAmt)
+        #        }
+        #    }
+        #
+        #    void caclClosed(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Issued Refund + Ineligible For Refund -- [Refunded, Reject, Cancelled, DeliveredAtCustomer]
+        #    ;
+        #        if (roHdr.ECHAggStatus == ECHAggStatus::Refunded
+        #            || roHdr.ECHAggStatus == ECHAggStatus::Rejected
+        #            || roHdr.ECHAggStatus == ECHAggStatus::Cancelled
+        #            || roHdr.ECHAggStatus == ECHAggStatus::DeliveredAtCustomer)
+        #        {
+        #            #AddSetAmt(roHdr, roLine, cTMallRoSet, cTMallRoAmt, cDmwRoSet, cDmwRoAmt)
+        #        }
+        #    }
+        #
+        #    void caclTotalReturnRefund(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Newly opened + Eligible For Refund + To be decided + Closed + Issued Refund
+        #    ;
+        #        if (roHdr.ECHAggStatus == ECHAggStatus::Created
+        #            || roHdr.ECHAggStatus == ECHAggStatus::Approved
+        #            || roHdr.ECHAggStatus == ECHAggStatus::Rejected
+        #            || roHdr.ECHAggStatus == ECHAggStatus::Refunded
+        #            || roHdr.ECHAggStatus == ECHAggStatus::Cancelled
+        #            || roHdr.ECHAggStatus == ECHAggStatus::DeliveredAtCustomer
+        #            ||((roHdr.ECHAggStatus == ECHAggStatus::RefundReplacement
+        #               || roHdr.ECHAggStatus == ECHAggStatus::Invoiced)
+        #               && roLine.ReturnDispositionCodeId == dispCodeC))
+        #        {
+        #            #AddSetAmt(roHdr, roLine, trrTMallRoSet, trrTMallRoAmt, trrDmwRoSet, trrDmwRoAmt)
+        #        }
+        #    }
+        #
+        #    void caclTotalRefund(SalesTable roHdr, SalesLine roLine)
+        #    {
+        #        // Eligible For Refund + Issued Refund -- [All C Return Order | RefundedReplacement, Refunded, Invoiced]
+        #    ;
+        #        if ((roHdr.ECHAggStatus == ECHAggStatus::RefundReplacement
+        #             || roHdr.ECHAggStatus == ECHAggStatus::Invoiced
+        #             || roHdr.ECHAggStatus == ECHAggStatus::Refunded)
+        #            && roLine.ReturnDispositionCodeId == dispCodeC)
+        #        {
+        #            #AddSetAmt(roHdr, roLine, trTMallRoSet, trTMallRoAmt, trDmwRoSet, trDmwRoAmt)
+        #        }
+        #    }
+        #;
+        #    initVariables();
+        #    getDispCode();
+        #
+        #    while select SalesId, LineAmount, ReturnDispositionCodeId, ItemId, InventDimId, ExpectedRetQty
+        #            from returnLine
+        #            where returnLine.ExpectedRetQty != 0
+        #            join SalesId, ECHAggStatus, echMsgPartnerId, echMsgPartnerExtCode from returnTable
+        #              where returnTable.SalesId   == returnLine.SalesId
+        #                 && returnTable.SalesType == SalesType::ReturnItem
+        #                 && returnTable.echFrontEndCreationDate >= utcStart
+        #                 && returnTable.echFrontEndCreationDate  < utcEnd
+        #            exists join inventTable
+        #              where inventTable.ItemId   == returnLine.ItemId
+        #                 && inventTable.ItemType != ItemType::Service
+        #    {
+        #        if (!returnLine.LineAmount)
+        #            updReturnLine = getLineAmtFromOrigSo(returnTable, returnLine);
+        #        else
+        #            updReturnLine = returnLine;
+        #
+        #        caclNewlyOpened(returnTable, updReturnLine);
+        #        caclEligibleRefund(returnTable, updReturnLine);
+        #        caclIneligibleRefund(returnTable, updReturnLine);
+        #        caclToBeDecided(returnTable, updReturnLine);
+        #        caclIssuedRefund(returnTable, updReturnLine);
+        #        caclClosed(returnTable, updReturnLine);
+        #        caclTotalReturnRefund(returnTable, updReturnLine);
+        #        caclTotalRefund(returnTable, updReturnLine);
+        #    }
+        #
+        #    insertDWData();
+        #}
+      ENDSOURCE
+      SOURCE #lastValueElementName
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public identifiername lastValueElementName()
+        #{
+        #;
+        #    return reportstr(echReturnRefundWeekly);
+        #}
+      ENDSOURCE
+      SOURCE #pack
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public container pack()
+        #{
+        #;
+        #    return super();
+        #}
+      ENDSOURCE
+      SOURCE #parmReportRecordDateCon
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public container parmReportRecordDateCon()
+        #{
+        #;
+        #    return rptRecordDataCon;
+        #}
+      ENDSOURCE
+      SOURCE #parmReportTmpData
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public echTmpRptReturnRefundDW parmReportTmpData()
+        #{
+        #;
+        #    return rptReturnRefundDW;
+        #}
+      ENDSOURCE
+      SOURCE #parmRptDate
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public TransDate parmRptDate(TransDate rptDate = today())
+        #{
+        #;
+        #    g_RptDate = rptDate;
+        #
+        #    return g_RptDate;
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public void run()
+        #{
+        #;
+        #    this.InsertTmpData();
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #showQueryValues
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public boolean showQueryValues()
+        #{
+        #;
+        #    return false;
+        #}
+      ENDSOURCE
+      SOURCE #unpack
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public boolean unpack(container packedClass)
+        #{
+        #    boolean ret;
+        #;
+        #    g_RptDate = today();
+        #
+        #    ret = super(packedClass);
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #utcDate2RecordDate
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #private date utcDate2RecordDate(utcDatetime utc)
+        #{
+        #;
+        #    return DateTimeUtil::date(DateTimeUtil::addHours(utc, #BeijinTZOffset));
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public static echRptReturnRefund construct()
+        #{
+        #;
+        #    return (new echRptReturnRefund());
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #// Add ECH_WI_02338 by mengqi.cen on 20130805
+        #public static void Main(Args _args)
+        #{
+        #    echRptReturnRefund rptCls;
+        #;
+        #    rptCls = echRptReturnRefund::construct();
+        #    if (rptCls.prompt())
+        #        rptCls.run();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

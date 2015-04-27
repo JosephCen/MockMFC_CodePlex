@@ -1,0 +1,158 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echItemArrivalJournalLine unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echItemArrivalJournalLine
+    PROPERTIES
+      Name                #echItemArrivalJournalLine
+      HelpText            #
+      Filename            #echItemArrivalJournalLine.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echItemArrivalJournalLine.ascx.cs" Inherits="echItemArrivalJournalLine" %>
+      #<%@ Register assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" tagprefix="dynamics" %>
+      #<dynamics:AxGridView ID="grdWMSJournalLines" runat="server" DataKeyNames="JournalId,lineNum" 
+      #    DataMember="WMSJournalTrans" DataSourceID="echItemArrivalJournalLineDS" 
+      #    AllowEdit="True" onrowupdated="grdWMSJournalLines_RowUpdated">
+      #    <Columns> 
+      #        <dynamics:AxBoundField DataField="journalId" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans" 
+      #            SortExpression="journalId" ReadOnly="True">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="lineNum" DataSet="echItemArrivalJournalLine" 
+      #            DataSetView="WMSJournalTrans" SortExpression="lineNum" ReadOnly="True">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="transDate" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans" 
+      #            SortExpression="transDate" ReadOnly="True">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="itemId" DataSet="echItemArrivalJournalLine" 
+      #            DataSetView="WMSJournalTrans" SortExpression="itemId" ReadOnly="True">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="dspConfigId**" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="dspInventSizeId**" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="dspInventColorId**" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="dspInventLocationId**" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="dspInventBatchId**" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="dspWMSLocationId**" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="dspInventSerialId**" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="vendAccount" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans" 
+      #            SortExpression="vendAccount" ReadOnly="True">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="qty" DataSet="echItemArrivalJournalLine" 
+      #            DataSetView="WMSJournalTrans" SortExpression="qty" ReadOnly="True">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="ReturnDispositionCodeId" 
+      #            DataSet="echItemArrivalJournalLine" DataSetView="WMSJournalTrans" 
+      #            SortExpression="ReturnDispositionCodeId">
+      #        </dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #
+      #<dynamics:AxDataSource ID="echItemArrivalJournalLineDS" runat="server" 
+      #    DataSetName="echItemArrivalJournalLine" ProviderView="WMSJournalTrans">
+      #</dynamics:AxDataSource>
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echItemArrivalJournalLine_ascx_cs
+      HelpText            #
+      Filename            #echItemArrivalJournalLine.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echItemArrivalJournalLine : System.Web.UI.UserControl
+      #{
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #        
+      #    }
+      #    protected void grdWMSJournalLines_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+      #    {
+      #    }
+      #    protected override void OnPreRender(EventArgs e)
+      #    {
+      #        try
+      #        {
+      #            base.OnPreRender(e);
+      #        }
+      #        catch (Exception ex)
+      #        {
+      #            System.Diagnostics.Debug.WriteLine(ex);
+      #        }
+      #    }
+      #    protected override object SaveViewState()
+      #    {
+      #        try
+      #        {
+      #            return base.SaveViewState();
+      #        }
+      #        catch (Exception ex)
+      #        {
+      #            System.Diagnostics.Debug.WriteLine(ex);
+      #            return new Object();
+      #        }
+      #    }
+      #    protected override void OnError(EventArgs e)
+      #    {
+      #        base.OnError(e);
+      #    }
+      #    protected override void Render(HtmlTextWriter writer)
+      #    {
+      #        try
+      #        {
+      #            base.Render(writer);
+      #        }
+      #        catch (Exception ex)
+      #        {
+      #            System.Diagnostics.Debug.WriteLine(ex);
+      #        }
+      #        
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

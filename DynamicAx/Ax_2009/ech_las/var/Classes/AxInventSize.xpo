@@ -1,0 +1,55 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventSize unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventSize
+    Id 6177
+    PROPERTIES
+      Name                #AxInventSize
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #initMandatoryFieldsExemptionList
+        #protected void initMandatoryFieldsExemptionList()
+        #{
+        #    ;
+        #    super();
+        #
+        #    // Begin - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #    if (isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #    {
+        #        this.setParmMethodAsNotMandatory(methodstr(axInventSize, parmItemId));
+        #    }
+        #    // End - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSortingNum
+        #// Add ECH_WI_02222 by mengqi.cen on 20130528
+        #public SortingNumber parmEchSortingNum(SortingNumber _sortingNum = 0)
+        #{
+        #;
+        #    return RBOSizes::find(inventSize.InventSizeId).echSortingNum;
+        #}
+      ENDSOURCE
+      SOURCE #setWeight
+        #protected void setWeight()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventSize, Weight)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

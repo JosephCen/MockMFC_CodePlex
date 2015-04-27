@@ -1,0 +1,298 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdechStockMovement unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdechStockMovement
+    Id 30226
+    PROPERTIES
+      Name                #AxdechStockMovement
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdechStockMovement extends AxdBase
+        #{
+        #    InventJournalTable  inventJournalTable;
+        #    JournalTableData    journalTableData;
+        #    int                 previousErrorCount;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventJournalTable
+        #private void createInventJournalTable(AxInventJournalTable _axInventJournalTable)
+        #{
+        #    InventJournalNameId  profitLossJournalNameId;
+        #    ;
+        #
+        #    profitLossJournalNameId = AxdDocumentParameters::find().ProfitLossJournalNameId;
+        #
+        #    if (profitLossJournalNameId)
+        #    {
+        #        _axInventJournalTable.parmJournalNameId(profitLossJournalNameId);
+        #        _axInventJournalTable.save();
+        #
+        #        inventJournalTable = _axInventJournalTable.inventJournalTable();
+        #        inventJournalTable.Description = "@ECH367";
+        #        journalTableData   = JournalTableData::newTable(inventJournalTable);
+        #        journalTableData.updateBlock(JournalBlockLevel::None,JournalBlockLevel::InUse);
+        #    }
+        #    else
+        #    {
+        #        throw error("@SYS97664");
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findList
+        #public AifDocumentXml findList(AifQueryCriteria            _queryCriteria,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, readList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::SendDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, readList));
+        #    aifActionInfo.parmLabel("@ECH362");
+        #    aifActionInfo.parmDescription("@ECH363");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel("@ECH364");
+        #    aifActionInfo.parmDescription("@ECH365");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #    ;
+        #    if (_curRec.TableId != tablenum(InventJournalTable))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #
+        #    aifConstraint.parmType(AIFConstraintType::Vendor);
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "@ECH366";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getQueryName
+        #public QueryName getQueryName()
+        #{
+        #    return querystr(echStockMovement);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// Create ECH_WI_01942 by mengqi.cen on 20121226
+        #//     Set method field InventJournalTrans.EchBarcodeId as mandatory field due to it is requried in Aif
+        #//     outbound message.
+        #protected void initMandatoryFieldsMap()
+        #{
+        #;
+        #    super();
+        #    this.setParmMethodAsMandatory(classnum(AxInventJournalTrans),
+        #                                  methodStr(AxInventJournalTrans, parmEchBarcodeId));
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #void new()
+        #{
+        #    ;
+        #    super();
+        #
+        #    previousErrorCount = infolog.num(Exception::Error);
+        #
+        #}
+      ENDSOURCE
+      SOURCE #postJournal
+        #void postJournal()
+        #{
+        #    ;
+        #    if(!inventJournalTable.Posted && InventJournalCheckPost::newPostJournal(inventJournalTable).validate())
+        #    {
+        #        InventJournalCheckPost::newPostJournal(inventJournalTable).run();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// Update ECH_WI_01959 by mengqi.cen on 20130115
+        #//    Fix of Bug 1958 - stockmovement bug for can not setup color/size by echskuid
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    AxInventJournalTable    AxInventJournalTable;
+        #    AxInventJournalTrans    AxInventJournalTrans;
+        #    AxInventDim    AxInventDim;
+        #    ;
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxInventJournalTable) :
+        #            AxInventJournalTable = _axdStack.top();
+        #            this.createInventJournalTable(AxInventJournalTable);
+        #            return true;
+        #
+        #        case classnum(AxInventJournalTrans) :
+        #            AxInventJournalTrans = _axdStack.top();
+        #            AxInventJournalTable = AxInventJournalTrans.parentAxBC();
+        #            AxInventJournalTrans.parmJournalType(InventJournalType::LossProfit);
+        #            AxInventJournalTrans.parmJournalId(inventJournalTable.JournalId);
+        #            return true;
+        #
+        #        case classnum(AxInventDim) :
+        #            AxInventDim = _axdStack.top();
+        #            AxInventJournalTrans = axInventDim.parentAxBC();
+        #            AxInventJournalTrans.axInventDim().resetInternalValues();
+        #            axInventDim.moveAxInventDim(AxInventJournalTrans.axInventDim());
+        #            _axdStack.pop();
+        #            _axdStack.push(AxInventJournalTrans.axInventDim());
+        #            this.updateInventTrans(AxInventJournalTrans.parmEchReasonId());
+        #            return true;
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #sendElectronically
+        #//Add by steven 20130521
+        #Void sendElectronically(InventJournalTable _inventJournalTable)
+        #{
+        #    EchSendStockMgmt    echSendStockMgmt;
+        #    ;
+        #    echSendStockMgmt = EchSendStockMgmt::construct();
+        #    echSendStockMgmt.setEntityKey(_inventJournalTable);
+        #    echSendStockMgmt.sendDocumentsToAif();
+        #}
+      ENDSOURCE
+      SOURCE #updateInventTrans
+        #void updateInventTrans(EchReasonId  _reasonId ='')
+        #{
+        #    InventTrans     inventTrans;
+        #    ;
+        #
+        #    if (_reasonId)
+        #    {
+        #        update_recordset inventTrans
+        #        setting
+        #            EchReasonId = _reasonId
+        #        where inventTrans.TransRefId    == inventJournalTable.JournalId
+        #           && inventTrans.TransType     == InventTransType::InventLossProfit;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #updateList
+        #public AifEntityKey updateList(AifEntityKeyList            _entityKeyList,
+        #                               AifDocumentXML              _xml,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListcollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateNow
+        #//Edit By Steven 20130521
+        #public void updateNow()
+        #{
+        #    InventJournalTable   m_InventJournalTable;
+        #    super();
+        #
+        #    if(InventParameters::find().echStockMovementAutoPosting == NoYes::Yes)
+        #    {
+        #        this.postJournal();
+        #        this.sendElectronically(inventJournalTable);
+        #    }
+        #    else
+        #    {
+        #        ttsBegin;
+        #        select forupdate m_InventJournalTable
+        #            where m_InventJournalTable.JournalId == inventJournalTable.JournalId;
+        #        if(m_InventJournalTable)
+        #        {
+        #            m_InventJournalTable.Posted = NoYes::Yes;
+        #            m_InventJournalTable.PostedDateTime = DateTimeUtil::utcNow();
+        #            m_InventJournalTable.PostedUserId = curUserId();
+        #            m_InventJournalTable.update();
+        #            this.sendElectronically(m_InventJournalTable);
+        #        }
+        #        ttsCommit;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #validateDocument
+        #public void validateDocument()
+        #{
+        #    InventJournalCheckPost_Movement  inventJournalCheckPost_Movement;
+        #    ;
+        #    journalTableData.updateBlock(JournalBlockLevel::InUse,JournalBlockLevel::None);
+        #
+        #    if (previousErrorCount == infolog.num(Exception::Error))
+        #    {
+        #        inventJournalCheckPost_Movement = InventJournalCheckPost_Movement::newJournalCheckPost(true, false, JournalCheckPostType::Check, tablenum(InventJournalTable), inventJournalTable.JournalId);
+        #        inventJournalCheckPost_Movement.run();
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

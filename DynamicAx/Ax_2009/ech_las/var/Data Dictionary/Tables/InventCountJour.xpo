@@ -1,0 +1,132 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventCountJour unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventCountJour
+    Id 149
+    PROPERTIES
+      Name                #InventCountJour
+      Label               #@SYS25012
+      FormRef             #InventCountJour
+      TitleField1         #ItemId
+      TitleField2         #CountDate
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      TableGroup          #Transaction
+      PrimaryIndex        #ItemDateIdx
+      ClusterIndex        #ItemDateIdx
+      DeveloperDocumentation  #@SYS123815
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echOverAllocQty
+        Id 30001
+        REAL
+        PROPERTIES
+          Name                #echOverAllocQty
+          Label               #@ECH763
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          ConfigurationKey    #echProcesses
+          Table               #InventCountJour
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echWMSQty
+        Id 30002
+        REAL
+        PROPERTIES
+          Name                #echWMSQty
+          Label               #@ECH764
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          ConfigurationKey    #echProcesses
+          Table               #InventCountJour
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echStockQueueSeqId
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #echStockQueueSeqId
+          Table               #InventCountJour
+          ExtendedDataType    
+            ARRAY 
+              #echInventStockQueueSeqId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Ok
+          #CountedQty
+          #InventOnHand
+          #CountDate
+          #JournalId
+          #ItemId
+          #InventDimId
+          #EmplId
+          #echOverAllocQty
+          #echWMSQty
+          #echStockQueueSeqId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #initFromTmpWMSOnlineCounting
+        #// Update ECH_WI_02336 by mengqi.cen on 20130726
+        #//   Record Stock Allocation history in Ax table
+        #// Update ECH_WI_02166 by mengqi.cen on 20130515
+        #void initFromTmpWMSOnlineCounting(TmpWMSOnlineCounting tmpWMSOnlineCounting)
+        #{
+        #    ;
+        #    this.ItemId              = tmpWMSOnlineCounting.ItemId;
+        #    this.InventDimId         = tmpWMSOnlineCounting.InventDimId;
+        #    this.InventOnHand        = tmpWMSOnlineCounting.QtyOnHand;
+        #    this.CountedQty          = tmpWMSOnlineCounting.QtyCounted;
+        #    this.echOverAllocQty     = tmpWMSOnlineCounting.echOverAllocQty;
+        #    this.echWMSQty           = tmpWMSOnlineCounting.echWMSQty;
+        #    this.echStockQueueSeqId  = tmpWMSOnlineCounting.echStockQueueSeqId;
+        #}
+        #
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

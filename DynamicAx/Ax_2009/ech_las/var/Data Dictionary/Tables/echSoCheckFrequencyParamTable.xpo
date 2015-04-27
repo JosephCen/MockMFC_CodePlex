@@ -1,0 +1,134 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSoCheckFrequencyParamTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSoCheckFrequencyParamTable
+    Id 30015
+    PROPERTIES
+      Name                #echSoCheckFrequencyParamTable
+      Label               #@ECH131
+      TitleField1         #RecId
+      TitleField2         #numberOfOrders
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      ClusterIndex        #RecId
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #numberOfOrders
+        Id 30001
+        INT
+        PROPERTIES
+          Name                #numberOfOrders
+          Label               #@ECH185
+          HelpText            #@ECH186
+          Table               #echSoCheckFrequencyParamTable
+          ExtendedDataType    
+            ARRAY 
+              #Integer
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #numberOfDays
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #numberOfDays
+          Label               #@SYS25776
+          HelpText            #@ECH187
+          Table               #echSoCheckFrequencyParamTable
+          ExtendedDataType    
+            ARRAY 
+              #Integer
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #RecId
+          #numberOfOrders
+          #numberOfDays
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #numberOfOrders
+          #numberOfDays
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #public static boolean exist()
+        #{
+        #    echSoCheckFrequencyParamTable echSoCheckFrequencyParam;
+        #    ;
+        #
+        #    select firstonly RecId from echSoCheckFrequencyParam;
+        #
+        #    return echSoCheckFrequencyParam.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #public static echSoCheckFrequencyParamTable find(boolean _forUpdate = false)
+        #{
+        #    echSoCheckFrequencyParamTable echSoCheckFrequencyParamTable;
+        #    ;
+        #
+        #    echSoCheckFrequencyParamTable.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSoCheckFrequencyParamTable;
+        #
+        #    return echSoCheckFrequencyParamTable;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

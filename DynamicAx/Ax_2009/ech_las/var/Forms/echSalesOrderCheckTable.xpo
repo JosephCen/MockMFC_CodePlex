@@ -1,0 +1,528 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echSalesOrderCheckTable
+  PROPERTIES
+    Name                #echSalesOrderCheckTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// *** ECHINA - Abdessamad Almask ***
+      #// *** Customization Code: ECH_E_002
+      #// *** Customization Date: 08 May 2012
+      #// *** Customization Type: created
+      #// *** Description:
+      #
+      #public class FormRun extends ObjectRun
+      #{
+      #    boolean             _addAtEnd;
+      #    int                 _sequence;
+      #    echSoCheckLookup    componentLookup;
+      #    boolean             componentLookupGenerated;
+      #}
+    ENDSOURCE
+    SOURCE #generateComponentLookupTable
+      #void generateComponentLookupTable()
+      #{
+      #    echISoCheck     componentInstance;
+      #    Dictionary      dictionary;
+      #    SysDictClass    dictClass;
+      #    int             i;
+      #    int             classCount;
+      #    classId         componentInterfaceId;
+      #    ;
+      #
+      #    dictionary = new Dictionary();
+      #    //progress = new SysOperationProgress();
+      #    componentInterfaceId = classnum(echISoCheck);
+      #
+      #    classCount = dictionary.classCnt();
+      #
+      #    progress.rangeLo(1);
+      #    progress.rangeHi(classCount);
+      #    progress.pos(1);
+      #    progress.step(1);
+      #    statusGroup.visible(true);
+      #    statusGroup.updateWindow();
+      #
+      #    for (i=1; i <= classCount; i++)
+      #    {
+      #        progress.pos(i);
+      #        dictClass = new SysDictClass(dictionary.classCnt2Id(i));
+      #        if (dictClass.isImplementing(componentInterfaceId) && dictClass.id() != componentInterfaceId)
+      #        {
+      #            componentInstance = dictClass.makeObject();
+      #            componentLookup.clear();
+      #            componentLookup.ClassName = dictClass.name();
+      #
+      #            if (dictClass.hasObjectMethod(methodstr(echISoCheck, description)))
+      #                componentLookup.Description = componentInstance.description();
+      #
+      #            componentLookup.insert();
+      #        }
+      #    }
+      #
+      #    componentLookupGenerated = true;
+      #
+      #    statusGroup.visible(false);
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSalesOrderCheckTable
+          Table               #echSalesOrderCheckTable
+          CounterField        #Sequence
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    // Tables
+          #    echSalesOrderCheckTable componentTable;
+          #
+          #    // Variables
+          #    SysDictClass            dictClass;
+          #    echISoCheck             componentInstance;
+          #    boolean                 enableConfigure;
+          #    MenuItemNameDisplay     name;
+          #    ;
+          #
+          #    // Get the current record.
+          #    componentTable = this.cursor();
+          #    dictClass = new SysDictClass(componentTable.ClassId);
+          #
+          #    if (dictClass)
+          #    {
+          #        // Create the component
+          #        // and get the menu item name.
+          #        componentInstance = dictClass.makeObject();
+          #
+          #        if (dictClass.isImplementing(classnum(echISoCheck)))
+          #        {
+          #            // Make sure the required method has been implemented.
+          #            if (dictClass.hasObjectMethod(methodstr(echISoCheck, configMenuItemName)))
+          #            {
+          #                name = componentInstance.configMenuItemName();
+          #
+          #                // If not blank, set the menu name on the button
+          #                // and flag the button to be enabled.
+          #                if (name)
+          #                {
+          #                    buttonConfigure.menuItemName(name);
+          #                    enableConfigure = true;
+          #                }
+          #            }
+          #        }
+          #    }
+          #
+          #    // Set enable/disable on configure button.
+          #    buttonConfigure.enabled(enableConfigure);
+          #
+          #    // Once record has been created,
+          #    // do not allow the component Id
+          #    // to be changed.
+          #    if (componentTable.RecId)
+          #        Grid_M_name.allowEdit(false);
+          #    else
+          #        Grid_M_name.allowEdit(true);
+          #
+          #    ret = super();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #deleteMarked
+          #public void deleteMarked()
+          #{
+          #    ;
+          #
+          #    this.forceWrite(false);
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #delete
+          #public void delete()
+          #{
+          #    ;
+          #
+          #    this.forceWrite(false);
+          #
+          #    this.reread();
+          #
+          #    super();
+          #
+          #    buttonConfigure.enabled(false);
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #public void create(boolean _append = false)
+          #{
+          #    echSalesOrderCheckTable temp;
+          #    ;
+          #
+          #    // Track whether the insert is at the
+          #    // end of the grid or somewhere in the middle.
+          #    temp = this.cursor();
+          #    temp.reread();
+          #    _addAtEnd = _append;
+          #    _sequence = temp.Sequence;
+          #
+          #    // If _sequence is set to initial value of 2,000,000,000
+          #    // then previous record has not been saved.
+          #    // Get the next sequence number ourselves.
+          #    if (_sequence == 2000000000)
+          #    {
+          #        _sequence = temp.getNextSequence();
+          #    }
+          #
+          #    super(_append);
+          #
+          #    this.forceWrite(true);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH127
+      TitleDatasource     #echSalesOrderCheckTable
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GRID
+        PROPERTIES
+          Name                #Grid
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #Column height
+          DataSource          #echSalesOrderCheckTable
+          DataGroup           #Overview
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #echSalesOrderCheckTableDS_Enabled
+                DataSource          #echSalesOrderCheckTable
+                DataField           #Enabled
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_M_name
+                AutoDeclaration     #Yes
+                AllowEdit           #No
+                DataSource          #echSalesOrderCheckTable
+                DataMethod          #name
+              ENDPROPERTIES
+              
+              METHODS
+                Version: 3
+                SOURCE #lookup
+                  #public void lookup()
+                  #{
+                  #    SysTableLookup          tableLookup;
+                  #    Query                   query;
+                  #    QueryBuildDataSource    queryBuildDataSource;
+                  #    ;
+                  #
+                  #    if (componentLookupGenerated == false)
+                  #    {
+                  #        element.generateComponentLookupTable();
+                  #        this.lookup();
+                  #    }
+                  #    else
+                  #    {
+                  #        query = new Query();
+                  #        queryBuildDataSource = query.addDataSource(tablenum(echSoCheckLookup));
+                  #
+                  #        tableLookup = SysTableLookup::newParameters(tablenum(echSoCheckLookup), this);
+                  #        tableLookup.addLookupfield(fieldnum(echSoCheckLookup, ClassName));
+                  #        tableLookup.addLookupfield(fieldnum(echSoCheckLookup, Description));
+                  #        tableLookup.parmQuery(query);
+                  #
+                  #        //BP Deviation Documented.
+                  #        tableLookup.parmTmpBuffer(componentLookup);
+                  #        tableLookup.parmUseLookupValue(false);
+                  #
+                  #        tableLookup.performFormLookup();
+                  #    }
+                  #}
+                  #
+                ENDSOURCE
+                SOURCE #validate
+                  #public boolean validate()
+                  #{
+                  #    boolean ret = true;
+                  #    ;
+                  #
+                  #    if (this.text())
+                  #    {
+                  #        ret = echSalesOrderCheckTable::checkClassName(this.text());
+                  #    }
+                  #
+                  #    if (ret)
+                  #    {
+                  #        ret = super();
+                  #    }
+                  #    else
+                  #    {
+                  #        this.text('');
+                  #    }
+                  #
+                  #    return ret;
+                  #}
+                ENDSOURCE
+              ENDMETHODS
+            ENDCONTROL 
+            
+            CONTROL INTEDIT
+              PROPERTIES
+                Name                #Grid_ClassId
+                DataSource          #echSalesOrderCheckTable
+                DataField           #ClassId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL CHECKBOX
+              PROPERTIES
+                Name                #Grid_IsCheckInPickingList
+                BackgroundColor     #Window background
+                DataSource          #echSalesOrderCheckTable
+                DataField           #IsCheckInPickingList
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #buttonConfigure
+              AutoDeclaration     #Yes
+              HelpText            #@ECH211
+              Text                #@SYS25986
+              MenuItemName        #echSoCheckAmountTable
+              DataSource          #echSalesOrderCheckTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL SEPARATOR
+            PROPERTIES
+              Name                #Separator
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL BUTTON
+            PROPERTIES
+              Name                #buttonMoveUp
+              HelpText            #@SYS96594
+              Text                #@SYS96593
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    //Tables
+                #    echSalesOrderCheckTable currentRecord;
+                #    echSalesOrderCheckTable previousRecord;
+                #
+                #    //Variables
+                #    int                     currentSequence;
+                #    int                     previousSequence;
+                #    ;
+                #
+                #    super();
+                #
+                #    // Get current record
+                #    currentRecord = echSalesOrderCheckTable_DS.cursor();
+                #    if (currentRecord)
+                #    {
+                #        // Find the component just above the current record.
+                #        select firstonly forupdate * from previousRecord
+                #        order by Sequence desc
+                #        where previousRecord.Sequence < currentRecord.Sequence;
+                #
+                #        // If we don't get any records
+                #        // back, we are already at the top of the list.
+                #        if (previousRecord)
+                #        {
+                #            ttsbegin;
+                #
+                #            // Get the current set of sequences
+                #            currentSequence = currentRecord.Sequence;
+                #            previousSequence = previousRecord.Sequence;
+                #
+                #            // Don't want to violate the primary key
+                #            // so we will temporarily assign -1 to the current record.
+                #            currentRecord.Sequence = -1;
+                #            currentRecord.update();
+                #
+                #            // Swap the sequences.
+                #            previousRecord.Sequence = currentSequence;
+                #            previousRecord.update();
+                #
+                #            currentRecord.Sequence = previousSequence;
+                #            currentRecord.update();
+                #
+                #            ttscommit;
+                #
+                #            // Update the grid and set focus to the
+                #            // record just moved.
+                #            echSalesOrderCheckTable_DS.research();
+                #            echSalesOrderCheckTable_DS.findValue(fieldnum(echSalesOrderCheckTable, Sequence), int2str(previousSequence));
+                #
+                #        }
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+          CONTROL BUTTON
+            PROPERTIES
+              Name                #buttonMoveDown
+              HelpText            #@SYS96596
+              Text                #@SYS96595
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    //Tables
+                #    echSalesOrderCheckTable currentRecord;
+                #    echSalesOrderCheckTable nextRecord;
+                #
+                #    //Variables
+                #    int currentSequence;
+                #    int nextSequence;
+                #    ;
+                #
+                #    super();
+                #
+                #    // Get current record
+                #    currentRecord = echSalesOrderCheckTable_DS.cursor();
+                #    if (currentRecord)
+                #    {
+                #        // Find the component just above the current record.
+                #        select firstonly forupdate * from nextRecord
+                #        order by Sequence asc
+                #            where nextRecord.Sequence > currentRecord.Sequence;
+                #
+                #        // If we don't get any records
+                #        // back, we are already at the end of the list.
+                #        if (nextRecord)
+                #        {
+                #            ttsbegin;
+                #
+                #            // Get the current set of sequences
+                #            currentSequence = currentRecord.Sequence;
+                #            nextSequence = nextRecord.Sequence;
+                #
+                #            // Don't want to violate the primary key
+                #            // so we will temporarily assign -1 to the current record.
+                #            currentRecord.Sequence = -1;
+                #            currentRecord.update();
+                #
+                #            // Swap the sequences.
+                #            nextRecord.Sequence = currentSequence;
+                #            nextRecord.update();
+                #
+                #            currentRecord.Sequence = nextSequence;
+                #            currentRecord.update();
+                #
+                #            ttscommit;
+                #
+                #            // Update the grid and set focus to the
+                #            // record just moved.
+                #            echSalesOrderCheckTable_DS.research();
+                #            echSalesOrderCheckTable_DS.findValue(fieldnum(echSalesOrderCheckTable, Sequence), int2str(nextSequence));
+                #        }
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #StatusGroup
+          AutoDeclaration     #Yes
+          Visible             #No
+          Width               #Column width
+          Skip                #Yes
+          Caption             #@ECH213
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL PROGRESS
+              PROPERTIES
+                Name                #Progress
+                AutoDeclaration     #Yes
+                AllowEdit           #No
+                Width               #Column width
+                Skip                #Yes
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

@@ -1,0 +1,223 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxRBOAssortmentItemList unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxRBOAssortmentItemList
+    Id 30297
+    PROPERTIES
+      Name                #AxRBOAssortmentItemList
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxRBOAssortmentItemList axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxRBOAssortmentItemList extends AxInternalBase
+        #{
+        #    RBOAssortmentItemList RBOAssortmentItemList;
+        #
+        #    int             cacheRecordIdx;
+        #    int             cacheObjectIdx;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public RBOAssortmentItemList currentRecord(RBOAssortmentItemList _RBOAssortmentItemList = RBOAssortmentItemList)
+        #{
+        #    if (!prmisdefault(_RBOAssortmentItemList))
+        #    {
+        #        super(_RBOAssortmentItemList);
+        #        RBOAssortmentItemList = _RBOAssortmentItemList;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return RBOAssortmentItemList;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected RBOAssortmentItemList emptyRecord()
+        #{
+        #    RBOAssortmentItemList localRBOAssortmentItemList;
+        #    ;
+        #    return localRBOAssortmentItemList;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAssortmentType
+        #public RBOAssortmentType parmAssortmentType(RBOAssortmentType _assortmentType = RBOAssortmentTypeBase::Group)
+        #{
+        #    if (!prmisdefault(_assortmentType))
+        #    {
+        #        this.setField(fieldNum(RBOAssortmentItemList, AssortmentType), _assortmentType);
+        #    }
+        #
+        #    return rBOAssortmentItemList.AssortmentType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmGroupStatusType
+        #public RBOGroupStatusType parmGroupStatusType(RBOGroupStatusType _groupStatusType = RBOGroupStatusTypeBase::Active)
+        #{
+        #    if (!prmisdefault(_groupStatusType))
+        #    {
+        #        this.setField(fieldNum(RBOAssortmentItemList, GroupStatusType), _groupStatusType);
+        #    }
+        #
+        #    return rBOAssortmentItemList.GroupStatusType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemGroupDepartmentAll
+        #public RBOItemGroupDepartmentAll parmItemGroupDepartmentAll(RBOItemGroupDepartmentAll _itemGroupDepartmentAll = RBOItemGroupDepartmentAllBase::All)
+        #{
+        #    if (!prmisdefault(_itemGroupDepartmentAll))
+        #    {
+        #        this.setField(fieldNum(RBOAssortmentItemList, ItemGroupDepartmentAll), _itemGroupDepartmentAll);
+        #    }
+        #
+        #    return rBOAssortmentItemList.ItemGroupDepartmentAll;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemRelation
+        #public RBOItemRelation parmItemRelation(RBOItemRelation _itemRelation = '')
+        #{
+        #    if (!prmisdefault(_itemRelation))
+        #    {
+        #        this.setField(fieldNum(RBOAssortmentItemList, ItemRelation), _itemRelation);
+        #    }
+        #
+        #    return rBOAssortmentItemList.ItemRelation;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRelation
+        #public RBORelation parmRelation(RBORelation _relation = '')
+        #{
+        #    if (!prmisdefault(_relation))
+        #    {
+        #        this.setField(fieldNum(RBOAssortmentItemList, Relation), _relation);
+        #    }
+        #
+        #    return rBOAssortmentItemList.Relation;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #RBOAssortmentItemList
+        #public RBOAssortmentItemList rBOAssortmentItemList(RBOAssortmentItemList _rBOAssortmentItemList = rBOAssortmentItemList)
+        #{
+        #    if (!prmisdefault(_rBOAssortmentItemList))
+        #    {
+        #        this.setCurrentRecordFromExternal(_rBOAssortmentItemList);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAssortmentType
+        #protected void setAssortmentType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOAssortmentItemList, AssortmentType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setGroupStatusType
+        #protected void setGroupStatusType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOAssortmentItemList, GroupStatusType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemGroupDepartmentAll
+        #protected void setItemGroupDepartmentAll()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOAssortmentItemList, ItemGroupDepartmentAll)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemRelation
+        #protected void setItemRelation()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOAssortmentItemList, ItemRelation)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRelation
+        #protected void setRelation()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOAssortmentItemList, Relation)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setAssortmentType();
+        #    this.setRelation();
+        #    this.setItemGroupDepartmentAll();
+        #    this.setItemRelation();
+        #    this.setGroupStatusType();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxRBOAssortmentItemList construct()
+        #{
+        #    return new AxRBOAssortmentItemList();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newRBOAssortmentItemList
+        #public static AxRBOAssortmentItemList newRBOAssortmentItemList(RBOAssortmentItemList _RBOAssortmentItemList)
+        #{
+        #    AxRBOAssortmentItemList AxRBOAssortmentItemList = AxRBOAssortmentItemList::construct();
+        #    ;
+        #    AxRBOAssortmentItemList.RBOAssortmentItemList(_RBOAssortmentItemList);
+        #
+        #    return AxRBOAssortmentItemList;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

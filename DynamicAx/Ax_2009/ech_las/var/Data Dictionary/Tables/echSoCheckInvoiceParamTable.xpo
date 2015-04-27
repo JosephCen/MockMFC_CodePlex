@@ -1,0 +1,135 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSoCheckInvoiceParamTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSoCheckInvoiceParamTable
+    Id 30014
+    PROPERTIES
+      Name                #echSoCheckInvoiceParamTable
+      Label               #@ECH130
+      TitleField1         #RecId
+      TitleField2         #InventLocationId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      ClusterIndex        #RecId
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #InventLocationId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #InventLocationId
+          Table               #echSoCheckInvoiceParamTable
+          ExtendedDataType    
+            ARRAY 
+              #InventLocationId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #RecId
+          #InventLocationId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #InventLocationId
+          #InventLocationName
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #InventLocationName
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 09 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: display the warehouse name
+        #
+        #//BP Deviation documented
+        #Display Description inventLocationName()
+        #{
+        #    ;
+        #
+        #    return inventLocation::find(this.InventLocationId).Name;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #public static boolean exist(RecId _recId)
+        #{
+        #    echSoCheckInvoiceParamTable echSoCheckInvoiceParamTable;
+        #    ;
+        #
+        #    select firstonly RecId from echSoCheckInvoiceParamTable
+        #        index hint RecId
+        #        where echSoCheckInvoiceParamTable.RecId == _recId;
+        #
+        #    return echSoCheckInvoiceParamTable.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #public static echSoCheckInvoiceParamTable find(RecId _id, boolean _forUpdate = false)
+        #{
+        #    echSoCheckInvoiceParamTable echSoCheckInvoiceParam;
+        #    ;
+        #
+        #    echSoCheckInvoiceParam.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSoCheckInvoiceParam
+        #        index hint RecId
+        #        where echSoCheckInvoiceParam.recId == _id;
+        #
+        #    return echSoCheckInvoiceParam;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

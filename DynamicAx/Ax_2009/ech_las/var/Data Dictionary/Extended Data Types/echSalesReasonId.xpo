@@ -1,0 +1,35 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echSalesReasonId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echSalesReasonId
+  Id 30003
+  STRING
+    PROPERTIES
+      Name                #echSalesReasonId
+      Label               #@ECH6
+      HelpText            #@ECH7
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+      TYPEREFERENCETYPE DATASET
+      PROPERTIES
+        Table               #echSalesReasonTable
+        RelatedField        #Id
+      ENDPROPERTIES
+      
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

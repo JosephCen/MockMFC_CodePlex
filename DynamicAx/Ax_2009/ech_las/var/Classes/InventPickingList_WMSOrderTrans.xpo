@@ -1,0 +1,200 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventPickingList_WMSOrderTrans unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventPickingList_WMSOrderTrans
+    Id 17800
+    PROPERTIES
+      Name                #InventPickingList_WMSOrderTrans
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #/// <summary>
+        #///    The InventPickingList_WMSOrderTrans class is the dataContainer for WMSOrderTrans object and is
+        #///    derived from AfStronglyTypedDataContainer class.
+        #/// </summary>
+        #class InventPickingList_WMSOrderTrans extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchItemTax('EchItemTax')
+        #    #define.EchInvoiceContent('EchInvoiceContent')
+        #    #define.EchExtSkuId('EchExtSkuId')
+        #    #define.DocuRefLine('DocuRefLine')
+        #    #define.Volume('Volume')
+        #    #define.ToInventDimId('ToInventDimId')
+        #    #define.SortCode('SortCode')
+        #    #define.ShipmentIdOriginal('ShipmentIdOriginal')
+        #    #define.ShipmentId('ShipmentId')
+        #    #define.RouteId('RouteId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Qty('Qty')
+        #    #define.PreReserved('PreReserved')
+        #    #define.PostTransfer('PostTransfer')
+        #    #define.PalletTagging('PalletTagging')
+        #    #define.PalletIdPicked('PalletIdPicked')
+        #    #define.OrderType('OrderType')
+        #    #define.OrderId('OrderId')
+        #    #define.OptimizedPicking('OptimizedPicking')
+        #    #define.Operator('Operator')
+        #    #define.ItemTagging('ItemTagging')
+        #    #define.ItemSortCode('ItemSortCode')
+        #    #define.ItemId('ItemId')
+        #    #define.IsReserved('IsReserved')
+        #    #define.InventTransType('InventTransType')
+        #    #define.InventTransRefId('InventTransRefId')
+        #    #define.InventTransId('InventTransId')
+        #    #define.InventDimId('InventDimId')
+        #    #define.InventDimFixed('InventDimFixed')
+        #    #define.InventDim('InventDim')
+        #    #define.FullPallet('FullPallet')
+        #    #define.ExpeditionTime('ExpeditionTime')
+        #    #define.ExpeditionStatus('ExpeditionStatus')
+        #    #define.ExpectedExpeditionTime('ExpectedExpeditionTime')
+        #    #define.DlvDate('DlvDate')
+        #    #define.DeliveryAddress('DeliveryAddress')
+        #    #define.Customer('Customer')
+        #    #define.CaseTagging('CaseTagging')
+        #
+        #    // echina
+        #    #define.echSkuId('echSkuId')
+        #    #define.SalesUnit('SalesUnit')
+        #    #define.SalesPrice('SalesPrice')
+        #    // echina
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createDocuRefLine
+        #public AfStronglyTypedDataContainerList createDocuRefLine()
+        #{
+        #    return this.get_NewList(#DocuRefLine);
+        #}
+      ENDSOURCE
+      SOURCE #existsDocuRefLine
+        #public boolean existsDocuRefLine()
+        #{
+        #    return this.exists(#DocuRefLine);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchExtSkuId
+        #public boolean existsEchExtSkuId()
+        #{
+        #    return this.exists(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceContent
+        #public boolean existsEchInvoiceContent()
+        #{
+        #    return this.exists(#EchInvoiceContent);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchItemTax
+        #public boolean existsEchItemTax()
+        #{
+        #    return this.exists(#EchItemTax);
+        #}
+      ENDSOURCE
+      SOURCE #existsechSkuId
+        #public boolean existsechSkuId()
+        #{
+        #    return this.exists(#echSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsSalesPrice
+        #public boolean existsSalesPrice()
+        #{
+        #    return this.exists(#SalesPrice);
+        #}
+      ENDSOURCE
+      SOURCE #existsSalesUnit
+        #public boolean existsSalesUnit()
+        #{
+        #    return this.exists(#SalesUnit);
+        #}
+      ENDSOURCE
+      SOURCE #parmDocuRefLine
+        #public AfStronglyTypedDataContainerList parmDocuRefLine(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#DocuRefLine, _value);
+        #    }
+        #
+        #    return this.get_List(#DocuRefLine);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #public ExtCodeValue parmEchExtSkuId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchExtSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceContent
+        #public ItemFreeTxt parmEchInvoiceContent(ItemFreeTxt _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceContent, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceContent);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchItemTax
+        #public TaxItemGroup parmEchItemTax(TaxItemGroup _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchItemTax, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchItemTax);
+        #}
+      ENDSOURCE
+      SOURCE #parmechSkuId
+        #public echSkuId parmechSkuId(echSkuId _value = "")
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echSkuId, _value);
+        #    }
+        #    return this.get_Attribute(#echSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesPrice
+        #public SalesPrice parmSalesPrice(SalesPrice _value = 0.00)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SalesPrice, _value);
+        #    }
+        #    return this.get_Attribute(#SalesPrice);
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesUnit
+        #public SalesUnit parmSalesUnit(SalesUnit _value = "")
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SalesUnit, _value);
+        #    }
+        #    return this.get_Attribute(#SalesUnit);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

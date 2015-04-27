@@ -1,0 +1,154 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSoCheckAmountTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSoCheckAmountTable
+    Id 30012
+    PROPERTIES
+      Name                #echSoCheckAmountTable
+      Label               #@ECH129
+      TitleField1         #RecId
+      TitleField2         #maxAmount
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      MaxAccessMode       #Edit
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #Key
+      ClusterIndex        #Key
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #maxAmount
+        Id 30002
+        REAL
+        PROPERTIES
+          Name                #maxAmount
+          Label               #@ECH170
+          HelpText            #@ECH171
+          Table               #echSoCheckAmountTable
+          ExtendedDataType    
+            ARRAY 
+              #AmountMST
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Key
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #Key
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Visible             #No
+          Table               #echSoCheckAmountTable
+          ExtendedDataType    
+            ARRAY 
+              #ParametersKey
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #RecId
+          #maxAmount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #maxAmount
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #Key
+      Id 30001
+      PROPERTIES
+        Name                #Key
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Key
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #static boolean exist()
+        #{
+        #    return (select firstonly RecId from echSoCheckAmountTable).RecId != 0;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #/*
+        #    AOSRunMode::Called
+        #*/
+        #static echSoCheckAmountTable find(boolean _forupdate = false)
+        #{
+        #    echSoCheckAmountTable  parameter;
+        #
+        #    if (_forupdate)
+        #    parameter.selectForUpdate(_forupdate);
+        #
+        #    select firstonly parameter
+        #        index Key
+        #        where parameter.Key == 0;
+        #
+        #    if (!parameter && !parameter.isTmp())
+        #    {
+        #        Company::createParameter(parameter);
+        #    }
+        #
+        #    return parameter;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

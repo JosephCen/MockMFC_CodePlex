@@ -1,0 +1,81 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echRBOAssortmentItemList unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echRBOAssortmentItemList
+    PROPERTIES
+      Name                #echRBOAssortmentItemList
+      HelpText            #
+      Filename            #echRBOAssortmentItemList.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echRBOAssortmentItemList.ascx.cs" Inherits="echRBOAssortmentItemList" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="echRBOassortItemList_DS" runat="server" 
+      #    DataSetName="echRBOAssortmentItemList" ProviderView="RBOAssortmentItemList">
+      #</dynamics:AxDataSource> 
+      #<dynamics:AxGridView ID="echRBOAssortItemListGrid" runat="server" 
+      #    DataKeyNames="RecId" DataMember="RBOAssortmentItemList" 
+      #    DataSourceID="echRBOassortItemList_DS">
+      #    <Columns>
+      #        <dynamics:AxDropDownBoundField DataField="assortmentType" 
+      #            DataSet="echRBOAssortmentItemList" DataSetView="RBOAssortmentItemList" 
+      #            SortExpression="assortmentType">
+      #        </dynamics:AxDropDownBoundField>
+      #        <dynamics:AxBoundField DataField="relation" DataSet="echRBOAssortmentItemList" 
+      #            DataSetView="RBOAssortmentItemList" SortExpression="relation">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="relationName**" 
+      #            DataSet="echRBOAssortmentItemList" DataSetView="RBOAssortmentItemList">
+      #        </dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echRBOAssortmentItemList_ascx_cs
+      HelpText            #
+      Filename            #echRBOAssortmentItemList.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echRBOAssortmentItemList : System.Web.UI.UserControl
+      #{	
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #		
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

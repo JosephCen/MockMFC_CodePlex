@@ -1,0 +1,197 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echSOPromotionsLineForm
+  PROPERTIES
+    Name                #echSOPromotionsLineForm
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSOPromotionsLine
+          Table               #echSOPromotionsLine
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS115268
+      TitleDatasource     #echSOPromotionsLine
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #TabPageOverview
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS34991
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #OverviewGrid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSOPromotionsLine
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_PromotionId
+                        DataSource          #echSOPromotionsLine
+                        DataField           #PromotionId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_PromotionDesc
+                        DataSource          #echSOPromotionsLine
+                        DataField           #PromotionDesc
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_Percentage
+                        DataSource          #echSOPromotionsLine
+                        DataField           #Percentage
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_Amount
+                        DataSource          #echSOPromotionsLine
+                        DataField           #Amount
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS19924
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GeneralGroup
+                  Width               #Column width
+                  Height              #Column height
+                  FrameType           #None
+                  DataSource          #echSOPromotionsLine
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #GeneralGroup_PromotionId
+                        DataSource          #echSOPromotionsLine
+                        DataField           #PromotionId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #GeneralGroup_PromotionDesc
+                        DataSource          #echSOPromotionsLine
+                        DataField           #PromotionDesc
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #GeneralGroup_Percentage
+                        DataSource          #echSOPromotionsLine
+                        DataField           #Percentage
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #GeneralGroup_Amount
+                        DataSource          #echSOPromotionsLine
+                        DataField           #Amount
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

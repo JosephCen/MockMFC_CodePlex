@@ -1,0 +1,28 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTR
+
+; Microsoft Dynamics AX Real: echAdjustFee unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echAdjustFee
+  Id 30025
+  REAL
+    PROPERTIES
+      Name                #echAdjustFee
+      Label               #@ECH73
+      HelpText            #@ECH72
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

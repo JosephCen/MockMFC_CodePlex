@@ -1,0 +1,384 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesCopying unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesCopying
+    Id 1098
+    PROPERTIES
+      Name                #SalesCopying
+      Extends             #
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #copy
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00608
+        #// *** Customization Date: 14 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: copy msgPartner fields to return order
+        #
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_007
+        #// *** Customization Date: 02 May 2012
+        #// *** Customization Type: created
+        #// *** Description: set sales aggregate status
+        #
+        #public void copy()
+        #{
+        #    Common                  fromTrans;
+        #    SalesLine               fromSalesLine;
+        #    SalesTable              fromSalesTable; // CS - ECH_I_OR05 - Anthony Christiaens - 14 Jun 2012
+        #    CustInvoiceTrans        fromCustInvoiceTrans;
+        #    CustQuotationTrans      fromCustQuotationTrans;
+        #    CustConfirmTrans        fromCustConfirmTrans;
+        #    ProjInvoiceItem         fromProjInvoiceItem;
+        #
+        #    CurrencyCode            currencyCode;
+        #
+        #    SalesLine               salesLine;
+        #    NoYes                   searchPrice;
+        #    NoYes                   copyQty;
+        #    // <GTH>
+        #    SalesLine               salesLineLoc;
+        #    // </GTH>
+        #    // <GBR>
+        #    boolean                 headerRecordsSelected_BR;
+        #    // </GBR>
+        #
+        #    ttsbegin;
+        #
+        #    startLengthyOperation();
+        #
+        #    this.deleteSettlement();
+        #
+        #    if (recalculateAmount)
+        #        searchPrice = NoYes::Yes;
+        #    else
+        #        searchPrice = NoYes::No;
+        #
+        #    copyQty = qtyFactor ? NoYes::Yes : NoYes::No;
+        #
+        #    if (deleteLines)
+        #    {
+        #        this.deleteLines();
+        #        deleteLines=NoYes::No;
+        #    }
+        #
+        #    // <GBR>
+        #    if (BrazilParameters::isEnabled())
+        #    {
+        #        // Determine if the header record has been selected for the copying.
+        #        // tmpFrmVirtualHeader buffere is cleared in copyHeader.
+        #        select count(RecId) from tmpFrmVirtualHeader;
+        #        headerRecordsSelected_BR = (tmpFrmVirtualHeader.RecId > 0);
+        #
+        #        if (!this.validateForCopy_BR())
+        #        {
+        #            throw Exception::Error;
+        #        }
+        #    }
+        #    // </GBR>
+        #
+        #    this.copyHeader();
+        #
+        #    while select tmpFrmVirtualLines order by LineNum
+        #    {
+        #        salesLine.clear();
+        #        currencyCode = "";
+        #
+        #        if (startingLineNum)
+        #        {
+        #            salesLine.LineNum = lineNum;
+        #            lineNum += 0.01;
+        #        }
+        #
+        #        salesLine.initFromSalesTable(salesTable);
+        #
+        #        switch(tmpFrmVirtualLines.TableNum)
+        #        {
+        #            case tablenum(SalesLine)            :   fromSalesLine = SalesLine::findRecId(tmpFrmVirtualLines.RecordNo);
+        #                                                    fromTrans = fromSalesLine;
+        #                                                    salesLine.initFromSalesLine(fromSalesLine,copyPrecisely,!searchPrice,copyQty, tmpFrmVirtualLines.Qty);
+        #
+        #                                                    if (salesLine.CurrencyCode != fromSalesLine.CurrencyCode)
+        #                                                        currencyCode = fromSalesLine.CurrencyCode;
+        #
+        #                                                    if (fromSalesLine.SalesStatus == SalesStatus::Canceled)
+        #                                                        salesLine.SalesStatus = SalesStatus::Canceled;
+        #
+        #                                                    // <GTH>
+        #                                                    if (LedgerParameters::find().TaxWithholdCalculateItem_TH == NoYes::Yes)
+        #                                                    {
+        #                                                        salesLineLoc = fromSalesLine;
+        #                                                    }
+        #                                                    // </GTH>
+        #                                                    break;
+        #
+        #            case tablenum(CustInvoiceTrans)     :   fromCustInvoiceTrans = CustInvoiceTrans::findRecId(tmpFrmVirtualLines.RecordNo);
+        #                                                    fromTrans = fromCustInvoiceTrans;
+        #                                                    // <GBR>
+        #                                                    if(BrazilParameters::isEnabled())
+        #                                                    {
+        #                                                        fromSalesLine = fromCustInvoiceTrans.salesLine();
+        #                                                        if (!salesTable.InvoiceRefRecID)
+        #                                                        {
+        #                                                            salesTable.InvoiceRefRecID = fromCustInvoiceTrans.custInvoiceJour().RecId;
+        #                                                        }
+        #                                                    }
+        #                                                    // </GBR>
+        #                                                    salesLine.initFromCustInvoiceTrans(fromCustInvoiceTrans,copyPrecisely,!searchPrice,copyQty, tmpFrmVirtualLines.Qty);
+        #
+        #                                                    if (salesLine.CurrencyCode != fromCustInvoiceTrans.CurrencyCode)
+        #                                                        currencyCode = fromCustInvoiceTrans.CurrencyCode;
+        #                                                    // <GIN>
+        #                                                    if (TaxParameters::checkTaxParameters_IN())
+        #                                                    {
+        #                                                        salesLine.TaxAsPerOriginalInvoice_IN = taxAsPerOriginalInv;
+        #                                                        if(salesLine.TaxAsPerOriginalInvoice_IN)
+        #                                                        {
+        #                                                            salesLine.InventRefId        = fromCustInvoiceTrans.SalesId;
+        #                                                        }
+        #                                                    }
+        #                                                    // </GIN>
+        #
+        #                                                    // <GTH>
+        #                                                    if (LedgerParameters::find().TaxWithholdCalculateItem_TH == NoYes::Yes)
+        #                                                    {
+        #                                                        salesLineLoc = SalesLine::findInventTransId(fromCustInvoiceTrans.InventTransId);
+        #                                                    }
+        #                                                    // </GTH>
+        #// CS - ECH_WI_00608 - Anthony Christiaens - 14 Jun 2012
+        #                                                    if (isconfigurationkeyenabled(configurationkeynum(echprocesses)))
+        #                                                    {
+        #                                                        if (!salesTable.echMsgPartnerExtCode || !salesTable.echMsgPartnerId)
+        #                                                        {
+        #                                                            fromSalesTable                  = SalesTable::find(fromCustInvoiceTrans.SalesId);
+        #                                                            salesTable.echMsgPartnerExtCode = fromSalesTable.echMsgPartnerExtCode;
+        #                                                            salesTable.echMsgPartnerId      = fromSalesTable.echMsgPartnerId;
+        #                                                        }
+        #                                                    }
+        #// CE - ECH_WI_00608 - Anthony Christiaens - 14 Jun 2012
+        #                                                    break;
+        #
+        #            case tablenum(CustPackingSlipTrans) :   fromTrans = CustPackingSlipTrans::findRecId(tmpFrmVirtualLines.RecordNo);
+        #                                                    salesLine.initFromCustPackingSlipTrans(fromTrans,copyPrecisely,!searchPrice,copyQty, tmpFrmVirtualLines.Qty);
+        #
+        #                                                    // <GTH>
+        #                                                    if (LedgerParameters::find().TaxWithholdCalculateItem_TH == NoYes::Yes)
+        #                                                    {
+        #                                                        salesLineLoc = SalesLine::findInventTransId(CustPackingSlipTrans::findRecId(tmpFrmVirtualLines.RecordNo).InventTransId);
+        #                                                    }
+        #                                                    // </GTH>
+        #                                                    break;
+        #
+        #            case tablenum(CustQuotationTrans)   :   fromCustQuotationTrans = CustQuotationTrans::findRecId(tmpFrmVirtualLines.RecordNo);
+        #                                                    fromTrans = fromCustQuotationTrans;
+        #                                                    salesLine.initFromCustQuotationTrans(fromCustQuotationTrans,copyPrecisely,!searchPrice,copyQty, tmpFrmVirtualLines.Qty);
+        #
+        #                                                    if (salesLine.CurrencyCode != fromCustQuotationTrans.CurrencyCode)
+        #                                                        currencyCode = fromCustQuotationTrans.CurrencyCode;
+        #
+        #                                                    // <GTH>
+        #                                                    if (LedgerParameters::find().TaxWithholdCalculateItem_TH == NoYes::Yes)
+        #                                                    {
+        #                                                        salesLineLoc = SalesLine::findInventTransId(fromCustQuotationTrans.InventTransId);
+        #                                                    }
+        #                                                    // </GTH>
+        #                                                    break;
+        #
+        #            case tablenum(CustConfirmTrans)     :   fromCustConfirmTrans = CustConfirmTrans::findRecId(tmpFrmVirtualLines.RecordNo);
+        #                                                    fromTrans = fromCustConfirmTrans;
+        #                                                    salesLine.initFromCustConfirmTrans(fromCustConfirmTrans,copyPrecisely,!searchPrice,copyQty, tmpFrmVirtualLines.Qty);
+        #
+        #                                                    if (salesLine.CurrencyCode != fromCustConfirmTrans.CurrencyCode)
+        #                                                        currencyCode = fromCustConfirmTrans.CurrencyCode;
+        #
+        #                                                    // <GTH>
+        #                                                    if (LedgerParameters::find().TaxWithholdCalculateItem_TH == NoYes::Yes)
+        #                                                    {
+        #                                                        salesLineLoc = SalesLine::findInventTransId(fromCustConfirmTrans.InventTransId);
+        #                                                    }
+        #                                                    // </GTH>
+        #                                                    break;
+        #
+        #            case tablenum(ProjInvoiceItem)      :   fromProjInvoiceItem = ProjInvoiceItem::findRecId(tmpFrmVirtualLines.RecordNo);
+        #                                                    fromTrans = fromProjInvoiceItem;
+        #                                                    salesLine.initFromProjInvoiceItem(fromProjInvoiceItem,copyPrecisely,!searchPrice,copyQty, tmpFrmVirtualLines.Qty);
+        #
+        #                                                    if (salesLine.CurrencyCode != fromCustInvoiceTrans.CurrencyCode)
+        #                                                        currencyCode = fromCustInvoiceTrans.CurrencyCode;
+        #
+        #                                                    // <GTH>
+        #                                                    if (LedgerParameters::find().TaxWithholdCalculateItem_TH == NoYes::Yes)
+        #                                                    {
+        #                                                        salesLineLoc = SalesLine::findInventTransId(fromProjInvoiceItem.InventTransId);
+        #                                                    }
+        #                                                    // </GTH>
+        #                                                    break;
+        #        }
+        #
+        #        // <GBR>
+        #        // A user is not required to select the header record for which a sales record will be created.
+        #        // If a record is a Returned order that originated from an invoiced,
+        #        // BR fiscal information will be updated.
+        #        if (salesTable.SalesType == SalesType::ReturnItem && salesTable.InvoiceRefRecID &&
+        #            !headerRecordsSelected_BR)
+        #        {
+        #            this.updateSalesTableFiscalInfo_BR();
+        #        }
+        #        // </GBR>
+        #
+        #
+        #        if (copyQty)
+        #        {
+        #            // Is the line not a return order line?
+        #            if (!salesLine.salesTable().returnJournal())
+        #            {
+        #                salesLine.SalesQty     = reverseSign ? -salesLine.SalesQty : salesLine.SalesQty;
+        #                salesLine.SalesQty     = decround(salesLine.SalesQty * qtyFactor,Unit::decimals(salesLine.SalesUnit));
+        #                salesLine.QtyOrdered   = reverseSign ? -salesLine.QtyOrdered : salesLine.QtyOrdered;
+        #                salesLine.QtyOrdered   = salesLine.QtyOrdered * qtyFactor;
+        #            }
+        #            //  When creating credit note for return lines only the expected return quantity is filled
+        #            else
+        #            {
+        #                salesLine.ReturnStatus      = ReturnStatusLine::Awaiting;
+        #                salesLine.ExpectedRetQty    = -salesLine.SalesQty;
+        #                salesLine.SalesQty          = 0;
+        #                salesLine.QtyOrdered        = 0;
+        #            }
+        #        }
+        #
+        #        if (currencyCode)
+        #        {
+        #            salesLine.SalesPrice  = Currency::curPrice2CurPrice(salesLine.SalesPrice, currencyCode, salesLine.CurrencyCode);
+        #            salesLine.LineDisc    = Currency::curPrice2CurPrice(salesLine.LineDisc, currencyCode, salesLine.CurrencyCode);
+        #            salesLine.MultiLnDisc = Currency::curPrice2CurPrice(salesLine.MultiLnDisc, currencyCode, salesLine.CurrencyCode);
+        #            salesLine.SalesMarkup = Currency::curPrice2CurPrice(salesLine.SalesMarkup, currencyCode, salesLine.CurrencyCode);
+        #            salesLine.LineAmount  = Currency::curAmount2CurAmount(salesLine.LineAmount, currencyCode, salesLine.CurrencyCode);
+        #        }
+        #
+        #        SalesCalcAvailableDlvDates::initDateFields(salesLine);
+        #
+        #        salesLine.LineAmount    = reverseSign ? -salesLine.LineAmount : salesLine.LineAmount;
+        #
+        #        // <GIN>
+        #        if (TaxParameters::checkTaxParameters_IN())
+        #        {
+        #            salesLine.AssessableValue_IN    = reverseSign ? -salesLine.AssessableValue_IN : salesLine.AssessableValue_IN;
+        #        }
+        #        // </GIN>
+        #        salesLine.LineAmount    = salesLine.returnJournal() ? salesLine.returnLineAmount() : salesLine.calcLineAmount();
+        #
+        #        if (tmpFrmVirtualLines.TableNum == tablenum(CustInvoiceTrans))
+        #            this.setInventTransIdReturn(salesLine,fromCustInvoiceTrans);
+        #
+        #        // PBa
+        #        salesLine.createLine(true,false,false,!copyPrecisely,!copyMarkup,searchPrice,salesTable.Reservation==ItemReservation::Automatic,true,fromSalesLine.InventTransId);
+        #
+        #        // <GIN>
+        #        if (copyPrecisely
+        #            && salesLine.SalesQty >= 0
+        #            && TaxParameters::find().EximIncentiveSchemes_IN
+        #            && (tmpFrmVirtualLines.TableNum == tablenum(SalesLine)
+        #            || tmpFrmVirtualLines.TableNum  == tablenum(CustInvoiceTrans)))
+        #        {
+        #            EximSalesLine_IN::copyEximSalesLine(fromTrans, salesLine.RecId);
+        #        }
+        #        // </GIN>
+        #
+        #        // <GTH>
+        #        if (LedgerParameters::find().TaxWithholdCalculateItem_TH == NoYes::Yes
+        #            && salesLineLoc)
+        #        {
+        #            salesLine.TaxWithholdGroup        = salesLineLoc.TaxWithholdGroup;
+        #            salesLine.TaxWithholdItemGroup_TH = salesLineLoc.TaxWithholdItemGroup_TH;
+        #            salesLine.write();
+        #        }
+        #        // </GTH>
+        #
+        #        // <GBR>
+        #        if (BrazilParameters::isEnabled())
+        #        {
+        #            TaxFiscalInfo_BR::updateTaxFiscalInfoFromCopy(fromSalesLine, salesLine);
+        #
+        #            if (tmpFrmVirtualLines.TableNum == tablenum(CustInvoiceTrans))
+        #            {
+        #                this.initCustSalesLineTxt_BR(fromTrans,salesLine);
+        #            }
+        #
+        #        }
+        #        // </GBR>
+        #
+        #        if (copyMarkup)
+        #            Markup::copy(reverseSign,fromTrans,salesLine);
+        #
+        #        // <GIN>
+        #        if (!(SalesTable::find(salesLine.SalesId).CustomsExportOrder_IN) && TaxParameters::checkTaxParameters_IN())
+        #        {
+        #            salesLine.AssessableValue_IN = salesLine.SalesPurchJournal_IN::getMiscChargesAmount(salesLine.TableId, salesLine.RecId);
+        #            salesLine.update();
+        #        }
+        #        // </GIN>
+        #
+        #        if
+        #        // <GBR>
+        #        (
+        #        // </GBR>
+        #        (tmpFrmVirtualLines.TableNum == tablenum(CustInvoiceTrans)
+        #            // <GBR>
+        #            && !BrazilParameters::isEnabled()
+        #            // </GBR>
+        #            )
+        #            // <GBR>
+        #            || ((tmpFrmVirtualLines.TableNum == tablenum(CustInvoiceTrans)
+        #            && BrazilParameters::isEnabled()
+        #            && (salesTable.salesOperationType_BR() ? salesTable.salesOperationType_BR().InventControl : true))))
+        #        // </GBR>
+        #        {
+        #            this.updateInvoiceCreditCopy(salesLine, fromCustInvoiceTrans);
+        #
+        #            if (this.settleInvoiceTrans())
+        #                this.markForSettlement(fromCustInvoiceTrans);
+        #        }
+        #    }
+        #
+        #    //force credit limit check to execute and update salesTable.Estimated if eligible
+        #    salesTable.Touched = NoYes::Yes;
+        #
+        #    if (salesTable.validateWrite())
+        #    {
+        #        salesTable.update();
+        #
+        #        // CS - ECH_E_003 - Abdessamad Almask - 20 Apr 2012
+        #        if(salesTable.ReturnStatus == ReturnStatusHeader::Created)
+        #            echUpdateAggStatus::updateStatus(salesTable.SalesId, ECHAggStatus::Created);
+        #        // CE - ECH_E_003 - Abdessamad Almask - 20 Apr 2012
+        #    }
+        #    else
+        #    {
+        #        salesTable.reread();
+        #
+        #        if (!salesTable.calcEstimateForced())
+        #        {
+        #             throw error("@SYS18722");
+        #        }
+        #    }
+        #
+        #    this.setRefCustVendCreditInvoicingTable(salesTable, custInvoiceJour);
+        #
+        #    ttscommit;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

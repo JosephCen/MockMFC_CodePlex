@@ -1,0 +1,88 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #ECHCustomerInfoRetOrder
+  PROPERTIES
+    Name                #ECHCustomerInfoRetOrder
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          JoinSource          #CustTable
+          LinkType            #Active
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    QueryBuildRange     rangeSalesType;
+          #    ;
+          #    super();
+          #
+          #    rangeSalesType = this.query().dataSourceTable(tableNum(SalesTable)).addRange(fieldNum(SalesTable,SalesType));
+          #    rangeSalesType.value(queryValue(SalesType::ReturnItem));
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #CustTable
+          Table               #CustTable
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesLine
+          Table               #SalesLine
+          JoinSource          #SalesTable
+          LinkType            #Active
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    SalesTable CustTable
+    SalesLine SalesTable
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

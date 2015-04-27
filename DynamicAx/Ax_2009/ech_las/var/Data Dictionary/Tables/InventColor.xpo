@@ -1,0 +1,51 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventColor unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventColor
+    Id 1615
+    PROPERTIES
+      Name                #InventColor
+      Label               #@SYS73744
+      FormRef             #inventcolors
+      TitleField1         #InventColorId
+      TitleField2         #Name
+      ConfigurationKey    #InventItemDimColor
+      SecurityKey         #InventTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Main
+      PrimaryIndex        #ItemColorIdx
+      ClusterIndex        #ItemColorIdx
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS123998
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

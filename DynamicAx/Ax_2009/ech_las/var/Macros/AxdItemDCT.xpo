@@ -1,0 +1,36 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdItemDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdItemDCT
+    ##define.Item('Item')
+    ##define.Item_InventTable('Item.InventTable')
+    ##define.Item_Sales('Item.Sales')
+    ##define.Item_Purch('Item.Purch')
+    ##define.Item_Invent('Item.Invent')
+    ##define.Item_InventItemLocation('Item.InventItemLocation')
+    ##define.Item_InventDim('Item.InventDim')
+    ##define.Item_InventTxt('Item.InventTxt')
+    ##define.Item_InventTableDocuRef('Item.InventTableDocuRef')
+    ##define.Item_InventItemSalesSetup('Item.InventItemSalesSetup')
+    ##define.Item_InventDimSalesSetup('Item.InventDimSalesSetup')
+    ##define.Item_DefaultInventDimSalesSetup('Item.DefaultInventDimSalesSetup')
+    ##define.Item_InventItemPurchSetup('Item.InventItemPurchSetup')
+    ##define.Item_InventDimPurchSetup('Item.InventDimPurchSetup')
+    ##define.Item_DefaultInventDimPurchSetup('Item.DefaultInventDimPurchSetup')
+    ##define.Item_InventItemInventSetup('Item.InventItemInventSetup')
+    ##define.Item_InventDimInventSetup('Item.InventDimInventSetup')
+    ##define.Item_DefaultInventDimInventSetup('Item.DefaultInventDimInventSetup')
+    ##define.Item_echItemAttributes('Item.echItemAttributes')
+    ##define.Item_PriceDiscTable('Item.PriceDiscTable')
+    ##define.Item_InventDimPriceDisc('Item.InventDimPriceDisc')
+    ##define.Item_InventItemBarcode('Item.InventItemBarcode')
+    ##define.Item_InventDimBarcode('Item.InventDimBarcode')
+  ENDSOURCE
+
+***Element: END

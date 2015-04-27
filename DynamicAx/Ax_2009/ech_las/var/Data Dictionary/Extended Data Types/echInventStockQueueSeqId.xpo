@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echInventStockQueueSeqId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echInventStockQueueSeqId
+  Id 30099
+  STRING
+    PROPERTIES
+      Name                #echInventStockQueueSeqId
+      Label               #@ECH831
+      HelpText            #@ECH833
+      ConfigurationKey    #echProcesses
+      StringSize          #20
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSoCheckBlackListTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSoCheckBlackListTable
+    Type: 1
+    PROPERTIES
+      Name                #echSoCheckBlackListTable
+      Label               #@ECH178
+      HelpText            #@ECH179
+      Object              #echSoCheckBlackListTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

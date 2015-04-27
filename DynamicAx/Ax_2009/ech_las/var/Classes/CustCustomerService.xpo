@@ -1,0 +1,43 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: CustCustomerService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #CustCustomerService
+    Id 14172
+    PROPERTIES
+      Name                #CustCustomerService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #update
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Modified
+        #// *** Description:   Change signature and return the entitykeylist
+        #
+        #
+        #public AifEntityKeyList update(AifEntityKeyList _entityKeyList, CustCustomer _custCustomer)
+        #{
+        #    this.updateList(_entityKeyList, _custCustomer);
+        #    return _entityKeyList;
+        #}
+        #/*
+        #public void update(AifEntityKeyList _entityKeyList, CustCustomer _custCustomer)
+        #{
+        #    this.updateList(_entityKeyList, _custCustomer);
+        #}*/
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echRBOItemAttributes unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echRBOItemAttributes
+    PROPERTIES
+      Name                #echRBOItemAttributes
+      Label               #@SYS31826
+      HelpText            #@ECH266
+      URL                 #Retail/Enterprise%20Portal/echRBOItemAttributes.aspx
+      ConfigurationKey    #echInterfaces
+      WebConfigurationkey #EP
+      SecurityKey         #EPGeneralMisc
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

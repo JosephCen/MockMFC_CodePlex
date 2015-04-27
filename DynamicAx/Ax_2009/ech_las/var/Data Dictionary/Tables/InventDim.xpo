@@ -1,0 +1,149 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventDim unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventDim
+    Id 698
+    PROPERTIES
+      Name                #InventDim
+      Label               #@SYS53630
+      TitleField1         #inventDimId
+      TitleField2         #RecId
+      ConfigurationKey    #LedgerBasic
+      SecurityKey         #BasicTables
+      CacheLookup         #Found
+      TableGroup          #Group
+      PrimaryIndex        #DimIdIdx
+      ClusterIndex        #DimIdIdx
+      DeveloperDocumentation  #@SYS123931
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #inventDimId
+          #configId
+          #InventSizeId
+          #InventColorId
+          #InventStyleId
+          #InventSiteId
+          #InventLocationId
+          #inventBatchId
+          #wMSLocationId
+          #wMSPalletId
+          #inventSerialId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #InventoryDimensions
+        PROPERTIES
+          Name                #InventoryDimensions
+          Label               #@SYS53630
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #configId
+          #InventSizeId
+          #InventColorId
+          #InventStyleId
+          #InventSiteId
+          #InventLocationId
+          #inventBatchId
+          #wMSLocationId
+          #wMSPalletId
+          #inventSerialId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ItemDimensions
+        PROPERTIES
+          Name                #ItemDimensions
+          Label               #@SYS54752
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #configId
+          #InventSizeId
+          #InventColorId
+          #InventStyleId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ReqDimensionsPrioritized
+        PROPERTIES
+          Name                #ReqDimensionsPrioritized
+          Label               #@SYS110615
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #InventSiteId
+          #configId
+          #InventSizeId
+          #InventColorId
+          #InventStyleId
+          #InventLocationId
+          #inventBatchId
+          #wMSLocationId
+          #wMSPalletId
+          #inventSerialId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #InventSum
+      PROPERTIES
+        Table               #InventSum
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #InventTrans
+      PROPERTIES
+        Table               #InventTrans
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echGetItemBarCode
+        #//BP deviation documented
+        #Display ItemBarCode echGetItemBarCode()
+        #{
+        #    InventDim           m_InventDim;
+        #    InventDim           m_InventDimNo;
+        #    InventItemBarcode   m_InventItemBarcode;
+        #    ;
+        #    select m_InventDim
+        #        where m_InventDim.inventDimId == this.inventDimId;
+        #
+        #    m_InventDim.InventLocationId = '';
+        #    m_InventDim.InventSiteId = '';
+        #
+        #    m_InventDimNo = InventDim::findDim(m_InventDim);
+        #
+        #    select m_InventItemBarcode
+        #        where m_InventItemBarcode.inventDimId == m_InventDimNo.inventDimId;
+        #
+        #    return m_InventItemBarcode.itemBarCode;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

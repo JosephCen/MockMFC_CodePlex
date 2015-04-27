@@ -1,0 +1,181 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_InventItemBarcode unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_InventItemBarcode
+    Id 30288
+    PROPERTIES
+      Name                #EchProductLoad_InventItemBarcode
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_InventItemBarcode extends AfStronglyTypedDataContainer
+        #{
+        #    #define.UseForPrinting('UseForPrinting')
+        #    #define.UseForInput('UseForInput')
+        #    #define.UnitID('UnitID')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.RBOVariantId('RBOVariantId')
+        #    #define.RBOShowForItem('RBOShowForItem')
+        #    #define.Qty('Qty')
+        #    #define.ItemId('ItemId')
+        #    #define.ItemBarCode('ItemBarCode')
+        #    #define.InventDimId('InventDimId')
+        #    #define.InventDimBarcode('InventDimBarcode')
+        #    #define.Description('Description')
+        #    #define.Blocked('Blocked')
+        #    #define.BarcodeSetupId('BarcodeSetupId')
+        #    #define.EchItemBarCode('echItemBarCode')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventDimBarcode
+        #public AfStronglyTypedDataContainerList createInventDimBarcode()
+        #{
+        #    return this.get_NewList(#InventDimBarcode);
+        #}
+      ENDSOURCE
+      SOURCE #existsBarcodeSetupId
+        #public boolean existsBarcodeSetupId()
+        #{
+        #    return this.exists(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #existsDescription
+        #public boolean existsDescription()
+        #{
+        #    return this.exists(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchItemBarCode
+        #// Create ECH_WI_01939 by mengqi.cen on 20121224
+        #//     Create a new 'exists-' method for new table field InventItemBarcode.echItemBarCode
+        #public boolean existsEchItemBarCode()
+        #{
+        #    return this.exists(#EchItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimBarcode
+        #public boolean existsInventDimBarcode()
+        #{
+        #    return this.exists(#InventDimBarcode);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemBarCode
+        #public boolean existsItemBarCode()
+        #{
+        #    return this.exists(#ItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsUnitID
+        #public boolean existsUnitID()
+        #{
+        #    return this.exists(#UnitID);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_InventItemBarcode);
+        #}
+      ENDSOURCE
+      SOURCE #parmBarcodeSetupId
+        #public BarcodeSetupId parmBarcodeSetupId(BarcodeSetupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BarcodeSetupId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #parmDescription
+        #public Description parmDescription(Description _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Description, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchItemBarCode
+        #// Create ECH_WI_01939 by mengqi.cen on 20121224
+        #//     Create a new 'parm-' method for new table field InventItemBarcode.echItemBarCode
+        #public EchItemBarCode parmEchItemBarCode(EchItemBarCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchItemBarCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimBarcode
+        #public AfStronglyTypedDataContainerList parmInventDimBarcode(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventDimBarcode, _value);
+        #    }
+        #
+        #    return this.get_List(#InventDimBarcode);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemBarCode
+        #public ItemBarCode parmItemBarCode(ItemBarCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemBarCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmUnitID
+        #public str parmUnitID(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#UnitID, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#UnitID);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

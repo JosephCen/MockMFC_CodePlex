@@ -1,0 +1,150 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdechProdCatalog unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdechProdCatalog
+    Id 30144
+    PROPERTIES
+      Name                #AxdechProdCatalog
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdechProdCatalog extends AxdBase
+        #{
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createList
+        #public AifEntityKeyList createList(XML                         _xML,
+        #                                   AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                                   AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, findList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::QueryDocuments);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, findList));
+        #    aifActionInfo.parmLabel("@ECH89");
+        #    aifActionInfo.parmDescription("@ECH90");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, readList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::SendDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, readList));
+        #    aifActionInfo.parmLabel("@ECH91");
+        #    aifActionInfo.parmDescription("@ECH92");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #    InventTable    InventTable;
+        #    ;
+        #    if (_curRec.TableId != tablenum(InventTable))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    InventTable = _curRec ;
+        #    aifConstraint.parmType(AIFConstraintType::Vendor);
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getQueryName
+        #public QueryName getQueryName()
+        #{
+        #    return querystr(echProdCatalog);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #prepareForQuery
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01293
+        #// *** Customization Date: 04 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Removed the range on the barcodeId field
+        #
+        #void prepareForQuery(QueryRun _queryRun)
+        #{
+        #
+        #// CS - ECH_WI_01293 - Marijn Catthoor - 04 Sep 2012
+        #
+        #    /*QueryBuildRange qbr;
+        #    ;
+        #
+        #    qbr = SysQuery::findOrCreateRange(_queryRun.query().dataSourceTable(tablenum(echInventDimBarcodeVw)), fieldnum(echInventDimBarcodeVw, barcodeSetupId));
+        #    qbr.value(queryValue(InventParameters::find().echSkuBarcodeSetup));
+        #    */
+        #// CE - ECH_WI_01293 - Marijn Catthoor - 04 Sep 2012
+        #
+        #    super(_queryRun);
+        #}
+      ENDSOURCE
+      SOURCE #updateList
+        #public AifEntityKey updateList(AifEntityKeyList            _entityKeyList,
+        #                               AifDocumentXML              _xml,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListcollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

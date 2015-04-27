@@ -1,0 +1,91 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echReportRunFromEP unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echReportRunFromEP
+    Id 30105
+    PROPERTIES
+      Name                #echReportRunFromEP
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echReportRunFromEP
+        #{
+        #    Args                reportArgs;
+        #    ReportName          reportName;
+        #    ReportRun           reportRun;
+        #    Report              report;
+        #    PrintJobSettings    printJobSettings;
+        #    Query               query;
+        #    SalesId             salesId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initValue
+        #void initValue()
+        #{
+        #    #define.echReportRunReport("echReportRunReport")
+        #    ;
+        #    reportName = #echReportRunReport;
+        #    reportArgs = new Args(reportName);
+        #    reportArgs.name(reportName);
+        #}
+      ENDSOURCE
+      SOURCE #reportRun
+        #void reportRun()
+        #{
+        #    #define.filePath("D:\RefundNote.pdf")
+        #    ;
+        #
+        #    reportRun = new ReportRun(reportArgs);
+        #    // Set printersettings
+        #
+        #    printJobSettings = reportRun.printJobSettings();
+        #    printJobSettings.setTarget(PrintMedium::File);
+        #    printJobSettings.format(PrintFormat::PDF);
+        #    printJobSettings.fileName(#filePath);
+        #    printJobSettings.suppressScalingMessage(true);
+        #
+        #    reportRun.report().interactive(false);
+        #    reportRun.query(query);
+        #    reportRun.query().interactive(false);
+        #    reportRun.init();
+        #    reportRun.run();
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #main
+        #static void main(Args args)
+        #{
+        #    ;
+        #
+        #    echReportRunFromEP::reportToPDFFile();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #reportToPDFFile
+        #public static void reportToPDFFile()
+        #{
+        #    echReportRunFromEP echReportRunFromEP = new echReportRunFromEP();
+        #    ;
+        #
+        #    echReportRunFromEP.initValue();
+        #    echReportRunFromEP.reportRun();
+        #
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

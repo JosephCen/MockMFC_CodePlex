@@ -1,0 +1,31 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echDeliveryNote unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echDeliveryNote
+  Id 30050
+  STRING
+    PROPERTIES
+      Name                #echDeliveryNote
+      Label               #@ECH319
+      HelpText            #@ECH318
+      DisplayLength       #150
+      ConfigurationKey    #echProcesses
+      StringSize          #250
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

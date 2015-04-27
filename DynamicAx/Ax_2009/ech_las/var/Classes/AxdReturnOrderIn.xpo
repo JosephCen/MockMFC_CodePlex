@@ -1,0 +1,98 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdReturnOrderIn unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdReturnOrderIn
+    Id 10199
+    PROPERTIES
+      Name                #AxdReturnOrderIn
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #initFieldAccessOverrides
+        #// Add ECH_WI_01984 by mengqi.cen on 20130301
+        #protected void initFieldAccessOverrides()
+        #{
+        #;
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echInterfaces)))
+        #    {
+        #        this.overRideFieldAccess(tablenum(SalesTable), fieldnum(SalesTable, echMsgPartnerId),
+        #                                 AxdFieldAccess::AllowEdit, NoYes::Yes);
+        #        this.overRideFieldAccess(tablenum(SalesTable), fieldnum(SalesTable, echMsgPartnerId),
+        #                                 AxdFieldAccess::AllowEditOnCreate, NoYes::Yes);
+        #        this.overRideFieldAccess(tablenum(SalesTable), fieldnum(SalesTable, echMsgPartnerExtCode),
+        #                                 AxdFieldAccess::AllowEdit, NoYes::Yes);
+        #        this.overRideFieldAccess(tablenum(SalesTable), fieldnum(SalesTable, echMsgPartnerExtCode),
+        #                                 AxdFieldAccess::AllowEditOnCreate, NoYes::Yes);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #prepareSalesLine
+        #// Update ECH_WI_01945 by mengqi.cen on 20130110
+        #/// <summary>
+        #///    Prepare the SalesLine table.
+        #/// </summary>
+        #/// <param name="_axSalesLine">
+        #///    AxBC class of ReturnOrder's SalesLine table.
+        #/// </param>
+        #/// <remarks>
+        #///    The <c>LineAmount</c> is specified, set <c>Salesprice</c>, <c>LineDisc</c>, <c>LinePercent</c>, <c>MultiLnDisc</c>, <c>MultiLnPercent</c>, <c>SalesMarkup</c> field value as 0.
+        #/// </remarks>
+        #protected void prepareSalesLine(AxSalesLine _axSalesLine)
+        #{
+        #    AxSalesTable                             axSalesTable;
+        #    InventDim                                localInventDim;
+        #    container                                findInventDimResult;
+        #    ;
+        #
+        #    axSalesTable    = _axSalesLine.parentAxBC();
+        #
+        #    _axSalesLine.parmSalesId(axSalesTable.parmSalesId());
+        #    _axSalesLine.parmCustAccount(axSalesTable.parmCustAccount());
+        #    _axSalesLine.parmSalesQty(0);
+        #
+        #    if (_axSalesLine.parmLineAmount())
+        #    {
+        #        _axSalesLine.parmSalesPrice(0);
+        #        _axSalesLine.parmLineDisc(0);
+        #        _axSalesLine.parmLinePercent(0);
+        #        _axSalesLine.parmMultiLnDisc(0);
+        #        _axSalesLine.parmMultiLnPercent(0);
+        #        _axSalesLine.parmSalesMarkup(0);
+        #    }
+        #
+        #    if(!_axSalesLine.salesLine())
+        #    {
+        #        findInventDimResult     = AxInventDim::findInventDim(_axSalesLine.parmItemId());
+        #        if(conpeek(findInventDimResult, 1))
+        #        {
+        #            localInventDim      = conpeek(findInventDimResult, 2);
+        #            // Begin - Update ECH_WI_01945 by mengqi.cen on 20130110
+        #            if (strLen(localInventDim.InventLocationId) == 0)
+        #            {
+        #                // If 'InventLocationId' is not specified, this value will be got from parent
+        #                // table 'SalesTable'.
+        #                localInventDim.InventLocationId = axSalesTable.salesTable().InventLocationId;
+        #                localInventDim.InventSiteId = InventLocation::find(localInventDim.InventLocationId).InventSiteId;
+        #                localInventDim = InventDim::findOrCreate(localInventDim);
+        #            }
+        #            // End - Update ECH_WI_01945 by mengqi.cen on 20130110
+        #            _axSalesLine.parmInventDimId(localInventDim.InventDimId);
+        #            _axSalesLine.axInventDim().allDimensions(localInventDim);
+        #            _axSalesLine.setInventDimIdDirtySaved(conpeek(findInventDimResult,3));
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

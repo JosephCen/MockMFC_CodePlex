@@ -1,0 +1,539 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_I_IN02_1 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_I_IN02_1
+   SHARED
+  PROPERTIES
+    Name                #ECH_I_IN02_1
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #Data Dictionary
+      PROPERTIES
+        Name                #Data Dictionary
+        ProjectGroupType    #DataDictionary
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Tables
+        PROPERTIES
+          Name                #Tables
+          ProjectGroupType    #Tables
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Maps
+        PROPERTIES
+          Name                #Maps
+          ProjectGroupType    #Maps
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Views
+        PROPERTIES
+          Name                #Views
+          ProjectGroupType    #Views
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Extended Data Types
+        PROPERTIES
+          Name                #Extended Data Types
+          ProjectGroupType    #ExtendedDataTypes
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Base Enums
+        PROPERTIES
+          Name                #Base Enums
+          ProjectGroupType    #BaseEnums
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #License Codes
+        PROPERTIES
+          Name                #License Codes
+          ProjectGroupType    #LicenseCodes
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Configuration Keys
+        PROPERTIES
+          Name                #Configuration Keys
+          ProjectGroupType    #ConfigurationKeys
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Security Keys
+        PROPERTIES
+          Name                #Security Keys
+          ProjectGroupType    #SecurityKeys
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 36
+          UTILOBJECTID 30006
+          NODETYPE 313
+          NAME #EchAxdInventOnHand
+        ENDNODE
+        ENDGROUP
+        
+      GROUP #Table Collections
+        PROPERTIES
+          Name                #Table Collections
+          ProjectGroupType    #TableCollections
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Macros
+      PROPERTIES
+        Name                #Macros
+        ProjectGroupType    #Macros
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 4
+        UTILOBJECTID 0
+        NODETYPE 218
+        NAME #AxdEchInventOnHandDCT
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 4
+        UTILOBJECTID 0
+        NODETYPE 218
+        NAME #DataContainerTypes
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #Classes
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30038
+        NODETYPE 329
+        NAME #EchInventOnHand_InventLocation
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30039
+        NODETYPE 329
+        NAME #EchInventOnHand_InventDim
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30040
+        NODETYPE 329
+        NAME #EchInventOnHand_InventSum
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30037
+        NODETYPE 329
+        NAME #EchInventOnHandService
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30036
+        NODETYPE 329
+        NAME #EchInventOnHand
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30035
+        NODETYPE 329
+        NAME #AxdEchInventOnHand
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30034
+        NODETYPE 329
+        NAME #AxdEchSendInventoryOnHand
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30033
+        NODETYPE 329
+        NAME #echSendInventoryOnHandBatch
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 14054
+        NODETYPE 329
+        NAME #InventInventoryOnHand_InventSum
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 2903
+        NODETYPE 329
+        NAME #AxInventSum
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #DataSets
+      PROPERTIES
+        Name                #DataSets
+        ProjectGroupType    #DataSets
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Forms
+        PROPERTIES
+          Name                #Forms
+          ProjectGroupType    #Forms
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Reports
+      PROPERTIES
+        Name                #Reports
+        ProjectGroupType    #Reports
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #ReportLibraries
+      PROPERTIES
+        Name                #ReportLibraries
+        ProjectGroupType    #ReportLibraries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Queries
+      PROPERTIES
+        Name                #Queries
+        ProjectGroupType    #Queries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 20
+        UTILOBJECTID 0
+        NODETYPE 330
+        NAME #AxdEchInventOnHand
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Jobs
+      PROPERTIES
+        Name                #Jobs
+        ProjectGroupType    #Jobs
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Menus
+      PROPERTIES
+        Name                #Menus
+        ProjectGroupType    #Menus
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 16
+        UTILOBJECTID 0
+        NODETYPE 205
+        NAME #Invent
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Menu Items
+      PROPERTIES
+        Name                #Menu Items
+        ProjectGroupType    #MenuItems
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Display
+        PROPERTIES
+          Name                #Display
+          ProjectGroupType    #Display
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Output
+        PROPERTIES
+          Name                #Output
+          ProjectGroupType    #Output
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Action
+        PROPERTIES
+          Name                #Action
+          ProjectGroupType    #Action
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 3
+          UTILOBJECTID 0
+          NODETYPE 296
+          NAME #echSendInventoryOnHandBatch
+        ENDNODE
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Web
+      PROPERTIES
+        Name                #Web
+        ProjectGroupType    #Web
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Web Forms
+        PROPERTIES
+          Name                #Web Forms
+          ProjectGroupType    #WebForms
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Web Reports
+        PROPERTIES
+          Name                #Web Reports
+          ProjectGroupType    #WebReports
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebMenuItems
+        PROPERTIES
+          Name                #WebMenuItems
+          ProjectGroupType    #WebMenuItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebContent
+        PROPERTIES
+          Name                #WebContent
+          ProjectGroupType    #WebContentItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Web Menus
+        PROPERTIES
+          Name                #Web Menus
+          ProjectGroupType    #WebMenus
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Web Files
+        PROPERTIES
+          Name                #Web Files
+          ProjectGroupType    #WebFiles
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Weblets
+        PROPERTIES
+          Name                #Weblets
+          ProjectGroupType    #WebletItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebModules
+        PROPERTIES
+          Name                #WebModules
+          ProjectGroupType    #WebModules
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Services
+      PROPERTIES
+        Name                #Services
+        ProjectGroupType    #Services
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 76
+        UTILOBJECTID 0
+        NODETYPE 1321
+        NAME #EchInventOnHandService
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Workflow
+      PROPERTIES
+        Name                #Workflow
+        ProjectGroupType    #Workflow
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #WorkflowCategories
+        PROPERTIES
+          Name                #WorkflowCategories
+          ProjectGroupType    #WorkflowCategories
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Approvals
+        PROPERTIES
+          Name                #Approvals
+          ProjectGroupType    #WorkflowApprovals
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Tasks
+        PROPERTIES
+          Name                #Tasks
+          ProjectGroupType    #WorkflowTasks
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WorkflowTemplates
+        PROPERTIES
+          Name                #WorkflowTemplates
+          ProjectGroupType    #WorkflowTemplates
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Resources
+      PROPERTIES
+        Name                #Resources
+        ProjectGroupType    #Resources
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #References
+      PROPERTIES
+        Name                #References
+        ProjectGroupType    #References
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

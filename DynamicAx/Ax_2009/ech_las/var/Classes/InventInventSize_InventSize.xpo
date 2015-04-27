@@ -1,0 +1,73 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventInventSize_InventSize unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventInventSize_InventSize
+    Id 14094
+    PROPERTIES
+      Name                #InventInventSize_InventSize
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class InventInventSize_InventSize extends AfStronglyTypedDataContainer
+        #{
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Name('Name')
+        #    #define.ItemId('ItemId')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.Description('Description')
+        #    #define._DocumentHash('_DocumentHash')
+        #    #define.Weight('Weight')
+        #    #define.EchSortingNum('EchSortingNum')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsEchSortingNum
+        #public boolean existsEchSortingNum()
+        #{
+        #    return this.exists(#EchSortingNum);
+        #}
+      ENDSOURCE
+      SOURCE #existsWeight
+        #public boolean existsWeight()
+        #{
+        #    return this.exists(#Weight);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSortingNum
+        #public SortingNumber parmEchSortingNum(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSortingNum, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSortingNum);
+        #}
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public RBOWeight parmWeight(RBOWeight _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Weight, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Weight);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

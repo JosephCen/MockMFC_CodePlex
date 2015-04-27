@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : echProductCatalog unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #echProductCatalog
+    PROPERTIES
+      Name                #echProductCatalog
+      Label               #@SYS58869
+      HelpText            #@ECH240
+      ConfigurationKey    #echInterfaces
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    MENUITEM
+      PROPERTIES
+        Name                #Send product catalog
+        MenuItemType        #Action
+        MenuItemName        #echSendProductCatalogBatch
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+  ENDMENU
+  
+
+***Element: END

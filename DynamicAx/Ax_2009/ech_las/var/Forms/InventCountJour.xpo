@@ -1,0 +1,378 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventCountJour
+  PROPERTIES
+    Name                #InventCountJour
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #class FormRun extends ObjectRun
+      #{
+      #    InventDimCtrl_Frm       inventDimFormSetup;
+      #    InventDimParm           inventDimParm;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #void init()
+      #{
+      #    super();
+      #
+      #    inventDimParm.initItemDimAllGrp();
+      #    element.updateDesign(InventDimFormDesignUpdate::Init);
+      #}
+    ENDSOURCE
+    SOURCE #updateDesign
+      #void updateDesign(InventDimFormDesignUpdate mode)
+      #{
+      #    switch (mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init          :
+      #            if (! inventDimFormSetup)
+      #                inventDimFormSetup  = InventDimCtrl::newFromForm(element);
+      #
+      #            inventDimFormSetup.parmDimParmEnabled(null);
+      #            inventDimFormSetup.parmDimParmVisibleGrid(inventDimParm);
+      #            inventDimFormSetup.formSetControls(true,true);
+      #            break;
+      #
+      #        default : throw error(strfmt("@SYS54195",funcname()));
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #// AOSRunMode::Client
+      #Object inventDimSetupObject()
+      #{
+      #    return inventDimFormSetup;
+      #}
+      #
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventCountJour
+          Table               #InventCountJour
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #void executeQuery()
+          #{
+          #    switch (element.args().dataset())
+          #    {
+          #        case tablenum(InventSum):
+          #            InventDim::queryAddRangeFromCallerSort(this.query().dataSourceTable(tablenum(InventDim)),element.args());
+          #            inventDimParm.initFromQueryCallerSort(element.args());
+          #            element.updateDesign(InventDimFormDesignUpdate::Init);
+          #            break;
+          #    }
+          #
+          #    super();
+          #
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #InventCountJour
+          LinkType            #InnerJoin
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    InventDim InventCountJour
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS25012
+      TitleDatasource     #InventCountJour
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/BD863F09-E870-4019-8706-8B0A87D7CDD5.htm
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Tabs                #1
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #InventCountJour
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_ItemId
+                        DataSource          #InventCountJour
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensionsGrid
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B54BF381-54E8-47D9-BC59-2C62CEED5142.htm
+                        BackgroundColor     #Window background
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_JournalId
+                        DataSource          #InventCountJour
+                        DataField           #JournalId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_CountDate
+                        DataSource          #InventCountJour
+                        DataField           #CountDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_InventOnHand
+                        DataSource          #InventCountJour
+                        DataField           #InventOnHand
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_CountedQty
+                        DataSource          #InventCountJour
+                        DataField           #CountedQty
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #InventCountJour_Ok
+                        BackgroundColor     #Window background
+                        DataSource          #InventCountJour
+                        DataField           #Ok
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_echOverAllocQty
+                        ConfigurationKey    #echProcesses
+                        DataSource          #InventCountJour
+                        DataField           #echOverAllocQty
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_echWMSQty
+                        ConfigurationKey    #echProcesses
+                        DataSource          #InventCountJour
+                        DataField           #echWMSQty
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventCountJour_echStockQueueSeqId
+                        ConfigurationKey    #echProcesses
+                        DataSource          #InventCountJour
+                        DataField           #echStockQueueSeqId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS2952
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Identification
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/9BD78DB5-428C-46B5-98DB-4B7AE695EFAF.htm
+                  DataSource          #InventCountJour
+                  DataGroup           #Identification
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Counting
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/001004B3-BBFA-45EB-97EA-86B4B53A6D60.htm
+                  DataSource          #InventCountJour
+                  DataGroup           #Counting
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #DimensionTab
+              Caption             #@SYS14926
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventoryDimensions
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/21778466-2D21-42CF-ACAE-87306B37954D.htm
+                  DataSource          #InventDim
+                  DataGroup           #InventoryDimensions
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+          ArrangeMethod       #Horizontal, flush right
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Inventory
+              HelpText            #@SYS69645
+              Text                #@SYS981
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #DimSetup
+                  MenuItemName        #InventDimParmFixed
+                  DataSource          #InventCountJour
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

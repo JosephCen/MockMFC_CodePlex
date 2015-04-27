@@ -1,0 +1,115 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : EchInventJournalReasonTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #EchInventJournalReasonTable
+    Id 30055
+    PROPERTIES
+      Name                #EchInventJournalReasonTable
+      Label               #@ECH379
+      FormRef             #EchInventJournalReasonTable
+      TitleField1         #Id
+      TitleField2         #Name
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      PrimaryIndex        #ReasonId
+      ClusterIndex        #ReasonId
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Id
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #Id
+          Label               #@SYS112132
+          HelpText            #@SYS113372
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #EchInventJournalReasonTable
+          ExtendedDataType    
+            ARRAY 
+              #EchReasonId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #Name
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #Name
+          Label               #@SYS80991
+          Table               #EchInventJournalReasonTable
+          ExtendedDataType    
+            ARRAY 
+              #Description
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ReasonId
+      Id 30002
+      PROPERTIES
+        Name                #ReasonId
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Id
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echStockAllocationRule unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echStockAllocationRule
+    Type: 1
+    PROPERTIES
+      Name                #echStockAllocationRule
+      Label               #@ECH62
+      HelpText            #@ECH61
+      Object              #echStockAllocationRule
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

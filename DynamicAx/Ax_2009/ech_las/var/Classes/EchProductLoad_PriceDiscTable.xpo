@@ -1,0 +1,204 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_PriceDiscTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_PriceDiscTable
+    Id 30311
+    PROPERTIES
+      Name                #EchProductLoad_PriceDiscTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_PriceDiscTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.UnitId('UnitId')
+        #    #define.ToDate('ToDate')
+        #    #define.QuantityAmount('QuantityAmount')
+        #    #define.PriceInclVAT('PriceInclVAT')
+        #    #define.ItemCode('ItemCode')
+        #    #define.InventDimPrice('InventDimPrice')
+        #    #define.FromDate('FromDate')
+        #    #define.Currency('Currency')
+        #    #define.Amount('Amount')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventDimPrice
+        #public AfStronglyTypedDataContainerList createInventDimPrice()
+        #{
+        #    return this.get_NewList(#InventDimPrice);
+        #}
+      ENDSOURCE
+      SOURCE #existsAmount
+        #public boolean existsAmount()
+        #{
+        #    return this.exists(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #existsCurrency
+        #public boolean existsCurrency()
+        #{
+        #    return this.exists(#Currency);
+        #}
+      ENDSOURCE
+      SOURCE #existsFromDate
+        #public boolean existsFromDate()
+        #{
+        #    return this.exists(#FromDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimPrice
+        #public boolean existsInventDimPrice()
+        #{
+        #    return this.exists(#InventDimPrice);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemCode
+        #public boolean existsItemCode()
+        #{
+        #    return this.exists(#ItemCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsPriceInclVAT
+        #public boolean existsPriceInclVAT()
+        #{
+        #    return this.exists(#PriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #existsQuantityAmount
+        #public boolean existsQuantityAmount()
+        #{
+        #    return this.exists(#QuantityAmount);
+        #}
+      ENDSOURCE
+      SOURCE #existsToDate
+        #public boolean existsToDate()
+        #{
+        #    return this.exists(#ToDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsUnitId
+        #public boolean existsUnitId()
+        #{
+        #    return this.exists(#UnitId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_PriceDiscTable);
+        #}
+      ENDSOURCE
+      SOURCE #parmAmount
+        #public AmountCur parmAmount(AmountCur _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Amount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #parmCurrency
+        #public CurrencyCode parmCurrency(CurrencyCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Currency, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Currency);
+        #}
+      ENDSOURCE
+      SOURCE #parmFromDate
+        #public FromDate parmFromDate(FromDate _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#FromDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#FromDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimPrice
+        #public AfStronglyTypedDataContainerList parmInventDimPrice(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventDimPrice, _value);
+        #    }
+        #
+        #    return this.get_List(#InventDimPrice);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemCode
+        #public PriceDiscItemCode parmItemCode(PriceDiscItemCode _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmPriceInclVAT
+        #public RBOPriceInclVAT parmPriceInclVAT(RBOPriceInclVAT _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PriceInclVAT, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #parmQuantityAmount
+        #public AmountQty parmQuantityAmount(AmountQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#QuantityAmount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#QuantityAmount);
+        #}
+      ENDSOURCE
+      SOURCE #parmToDate
+        #public ToDate parmToDate(ToDate _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ToDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ToDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmUnitId
+        #public UnitID parmUnitId(UnitID _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#UnitId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#UnitId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

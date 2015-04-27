@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echEPReceiverAddressEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echEPReceiverAddressEdit
+    PROPERTIES
+      Name                #echEPReceiverAddressEdit
+      Label               #@ech753
+      HelpText            #@ech754
+      Object              #echEPReceiverAddressEdit
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

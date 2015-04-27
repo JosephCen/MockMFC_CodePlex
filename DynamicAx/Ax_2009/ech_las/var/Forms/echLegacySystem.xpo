@@ -1,0 +1,87 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echLegacySystem
+  PROPERTIES
+    Name                #echLegacySystem
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echLegacySystem
+          Table               #echLegacySystem
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH352
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GRID
+        PROPERTIES
+          Name                #Grid
+          Width               #Column width
+          Height              #Column height
+          DataSource          #echLegacySystem
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #echLegacySystem_Id
+                DataSource          #echLegacySystem
+                DataField           #Id
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #echLegacySystem_Name
+                DataSource          #echLegacySystem
+                DataField           #Name
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

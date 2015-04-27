@@ -1,0 +1,46 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echTMallPropertyMappingType unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echTMallPropertyMappingType
+    Id 30015
+    PROPERTIES
+      Name                #echTMallPropertyMappingType
+      Label               #@ECH852
+      Help                #@ECH853
+      ConfigurationKey    #echProcesses
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #None
+      PROPERTIES
+        Name                #None
+        Label               #@SYS1369
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #Size
+      PROPERTIES
+        Name                #Size
+        Label               #@SYS28127
+        EnumValue           #1
+      ENDPROPERTIES
+      
+      #Color
+      PROPERTIES
+        Name                #Color
+        Label               #@SYS30436
+        EnumValue           #2
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

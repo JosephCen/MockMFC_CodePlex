@@ -1,0 +1,275 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #EPSalesTableList
+  PROPERTIES
+    Name                #EPSalesTableList
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #//CHINA shao zhifang add start 20130310
+      #    ECHAggStatus   _echAggStatus;
+      #//CHINA shao zhifang add end 20130310
+      #    SalesType   createSalesType;
+      #    boolean        bCustAccount;
+      #
+      #    #DEFINE.CurrentVersion(1)
+      #    #LOCALMACRO.CurrentList
+      #       bCustAccount
+      #    ENDMACRO
+      #}
+    ENDSOURCE
+    SOURCE #getControlValues
+      #container getControlValues()
+      #{
+      #
+      #    return [bCustAccount];
+      #}
+      #
+    ENDSOURCE
+    SOURCE #unpack
+      #public boolean unpack(container _pack)
+      #{
+      #    Integer     version = conpeek(_pack,1);
+      #    container   base;
+      #    boolean     ret;
+      #    ;
+      #
+      #    switch (version)
+      #    {
+      #        case #CurrentVersion    :   [version, #currentList, base] = _pack;
+      #                                    ret = super(base);
+      #                                    break;
+      #        default: super(_pack);
+      #    }
+      #
+      #    return ret;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #pack
+      #public container pack()
+      #{
+      #
+      #    return [#CurrentVersion, #CurrentList] + [super()];
+      #
+      #}
+    ENDSOURCE
+    SOURCE #run
+      #public void run()
+      #{
+      #    if ((element.args().record() && (element.args().record().TableId == tablenum(CustTable))) || EP::isCustomer())
+      #       bCustAccount = false;
+      #
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #//CHINA shao zhifang add start 20130310
+      #    //_echAggStatus = this.args().parmEnum();
+      #    if(element.args().parmEnumType() == enumnum(ECHAggStatus) )
+      #    {
+      #       _echAggStatus = this.args().parmEnum();
+      #    }
+      #    else if(element.args().parmEnumType() == enumnum(SalesType) )
+      #    {
+      #//CHINA shao zhifang add end 20130310
+      #       createSalesType = this.args().parmEnum();
+      #    }
+      #
+      #    bCustAccount = true;
+      #    super();
+      #
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD echInvoiceId
+            PROPERTIES
+              AllowAdd            #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #echOrigSalesId
+          #// *** ECHINA - Marijn Catthoor ***
+          #// *** Customization Code: ECH_WI_01075
+          #// *** Customization Date: 24 Aug 2012
+          #// *** Customization Type: Created
+          #// *** Description: Return the Original Sales Order of the return order
+          #
+          #//BP Deviation documented
+          #display echOriginalSalesId echOrigSalesId(SalesTable _salesTable)
+          #{
+          #    inventTrans it;
+          #    SalesLine sl;
+          #    ;
+          #
+          #    select firstonly sl
+          #        where sl.SalesId == _salesTable.SalesId;
+          #
+          #    select firstonly it
+          #        where it.InventTransId == sl.InventTransIdReturn;
+          #
+          #    return it.TransRefId;
+          #}
+        ENDSOURCE
+        SOURCE #echDispShipDate
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display the confirmed shipping date
+          #
+          #//BP Deviation documented
+          #display SalesShippingDateConfirmed echDispShipDate(SalesTable _salesTable)
+          #{
+          #    ;
+          #
+          #    return _salesTable.echShipCarrierPackage().ShipDate;
+          #}
+        ENDSOURCE
+        SOURCE #echDispCarrierName
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display the carrier name
+          #
+          #//BP Deviation documented
+          #display ShipCarrierName echDispCarrierName(SalesTable _salesTable)
+          #{
+          #    ;
+          #    return _salesTable.echShipCarrierPackage().CarrierName;
+          #}
+        ENDSOURCE
+        SOURCE #echDispCarrierId
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display the carrier id
+          #
+          #//BP Deviation documented
+          #display ShipCarrierId echDispCarrierId(SalesTable _salesTable)
+          #{
+          #    ;
+          #    return _salesTable.echShipCarrierPackage().CarrierId;
+          #}
+        ENDSOURCE
+        SOURCE #echDispTrackingNumber
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display tracking number
+          #
+          #//BP Deviation documented
+          #display ShipCarrierTrackingNum echDispTrackingNumber(SalesTable _salesTable)
+          #{
+          #    ;
+          #    return _salesTable.echShipCarrierTracking().TrackingNumber;
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    QueryBuildRange range;
+          #
+          #    super();
+          #
+          #    this.query().dataSourceTable(tablenum(SalesTable)).addOrderByField(fieldnum(SalesTable, CreatedDateTime),SortOrder::Descending);
+          #
+          #    switch (createSalesType)
+          #    {
+          #        case SalesType::ReturnItem:
+          #            range = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable, ReturnStatus));
+          #            range.value(strfmt('!%1', ReturnStatusHeader::None));
+          #            range.status(RangeStatus::Hidden);
+          #
+          #                break;
+          #        //CHINA steven add start 20130118
+          #        case SalesType::Sales:
+          #            range = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable,SalesType));
+          #            range.value(queryValue(SalesType::Sales));
+          #            range.status(RangeStatus::Hidden);
+          #
+          #            range = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable,echAggStatus));
+          #            range.value(strfmt('!%1',echAggStatus::ChecksFailed));
+          #            range.status(RangeStatus::Hidden);
+          #                break;
+          #         //ECHINA steve add start 20130118
+          #        default:
+          #            range = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable, SalesType));
+          #            range.value(strfmt('!%1', SalesType::Journal));
+          #            range.status(RangeStatus::Hidden);
+          #
+          #            range = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable, ReturnStatus));
+          #            range.value(strfmt('!%1, !%2', ReturnStatusHeader::Canceled, ReturnStatusHeader::Created));
+          #            range.status(RangeStatus::Hidden);
+          #
+          #                break;
+          #    }
+          #
+          #
+          #//CHINA shao zhifang add start 20130310
+          #    switch(_echAggStatus)
+          #    {
+          #        case ECHAggStatus::ChecksFailed:
+          #            range = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable, ECHAggStatus));
+          #            range.value(strfmt('%1', ECHAggStatus::ChecksFailed));
+          #            range.status(RangeStatus::Hidden);
+          #
+          #                break;
+          #        default:
+          #                break;
+          #    }
+          #//CHINA shao zhifang add end 20130310
+          #
+          #    if (EP::isCustomer())
+          #    {
+          #        this.query(EPQuery::makeMyCustomerSelfServiceQuery(salesTable_ds.query(),tablenum(SalesTable)));
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

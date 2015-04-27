@@ -1,0 +1,195 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echSoCheckBlackListTable
+  PROPERTIES
+    Name                #echSoCheckBlackListTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSoCheckBlackListTable
+          Table               #echSoCheckBlackListTable
+          Index               #PhoneIdx
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH178
+      TitleDatasource     #echSoCheckBlackListTable
+      DataSource          #echSoCheckBlackListTable
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #OverviewTabPage
+              Caption             #@SYS34991
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Overview
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSoCheckBlackListTable
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Overview_Name
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #Name
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Overview_Phone
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #Phone
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL UTCDATETIMEEDIT
+                      PROPERTIES
+                        Name                #Overview_StartDate
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #StartDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL UTCDATETIMEEDIT
+                      PROPERTIES
+                        Name                #Overview_EndDate
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #EndDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS19924
+              DataSource          #echSoCheckBlackListTable
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #OverviewGroup
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSoCheckBlackListTable
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_Name
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #Name
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_Phone
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #Phone
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL UTCDATETIMEEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_StartDate
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #StartDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL UTCDATETIMEEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_EndDate
+                        DataSource          #echSoCheckBlackListTable
+                        DataField           #EndDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

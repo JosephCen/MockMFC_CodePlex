@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echItemAttributes unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echItemAttributes
+    PROPERTIES
+      Name                #echItemAttributes
+      Label               #@SYS31826
+      HelpText            #@ECH266
+      Object              #echItemAttributes
+      ConfigurationKey    #echInterfaces
+      WebConfigurationkey #EP
+      SecurityKey         #EPGeneralInfo
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

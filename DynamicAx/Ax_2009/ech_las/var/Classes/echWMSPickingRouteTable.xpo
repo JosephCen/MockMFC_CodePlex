@@ -1,0 +1,99 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echWMSPickingRouteTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echWMSPickingRouteTable
+    Id 30162
+    PROPERTIES
+      Name                #echWMSPickingRouteTable
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description: hook class of WMSPickingRoute table
+        #
+        #class echWMSPickingRouteTable
+        #{
+        #    WMSPickingRoute        wmsPickingRoute;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #void new(WMSPickingRoute    _wmsPickingRoute)
+        #{
+        #    ;
+        #    wmsPickingRoute = _wmsPickingRoute;
+        #}
+      ENDSOURCE
+      SOURCE #setStatus
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 22 May 2012
+        #// *** Customization Type: created
+        #// *** Description: set Sales order aggregate status
+        #
+        #void setStatus()
+        #{
+        #    SalesTable      salesTable;
+        #    ;
+        #
+        #    if (!isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #        return;
+        #
+        #    if (wmsPickingRoute.transType == InventTransType::Sales)
+        #    {
+        #        salesTable = SalesTable::find(wmsPickingRoute.transRefId);
+        #
+        #        if (salesTable)
+        #        {
+        #            switch (wmsPickingRoute.expeditionStatus)
+        #            {
+        #                case WMSExpeditionStatus::Complete:
+        #                    echUpdateAggStatus::updateStatus(wmsPickingRoute.transRefId, echAggStatus::WaitShipping);
+        #                    break;
+        #                case WMSExpeditionStatus::Cancelled:
+        #                    if (salesTable.echMsgPartnerExtCode && salesTable.echMsgPartnerId)
+        #                        echUpdateAggStatus::updateStatus(salesTable.SalesId, ECHAggstatus::StockReserved);
+        #                        //Edit by steven ECH_WI_02229 20130530 Form ECHAggstatus::paymentConfirm to ECHAggstatus::StockReserved
+        #                    else
+        #                        echUpdateAggStatus::updateStatus(salesTable.SalesId, ECHAggstatus::Blank);
+        #                    break;
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #WMSPickingRoute
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description: return wmsPickingRoute
+        #
+        #WMSPickingRoute wmsPickingRoute()
+        #{
+        #    ;
+        #    return wmsPickingRoute;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

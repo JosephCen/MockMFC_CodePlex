@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTI
+
+; Microsoft Dynamics AX Integer: echSequence unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echSequence
+  Id 30034
+  INT
+    PROPERTIES
+      Name                #echSequence
+      Label               #@SYS30302
+      HelpText            #@ECH126
+      ConfigurationKey    #echProcesses
+      AllowNegative       #No
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

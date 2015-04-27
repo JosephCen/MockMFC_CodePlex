@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echEPReturnTableEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echEPReturnTableEdit
+    PROPERTIES
+      Name                #echEPReturnTableEdit
+      Label               #@ECH226
+      HelpText            #@ECH227
+      Object              #echEPReturnTableEdit
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+      SecurityKey         #EPSalesRepTasks
+      NeededAccessLevel   #Edit
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

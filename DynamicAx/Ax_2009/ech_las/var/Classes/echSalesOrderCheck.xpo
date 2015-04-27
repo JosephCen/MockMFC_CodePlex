@@ -1,0 +1,81 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSalesOrderCheck unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSalesOrderCheck
+    Id 57717
+    PROPERTIES
+      Name                #echSalesOrderCheck
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echSalesOrderCheck
+        #{
+        #    echSoCheckManager   _soCheckMgr;
+        #}
+      ENDSOURCE
+      SOURCE #SalesOrderCheck
+        #// *** ECHINA - Steven.qi.zhang ***
+        #// *** Customization Code: ECH_WI_02040
+        #// *** Customization Date: 05 April 2013
+        #// *** Customization Type: created
+        #// *** Description:SalesOrderCheck
+        #public void SalesOrderCheck(SalesTable _salesTable)
+        #{
+        #    echAggStatus    m_echAggStatus;
+        #    ;
+        #    if(_salesTable.SalesType == SalesType::Sales &&
+        #        (_salesTable.ECHAggStatus == ECHAggStatus::ChecksFailed
+        #        || _salesTable.ECHAggStatus == ECHAggStatus::ChecksOK
+        #        || _salesTable.ECHAggStatus == ECHAggStatus::StockReserved
+        #        || _salesTable.ECHAggStatus == ECHAggStatus::PaymentConfirmed))
+        #    {
+        #        _soCheckmgr = echSoCheckManager::construct();
+        #        m_echAggStatus = _soCheckmgr.checkSingleSo(_salesTable.SalesId);
+        #
+        #        info(strfmt("%1:%2",_salesTable.SalesId,m_echAggStatus));
+        #    }
+        #    else
+        #    {
+        #        info(strfmt("%1 %2",_salesTable.SalesId,"@ECH745"));
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Steven.qi.zhang ***
+        #// *** Customization Code: ECH_WI_02040
+        #// *** Customization Date: 05 April 2013
+        #// *** Customization Type: created
+        #// *** Description:construct
+        #public static echSalesOrderCheck construct()
+        #{
+        #    ;
+        #    return new echSalesOrderCheck();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - Steven.qi.zhang ***
+        #// *** Customization Code: ECH_WI_02040
+        #// *** Customization Date: 05 April 2013
+        #// *** Customization Type: created
+        #// *** Description: main
+        #public static void main(Args _args)
+        #{
+        #    echSalesOrderCheck _echSalesOrderCheck = echSalesOrderCheck::construct();
+        #    ;
+        #    _echSalesOrderCheck.SalesOrderCheck(_args.record());
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

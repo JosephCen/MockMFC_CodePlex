@@ -1,0 +1,364 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInventStockQueueHistory unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInventStockQueueHistory
+    Id 50014
+    PROPERTIES
+      Name                #echInventStockQueueHistory
+      Label               #@ECH63
+      TitleField1         #ItemId
+      TitleField2         #Qty
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #SeqId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #SeqId
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #echInventStockQueueSeqId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #inventDimId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #inventDimId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #IsFromWMS
+        Id 30003
+        ENUM
+        PROPERTIES
+          Name                #IsFromWMS
+          Label               #@ECH823
+          HelpText            #@ECH824
+          Table               #echInventStockQueueHistory
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #AllocStartDateTime
+        Id 30004
+        DATETIME
+        PROPERTIES
+          Name                #AllocStartDateTime
+          Label               #@ECH825
+          HelpText            #@ECH826
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #StartDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #origCreatedDateTime
+        Id 30005
+        DATETIME
+        PROPERTIES
+          Name                #origCreatedDateTime
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #createdDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Qty
+        Id 50001
+        REAL
+        PROPERTIES
+          Name                #Qty
+          Mandatory           #Yes
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #ItemId
+        Id 50002
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #configId
+        Id 50003
+        STRING
+        PROPERTIES
+          Name                #configId
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #ConfigId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #InventColorId
+        Id 50004
+        STRING
+        PROPERTIES
+          Name                #InventColorId
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #InventColorId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #InventSizeId
+        Id 50005
+        STRING
+        PROPERTIES
+          Name                #InventSizeId
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #InventSizeId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #InventSiteId
+        Id 50006
+        STRING
+        PROPERTIES
+          Name                #InventSiteId
+          Mandatory           #Yes
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #InventSiteId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #BatchStatus
+        Id 50007
+        ENUM
+        PROPERTIES
+          Name                #BatchStatus
+          Table               #echInventStockQueueHistory
+          EnumType            #BatchStatus
+        ENDPROPERTIES
+        
+      FIELD #ErrorMessage
+        Id 50008
+        STRING
+        PROPERTIES
+          Name                #ErrorMessage
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #SysInfoLogStr
+              #
+            ENDARRAY
+          StringSize          #(Memo)
+        ENDPROPERTIES
+        
+      FIELD #InventStyleId
+        Id 50009
+        STRING
+        PROPERTIES
+          Name                #InventStyleId
+          Table               #echInventStockQueueHistory
+          ExtendedDataType    
+            ARRAY 
+              #RBOInventStyleId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #InventSiteId
+          #InventSizeId
+          #InventColorId
+          #InventStyleId
+          #configId
+          #Qty
+          #ItemId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ErrorMessage
+        PROPERTIES
+          Name                #ErrorMessage
+          Label               #@SYS84736
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ErrorMessage
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Information
+        PROPERTIES
+          Name                #Information
+          Label               #@SYS60385
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SeqId
+          #BatchStatus
+          #ItemId
+          #Qty
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #InventoryDimensions
+        PROPERTIES
+          Name                #InventoryDimensions
+          Label               #@SYS53627
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #configId
+          #InventSizeId
+          #InventColorId
+          #InventSiteId
+          #InventStyleId
+          #inventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SeqId
+          #BatchStatus
+          #ItemId
+          #Qty
+          #configId
+          #InventColorId
+          #InventSizeId
+          #InventStyleId
+          #InventSiteId
+          #IsFromWMS
+          #origCreatedDateTime
+          #AllocStartDateTime
+          #ErrorMessage
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PrimaryIdx
+      Id 50001
+      PROPERTIES
+        Name                #PrimaryIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ItemId
+        #configId
+        #InventColorId
+        #InventSizeId
+        #InventSiteId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echInsert_RecordSet
+        #// Update ECH_WI_02336 by mengqi.cen on 20130724
+        #//   Record Stock Allocation history in Ax table
+        #// ADD by Steven 20130526
+        #
+        #Static Void echInsert_RecordSet()
+        #{
+        #    RecordInsertList            recInsertList;
+        #    echInventStockQueue         m_echInventStockQueue;
+        #    echInventStockQueueHistory  m_echInventStockQueueHistory;
+        #    ;
+        #    ttsBegin;
+        #
+        #    recInsertList = new RecordInsertList(tablenum(echInventStockQueueHistory));
+        #
+        #    while select m_echInventStockQueue
+        #    {
+        #        m_echInventStockQueueHistory.SeqId                = m_echInventStockQueue.SeqId;
+        #        m_echInventStockQueueHistory.ItemId               = m_echInventStockQueue.ItemId;
+        #        m_echInventStockQueueHistory.inventDimId          = m_echInventStockQueue.inventDimId;
+        #        m_echInventStockQueueHistory.configId             = m_echInventStockQueue.configId;
+        #        m_echInventStockQueueHistory.InventColorId        = m_echInventStockQueue.InventColorId;
+        #        m_echInventStockQueueHistory.InventSizeId         = m_echInventStockQueue.InventSizeId;
+        #        m_echInventStockQueueHistory.InventSiteId         = m_echInventStockQueue.InventSiteId;
+        #        m_echInventStockQueueHistory.InventStyleId        = m_echInventStockQueue.InventStyleId;
+        #        m_echInventStockQueueHistory.Qty                  = m_echInventStockQueue.Qty;
+        #        m_echInventStockQueueHistory.IsFromWMS            = m_echInventStockQueue.IsFromWMS;
+        #        m_echInventStockQueueHistory.origCreatedDateTime  = m_echInventStockQueue.createdDateTime;
+        #        m_echInventStockQueueHistory.AllocStartDateTime   = m_echInventStockQueue.AllocStartDateTime;
+        #        m_echInventStockQueueHistory.BatchStatus          = m_echInventStockQueue.BatchStatus;
+        #        m_echInventStockQueueHistory.ErrorMessage         = m_echInventStockQueue.ErrorMessage;
+        #
+        #        recInsertList.add(m_echInventStockQueueHistory);
+        #    }
+        #    recInsertList.insertDatabase();
+        #
+        #    ttsCommit;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

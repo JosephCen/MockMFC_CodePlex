@@ -1,0 +1,671 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPSalesTableInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPSalesTableInfo
+    PROPERTIES
+      Name                #echEPSalesTableInfo
+      HelpText            #@ECH682
+      Filename            #echEPSalesTableInfo.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%--ECHINA Steven start 20130128 --%>
+      #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPSalesTableInfo.ascx.cs" Inherits="echEPSalesTableInfo" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #    Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>
+      #
+      #<%@ Register assembly="ECH.AX.EP.CustomControlLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3c4f9127f02b162c" namespace="ECH.AX.EP.CustomControlLibrary" tagprefix="AXGroupInLine" %>
+      #
+      #<style type="text/css">
+      #.AxGroupHeaderCell
+      #{
+      #      text-align: Left;
+      #      color: #5a5a5a;
+      #      width:100px;
+      #      padding: 2px 4px 2px 2px;      
+      #      white-space:nowrap;
+      #}
+      #.AxGroupDataCell
+      #{
+      #      text-align: Left;
+      #      color: #000000;
+      #      width:100px;
+      #      padding: 2px;
+      #      white-space:nowrap;
+      #}
+      #</style>
+      #
+      #<dynamics:AxDataSource ID="dsEPSalesTableInfo" runat="server" DataSetName="EPSalesTableInfo" />
+      #<dynamics:AxToolBar ID="AxTB_CheckFailed" runat="server" WebMenuName="echEPSalesOrderDetailsToolBar"
+      #     OnSetMenuItemProperties="Webpart_OnSetMenuItemProperties"
+      #     DataSourceID="dsEPSalesTableInfo" DataMember="SalesTable_Current"/>
+      #<dynamics:AxForm runat="server" ID="formECHEPSalesTableInfo" DataKeyNames="RecId" DataMember="SalesTable_Current"
+      #    DataSourceID="dsEPSalesTableInfo" UpdateOnPostBack="True">
+      #  <%--  <dynamics:AxGroup ID="grpTest" runat="server">
+      #        <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echAggStatus" HeaderText="<%$AxLabel:@ECH513 %>" AutoPostBack="True" />
+      #        </Fields>
+      #    </dynamics:AxGroup>--%>
+      #    <table>
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpSalesOrderBasicInfo" Caption="<%$AxLabel:@ECH641 %>"
+      #                    runat="server" >
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="SalesId" HeaderText="<%$AxLabel:@ECH507%>" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echMsgPartnerId" HeaderText="<%$AxLabel:@ECH509 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echMsgPartnerExtCode" HeaderText="<%$AxLabel:@ECH508 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="CustomerRef" HeaderText="<%$AxLabel:@ECH514 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echAggStatus" HeaderText="<%$AxLabel:@ECH513 %>" AutoPostBack="True" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echCancelExceptionId" HeaderText="<%$AxLabel:@ECH515 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echFrontEndCreationDate" HeaderText="<%$AxLabel:@ECH516 %>" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echFrontEndEndTimeDate" HeaderText="<%$AxLabel:@ECH517 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echFrontEndModifiedDate" HeaderText="<%$AxLabel:@ECH518 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr> 
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpECHPaymentInfo" Caption="<%$AxLabel:@ECH642 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echpaymentReference" HeaderText="<%$AxLabel:@ECH519 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echPaymentTime" HeaderText="<%$AxLabel:@ECH520 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echPaymentAmount" HeaderText="<%$AxLabel:@ECH521 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echTotalDisc**" HeaderText="<%$AxLabel:@ECH522 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="CurrencyCode" HeaderText="<%$AxLabel:@ECH523 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr> 
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpECHCustInfo" Caption="<%$AxLabel:@ECH643 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="CustAccount" HeaderText="<%$AxLabel:@ECH524 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="ContactPersonName**" HeaderText="<%$AxLabel:@ECH510 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echCustomerMobilePhone**" HeaderText="<%$AxLabel:@ECH525 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="CustomerPhone**" HeaderText="<%$AxLabel:@ECH526 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr> 
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpECHTakeDeliveryInfo" Caption="<%$AxLabel:@ECH644 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="DeliveryName" HeaderText="<%$AxLabel:@ECH527 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="DeliveryState" HeaderText="<%$AxLabel:@ECH628 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="DeliveryCity" HeaderText="<%$AxLabel:@ECH629 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="DeliveryCounty" HeaderText="<%$AxLabel:@ECH630 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="DeliveryAddress" HeaderText="<%$AxLabel:@ECH531 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="DeliveryZipCode" HeaderText="<%$AxLabel:@ECH530 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echCustomerMobilePhone**" HeaderText="<%$AxLabel:@ECH528 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="CustomerPhone**" HeaderText="<%$AxLabel:@ECH529 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr> 
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpECHDeliveryInfo" Caption="<%$AxLabel:@ECH645 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="LastPackingSlip**" HeaderText="<%$AxLabel:@ECH532 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echDispCarrierId**" HeaderText="<%$AxLabel:@ECH533 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echDispCarrierName**" HeaderText="<%$AxLabel:@ECH534 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echDispTrackingNumber**" HeaderText="<%$AxLabel:@ECH535 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr> 
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpECHInvoiceInfo" Caption="<%$AxLabel:@ECH646 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceId" HeaderText="<%$AxLabel:@ECH536 %>" Visible="false"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceName" HeaderText="<%$AxLabel:@ECH537 %>" Visible="false"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceType" HeaderText="<%$AxLabel:@ECH540 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceTitle" HeaderText="<%$AxLabel:@ECH539 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceCompanyName" HeaderText="<%$AxLabel:@ECH538 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceTaxPayerIdNumber" HeaderText="<%$AxLabel:@ECH542 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoicebankAccountNumber" HeaderText="<%$AxLabel:@ECH543 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceDepositBank" HeaderText="<%$AxLabel:@ECH544 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceRegisteredPhoneNumber" HeaderText="<%$AxLabel:@ECH545 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceRegisteredAddress" HeaderText="<%$AxLabel:@ECH546 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceContent" HeaderText="<%$AxLabel:@ECH541 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceCreated" Visible="false"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echInvoiceRequested" />
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr> 
+      #        <%--<tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpPromotionInfo" Caption="<%$AxLabel:@ECH647 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echGetPromotionId**" HeaderText="<%$AxLabel:@ECH547 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="echGetPromotionDesc**" HeaderText="<%$AxLabel:@ECH547 %>"/>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" DataField="promotion description" />
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr>--%>
+      #    </table>
+      #</dynamics:AxForm>
+      #<dynamics:AxMultiSection ID="MS1" runat="server">
+      #    <dynamics:AxSection ID ="grpPromotionInfoHeader" runat="server" Caption="<%$AxLabel:@ECH647 %>" >
+      #        <dynamics:AxGridView ID="gridEPPromotionInfo" DataKeyNames="SalesId" runat="server"
+      #            DataMember="echSOPromotionsHeader" DataSourceID="dsEPSalesTableInfo" >
+      #            <Columns>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="echSOPromotionsHeader" 
+      #                    DataField="PromotionId" HeaderText="<%$AxLabel:@ECH547 %>" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="echSOPromotionsHeader" 
+      #                    DataField="PromotionDesc" HeaderText="<%$AxLabel:@ECH718 %>" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #     </dynamics:AxSection>
+      #    <dynamics:AxSection ID="grpItemInfo" runat="server" Caption="<%$AxLabel:@ECH648 %>">
+      #        <dynamics:AxGridView ID="gridEPItemInfo" runat="server" DataKeyNames="RecId,InventDim!inventDimId"
+      #            DataMember="SalesLine" DataSourceID="dsEPSalesTableInfo" AllowPaging="true" ShowFilter="false">
+      #            <Columns>
+      #                <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine"
+      #                    DataField="ItemId" SortExpression="ItemId" MenuItem="EPInventTableInfo" HeaderText="<%$AxLabel:@ECH548 %>"/>
+      #                <%--ECHINA shao zhifang add start 20121231--%>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="ItemName**"
+      #                    ItemStyle-Width="100" HeaderText="<%$AxLabel:@ECH549 %>"/>
+      #                <%--<dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="Name"
+      #                    SortExpression="Name" />--%>
+      #                <%--ECHINA shao zhifang add end 20121231 --%>
+      #                <%--<dynamics:AxBoundFieldGroup DataSet="EPSalesTableInfo" DataSetView="SalesLine" FieldGroup="InventDim!InventoryDimensions" />--%>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="InventDim!InventSizeId"
+      #                    SortExpression="InventDim!InventSizeId" HeaderText="<%$AxLabel:@ECH550 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="echGetRBOSizeName**"
+      #                    HeaderText="<%$AxLabel:@ECH551 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="InventDim!InventColorId"
+      #                    SortExpression="InventDim!InventColorId" HeaderText="<%$AxLabel:@ECH552 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="echGetRBOColorName**"
+      #                    HeaderText="<%$AxLabel:@ECH553 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="InventDim!InventStyleId"
+      #                    SortExpression="InventDim!InventStyleId" HeaderText="<%$AxLabel:@ECH554 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="SalesQty"
+      #                    SortExpression="SalesQty" HeaderText="<%$AxLabel:@ECH555 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="ExpectedRetQty"
+      #                    SortExpression="ExpectedRetQty" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="SalesUnit"
+      #                    SortExpression="SalesUnit" HeaderText="<%$AxLabel:@ECH556 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="SalesPrice"
+      #                    SortExpression="SalesPrice" HeaderText="<%$AxLabel:@ECH557 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="LineDisc"
+      #                    SortExpression="LineDisc" HeaderText="<%$AxLabel:@ECH558 %>"/><%--
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="LinePercent"
+      #                    SortExpression="LinePercent" HeaderText="<%$AxLabel:@ECH559 %>"/>--%>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="LineAmount"
+      #                    SortExpression="LineAmount" HeaderText="<%$AxLabel:@ECH560 %>"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesLine" DataField="echGetPromotionDescs**"
+      #                    SortExpression="LineAmount" HeaderText="<%$AxLabel:@ECH718 %>">
+      #                </dynamics:AxBoundField>
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection><%--
+      #    <dynamics:AxSection ID="grpReleaseOrders" runat="server" Caption="<%$ AxLabel:@SYS59614 %>"
+      #        Visible="false">
+      #        <dynamics:AxGridView ID="gridEPSalesTableInfo2" runat="server" DataKeyNames="SubSalesId,BlanketSalesTable!SalesId"
+      #            DataMember="SalesTableLinks" DataSourceID="dsEPSalesTableInfo" AllowPaging="true"
+      #            ShowFilter="false">
+      #            <Columns>
+      #                <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!CustAccount" SortExpression="CustAccount" MenuItem="EPCustTableInfo" />
+      #                <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!SalesId" SortExpression="SalesId" MenuItem="EPSalesTableInfo" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!createdDateTime"
+      #                    SortExpression="createdDateTime" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!DeliveryDate"
+      #                    SortExpression="DeliveryDate" />
+      #                <dynamics:AxDropDownBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!SalesStatus" SortExpression="SalesStatus" />
+      #                <dynamics:AxDropDownBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!SalesType" SortExpression="SalesType" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!SalesTaker"
+      #                    SortExpression="SalesTaker" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>--%>
+      #
+      #    <dynamics:AxSection ID="grpChecks" runat="server" Caption="<%$ AxLabel:@ECH649 %>">
+      #        <dynamics:AxGridView ID="axGridViewChecks" runat="server" DataKeyNames="SalesId,CheckId"
+      #                    DataMember="echSalesOrderCheckResultTable" 
+      #                    DataSourceID="dsEPSalesTableInfo" ShowFilter="False" AllowEdit="True" AutoGenerateEditButton="False" ExpandEditableRow="False">
+      #                    <Columns>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="echSalesOrderCheckResultTable" DataField="Check" 
+      #                            SortExpression="Check" HeaderText="<%$AxLabel:@ECH561 %>" ReadOnly="true"/>
+      #                        <dynamics:AxDropDownBoundField DataSet="EPSalesTableInfo" DataSetView="echSalesOrderCheckResultTable" DataField="Result" 
+      #                            SortExpression="Result" HeaderText="<%$AxLabel:@ECH562 %>" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="echSalesOrderCheckResultTable" DataField="modifiedDateTime" 
+      #                            SortExpression="modifiedDateTime" HeaderText="<%$AxLabel:@ECH563 %>"/>
+      #                        <dynamics:AxBoundField DataField="modifiedBy" DataSet="EPSalesTableInfo" 
+      #                            DataSetView="echSalesOrderCheckResultTable" SortExpression="modifiedBy" HeaderText="<%$AxLabel:@ECH564 %>">
+      #                        </dynamics:AxBoundField>
+      #                    </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #
+      #<dynamics:AxPopupParentControl ID="AxPopupParent_ReturnReasonCode" runat="server">
+      #    <dynamics:AxPopupField Name="hiddenReturnReasonCode" />
+      #</dynamics:AxPopupParentControl>
+      #
+      #
+      #<%--<dynamics:AxDataSource ID="dsECHEPSysDataBaseLog" runat="server" DataSetName="echEPSysDataBaseLog" />
+      #<dynamics:AxMultiSection ID="MS2" runat="server">
+      #    <dynamics:AxSection ID="grpECHLog" runat="server">
+      #        <dynamics:AxGridView ID="AxGridViewECHLog" runat="server" DataKeyNames="ItemId,echSysDataBaseLog!SalesName"
+      #            DataMember="echSysDataBaseLog" DataSourceID="dsECHEPSysDataBaseLog">
+      #            <Columns>
+      #                <dynamics:AxBoundField dataset="echEPSysDataBaseLog" datasetview="echSysDataBaseLog" DataField="CustAccount" />
+      #                <dynamics:AxBoundField dataset="echEPSysDataBaseLog" datasetview="echSysDataBaseLog" DataField="SalesName" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>--%>
+      #
+      #<%--<dynamics:AxDataSource ID="dsECHEPSysDataBaseLogTest" runat="server" DataSetName="echEPSysDataBaseLogTest" />
+      #<dynamics:AxMultiSection ID="MS2" runat="server">
+      #    <dynamics:AxSection ID="grpECHLog" runat="server">
+      #        <dynamics:AxGridView ID="AxGridViewECHLog" runat="server" DataKeyNames="RecId"
+      #            DataMember="echSysDataBaseLogTest" DataSourceID="dsECHEPSysDataBaseLogTest" ShowFilter="False">
+      #            <Columns>
+      #                <dynamics:AxBoundField dataset="echEPSysDataBaseLogTest" datasetview="echSysDataBaseLogTest" DataField="CustAccount" />
+      #                <dynamics:AxBoundField dataset="echEPSysDataBaseLogTest" datasetview="echSysDataBaseLogTest" DataField="SalesName" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>--%>
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPSalesTableInfo_ascx_cs
+      HelpText            #
+      Filename            #echEPSalesTableInfo.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      ##region Using Directives
+      #using System;
+      #using System.Data;
+      #using System.Configuration;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #using Microsoft.Dynamics.Framework.Metadata.Ax;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Proxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using ApplicationProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #using Microsoft.Dynamics.Framework.Portal.UI;
+      #//using Microsoft.Dynamics.BusinessConnectorNet;
+      ##endregion
+      #
+      #public partial class echEPSalesTableInfo : AxBaseUserControl
+      #{
+      #    private const string SalesTable = "salesTable";
+      #
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #        setVisible();
+      #    }
+      #
+      #     #region Page level variables
+      #
+      #    // InventDim Framework
+      #    ApplicationProxy.InventDimCtrl_Frm_Mov inventDimFormSetup;
+      #
+      #    //Base Webpart private
+      #    private AxBaseWebPart _baseWebpart = null;
+      #
+      #    //Base Webpart value
+      #    AxBaseWebPart BaseWebpart
+      #    {
+      #        get
+      #        {
+      #            //Check if basewebpart is null
+      #            if (this._baseWebpart == null)
+      #                this._baseWebpart = AxBaseWebPart.GetWebpart(this);
+      #
+      #            return this._baseWebpart;
+      #        }
+      #    }
+      #
+      #    Proxy.WebContentItem ContentItem
+      #    {
+      #        get
+      #        {
+      #            //Get the manager content item from the webpart
+      #            return this.BaseWebpart == null ? null : this.BaseWebpart.WebManagedContentItem;
+      #        }
+      #    }
+      #
+      #    void Page_Init(object sender, EventArgs e)
+      #    {
+      #        if (BaseWebpart != null)
+      #        {
+      #            //_baseWebpart.ActionMenuItemClicked += new EventHandler<ActionMenuItemEventArgs>(Sample_PopupClick);
+      #            _baseWebpart.ActionMenuItemClicked += new EventHandler<ActionMenuItemEventArgs>(webpart_ActionMenuItemClicked);
+      #            this.AxTB_CheckFailed.SetMenuItemProperties += new EventHandler<SetMenuItemPropertiesEventArgs>(Webpart_OnSetMenuItemProperties);
+      #        }
+      #    }
+      #
+      #    //public void ToolBar_OnInit(object sender, EventArgs e)
+      #    //{
+      #    //    //this.AxTB_CheckFailed.SetMenuItemProperties += new EventHandler<SetMenuItemPropertiesEventArgs>(Webpart_OnSetMenuItemProperties);
+      #    //}
+      #
+      #    //Datasource view (Dynamics datasource) of the Axform
+      #    AxDataSourceView DataSourceViewSalesTable
+      #    {
+      #        get
+      #        {
+      #            //get the datasource view from the current form
+      #            return this.dsEPSalesTableInfo.GetDataSourceView(this.formECHEPSalesTableInfo.DataMember);
+      #        }
+      #    }
+      #
+      #    private DataSetViewRow getCurrentDataSetViewRow()
+      #    {
+      #        DataSetViewRow row = null;
+      #        if (this.dsEPSalesTableInfo.GetDataSourceView(SalesTable) != null)
+      #        {
+      #            row = this.dsEPSalesTableInfo.GetDataSourceView(SalesTable).DataSetView.GetCurrent();
+      #        }
+      #        return row;
+      #    }
+      #
+      #    protected override bool RequiresExternalContext
+      #    {
+      #        get { return true; }
+      #    }
+      #
+      #    #endregion
+      #
+      #    public void setVisible()
+      #    {
+      #        bool bVAT = false;
+      #
+      #        bool bRequested = false;
+      #
+      #        DataSetViewRow salesRec = this.DataSourceViewSalesTable.DataSetView.GetCurrent();
+      #
+      #        //check for null
+      #        if (salesRec != null)
+      #        {
+      #            ApplicationProxy.echInvoiceType strEnumInvoice = GetECHInvoiceTypeEnum(salesRec.GetFieldValue("echInvoiceType").ToString());
+      #
+      #            if (strEnumInvoice == ApplicationProxy.echInvoiceType.VAT)
+      #                bVAT = true;
+      #        }
+      #
+      #        if (salesRec != null)
+      #        {
+      #            ApplicationProxy.NoYes strEnumRequested = GetNoYesEnum(salesRec.GetFieldValue("echInvoiceRequested").ToString());
+      #
+      #            if (strEnumRequested == ApplicationProxy.NoYes.Yes)
+      #                bRequested = true;
+      #        }
+      #        grpECHInvoiceInfo.Visible = bRequested;
+      #
+      #
+      #        //AxBoundField echInvoiceId = GetField(grpECHInvoiceInfo.Fields, "echInvoiceId");
+      #        //echInvoiceId.Visible = bRequested;
+      #        //AxBoundField echInvoiceName = GetField(grpECHInvoiceInfo.Fields, "echInvoiceName");
+      #        //echInvoiceName.Visible = bRequested;
+      #        //AxBoundField echInvoiceType = GetField(grpECHInvoiceInfo.Fields, "echInvoiceType");
+      #        //echInvoiceType.Visible = bRequested;
+      #        //AxBoundField echInvoiceTitle = GetField(grpECHInvoiceInfo.Fields, "echInvoiceTitle");
+      #        //echInvoiceTitle.Visible = bRequested;
+      #        //AxBoundField echInvoiceContent = GetField(grpECHInvoiceInfo.Fields, "echInvoiceContent");
+      #        //echInvoiceContent.Visible = bRequested;
+      #        //AxBoundField echInvoiceCreated = GetField(grpECHInvoiceInfo.Fields, "echInvoiceCreated");
+      #        //echInvoiceCreated.Visible = bRequested;
+      #        //AxBoundField echInvoiceRequested = GetField(grpECHInvoiceInfo.Fields, "echInvoiceRequested");
+      #        //echInvoiceRequested.Visible = bRequested;
+      #
+      #        AxBoundField echInvoiceCreated = GetField(grpECHInvoiceInfo.Fields, "echInvoiceCreated");
+      #        echInvoiceCreated.Visible = false;
+      #        AxBoundField echInvoiceRequested = GetField(grpECHInvoiceInfo.Fields, "echInvoiceRequested");
+      #        echInvoiceRequested.Visible = false;
+      #
+      #        AxBoundField echInvoiceCompanyName = GetField(grpECHInvoiceInfo.Fields, "echInvoiceCompanyName");
+      #        echInvoiceCompanyName.Visible = bRequested;
+      #        //VAT
+      #        AxBoundField echInvoiceTaxPayerIdNumber = GetField(grpECHInvoiceInfo.Fields, "echInvoiceTaxPayerIdNumber");
+      #        echInvoiceTaxPayerIdNumber.Visible = (bVAT && bRequested);
+      #        AxBoundField echInvoiceRegisteredAddress = GetField(grpECHInvoiceInfo.Fields, "echInvoiceRegisteredAddress");
+      #        echInvoiceRegisteredAddress.Visible = (bVAT && bRequested);
+      #        AxBoundField echInvoiceRegisteredPhoneNumber = GetField(grpECHInvoiceInfo.Fields, "echInvoiceRegisteredPhoneNumber");
+      #        echInvoiceRegisteredPhoneNumber.Visible = (bVAT && bRequested);
+      #        AxBoundField echInvoiceDepositBank = GetField(grpECHInvoiceInfo.Fields, "echInvoiceDepositBank");
+      #        echInvoiceDepositBank.Visible = (bVAT && bRequested);
+      #        AxBoundField echInvoiceBankAccountNumber = GetField(grpECHInvoiceInfo.Fields, "echInvoiceBankAccountNumber");
+      #        echInvoiceBankAccountNumber.Visible = (bVAT && bRequested);
+      #
+      #        AxBoundField expectedRetQty = GetField(gridEPItemInfo.Columns, "expectedRetQty");
+      #        expectedRetQty.Visible = false;
+      #
+      #    }
+      #
+      #    static AxBoundField GetField(DataControlFieldCollection fields, string name)
+      #    {
+      #        foreach (DataControlField field in fields)
+      #        {
+      #            AxBoundField boundField = field as AxBoundField;
+      #            if (boundField != null && String.Compare(boundField.DataField, name, true) == 0)
+      #            {
+      #                return boundField;
+      #            }
+      #        }
+      #        return null;
+      #    }
+      #
+      #    ApplicationProxy.echInvoiceType GetECHInvoiceTypeEnum(string strEnumInvoiceValue)
+      #    {
+      #        ApplicationProxy.echInvoiceType echInvoiceType = ApplicationProxy.echInvoiceType.Normal;
+      #        switch (strEnumInvoiceValue)
+      #        {
+      #            case "0":
+      #                echInvoiceType = ApplicationProxy.echInvoiceType.Normal;
+      #                break;
+      #            case "1":
+      #                echInvoiceType = ApplicationProxy.echInvoiceType.VAT;
+      #                break;
+      #        }
+      #        return echInvoiceType;
+      #    }
+      #
+      #    //ApplicationProxy.echInvoiceRequested GetECHInvoiceRequstedEnum(string strEnumValue)
+      #    //{
+      #    //    ApplicationProxy.echInvoiceRequested echInvoiceRequested = ApplicationProxy.echInvoiceRequested.No;
+      #    //    switch (strEnumValue)
+      #    //    {
+      #    //        case "0":
+      #    //            echInvoiceRequested = ApplicationProxy.echInvoiceRequested.No;
+      #    //            break;
+      #    //        case "1":
+      #    //            echInvoiceRequested = ApplicationProxy.echInvoiceRequested.Yes;
+      #    //            break;
+      #    //    }
+      #    //    return echInvoiceRequested;
+      #    //}
+      #
+      #    ApplicationProxy.NoYes GetNoYesEnum(string strEnumRequestedValue)
+      #    {
+      #        ApplicationProxy.NoYes echInvoiceRequested = ApplicationProxy.NoYes.No;
+      #        switch (strEnumRequestedValue)
+      #        {
+      #            case "0":
+      #                echInvoiceRequested = ApplicationProxy.NoYes.No;
+      #                break;
+      #            case "1":
+      #                echInvoiceRequested = ApplicationProxy.NoYes.Yes;
+      #                break;
+      #        }
+      #        return echInvoiceRequested;
+      #    }
+      #
+      #    ApplicationProxy.echAggStatus echAggStatus
+      #    {
+      #        get
+      #        {
+      #            if (this.ContentItem.enumTypeParameter == EnumMetadata.EnumNum(this.AxSession, "echAggStatus"))
+      #            {
+      #                return (ApplicationProxy.echAggStatus)this.ContentItem.enumParameter;
+      #            }
+      #            //Set Default Value
+      #            return ApplicationProxy.echAggStatus.Blank;
+      #        }
+      #    }
+      #
+      #    ApplicationProxy.echAggStatus GetECHAggStatusEnum(string strEnumAggStatus)
+      #    {
+      #        ApplicationProxy.echAggStatus echAggStatus = ApplicationProxy.echAggStatus.Blank;
+      #        switch (strEnumAggStatus)
+      #        {
+      #            case "0":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Blank;
+      #                break;
+      #            case "1":
+      #                echAggStatus = ApplicationProxy.echAggStatus.PaymentConfirmed;
+      #                break;
+      #            case "2":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Cancelled;
+      #                break;
+      #            case "3":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ChecksFailed;
+      #                break;
+      #            case "4":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ChecksOK;
+      #                break;
+      #            case "5":
+      #                echAggStatus = ApplicationProxy.echAggStatus.SendToWMS;
+      #                break;
+      #            case "6":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ShippedToCustomer;
+      #                break;
+      #            case "7":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Invoiced;
+      #                break;
+      #            case "8":
+      #                echAggStatus = ApplicationProxy.echAggStatus.DeliveredAtCustomer;
+      #                break;
+      #            case "9":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Paid;
+      #                break;
+      #            case "10":
+      #                echAggStatus = ApplicationProxy.echAggStatus.WaitShipping;
+      #                break;
+      #            case "11":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Created;
+      #                break;
+      #            case "12":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ProductsReceived;
+      #                break;
+      #            case "13":
+      #                echAggStatus = ApplicationProxy.echAggStatus.RefundReplacement;
+      #                break;
+      #            case "14":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ReturnToCustomer;
+      #                break;
+      #            case "15":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Refunded;
+      #                break;
+      #            case "16":
+      #                echAggStatus = ApplicationProxy.echAggStatus.StockReserved;
+      #                break;
+      #            case "17":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Approved;
+      #                break;
+      #            case "18":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Rejected;
+      #                break;
+      #        }
+      #        return echAggStatus;
+      #    }
+      #
+      #    void webpart_ActionMenuItemClicked(object sender, ActionMenuItemEventArgs e)
+      #    {
+      #        //Check for Action menu item and refresh the datasource
+      #        dsEPSalesTableInfo.GetDataSet().DataSetViews["SalesTable"].ExecuteQuery();
+      #    }
+      #    /// <summary>
+      #    /// data refearch when datachanged
+      #    /// </summary>
+      #    public void DataChenged()
+      #    {
+      #        //Check for Action menu item and refresh the datasource
+      #        dsEPSalesTableInfo.GetDataSet().DataSetViews["SalesTable"].Research();
+      #    }
+      #
+      #    protected void Sample_PopupClick(object sender, EventArgs e)
+      #    {
+      #        AxUrlMenuItem menuItem = new AxUrlMenuItem("echEPReturnReasonCodeDialog");
+      #        AxPopupParent_ReturnReasonCode.OpenPopup(menuItem);
+      #    }
+      #
+      #    protected void Webpart_OnSetMenuItemProperties(object sender, SetMenuItemPropertiesEventArgs e)
+      #    {
+      #        DataSetViewRow currentRow = getCurrentDataSetViewRow();
+      #        if (currentRow !=null)
+      #        {
+      #            ApplicationProxy.echAggStatus strEnumECHAggStatus = GetECHAggStatusEnum(currentRow.GetFieldValue("echAggStatus").ToString());
+      #            if (strEnumECHAggStatus == ApplicationProxy.echAggStatus.ChecksFailed)
+      #            {
+      #                string menuItemName = e.MenuItem.MenuItemAOTName.ToLower();
+      #                switch (menuItemName)
+      #                {
+      #                    case "echsalesordercheck":
+      #                        e.MenuItem.Disabled = false;
+      #                        break;
+      #                    case "pickinglist":
+      #                        e.MenuItem.Disabled = false;
+      #                        break;
+      #                    default:
+      #                        e.MenuItem.Disabled = true;
+      #                        break;
+      #                }
+      #            }
+      #        }
+      #    }
+      #
+      #
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

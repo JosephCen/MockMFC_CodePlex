@@ -1,0 +1,289 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechReturnOrderLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechReturnOrderLine
+    Id 30316
+    PROPERTIES
+      Name                #AxechReturnOrderLine
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechReturnOrderLine axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechReturnOrderLine extends AxInternalBase
+        #{
+        #    echReturnOrderLine echReturnOrderLine;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echReturnOrderLine currentRecord(echReturnOrderLine _echReturnOrderLine = echReturnOrderLine)
+        #{
+        #    if (!prmisdefault(_echReturnOrderLine))
+        #    {
+        #        super(_echReturnOrderLine);
+        #        echReturnOrderLine = _echReturnOrderLine;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echReturnOrderLine;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echReturnOrderLine
+        #public echReturnOrderLine echReturnOrderLine(echReturnOrderLine _echReturnOrderLine = echReturnOrderLine)
+        #{
+        #    if (!prmisdefault(_echReturnOrderLine))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echReturnOrderLine);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echReturnOrderLine emptyRecord()
+        #{
+        #    echReturnOrderLine localechReturnOrderLine;
+        #    ;
+        #    return localechReturnOrderLine;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAttachmentCode
+        #public echReturnAttachmentCode parmAttachmentCode(echReturnAttachmentCode _attachmentCode = '')
+        #{
+        #    if (!prmisdefault(_attachmentCode))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, AttachmentCode), _attachmentCode);
+        #    }
+        #
+        #    return echReturnOrderLine.AttachmentCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmExtSkuId
+        #public ExtCodeValue parmExtSkuId(ExtCodeValue _extSkuId = '')
+        #{
+        #    if (!prmisdefault(_extSkuId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, ExtSkuId), _extSkuId);
+        #    }
+        #
+        #    return echReturnOrderLine.ExtSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPrice
+        #public Price parmPrice(Price _price = 0)
+        #{
+        #    if (!prmisdefault(_price))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, Price), _price);
+        #    }
+        #
+        #    return echReturnOrderLine.Price;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmProductId
+        #public ExtCodeValue parmProductId(ExtCodeValue _productId = '')
+        #{
+        #    if (!prmisdefault(_productId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, ProductId), _productId);
+        #    }
+        #
+        #    return echReturnOrderLine.ProductId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmQty
+        #public SalesQty parmQty(SalesQty _qty = 0)
+        #{
+        #    if (!prmisdefault(_qty))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, Qty), _qty);
+        #    }
+        #
+        #    return echReturnOrderLine.Qty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReturnOrderId
+        #public echReturnOrderId parmReturnOrderId(echReturnOrderId _returnOrderId = '')
+        #{
+        #    if (!prmisdefault(_returnOrderId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, ReturnOrderId), _returnOrderId);
+        #    }
+        #
+        #    return echReturnOrderLine.ReturnOrderId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSkuId
+        #public echSkuId parmSkuId(echSkuId _skuId = '')
+        #{
+        #    if (!prmisdefault(_skuId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, SkuId), _skuId);
+        #    }
+        #
+        #    return echReturnOrderLine.SkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSkuName
+        #public Description parmSkuName(Description _skuName = '')
+        #{
+        #    if (!prmisdefault(_skuName))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderLine, SkuName), _skuName);
+        #    }
+        #
+        #    return echReturnOrderLine.SkuName;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAttachmentCode
+        #protected void setAttachmentCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, AttachmentCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setExtSkuId
+        #protected void setExtSkuId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, ExtSkuId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPrice
+        #protected void setPrice()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, Price)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setProductId
+        #protected void setProductId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, ProductId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setQty
+        #protected void setQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, Qty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReturnOrderId
+        #protected void setReturnOrderId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, ReturnOrderId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSkuId
+        #protected void setSkuId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, SkuId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSkuName
+        #protected void setSkuName()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderLine, SkuName)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setReturnOrderId();
+        #    this.setProductId();
+        #    this.setQty();
+        #    this.setPrice();
+        #    this.setExtSkuId();
+        #    this.setAttachmentCode();
+        #    this.setSkuId();
+        #    this.setSkuName();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechReturnOrderLine construct()
+        #{
+        #    return new AxechReturnOrderLine();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechReturnOrderLine
+        #public static AxechReturnOrderLine newechReturnOrderLine(echReturnOrderLine _echReturnOrderLine)
+        #{
+        #    AxechReturnOrderLine AxechReturnOrderLine = AxechReturnOrderLine::construct();
+        #    ;
+        #    AxechReturnOrderLine.echReturnOrderLine(_echReturnOrderLine);
+        #
+        #    return AxechReturnOrderLine;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

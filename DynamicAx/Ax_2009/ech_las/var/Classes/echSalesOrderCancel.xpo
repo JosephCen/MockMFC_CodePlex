@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSalesOrderCancel unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSalesOrderCancel
+    Id 57724
+    PROPERTIES
+      Name                #echSalesOrderCancel
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// add by Jason Wu 5/3/2013
+        #class echSalesOrderCancel
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #cancelOrder
+        #static void cancelOrder(SalesTable  _salesTable)
+        #{
+        #    echSalesOrderCancelRemain   echSalesOrderCancelRemain = echSalesOrderCancelRemain::construct();
+        #
+        #    ;
+        #    echSalesOrderCancelRemain.parmSalesTable(_salesTable);
+        #    echSalesOrderCancelRemain.cancelRemain();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTR
+
+; Microsoft Dynamics AX Real: echPaymentAmount unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echPaymentAmount
+  Id 30022
+  REAL
+    PROPERTIES
+      Name                #echPaymentAmount
+      Label               #@SYS1943
+      HelpText            #@ECH66
+      ConfigurationKey    #echProcesses
+      Extends             #Amount
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

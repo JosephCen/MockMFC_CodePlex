@@ -1,0 +1,58 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echNumberSeqReference_Inventory unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echNumberSeqReference_Inventory
+    Id 30006
+    PROPERTIES
+      Name                #echNumberSeqReference_Inventory
+      Extends             #NumberSeqReference_Inventory
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: extended class
+        #
+        #class echNumberSeqReference_Inventory extends NumberSeqReference_Inventory
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #loadModule
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 08 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: add sku number sequence
+        #
+        #protected void loadModule()
+        #{
+        #    NumberSequenceReference numRef;
+        #    ;
+        #
+        #    super();
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(echSkuId));
+        #    numRef.ReferenceHelp           = literalstr("@ECH31");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 500;
+        #    this.create(numRef);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

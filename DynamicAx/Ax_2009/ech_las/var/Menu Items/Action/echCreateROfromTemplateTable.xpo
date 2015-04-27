@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echCreateROfromTemplateTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echCreateROfromTemplateTable
+    Type: 3
+    PROPERTIES
+      Name                #echCreateROfromTemplateTable
+      Label               #@SYS104102
+      HelpText            #@SYS98886
+      ObjectType          #Class
+      Object              #echCreateROfromTemplateTable
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

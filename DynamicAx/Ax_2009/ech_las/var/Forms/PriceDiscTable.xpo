@@ -1,0 +1,2294 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #PriceDiscTable
+  PROPERTIES
+    Name                #PriceDiscTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #class FormRun extends ObjectRun
+      #{
+      #    #resAppl
+      #
+      #    QueryBuildRange         blockPriceType;
+      #    QueryBuildRange         blockCode;
+      #    QueryBuildRange         blockRelation;
+      #
+      #    FormDesign              formDesign;
+      #
+      #    CustTable               custTable;
+      #    VendTable               vendTable;
+      #    InventTable             inventTable;
+      #    SalesTable              salesTable;
+      #    SalesQuotationTable     salesQuotationTable;
+      #    PurchTable              purchTable;
+      #    PurchRFQTable           purchRFQTable;
+      #    PriceDiscGroup          priceDiscGroup;
+      #
+      #    ModuleInventCustVend    module;
+      #    PriceType               relationType;
+      #    TableGroupAll           accountCode;
+      #    TableGroupAll           itemCode;
+      #    CustVendRel             accountRelation;
+      #    ItemRelation            itemRelation;
+      #    UnitID                  unitID;
+      #    CurrencyCode            currencyCode;
+      #
+      #    InventDimParm           inventDimParmPriceSetup;
+      #    InventDimParm           inventDimParmPriceWarning;
+      #
+      #    InventDimCtrl_Frm       inventDimFormSetup;
+      #
+      #    ImageListAppl_Infolog   imageList;
+      #
+      #    Map                     lineMessage;
+      #}
+    ENDSOURCE
+    SOURCE #initPurchRFQTable
+      #void  initPurchRFQTable()
+      #{;
+      #    vendTable       = VendTable::find(purchRFQTable.VendAccount);
+      #    accountRelation = vendTable.AccountNum;
+      #    currencyCode    = vendTable.Currency;
+      #}
+    ENDSOURCE
+    SOURCE #itemId
+      #ItemId itemId()
+      #{
+      #    ;
+      #
+      #    return priceDiscTable.itemId();
+      #}
+    ENDSOURCE
+    SOURCE #checkLines
+      #int checkLines(PriceDiscTable _priceDiscTable)
+      #{
+      #    InventDimParm       inventDimParmAll,
+      #                        inventDimParmItem,
+      #                        inventDimParmInventDim;
+      #    InventDim           inventDimLocal,
+      #                        inventDimAll,
+      #                        inventDimItem,
+      #                        inventDimBlank;
+      #    InventDimGroupId    dimGrpId;
+      #    ;
+      #
+      #    if (itemCode == TableGroupAll::Table && _priceDiscTable.ItemRelation)
+      #    {
+      #        inventDimLocal    = InventDim::find(_priceDiscTable.InventDimId);
+      #
+      #        if (InventDim::isInventDimEqual(inventDimBlank,inventDimLocal))
+      #            return -1;
+      #
+      #        dimGrpId        = InventTable::find(_priceDiscTable.ItemRelation).DimGroupId;
+      #
+      #        switch(module)
+      #        {
+      #            case ModuleInventCustVend::Cust :
+      #                inventDimParmAll.initActivateSalesPriceAll(dimGrpId);
+      #                inventDimParmItem.initActivateSalesPriceItemDim(dimGrpId);
+      #                break;
+      #
+      #            case ModuleInventCustVend::Vend :
+      #                inventDimParmAll.initActivatePurchPriceAll(dimGrpId);
+      #                inventDimParmItem.initActivatePurchPriceItemDim(dimGrpId);
+      #                break;
+      #
+      #            case ModuleInventCustVend::Invent :
+      #                if (element.salesPrice())
+      #                {
+      #                    inventDimParmAll.initActivateSalesPriceAll(dimGrpId);
+      #                    inventDimParmItem.initActivateSalesPriceItemDim(dimGrpId);
+      #                }
+      #                else
+      #                {
+      #                    inventDimParmAll.initActivatePurchPriceAll(dimGrpId);
+      #                    inventDimParmItem.initActivatePurchPriceItemDim(dimGrpId);
+      #                }
+      #                break;
+      #        }
+      #
+      #        inventDimAll.copyDimParmDim(dimGrpId,inventDimLocal,inventDimParmAll);
+      #        inventDimItem.copyDimParmDim(dimGrpId,inventDimLocal,inventDimParmItem);
+      #
+      #        if  (!inventDimParmAll.isInventDimEqualInventDimParm(inventDimAll) ||
+      #             !inventDimParmItem.isInventDimEqualInventDimParm(inventDimItem))
+      #            return imageList.image(#ImageError);
+      #
+      #        inventDimParmInventDim.initFromInventDim(inventDimLocal);
+      #        if (!InventDimParm::isInventDimParmEqual(inventDimParmInventDim, inventDimParmAll) &&
+      #            !InventDimParm::isInventDimParmEqual(inventDimParmInventDim, inventDimParmItem))
+      #        {
+      #            return imageList.image(#ImageWarning);
+      #        }
+      #    }
+      #
+      #    return -1;
+      #}
+    ENDSOURCE
+    SOURCE #salesPrice
+      #boolean salesPrice()
+      #{
+      #    switch (module)
+      #    {
+      #        case ModuleInventCustVend::Cust :   return true;
+      #        case ModuleInventCustVend::Invent:
+      #            if (relationType == PriceType::EndDiscSales ||
+      #                relationType == PriceType::LineDiscSales ||
+      #                relationType == PriceType::MultiLineDiscSales ||
+      #                relationType == PriceType::PriceSales)
+      #                return true;
+      #    }
+      #
+      #    return false;
+      #}
+    ENDSOURCE
+    SOURCE #setReferenceText
+      #void setReferenceText()
+      #{;
+      #    if (inventDimParmPriceSetup.toString())
+      #        reference.text(strfmt("@SYS70184",inventDimParmPriceSetup.toString()));
+      #    else
+      #        reference.text(strfmt("@SYS70185",inventDimParmPriceSetup.toString()));
+      #
+      #    warningText.text("");
+      #
+      #    if (!lineMessage.exists(priceDiscTable.RecId))
+      #        lineMessage.insert(priceDiscTable.RecId,element.checkLines(priceDiscTable));
+      #
+      #    if (lineMessage.lookup(priceDiscTable.RecId) != -1 && inventDimParmPriceWarning.toString())
+      #        warningText.text(strfmt("@SYS70190",inventDimParmPriceWarning.toString()));
+      #
+      #}
+    ENDSOURCE
+    SOURCE #updateDesign
+      #void updateDesign(InventDimFormDesignUpdate mode)
+      #{
+      #    InventDimParm   inventDimParmVisible;
+      #    InventDimParm   inventDimParmEnabled;
+      #    ;
+      #
+      #    element.lock();
+      #    switch (mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init          :
+      #        case InventDimFormDesignUpdate::LinkActive    :
+      #            if (!inventDimFormSetup)
+      #                inventDimFormSetup  = InventDimCtrl::newFromForm(element);
+      #            inventDimFormSetup.parmSkipOnHandLookUp(true);
+      #
+      #            if (itemCode == TableGroupAll::Table)
+      #            {
+      #                inventDimParmVisible.initPriceDiscDimAllGrp();
+      #                groupHelp.visible(true);
+      #                inventDimParmFixed.enabled(true);
+      #                inventDimFormSetup.parmDimParmVisibleGrid(inventDimParmVisible);
+      #            }
+      #            else
+      #            {
+      #                inventDimParmVisible.clear();
+      #                groupHelp.visible(false);
+      #                inventDimParmFixed.enabled(false);
+      #                inventDimFormSetup.parmDimParmVisibleGrid(inventDimParmVisible,true);
+      #            }
+      #
+      #        case InventDimFormDesignUpdate::Active        :
+      #            inventDimFormSetup.formActiveSetup();
+      #            if (itemCode == TableGroupAll::Table && priceDiscTable.ItemRelation)
+      #            {
+      #                inventDimParmEnabled.initDimActive(InventTable::find(priceDiscTable.ItemRelation).DimGroupId);
+      #                if (relationType < PriceType::PriceSales)
+      #                {
+      #                    inventDimParmPriceSetup.initActivatePurchPriceAll(InventTable::find(priceDiscTable.ItemRelation).DimGroupId);
+      #                }
+      #                else
+      #                {
+      #                    inventDimParmPriceSetup.initActivateSalesPriceAll(InventTable::find(priceDiscTable.ItemRelation).DimGroupId);
+      #                }
+      #                inventDimParmPriceWarning.initFromInventDim(inventDim);
+      #                inventDimParmPriceWarning = InventDimParm::xorParms(inventDimParmPriceWarning, inventDimParmPriceSetup);
+      #                this.setReferenceText();
+      #            }
+      #            else
+      #            {
+      #                inventDimParmEnabled.clear();
+      #                inventDimParmPriceSetup.clear();
+      #            }
+      #
+      #            inventDimFormSetup.parmDimParmEnabled(inventDimParmEnabled);
+      #            inventDimFormSetup.formSetControls(true);
+      #
+      #            if (relationType == PriceType::EndDiscPurch ||
+      #                relationType == PriceType::EndDiscSales)
+      #            {
+      #                inventDimFormSetup.hideAll();
+      #                inventDimParmFixed.enabled(false);
+      #            }
+      #            break;
+      #
+      #        case InventDimFormDesignUpdate::FieldChange   :
+      #            inventDimFormSetup.formActiveSetup();
+      #
+      #            if (itemCode == TableGroupAll::Table && priceDiscTable.ItemRelation)
+      #                inventDimParmEnabled.initDimActive(InventTable::find(priceDiscTable.ItemRelation).DimGroupId);
+      #            else
+      #                inventDimParmEnabled.clear();
+      #
+      #            inventDimFormSetup.parmDimParmEnabled(inventDimParmEnabled);
+      #            inventDimFormSetup.formSetControls(false);
+      #            break;
+      #
+      #        default :
+      #            element.unLock();
+      #            throw error(strfmt("@SYS54195",funcname()));
+      #    }
+      #    element.unLock();
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void  init()
+      #{
+      #    if (!element.args().record() || !element.args().parmEnumType())
+      #    {
+      #        throw error("@SYS22539");
+      #    }
+      #    super();
+      #    relationType = element.args().parmEnum();
+      #    element.design().caption(strfmt('%1',relationType));
+      #
+      #    element.initParameters();
+      #    element.initRelation();
+      #
+      #    priceDiscTable_ds.query().dataSourceTable(tablenum(PriceDiscTable)).clearRanges();
+      #    priceDiscTable_ds.query().dataSourceTable(tablenum(PriceDiscTable)).clearDynalinks();
+      #
+      #    blockPriceType = priceDiscTable_ds.query().dataSourceTable(tablenum(PriceDiscTable)).addRange(fieldnum(PriceDiscTable, Relation));
+      #    blockPriceType.status(RangeStatus::Hidden);
+      #
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #            blockCode       = priceDiscTable_ds.query().dataSourceTable(tablenum(PriceDiscTable)).addRange(fieldnum(PriceDiscTable, ItemCode));
+      #            blockCode.status(RangeStatus::Hidden);
+      #            blockRelation   = priceDiscTable_ds.query().dataSourceTable(tablenum(PriceDiscTable)).addRange(fieldnum(PriceDiscTable, ItemRelation));
+      #            blockRelation.status(RangeStatus::Hidden);
+      #            break;
+      #
+      #        default :
+      #            blockCode       = priceDiscTable_ds.query().dataSourceTable(tablenum(PriceDiscTable)).addRange(fieldnum(PriceDiscTable, AccountCode));
+      #            blockCode.status(RangeStatus::Hidden);
+      #            blockRelation   = priceDiscTable_ds.query().dataSourceTable(tablenum(PriceDiscTable)).addRange(fieldnum(PriceDiscTable, AccountRelation));
+      #            blockRelation.status(RangeStatus::Hidden);
+      #            break;
+      #    }
+      #
+      #    imageList = new ImageListAppl_Infolog();
+      #    priceDiscIcon.imageList(imageList.imageList());
+      #
+      #    lineMessage = new Map(typeId2Type(typeid(recId)), Types::Integer);
+      #
+      #    reference.text("@SYS70185");
+      #    warningText.text("");
+      #
+      #    element.updateDesign(InventDimFormDesignUpdate::Init);
+      #}
+    ENDSOURCE
+    SOURCE #accountRelation
+      #CustVendRel  accountRelation()
+      #{
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Cust :
+      #            if (salesTable.RecId)
+      #            {
+      #                return salesTable.CustAccount;
+      #            }
+      #
+      #            if (salesQuotationTable.RecId)
+      #            {
+      #                return salesQuotationTable.CustAccount;
+      #            }
+      #
+      #            if (custTable.RecId)
+      #            {
+      #                return custTable.AccountNum;
+      #            }
+      #            break;
+      #
+      #        case ModuleInventCustVend::Vend :
+      #            if (purchTable.RecId)
+      #            {
+      #                return purchTable.OrderAccount;
+      #            }
+      #
+      #            if (vendTable.RecId)
+      #            {
+      #                return vendTable.AccountNum;
+      #            }
+      #            break;
+      #    }
+      #
+      #    return '';
+      #}
+    ENDSOURCE
+    SOURCE #initFromCustTable
+      #void  initFromCustTable()
+      #{;
+      #    element.initCustTable();
+      #
+      #    priceDiscTable.Currency = currencyCode;
+      #}
+    ENDSOURCE
+    SOURCE #initFromVendTable
+      #void  initFromVendTable()
+      #{;
+      #    element.initVendTable();
+      #
+      #    priceDiscTable.Currency = currencyCode;
+      #}
+    ENDSOURCE
+    SOURCE #initFromInventTable
+      #void  initFromInventTable()
+      #{;
+      #    element.initInventTable();
+      #    priceDiscTable.UnitId = unitID;
+      #}
+    ENDSOURCE
+    SOURCE #initPriceDiscGroup
+      #void  initPriceDiscGroup()
+      #{;
+      #
+      #    if (module == ModuleInventCustVend::Invent)
+      #    {
+      #        itemCode = TableGroupAll::GroupId;
+      #    }
+      #    else
+      #    {
+      #        accountCode = TableGroupAll::GroupId;
+      #    }
+      #
+      #    relationCode.visible   (false);
+      #    relation.visible       (false);
+      #
+      #    currencyCode = CompanyInfo::find().CurrencyCode;
+      #
+      #
+      #
+      #}
+    ENDSOURCE
+    SOURCE #initRecord
+      #void  initRecord()
+      #{
+      #    if (priceDiscTable.ItemCode == TableGroupAll::All)
+      #    {
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).skip(true);
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).allowEdit(false);
+      #        priceDiscTable.ItemRelation = '';
+      #    }
+      #    else
+      #    {
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).skip(false);
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).allowEdit(true);
+      #    }
+      #
+      #    if (priceDiscTable.AccountCode == TableGroupAll::All)
+      #    {
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).skip(true);
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).allowEdit(false);
+      #        priceDiscTable.AccountRelation = '';
+      #    }
+      #    else
+      #    {
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).skip(false);
+      #        priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).allowEdit(true);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #InitRelation
+      #void  initRelation()
+      #{
+      #    element.lock();
+      #
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).visible    (true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).visible(true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).visible      (true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, PriceUnit)).visible   (true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, Markup)).visible      (true);
+      #    itemName.visible(true);
+      #    custVendName.visible(true);
+      #    percent.visible(true);
+      #
+      #    // <RETAIL>
+      #
+      #    PriceDiscTable_ds.object(fieldNum(PriceDiscTable, PriceInclVAT)).visible(false);
+      #    // </RETAIL>
+      #
+      #    switch(relationType)
+      #    {
+      #        case PriceType::PricePurch,
+      #             PriceType::PriceSales :
+      #
+      #            itemCode = TableGroupAll::Table;
+      #            break;
+      #
+      #        case PriceType::LineDiscPurch,
+      #             PriceType::LineDiscSales :
+      #
+      #            itemCode = TableGroupAll::Table;
+      #            break;
+      #
+      #        case PriceType::MultiLineDiscPurch,
+      #             PriceType::MultiLineDiscSales :
+      #
+      #            itemCode = TableGroupAll::GroupId;
+      #            break;
+      #
+      #        case PriceType::EndDiscPurch,
+      #             PriceType::EndDiscSales :
+      #
+      #            itemCode = TableGroupAll::All;
+      #            break;
+      #    }
+      #
+      #
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #
+      #            switch(relationType)
+      #            {
+      #                case PriceType::PricePurch,
+      #                     PriceType::PriceSales :
+      #
+      #                    itemCode = TableGroupAll::Table;
+      #                    groupSelect.visible(false);
+      #                    break;
+      #
+      #                case PriceType::LineDiscPurch,
+      #                     PriceType::LineDiscSales :
+      #
+      #                    if (priceDiscGroup.RecId)
+      #                    {
+      #                        itemCode = TableGroupAll::GroupId;
+      #                    }
+      #                    else
+      #                    {
+      #                        itemCode = TableGroupAll::Table;
+      #                    }
+      #                    groupSelect.visible(true);
+      #                    break;
+      #
+      #                case PriceType::MultiLineDiscPurch,
+      #                     PriceType::MultiLineDiscSales :
+      #
+      #                    itemCode = TableGroupAll::GroupId;
+      #                    groupSelect.visible(true);
+      #                    break;
+      #
+      #                case PriceType::EndDiscPurch,
+      #                     PriceType::EndDiscSales :
+      #
+      #                    itemCode = TableGroupAll::All;
+      #                    groupSelect.visible(false);
+      #                    break;
+      #            }
+      #//
+      #            relationCode.selection                  (itemCode);
+      #            relationCode.label                      ("@SYS58740");
+      #            relationCode.helpText                   ("@SYS25173");
+      #            relation.helpText                       ("@SYS69422");
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).visible         (false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).visible     (false);
+      #            itemName.visible(false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).visible             (true);
+      #            break;
+      #
+      #        case ModuleInventCustVend::Cust :
+      #            relationCode.selection                  (accountCode);
+      #            relationCode.label                      ("@SYS12243");
+      #            relation.helpText                       ("@SYS69423");
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).visible      (false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).visible  (false);
+      #            custVendName.visible(false);
+      #            delivery.visible                        (false);
+      #            break;
+      #
+      #        case ModuleInventCustVend::Vend :
+      #            relationCode.selection                  (accountCode);
+      #            relationCode.label                      ("@SYS12243");
+      #            relation.helpText                       ("@SYS69423");
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).visible      (false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).visible  (false);
+      #            custVendName.visible(false);
+      #            delivery.visible                        (false);
+      #            break;
+      #    }
+      #
+      #    switch(relationType)
+      #    {
+      #        case PriceType::PricePurch,
+      #             PriceType::PriceSales :
+      #
+      #            priceDiscTable_Amount.label         ("@SYS11865");
+      #            priceDiscTable_Amount.helpText      ("@SYS79486");
+      #            prices.visible(true);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, PriceUnit)).visible    (true);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, Markup)).visible       (true);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).visible     (false);
+      #            percent.visible                     (false);
+      #            delivery.visible                    (true);
+      #            // <RETAIL>
+      #
+      #
+      #            if(relationType == PriceType::PriceSales)
+      #                PriceDiscTable_ds.object(fieldNum(PriceDiscTable, PriceInclVAT)).visible(true);
+      #
+      #                // </RETAIL>
+      #            break;
+      #
+      #        case PriceType::LineDiscPurch,
+      #             PriceType::LineDiscSales :
+      #
+      #            priceDiscTable_Amount.label         ("@SYS11829");
+      #            priceDiscTable_Amount.helpText      ("@SYS79487");
+      #            prices.visible(false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, PriceUnit)).visible    (false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, Markup)).visible       (false);
+      #            percent.visible                     (true);
+      #            delivery.visible                    (false);
+      #            break;
+      #
+      #        case PriceType::MultiLineDiscPurch,
+      #             PriceType::MultiLineDiscSales :
+      #
+      #            priceDiscTable_Amount.label         ("@SYS11829");
+      #            priceDiscTable_Amount.helpText      ("@SYS79488");
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).visible         (false);
+      #            prices.visible(false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, PriceUnit)).visible    (false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, Markup)).visible       (false);
+      #            percent.visible                     (true);
+      #            delivery.visible                    (false);
+      #            break;
+      #
+      #        case PriceType::EndDiscPurch,
+      #             PriceType::EndDiscSales :
+      #
+      #            priceDiscTable_QuantityAmount.label ("@SYS12227");
+      #            priceDiscTable_Amount.label         ("@SYS11829");
+      #            priceDiscTable_Amount.helpText      ("@SYS79489");
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).visible     (false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).visible (false);
+      #            itemName.visible(false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).visible         (false);
+      #            prices.visible(false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, PriceUnit)).visible    (false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, Markup)).visible       (false);
+      #            percent.visible                     (true);
+      #            delivery.visible                    (false);
+      #            break;
+      #    }
+      #
+      #    switch (relationType)
+      #    {
+      #        case PriceType::PricePurch,
+      #             PriceType::LineDiscPurch,
+      #             PriceType::MultiLineDiscPurch,
+      #             PriceType::EndDiscPurch :
+      #
+      #            priceDiscTable_Currency.extendedDataType(typeId2ExtendedTypeId(typeid(VendCurrencyCode)));
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, CalendarDays)).visible       (true);
+      #            custVendName.label("@SYS27875");
+      #            break;
+      #
+      #        case PriceType::PriceSales,
+      #             PriceType::LineDiscSales,
+      #             PriceType::MultiLineDiscSales,
+      #             PriceType::EndDiscSales :
+      #
+      #            priceDiscTable_Currency.extendedDataType(typeId2ExtendedTypeId(typeid(CustCurrencyCode)));
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, CalendarDays)).visible       (false);
+      #            custVendName.label("@SYS27874");
+      #            break;
+      #    }
+      #
+      #    element.unLock();
+      #}
+    ENDSOURCE
+    SOURCE #initCustTable
+      #void  initCustTable()
+      #{;
+      #    accountRelation = custTable.AccountNum;
+      #    currencyCode    = custTable.Currency;
+      #}
+    ENDSOURCE
+    SOURCE #initSalesTable
+      #void  initSalesTable()
+      #{;
+      #    custTable       = salesTable.custTable_CustAccount();
+      #    accountRelation = custTable.AccountNum;
+      #    currencyCode    = custTable.Currency;
+      #}
+    ENDSOURCE
+    SOURCE #initSalesQuotationTable
+      #void  initSalesQuotationTable()
+      #{;
+      #    custTable       = salesQuotationTable.custTable_CustAccount();
+      #    accountRelation = custTable.AccountNum;
+      #    currencyCode    = custTable.Currency;
+      #}
+    ENDSOURCE
+    SOURCE #initPurchTable
+      #void  initPurchTable()
+      #{;
+      #    vendTable       = purchTable.vendTable_OrderAccount();
+      #    accountRelation = vendTable.AccountNum;
+      #    currencyCode    = vendTable.Currency;
+      #}
+    ENDSOURCE
+    SOURCE #initVendTable
+      #void  initVendTable()
+      #{;
+      #    accountRelation = vendTable.AccountNum;
+      #    currencyCode    = vendTable.Currency;
+      #}
+    ENDSOURCE
+    SOURCE #initInventTable
+      #void  initInventTable()
+      #{;
+      #    itemRelation = inventTable.ItemId;
+      #
+      #    if (relationType < PriceType::PriceSales)
+      #    {
+      #        unitID = inventTable.purchUnitId();
+      #    }
+      #    else
+      #    {
+      #        unitID = inventTable.salesUnitId();
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #EndDisc
+      #PriceGroupId  endDisc()
+      #{
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #            return '';
+      #
+      #        case ModuleInventCustVend::Cust :
+      #            if (salesTable.RecId)
+      #            {
+      #                return salesTable.EndDisc;
+      #            }
+      #
+      #            if (salesQuotationTable.RecId)
+      #            {
+      #                return salesQuotationTable.EndDisc;
+      #            }
+      #
+      #            if (custTable.RecId)
+      #            {
+      #                return custTable.EndDisc;
+      #            }
+      #
+      #            return priceDiscGroup.GroupId;
+      #
+      #        case ModuleInventCustVend::Vend :
+      #            if (purchTable.RecId)
+      #            {
+      #                return purchTable.EndDisc;
+      #            }
+      #
+      #            if (vendTable.RecId)
+      #            {
+      #                return vendTable.EndDisc;
+      #            }
+      #
+      #            return priceDiscGroup.GroupId;
+      #
+      #    }
+      #
+      #    return '';
+      #}
+    ENDSOURCE
+    SOURCE #MultiLineDisc
+      #PriceGroupId multiLineDisc()
+      #{
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #            if (priceDiscGroup.RecId)
+      #                return priceDiscGroup.GroupId;
+      #
+      #            if (relationType < PriceType::PriceSales)
+      #                return inventTable.purchMultiLineDisc();
+      #
+      #            return inventTable.salesMultiLineDisc();
+      #
+      #        case ModuleInventCustVend::Cust :
+      #            if (salesTable.RecId)
+      #                return salesTable.MultiLineDisc;
+      #
+      #            if (salesQuotationTable.RecId)
+      #                return salesQuotationTable.MultiLineDisc;
+      #
+      #            if (custTable.RecId)
+      #                return custTable.MultiLineDisc;
+      #
+      #            return priceDiscGroup.GroupId;
+      #
+      #        case ModuleInventCustVend::Vend :
+      #            if (purchTable.RecId)
+      #                return purchTable.MultiLineDisc;
+      #
+      #            if (vendTable.RecId)
+      #                return vendTable.MultiLineDisc;
+      #
+      #            return priceDiscGroup.GroupId;
+      #    }
+      #
+      #    return '';
+      #}
+    ENDSOURCE
+    SOURCE #LineDisc
+      #PriceGroupId  lineDisc()
+      #{
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #            if (priceDiscGroup.RecId)
+      #            {
+      #                return priceDiscGroup.GroupId;
+      #            }
+      #
+      #            if (relationType < PriceType::PriceSales)
+      #            {
+      #                return inventTable.purchLineDisc();
+      #            }
+      #
+      #            return inventTable.salesLineDisc();
+      #
+      #        case ModuleInventCustVend::Cust :
+      #            if (salesTable.RecId)
+      #            {
+      #                return salesTable.LineDisc;
+      #            }
+      #
+      #            if (salesQuotationTable.RecId)
+      #            {
+      #                return salesQuotationTable.LineDisc;
+      #            }
+      #
+      #            if (custTable.RecId)
+      #            {
+      #                return custTable.LineDisc;
+      #            }
+      #
+      #            return priceDiscGroup.GroupId;
+      #
+      #        case ModuleInventCustVend::Vend :
+      #            if (purchTable.RecId)
+      #            {
+      #                return purchTable.LineDisc;
+      #            }
+      #
+      #            if (vendTable.RecId)
+      #            {
+      #                return vendTable.LineDisc;
+      #            }
+      #
+      #            return priceDiscGroup.GroupId;
+      #    }
+      #
+      #    return '';
+      #}
+    ENDSOURCE
+    SOURCE #PriceGroup
+      #PriceGroupId  priceGroup()
+      #{
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #            return '';
+      #
+      #        case ModuleInventCustVend::Cust :
+      #            if (salesTable.RecId)
+      #            {
+      #                return salesTable.PriceGroupId;
+      #            }
+      #
+      #            if (salesQuotationTable.RecId)
+      #            {
+      #                return salesQuotationTable.PriceGroupId;
+      #            }
+      #
+      #            if (custTable.RecId)
+      #            {
+      #                return custTable.PriceGroup;
+      #            }
+      #
+      #            return priceDiscGroup.GroupId;
+      #
+      #        case ModuleInventCustVend::Vend :
+      #            if (purchTable.RecId)
+      #            {
+      #                return purchTable.PriceGroupId;
+      #            }
+      #
+      #            if (vendTable.RecId)
+      #            {
+      #                return vendTable.PriceGroup;
+      #            }
+      #
+      #            return priceDiscGroup.GroupId;
+      #    }
+      #
+      #    return '';
+      #}
+    ENDSOURCE
+    SOURCE #InitParameters
+      #void  initParameters()
+      #{
+      #    ModuleInventCustVend    custVend;
+      #    tableId                 callerTableId;
+      #    BOMCalcTrans            bomCalcTrans;
+      #    ProdCalcTrans           prodCalcTrans;
+      #    PurchRFQReplyTable      rfqReplyTable;
+      #    ;
+      #
+      #    element.lock();
+      #
+      #    if (priceDiscGroup.RecId)
+      #    {
+      #        priceDiscGroup = element.args().record();
+      #        switch(module)
+      #        {
+      #            case ModuleInventCustVend::Cust,
+      #                 ModuleInventCustVend::Vend :
+      #
+      #                relationType = priceDiscGroup.Type + (module == ModuleInventCustVend::Cust ? 4 : 0);
+      #                break;
+      #
+      #            case ModuleInventCustVend::Invent :
+      #                if ((relationType == PriceType::LineDiscPurch) || (relationType == PriceType::MultiLineDiscPurch))
+      #                {
+      #                    custVend = ModuleInventCustVend::Vend;
+      #                }
+      #                else
+      #                {
+      #                    custVend = ModuleInventCustVend::Cust;
+      #                }
+      #
+      #                switch(priceDiscGroup.Type)
+      #                {
+      #                    case PriceGroupType::LineDiscGroup :
+      #                        if (custVend == ModuleInventCustVend::Vend)
+      #                        {
+      #                            relationType = PriceType::LineDiscPurch;
+      #                        }
+      #                        else
+      #                        {
+      #                            relationType = PriceType::LineDiscSales;
+      #                        }
+      #                        break;
+      #
+      #                    case PriceGroupType::MultiLineDiscGroup :
+      #                        if (custVend == ModuleInventCustVend::Vend)
+      #                        {
+      #                            relationType = PriceType::MultiLineDiscPurch;
+      #                        }
+      #                        else
+      #                        {
+      #                            relationType = PriceType::MultiLineDiscSales;
+      #                        }
+      #                        break;
+      #                }
+      #            break;
+      #        }
+      #    }
+      #
+      #    currencyCode = CompanyInfo::find().CurrencyCode;
+      #    callerTableId = element.args().record().TableId;
+      #
+      #    switch(callerTableId)
+      #    {
+      #        case tablenum(SalesTable) :
+      #            salesTable      = element.args().record();
+      #            module          = ModuleInventCustVend::Cust;
+      #            element.initSalesTable();
+      #            break;
+      #
+      #        case tablenum(SalesQuotationTable) :
+      #            salesQuotationTable = element.args().record();
+      #            module              = ModuleInventCustVend::Cust;
+      #            element.initSalesQuotationTable();
+      #            break;
+      #
+      #        case tablenum(CustTable) :
+      #            custTable       = element.args().record();
+      #            module          = ModuleInventCustVend::Cust;
+      #            element.initCustTable();
+      #            break;
+      #
+      #        case tablenum(PurchTable) :
+      #            purchTable      = element.args().record();
+      #            module          = ModuleInventCustVend::Vend;
+      #            element.initPurchTable();
+      #            break;
+      #
+      #        case tablenum(PurchRFQTable) :
+      #        case tablenum(PurchRFQReplyTable) :
+      #            if(callerTableId == tablenum(PurchRFQReplyTable))
+      #            {
+      #                rfqReplyTable = element.args().record();
+      #                purchRFQTable = rfqReplyTable.purchRFQTable();
+      #            }
+      #            else
+      #                purchRFQTable = element.args().record();
+      #
+      #            module          = ModuleInventCustVend::Vend;
+      #            element.initPurchRFQTable();
+      #            break;
+      #
+      #        case tablenum(VendTable) :
+      #            vendTable       = element.args().record();
+      #            module          = ModuleInventCustVend::Vend;
+      #            element.initVendTable();
+      #            break;
+      #
+      #        case tablenum(InventTable)  :
+      #        case tablenum(BOMCalcTrans) :
+      #        case tablenum(ProdCalcTrans) :
+      #            if(callerTableId == tablenum(InventTable))
+      #            {
+      #                inventTable     = element.args().record();
+      #            }
+      #            else if(callerTableId == tablenum(BOMCalcTrans))
+      #            {
+      #                bomCalcTrans    = element.args().record();
+      #                inventTable     = InventTable::find(bomCalcTrans.Key1);
+      #            }
+      #            else if(callerTableId == tablenum(ProdCalcTrans))
+      #            {
+      #                prodCalcTrans   = element.args().record();
+      #                inventTable     = InventTable::find(prodCalcTrans.Key1);
+      #            }
+      #            else
+      #            {
+      #                throw error("@SYS18626");
+      #            }
+      #
+      #            module          = ModuleInventCustVend::Invent;
+      #            element.initInventTable();
+      #//            PriceDiscTable_ConfigId.allowEdit(inventTable.configActive());
+      #//            PriceDiscTable_ConfigId.skip(!inventTable.configActive());
+      #            break;
+      #
+      #        case tablenum(PriceDiscGroup) :
+      #            priceDiscGroup  = element.args().record();
+      #            module          = priceDiscGroup.Module;
+      #            element.initPriceDiscGroup();
+      #            break;
+      #    }
+      #
+      #    element.unLock();
+      #}
+    ENDSOURCE
+    SOURCE #accountItemGroupRelation
+      #str  accountItemGroupRelation()
+      #{
+      #    switch(relationType)
+      #    {
+      #        case PriceType::PricePurch,
+      #             PriceType::PriceSales :
+      #
+      #            return element.priceGroup();
+      #
+      #        case PriceType::LineDiscPurch,
+      #             PriceType::LineDiscSales :
+      #
+      #            return element.lineDisc();
+      #
+      #        case PriceType::MultiLineDiscPurch,
+      #             PriceType::MultiLineDiscSales :
+      #
+      #            return element.multiLineDisc();
+      #
+      #        case PriceType::EndDiscSales,
+      #             PriceType::EndDiscPurch :
+      #
+      #            return element.endDisc();
+      #    }
+      #    return '';
+      #}
+    ENDSOURCE
+    SOURCE #ReSelect
+      #void  reSelect()
+      #{;
+      #    element.lock();
+      #
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).allowEdit(true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).skip(false);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).allowEdit(true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountRelation)).skip(false);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).allowEdit(true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).skip(false);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).allowEdit(true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemRelation)).skip(false);
+      #
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).allowEdit(false);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).skip(true);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).allowEdit(false);
+      #    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).skip(false);
+      #
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).allowEdit(false);
+      #            priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).skip(true);
+      #
+      #            switch(itemCode)
+      #            {
+      #                case TableGroupAll::Table :
+      #                    itemRelation = inventTable.ItemId;
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).allowEdit(true);
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, UnitId)).skip(false);
+      #                    break;
+      #
+      #                case TableGroupAll::GroupId :
+      #                    itemRelation = element.accountItemGroupRelation();
+      #                    break;
+      #
+      #                case TableGroupAll::All :
+      #                    itemRelation = '';
+      #                    break;
+      #            }
+      #
+      #            switch(relationType)
+      #            {
+      #                case PriceType::PricePurch,
+      #                     PriceType::PriceSales :
+      #
+      #                     priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).allowEdit(true);
+      #                     priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).skip(false);
+      #                     accountCode = TableGroupAll::Table;
+      #                     break;
+      #
+      #                case PriceType::LineDiscPurch,
+      #                     PriceType::LineDiscSales :
+      #
+      #                     priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).allowEdit(true);
+      #                     priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).skip(false);
+      #                     accountCode = TableGroupAll::Table;
+      #                     break;
+      #
+      #                case PriceType::MultiLineDiscPurch,
+      #                     PriceType::MultiLineDiscSales :
+      #
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).allowEdit(true);
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).skip(false);
+      #                    accountCode = TableGroupAll::GroupId;
+      #                    break;
+      #
+      #                case PriceType::EndDiscPurch,
+      #                     PriceType::EndDiscSales :
+      #
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).allowEdit(true);
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, AccountCode)).skip(false);
+      #                    accountCode = TableGroupAll::All;
+      #                    break;
+      #            }
+      #            break;
+      #
+      #        default :
+      #            switch(accountCode)
+      #            {
+      #                case TableGroupAll::Table :
+      #                    accountRelation = element.accountRelation();
+      #                    break;
+      #
+      #                case TableGroupAll::GroupId :
+      #                    accountRelation = element.accountItemGroupRelation();
+      #                    break;
+      #
+      #                case TableGroupAll::All :
+      #                    accountRelation = '';
+      #                    break;
+      #            }
+      #
+      #            switch(relationType)
+      #            {
+      #                case PriceType::PricePurch,
+      #                     PriceType::PriceSales :
+      #
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).allowEdit(false);
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).skip(true);
+      #                    itemCode = TableGroupAll::Table;
+      #                    break;
+      #
+      #                case PriceType::LineDiscPurch,
+      #                     PriceType::LineDiscSales :
+      #
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).allowEdit(true);
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).skip(false);
+      #                    itemCode = TableGroupAll::Table;
+      #                    break;
+      #
+      #                case PriceType::MultiLineDiscPurch,
+      #                     PriceType::MultiLineDiscSales  :
+      #
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).allowEdit(true);
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).skip(false);
+      #                    itemCode = TableGroupAll::GroupId;
+      #                    break;
+      #
+      #                case PriceType::EndDiscPurch,
+      #                     PriceType::EndDiscSales :
+      #
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).allowEdit(false);
+      #                    priceDiscTable_ds.object(fieldnum(PriceDiscTable, ItemCode)).skip(true);
+      #                    itemCode = TableGroupAll::All;
+      #                    break;
+      #            }
+      #            break;
+      #        }
+      #
+      #    element.unLock();
+      #
+      #    blockPriceType.value(queryValue(relationType));
+      #
+      #    switch(module)
+      #    {
+      #        case ModuleInventCustVend::Invent :
+      #            relation.text       (itemRelation);
+      #            blockCode.value     (queryValue(itemCode));
+      #            blockRelation.value (queryValue(itemRelation));
+      #            break;
+      #
+      #        default :
+      #            relation.text       (accountRelation);
+      #            blockCode.value     (queryValue(accountCode));
+      #            blockRelation.value (queryValue(accountRelation));
+      #            break;
+      #    }
+      #
+      #    priceDiscTable_ds.executeQuery();
+      #    pricediscTable_ds.queryRun().saveUserSetup(false);
+      #    priceDiscTable_ds.refresh();
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #Object inventDimSetupObject()
+      #{
+      #    return inventDimFormSetup;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #PriceDiscTable
+          Table               #PriceDiscTable
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD ItemRelation
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void  modified()
+                #{
+                #    super();
+                #
+                #    if (priceDiscTable.ItemCode == TableGroupAll::Table)
+                #    {
+                #        inventTable = InventTable::find(priceDiscTable.ItemRelation);
+                #        element.initFromInventTable();
+                #    }
+                #    element.updateDesign(InventDimFormDesignUpdate::FieldChange);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD AccountRelation
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void  modified()
+                #{
+                #    super();
+                #
+                #    if (priceDiscTable.AccountCode == TableGroupAll::Table)
+                #    {
+                #        if (relationType < PriceType::PriceSales)
+                #        {
+                #            vendTable = VendTable::find(priceDiscTable.AccountRelation);
+                #            element.initFromVendTable();
+                #        }
+                #        else
+                #        {
+                #            custTable = CustTable::find(priceDiscTable.AccountRelation);
+                #            element.initFromCustTable();
+                #        }
+                #    }
+                #}
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD AccountCode
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Validate
+                #boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #
+                #    ret = super();
+                #
+                #
+                #    return ret;
+                #
+                #}
+              ENDSOURCE
+              SOURCE #Modified
+                #void  modified()
+                #{
+                #    super();
+                #
+                #    element.initRecord();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ItemCode
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void  modified()
+                #{
+                #    super();
+                #
+                #    element.initRecord();
+                #    element.updateDesign(InventDimFormDesignUpdate::FieldChange);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #ItemName
+          #// This is itentionally left locally on the form because a migration causes too many RPC calls as call backs are needed to retreive the InventDim record
+          #//BP Deviation documented
+          #display Name itemName()
+          #{
+          #    Name name;
+          #    switch (priceDiscTable.ItemCode)
+          #    {
+          #        case  TableGroupAll::Table:
+          #            name = InventTable::find(priceDiscTable.ItemRelation).itemName(inventDim);
+          #            break;
+          #        case  TableGroupAll::GroupId:
+          #            name = PriceDiscGroup::name(ModuleInventCustVend::Invent,priceDiscTable.priceGroupType(),priceDiscTable.ItemRelation);
+          #            break;
+          #    }
+          #    return name;
+          #}
+        ENDSOURCE
+        SOURCE #inventDim
+          #InventDim inventDim()
+          #{
+          #    return inventDim;
+          #}
+        ENDSOURCE
+        SOURCE #validateWrite
+          #public boolean validateWrite()
+          #{
+          #    boolean ret;
+          #    ;
+          #
+          #    priceDiscTable.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #
+          #    ret = super();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #checkIfLines
+          #//BP Deviation documented
+          #display int checkIfLines(PriceDiscTable _priceDiscTable)
+          #{
+          #    if (!lineMessage.exists(_priceDiscTable.RecId))
+          #        lineMessage.insert(_priceDiscTable.RecId,element.checkLines(_priceDiscTable));
+          #
+          #    return lineMessage.lookup(_priceDiscTable.RecId);
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #public void write()
+          #{;
+          #    lineMessage.remove(priceDiscTable.RecId);
+          #
+          #    priceDiscTable.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #
+          #    super();
+          #
+          #    if (priceDiscTable.InventDimId != inventDim.InventDimId)
+          #    {
+          #        inventDim.data(InventDim::find(priceDiscTable.InventDimId));
+          #        inventDim_ds.setCurrent();
+          #    }
+          #
+          #    priceDiscTable_ds.reread();
+          #    priceDiscTable_ds.refresh();
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    ;
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #LinkActive
+          #void  linkActive()
+          #{
+          #    PriceType  oldRelationType;
+          #    ;
+          #
+          #    oldRelationType = relationType;
+          #
+          #    super();
+          #
+          #    element.initParameters();
+          #
+          #    if (oldRelationType != relationType)
+          #    {
+          #        element.lock();
+          #        element.initRelation();
+          #        element.initRecord();
+          #        element.resetSize();
+          #        element.unLock();
+          #    }
+          #
+          #    element.updateDesign(InventDimFormDesignUpdate::LinkActive);
+          #
+          #    element.reSelect();
+          #}
+        ENDSOURCE
+        SOURCE #InitValue
+          #void  initValue()
+          #{
+          #    super();
+          #
+          #    priceDiscTable.Module           = relationType < PriceType::PriceSales ? ModuleInventCustVend::Vend : ModuleInventCustVend::Cust;
+          #    priceDiscTable.Relation         = relationType;
+          #    priceDiscTable.AccountCode      = accountCode;
+          #    priceDiscTable.ItemCode         = itemCode;
+          #    priceDiscTable.AccountRelation  = accountRelation;
+          #    priceDiscTable.ItemRelation     = itemRelation;
+          #    priceDiscTable.Currency         = currencyCode;
+          #    priceDiscTable.UnitId           = unitID;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #Active
+          #int  active()
+          #{
+          #    int ok;
+          #    ;
+          #
+          #    ok = super();
+          #
+          #    element.initRecord();
+          #
+          #    element.updateDesign(InventDimFormDesignUpdate::Active);
+          #
+          #    return ok;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          JoinSource          #PriceDiscTable
+          LinkType            #InnerJoin
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #public void write()
+          #{
+          #//    super();
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    ;
+          #    inventDim.data(InventDim::find(priceDiscTable.InventDimId));
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    InventDim PriceDiscTable
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Width               #Column width
+      Height              #Column height
+      Caption             #@SYS13768
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/1D32D086-8318-403C-8FAD-6837A441DC1D.htm
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PriceDiscGroup
+          Width               #Column width
+          Height              #Column height
+          HTMLHelpFile        #HTMLHelpFileAxShared
+          HTMLHelpTopic       #html/CD51E6FB-FAB3-45A2-B146-A86E9E2D1217.htm
+          FrameType           #None
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL GROUP
+              PROPERTIES
+                Name                #Header
+                Width               #Column width
+                HTMLHelpFile        #HTMLHelpFileAxShared
+                HTMLHelpTopic       #html/BF261FB5-B492-4B3C-99F1-FB3D62E73E9C.htm
+                FrameType           #None
+                Columns             #3
+                ArrangeGuide        
+                  ARRAY INDEX Columns 
+                    #0
+                    #0
+                    #0
+                  ENDARRAY
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL GROUP
+                    PROPERTIES
+                      Name                #GroupSelect
+                      AutoDeclaration     #Yes
+                      HTMLHelpFile        #HTMLHelpFileAxShared
+                      HTMLHelpTopic       #html/C9CF6030-256C-4F15-AC6A-85D04E080B40.htm
+                      Caption             #@SYS2245
+                      Columns             #4
+                      ArrangeGuide        
+                        ARRAY INDEX Columns 
+                          #0
+                          #0
+                          #0
+                          #0
+                        ENDARRAY
+                    ENDPROPERTIES
+                    
+                      CONTAINER
+                        CONTROL COMBOBOX
+                          PROPERTIES
+                            Name                #RelationCode
+                            AutoDeclaration     #Yes
+                            HelpText            #@SYS25310
+                            Selection           #255
+                            Label               #@SYS12243
+                            EnumType            #TableGroupAll
+                          ENDPROPERTIES
+                          
+                          METHODS
+                            Version: 3
+                            SOURCE #validate
+                              #boolean validate()
+                              #{
+                              #    boolean ret;
+                              #
+                              #    ret = super();
+                              #
+                              #    if (ret && priceDiscTable.Module != ModuleInventCustVend::Invent)
+                              #        ret = priceDiscTable_ds.validateWrite();
+                              #
+                              #    return ret;
+                              #}
+                            ENDSOURCE
+                            SOURCE #modified
+                              #boolean modified()
+                              #{
+                              #    boolean ret;
+                              #    ;
+                              #
+                              #    if (priceDiscTable.Module != ModuleInventCustVend::Invent)
+                              #        priceDiscTable.write();
+                              #
+                              #    ret = super();
+                              #
+                              #    if (module == ModuleInventCustVend::Invent)
+                              #    {
+                              #        itemCode    = relationCode.selection();
+                              #
+                              #        if (relationType == PriceType::MultiLineDiscPurch ||
+                              #            relationType == PriceType::MultiLineDiscSales)
+                              #        {
+                              #            if (itemCode == TableGroupAll::All ||
+                              #                itemCode == TableGroupAll::GroupId )
+                              #
+                              #                relationCode.selection(itemCode);
+                              #            else
+                              #            {
+                              #                itemCode = TableGroupAll::GroupId;
+                              #                relationCode.selection(itemCode);
+                              #            }
+                              #        }
+                              #    }
+                              #    else
+                              #        accountCode = relationCode.selection();
+                              #
+                              #    element.reSelect();
+                              #
+                              #    return ret;
+                              #}
+                              #
+                            ENDSOURCE
+                          ENDMETHODS
+                        ENDCONTROL 
+                        
+                        CONTROL STRINGEDIT
+                          PROPERTIES
+                            Name                #Relation
+                            AutoDeclaration     #Yes
+                            AllowEdit           #No
+                            Skip                #Yes
+                            HelpText            #@SYS265
+                            ShowLabel           #No
+                            Label               #@SYS9114
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                      ENDCONTAINER
+                      
+                  ENDCONTROL 
+                  
+                  CONTROL GROUP
+                    PROPERTIES
+                      Name                #GroupHelp
+                      AutoDeclaration     #Yes
+                      HTMLHelpFile        #HTMLHelpFileAxShared
+                      HTMLHelpTopic       #html/04C3A497-1CC4-43A2-AA67-6F55AAEF71BD.htm
+                      FrameType           #None
+                      Columns             #2
+                      ArrangeGuide        
+                        ARRAY INDEX Columns 
+                          #0
+                          #0
+                        ENDARRAY
+                    ENDPROPERTIES
+                    
+                      CONTAINER
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #GroupWindow
+                            Width               #Column width
+                            HTMLHelpFile        #HTMLHelpFileAxShared
+                            HTMLHelpTopic       #html/173A60EE-4F5F-4011-A6FF-F3D8D50075FD.htm
+                            FrameType           #None
+                            Columns             #2
+                            ArrangeGuide        
+                              ARRAY INDEX Columns 
+                                #0
+                                #0
+                              ENDARRAY
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                              CONTROL WINDOW
+                                PROPERTIES
+                                  Name                #Window
+                                  Top                 #5
+                                  AlignControl        #No
+                                  ImageResource       #930
+                                  BackStyle           #Transparent
+                                  BackgroundColor     #Button face (3D)
+                                  ShowLabel           #No
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #GroupReference
+                            Width               #Column width
+                            HTMLHelpFile        #HTMLHelpFileAxShared
+                            HTMLHelpTopic       #html/B56B26A3-E8BC-4590-91AE-122B4A44D9E1.htm
+                            FrameType           #None
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                              CONTROL STATICTEXT
+                                PROPERTIES
+                                  Name                #Reference
+                                  AutoDeclaration     #Yes
+                                  Top                 #10
+                                  VerticalSpacing     #0
+                                  Text                #@SYS70185
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STATICTEXT
+                                PROPERTIES
+                                  Name                #WarningText
+                                  AutoDeclaration     #Yes
+                                  VerticalSpacing     #0
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                      ENDCONTAINER
+                      
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL GROUP
+              PROPERTIES
+                Name                #DiscAgreement
+                Width               #Column width
+                Height              #Column height
+                HTMLHelpFile        #HTMLHelpFileAxShared
+                HTMLHelpTopic       #html/60ADE109-61D5-4205-BA7C-77372BADB0F2.htm
+                FrameType           #None
+                Caption             #@SYS19789
+                DataSource          #PriceDiscTable
+                AlignChildren       #No
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL GRID
+                    PROPERTIES
+                      Name                #Grid
+                      Width               #Column width
+                      Height              #Column height
+                      DataSource          #PriceDiscTable
+                    ENDPROPERTIES
+                    
+                      CONTAINER
+                        CONTROL STRINGEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_Currency
+                            AutoDeclaration     #Yes
+                            DataSource          #PriceDiscTable
+                            DataField           #Currency
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL COMBOBOX
+                          PROPERTIES
+                            Name                #PriceDiscTable_AccountCode
+                            Selection           #255
+                            DataSource          #PriceDiscTable
+                            DataField           #AccountCode
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL STRINGEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_AccountRelation
+                            DataSource          #PriceDiscTable
+                            DataField           #AccountRelation
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL COMBOBOX
+                          PROPERTIES
+                            Name                #PriceDiscTable_ItemCode
+                            Selection           #255
+                            DataSource          #PriceDiscTable
+                            DataField           #ItemCode
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL STRINGEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_ItemRelation
+                            Label               #@SYS7407
+                            DataSource          #PriceDiscTable
+                            DataField           #ItemRelation
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #Inventorydimensions
+                            HTMLHelpFile        #HTMLHelpFileAxShared
+                            HTMLHelpTopic       #html/68D015B0-25C5-469C-BF88-B3EFE427E571.htm
+                            BackgroundColor     #Window background
+                            DataSource          #InventDim
+                            DataGroup           #InventoryDimensions
+                            AutoDataGroup       #Yes
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                        CONTROL STRINGEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_UnitId
+                            DataSource          #PriceDiscTable
+                            DataField           #UnitId
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL DATEEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_FromDate
+                            DataSource          #PriceDiscTable
+                            DataField           #FromDate
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL DATEEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_ToDate
+                            DataSource          #PriceDiscTable
+                            DataField           #ToDate
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL REALEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_QuantityAmount
+                            AutoDeclaration     #Yes
+                            DataSource          #PriceDiscTable
+                            DataField           #QuantityAmount
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL REALEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_Amount
+                            AutoDeclaration     #Yes
+                            DataSource          #PriceDiscTable
+                            DataField           #Amount
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL REALEDIT
+                          PROPERTIES
+                            Name                #PriceDiscTable_PriceInclVAT
+                            Visible             #No
+                            LabelAlignment      #Right
+                            DataSource          #PriceDiscTable
+                            DataField           #PriceInclVAT
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL CHECKBOX
+                          PROPERTIES
+                            Name                #PriceDiscTable_SearchAgain
+                            DataSource          #PriceDiscTable
+                            DataField           #SearchAgain
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL CHECKBOX
+                          PROPERTIES
+                            Name                #echIsLatestPrice
+                            AllowEdit           #No
+                            BackgroundColor     #Window background
+                            Label               #@ECH777
+                            DataSource          #PriceDiscTable
+                            DataMethod          #echIsLatestPrice
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL WINDOW
+                          PROPERTIES
+                            Name                #PriceDiscIcon
+                            AutoDeclaration     #Yes
+                            AllowEdit           #No
+                            Width               #15
+                            Height              #15
+                            AlignControl        #No
+                            BackStyle           #Transparent
+                            ShowLabel           #No
+                            DataSource          #PriceDiscTable
+                            DataMethod          #CheckIfLines
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                      ENDCONTAINER
+                      
+                  ENDCONTROL 
+                  
+                  CONTROL GROUP
+                    PROPERTIES
+                      Name                #Names
+                      FrameType           #None
+                      Columns             #2
+                      ArrangeGuide        
+                        ARRAY INDEX Columns 
+                          #0
+                          #0
+                        ENDARRAY
+                    ENDPROPERTIES
+                    
+                      CONTAINER
+                        CONTROL STRINGEDIT
+                          PROPERTIES
+                            Name                #custVendName
+                            AutoDeclaration     #Yes
+                            AllowEdit           #No
+                            Label               #@SYS27874
+                            DataSource          #PriceDiscTable
+                            DataMethod          #custVendName
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                        CONTROL STRINGEDIT
+                          PROPERTIES
+                            Name                #ItemName
+                            AutoDeclaration     #Yes
+                            AllowEdit           #No
+                            Skip                #Yes
+                            Label               #@SYS5398
+                            DataSource          #PriceDiscTable
+                            DataMethod          #ItemName
+                          ENDPROPERTIES
+                          
+                        ENDCONTROL 
+                        
+                      ENDCONTAINER
+                      
+                  ENDCONTROL 
+                  
+                  CONTROL GROUP
+                    PROPERTIES
+                      Name                #PriceDisc
+                      Top                 #Bottom edge
+                      HTMLHelpFile        #HTMLHelpFileAxShared
+                      HTMLHelpTopic       #html/54C0D569-D9A1-418C-94CE-240C60C79A9C.htm
+                      FrameType           #None
+                      DataSource          #PriceDiscTable
+                      Columns             #4
+                      ArrangeGuide        
+                        ARRAY INDEX Columns 
+                          #0
+                          #0
+                          #0
+                          #0
+                        ENDARRAY
+                    ENDPROPERTIES
+                    
+                      CONTAINER
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #Prices
+                            AutoDeclaration     #Yes
+                            HTMLHelpFile        #HTMLHelpFileAxShared
+                            HTMLHelpTopic       #html/C4FD87DF-0E7D-4992-A02B-A62701E0D58D.htm
+                            DataSource          #PriceDiscTable
+                            DataGroup           #Prices
+                            AutoDataGroup       #Yes
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #Percent
+                            AutoDeclaration     #Yes
+                            HTMLHelpFile        #HTMLHelpFileAxShared
+                            HTMLHelpTopic       #html/611997BF-AC59-47A7-A2BB-DD6711CC59BC.htm
+                            DataSource          #PriceDiscTable
+                            DataGroup           #Percent
+                            AutoDataGroup       #Yes
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #Delivery
+                            AutoDeclaration     #Yes
+                            HTMLHelpFile        #HTMLHelpFileAxShared
+                            HTMLHelpTopic       #html/3C44421A-EAA9-48EE-A42B-83200635392C.htm
+                            DataSource          #PriceDiscTable
+                            DataGroup           #Delivery
+                            AutoDataGroup       #Yes
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #GraphicsExplanation
+                            HTMLHelpFile        #HTMLHelpFileAxShared
+                            HTMLHelpTopic       #html/E7F6AE66-CDFA-4C31-B095-E8ECA3F2C9C1.htm
+                            Caption             #@SYS58560
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                              CONTROL GROUP
+                                PROPERTIES
+                                  Name                #GroupError
+                                  Width               #Column width
+                                  VerticalSpacing     #0
+                                  HTMLHelpFile        #HTMLHelpFileAxShared
+                                  HTMLHelpTopic       #html/34B20EB7-D9E4-4792-99B8-44C3DAF09D67.htm
+                                  FrameType           #None
+                                  Columns             #2
+                                  ArrangeGuide        
+                                    ARRAY INDEX Columns 
+                                      #0
+                                      #0
+                                    ENDARRAY
+                                ENDPROPERTIES
+                                
+                                  CONTAINER
+                                    CONTROL WINDOW
+                                      PROPERTIES
+                                        Name                #WindowError
+                                        AlignControl        #No
+                                        ImageResource       #929
+                                        BackStyle           #Transparent
+                                        BackgroundColor     #Button face (3D)
+                                        ShowLabel           #No
+                                      ENDPROPERTIES
+                                      
+                                    ENDCONTROL 
+                                    
+                                    CONTROL STATICTEXT
+                                      PROPERTIES
+                                        Name                #StaticTextError
+                                        Text                #@SYS70186
+                                      ENDPROPERTIES
+                                      
+                                    ENDCONTROL 
+                                    
+                                  ENDCONTAINER
+                                  
+                              ENDCONTROL 
+                              
+                              CONTROL GROUP
+                                PROPERTIES
+                                  Name                #GroupWarning
+                                  Width               #Column width
+                                  VerticalSpacing     #0
+                                  HTMLHelpFile        #HTMLHelpFileAxShared
+                                  HTMLHelpTopic       #html/85BB4EBD-FD36-41CE-986B-DFEB688FDBEF.htm
+                                  FrameType           #None
+                                  Columns             #2
+                                  ArrangeGuide        
+                                    ARRAY INDEX Columns 
+                                      #0
+                                      #0
+                                    ENDARRAY
+                                ENDPROPERTIES
+                                
+                                  CONTAINER
+                                    CONTROL WINDOW
+                                      PROPERTIES
+                                        Name                #WindowWarning
+                                        AlignControl        #No
+                                        ImageResource       #928
+                                        BackStyle           #Transparent
+                                        BackgroundColor     #Button face (3D)
+                                        ShowLabel           #No
+                                      ENDPROPERTIES
+                                      
+                                    ENDCONTROL 
+                                    
+                                    CONTROL STATICTEXT
+                                      PROPERTIES
+                                        Name                #StaticTextWarning
+                                        Text                #@SYS70189
+                                      ENDPROPERTIES
+                                      
+                                    ENDCONTROL 
+                                    
+                                  ENDCONTAINER
+                                  
+                              ENDCONTROL 
+                              
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                      ENDCONTAINER
+                      
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonsLine
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #SetupMenu
+              HelpText            #@SYS28777
+              Text                #@SYS2186
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    if (!PriceDisctable.RecId)
+                #    {
+                #        // there must be a record selected
+                #        DRMDistributionList.enabled(false);
+                #    }
+                #    else if (PriceDisctable.relation != PriceType::PriceSales)
+                #    {
+                #        // we must be in the context of sales prices
+                #        DRMDistributionList.enabled(false);
+                #    }
+                #    else if (PriceDisctable.AccountCode != TableGroupAll::All)
+                #    {
+                #        // only account code 'All' gets location distribution, Group and Table follow customers ... i.e. everywhere
+                #        DRMDistributionList.enabled(false);
+                #    }
+                #    else
+                #    {
+                #        DRMDistributionList.enabled(true);
+                #    }
+                #
+                #    super();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #DRMDistributionList
+                  AutoDeclaration     #Yes
+                  MenuItemName        #DRMDistributionList
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #ButtonLineInventory
+              HelpText            #@SYS69645
+              Text                #@SYS981
+              SaveRecord          #No
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventDimParmFixed
+                  AutoDeclaration     #Yes
+                  SaveRecord          #No
+                  MenuItemName        #InventDimParmFixed
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #ButtonFunction
+              HelpText            #@ECH780
+              ConfigurationKey    #echProcesses
+              Text                #@SYS28978
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #mouseDown
+                #// Add ECH_WI_02049 by mengqi.cen on 20130523
+                #public int mouseDown(int _x, int _y, int _button, boolean _Ctrl, boolean _Shift)
+                #{
+                #    int ret;
+                #;
+                #    ret = super(_x, _y, _button, _Ctrl, _Shift);
+                #
+                #    ButtonSetLatestPrice.visible(false);
+                #    ButtonUnsetLatestPrice.visible(false);
+                #    if (priceDiscTable.echIsLatestPrice())
+                #        ButtonUnsetLatestPrice.visible(true);
+                #    else
+                #        ButtonSetLatestPrice.visible(true);
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+            CONTAINER
+              CONTROL BUTTON
+                PROPERTIES
+                  Name                #ButtonSetLatestPrice
+                  AutoDeclaration     #Yes
+                  HelpText            #@ECH781
+                  ConfigurationKey    #echProcesses
+                  Text                #@ECH778
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #// Add ECH_WI_02049 by mengqi.cen on 20130523
+                    #void clicked()
+                    #{
+                    #;
+                    #    super();
+                    #
+                    #    echLatestPriceDiscTable::linkPriceDiscTable(priceDiscTable);
+                    #    priceDiscTable_DS.research(true);
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL BUTTON
+                PROPERTIES
+                  Name                #ButtonUnsetLatestPrice
+                  AutoDeclaration     #Yes
+                  HelpText            #@ECH782
+                  ConfigurationKey    #echProcesses
+                  Text                #@ECH779
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #// Add ECH_WI_02049 by mengqi.cen on 20130523
+                    #void clicked()
+                    #{
+                    #;
+                    #    super();
+                    #
+                    #    echLatestPriceDiscTable::delinkPriceDiscTable(priceDiscTable);
+                    #    priceDiscTable_DS.refresh();
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

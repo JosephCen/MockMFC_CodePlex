@@ -1,0 +1,161 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echSoCheckPromotionsTable
+  PROPERTIES
+    Name                #echSoCheckPromotionsTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSoCheckPromotionsTableDS
+          Table               #echSoCheckPromotionsTable
+          Index               #RecId
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH149
+      TitleDatasource     #echSoCheckPromotionsTableDS
+      DataSource          #echSoCheckPromotionsTableDS
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #OverviewTabPage
+              Caption             #@SYS34991
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Overview
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSoCheckPromotionsTableDS
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Overview_InventLocationId
+                        DataSource          #echSoCheckPromotionsTableDS
+                        DataField           #InventLocationId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Overview_M_InventLocationName
+                        AllowEdit           #No
+                        DataSource          #echSoCheckPromotionsTableDS
+                        DataMethod          #InventLocationName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS19924
+              DataSource          #echSoCheckPromotionsTableDS
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #OverviewGroup
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSoCheckPromotionsTableDS
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_InventLocationId
+                        DataSource          #echSoCheckPromotionsTableDS
+                        DataField           #InventLocationId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_M_InventLocationName
+                        AllowEdit           #No
+                        DataSource          #echSoCheckPromotionsTableDS
+                        DataMethod          #InventLocationName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

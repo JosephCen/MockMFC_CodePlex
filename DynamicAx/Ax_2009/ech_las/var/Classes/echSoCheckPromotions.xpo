@@ -1,0 +1,104 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckPromotions unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckPromotions
+    Id 30063
+    PROPERTIES
+      Name                #echSoCheckPromotions
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the promotions
+        #
+        #class echSoCheckPromotions  implements echISoCheck
+        #{
+        #    InventLocationId    inventLocationId;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return menuItemDisplayStr(echSoCheckPromotionsTable);
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH157";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_000893
+        #// *** Customization Date: 26 Jul 2012
+        #// *** Customization Type: modified
+        #// *** Description: include sales line promotion id in check
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean                     execute;
+        #    SalesTable                  salesTable      = SalesTable::find(_salesId);
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 25 Jun 2012
+        #    echSoCheckPromotionsTable   promotionsTable = echSoCheckPromotionsTable::find(salesTable.InventLocationId);
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 25 Jun 2012
+        #
+        #// CS - ECH_WI_000893 - Anthony Christiaens - 26 Jul 2012
+        #    SalesLine                   salesLine;
+        #    ;
+        #
+        #    select count(recId) from salesLine
+        #        where   salesLine.SalesId           == _salesId
+        #        &&      salesLine.echPromotionCode  != '';
+        #// CE - ECH_WI_000893 - Anthony Christiaens - 26 Jul 2012
+        #
+        #    if(promotionsTable.RecId &&
+        #// CS - ECH_WI_000893 - Anthony Christiaens - 26 Jul 2012
+        #       (salesTable.echPromotionCode || salesLine.RecId))
+        #// CE - ECH_WI_000893 - Anthony Christiaens - 26 Jul 2012
+        #        execute = false;
+        #    else
+        #        execute = true;
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH154";
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #LedgerAccount parmInventLocationId(InventLocationId   _inventLocationId = inventLocationId)
+        #
+        #{
+        #    ;
+        #    inventLocationId = _inventLocationId;
+        #    return inventLocationId;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

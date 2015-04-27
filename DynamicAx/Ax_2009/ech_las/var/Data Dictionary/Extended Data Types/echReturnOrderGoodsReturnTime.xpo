@@ -1,0 +1,29 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTZ
+
+; Microsoft Dynamics AX UtcDateTime: echReturnOrderGoodsReturnTime unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echReturnOrderGoodsReturnTime
+  Id 30085
+  DATETIME
+    PROPERTIES
+      Name                #echReturnOrderGoodsReturnTime
+      Label               #@ECH467
+      HelpText            #@ECH468
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

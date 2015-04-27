@@ -1,0 +1,84 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckShippingCity unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckShippingCity
+    Id 30068
+    PROPERTIES
+      Name                #echSoCheckShippingCity
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the quantity parameter
+        #
+        #class echSoCheckShippingCity  implements echISoCheck
+        #{
+        #    Integer    maxQuantity;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return "";
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH217";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00764
+        #// *** Customization Date: 19 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: reversed logic
+        #
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean         execute;
+        #    AddressZipCode  zipCode;
+        #    ;
+        #
+        #    select firstonly zipCode
+        #        where zipCode.City == SalesTable::find(_salesId).DeliveryCity;
+        #
+        #// CS - ECH_WI_00764 - Anthony Christiaens - 19 Jun 2012
+        #    //execute = zipCode.RecId ? false : true;
+        #    execute = zipCode.RecId ? true : false;
+        #// CE - ECH_WI_00764 - Anthony Christiaens - 19 Jun 2012
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH181";
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

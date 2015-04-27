@@ -1,0 +1,57 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : echEPSalesOrderListToolBar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #echEPSalesOrderListToolBar
+    PROPERTIES
+      Name                #echEPSalesOrderListToolBar
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS2055
+      PROPERTIES
+        Name                #New
+        Label               #@SYS2055
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Create Return Order
+          MenuItemType        #Action
+          MenuItemName        #echCreateReturnOrder
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Create Partial Return Order
+          MenuItemType        #Action
+          MenuItemName        #echEPCreatePartialReturnOrder
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS40422
+      PROPERTIES
+        Name                #Actions
+        Label               #@SYS40422
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Sales Order Check
+          MenuItemType        #Action
+          MenuItemName        #echSalesOrderCheck
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

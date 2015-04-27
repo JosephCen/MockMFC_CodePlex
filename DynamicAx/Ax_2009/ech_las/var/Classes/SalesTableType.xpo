@@ -1,0 +1,341 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesTableType unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesTableType
+    Id 540
+    PROPERTIES
+      Name                #SalesTableType
+      Extends             #InventType
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #insert
+        #void insert(boolean _skipMarkup = false)
+        #{
+        #    #OCCRetryCount
+        #    ;
+        #    try
+        #    {
+        #        ttsbegin;
+        #
+        #        if (salesTable.OneTimeCustomer  &&  !salesTable.SalesName)
+        #            salesTable.SalesName = salesTable.DeliveryName;
+        #
+        #        if (salesTable.isInterCompanyOrder())
+        #            this.interCompanyMirror();
+        #
+        #        salesTable.DeliveryDate = salesTable.ShippingDateConfirmed ? salesTable.ShippingDateConfirmed : salesTable.ShippingDateRequested;
+        #
+        #        salesTable.SkipUpdate = InterCompanySkipUpdate::No;
+        #
+        #        salesTable.doInsert();
+        #
+        #        if (salesTable.OneTimeCustomer && !salesTable.CustAccount)
+        #            salesTable.createOneTimeAccount();
+        #
+        #        salesTable.transferToOnetimeCustomer();
+        #
+        #        if (!_skipMarkup
+        #        &&  (salesTable.SalesType  != SalesType::ReturnItem
+        #         || (salesTable.SalesType  == SalesType::ReturnItem &&
+        #             salesTable.SkipUpdate == InterCompanySkipUpdate::No &&
+        #             salesTable.isInterCompanyOrder())))
+        #            salesTable.createMarkupTrans();
+        #
+        #        if (salesTable.SkipUpdate != InterCompanySkipUpdate::InterCompany
+        #        &&  salesTable.SkipUpdate != InterCompanySkipUpdate::Both
+        #        &&  salesTable.isInterCompanyOrder())
+        #            this.interCompanyMarkupMirror();
+        #
+        #        smmTransLog::initTrans(salesTable, smmLogAction::insert);
+        #
+        #        this.interCompanyCreateJournalAutoSummary();
+        #
+        #        ttscommit;
+        #    }
+        #    catch (Exception::Deadlock)
+        #    {
+        #        retry;
+        #    }
+        #    catch (Exception::UpdateConflict)
+        #    {
+        #        if (appl.ttsLevel() == 0)
+        #        {
+        #            if (xSession::currentRetryCount() >= #RetryNum)
+        #            {
+        #                throw Exception::UpdateConflictNotRecovered;
+        #            }
+        #            else
+        #            {
+        #                retry;
+        #            }
+        #        }
+        #        else
+        #        {
+        #            throw Exception::UpdateConflict;
+        #        }
+        #    }
+        #    catch (Exception::Error)
+        #    {
+        #        ttsabort;
+        #        throw error("@SYS93835");
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #modifiedField
+        #// Update ECH_WI_01981 by mengqi.cen on 20130227
+        #public void modifiedField(fieldId _fieldId)
+        #{
+        #    DlvMode         dlvMode;
+        #    ;
+        #    switch (_fieldId)
+        #    {
+        #        case fieldnum(SalesTable, DlvMode):
+        #            dlvMode = DlvMode::find(salesTable.DlvMode);
+        #            salesTable.ShipCarrierId          = dlvMode.ShipCarrierId;
+        #            salesTable.ShipCarrierAccountCode = dlvMode.ShipCarrierAccountCode;
+        #            salesTable.ShipCarrierDlvType     = dlvMode.ShipCarrierDlvType;
+        #            break;
+        #
+        #        case fieldnum(SalesTable, ReturnDeadline):
+        #            salesTable.updateDeadlineOnLine();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryAddress):
+        #            salesTable.clearAddressReference();
+        #            salesTable.setListCode();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryCountryRegionId):
+        #            salesTable.AddressMap::formatAddress();
+        #            salesTable.clearAddressReference();
+        #            salesTable.setListCode();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryCounty):
+        #            salesTable.AddressMap::formatAddress();
+        #            salesTable.clearAddressReference();
+        #            salesTable.setListCode();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryState):
+        #            salesTable.AddressMap::formatAddress();
+        #            salesTable.clearAddressReference();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryCity):
+        #            salesTable.AddressMap::formatAddress();
+        #            salesTable.clearAddressReference();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryStreet):
+        #            salesTable.AddressMap::formatAddress();
+        #            salesTable.clearAddressReference();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryZipCode):
+        #            if (AddressZipCode::zipCodeCount(salesTable.DeliveryZipCode) > 0)
+        #                salesTable.AddressMap::modifiedFieldZipCode();
+        #            salesTable.clearAddressReference();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, DeliveryAddress):
+        #            salesTable.clearAddressReference();
+        #            salesTable.setListCode();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, OneTimeCustomer):
+        #            salesTable.modifiedOneTimeCustomer();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, ContactPersonId):
+        #            salesTable.initFromContactInfo();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, CustAccount):
+        #            // <GIN>
+        #            if (salesTable.CustAccount && TaxParameters::find().Customs_IN == NoYes::Yes)
+        #            {
+        #                salesTable.CustomsExportOrder_IN = CustTable::find(salesTable.CustAccount).ForeignCustomer_IN;
+        #            }
+        #            // </GIN>
+        #            if (!salesTable.existMarkedSettlement(_fieldId))
+        #            {
+        #                salesTable.transferCustAccount();
+        #            }
+        #            else
+        #                salesTable.reread();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, ProjId):
+        #            salesTable.modifiedProjId();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, Payment):
+        #            salesTable.initFromPayment();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, PaymMode):
+        #            salesTable.paymModeModified();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, InterCompanyOrder):
+        #            salesTable.modifiedInterCompanyOrder();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, InvoiceAccount):
+        #            if (!salesTable.existMarkedSettlement(_fieldId))
+        #            {
+        #                salesTable.transferInvoiceAccount();
+        #
+        #                // Clear the credit card reference as it is no longer valid
+        #                salesTable.CreditCardCustRefId = 0;
+        #            }
+        #            else
+        #                salesTable.reread();
+        #            break;
+        #
+        #        case fieldnum(SalesTable, ReceiptDateRequested):
+        #            if (salesTable.ShippingDateRequested > salesTable.ReceiptDateRequested)
+        #            {
+        #                salesTable.ShippingDateRequested = salesTable.ReceiptDateRequested;
+        #                salesTable.DeliveryDate          = salesTable.ShippingDateConfirmed ? salesTable.ShippingDateConfirmed : salesTable.ShippingDateRequested;
+        #            }
+        #            break;
+        #
+        #        case fieldnum(SalesTable, ShippingDateRequested):
+        #            salesTable.DeliveryDate = salesTable.ShippingDateConfirmed ? salesTable.ShippingDateConfirmed : salesTable.ShippingDateRequested;
+        #
+        #            if (salesTable.ShippingDateRequested > salesTable.ReceiptDateRequested)
+        #                salesTable.ReceiptDateRequested = salesTable.ShippingDateRequested;
+        #            break;
+        #
+        #        case fieldnum(SalesTable, ShippingDateConfirmed):
+        #            salesTable.DeliveryDate = salesTable.ShippingDateConfirmed ? salesTable.ShippingDateConfirmed : salesTable.ShippingDateRequested;
+        #
+        #            if (salesTable.ShippingDateConfirmed > salesTable.ReceiptDateConfirmed)
+        #                salesTable.ReceiptDateConfirmed = salesTable.ShippingDateConfirmed;
+        #            break;
+        #
+        #        case fieldnum(SalesTable, ReceiptDateConfirmed):
+        #            if (salesTable.ShippingDateConfirmed > salesTable.ReceiptDateConfirmed)
+        #            {
+        #                salesTable.ShippingDateConfirmed = salesTable.ReceiptDateConfirmed;
+        #                salesTable.DeliveryDate          = salesTable.ShippingDateConfirmed ? salesTable.ShippingDateConfirmed : salesTable.ShippingDateRequested;
+        #            }
+        #            break;
+        #        case fieldnum(SalesTable, BankCentralBankPurposeCode):
+        #            salesTable.BankCentralBankPurposeText = BankCentralBankPurpose::find(salesTable.BankCentralBankPurposeCode).Text;
+        #            break;
+        #
+        #        case fieldnum(SalesTable, CurrencyCode):
+        #            if (salesTable.ProjId)
+        #            {
+        #                salesTable.FixedExchRate = ProjInvoiceCurrency::find(salesTable.projTable().projInvoice().ProjInvoiceProjId,salesTable.CurrencyCode).ExchRate;
+        #            }
+        #            break;
+        #
+        #        case fieldnum(SalesTable, InventSiteId):
+        #            salesTable.InventStorageDimMap::modifiedField(fieldnum(InventStorageDimMap, InventSiteId));
+        #            if(!salesTable.RecId)
+        #            {
+        #                SalesCalcAvailableDlvDates::initDateFieldsOrderEntryDeadline(salesTable);
+        #            }
+        #            break;
+        #
+        #        case fieldnum(SalesTable, InventLocationId):
+        #            salesTable.InventStorageDimMap::modifiedField(fieldnum(InventStorageDimMap, InventLocationId));
+        #            break;
+        #
+        #        default: break;
+        #    }
+        #
+        #    salesTable.modifiedFieldDDC(_fieldId);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateBackStatus
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: call hook class
+        #
+        #void  updateBackStatus()
+        #{
+        #    SalesTable  salesTableLocal;
+        #;
+        #    ttsbegin;
+        #    salesTableLocal = SalesTable::find(salesTable.SalesId,true);
+        #    salesTableLocal.SalesStatus = SalesLine::lowestSalesStatus(salesTable.SalesId);
+        #    salesTableLocal.doUpdate();
+        #
+        #// CS - ECH_WI_00665 - Anthony Christiaens - 25 Jun 2012
+        #    new echSalesTableType(this).updateBackStatus();
+        #// CE - ECH_WI_00665 - Anthony Christiaens - 25 Jun 2012
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #validateWrite
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00235
+        #// *** Customization Date: 13 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: call to shadow class
+        #
+        #boolean  validateWrite()
+        #{
+        #    boolean ok        = true;
+        #    boolean isChanged = true;
+        #    ;
+        #
+        #    if (!salesTable.RecId  &&  SalesTable::find(salesTable.SalesId))
+        #        ok = checkFailed(strfmt("@SYS53144", salesTable.SalesId));
+        #
+        #    if (salesTable_Orig.RecId)
+        #    {
+        #        if (salesTable.SalesId != salesTable_Orig.SalesId)
+        #            ok = checkFailed("@SYS2650");
+        #
+        #        isChanged = !salesTable_Orig.equal(salesTable);
+        #    }
+        #
+        #    if(isChanged)
+        #    {
+        #        if (!salesTable.checkAccount())
+        #            ok = false;
+        #
+        #        if (!salesTable.checkInvoiceAccount())
+        #            ok = false;
+        #    }
+        #
+        #    if (!salesTable.checkPayment())
+        #        ok = false;
+        #
+        #    if (!salesTable.checkCashPayment())
+        #        ok = false;
+        #
+        #    // checking credit limit is executed in SalesTable.validateWrite to prevent incorrent info prefix()
+        #
+        #    ok = ok && this.checkShipCarrierAddress();
+        #
+        #// CS - ECH_WI_00235 - Anthony Christiaens - 13 Apr 2012
+        #    ok = ok && new ECHCSalesTableType(this).validateWrite();
+        #// CE - ECH_WI_00235 - Anthony Christiaens - 13 Apr 2012
+        #
+        #    return ok;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

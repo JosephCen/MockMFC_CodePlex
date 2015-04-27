@@ -1,0 +1,449 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: AxdReturnOrderIn unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #AxdReturnOrderIn
+  PROPERTIES
+    Name                #AxdReturnOrderIn
+    Title               #Return order Inbound
+    Version             #142
+    NextUniqueId        #1007
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #SalesTable
+      PROPERTIES
+        Name                #SalesTable
+        Table               #SalesTable
+        UniqueId            #1000
+        Update              #Yes
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #AddressRefRecId
+        FIELD #AddressRefTableId
+        FIELD #ATPInclPlannedOrders
+        FIELD #ATPTimeFence
+        FIELD #AutoSummaryModuleType
+        FIELD #CashDisc
+        FIELD #CashDiscPercent
+        FIELD #CommissionGroup
+        FIELD #ConcessionContractId
+        FIELD #ContactPersonId
+        FIELD #CovStatus
+        FIELD #createdBy
+        FIELD #createdDateTime
+        FIELD #CreditCardApprovalAmount
+        FIELD #CreditCardAuthorization
+        FIELD #CreditCardAuthorizationError
+        FIELD #CreditCardCustRefId
+        FIELD #CreditCardProcessorTransactionId
+        FIELD #CurrencyCode
+        FIELD #CustAccount
+        FIELD #CustGroup
+        FIELD #CustInvoiceId
+        FIELD #CustomerRef
+        FIELD #dataAreaId
+        FIELD #Deadline
+        FIELD #DeliveryAddress
+        FIELD #DeliveryCity
+        FIELD #DeliveryCountryRegionId
+        FIELD #DeliveryCounty
+        FIELD #DeliveryDate
+        FIELD #DeliveryDateControlType
+        FIELD #DeliveryName
+        FIELD #DeliveryState
+        FIELD #DeliveryStreet
+        FIELD #DeliveryZipCode
+        FIELD #Dimension
+        FIELD #DiscPercent
+        FIELD #DlvMode
+        FIELD #DlvReason
+        FIELD #DlvTerm
+        FIELD #DocumentStatus
+        FIELD #ECHAggStatus
+        FIELD #echCancelExceptionId
+        FIELD #echFrontEndCreationDate
+        FIELD #echFrontEndEndtimeDate
+        FIELD #echFrontEndModifiedDate
+        FIELD #echInvoiceContent
+        FIELD #echInvoiceCreated
+        FIELD #echInvoiceId
+        FIELD #echInvoiceName
+        FIELD #echInvoiceRequested
+        FIELD #echInvoiceTitle
+        FIELD #echInvoiceType
+        FIELD #echMsgPartnerExtCode
+        FIELD #echMsgPartnerId
+        FIELD #echPaymentAmount
+        FIELD #echPaymentReference
+        FIELD #echPaymentTime
+        FIELD #echPromotionCode
+        FIELD #echSalesReasonId
+        FIELD #EInvoiceAccountCode
+        FIELD #EInvoiceLineSpec
+        FIELD #Email
+        FIELD #EndDisc
+        FIELD #Estimate
+        FIELD #ExportReason
+        FIELD #FixedDueDate
+        FIELD #FixedExchRate
+        FIELD #FreightSlipType
+        FIELD #FreightZone
+        FIELD #GiroType
+        FIELD #HHTPostedPRId
+        FIELD #HHTPRDocument
+        FIELD #HHTRetailStatusType
+        FIELD #InclTax
+        FIELD #InterCompanyOriginalCustAccount
+        FIELD #InterCompanyOriginalSalesId
+        FIELD #InventLocationId
+        FIELD #InventSiteId
+        FIELD #InvoiceAccount
+        FIELD #IsRetailSale
+        FIELD #LanguageId
+        FIELD #LineDisc
+        FIELD #Listcode
+        FIELD #MarkupGroup
+        FIELD #modifiedBy
+        FIELD #MultiLineDisc
+        FIELD #NumberSequenceGroup
+        FIELD #OneTimeCustomer
+        FIELD #Payment
+        FIELD #PaymentSched
+        FIELD #PaymMode
+        FIELD #PaymSpec
+        FIELD #Port
+        FIELD #PostingProfile
+        FIELD #PriceGroupId
+        FIELD #ProjId
+        FIELD #PurchId
+        FIELD #PurchOrderFormNum
+        FIELD #QuotationId
+        FIELD #RBOStatementId
+        FIELD #ReceiptDateConfirmed
+        FIELD #ReceiptDateRequested
+        FIELD #RecId
+        FIELD #recVersion
+        FIELD #Reservation
+        FIELD #ReturnDeadline
+        FIELD #ReturnItemNum
+        FIELD #ReturnReasonCodeId
+        FIELD #ReturnReplacementCreated
+        FIELD #ReturnReplacementId
+        FIELD #ReturnStatus
+        FIELD #SalesGroup
+        FIELD #SalesId
+        FIELD #SalesName
+        FIELD #SalesOriginId
+        FIELD #SalesPoolId
+        FIELD #SalesResponsible
+        FIELD #SalesStatus
+        FIELD #SalesTaker
+        FIELD #SalesType
+        FIELD #SalesUnitId
+        FIELD #SettleVoucher
+        FIELD #ShipCarrierAccount
+        FIELD #ShipCarrierAccountCode
+        FIELD #ShipCarrierBlindShipment
+        FIELD #ShipCarrierDeliveryContact
+        FIELD #ShipCarrierDlvType
+        FIELD #ShipCarrierExpeditedShipment
+        FIELD #ShipCarrierFuelSurcharge
+        FIELD #ShipCarrierId
+        FIELD #ShipCarrierResidential
+        FIELD #ShippingDateConfirmed
+        FIELD #ShippingDateRequested
+        FIELD #smmCampaignId
+        FIELD #smmSalesAmountTotal
+        FIELD #StatProcId
+        FIELD #TaxGroup
+        FIELD #TransactionCode
+        FIELD #Transport
+        FIELD #URL
+        FIELD #VATNum
+        FIELD #echInvoiceCompanyName
+        FIELD #echInvoiceTaxPayerIdNumber
+        FIELD #echInvoiceRegisteredAddress
+        FIELD #echInvoiceRegisteredPhoneNumber
+        FIELD #echInvoiceDepositBank
+        FIELD #echInvoiceBankAccountNumber
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+        LINE #ReturnStatus
+        PROPERTIES
+          Name                #ReturnStatus
+          Table               #SalesTable
+          Field               #ReturnStatus
+          Value               #!None
+          Status              #Lock
+        ENDPROPERTIES
+        
+        LINE #ReturnItemNum
+        PROPERTIES
+          Name                #ReturnItemNum
+          Table               #SalesTable
+          Field               #ReturnItemNum
+        ENDPROPERTIES
+        
+      ENDLINES
+      BLOCKS
+        BLOCK #SalesLine
+          PROPERTIES
+            Name                #SalesLine
+            Table               #SalesLine
+            UniqueId            #1001
+            JoinMode            #OuterJoin
+            Update              #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #ReturnStatus
+            PROPERTIES
+              Name                #ReturnStatus
+              Table               #SalesLine
+              Field               #ReturnStatus
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDim
+                Table               #InventDim
+                UniqueId            #1004
+                JoinMode            #OuterJoin
+                Update              #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #SalesLine
+                  MASTERFIELD  #InventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+            BLOCK #MarkupTrans
+              PROPERTIES
+                Name                #MarkupTransLine
+                Table               #MarkupTrans
+                UniqueId            #1005
+                JoinMode            #OuterJoin
+                Update              #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #SalesLine
+                  MASTERFIELD  #RecId
+                  DETAILSFIELD #TransRecId
+                ASSOCIATION
+                  JOINDATASOURCE #SalesLine
+                  MASTERFIELD  #TableId
+                  DETAILSFIELD #TransTableId
+              ENDASSOCIATIONS
+            ENDBLOCK
+            BLOCK #DocuRef
+              PROPERTIES
+                Name                #DocuRefLine
+                Table               #DocuRef
+                UniqueId            #1006
+                JoinMode            #OuterJoin
+                Update              #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+                LINE #Restriction
+                PROPERTIES
+                  Name                #Restriction
+                  Table               #DocuRef
+                  Field               #Restriction
+                  Value               #External
+                  Status              #Lock
+                ENDPROPERTIES
+                
+                LINE #TypeId
+                PROPERTIES
+                  Name                #TypeId
+                  Table               #DocuRef
+                  Field               #TypeId
+                ENDPROPERTIES
+                
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #SalesLine
+                  MASTERFIELD  #dataAreaId
+                  DETAILSFIELD #RefCompanyId
+                ASSOCIATION
+                  JOINDATASOURCE #SalesLine
+                  MASTERFIELD  #TableId
+                  DETAILSFIELD #RefTableId
+                ASSOCIATION
+                  JOINDATASOURCE #SalesLine
+                  MASTERFIELD  #RecId
+                  DETAILSFIELD #RefRecId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #SalesTable
+              MASTERFIELD  #SalesId
+              DETAILSFIELD #SalesId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #MarkupTrans
+          PROPERTIES
+            Name                #MarkupTransHdr
+            Table               #MarkupTrans
+            UniqueId            #1002
+            JoinMode            #OuterJoin
+            Update              #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #SalesTable
+              MASTERFIELD  #RecId
+              DETAILSFIELD #TransRecId
+            ASSOCIATION
+              JOINDATASOURCE #SalesTable
+              MASTERFIELD  #TableId
+              DETAILSFIELD #TransTableId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #DocuRef
+          PROPERTIES
+            Name                #DocuRefHeader
+            Table               #DocuRef
+            UniqueId            #1003
+            JoinMode            #OuterJoin
+            Update              #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #Restriction
+            PROPERTIES
+              Name                #Restriction
+              Table               #DocuRef
+              Field               #Restriction
+              Value               #External
+              Status              #Lock
+            ENDPROPERTIES
+            
+            LINE #TypeId
+            PROPERTIES
+              Name                #TypeId
+              Table               #DocuRef
+              Field               #TypeId
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #SalesTable
+              MASTERFIELD  #RecId
+              DETAILSFIELD #RefRecId
+            ASSOCIATION
+              JOINDATASOURCE #SalesTable
+              MASTERFIELD  #dataAreaId
+              DETAILSFIELD #RefCompanyId
+            ASSOCIATION
+              JOINDATASOURCE #SalesTable
+              MASTERFIELD  #TableId
+              DETAILSFIELD #RefTableId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

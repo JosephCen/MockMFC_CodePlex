@@ -1,0 +1,213 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSOPromotionsHeader unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSOPromotionsHeader
+    Id 30035
+    PROPERTIES
+      Name                #echSOPromotionsHeader
+      Label               #@SYS115268
+      TitleField1         #PromotionId
+      TitleField2         #PromotionDesc
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      ClusterIndex        #PromotionIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #SalesId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #SalesId
+          Table               #echSOPromotionsHeader
+          ExtendedDataType    
+            ARRAY 
+              #SalesId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #PromotionDesc
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #PromotionDesc
+          Table               #echSOPromotionsHeader
+          ExtendedDataType    
+            ARRAY 
+              #echPromotionDesc
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #PromotionId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #PromotionId
+          Mandatory           #Yes
+          Table               #echSOPromotionsHeader
+          ExtendedDataType    
+            ARRAY 
+              #echPromotionId
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Percentage
+        Id 30006
+        REAL
+        PROPERTIES
+          Name                #Percentage
+          Table               #echSOPromotionsHeader
+          ExtendedDataType    
+            ARRAY 
+              #Percent
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Amount
+        Id 30007
+        REAL
+        PROPERTIES
+          Name                #Amount
+          Table               #echSOPromotionsHeader
+          ExtendedDataType    
+            ARRAY 
+              #Amount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PromotionDesc
+          #PromotionId
+          #Percentage
+          #Amount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PromotionId
+          #PromotionDesc
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesId
+          #PromotionDesc
+          #PromotionId
+          #Percentage
+          #Amount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PromotionId
+          #PromotionDesc
+          #Percentage
+          #Amount
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PromotionIdx
+      Id 30002
+      PROPERTIES
+        Name                #PromotionIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #SalesId
+        #PromotionId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_WI_0244
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: exist method
+        #
+        #public static boolean exist(echPromotionId _id)
+        #{
+        #    echSOPromotionsHeader echSOPromotionsHeader;
+        #    ;
+        #
+        #    select firstonly RecId from echSOPromotionsHeader
+        #        index hint PromotionIdx
+        #        where echSOPromotionsHeader.PromotionId == _id;
+        #
+        #    return echSOPromotionsHeader.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_WI_0244
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: find method
+        #
+        #public static echSOPromotionsHeader find(echPromotionId _id, boolean _forUpdate = false)
+        #{
+        #    ECHSOPromotionsHeader echSOPromotionsHeader;
+        #    ;
+        #
+        #    echSOPromotionsHeader.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSOPromotionsHeader
+        #        index hint PromotionIdx
+        #        where echSOPromotionsHeader.PromotionId == _id;
+        #
+        #    return echSOPromotionsHeader;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

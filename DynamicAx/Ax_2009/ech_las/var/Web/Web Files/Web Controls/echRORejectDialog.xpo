@@ -1,0 +1,176 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echRORejectDialog unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echRORejectDialog
+    PROPERTIES
+      Name                #echRORejectDialog
+      HelpText            #
+      Filename            #echRORejectDialog.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echRORejectDialog.ascx.cs" Inherits="echRORejectDialog" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="dsEPSalesTableEdit" runat="server" 
+      #    DataSetName="EPSalesTableEdit" ProviderView="SalesTable">
+      #</dynamics:AxDataSource>
+      #<dynamics:AxForm ID="formECHRORejectDialog" runat="server" 
+      #    DataKeyNames="SalesId" DataMember="SalesTable_Current" 
+      #    DataSourceID="dsEPSalesTableEdit" DefaultMode="Edit" 
+      #    AutoGenerateEditButton="True">
+      #    <dynamics:AxGroup ID="grpECHRORejectDialog" runat="server">
+      #        <Fields>
+      #            <dynamics:AxBoundField DataField="SalesId" DataSet="EPSalesTableList" 
+      #            DataSetView="SalesTable" SortExpression="SalesId" HeaderText="<%$AxLabel:@ECH566 %>">
+      #            </dynamics:AxBoundField>
+      #            <dynamics:AxBoundField DataField="echSalesReasonId" DataSet="EPSalesTableList" 
+      #                DataSetView="SalesTable" SortExpression="echSalesReasonId" HeaderText="<%$AxLabel:@ECH743 %>">
+      #            </dynamics:AxBoundField>
+      #        </Fields>
+      #    </dynamics:AxGroup>
+      #</dynamics:AxForm>
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echRORejectDialog_ascx_cs
+      HelpText            #
+      Filename            #echRORejectDialog.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #
+      #public partial class echRORejectDialog : System.Web.UI.UserControl
+      #{
+      #
+      #    AxBaseWebPart WebPart = null;
+      #
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #
+      #    }
+      #    void Page_Init(object sender, EventArgs e)
+      #    {
+      #        this.formECHRORejectDialog.ItemCommand += new DetailsViewCommandEventHandler(formRORejectReason_ItemCommend);
+      #        
+      #    }
+      #
+      #
+      #    //======================================================================
+      #    //    Property
+      #    //======================================================================
+      #    /// <summary>
+      #    /// Used to retrieve the AxSession object
+      #    /// </summary>
+      #    /// <returns>ISession</returns>
+      #    //
+      #    private ISession AxSession
+      #    {
+      #        get
+      #        {
+      #            AxBaseWebPart webpart = AxBaseWebPart.GetWebpart(this);
+      #            return webpart == null ? null : webpart.Session;
+      #        }
+      #    }
+      #
+      #    AxDataSourceView DataSourceViewSalesTable
+      #    {
+      #        get
+      #        {
+      #            //get datascoure view from current form
+      #            return this.dsEPSalesTableEdit.GetDataSourceView(this.formECHRORejectDialog.DataMember);
+      #        }
+      #    }
+      #
+      #    private DataSetViewRow GetCurrentDataSetViewRow()
+      #    {
+      #        DataSetViewRow row = null;
+      #        if (this.dsEPSalesTableEdit.GetDataSourceView("SalesTable") != null)
+      #        {
+      #            row = this.dsEPSalesTableEdit.GetDataSourceView("SalesTable").DataSetView.GetCurrent();
+      #        }
+      #
+      #        return row;
+      #    }
+      #
+      #    private void RedirctToPreviousPage()
+      #    {
+      #        if (!string.IsNullOrEmpty(AxWebSession.GetPreviousURL(this.Page)))
+      #        {
+      #            if (AxWebSession.GetPreviousURL(this.Page).ToLower().Contains("minientity"))
+      #            {
+      #                string script = "<script language='javascript'>window.history.back();<script>";
+      #                System.Web.UI.ScriptManager.RegisterStartupScript(formECHRORejectDialog,
+      #                    typeof(AxForm), "previous-url", script, false);
+      #            }
+      #            else
+      #            {
+      #                Response.Redirect(AxWebSession.GetPreviousURL(this.Page));
+      #            }
+      #        }
+      #        else
+      #        {
+      #            ;
+      #        }
+      #
+      #    }
+      #
+      #    /// <summary>
+      #    /// reject return order and type reject reason 
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    private void formRORejectReason_ItemCommend(object sender,DetailsViewCommandEventArgs e)
+      #    {
+      #        if (e.CommandName == "Cancel")
+      #        {
+      #            this.DataSourceViewSalesTable.CancelEdit();
+      #            this.RedirctToPreviousPage();
+      #        }
+      #        else
+      #        {
+      #            DataSetViewRow CurrentRow = GetCurrentDataSetViewRow();
+      #            IAxaptaObjectAdapter echEPROApproveReject = this.AxSession.AxaptaAdapter.CreateAxaptaObject("echEPROApproveReject");
+      #            echEPROApproveReject.Call("parmEPSalesTable",CurrentRow.GetFieldValue("SalesId"));
+      #            echEPROApproveReject.Call("ROApproveStatusProcess", false);
+      #            //this.DataSourceViewSalesTable.EndEdit();
+      #            this.RedirctToPreviousPage();
+      #        }
+      #    }
+      #
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

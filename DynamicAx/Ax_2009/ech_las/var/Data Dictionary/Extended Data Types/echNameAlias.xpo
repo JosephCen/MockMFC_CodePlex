@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echNameAlias unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echNameAlias
+  Id 30086
+  STRING
+    PROPERTIES
+      Name                #echNameAlias
+      Label               #@SYS27054
+      HelpText            #@SYS27101
+      ConfigurationKey    #echProcesses
+      StringSize          #60
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

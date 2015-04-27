@@ -1,0 +1,241 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventSiteActivateDimFieldsCheck unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventSiteActivateDimFieldsCheck
+    Id 3606
+    PROPERTIES
+      Name                #InventSiteActivateDimFieldsCheck
+      Extends             #
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #notUpdatableFields
+        #// Update ECH_WI_02353 by mengqi.cen on 20130829
+        #//   Send out on-hand inventory of all these sku which has not relevant inventory transaction.
+        #// Update ECH_WI_02329 by mengqi.cen on 20130814
+        #// Update ECH_WI_02336 by mengqi.cen on 20130729
+        #// Update ECH_WI_02332 by mengqi.cen on 20130715
+        #//   Logical for Zero on-hand inventory allocation
+        #// Update ECH_WI_02049 by mengqi.cen on 20130424
+        #public static Set notUpdatableFields()
+        #{
+        #    Set     set = new Set(Types::String);
+        #    ;
+        #
+        #    //Create a list of the Table fields that does not need to be taken care of in an update method
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(DEL_smmQuotationLine)            , fieldnum(DEL_smmQuotationLine,InventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InterCompanyInventDim)           , fieldnum(InterCompanyInventDim,InventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InterCompanyInventSum)           , fieldnum(InterCompanyInventSum,InventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventDimCleanUp)                , fieldnum(InventDimCleanUp,InventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventSumDateTrans)              , fieldnum(InventSumDateTrans,InventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventSumDelta)                  , fieldnum(InventSumDelta,InventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventSumDeltaDim)               , fieldnum(InventSumDeltaDim,InventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventCostTrans)                 , fieldnum(InventCostTrans,FinancialInventDimId)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventCostTransSum)              , fieldnum(InventCostTransSum,FinancialInventDimId)));
+        #
+        #
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventReportDimHistory)      , fieldnum(InventReportDimHistory,InventDimId))         );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustConfirmTrans)            , fieldnum(CustConfirmTrans,InventDimId))               );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustInvoiceBackorderLine)    , fieldnum(CustInvoiceBackorderLine,InventDimId))       );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustInvoiceTrans)            , fieldnum(CustInvoiceTrans,InventDimId))               );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustPackingSlipBackorderLine), fieldnum(CustPackingSlipBackorderLine,InventDimId))   );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustPackingSlipTrans)        , fieldnum(CustPackingSlipTrans,InventDimId))           );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustQuotationConfirmTrans)   , fieldnum(CustQuotationConfirmTrans,InventDimId))      );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustQuotationTrans)          , fieldnum(CustQuotationTrans,InventDimId))             );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventQuarantineOrder)       , fieldnum(InventQuarantineOrder,InventDimId))          );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventNonConformanceTable)   , fieldnum(InventNonConformanceTable,InventDimId))      );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventQuarantineOrder)       , fieldnum(InventQuarantineOrder,InventDimIdQuarantine)));
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventTransferJourLine)      , fieldnum(InventTransferJourLine,InventDimId))         );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventTestCertOfAnalysisTable),fieldnum(InventTestCertOfAnalysisTable,InventDimId))  );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventTransferLine)          , fieldnum(InventTransferLine,InventDimId))             );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventTransferParmLine)      , fieldnum(InventTransferParmLine,InventDimId))         );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdParmReportFinished)      , fieldnum(ProdParmReportFinished,InventDimId))         );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProjInvoiceItem)             , fieldnum(ProjInvoiceItem,InventDimId))                );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProjItemTrans)               , fieldnum(ProjItemTrans,InventDimId))                  );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PurchLineDelete)             , fieldnum(PurchLineDelete,InventDimId))                );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PurchParmLine)               , fieldnum(PurchParmLine,InventDimId))                  );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SalesLineDelete)             , fieldnum(SalesLineDelete,InventDimId))                );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SalesParmLine)               , fieldnum(SalesParmLine,InventDimId))                  );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SalesQuotationParmLine)      , fieldnum(SalesQuotationParmLine,InventDimId))         );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendInvoiceTrans)            , fieldnum(VendInvoiceTrans,InventDimId))               );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendPackingSlipTrans)        , fieldnum(VendPackingSlipTrans,InventDimId))           );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendPurchOrderTrans)         , fieldnum(VendPurchOrderTrans,InventDimId))            );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendReceiptsListTrans)       , fieldnum(VendReceiptsListTrans,InventDimId))          );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(WMSOrder)                    , fieldnum(WMSOrder,InventDimId))                       );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(WMSOrder)                    , fieldnum(WMSOrder,ToInventDimId))                     );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(WMSOrderTrans)               , fieldnum(WMSOrderTrans,InventDimId))                  );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(WMSOrderTrans)               , fieldnum(WMSOrderTrans,ToInventDimId))                );
+        #
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventDimTemp)               , fieldnum(InventDimTemp,NewInventDimId))               );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventDimTemp)               , fieldnum(InventDimTemp,OldInventDimId))               );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventDimInsTemp)            , fieldnum(InventDimInsTemp,InventDimId))               );
+        #
+        #    // <RETAIL>
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(RBOTransactionSalesTrans)    , fieldnum(RBOTransactionSalesTrans, inventDimId))      );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(HHTWorksheetLabelOrderingLine),fieldnum(HHTWorksheetLabelOrderingLine, inventDimId)) );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(HHTWorksheetFailToScanLogLine),fieldnum(HHTWorksheetFailToScanLogLine, inventDimId)) );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(HHTPRPostedCountingLines)    , fieldnum(HHTPRPostedCountingLines, inventDimId))      );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(HHTPRCountingLines)          , fieldnum(HHTPRCountingLines, inventDimId))            );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(FSHBuyersPushLine)           , fieldnum(FSHBuyersPushLine,InventDimId))              );
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(RBOPackageLines)             , fieldnum(RBOPackageLines,InventDimId))                );
+        #    // </RETAIL>
+        #    // <GBR>
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(FiscalDocTrans_BR)           , fieldnum(FiscalDocTrans_BR,InventDimId))              );
+        #    // </GBR>
+        #
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(BOMCalcItemInventoryDimensionTask), fieldnum(BOMCalcItemInventoryDimensionTask,InventDimId)));
+        #
+        #    // Begin - Update ECH_WI_02049 by mengqi.cen on 20130424
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(echLatestPriceDiscTable)     , fieldnum(echLatestPriceDiscTable,InventDimId))        );
+        #    // End - Update ECH_WI_02049 by mengqi.cen on 20130424
+        #
+        #    // Begin - Update ECH_WI_02332 by mengqi.cen on 20130715
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(echInventStockQueue)         , fieldnum(echInventStockQueue,inventDimId))            );
+        #    // End - Update ECH_WI_02332 by mengqi.cen on 20130715
+        #
+        #    // Begin - Update ECH_WI_02336 by mengqi.cen on 20130729
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(echInventStockQueueHistory)  , fieldnum(echInventStockQueueHistory,inventDimId))     );
+        #    // End - Update ECH_WI_02336 by mengqi.cen on 20130729
+        #
+        #    // Begin - Update ECH_WI_02329 by mengqi.cen on 20130814
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(echItemBarcodeTMallPropValue), fieldnum(echItemBarcodeTMallPropValue,inventDimId))   );
+        #    // End - Update ECH_WI_02329 by mengqi.cen on 20130814
+        #
+        #    // Begin - Update ECH_WI_02353 by mengqi.cen on 20130829
+        #    set.add(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(echInventOnHandZeroSku)      , fieldnum(echInventOnHandZeroSku,inventDimId))         );
+        #    // End - Update ECH_WI_02353 by mengqi.cen on 20130829
+        #
+        #    return set;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateableFields
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: add echStockAllocationRule.InventDimId
+        #
+        #public static Map updateableFields()
+        #{
+        #    Map     map = new Map(Types::String,Types::String);
+        #    ;
+        #
+        #    //Create a list of the which Table fields are beeing taken care of in which update method
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventDim)                   , fieldnum(InventDim,InventDimId))                      ,methodstr(InventSiteActivateUpdate,updateInventDim));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventTrans)                 , fieldnum(InventTrans,InventDimId))                    ,methodstr(InventSiteActivateUpdate,updateInventTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(BOM)                         , fieldnum(BOM,InventDimId))                            ,methodstr(InventSiteActivateUpdate,updateBOM));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(BOMCalcTable)                , fieldnum(BOMCalcTable,InventDimId))                   ,methodstr(InventSiteActivateUpdate,updateBOMCalcTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(BOMCalcTrans)                , fieldnum(BOMCalcTrans,Key4InventDimId))               ,methodstr(InventSiteActivateUpdate,updateBOMCalcTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(BOMParmReportFinish)         , fieldnum(BOMParmReportFinish,InventDimId))            ,methodstr(InventSiteActivateUpdate,updateBOMParmReportFinish));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(BOMVersion)                  , fieldnum(BOMVersion,InventDimId))                     ,methodstr(InventSiteActivateUpdate,updateBOMVersion));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ForecastInvent)              , fieldnum(ForecastInvent,InventDimId))                 ,methodstr(InventSiteActivateUpdate,updateForecastInvent));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ForecastItemAllocationLine)  , fieldnum(ForecastItemAllocationLine,InventDimId))     ,methodstr(InventSiteActivateUpdate,updateForecastItemAllocationLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ForecastPurch)               , fieldnum(ForecastPurch,InventDimId))                  ,methodstr(InventSiteActivateUpdate,updateForecastPurch));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ForecastSales)               , fieldnum(ForecastSales,InventDimId))                  ,methodstr(InventSiteActivateUpdate,updateForecastSales));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventCountJour)             , fieldnum(InventCountJour,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateInventCountJour));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemPrice)             , fieldnum(InventItemPrice,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateInventItemPrice));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemPriceSim)          , fieldnum(InventItemPriceSim,InventDimId))             ,methodstr(InventSiteActivateUpdate,updateInventItemPriceSim));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemInventSetup)       , fieldnum(InventItemInventSetup,InventDimId))          ,methodstr(InventSiteActivateUpdate,updateInventItemPurchSalesInventSetup));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemInventSetup)       , fieldnum(InventItemInventSetup,InventDimIdDefault))   ,methodstr(InventSiteActivateUpdate,updateInventItemPurchSalesInventSetup));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemPurchSetup)        , fieldnum(InventItemPurchSetup,InventDimId))          ,methodstr(InventSiteActivateUpdate,updateInventItemPurchSalesInventSetup));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemPurchSetup)        , fieldnum(InventItemPurchSetup,InventDimIdDefault))   ,methodstr(InventSiteActivateUpdate,updateInventItemPurchSalesInventSetup));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemSalesSetup)        , fieldnum(InventItemSalesSetup,InventDimId))          ,methodstr(InventSiteActivateUpdate,updateInventItemPurchSalesInventSetup));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemSalesSetup)        , fieldnum(InventItemSalesSetup,InventDimIdDefault))   ,methodstr(InventSiteActivateUpdate,updateInventItemPurchSalesInventSetup));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventJournalTrans)          , fieldnum(InventJournalTrans,InventDimId))             ,methodstr(InventSiteActivateUpdate,updateInventJournalTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventJournalTrans)          , fieldnum(InventJournalTrans,ToInventDimId))           ,methodstr(InventSiteActivateUpdate,updateInventJournalTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventJournalTrans_Tag)      , fieldnum(InventJournalTrans_Tag,InventDimId))         ,methodstr(InventSiteActivateUpdate,updateInventJournalTrans_Tag));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemLocation)          , fieldnum(InventItemLocation,InventDimId))             ,methodstr(InventSiteActivateUpdate,updateInventItemLocation));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventQualityOrderTable)     , fieldnum(InventQualityOrderTable,InventDimId))        ,methodstr(InventSiteActivateUpdate,updateInventQualityOrderTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventSum)                   , fieldnum(InventSum,InventDimId))                      ,methodstr(InventSiteActivateUpdate,recalculateInventSum));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventSumLogTTS)             , fieldnum(InventSumLogTTS,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateInventSumLogTTS));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PriceDiscAdmTrans)           , fieldnum(PriceDiscAdmTrans,InventDimId))              ,methodstr(InventSiteActivateUpdate,updatePriceDiscAdmTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PriceDiscTable)              , fieldnum(PriceDiscTable,InventDimId))                 ,methodstr(InventSiteActivateUpdate,updatePriceDiscTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdBOM)                     , fieldnum(ProdBOM,InventDimId))                        ,methodstr(InventSiteActivateUpdate,updateProdBOM));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdCalcTrans)               , fieldnum(ProdCalcTrans,Key4InventDimId))              ,methodstr(InventSiteActivateUpdate,updateProdCalcTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdJournalBOM)              , fieldnum(ProdJournalBOM,InventDimId))                 ,methodstr(InventSiteActivateUpdate,updateProdJournalBOM));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdJournalProd)             , fieldnum(ProdJournalProd,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateProdJournalProd));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdJournalRoute)            , fieldnum(ProdJournalRoute,ProdInventDimId))           ,methodstr(InventSiteActivateUpdate,updateProdJournalRoute));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdTable)                   , fieldnum(ProdTable,InventDimId))                      ,methodstr(InventSiteActivateUpdate,updateProdTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PurchLine)                   , fieldnum(PurchLine,InventDimId))                      ,methodstr(InventSiteActivateUpdate,updatePurchLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PurchReqLine)                , fieldnum(PurchReqLine, InventDimId))                  ,methodstr(InventSiteActivateUpdate,updatePurchReqLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PurchRFQCaseLine)            , fieldnum(PurchRFQCaseLine,InventDimId))               ,methodstr(InventSiteActivateUpdate,updatePurchRFQCaseLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PurchRFQLine)                , fieldnum(PurchRFQLine,InventDimId))                   ,methodstr(InventSiteActivateUpdate,updatePurchRFQLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(PurchRFQParmLine)            , fieldnum(PurchRFQParmLine,InventDimId))               ,methodstr(InventSiteActivateUpdate,updatePurchRFQParmLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ReqItemJournalTrans)         , fieldnum(ReqItemJournalTrans,InventDimId))            ,methodstr(InventSiteActivateUpdate,updateReqItemJournalTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ReqItemTable)                , fieldnum(ReqItemTable,CovInventDimId))                ,methodstr(InventSiteActivateUpdate,updateReqItemTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ReqPO)                       , fieldnum(ReqPO,CovInventDimId))                       ,methodstr(InventSiteActivateUpdate,updateReqPO));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ReqTrans)                    , fieldnum(ReqTrans,CovInventDimId))                    ,methodstr(InventSiteActivateUpdate,updateReqTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ReturnActionDefaults)        , fieldnum(ReturnActionDefaults,InventDimId))           ,methodstr(InventSiteActivateUpdate,updateReturnActionDefaults));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(RouteVersion)                , fieldnum(RouteVersion,InventDimId))                   ,methodstr(InventSiteActivateUpdate,updateRouteVersion));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SalesBasketLine)             , fieldnum(SalesBasketLine,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateSalesBasketLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SalesLine)                   , fieldnum(SalesLine,InventDimId))                      ,methodstr(InventSiteActivateUpdate,updateSalesLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SalesQuotationBasketLine)    , fieldnum(SalesQuotationBasketLine,InventDimId))       ,methodstr(InventSiteActivateUpdate,updateSalesQuotationBasketLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SalesQuotationLine)          , fieldnum(SalesQuotationLine,InventDimId))             ,methodstr(InventSiteActivateUpdate,updateSalesQuotationLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SMAAgreementLine)            , fieldnum(SMAAgreementLine,InventDimId))               ,methodstr(InventSiteActivateUpdate,updateSMAAgreementLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SMAServiceOrderLine)         , fieldnum(SMAServiceOrderLine,InventDimId))            ,methodstr(InventSiteActivateUpdate,updateSMAServiceOrderLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendRFQTrans)                , fieldnum(VendRFQTrans,InventDimId))                   ,methodstr(InventSiteActivateUpdate,updateVendRFQTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(WMSJournalTable)             , fieldnum(WMSJournalTable,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateWMSJournalTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(WMSJournalTrans)             , fieldnum(WMSJournalTrans,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateWMSJournalTrans));
+        #
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustVendExternalItem)        , fieldnum(CustVendExternalItem,InventDimId))           ,methodstr(InventSiteActivateUpdate,updateCustVendExternalItem));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ECPPresentation)             , fieldnum(ECPPresentation,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateECPPresentation));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(EPPriceCalc)                 , fieldnum(EPPriceCalc,InventDimId))                    ,methodstr(InventSiteActivateUpdate,updateEPPriceCalc));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventDimCombination)        , fieldnum(InventDimCombination,InventDimId))           ,methodstr(InventSiteActivateUpdate,updateInventDimCombination));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemBarcode)           , fieldnum(InventItemBarcode,InventDimId))              ,methodstr(InventSiteActivateUpdate,updateInventItemBarcode));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventItemGTIN)              , fieldnum(InventItemGTIN,InventDimId))                 ,methodstr(InventSiteActivateUpdate,updateInventItemGTIN));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventPackagingMaterialTrans), fieldnum(InventPackagingMaterialTrans,InventDimId))   ,methodstr(InventSiteActivateUpdate,updateInventPackagingMaterialTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventPackagingUnit)         , fieldnum(InventPackagingUnit,InventDimId))            ,methodstr(InventSiteActivateUpdate,updateInventPackagingUnit));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventProductGroupItem)      , fieldnum(InventProductGroupItem,InventDimId))         ,methodstr(InventSiteActivateUpdate,updateInventProductGroupItem));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(InventTxt)                   , fieldnum(InventTxt,InventDimId))                      ,methodstr(InventSiteActivateUpdate,updateInventTxt));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdParametersDim)           , fieldnum(ProdParametersDim,InventDimId))              ,methodstr(InventSiteActivateUpdate,updateProdParametersDim));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdStatusParameters)        , fieldnum(ProdStatusParameters,InventDimId))           ,methodstr(InventSiteActivateUpdate,updateProdStatusParameters));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ReqProcessItemDimList)       , fieldnum(ReqProcessItemDimList,CovInventDimId))       ,methodstr(InventSiteActivateUpdate,updateReqProcessItemDimList));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(RFIDTrans)                   , fieldnum(RFIDTrans,InventDimId))                      ,methodstr(InventSiteActivateUpdate,updateRFIDTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SMAServiceBOMTable)          , fieldnum(SMAServiceBOMTable,InventDimId))             ,methodstr(InventSiteActivateUpdate,updateSMAServiceBOMTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SMAServiceObjectRelation)    , fieldnum(SMAServiceObjectRelation,InventDimId))       ,methodstr(InventSiteActivateUpdate,updateSMAServiceObjectRelation));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SMAServiceObjectTable)       , fieldnum(SMAServiceObjectTable,InventDimId))          ,methodstr(InventSiteActivateUpdate,updateSMAServiceObjectTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SMATemplateBOMTable)         , fieldnum(SMATemplateBOMTable,InventDimId))            ,methodstr(InventSiteActivateUpdate,updateSMATemplateBOMTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SuppItemTable)               , fieldnum(SuppItemTable,InventDimId))                  ,methodstr(InventSiteActivateUpdate,updateSuppItemTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(SuppItemTable)               , fieldnum(SuppItemTable,SuppItemInventDimId))          ,methodstr(InventSiteActivateUpdate,updateSuppItemTable));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendInvoiceInfo)             , fieldnum(VendInvoiceInfo,InventDimId))                ,methodstr(InventSiteActivateUpdate,updateVendInvoiceInfo));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendInvoiceInfoLine)         , fieldnum(VendInvoiceInfoLine,InventDimId))            ,methodstr(InventSiteActivateUpdate,updateVendInvoiceInfoLine));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(VendReqTrans)                , fieldnum(VendReqTrans,InventDimId))                   ,methodstr(InventSiteActivateUpdate,updateVendReqTrans));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(WrkCtrParametersDim)         , fieldnum(WrkCtrParametersDim,InventDimId))            ,methodstr(InventSiteActivateUpdate,updateWrkCtrParametersDim));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ProdBOMTransProj)            , fieldnum(ProdBOMTransProj,InventDimId))               ,methodstr(InventSiteActivateUpdate,updateProdBOMTransProj));
+        #    // Shop Floor Control - Begin
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(JmgProdParametersDim)        , fieldnum(JmgProdParametersDim,InventDimId))           ,methodstr(InventSiteActivateUpdate,updateJmgProdParametersDim));
+        #    // Shop Floor Control - End
+        #
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(ReturnReplaceItemRef)        , fieldnum(ReturnReplaceItemRef,InventDimId))           ,methodstr(InventSiteActivateUpdate,updateReturnReplaceItemRef));
+        #
+        #    //<GIN>
+        #    // the below lines of code cannot be put in the localization parameter check because, during the
+        #    //execution of the unit tests the validateInventDimIdImplementationTest method fails.
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustomsInvoiceRegnJournalLine_IN)  , fieldnum(CustomsInvoiceRegnJournalLine_IN, InventDimId)) ,methodstr(InventSiteActivateUpdate, updateCustomsInvoiceRegnJournalLine_IN));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustomsShippingBillTrans_IN)  , fieldnum(CustomsShippingBillTrans_IN, InventDimId)) ,methodstr(InventSiteActivateUpdate, updateCustomsShippingBillTrans_IN));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(CustomsVendBOETrans_IN)  , fieldnum(CustomsVendBOETrans_IN, InventDimId)) ,methodstr(InventSiteActivateUpdate, updateCustomsVendBOETrans_IN));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(TransferPrice_IN)  , fieldnum(TransferPrice_IN, InventDimId)) ,methodstr(InventSiteActivateUpdate, updateTransferPrice_IN));
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(TransferPrice_IN)  , fieldnum(TransferPrice_IN, TransferPriceDimId)) ,methodstr(InventSiteActivateUpdate, updateTransferPrice_IN));
+        #   //</GIN>
+        #
+        #// CS - ECH_E_001 - Anthony Christiaens - 21 Mar 2012
+        #    map.insert(InventSiteActivateDimFieldsCheck::tableFieldId(tablenum(echStockAllocationRule)        , fieldnum(echStockAllocationRule,InventDimId))        ,methodstr(InventSiteActivateUpdate,echUpdateStockAllocationRule));
+        #// CE - ECH_E_001 - Anthony Christiaens - 21 Mar 2012
+        #
+        #    return map;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

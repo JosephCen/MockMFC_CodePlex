@@ -1,0 +1,110 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : ShipCarrierPackage unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #ShipCarrierPackage
+    Id 2356
+    FIELDS
+      FIELD #echSignPerson
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echSignPerson
+          Table               #ShipCarrierPackage
+          ExtendedDataType    
+            ARRAY 
+              #echSignPerson
+              #
+            ENDARRAY
+          StringSize          #100
+        ENDPROPERTIES
+        
+      FIELD #echSignDate
+        Id 30002
+        DATETIME
+        PROPERTIES
+          Name                #echSignDate
+          Table               #ShipCarrierPackage
+          ExtendedDataType    
+            ARRAY 
+              #echSignDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echDeliveryNote
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #echDeliveryNote
+          Table               #ShipCarrierPackage
+          ExtendedDataType    
+            ARRAY 
+              #echDeliveryNote
+              #
+            ENDARRAY
+          StringSize          #250
+        ENDPROPERTIES
+        
+      FIELD #echActualShippingFee
+        Id 30004
+        REAL
+        PROPERTIES
+          Name                #echActualShippingFee
+          Table               #ShipCarrierPackage
+          ExtendedDataType    
+            ARRAY 
+              #echActualShippingFee
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #echDelivery
+        PROPERTIES
+          Name                #echDelivery
+          Label               #@SYS103911
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echActualShippingFee
+          #echSignPerson
+          #echSignDate
+          #echDeliveryNote
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+      REFERENCE #echSalesTable
+        PROPERTIES
+          Name                #echSalesTable
+          Table               #SalesTable
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #SalesId
+            RelatedField        #SalesId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

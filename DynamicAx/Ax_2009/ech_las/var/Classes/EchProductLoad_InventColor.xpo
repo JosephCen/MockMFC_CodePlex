@@ -1,0 +1,108 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_InventColor unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_InventColor
+    Id 30308
+    PROPERTIES
+      Name                #EchProductLoad_InventColor
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_InventColor extends AfStronglyTypedDataContainer
+        #{
+        #    #define.Name('Name')
+        #    #define.ItemId('ItemId')
+        #    #define.InventColorId('InventColorId')
+        #    #define.Description('Description')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsDescription
+        #public boolean existsDescription()
+        #{
+        #    return this.exists(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventColorId
+        #public boolean existsInventColorId()
+        #{
+        #    return this.exists(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsName
+        #public boolean existsName()
+        #{
+        #    return this.exists(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_InventColor);
+        #}
+      ENDSOURCE
+      SOURCE #parmDescription
+        #public InventColorTxt parmDescription(InventColorTxt _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Description, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventColorId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmName
+        #public Name parmName(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Name, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Name);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

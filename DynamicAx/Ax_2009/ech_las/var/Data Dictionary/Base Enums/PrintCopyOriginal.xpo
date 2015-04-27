@@ -1,0 +1,44 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : PrintCopyOriginal unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #PrintCopyOriginal
+    Id 920
+    PROPERTIES
+      Name                #PrintCopyOriginal
+      Label               #@SYS70781
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #Copy
+      PROPERTIES
+        Name                #Copy
+        Label               #@SYS6896
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #Original
+      PROPERTIES
+        Name                #Original
+        Label               #@SYS13700
+        EnumValue           #1
+      ENDPROPERTIES
+      
+      #OriginalPrint
+      PROPERTIES
+        Name                #OriginalPrint
+        Label               #@SYS70782
+        EnumValue           #2
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

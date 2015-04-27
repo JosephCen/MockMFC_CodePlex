@@ -1,0 +1,47 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02233 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02233
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02233
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #DataDictionary
+      PROPERTIES
+        Name                #DataDictionary
+        ProjectGroupType    #DataDictionary
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Tables
+        PROPERTIES
+          Name                #Tables
+          ProjectGroupType    #Tables
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 44
+          UTILOBJECTID 366
+          NODETYPE 204
+          NAME #SalesTable
+        ENDNODE
+        ENDGROUP
+        
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

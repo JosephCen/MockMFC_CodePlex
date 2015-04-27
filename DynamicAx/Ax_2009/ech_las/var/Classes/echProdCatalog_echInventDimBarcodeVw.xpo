@@ -1,0 +1,201 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echProdCatalog_echInventDimBarcodeVw unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echProdCatalog_echInventDimBarcodeVw
+    Id 30160
+    PROPERTIES
+      Name                #echProdCatalog_echInventDimBarcodeVw
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02035 by mengqi.cen on 20130517
+        #class echProdCatalog_echInventDimBarcodeVw extends AfStronglyTypedDataContainer
+        #{
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.ItemBarCode('ItemBarCode')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.InventColorId('InventColorId')
+        #    #define.ConfigId('ConfigId')
+        #    #define.BarcodeSetupId('BarcodeSetupId')
+        #    #define.ItemId('ItemId')
+        #
+        #    // Begin - Update ECH_WI_02035 by mengqi.cen on 20130517
+        #    #define.echItemBarCode('echItemBarCode')
+        #    // End - Update ECH_WI_02035 by mengqi.cen on 20130517
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsBarcodeSetupId
+        #public boolean existsBarcodeSetupId()
+        #{
+        #    return this.exists(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #existsConfigId
+        #public boolean existsConfigId()
+        #{
+        #    return this.exists(#ConfigId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchItemBarCode
+        #public boolean existsEchItemBarCode()
+        #{
+        #    return this.exists(#echItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventColorId
+        #public boolean existsInventColorId()
+        #{
+        #    return this.exists(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSizeId
+        #public boolean existsInventSizeId()
+        #{
+        #    return this.exists(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemBarCode
+        #public boolean existsItemBarCode()
+        #{
+        #    return this.exists(#ItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echProdCatalog_echInventDimBarcodeVw);
+        #}
+      ENDSOURCE
+      SOURCE #parmBarcodeSetupId
+        #public BarcodeSetupId parmBarcodeSetupId(BarcodeSetupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BarcodeSetupId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #parmConfigId
+        #public ConfigId parmConfigId(ConfigId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ConfigId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ConfigId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchItemBarCode
+        #public EchItemBarCode parmEchItemBarCode(EchItemBarCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echItemBarCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventColorId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSizeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemBarCode
+        #public ItemBarCode parmItemBarCode(ItemBarCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemBarCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemBarCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

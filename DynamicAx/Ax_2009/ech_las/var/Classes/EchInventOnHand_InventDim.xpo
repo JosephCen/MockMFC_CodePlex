@@ -1,0 +1,275 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchInventOnHand_InventDim unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchInventOnHand_InventDim
+    Id 30039
+    PROPERTIES
+      Name                #EchInventOnHand_InventDim
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchInventOnHand_InventDim extends AfStronglyTypedDataContainer
+        #{
+        #    #define.wMSLocationId('wMSLocationId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.InventSum('InventSum')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.inventSerialId('inventSerialId')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.inventDimId('inventDimId')
+        #    #define.InventColorId('InventColorId')
+        #    #define.InventBatchId('InventBatchId')
+        #    #define.configId('configId')
+        #    #define.InventStyleId('InventStyleId')
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventSum
+        #public AfStronglyTypedDataContainerList createInventSum()
+        #{
+        #    return this.get_NewList(#InventSum);
+        #}
+      ENDSOURCE
+      SOURCE #existsconfigId
+        #public boolean existsconfigId()
+        #{
+        #    return this.exists(#configId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventBatchId
+        #public boolean existsInventBatchId()
+        #{
+        #    return this.exists(#InventBatchId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventColorId
+        #public boolean existsInventColorId()
+        #{
+        #    return this.exists(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #existsinventDimId
+        #public boolean existsinventDimId()
+        #{
+        #    return this.exists(#inventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationId
+        #public boolean existsInventLocationId()
+        #{
+        #    return this.exists(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #existsinventSerialId
+        #public boolean existsinventSerialId()
+        #{
+        #    return this.exists(#inventSerialId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSiteId
+        #public boolean existsInventSiteId()
+        #{
+        #    return this.exists(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSizeId
+        #public boolean existsInventSizeId()
+        #{
+        #    return this.exists(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventStyleId
+        #public boolean existsInventStyleId()
+        #{
+        #    return this.exists(#InventStyleId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSum
+        #public boolean existsInventSum()
+        #{
+        #    return this.exists(#InventSum);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existswMSLocationId
+        #public boolean existswMSLocationId()
+        #{
+        #    return this.exists(#wMSLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchInventOnHand_InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #parmconfigId
+        #public ConfigId parmconfigId(ConfigId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#configId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#configId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventBatchId
+        #public InventBatchId parmInventBatchId(InventBatchId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventBatchId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventBatchId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventColorId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #parminventDimId
+        #public InventDimId parminventDimId(InventDimId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#inventDimId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#inventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #parminventSerialId
+        #public InventSerialId parminventSerialId(InventSerialId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#inventSerialId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#inventSerialId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSiteId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSizeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventStyleId
+        #public RBOInventStyleId parmInventStyleId(RBOInventStyleId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventStyleId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventStyleId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSum
+        #public AfStronglyTypedDataContainerList parmInventSum(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventSum, _value);
+        #    }
+        #
+        #    return this.get_List(#InventSum);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmwMSLocationId
+        #public WMSLocationId parmwMSLocationId(WMSLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#wMSLocationId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#wMSLocationId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

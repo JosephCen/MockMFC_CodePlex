@@ -1,0 +1,145 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : ECHCancelException unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #ECHCancelException
+    Id 30007
+    PROPERTIES
+      Name                #ECHCancelException
+      Label               #@ECH104
+      TitleField1         #Id
+      TitleField2         #Description
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      PrimaryIndex        #PrimaryIdx
+      ClusterIndex        #PrimaryIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Id
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #Id
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #ECHCancelException
+          ExtendedDataType    
+            ARRAY 
+              #echCancelExceptionId
+              #
+            ENDARRAY
+          StringSize          #8
+        ENDPROPERTIES
+        
+      FIELD #Description
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #Description
+          Table               #ECHCancelException
+          ExtendedDataType    
+            ARRAY 
+              #echCancelExceptionName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Description
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Description
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PrimaryIdx
+      Id 30001
+      PROPERTIES
+        Name                #PrimaryIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Id
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #public static boolean exist(echCancelExceptionId _id)
+        #{
+        #    ECHCancelException echCancelException;
+        #    ;
+        #
+        #    select firstonly RecId from echCancelException
+        #        index hint PrimaryIdx
+        #        where echCancelException.Id == _id;
+        #
+        #    return echCancelException.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #public static ECHCancelException find(echSalesReasonId _id, boolean _forUpdate = false)
+        #{
+        #    ECHCancelException echCancelException;
+        #    ;
+        #
+        #    echCancelException.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echCancelException
+        #        index hint PrimaryIdx
+        #        where echCancelException.Id == _id;
+        #
+        #    return echCancelException;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

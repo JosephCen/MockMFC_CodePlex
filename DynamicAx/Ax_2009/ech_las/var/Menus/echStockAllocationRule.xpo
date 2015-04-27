@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : echStockAllocationRule unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #echStockAllocationRule
+    PROPERTIES
+      Name                #echStockAllocationRule
+      Label               #@ECH62
+      HelpText            #@ECH61
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventSetup
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    MENUITEM
+      PROPERTIES
+        Name                #Sales channel allocation rules
+        MenuItemName        #echStockAllocationRule
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+  ENDMENU
+  
+
+***Element: END

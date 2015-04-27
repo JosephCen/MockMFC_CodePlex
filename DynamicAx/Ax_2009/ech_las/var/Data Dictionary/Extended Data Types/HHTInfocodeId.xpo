@@ -1,0 +1,28 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: HHTInfocodeId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #HHTInfocodeId
+  Id 15272
+  STRING
+    PROPERTIES
+      Name                #HHTInfocodeId
+      HelpText            #@ECH371
+      Extends             #RBOInfocodeId
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

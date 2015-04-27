@@ -1,0 +1,227 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echExternalItemId unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echExternalItemId
+    Id 30057
+    PROPERTIES
+      Name                #echExternalItemId
+      Label               #@ECH420
+      TitleField1         #InventLocationId
+      TitleField2         #ItemId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+      ClusterIndex        #ItemIdIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Mandatory           #Yes
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echExternalItemId
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #InventLocationId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #InventLocationId
+          Mandatory           #Yes
+          Table               #echExternalItemId
+          ExtendedDataType    
+            ARRAY 
+              #InventLocationId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #ExtCodeValue
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #ExtCodeValue
+          Table               #echExternalItemId
+          ExtendedDataType    
+            ARRAY 
+              #ExtCodeValue
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventLocationId
+          #ExtCodeValue
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventLocationId
+          #ExtCodeValue
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AllFields
+        PROPERTIES
+          Name                #AllFields
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventLocationId
+          #ExtCodeValue
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ExtCodeValueIdx
+      Id 30001
+      PROPERTIES
+        Name                #ExtCodeValueIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #InventLocationId
+        #ExtCodeValue
+      ENDINDEXFIELDS
+      
+      #ItemIdIdx
+      Id 30002
+      PROPERTIES
+        Name                #ItemIdIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #InventLocationId
+        #ItemId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #InventTable
+        PROPERTIES
+          Name                #InventTable
+          Table               #InventTable
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #ItemId
+            RelatedField        #ItemId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #find
+        #// Create ECH_WI_01985 by mengqi.cen on 20130304
+        #public static echExternalItemId find(
+        #                                    InventLocationId  _inventLocationId,
+        #                                    ExtCodeValue      _extCodeValue,
+        #                                    boolean           _update = false)
+        #{
+        #    echExternalItemId  echExternalItemId;
+        #;
+        #    echExternalItemId.selectForUpdate(_update);
+        #    select firstonly echExternalItemId
+        #      where echExternalItemId.InventLocationId == _inventLocationId
+        #         && echExternalItemId.ExtCodeValue     == _extCodeValue;
+        #
+        #    return echExternalItemId;
+        #}
+      ENDSOURCE
+      SOURCE #findByItemId
+        #// Create ECH_WI_01985 by mengqi.cen on 20130304
+        #public static echExternalItemId findByItemId(
+        #                                            InventLocationId  _inventLocationId,
+        #                                            ItemId            _itemId,
+        #                                            boolean           _update = false)
+        #{
+        #    echExternalItemId  echExternalItemId;
+        #;
+        #    echExternalItemId.selectForUpdate(_update);
+        #    select firstonly echExternalItemId
+        #      where echExternalItemId.InventLocationId == _inventLocationId
+        #         && echExternalItemId.ItemId           == _itemId;
+        #
+        #    return echExternalItemId;
+        #}
+      ENDSOURCE
+      SOURCE #findOrCreate
+        #// Create ECH_WI_02031 by mengqi.cen on 20130326
+        #public static echExternalItemId findOrCreate(ItemId            _itemId,
+        #                                             InventLocationId  _inventLoc,
+        #                                             ExtCodeValue      _extCodeVal)
+        #{
+        #    InventTable       _inventTbl;
+        #    echExternalItemId _externalItemId;
+        #;
+        #    _inventTbl = InventTable::find(_itemId);
+        #
+        #    if (_inventTbl)
+        #    {
+        #        ttsbegin;
+        #
+        #        select firstonly forupdate _externalItemId
+        #          where _externalItemId.ItemId           == _itemId
+        #             && _externalItemId.InventLocationId == _inventLoc;
+        #
+        #        if (_externalItemId.ExtCodeValue != _extCodeVal)
+        #        {
+        #            _externalItemId.ItemId           = _itemId;
+        #            _externalItemId.InventLocationId = _inventLoc;
+        #            _externalItemId.ExtCodeValue     = _extCodeVal;
+        #
+        #            _externalItemId.write();
+        #        }
+        #
+        #        ttscommit;
+        #    }
+        #
+        #    return _externalItemId;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

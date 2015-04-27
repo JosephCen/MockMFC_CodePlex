@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echReturnOrderRefundStatus unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echReturnOrderRefundStatus
+  Id 30081
+  STRING
+    PROPERTIES
+      Name                #echReturnOrderRefundStatus
+      Label               #@ECH443
+      HelpText            #@ECH444
+      ConfigurationKey    #echProcesses
+      StringSize          #30
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

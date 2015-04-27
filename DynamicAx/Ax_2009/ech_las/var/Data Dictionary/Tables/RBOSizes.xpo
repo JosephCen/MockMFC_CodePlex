@@ -1,0 +1,80 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : RBOSizes unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #RBOSizes
+    Id 17324
+    PROPERTIES
+      Name                #RBOSizes
+      Label               #@RBO208
+      FormRef             #RBOSizes
+      TitleField1         #size
+      TitleField2         #name
+      ConfigurationKey    #RetailHeadquarters
+      SecurityKey         #RBOTables
+      CacheLookup         #Found
+      TableGroup          #Group
+      PrimaryIndex        #sizeIdx
+      ClusterIndex        #sizeIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echSortingNum
+        Id 30001
+        INT
+        PROPERTIES
+          Name                #echSortingNum
+          ConfigurationKey    #echProcesses
+          Table               #RBOSizes
+          ExtendedDataType    
+            ARRAY 
+              #SortingNumber
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #echSorting
+        PROPERTIES
+          Name                #echSorting
+          Label               #@SYS4138
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echSortingNum
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #initValue
+        #// Add ECH_WI_02222 by mengqi.cen on 20130528
+        #public void initValue()
+        #{
+        #    RBOSizes maxSizeSortingNum;
+        #;
+        #    select maxof(echSortingNum) from maxSizeSortingNum;
+        #
+        #    this.echSortingNum = maxSizeSortingNum.echSortingNum + 1;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,64 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckBlackList unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckBlackList
+    Id 30065
+    PROPERTIES
+      Name                #echSoCheckBlackList
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the invoice parameter
+        #
+        #class echSoCheckBlackList implements echISoCheck
+        #{
+        #
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return menuItemDisplayStr(echSoCheckBlackListTable);
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH214";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean                     execute;
+        #    ;
+        #
+        #    execute = echSoCheckBlackListTable::isBlackListed(_salesId);
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH200";
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

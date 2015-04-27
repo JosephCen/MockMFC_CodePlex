@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CON
+
+; Microsoft Dynamics AX CONFIGURATIONKEY : echProcesses unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  CONFIGURATIONKEY #echProcesses
+    Id 30003
+    PROPERTIES
+      Name                #echProcesses
+      Label               #@ECH5
+      ParentKey           #echFramework
+    ENDPROPERTIES
+    
+  ENDCONFIGURATIONKEY
+  
+
+***Element: END

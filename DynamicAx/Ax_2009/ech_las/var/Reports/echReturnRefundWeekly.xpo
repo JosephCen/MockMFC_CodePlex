@@ -1,0 +1,607 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: RG 
+
+; Microsoft Dynamics AX Report: echReturnRefundWeekly unloaded
+; --------------------------------------------------------------------------------
+VERSION 1
+
+REPORT #echReturnRefundWeekly
+  PROPERTIES
+    Name                #echReturnRefundWeekly
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// Add ECH_WI_02338 by mengqi.cen on 20130805
+      #public class ReportRun extends ObjectRun
+      #{
+      #    echRptReturnRefund    g_RptClass;
+      #    str                   g_DatePartnerFmt;
+      #    container             g_RowDataCon;
+      #    container             g_RecordDateCon;
+      #    container             g_LineNumCon;
+      #    container             g_ParnterCon, g_PartnerWithTotalCon;
+      #    Map                   g_ConIdxCtrlMap, g_DatePartnerConIdxMap;
+      #
+      #    #define.TotalStr('Total')
+      #    #define.Weekly('Weekly')
+      #    #define.Val('Val')
+      #    #define.Qty('Qty')
+      #
+      #    #define.CtrlUnit(Units::mm)
+      #    #define.FieldNameW(80)      // Control Width of 'echTmpRptReturnRefund.FieldName'
+      #    #define.HdrDayCtrlW(150)    // HdrDay Control Width
+      #    #define.HdrDayCtrlH(15)     // HdrDay Control Height
+      #    #define.HdrChCtrlH(10)      // HdrPartner Control Height
+      #}
+    ENDSOURCE
+    SOURCE #fillDataRow
+      #// Add ECH_WI_02338 by mengqi.cen on 20130805
+      #public void fillDataRow()
+      #{
+      #    int                i;
+      #    ReportTextControl  txtDataCtrl;
+      #    str                cellTxt;
+      #;
+      #    for (i = 1; i <= conlen(g_RowDataCon); ++i)
+      #    {
+      #        txtDataCtrl = g_ConIdxCtrlMap.lookup(i);
+      #        switch (typeof(conpeek(g_RowDataCon, i)))
+      #        {
+      #            case Types::String :
+      #                cellTxt = conpeek(g_RowDataCon, i);
+      #                break;
+      #            case Types::Int64 :
+      #                cellTxt = int642str(conpeek(g_RowDataCon, i));
+      #                break;
+      #            case Types::Real :
+      #                cellTxt = num2str(conpeek(g_RowDataCon, i), 4, 2, 1, 2);
+      #                break;
+      #            default :
+      #                cellTxt = strFmt('%1', conpeek(g_RowDataCon, i));
+      #                break;
+      #        }
+      #        txtDataCtrl.text(cellTxt);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #initContainers
+      #// Add ECH_WI_02338 by mengqi.cen on 20130805
+      #private void initContainers()
+      #{
+      #    echMsgPartnerId   curPartnerId;
+      #    TransDate         curRecDate;
+      #    LineNum           cunLineNum;
+      #;
+      #    g_RecordDateCon = connull();
+      #    while select echTmpRptReturnRefundDW
+      #            order by echTmpRptReturnRefundDW.RecordDate
+      #    {
+      #        if (curRecDate != echTmpRptReturnRefundDW.RecordDate)
+      #            g_RecordDateCon += echTmpRptReturnRefundDW.RecordDate;
+      #        curRecDate = echTmpRptReturnRefundDW.RecordDate;
+      #    }
+      #
+      #    cunLineNum = 0;
+      #    g_LineNumCon = connull();
+      #    while select echTmpRptReturnRefundDW
+      #            order by echTmpRptReturnRefundDW.LineNum
+      #    {
+      #        if (cunLineNum != echTmpRptReturnRefundDW.LineNum)
+      #            g_LineNumCon += echTmpRptReturnRefundDW.LineNum;
+      #        cunLineNum = echTmpRptReturnRefundDW.LineNum;
+      #    }
+      #
+      #    g_ParnterCon = connull();
+      #    while select echTmpRptReturnRefundDW
+      #            order by echTmpRptReturnRefundDW.MsgPartnerId desc
+      #    {
+      #        if (curPartnerId != echTmpRptReturnRefundDW.MsgPartnerId)
+      #            g_ParnterCon += echTmpRptReturnRefundDW.MsgPartnerId;
+      #        curPartnerId = echTmpRptReturnRefundDW.MsgPartnerId;
+      #    }
+      #    g_PartnerWithTotalCon = g_ParnterCon;
+      #    g_PartnerWithTotalCon += #TotalStr;
+      #}
+    ENDSOURCE
+    SOURCE #drawHdrPartnerRptBody
+      #// Add ECH_WI_02338 by mengqi.cen on 20130805
+      #private void drawHdrPartnerRptBody()
+      #{
+      #    ReportTextControl    txtHeaderCtrl, txtDataCtrl;
+      #    int                  i, j;
+      #    int                  conIdx;
+      #    int                  leftOffset;
+      #    str                  strDatePartner;
+      #    int                  ctrlWidth;
+      #    echMessagingPartner  msgPartner;
+      #    Map                  partnerRptNameMap;
+      #;
+      #    ctrlWidth = #HdrDayCtrlW / conlen(g_PartnerWithTotalCon);
+      #    g_ConIdxCtrlMap = new Map(Types::Integer, Types::Class);
+      #    g_DatePartnerConIdxMap = new Map(Types::String, Types::Integer);
+      #
+      #    partnerRptNameMap = new Map(Types::String, Types::String);
+      #    while select Id, ReportName from msgPartner
+      #        partnerRptNameMap.insert(msgPartner.Id, msgPartner.ReportName);
+      #    partnerRptNameMap.insert(#TotalStr, #TotalStr);
+      #
+      #    conIdx = 1;
+      #    leftOffset = 0;
+      #
+      #    txtHeaderCtrl = HdrPartner.addTextControl('');
+      #    txtHeaderCtrl.left(leftOffset, #CtrlUnit);
+      #    txtHeaderCtrl.width(#FieldNameW, #CtrlUnit);
+      #    txtHeaderCtrl.height(#HdrChCtrlH, #CtrlUnit);
+      #
+      #    txtDataCtrl = BodyRptReturnRefund.addTextControl('');
+      #    txtDataCtrl.left(leftOffset, #CtrlUnit);
+      #    txtDataCtrl.width(#FieldNameW, #CtrlUnit);
+      #
+      #    g_ConIdxCtrlMap.insert(conIdx, txtDataCtrl);
+      #    g_DatePartnerConIdxMap.insert(g_DatePartnerFmt, conIdx);
+      #
+      #    conIdx += 1;
+      #    leftOffset += #FieldNameW;
+      #
+      #    for (i = 1; i <= conlen(g_RecordDateCon); ++i)
+      #    {
+      #        // Qty
+      #        for (j = 1; j <= conlen(g_PartnerWithTotalCon); ++j)
+      #        {
+      #            txtHeaderCtrl = HdrPartner.addTextControl(
+      #                partnerRptNameMap.lookup(conpeek(g_PartnerWithTotalCon, j)));
+      #            txtHeaderCtrl.left(leftOffset, #CtrlUnit);
+      #            txtHeaderCtrl.width(ctrlWidth, #CtrlUnit);
+      #            txtHeaderCtrl.height(#HdrChCtrlH, #CtrlUnit);
+      #            txtHeaderCtrl.alignment(3);
+      #            txtHeaderCtrl.lineLeft(LineType::Solid);
+      #            txtHeaderCtrl.lineRight(LineType::Solid);
+      #            txtHeaderCtrl.lineBelow(LineType::Solid);
+      #
+      #            txtDataCtrl = BodyRptReturnRefund.addTextControl('');
+      #            txtDataCtrl.left(leftOffset, #CtrlUnit);
+      #            txtDataCtrl.width(ctrlWidth, #CtrlUnit);
+      #            txtDataCtrl.alignment(2);
+      #
+      #            g_ConIdxCtrlMap.insert(conIdx, txtDataCtrl);
+      #            strDatePartner = strFmt(#Qty + g_DatePartnerFmt, conpeek(g_RecordDateCon, i), conpeek(g_PartnerWithTotalCon, j));
+      #            g_DatePartnerConIdxMap.insert(strDatePartner, conIdx);
+      #
+      #            conIdx += 1;
+      #            leftOffset += ctrlWidth;
+      #        }
+      #
+      #        // Val
+      #        for (j = 1; j <= conlen(g_PartnerWithTotalCon); ++j)
+      #        {
+      #            txtHeaderCtrl = HdrPartner.addTextControl(
+      #                partnerRptNameMap.lookup(conpeek(g_PartnerWithTotalCon, j)));
+      #            txtHeaderCtrl.left(leftOffset, #CtrlUnit);
+      #            txtHeaderCtrl.width(ctrlWidth, #CtrlUnit);
+      #            txtHeaderCtrl.height(#HdrChCtrlH, #CtrlUnit);
+      #            txtHeaderCtrl.alignment(3);
+      #            txtHeaderCtrl.lineLeft(LineType::Solid);
+      #            txtHeaderCtrl.lineRight(LineType::Solid);
+      #            txtHeaderCtrl.lineBelow(LineType::Solid);
+      #
+      #            txtDataCtrl = BodyRptReturnRefund.addTextControl('');
+      #            txtDataCtrl.left(leftOffset, #CtrlUnit);
+      #            txtDataCtrl.width(ctrlWidth, #CtrlUnit);
+      #            txtDataCtrl.alignment(2);
+      #
+      #            g_ConIdxCtrlMap.insert(conIdx, txtDataCtrl);
+      #            strDatePartner = strFmt(#Val + g_DatePartnerFmt, conpeek(g_RecordDateCon, i), conpeek(g_PartnerWithTotalCon, j));
+      #            g_DatePartnerConIdxMap.insert(strDatePartner, conIdx);
+      #
+      #            conIdx += 1;
+      #            leftOffset += ctrlWidth;
+      #        }
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #fetch
+      #// Add ECH_WI_02338 by mengqi.cen on 20130805
+      #public boolean fetch()
+      #{
+      #    echTmpRptReturnRefundDW  rptDW;
+      #    NumberOf                 curLineNum;
+      #    TransDate                curRecordDate;
+      #    RefRecId                 totalQty;
+      #    LineAmount               totalVal;
+      #    int                      i, j;
+      #    str                      strDatePartner;
+      #    container                dataCon;
+      #
+      #    container genEmptyCon(int _conLen)
+      #    {
+      #        container _emptyCon;
+      #        int       _i;
+      #    ;
+      #        _emptyCon = connull();
+      #        for (_i = 0; _i < _conLen; ++_i)
+      #            _emptyCon += 0;
+      #
+      #        return _emptyCon;
+      #    }
+      #;
+      #    rptDW.setTmpData(echTmpRptReturnRefundDW);
+      #
+      #    for (i = 1; i <= conlen(g_LineNumCon); ++i)
+      #    {
+      #        curLineNum = conpeek(g_LineNumCon, i);
+      #        dataCon = genEmptyCon(g_DatePartnerConIdxMap.elements());
+      #        for (j = 1; j <= conlen(g_RecordDateCon); ++j)
+      #        {
+      #            curRecordDate = conpeek(g_RecordDateCon, j);
+      #            totalQty = 0;
+      #            totalVal = 0.0;
+      #
+      #            while select rptDW
+      #                    where rptDW.LineNum    == curLineNum
+      #                       && rptDW.RecordDate == curRecordDate
+      #            {
+      #                strDatePartner = strFmt(#Qty + g_DatePartnerFmt, rptDW.RecordDate, rptDW.MsgPartnerId);
+      #                dataCon = conPoke(dataCon, g_DatePartnerConIdxMap.lookup(strDatePartner), rptDW.Qty);
+      #                strDatePartner = strFmt(#Val + g_DatePartnerFmt, rptDW.RecordDate, rptDW.MsgPartnerId);
+      #                dataCon = conPoke(dataCon, g_DatePartnerConIdxMap.lookup(strDatePartner), rptDW.Val);
+      #
+      #                totalQty += rptDW.Qty;
+      #                totalVal += rptDW.Val;
+      #            }
+      #
+      #            strDatePartner = strFmt(#Qty + g_DatePartnerFmt, curRecordDate, #TotalStr);
+      #            dataCon = conPoke(dataCon, g_DatePartnerConIdxMap.lookup(strDatePartner), totalQty);
+      #            strDatePartner = strFmt(#Val + g_DatePartnerFmt, curRecordDate, #TotalStr);
+      #            dataCon = conPoke(dataCon, g_DatePartnerConIdxMap.lookup(strDatePartner), totalVal);
+      #        }
+      #        // Full field value
+      #        select firstonly rptDW
+      #          where rptDW.LineNum == curLineNum;
+      #        dataCon = conPoke(dataCon, 1, rptDW.FieldName);
+      #
+      #        g_RowDataCon = dataCon;
+      #        element.execute(1);
+      #    }
+      #
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #drawHdrDay
+      #// Add ECH_WI_02338 by mengqi.cen on 20130805
+      #private void drawHdrDay()
+      #{
+      #    ReportTextControl dayCtrl;
+      #    date              recordDate;
+      #    str               recordDataStr;
+      #    int               conIdx;
+      #    int               leftOffset;
+      #    int               i;
+      #;
+      #    leftOffset = 0;
+      #
+      #    // Insert empty day column.
+      #    dayCtrl = HdrDay.addTextControl('');
+      #    dayCtrl.left(leftOffset, #CtrlUnit);
+      #    dayCtrl.width(#FieldNameW, #CtrlUnit);
+      #    dayCtrl.height(#HdrDayCtrlH, #CtrlUnit);
+      #
+      #    leftOffset += #FieldNameW;
+      #
+      #    for (conIdx = 1; conIdx <= conlen(g_RecordDateCon); ++conIdx)
+      #    {
+      #        // For Qty
+      #        recordDate = conpeek(g_RecordDateCon, conIdx);
+      #        recordDataStr = #Weekly + date2Str(recordDate, 213, 1, 4, 1, 4, 4);
+      #
+      #        dayCtrl = HdrDay.addTextControl(recordDataStr);
+      #        dayCtrl.left(leftOffset, #CtrlUnit);
+      #        dayCtrl.width(#HdrDayCtrlW, #CtrlUnit);
+      #        dayCtrl.height(#HdrDayCtrlH, #CtrlUnit);
+      #        dayCtrl.alignment(3);
+      #        dayCtrl.lineAbove(LineType::Solid);
+      #        dayCtrl.lineBelow(LineType::Solid);
+      #        dayCtrl.lineLeft(LineType::Solid);
+      #        dayCtrl.lineRight(LineType::Solid);
+      #
+      #        for (i = 0; i < (conlen(g_PartnerWithTotalCon) - 1); ++i)
+      #            HdrDay.addTextControl('');
+      #
+      #        leftOffset += #HdrDayCtrlW;
+      #
+      #        // For Value
+      #        dayCtrl = HdrDay.addTextControl(recordDataStr);
+      #        dayCtrl.left(leftOffset, #CtrlUnit);
+      #        dayCtrl.width(#HdrDayCtrlW, #CtrlUnit);
+      #        dayCtrl.height(#HdrDayCtrlH, #CtrlUnit);
+      #        dayCtrl.alignment(3);
+      #        dayCtrl.lineAbove(LineType::Solid);
+      #        dayCtrl.lineBelow(LineType::Solid);
+      #        dayCtrl.lineLeft(LineType::Solid);
+      #        dayCtrl.lineRight(LineType::Solid);
+      #
+      #        for (i = 0; i < (conlen(g_PartnerWithTotalCon) - 1); ++i)
+      #            HdrDay.addTextControl('');
+      #
+      #        leftOffset += #HdrDayCtrlW;
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// Add ECH_WI_02338 by mengqi.cen on 20130805
+      #public void init()
+      #{
+      #;
+      #    super();
+      #
+      #    g_DatePartnerFmt = '%1#%2';
+      #    g_RptClass = element.args().caller();
+      #
+      #    if (!g_RptClass)
+      #    {
+      #        g_RptClass = echRptReturnRefund::construct();
+      #        g_RptClass.parmRptDate(today());
+      #        g_RptClass.InsertTmpData();
+      #    }
+      #    echTmpRptReturnRefundDW = g_RptClass.parmReportTmpData();
+      #    this.initContainers();
+      #
+      #    this.drawHdrDay();
+      #    this.drawHdrPartnerRptBody();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  QUERY #Query
+    PROPERTIES
+      Name                #Query
+      Version             #9
+      NextUniqueId        #1002
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #public class QueryRun extends ObjectRun
+        #{
+        #}
+      ENDSOURCE
+    ENDMETHODS
+    BLOCKS
+      BLOCK #echTmpRptReturnRefundDW
+        PROPERTIES
+          Name                #echTmpRptReturnRefundDW
+          Table               #echTmpRptReturnRefundDW
+          UniqueId            #1001
+        ENDPROPERTIES
+        
+        FIELDLIST
+          PROPERTIES
+          ENDPROPERTIES
+          
+        ENDFIELDLIST
+        SORTING
+        ENDSORTING
+        LINES
+        ENDLINES
+        BLOCKS
+        ENDBLOCKS
+        GROUPBY
+        ENDGROUPBY
+        ORDERBY
+        ENDORDERBY
+      ENDBLOCK
+    ENDBLOCKS
+    DEPENDENTS
+    ENDDEPENDENTS
+    COMPOSITEQUERIES
+    ENDCOMPOSITEQUERIES
+  ENDQUERY
+  
+  DESIGNS
+    DESIGN
+      PROPERTIES
+        Name                #ReportDesign
+        Caption             #@ECH837
+        ReportTemplate      #InternalList
+        FontSize            #22
+        Orientation         #Landscape
+      ENDPROPERTIES
+      
+      AUTOBODIES
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDAUTOBODIES
+      GENERATEDDESIGN
+        PAGEHEADERBLOCK
+          PROPERTIES
+            Name                #PageHeader
+            LineBelow           #Solid
+            Thickness           #pt2
+            Font                #Arial
+            FontSize            #20
+            Bold                #Normal
+          ENDPROPERTIES
+          
+          METHODS
+            Version: 3
+            SOURCE #startTime
+              #//BP Deviation documented
+              #display timeOfDay startTime()
+              #{;
+              #    return element.startTime();
+              #}
+              #
+            ENDSOURCE
+            SOURCE #ReportName
+              #//BP Deviation documented
+              #display Name reportName()
+              #{;
+              #    return element.design().lookupCaption();
+              #}
+              #
+            ENDSOURCE
+            SOURCE #CompanyName
+              #//BP Deviation documented
+              #display Name companyName()
+              #{;
+              #    return CompanyInfo::name();
+              #}
+            ENDSOURCE
+            SOURCE #DatePage
+              #//BP Deviation documented
+              #display str 70 datePage()
+              #{;
+              #    // Date %1 %2 Page %3
+              #    return strfmt(element.design().lookupLabel(literalstr("@SYS10092")),
+              #                 element.startDate(),
+              #                 time2str(element.startTime(),-1,-1),
+              #                 element.page());
+              #}
+              #
+            ENDSOURCE
+            SOURCE #StartDate
+              #//BP Deviation documented
+              #display PrintDate startDate()
+              #{;
+              #    return element.startDate();
+              #}
+            ENDSOURCE
+            SOURCE #PageNum
+              #//BP Deviation documented
+              #display str 20 pageNum()
+              #{;
+              #    // Page %1
+              #    return strfmt(element.design().lookupLabel(literalstr("@SYS24160")), element.page());
+              #}
+            ENDSOURCE
+            SOURCE #CompanyLogo
+              #//BP Deviation documented
+              #display Bitmap companyLogo()
+              #{
+              #    CompanyInfo companyInfo = CompanyInfo::find();
+              #    ;
+              #
+              #    return CompanyImage::find(companyInfo.DataAreaId, companyInfo.TableId, companyInfo.RecId).Image;
+              #}
+            ENDSOURCE
+            SOURCE #executeSection
+              #public void executeSection()
+              #{;
+              #    SysReportRun::executePrintRangeSection(element);
+              #    super();
+              #}
+            ENDSOURCE
+          ENDMETHODS
+          STRFIELD
+            PROPERTIES
+              Name                #CompanyName
+              Top                 #18.00 mm
+              DataMethod          #CompanyName
+              Thickness           #None
+              FontSize            #20
+              Underline           #Yes
+              Bold                #Extrabold
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #ReportName
+              Top                 #30.00 mm
+              Width               #50.00 char
+              DataMethod          #ReportName
+              FontSize            #20
+              Bold                #Extrabold
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          DATEFIELD
+            PROPERTIES
+              Name                #StartDate
+              Left                #Right edge
+              Top                 #1.00 char
+              DataMethod          #StartDate
+              Bold                #Extrabold
+              Alignment           #Right
+            ENDPROPERTIES
+            
+          ENDDATEFIELD
+          TIMEFIELD
+            PROPERTIES
+              Name                #startTime
+              Left                #Right edge
+              Top                 #2.00 char
+              DataMethod          #startTime
+              Bold                #Extrabold
+              Alignment           #Right
+            ENDPROPERTIES
+            
+          ENDTIMEFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #PageNum
+              Left                #Right edge
+              DataMethod          #PageNum
+              Bold                #Extrabold
+              Alignment           #Right
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          BITMAPFIELD
+            PROPERTIES
+              Name                #companyLogo
+              Left                #0.00 mm
+              Top                 #0.00 mm
+              Width               #36.00 mm
+              Height              #16.00 mm
+              DataMethod          #companyLogo
+            ENDPROPERTIES
+            
+          ENDBITMAPFIELD
+        ENDPAGEHEADERBLOCK
+        PAGEHEADERBLOCK
+          PROPERTIES
+            Name                #HdrDay
+            AutoDeclaration     #Yes
+            BottomMargin        #0.00 mm
+          ENDPROPERTIES
+          
+        ENDPAGEHEADERBLOCK
+        PAGEHEADERBLOCK
+          PROPERTIES
+            Name                #HdrPartner
+            AutoDeclaration     #Yes
+            TopMargin           #0.00 mm
+          ENDPROPERTIES
+          
+        ENDPAGEHEADERBLOCK
+        CONTROLBLOCK
+          PROPERTIES
+            Name                #BodyRptReturnRefund
+            AutoDeclaration     #Yes
+          ENDPROPERTIES
+          
+          METHODS
+            Version: 3
+            SOURCE #executeSection
+              #// Add ECH_WI_02338 by mengqi.cen on 20130805
+              #public void executeSection()
+              #{
+              #;
+              #    element.fillDataRow();
+              #    super();
+              #}
+            ENDSOURCE
+          ENDMETHODS
+        ENDCONTROLBLOCK
+      ENDGENERATEDDESIGN
+    ENDDESIGN
+  ENDDESIGNS
+ENDREPORT
+
+
+***Element: END

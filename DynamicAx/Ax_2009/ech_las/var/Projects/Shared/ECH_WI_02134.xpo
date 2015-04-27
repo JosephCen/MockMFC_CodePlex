@@ -1,0 +1,27 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02134 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02134
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02134
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      UTILOBJECTID 30009
+      NODETYPE 329
+      NAME #echSalesOrder
+    ENDNODE
+  ENDPROJECT
+  
+
+***Element: END

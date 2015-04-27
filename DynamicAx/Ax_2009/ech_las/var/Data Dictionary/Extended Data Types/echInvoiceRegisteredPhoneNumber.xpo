@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echInvoiceRegisteredPhoneNumber unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echInvoiceRegisteredPhoneNumber
+  Id 30065
+  STRING
+    PROPERTIES
+      Name                #echInvoiceRegisteredPhoneNumber
+      Label               #@ECH396
+      HelpText            #@ECH402
+      ConfigurationKey    #echInterfaces
+      StringSize          #60
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

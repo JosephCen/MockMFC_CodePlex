@@ -1,0 +1,251 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSalesOrderCheckResultTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSalesOrderCheckResultTable
+    Id 30008
+    PROPERTIES
+      Name                #echSalesOrderCheckResultTable
+      Label               #@ECH123
+      TitleField1         #SalesId
+      TitleField2         #dataAreaId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #primaryIdx
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #SalesId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #SalesId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSalesOrderCheckResultTable
+          ExtendedDataType    
+            ARRAY 
+              #SalesId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #Check
+        Id 30005
+        STRING
+        PROPERTIES
+          Name                #Check
+          Table               #echSalesOrderCheckResultTable
+          ExtendedDataType    
+            ARRAY 
+              #echCheckName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Result
+        Id 30006
+        ENUM
+        PROPERTIES
+          Name                #Result
+          Table               #echSalesOrderCheckResultTable
+          EnumType            #echCheckResult
+        ENDPROPERTIES
+        
+      FIELD #CheckId
+        Id 30007
+        INT
+        PROPERTIES
+          Name                #CheckId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSalesOrderCheckResultTable
+          ExtendedDataType    
+            ARRAY 
+              #classId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesId
+          #Result
+          #Check
+          #CheckId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Result
+          #Check
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #SalesId
+        PROPERTIES
+          Name                #SalesId
+          Label               #@ECH189
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #SalesOrderCheck
+        PROPERTIES
+          Name                #SalesOrderCheck
+          Label               #@ECH212
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #CheckId
+          #Check
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #primaryIdx
+      Id 30003
+      PROPERTIES
+        Name                #primaryIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #SalesId
+        #CheckId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #update
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00765
+        #// *** Customization Date: 19 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description: update sales order header
+        #
+        #public void update()
+        #{
+        #    super();
+        #
+        #    echUpdateAggStatus::updateStatus(this.SalesId,
+        #                                    echSalesOrderCheckResultTable::checksOk(this.SalesId) ?
+        #                                    echAggStatus::ChecksOK :
+        #                                    echAggStatus::ChecksFailed);
+        #}
+      ENDSOURCE
+      SOURCE #checksOk
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00765
+        #// *** Customization Date: 19 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description: verify if all checks are ok
+        #
+        #static boolean checksOk(SalesId _salesId)
+        #{
+        #    echSalesOrderCheckResultTable       echSalesOrderCheckResultTable;
+        #    ;
+        #
+        #    select count(recid) from echSalesOrderCheckResultTable
+        #        where   echSalesOrderCheckResultTable.SalesId == _salesId
+        #        &&      echSalesOrderCheckResultTable.Result  == echCheckResult::NOK;
+        #
+        #    return echSalesOrderCheckResultTable.RecId == 0;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #public static boolean exist(SalesId _salesId,
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #                            ClassId _checkId)
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #{
+        #    echSalesOrderCheckResultTable echSalesOrderCheckResult;
+        #    ;
+        #
+        #    select firstonly RecId from echSalesOrderCheckResult
+        #        index hint PrimaryIdx
+        #        where echSalesOrderCheckResult.SalesId == _salesId
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        &&    echSalesOrderCheckResult.CheckId == _checkId;
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    return echSalesOrderCheckResult.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findByRecId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #public static echSalesOrderCheckResultTable findByRecId(RecId _id, boolean _forUpdate = false)
+        #{
+        #    echSalesOrderCheckResultTable echSalesOrderCheckResult;
+        #    ;
+        #
+        #    echSalesOrderCheckResult.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSalesOrderCheckResult
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #//        index hint RecIdIdx
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        where echSalesOrderCheckResult.RecId == _id;
+        #
+        #    return echSalesOrderCheckResult;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

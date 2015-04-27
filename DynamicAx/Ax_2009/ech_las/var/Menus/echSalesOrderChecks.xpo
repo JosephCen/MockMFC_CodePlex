@@ -1,0 +1,35 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : echSalesOrderChecks unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #echSalesOrderChecks
+    PROPERTIES
+      Name                #echSalesOrderChecks
+      Label               #@ECH218
+      HelpText            #@ECH277
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    MENUITEM
+      PROPERTIES
+        Name                #Sales orders checks
+        MenuItemName        #echSalesOrderCheckTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Customer black list
+        MenuItemName        #echSoCheckBlackListTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+  ENDMENU
+  
+
+***Element: END

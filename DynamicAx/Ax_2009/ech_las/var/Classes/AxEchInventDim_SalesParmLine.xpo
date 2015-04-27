@@ -1,0 +1,73 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxEchInventDim_SalesParmLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxEchInventDim_SalesParmLine
+    Id 30043
+    PROPERTIES
+      Name                #AxEchInventDim_SalesParmLine
+      Extends             #AxInventDim_SalesParmLine
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: extended class
+        #
+        #class AxEchInventDim_SalesParmLine extends AxInventDim_SalesParmLine
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #setInventDimId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: set inventdim from sku id
+        #
+        #public void setInventDimId()
+        #{
+        #    InventItemBarcode   inventItemBarcode;
+        #    InventDim           inventDimBarcode;
+        #    ;
+        #
+        #    #inventDimDevelop
+        #
+        #    if (axSalesParmLine.parmEchSkuId())
+        #    {
+        #        inventItemBarcode   = InventItemBarcode::findBySkuId(axSalesParmLine.parmEchSkuId());
+        #        inventDimBarcode    = inventItemBarcode.inventDim();
+        #
+        #        this.setInventBatchId();
+        #        this.setInventSiteId();
+        #        this.setInventLocationId();
+        #        this.setInventSerialId();
+        #        this.setWMSLocationId();
+        #        this.setWMSPalletId();
+        #
+        #        this.parmConfigId(inventDimBarcode.ConfigId);
+        #        this.parmInventColorId(inventDimBarcode.InventColorId);
+        #        this.parmInventSizeId(inventDimBarcode.InventSizeId);
+        #
+        #        this.parmInventDimId(InventDim::findOrCreate(this.currentRecord()).InventDimId);
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

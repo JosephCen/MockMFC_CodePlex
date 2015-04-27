@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTR
+
+; Microsoft Dynamics AX Real: echInventQtyLastAvailPhysical unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echInventQtyLastAvailPhysical
+  Id 30090
+  REAL
+    PROPERTIES
+      Name                #echInventQtyLastAvailPhysical
+      Label               #@ECH795
+      HelpText            #@ECH796
+      ConfigurationKey    #echProcesses
+      Extends             #InventQty
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

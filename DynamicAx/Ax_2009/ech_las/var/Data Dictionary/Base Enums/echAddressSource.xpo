@@ -1,0 +1,53 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echAddressSource unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echAddressSource
+    Id 30013
+    PROPERTIES
+      Name                #echAddressSource
+      Label               #@ECH416
+      Help                #@ECH417
+      ConfigurationKey    #echInterfaces
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #Default
+      PROPERTIES
+        Name                #Default
+        Label               #@SYS26467
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #Customer
+      PROPERTIES
+        Name                #Customer
+        Label               #@SYS110422
+        EnumValue           #1
+      ENDPROPERTIES
+      
+      #ZipCode
+      PROPERTIES
+        Name                #ZipCode
+        Label               #@ECH418
+        EnumValue           #2
+      ENDPROPERTIES
+      
+      #InboundXml
+      PROPERTIES
+        Name                #InboundXml
+        Label               #@ECH419
+        EnumValue           #3
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

@@ -1,0 +1,37 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTI
+
+; Microsoft Dynamics AX Integer: echTMallPropertyId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echTMallPropertyId
+  Id 30095
+  INT
+    PROPERTIES
+      Name                #echTMallPropertyId
+      Label               #@ECH803
+      HelpText            #@ECH810
+      DisplayLength       #9
+      ConfigurationKey    #echProcesses
+      AllowNegative       #No
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+      TYPEREFERENCETYPE DATASET
+      PROPERTIES
+        Table               #echTMallCategoryProperty
+        RelatedField        #PropId
+      ENDPROPERTIES
+      
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

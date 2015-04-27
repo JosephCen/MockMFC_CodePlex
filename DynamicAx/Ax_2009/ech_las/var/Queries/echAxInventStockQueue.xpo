@@ -1,0 +1,70 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: echAxInventStockQueue unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #echAxInventStockQueue
+  PROPERTIES
+    Name                #echAxInventStockQueue
+    Version             #5
+    NextUniqueId        #1001
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #echInventStockQueue
+      PROPERTIES
+        Name                #echInventStockQueue
+        Table               #echInventStockQueue
+        UniqueId            #1000
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #BatchStatus
+        FIELD #configId
+        FIELD #dataAreaId
+        FIELD #ErrorMessage
+        FIELD #InventColorId
+        FIELD #InventSiteId
+        FIELD #InventSizeId
+        FIELD #InventStyleId
+        FIELD #ItemId
+        FIELD #Qty
+        FIELD #RecId
+        FIELD #recVersion
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

@@ -1,0 +1,34 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventItem_InventItemSalesSetup unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventItem_InventItemSalesSetup
+    Id 14105
+    PROPERTIES
+      Name                #InventItem_InventItemSalesSetup
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmLeadTime
+        #public LeadTime parmLeadTime(LeadTime _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LeadTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LeadTime);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

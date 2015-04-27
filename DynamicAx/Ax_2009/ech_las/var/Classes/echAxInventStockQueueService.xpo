@@ -1,0 +1,64 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echAxInventStockQueueService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echAxInventStockQueueService
+    Id 30028
+    PROPERTIES
+      Name                #echAxInventStockQueueService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echAxInventStockQueueService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #create
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN01_2
+        #// *** Customization Date: 26 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: flush table before create
+        #
+        #public AifEntityKeyList create(echAxInventStckQueue _echAxInventStckQueue)
+        #{
+        #    echInventStockQueue     echInventStockQueue;
+        #    ;
+        #//Start Modified By steven 26 Mar 2013
+        #    echInventStockQueueHistory::echInsert_RecordSet();
+        #//End Modified By steven 26 Mar 2013
+        #// CS - ECH_I_IN01_2 - Anthony Christiaens - 26 Mar 2012
+        #     delete_from echInventStockQueue;
+        #// CE - ECH_I_IN01_2 - Anthony Christiaens - 26 Mar 2012
+        #
+        #    return this.createList(_echAxInventStckQueue);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echAxInventStockQueueService construct()
+        #{
+        #    return new echAxInventStockQueueService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

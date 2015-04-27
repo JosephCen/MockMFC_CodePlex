@@ -1,0 +1,144 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckFrequencyParam unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckFrequencyParam
+    Id 30062
+    PROPERTIES
+      Name                #echSoCheckFrequencyParam
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the frequency parameter
+        #
+        #class echSoCheckFrequencyParam implements echISoCheck
+        #{
+        #    Integer    numberOfDays;
+        #    Integer    numberOfOrders;
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return menuItemDisplayStr(echSoCheckFrequencyParamTable);
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH159";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean                         execute;
+        #    ;
+        #
+        #    execute = echSoCheckFrequencyParam::numOfOrdersPerDays(_salesId) ? true : false;
+        #
+        #    return execute;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH158";
+        #}
+      ENDSOURCE
+      SOURCE #parmNumberOfDays
+        #Integer parmNumberOfDays(integer   _numberOfDays = numberOfDays)
+        #
+        #{
+        #    ;
+        #    numberOfDays = _numberOfDays;
+        #    return numberOfDays;
+        #}
+      ENDSOURCE
+      SOURCE #parmNumberOfOrders
+        #Integer parmNumberOfOrders(integer   _numberOfOrders = numberOfOrders)
+        #
+        #{
+        #    ;
+        #    numberOfOrders = _numberOfOrders;
+        #    return numberOfOrders;
+        #}
+      ENDSOURCE
+      SOURCE #lastOrderDate
+        #static TransDate lastOrderDate(SalesTable _salesTable)
+        #{
+        #    SalesTable  salesTable;
+        #    ;
+        #
+        #    select firstonly salesTable
+        #    order by echFrontEndCreationDate desc
+        #        where salesTable.SalesType   == _salesTable.SalesType
+        #        &&    salesTable.CustAccount == _salesTable.CustAccount;
+        #
+        #    return DateTimeUtil::date(salesTable.echFrontEndCreationDate);
+        #}
+      ENDSOURCE
+      SOURCE #numOfOrdersPerDays
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 08 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: CR 666, do not include canceled orders in the check
+        #
+        #static boolean numOfOrdersPerDays(SalesId  _salesId)
+        #{
+        #    echSoCheckFrequencyParamTable   frequency;
+        #    date                            fromDate;
+        #    utcDatetime                     utcFromDate;
+        #    SalesTable                      salesTable, checkedSalesTable;
+        #    boolean                         ret = true;
+        #    ;
+        #
+        #    select firstonly NumberofDays, NumberOfOrders from frequency;
+        #
+        #    checkedSalesTable = SalesTable::find(_salesId);
+        #
+        #    if (checkedSalesTable.echFrontEndCreationDate
+        #// CS - ECH_E_002 - Anthony Christiaens - 08 Jun 2012
+        #        && checkedSalesTable.SalesStatus != SalesStatus::Canceled)
+        #// CE - ECH_E_002 - Anthony Christiaens - 08 Jun 2012
+        #    {
+        #        fromDate    = DateTimeUtil::date(checkedSalesTable.echFrontEndCreationDate) - frequency.numberOfDays;
+        #        utcFromDate = DateTimeUtil::newDateTime(fromDate, DateTimeUtil::time(checkedSalesTable.echFrontEndCreationDate));
+        #
+        #        select count(RecId) from salesTable
+        #            where salesTable.CustAccount == checkedSalesTable.CustAccount
+        #            &&    salesTable.SalesType   == checkedSalesTable.SalesType
+        #// CS - ECH_E_002 - Anthony Christiaens - 08 Jun 2012
+        #            &&    salesTable.SalesStatus != SalesStatus::Canceled
+        #// CE - ECH_E_002 - Anthony Christiaens - 08 Jun 2012
+        #            &&    salesTable.echFrontEndCreationDate >= utcFromDate
+        #            &&    salesTable.echFrontEndCreationDate <= checkedSalesTable.echFrontEndCreationDate;
+        #
+        #        if(salesTable.RecId <= frequency.numberOfOrders)
+        #            ret = true;
+        #        else
+        #            ret = false;
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

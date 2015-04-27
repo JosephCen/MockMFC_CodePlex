@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echAddressZipCodeId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echAddressZipCodeId
+  Id 30068
+  STRING
+    PROPERTIES
+      Name                #echAddressZipCodeId
+      Label               #@SYS12463
+      HelpText            #@SYS21824
+      ConfigurationKey    #echInterfaces
+      ChangeCase          #UPPER CASE
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

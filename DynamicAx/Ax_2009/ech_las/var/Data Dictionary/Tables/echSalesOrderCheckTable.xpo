@@ -1,0 +1,477 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSalesOrderCheckTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSalesOrderCheckTable
+    Id 30009
+    PROPERTIES
+      Name                #echSalesOrderCheckTable
+      Label               #@ECH127
+      TitleField1         #ClassId
+      TitleField2         #Sequence
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      PrimaryIndex        #sequenceIdx
+      ClusterIndex        #sequenceIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Sequence
+        Id 30006
+        INT
+        PROPERTIES
+          Name                #Sequence
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSalesOrderCheckTable
+          ExtendedDataType    
+            ARRAY 
+              #echSequence
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Enabled
+        Id 30008
+        ENUM
+        PROPERTIES
+          Name                #Enabled
+          Table               #echSalesOrderCheckTable
+          EnumType            #echCheckEnabled
+        ENDPROPERTIES
+        
+      FIELD #ClassId
+        Id 30010
+        INT
+        PROPERTIES
+          Name                #ClassId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSalesOrderCheckTable
+          ExtendedDataType    
+            ARRAY 
+              #classId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #IsCheckInPickingList
+        Id 30012
+        ENUM
+        PROPERTIES
+          Name                #IsCheckInPickingList
+          Label               #@ECH706
+          HelpText            #@ECH707
+          Table               #echSalesOrderCheckTable
+          ExtendedDataType    
+            ARRAY 
+              #NoYesId
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Sequence
+          #Enabled
+          #ClassId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@ECH199
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Sequence
+          #Enabled
+          #ClassId
+          #IsCheckInPickingList
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #name
+          #Enabled
+          #ClassId
+          #IsCheckInPickingList
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #sequenceIdx
+      Id 30002
+      PROPERTIES
+        Name                #sequenceIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Sequence
+      ENDINDEXFIELDS
+      
+      #classIdIdx
+      Id 30003
+      PROPERTIES
+        Name                #classIdIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ClassId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #description
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 10 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: description of the check class that has been configured
+        #//BP Deviation Documented
+        #display Description description()
+        #{
+        #    Description     text;
+        #    SysDictClass    dictClass;
+        #    echISoCheck     component;
+        #    ;
+        #
+        #    text = '';
+        #
+        #    if (this.ClassId)
+        #    {
+        #        // Create an instance of the class
+        #        dictClass = new SysDictClass(this.ClassId);
+        #        component = dictClass.makeObject();
+        #
+        #        // Make sure it implements the correct
+        #        // interface.
+        #        if (dictClass.isImplementing(classnum(echISoCheck)))
+        #            if (dictClass.hasObjectMethod(methodstr(echISoCheck, description)))
+        #                text = component.description();
+        #
+        #    }
+        #
+        #    return text;
+        #}
+      ENDSOURCE
+      SOURCE #getNextSequence
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 10 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: go to the next check class
+        #int getNextSequence()
+        #{
+        #    echSalesOrderCheckTable temp;
+        #    int seq = 0;
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    temp.concurrencyModel(ConcurrencyModel::Pessimistic);
+        #
+        #    select forupdate firstonly * from temp
+        #    order by Sequence desc;
+        #
+        #    seq = temp.Sequence + 1;
+        #
+        #    ttscommit;
+        #
+        #    return seq;
+        #}
+      ENDSOURCE
+      SOURCE #initValue
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 10 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: init sequence value
+        #public void initValue()
+        #{
+        #    ;
+        #    if (this.Sequence == 0)
+        #        this.Sequence = 2000000000;
+        #
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #insert
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 10 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: insert method
+        #public void insert()
+        #{
+        #    echSalesOrderCheckTable temp;
+        #    ;
+        #
+        #    if (this.Sequence == 2000000000)
+        #    {
+        #        this.Sequence = this.getNextSequence();
+        #    }
+        #    else
+        #    {
+        #
+        #        select * from temp
+        #        where temp.ClassId == this.ClassId
+        #            && temp.Sequence == this.Sequence;
+        #
+        #        if (temp)
+        #        {
+        #            ttsbegin;
+        #
+        #            update_recordset temp
+        #            setting sequence = temp.Sequence + 1
+        #            where temp.ClassId == this.ClassId
+        #                && temp.Sequence >= this.Sequence;
+        #
+        #            ttscommit;
+        #        }
+        #    }
+        #
+        #    super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #name
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: // Allows user to view/edit the sales order check by the class name
+        #// instead of the class id.
+        #//BP Deviation Documented
+        #edit ClassName name(boolean set, ClassName value)
+        #{
+        #    classId classId;
+        #    ;
+        #
+        #    if (set)
+        #    {
+        #        classId = className2Id(value);
+        #        this.ClassId = classId;
+        #    }
+        #    else
+        #    {
+        #        value = classId2Name(this.ClassId);
+        #    }
+        #
+        #    return value;
+        #}
+      ENDSOURCE
+      SOURCE #validateWrite
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 10 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: validate the write of the record
+        #public boolean validateWrite()
+        #{
+        #    boolean ret;
+        #
+        #    ret = super();
+        #
+        #    if (echSalesOrderCheckTable::checkClassId(this.ClassId) == false)
+        #        ret = false;
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #checkClassId
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: checks of the class id
+        #static boolean checkClassId(classId _classId)
+        #{
+        #    boolean     isValid = false;
+        #    DictClass   dictClass;
+        #    int         x;
+        #    classId     componentInterfaceId;
+        #    ;
+        #
+        #    componentInterfaceId = classnum(echISoCheck);
+        #    dictClass = new DictClass(_classId);
+        #
+        #    if (dictClass == null)
+        #    {
+        #        // Class Id '%1' does not exist.
+        #        checkFailed(strfmt("@SYS91471", _classId));
+        #    }
+        #    else
+        #    {
+        #        for(x=1; x <= dictClass.implementsCnt(); x++)
+        #        {
+        #            if (dictClass.implements(x) == componentInterfaceId)
+        #            {
+        #                isValid = true;
+        #                break;
+        #            }
+        #        }
+        #
+        #        if (isValid == false)
+        #            checkFailed(strfmt("@ECH197", classId2Name(_classId)));
+        #    }
+        #
+        #    return isValid;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #checkClassName
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 10 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: checks of the class name
+        #static public boolean checkClassName(ClassName className)
+        #{
+        #    boolean     isValid = false;
+        #    DictClass   dictClass;
+        #    int         x;
+        #    classId     componentInterfaceId;
+        #    ;
+        #
+        #    componentInterfaceId = classnum(echISoCheck);
+        #    dictClass = new DictClass(className2Id(className));
+        #
+        #    if (dictClass == null)
+        #    {
+        #        // Class '%1' does not exist.
+        #        checkFailed(strfmt("@SYS96576", className));
+        #    }
+        #    else
+        #    {
+        #        for(x=1; x <= dictClass.implementsCnt(); x++)
+        #        {
+        #            if (dictClass.implements(x) == componentInterfaceId)
+        #            {
+        #                isValid = true;
+        #                break;
+        #            }
+        #        }
+        #
+        #        if (isValid == false)
+        #            checkFailed(strfmt("@ECH197", className));
+        #    }
+        #
+        #    return isValid;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #public static boolean exist(echSequence _echSequence)
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #{
+        #    echSalesOrderCheckTable echSalesOrderCheckTable;
+        #    ;
+        #
+        #    select firstonly RecId from echSalesOrderCheckTable
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        index hint sequenceIdx
+        #        where echSalesOrderCheckTable.sequence == _echSequence;
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    return echSalesOrderCheckTable.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #public static echSalesOrderCheckTable find(echSequence _sequence, boolean _forUpdate = false)
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #{
+        #    echSalesOrderCheckTable echSalesOrderCheckTable;
+        #    ;
+        #
+        #    echSalesOrderCheckTable.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSalesOrderCheckTable
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        index hint sequenceIdx
+        #        where echSalesOrderCheckTable.sequence == _sequence;
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    return echSalesOrderCheckTable;
+        #}
+      ENDSOURCE
+      SOURCE #findRecId
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 10 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: find by RecId
+        #static echSalesOrderCheckTable findRecId(recId               _recId,
+        #                                         boolean             _forUpdate = false)
+        #{
+        #    echSalesOrderCheckTable     salesOrderCheck;
+        #
+        #    if (! _recId)
+        #        return salesOrderCheck;
+        #
+        #    salesOrderCheck.selectForUpdate(_forUpdate);
+        #
+        #    select salesOrderCheck
+        #        where salesOrderCheck.RecId == _recId;
+        #
+        #    return salesOrderCheck;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

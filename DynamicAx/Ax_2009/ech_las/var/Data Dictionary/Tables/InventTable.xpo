@@ -1,0 +1,511 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventTable
+    Id 175
+    PROPERTIES
+      Name                #InventTable
+      Label               #@SYS15649
+      FormRef             #RBOInventTable
+      SearchLinkRefType   #Action
+      SearchLinkRefName   #EPInventTableSearchItem
+      TitleField1         #ItemId
+      TitleField2         #ItemName
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Main
+      PrimaryIndex        #ItemIdx
+      ClusterIndex        #ItemIdx
+      AnalysisVisibility  #High
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS123844
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echLegacySystemId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echLegacySystemId
+          Table               #InventTable
+          ExtendedDataType    
+            ARRAY 
+              #echLegacySystemId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #ItemData
+        PROPERTIES
+          Name                #ItemData
+          Label               #@SYS23860
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #UnitVolume
+          #TaxPackagingQty
+          #NetWeight
+          #TaraWeight
+          #echLegacySystemId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #RBOAssortmentItemList
+      PROPERTIES
+        Table               #RBOAssortmentItemList
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOSpecialGroupItems
+      PROPERTIES
+        Table               #RBOSpecialGroupItems
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInventTable
+      PROPERTIES
+        Table               #RBOInventTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemGTIN
+      PROPERTIES
+        Table               #InventItemGTIN
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemBarcode
+      PROPERTIES
+        Table               #InventItemBarcode
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventTestItemQualityGroup
+      PROPERTIES
+        Table               #InventTestItemQualityGroup
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventTestAssociationTable
+      PROPERTIES
+        Table               #InventTestAssociationTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #InventItemSalesSetup
+      PROPERTIES
+        Table               #InventItemSalesSetup
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemInventSetup
+      PROPERTIES
+        Table               #InventItemInventSetup
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemPurchSetup
+      PROPERTIES
+        Table               #InventItemPurchSetup
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventColor
+      PROPERTIES
+        Table               #InventColor
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventSize
+      PROPERTIES
+        Table               #InventSize
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemPrice
+      PROPERTIES
+        Table               #InventItemPrice
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemPriceSim
+      PROPERTIES
+        Table               #InventItemPriceSim
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventProdcomSetup
+      PROPERTIES
+        Table               #InventProdcomSetup
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RouteOpr
+      PROPERTIES
+        Table               #RouteOpr
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #ReqItemTable
+      PROPERTIES
+        Table               #ReqItemTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustVendExternalItem
+      PROPERTIES
+        Table               #CustVendExternalItem
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventPosting
+      PROPERTIES
+        Table               #InventPosting
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #DocuRef
+      PROPERTIES
+        Table               #DocuRef
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemLocation
+      PROPERTIES
+        Table               #InventItemLocation
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #ReqTrans
+      PROPERTIES
+        Table               #ReqTrans
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #BOM
+      PROPERTIES
+        Table               #BOM
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #InventJournalTrans
+      PROPERTIES
+        Table               #InventJournalTrans
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #ProdTable
+      PROPERTIES
+        Table               #ProdTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #PurchLine
+      PROPERTIES
+        Table               #PurchLine
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #SalesLine
+      PROPERTIES
+        Table               #SalesLine
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #ProdBOM
+      PROPERTIES
+        Table               #ProdBOM
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #InventTxt
+      PROPERTIES
+        Table               #InventTxt
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #PriceDiscTable
+      PROPERTIES
+        Table               #PriceDiscTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #SuppItemTable
+      PROPERTIES
+        Table               #SuppItemTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventTrans
+      PROPERTIES
+        Table               #InventTrans
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #InventTableModule
+      PROPERTIES
+        Table               #InventTableModule
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CommissionCalc
+      PROPERTIES
+        Table               #CommissionCalc
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #ConfigTable
+      PROPERTIES
+        Table               #ConfigTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventSum
+      PROPERTIES
+        Table               #InventSum
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #ForecastPurch
+      PROPERTIES
+        Table               #ForecastPurch
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #ForecastSales
+      PROPERTIES
+        Table               #ForecastSales
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #UnitConvert
+      PROPERTIES
+        Table               #UnitConvert
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RouteVersion
+      PROPERTIES
+        Table               #RouteVersion
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #BOMVersion
+      PROPERTIES
+        Table               #BOMVersion
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #echExternalItemId
+      PROPERTIES
+        Table               #echExternalItemId
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #echInventTMallPropValue
+      PROPERTIES
+        Table               #echInventTMallPropValue
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echGetRetailGroupLevelOne
+        #//BP deviation documented
+        #Display RBORetailGroupId echGetRetailGroupLevelOne()
+        #{
+        #    RBOInventItemRetailGroup    rBOInventItemRetailGroup;
+        #    RBOInventItemRetailGroup    rBOInventItemRetailGroupThree;
+        #    RBOInventTable              rBOInventTable;
+        #    ;
+        #    select firstonly rBOInventItemRetailGroup
+        #        exists Join rBOInventTable
+        #            where rBOInventItemRetailGroup.groupId == rBOInventTable.retailGroup
+        #                && rBOInventTable.itemId == this.ItemId;
+        #    if(rBOInventItemRetailGroup.LevelId == LevelId::LevelOne)
+        #    {
+        #        return rBOInventItemRetailGroup.groupId;
+        #    }
+        #    else if(rBOInventItemRetailGroup.LevelId == LevelId::LevelTwo)
+        #    {
+        #        return rBOInventItemRetailGroup.ParentId;
+        #    }
+        #    else if(rBOInventItemRetailGroup.LevelId == LevelId::LevelThree)
+        #    {
+        #        select rBOInventItemRetailGroupThree
+        #            where rBOInventItemRetailGroupThree.groupId == rBOInventItemRetailGroup.ParentId;
+        #        return rBOInventItemRetailGroupThree.ParentId;
+        #    }
+        #    return '';
+        #}
+      ENDSOURCE
+      SOURCE #echGetRetailGroupLevelThree
+        #//BP deviation documented
+        #display RBORetailGroupId echGetRetailGroupLevelThree()
+        #{
+        #    RBOInventItemRetailGroup    rBOInventItemRetailGroup;
+        #    RBOInventTable              rBOInventTable;
+        #    ;
+        #    select firstonly rBOInventItemRetailGroup
+        #        exists Join rBOInventTable
+        #            where rBOInventItemRetailGroup.groupId == rBOInventTable.retailGroup
+        #                && rBOInventTable.itemId == this.ItemId;
+        #
+        #    if(rBOInventItemRetailGroup.LevelId == LevelId::LevelOne)
+        #    {
+        #        return '';
+        #    }
+        #    else if(rBOInventItemRetailGroup.LevelId == LevelId::LevelTwo)
+        #    {
+        #        return '';
+        #    }
+        #    else if(rBOInventItemRetailGroup.LevelId == LevelId::LevelThree)
+        #    {
+        #        return rBOInventItemRetailGroup.groupId;
+        #    }
+        #    return '';
+        #}
+      ENDSOURCE
+      SOURCE #echGetRetailGroupLevelTwo
+        #//BP deviation documented
+        #Display RBORetailGroupId echGetRetailGroupLevelTwo()
+        #{
+        #    RBOInventItemRetailGroup    rBOInventItemRetailGroup;
+        #    RBOInventTable              rBOInventTable;
+        #    ;
+        #    select firstonly rBOInventItemRetailGroup
+        #        exists Join rBOInventTable
+        #            where rBOInventItemRetailGroup.groupId == rBOInventTable.retailGroup
+        #                && rBOInventTable.itemId == this.ItemId;
+        #    if(rBOInventItemRetailGroup.LevelId == LevelId::LevelOne)
+        #    {
+        #        return '';
+        #    }
+        #    else if(rBOInventItemRetailGroup.LevelId == LevelId::LevelTwo)
+        #    {
+        #        return rBOInventItemRetailGroup.groupId;
+        #    }
+        #    else if(rBOInventItemRetailGroup.LevelId == LevelId::LevelThree)
+        #    {
+        #        return rBOInventItemRetailGroup.ParentId;
+        #    }
+        #    return '';
+        #
+        #}
+      ENDSOURCE
+      SOURCE #echRetailGroup
+        #//BP deviation documented
+        #display RBORetailGroupId echRetailGroup()
+        #{
+        #    RBOInventTable  m_RBOInventTable;
+        #    ;
+        #    select retailGroup from m_RBOInventTable
+        #        where m_RBOInventTable.itemId == this.ItemId;
+        #
+        #    return m_RBOInventTable.retailGroup;
+        #}
+      ENDSOURCE
+      SOURCE #Update
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #void update()
+        #{
+        #    InventTable         this_Orig       = this.orig();
+        #    ItemGroupId         itemGroup_Orig  = this_Orig.ItemGroupId;
+        #
+        #    ForecastSales   forecastSales;
+        #    ForecastPurch   forecastPurch;
+        #    // <RETAIL>
+        #    Boolean replicate = false;
+        #    // </RETAIL>
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    this.setNameAlias();
+        #    this.inventModelGroup().inventModelType().preUpdateInventTable(this);
+        #    // <RETAIL>
+        #
+        #    replicate = DRMActionManagement::shouldReplicate(this, this.orig());
+        #    // </RETAIL>
+        #
+        #    super();
+        #
+        #    if (itemGroup_Orig  != this.ItemGroupId)
+        #    {
+        #
+        #        while select forupdate forecastSales
+        #            where forecastSales.ItemId        == this.ItemId                 &&
+        #                  forecastSales.ItemGroupId   == itemGroup_Orig              &&
+        #                  forecastSales.ExpandId      == 0
+        #        {
+        #
+        #            forecastSales.ItemGroupId = this.ItemGroupId;
+        #            forecastSales.update();
+        #        }
+        #
+        #        while select forupdate forecastPurch
+        #            where forecastPurch.ItemId      == this.ItemId                 &&
+        #                  forecastPurch.ItemGroupId == itemGroup_Orig              &&
+        #                  forecastPurch.ExpandId    == 0
+        #        {
+        #
+        #            forecastPurch.ItemGroupId = this.ItemGroupId;
+        #            forecastPurch.update();
+        #        }
+        #
+        #    }
+        #
+        #    if (this_Orig.SalesModel                != this.SalesModel              ||
+        #        this_Orig.SalesPriceModelBasic      != this.SalesPriceModelBasic    ||
+        #        this_Orig.SalesContributionRatio    != this.SalesContributionRatio  ||
+        #        this_Orig.SalesPercentMarkup        != this.SalesPercentMarkup)
+        #    {
+        #        InventTable::updateAutoSalesPrice(this.ItemId);
+        #    }
+        #
+        #    this.insertBOMTable();
+        #
+        #    // <RETAIL>
+        #    if (replicate)
+        #    {
+        #        DRMActionManagement::createActions(this, DRMActionUpdate::Update);
+        #    }
+        #
+        #    // </RETAIL>
+        #
+        #    // Begin - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #    echSendProductCatalogLog::AddSendItemId(this.ItemId);
+        #    // End - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #
+        #    ttscommit;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,147 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventInventoryOnHand_InventSum unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventInventoryOnHand_InventSum
+    Id 14054
+    PROPERTIES
+      Name                #InventInventoryOnHand_InventSum
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class InventInventoryOnHand_InventSum extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchExtSkuId('EchExtSkuId')
+        #    #define.EchVirtualStock('EchVirtualStock')
+        #    #define.EchSkuId('EchSkuId')
+        #    #define.ReservPhysical('ReservPhysical')
+        #    #define.ReservOrdered('ReservOrdered')
+        #    #define.Registered('Registered')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Received('Received')
+        #    #define.QuotationReceipt('QuotationReceipt')
+        #    #define.QuotationIssue('QuotationIssue')
+        #    #define.PostedValue('PostedValue')
+        #    #define.PostedQty('PostedQty')
+        #    #define.Picked('Picked')
+        #    #define.PhysicalValue('PhysicalValue')
+        #    #define.PhysicalInvent('PhysicalInvent')
+        #    #define.Ordered('Ordered')
+        #    #define.OnOrder('OnOrder')
+        #    #define.LastUpdDatePhysical('LastUpdDatePhysical')
+        #    #define.LastUpdDateExpected('LastUpdDateExpected')
+        #    #define.ItemId('ItemId')
+        #    #define.InventDimId('InventDimId')
+        #    #define.InventDim('InventDim')
+        #    #define.Deducted('Deducted')
+        #    #define.ClosedQty('ClosedQty')
+        #    #define.Closed('Closed')
+        #    #define.AvailPhysical('AvailPhysical')
+        #    #define.AvailOrdered('AvailOrdered')
+        #    #define.Arrived('Arrived')
+        #    #define.EchLastAvailPhysical('EchLastAvailPhysical')
+        #    #define.EchExtItemId('EchExtItemId')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsEchExtItemId
+        #public boolean existsEchExtItemId()
+        #{
+        #    return this.exists(#EchExtItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchExtSkuId
+        #public boolean existsEchExtSkuId()
+        #{
+        #    return this.exists(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchLastAvailPhysical
+        #public boolean existsEchLastAvailPhysical()
+        #{
+        #    return this.exists(#EchLastAvailPhysical);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchSkuId
+        #public boolean existsEchSkuId()
+        #{
+        #    return this.exists(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchVirtualStock
+        #public boolean existsEchVirtualStock()
+        #{
+        #    return this.exists(#EchVirtualStock);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtItemId
+        #public ExtCodeValue parmEchExtItemId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchExtItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchExtItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #public ExtCodeValue parmEchExtSkuId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchExtSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchLastAvailPhysical
+        #public echInventQtyLastAvailPhysical parmEchLastAvailPhysical(echInventQtyLastAvailPhysical _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchLastAvailPhysical, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchLastAvailPhysical);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #public echSkuId parmEchSkuId(echSkuId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchVirtualStock
+        #public echVirtualStock parmEchVirtualStock(echVirtualStock _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchVirtualStock, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchVirtualStock);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

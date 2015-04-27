@@ -1,0 +1,62 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxPriceDiscTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxPriceDiscTable
+    Id 7090
+    PROPERTIES
+      Name                #AxPriceDiscTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmCurrency
+        #public CurrencyCode parmCurrency(CurrencyCode _currency = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_currency))
+        #    {
+        #        dictField = new DictField(tablenum(PriceDiscTable),fieldnum(PriceDiscTable,Currency));
+        #        this.validateInboundCurrencyString(_currency,dictField);
+        #
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _currency = this.axCurrencyCode(_currency);
+        #        }
+        #
+        #        this.setField(fieldnum(PriceDiscTable, Currency), _currency);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return this.axCurrencyCode(priceDiscTable.Currency);
+        #    }
+        #    else
+        #    {
+        #        return priceDiscTable.Currency;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPriceInclVAT
+        #protected void setPriceInclVAT()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(PriceDiscTable, PriceInclVAT)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

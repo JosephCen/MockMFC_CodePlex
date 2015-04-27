@@ -1,0 +1,59 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : WMSArrivalDetailTmp unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #WMSArrivalDetailTmp
+    Id 2708
+    PROPERTIES
+      Name                #WMSArrivalDetailTmp
+      Label               #@SYS104656
+      Temporary           #Yes
+      ConfigurationKey    #LogisticsAdvanced
+      PrimaryIndex        #DateRefIdx
+      ClusterIndex        #DateRefIdx
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #inventDim
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: return inventDim
+        #
+        #public InventDim inventDim()
+        #{
+        #    InventDim   inventDim;
+        #    ;
+        #
+        #    inventDim.InventLocationId = this.InventLocationId;
+        #    inventDim.InventSiteId     = this.InventSiteId;
+        #    inventDim                  = InventDim::findOrCreate(inventDim);
+        #
+        #    return inventDim;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

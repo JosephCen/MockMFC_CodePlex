@@ -1,0 +1,165 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSoCheckPromotionsTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSoCheckPromotionsTable
+    Id 30016
+    PROPERTIES
+      Name                #echSoCheckPromotionsTable
+      Label               #@ECH132
+      TitleField1         #RecId
+      TitleField2         #InventLocationId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      PrimaryIndex        #InventLocationIdIdx
+      ClusterIndex        #InventLocationIdIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #InventLocationId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #InventLocationId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSoCheckPromotionsTable
+          ExtendedDataType    
+            ARRAY 
+              #InventLocationId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #RecId
+          #InventLocationId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #InventLocationId
+          #inventLocationName
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #InventLocationIdIdx
+      Id 30001
+      PROPERTIES
+        Name                #InventLocationIdIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #InventLocationId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #InventLocationName
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 09 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: display the warehouse name
+        #
+        #//BP Deviation documented
+        #Display Description inventLocationName()
+        #{
+        #    ;
+        #
+        #    return inventLocation::find(this.InventLocationId).Name;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #public static boolean exist(InventLocationId _inventLocationId)
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #{
+        #    echSoCheckPromotionsTable echSoCheckPromotions;
+        #    ;
+        #
+        #    select firstonly RecId from echSoCheckPromotions
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        index hint InventLocationIdIdx
+        #        where echSoCheckPromotions.inventLocationId == _inventLocationId;
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    return echSoCheckPromotions.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #public static echSoCheckPromotionsTable find(InventLocationId _inventLocationId, boolean _forUpdate = false)
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #{
+        #    echSoCheckPromotionsTable echSoCheckPromotionsTable;
+        #    ;
+        #
+        #    echSoCheckPromotionsTable.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSoCheckPromotionsTable
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        index hint InventLocationIdIdx
+        #        where echSoCheckPromotionsTable.inventLocationId == _inventLocationId;
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    return echSoCheckPromotionsTable;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

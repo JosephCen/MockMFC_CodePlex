@@ -1,0 +1,395 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxWMSPickingRoute unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxWMSPickingRoute
+    Id 17797
+    PROPERTIES
+      Name                #AxWMSPickingRoute
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #/// <summary>
+        #///    The <c>AxWMSPickingRoute</c> class accesses the <c>WMSPickingRoute</c> table, applies the correct update sequence, and provides default values wherever possible.
+        #/// </summary>
+        #/// <remarks>
+        #///    This internal <c>AxBC</c> class is derived from <see cref="AxInternalBase Class" />.
+        #/// </remarks>
+        #class AxWMSPickingRoute extends AxInternalBase
+        #{
+        #    WMSPickingRoute wmsPickingRoute;
+        #
+        #
+        #// CS - ECH_WI_00905 - Marijn Catthoor - 21 Aug 2012
+        #     SalesTotals        echSalesTotals;
+        #     Container          echSalesTotalFields;
+        #// CE - ECH_WI_00905 - Marijn Catthoor - 21 Aug 2012
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echInitSalesTotals
+        #protected void echInitSalesTotals(boolean _force = false)
+        #{
+        #    ;
+        #
+        #    if (!this.parmTransRefId())
+        #        return;
+        #
+        #    if (!echSalesTotals)
+        #    {
+        #        echSalesTotals = SalesTotals::construct(echWMSPickingRoute::salesTable(this), SalesUpdate::All);
+        #        _force = true;
+        #    }
+        #
+        #    if (_force)
+        #    {
+        #        echSalesTotals.calc();
+        #        echSalesTotalFields = echSalesTotals.displayFieldsCurrency();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerCellularPhone
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get customer phoneMobile
+        #
+        #public PhoneMobile parmCustomerCellularPhone(PhoneMobile _phoneMobile = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::custTable(this).CellularPhone;
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerName
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get customer name
+        #
+        #public CustName parmCustomerName(CustName _custName = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::custTable(this).Name;
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerPhone
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get customer phone
+        #
+        #public Phone parmCustomerPhone(Phone _phone = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::custTable(this).Phone;
+        #}
+      ENDSOURCE
+      SOURCE #parmCustomerTeleFax
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get customer telefax
+        #
+        #public TeleFax parmCustomerTeleFax(TeleFax _teleFax = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::custTable(this).TeleFax;
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryCity
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get delivery city
+        #
+        #public AddressCity parmDeliveryCity(CustName _custName = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).DeliveryCity;
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryCountryRegionId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 16 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get delivery country region id
+        #
+        #public AddressCountryRegionId parmDeliveryCountryRegionId(AddressCountryRegionId _addressCountryRegionId = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).DeliveryCountryRegionId;
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryCounty
+        #// Add ECH_WI_02328 by mengqi.cen on 20130708
+        #public AddressCountyId parmDeliveryCounty(AddressCountyId _deliveryCounty)
+        #{
+        #;
+        #    return echWMSPickingRoute::salesTable(this).DeliveryCounty;
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryState
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get delivery state
+        #
+        #public AddressStateId parmDeliveryState(AddressStateId _addressStateId = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).DeliveryState;
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryStreet
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get deliver street
+        #
+        #public AddressStreet parmDeliveryStreet(AddressStreet _deliveryStreet = '')
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).DeliveryStreet;
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryZipCode
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 15 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get delivery zipcode
+        #
+        #public AddressZipCodeId parmDeliveryZipCode(AddressZipCodeId _AddressZipCodeId = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).DeliveryZipCode;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceAmount
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 21 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the Invoice Amount
+        #
+        #public AmountCur parmEchInvoiceAmount(AmountCur _amount = 0.0)
+        #{
+        #    ;
+        #
+        #    this.echInitSalesTotals();
+        #    return conpeek(echSalesTotalFields, TradeTotals::posTotalAmount());
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceContent
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 27 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the echInvoiceContent field on salesTable
+        #
+        #public echInvoiceContent parmEchInvoiceContent(echInvoiceContent _echInvoiceContent = "")
+        #{
+        #
+        #    ;
+        #    return echWMSPickingRoute::salesTable(this).echInvoiceContent;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceCurrencyCode
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 21 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the Invoice Currency
+        #
+        #public CustCurrencyCode parmEchInvoiceCurrencyCode(CustCurrencyCode _currency = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).CurrencyCode;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceTitle
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the Invoice Title
+        #
+        #public echInvoiceTitle parmEchInvoiceTitle(echInvoiceTitle _echInvoiceTitle = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).echInvoiceTitle;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceType
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the Invoice Type
+        #
+        #public echInvoiceType parmEchInvoiceType(echInvoiceType _echInvoiceType = echInvoiceType::Normal)
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).echInvoiceType;
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerExtCode
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get msg partner ext code
+        #
+        #public echMsgPartnerExtCode parmechMsgPartnerExtCode(echMsgPartnerExtCode _echMsgPartnerExtCode = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).echMsgPartnerExtCode;
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get msg partner id
+        #
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _echMsgPartnerId = "")
+        #{
+        #    ;
+        #
+        #    return echWMSPickingRoute::salesTable(this).echMsgPartnerId;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchShippingFee
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01283
+        #// *** Customization Date: 29 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description:   Add selection on sales order id
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 21 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the ShippingFee
+        #
+        #public SalesLineAmount parmEchShippingFee(SalesLineAmount _amount = 0.0)
+        #{
+        #    SalesLine       salesLine;
+        #    InventTable     inventTable;
+        #    ;
+        #
+        #    select sum(lineAmount)
+        #        from salesLine
+        #
+        #// CS - ECH_WI_01283 - Marijn Catthoor - 29 Aug 2012
+        #        where salesLine.SalesId == echWMSPickingRoute::salesTable(this).SalesId
+        #// CE - ECH_WI_01283 - Marijn Catthoor - 29 Aug 2012
+        #        join inventTable
+        #            where inventTable.ItemType == ItemType::Service     &&
+        #                    inventtable.ItemId  == salesline.ItemId;
+        #
+        #    return salesLine.LineAmount;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #parmEchTotalDiscount
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 21 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the Total discount
+        #// *** ECHINA - Jason Wu  ***
+        #// *** Customization Date: 18 June 2013
+        #
+        #public SalesEndDiscAmount parmEchTotalDiscount(SalesEndDiscAmount _endDisc = 0.0)
+        #{
+        #    salesLine           salesLine;
+        #    SalesEndDiscAmount  SalesEndDiscAmount;
+        #    ;
+        #
+        #    while select salesLine
+        #        where salesLine.SalesId == wmsPickingRoute.transRefId
+        #    {
+        #        SalesEndDiscAmount += salesLine.discAmount() * salesLine.SalesQty;
+        #    }
+        #    return SalesEndDiscAmount;
+        #    /*this.echInitSalesTotals();
+        #    return conpeek(echSalesTotalFields, TradeTotals::posEndDisc()) +
+        #            conpeek(echSalesTotalFields, TradeTotals::posLineDisc());*/
+        #}
+      ENDSOURCE
+      SOURCE #setAutoDecreaseQty
+        #protected void setAutoDecreaseQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSPickingRoute, AutoDecreaseQty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInterCompanyPosted
+        #protected void setInterCompanyPosted()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSPickingRoute, InterCompanyPosted)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOptimizedPicking
+        #protected void setOptimizedPicking()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSPickingRoute, OptimizedPicking)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setParmId
+        #protected void setParmId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSPickingRoute, ParmId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

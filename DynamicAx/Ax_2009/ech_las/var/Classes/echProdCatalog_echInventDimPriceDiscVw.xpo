@@ -1,0 +1,277 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echProdCatalog_echInventDimPriceDiscVw unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echProdCatalog_echInventDimPriceDiscVw
+    Id 30150
+    PROPERTIES
+      Name                #echProdCatalog_echInventDimPriceDiscVw
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echProdCatalog_echInventDimPriceDiscVw extends AfStronglyTypedDataContainer
+        #{
+        #    #define.echInventDimBarcodeVw('echInventDimBarcodeVw')
+        #    #define.InventItemBarcodePriceDisc('InventItemBarcodePriceDisc')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.QuantityAmount('QuantityAmount')
+        #    #define.ItemRelation('ItemRelation')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.InventColorId('InventColorId')
+        #    #define.ConfigId('ConfigId')
+        #    #define.Amount('Amount')
+        #    #define.EchExtItemId('EchExtItemId')
+        #    #define.EchExtSkuId('EchExtSkuId')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createechInventDimBarcodeVw
+        #public AfStronglyTypedDataContainerList createechInventDimBarcodeVw()
+        #{
+        #    return this.get_NewList(#echInventDimBarcodeVw);
+        #}
+      ENDSOURCE
+      SOURCE #existsAmount
+        #public boolean existsAmount()
+        #{
+        #    return this.exists(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #existsConfigId
+        #public boolean existsConfigId()
+        #{
+        #    return this.exists(#ConfigId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchExtItemId
+        #public boolean existsEchExtItemId()
+        #{
+        #    return this.exists(#EchExtItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchExtSkuId
+        #public boolean existsEchExtSkuId()
+        #{
+        #    return this.exists(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsechInventDimBarcodeVw
+        #public boolean existsechInventDimBarcodeVw()
+        #{
+        #    return this.exists(#echInventDimBarcodeVw);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventColorId
+        #public boolean existsInventColorId()
+        #{
+        #    return this.exists(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationId
+        #public boolean existsInventLocationId()
+        #{
+        #    return this.exists(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSiteId
+        #public boolean existsInventSiteId()
+        #{
+        #    return this.exists(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSizeId
+        #public boolean existsInventSizeId()
+        #{
+        #    return this.exists(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemRelation
+        #public boolean existsItemRelation()
+        #{
+        #    return this.exists(#ItemRelation);
+        #}
+      ENDSOURCE
+      SOURCE #existsQuantityAmount
+        #public boolean existsQuantityAmount()
+        #{
+        #    return this.exists(#QuantityAmount);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echProdCatalog_echInventDimPriceDiscVw);
+        #}
+      ENDSOURCE
+      SOURCE #parmAmount
+        #public AmountCur parmAmount(AmountCur _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Amount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #parmConfigId
+        #public ConfigId parmConfigId(ConfigId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ConfigId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ConfigId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtItemId
+        #public ExtCodeValue parmEchExtItemId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchExtItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchExtItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #public ExtCodeValue parmEchExtSkuId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchExtSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmechInventDimBarcodeVw
+        #public AfStronglyTypedDataContainerList parmechInventDimBarcodeVw(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#echInventDimBarcodeVw, _value);
+        #    }
+        #
+        #    return this.get_List(#echInventDimBarcodeVw);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventColorId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSiteId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSizeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemRelation
+        #public PriceDiscItemRelation parmItemRelation(PriceDiscItemRelation _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemRelation, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemRelation);
+        #}
+      ENDSOURCE
+      SOURCE #parmQuantityAmount
+        #public AmountQty parmQuantityAmount(AmountQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#QuantityAmount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#QuantityAmount);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

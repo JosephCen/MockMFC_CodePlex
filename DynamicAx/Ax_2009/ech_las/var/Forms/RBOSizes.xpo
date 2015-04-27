@@ -1,0 +1,209 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #RBOSizes
+  PROPERTIES
+    Name                #RBOSizes
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #RBOSizes
+          Table               #RBOSizes
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@RBO208
+      TitleDatasource     #RBOSizes
+      DataSource          #RBOSizes
+      Columns             #2
+      ArrangeGuide        
+        ARRAY INDEX Columns 
+          #0
+          #0
+        ENDARRAY
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          DataSource          #RBOSizes
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Caption             #@RBO840
+              DataSource          #RBOSizes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #RBOSizes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #RBOSizes_size
+                        LabelAlignment      #Right
+                        DataSource          #RBOSizes
+                        DataField           #size
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #RBOSizes_name
+                        LabelAlignment      #Right
+                        DataSource          #RBOSizes
+                        DataField           #name
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #RBOSizes_echSortingNum
+                        DataSource          #RBOSizes
+                        DataField           #echSortingNum
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS2952
+              DataSource          #RBOSizes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Identification
+                  DataSource          #RBOSizes
+                  DataGroup           #Identification
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Name
+                  DataSource          #RBOSizes
+                  DataGroup           #Name
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #echSorting
+                  DataSource          #RBOSizes
+                  DataGroup           #echSorting
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #TabDescription
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS25589
+              DataSource          #RBOSizes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL STRINGEDIT
+                PROPERTIES
+                  Name                #RBOSizes_description
+                  Width               #Column width
+                  Height              #Column height
+                  ShowLabel           #No
+                  LabelAlignment      #Right
+                  DataSource          #RBOSizes
+                  DataField           #description
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

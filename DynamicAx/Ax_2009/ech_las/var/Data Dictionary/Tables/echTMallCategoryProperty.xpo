@@ -1,0 +1,231 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echTMallCategoryProperty unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echTMallCategoryProperty
+    Id 30069
+    PROPERTIES
+      Name                #echTMallCategoryProperty
+      Label               #@ECH820
+      TitleField1         #PropId
+      TitleField2         #PropName
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Cid
+        Id 30001
+        INT
+        PROPERTIES
+          Name                #Cid
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echTMallCategoryProperty
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropId
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #PropId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echTMallCategoryProperty
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropName
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #PropName
+          Table               #echTMallCategoryProperty
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #IsMustProp
+        Id 30005
+        ENUM
+        PROPERTIES
+          Name                #IsMustProp
+          Label               #@ECH814
+          HelpText            #@ECH817
+          Table               #echTMallCategoryProperty
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #IsKeyProp
+        Id 30006
+        ENUM
+        PROPERTIES
+          Name                #IsKeyProp
+          Label               #@ECH846
+          HelpText            #@ECH847
+          Table               #echTMallCategoryProperty
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #IsSalesProp
+        Id 30007
+        ENUM
+        PROPERTIES
+          Name                #IsSalesProp
+          Label               #@ECH848
+          HelpText            #@ECH849
+          AllowEdit           #No
+          Table               #echTMallCategoryProperty
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #IsAxProp
+        Id 30008
+        ENUM
+        PROPERTIES
+          Name                #IsAxProp
+          Label               #@ECH815
+          HelpText            #@ECH818
+          Table               #echTMallCategoryProperty
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #IsUserDefinedProp
+        Id 30009
+        ENUM
+        PROPERTIES
+          Name                #IsUserDefinedProp
+          Label               #@ECH816
+          HelpText            #@ECH819
+          Table               #echTMallCategoryProperty
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #PropMappingType
+        Id 30010
+        ENUM
+        PROPERTIES
+          Name                #PropMappingType
+          Table               #echTMallCategoryProperty
+          EnumType            #echTMallPropertyMappingType
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #PropId
+          #PropName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #PropId
+          #PropName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #PropId
+          #PropName
+          #IsMustProp
+          #IsKeyProp
+          #IsSalesProp
+          #IsAxProp
+          #IsUserDefinedProp
+          #PropMappingType
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Property
+        PROPERTIES
+          Name                #Property
+          Label               #@ECH820
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PropId
+          #PropName
+          #IsMustProp
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #CidPropIdx
+      Id 30001
+      PROPERTIES
+        Name                #CidPropIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Cid
+        #PropId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #echTMallCategory
+        PROPERTIES
+          Name                #echTMallCategory
+          Table               #echTMallCategory
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Cid
+            RelatedField        #Cid
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echTMallPropertyValue
+      PROPERTIES
+        Table               #echTMallPropertyValue
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

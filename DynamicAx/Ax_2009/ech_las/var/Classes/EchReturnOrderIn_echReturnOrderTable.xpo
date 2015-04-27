@@ -1,0 +1,852 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchReturnOrderIn_echReturnOrderTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchReturnOrderIn_echReturnOrderTable
+    Id 30318
+    PROPERTIES
+      Name                #EchReturnOrderIn_echReturnOrderTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchReturnOrderIn_echReturnOrderTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.TotalPrice('TotalPrice')
+        #    #define.Title('Title')
+        #    #define.TimeOut('TimeOut')
+        #    #define.Status('Status')
+        #    #define.SplitTaobaoFee('SplitTaobaoFee')
+        #    #define.SplitSellerFee('SplitSellerFee')
+        #    #define.SID('SID')
+        #    #define.ShippingType('ShippingType')
+        #    #define.SendTime('SendTime')
+        #    #define.SellerNick('SellerNick')
+        #    #define.ReturnType('ReturnType')
+        #    #define.ReturnOrderId('ReturnOrderId')
+        #    #define.ReturnId('ReturnId')
+        #    #define.RemindType('RemindType')
+        #    #define.RefundReason('RefundReason')
+        #    #define.RefundedFee('RefundedFee')
+        #    #define.Province('Province')
+        #    #define.PostalCode('PostalCode')
+        #    #define.Phone('Phone')
+        #    #define.Payment('Payment')
+        #    #define.OriginalOrderStatus('OriginalOrderStatus')
+        #    #define.OriginalOrderId('OriginalOrderId')
+        #    #define.Modified('Modified')
+        #    #define.ImageURL('ImageURL')
+        #    #define.HasGoodsReturn('HasGoodsReturn')
+        #    #define.GoodsStatus('GoodsStatus')
+        #    #define.GoodsReturnTime('GoodsReturnTime')
+        #    #define.ExistTimeOut('ExistTimeOut')
+        #    #define.echReturnOrderLine('echReturnOrderLine')
+        #    #define.EchMsgPartnerId('EchMsgPartnerId')
+        #    #define.EchMsgPartnerExtCode('EchMsgPartnerExtCode')
+        #    #define.District('District')
+        #    #define.Description('Description')
+        #    #define.CSStatus('CSStatus')
+        #    #define.Created('Created')
+        #    #define.Consignor('Consignor')
+        #    #define.Consignee('Consignee')
+        #    #define.CompanyName('CompanyName')
+        #    #define.City('City')
+        #    #define.BuyerNick('BuyerNick')
+        #    #define.AlipayNo('AlipayNo')
+        #    #define.AdvanceStatus('AdvanceStatus')
+        #    #define.Address2('Address2')
+        #    #define.Address('Address')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createechReturnOrderLine
+        #public AfStronglyTypedDataContainerList createechReturnOrderLine()
+        #{
+        #    return this.get_NewList(#echReturnOrderLine);
+        #}
+      ENDSOURCE
+      SOURCE #exists_DocumentHash
+        #public boolean exists_DocumentHash()
+        #{
+        #    return this.exists(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #existsAddress
+        #public boolean existsAddress()
+        #{
+        #    return this.exists(#Address);
+        #}
+      ENDSOURCE
+      SOURCE #existsAddress2
+        #public boolean existsAddress2()
+        #{
+        #    return this.exists(#Address2);
+        #}
+      ENDSOURCE
+      SOURCE #existsAdvanceStatus
+        #public boolean existsAdvanceStatus()
+        #{
+        #    return this.exists(#AdvanceStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsAlipayNo
+        #public boolean existsAlipayNo()
+        #{
+        #    return this.exists(#AlipayNo);
+        #}
+      ENDSOURCE
+      SOURCE #existsBuyerNick
+        #public boolean existsBuyerNick()
+        #{
+        #    return this.exists(#BuyerNick);
+        #}
+      ENDSOURCE
+      SOURCE #existsCity
+        #public boolean existsCity()
+        #{
+        #    return this.exists(#City);
+        #}
+      ENDSOURCE
+      SOURCE #existsCompanyName
+        #public boolean existsCompanyName()
+        #{
+        #    return this.exists(#CompanyName);
+        #}
+      ENDSOURCE
+      SOURCE #existsConsignee
+        #public boolean existsConsignee()
+        #{
+        #    return this.exists(#Consignee);
+        #}
+      ENDSOURCE
+      SOURCE #existsConsignor
+        #public boolean existsConsignor()
+        #{
+        #    return this.exists(#Consignor);
+        #}
+      ENDSOURCE
+      SOURCE #existsCreated
+        #public boolean existsCreated()
+        #{
+        #    return this.exists(#Created);
+        #}
+      ENDSOURCE
+      SOURCE #existsCSStatus
+        #public boolean existsCSStatus()
+        #{
+        #    return this.exists(#CSStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsDescription
+        #public boolean existsDescription()
+        #{
+        #    return this.exists(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #existsDistrict
+        #public boolean existsDistrict()
+        #{
+        #    return this.exists(#District);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchMsgPartnerExtCode
+        #public boolean existsEchMsgPartnerExtCode()
+        #{
+        #    return this.exists(#EchMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchMsgPartnerId
+        #public boolean existsEchMsgPartnerId()
+        #{
+        #    return this.exists(#EchMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #existsechReturnOrderLine
+        #public boolean existsechReturnOrderLine()
+        #{
+        #    return this.exists(#echReturnOrderLine);
+        #}
+      ENDSOURCE
+      SOURCE #existsExistTimeOut
+        #public boolean existsExistTimeOut()
+        #{
+        #    return this.exists(#ExistTimeOut);
+        #}
+      ENDSOURCE
+      SOURCE #existsGoodsReturnTime
+        #public boolean existsGoodsReturnTime()
+        #{
+        #    return this.exists(#GoodsReturnTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsGoodsStatus
+        #public boolean existsGoodsStatus()
+        #{
+        #    return this.exists(#GoodsStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsHasGoodsReturn
+        #public boolean existsHasGoodsReturn()
+        #{
+        #    return this.exists(#HasGoodsReturn);
+        #}
+      ENDSOURCE
+      SOURCE #existsImageURL
+        #public boolean existsImageURL()
+        #{
+        #    return this.exists(#ImageURL);
+        #}
+      ENDSOURCE
+      SOURCE #existsModified
+        #public boolean existsModified()
+        #{
+        #    return this.exists(#Modified);
+        #}
+      ENDSOURCE
+      SOURCE #existsOriginalOrderId
+        #public boolean existsOriginalOrderId()
+        #{
+        #    return this.exists(#OriginalOrderId);
+        #}
+      ENDSOURCE
+      SOURCE #existsOriginalOrderStatus
+        #public boolean existsOriginalOrderStatus()
+        #{
+        #    return this.exists(#OriginalOrderStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsPayment
+        #public boolean existsPayment()
+        #{
+        #    return this.exists(#Payment);
+        #}
+      ENDSOURCE
+      SOURCE #existsPhone
+        #public boolean existsPhone()
+        #{
+        #    return this.exists(#Phone);
+        #}
+      ENDSOURCE
+      SOURCE #existsPostalCode
+        #public boolean existsPostalCode()
+        #{
+        #    return this.exists(#PostalCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsProvince
+        #public boolean existsProvince()
+        #{
+        #    return this.exists(#Province);
+        #}
+      ENDSOURCE
+      SOURCE #existsRefundedFee
+        #public boolean existsRefundedFee()
+        #{
+        #    return this.exists(#RefundedFee);
+        #}
+      ENDSOURCE
+      SOURCE #existsRefundReason
+        #public boolean existsRefundReason()
+        #{
+        #    return this.exists(#RefundReason);
+        #}
+      ENDSOURCE
+      SOURCE #existsRemindType
+        #public boolean existsRemindType()
+        #{
+        #    return this.exists(#RemindType);
+        #}
+      ENDSOURCE
+      SOURCE #existsReturnId
+        #public boolean existsReturnId()
+        #{
+        #    return this.exists(#ReturnId);
+        #}
+      ENDSOURCE
+      SOURCE #existsReturnOrderId
+        #public boolean existsReturnOrderId()
+        #{
+        #    return this.exists(#ReturnOrderId);
+        #}
+      ENDSOURCE
+      SOURCE #existsReturnType
+        #public boolean existsReturnType()
+        #{
+        #    return this.exists(#ReturnType);
+        #}
+      ENDSOURCE
+      SOURCE #existsSellerNick
+        #public boolean existsSellerNick()
+        #{
+        #    return this.exists(#SellerNick);
+        #}
+      ENDSOURCE
+      SOURCE #existsSendTime
+        #public boolean existsSendTime()
+        #{
+        #    return this.exists(#SendTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsShippingType
+        #public boolean existsShippingType()
+        #{
+        #    return this.exists(#ShippingType);
+        #}
+      ENDSOURCE
+      SOURCE #existsSID
+        #public boolean existsSID()
+        #{
+        #    return this.exists(#SID);
+        #}
+      ENDSOURCE
+      SOURCE #existsSplitSellerFee
+        #public boolean existsSplitSellerFee()
+        #{
+        #    return this.exists(#SplitSellerFee);
+        #}
+      ENDSOURCE
+      SOURCE #existsSplitTaobaoFee
+        #public boolean existsSplitTaobaoFee()
+        #{
+        #    return this.exists(#SplitTaobaoFee);
+        #}
+      ENDSOURCE
+      SOURCE #existsStatus
+        #public boolean existsStatus()
+        #{
+        #    return this.exists(#Status);
+        #}
+      ENDSOURCE
+      SOURCE #existsTimeOut
+        #public boolean existsTimeOut()
+        #{
+        #    return this.exists(#TimeOut);
+        #}
+      ENDSOURCE
+      SOURCE #existsTitle
+        #public boolean existsTitle()
+        #{
+        #    return this.exists(#Title);
+        #}
+      ENDSOURCE
+      SOURCE #existsTotalPrice
+        #public boolean existsTotalPrice()
+        #{
+        #    return this.exists(#TotalPrice);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchReturnOrderIn_echReturnOrderTable);
+        #}
+      ENDSOURCE
+      SOURCE #parm_DocumentHash
+        #public str parm_DocumentHash(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#_DocumentHash, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #parmAddress
+        #public Addressing parmAddress(Addressing _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Address, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Address);
+        #}
+      ENDSOURCE
+      SOURCE #parmAddress2
+        #public Addressing parmAddress2(Addressing _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Address2, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Address2);
+        #}
+      ENDSOURCE
+      SOURCE #parmAdvanceStatus
+        #public echReturnOrderAdvanceStatus parmAdvanceStatus(echReturnOrderAdvanceStatus _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AdvanceStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AdvanceStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmAlipayNo
+        #public echAlipayNo parmAlipayNo(echAlipayNo _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AlipayNo, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AlipayNo);
+        #}
+      ENDSOURCE
+      SOURCE #parmBuyerNick
+        #public Name parmBuyerNick(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BuyerNick, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BuyerNick);
+        #}
+      ENDSOURCE
+      SOURCE #parmCity
+        #public AddressCity parmCity(AddressCity _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#City, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#City);
+        #}
+      ENDSOURCE
+      SOURCE #parmCompanyName
+        #public Name parmCompanyName(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CompanyName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CompanyName);
+        #}
+      ENDSOURCE
+      SOURCE #parmConsignee
+        #public Name parmConsignee(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Consignee, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Consignee);
+        #}
+      ENDSOURCE
+      SOURCE #parmConsignor
+        #public Name parmConsignor(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Consignor, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Consignor);
+        #}
+      ENDSOURCE
+      SOURCE #parmCreated
+        #public echFrontEndCreationDate parmCreated(echFrontEndCreationDate _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Created, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Created);
+        #}
+      ENDSOURCE
+      SOURCE #parmCSStatus
+        #public echReturnOrderCSStatus parmCSStatus(echReturnOrderCSStatus _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CSStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CSStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmDescription
+        #public Description parmDescription(Description _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Description, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #parmDistrict
+        #public AddressCountyId parmDistrict(AddressCountyId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#District, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#District);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchMsgPartnerExtCode
+        #public echMsgPartnerExtCode parmEchMsgPartnerExtCode(echMsgPartnerExtCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchMsgPartnerExtCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchMsgPartnerId
+        #public echMsgPartnerId parmEchMsgPartnerId(echMsgPartnerId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchMsgPartnerId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #parmechReturnOrderLine
+        #public AfStronglyTypedDataContainerList parmechReturnOrderLine(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#echReturnOrderLine, _value);
+        #    }
+        #
+        #    return this.get_List(#echReturnOrderLine);
+        #}
+      ENDSOURCE
+      SOURCE #parmExistTimeOut
+        #public NoYesId parmExistTimeOut(NoYesId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ExistTimeOut, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ExistTimeOut);
+        #}
+      ENDSOURCE
+      SOURCE #parmGoodsReturnTime
+        #public echReturnOrderGoodsReturnTime parmGoodsReturnTime(echReturnOrderGoodsReturnTime _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#GoodsReturnTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#GoodsReturnTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmGoodsStatus
+        #public echReturnGoodsStatus parmGoodsStatus(echReturnGoodsStatus _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#GoodsStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#GoodsStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmHasGoodsReturn
+        #public NoYesId parmHasGoodsReturn(NoYesId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HasGoodsReturn, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HasGoodsReturn);
+        #}
+      ENDSOURCE
+      SOURCE #parmImageURL
+        #public URL parmImageURL(URL _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ImageURL, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ImageURL);
+        #}
+      ENDSOURCE
+      SOURCE #parmModified
+        #public echFrontEndModifiedDate parmModified(echFrontEndModifiedDate _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Modified, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Modified);
+        #}
+      ENDSOURCE
+      SOURCE #parmOriginalOrderId
+        #public echMsgPartnerExtCode parmOriginalOrderId(echMsgPartnerExtCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OriginalOrderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OriginalOrderId);
+        #}
+      ENDSOURCE
+      SOURCE #parmOriginalOrderStatus
+        #public echReturnOrderSoStatus parmOriginalOrderStatus(echReturnOrderSoStatus _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OriginalOrderStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OriginalOrderStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmPayment
+        #public Amount parmPayment(Amount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Payment, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Payment);
+        #}
+      ENDSOURCE
+      SOURCE #parmPhone
+        #public Phone parmPhone(Phone _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Phone, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Phone);
+        #}
+      ENDSOURCE
+      SOURCE #parmPostalCode
+        #public echAddressZipCodeId parmPostalCode(echAddressZipCodeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PostalCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PostalCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmProvince
+        #public AddressStateId parmProvince(AddressStateId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Province, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Province);
+        #}
+      ENDSOURCE
+      SOURCE #parmRefundedFee
+        #public Amount parmRefundedFee(Amount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RefundedFee, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RefundedFee);
+        #}
+      ENDSOURCE
+      SOURCE #parmRefundReason
+        #public echReturnOrderRefundReason parmRefundReason(echReturnOrderRefundReason _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RefundReason, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RefundReason);
+        #}
+      ENDSOURCE
+      SOURCE #parmRemindType
+        #public Integer parmRemindType(Integer _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RemindType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RemindType);
+        #}
+      ENDSOURCE
+      SOURCE #parmReturnId
+        #public echReturnId parmReturnId(echReturnId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReturnId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReturnId);
+        #}
+      ENDSOURCE
+      SOURCE #parmReturnOrderId
+        #public echReturnOrderId parmReturnOrderId(echReturnOrderId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReturnOrderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReturnOrderId);
+        #}
+      ENDSOURCE
+      SOURCE #parmReturnType
+        #public echReturnType parmReturnType(echReturnType _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReturnType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReturnType);
+        #}
+      ENDSOURCE
+      SOURCE #parmSellerNick
+        #public Name parmSellerNick(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SellerNick, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SellerNick);
+        #}
+      ENDSOURCE
+      SOURCE #parmSendTime
+        #public echFrontEndCreationDate parmSendTime(echFrontEndCreationDate _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SendTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SendTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmShippingType
+        #public echReturnShippingType parmShippingType(echReturnShippingType _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShippingType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShippingType);
+        #}
+      ENDSOURCE
+      SOURCE #parmSID
+        #public ShipCarrierTrackingNum parmSID(ShipCarrierTrackingNum _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SID, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SID);
+        #}
+      ENDSOURCE
+      SOURCE #parmSplitSellerFee
+        #public Amount parmSplitSellerFee(Amount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SplitSellerFee, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SplitSellerFee);
+        #}
+      ENDSOURCE
+      SOURCE #parmSplitTaobaoFee
+        #public Amount parmSplitTaobaoFee(Amount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SplitTaobaoFee, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SplitTaobaoFee);
+        #}
+      ENDSOURCE
+      SOURCE #parmStatus
+        #public echReturnOrderRefundStatus parmStatus(echReturnOrderRefundStatus _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Status, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Status);
+        #}
+      ENDSOURCE
+      SOURCE #parmTimeOut
+        #public echReturnOrderTimeOut parmTimeOut(echReturnOrderTimeOut _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TimeOut, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TimeOut);
+        #}
+      ENDSOURCE
+      SOURCE #parmTitle
+        #public Name parmTitle(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Title, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Title);
+        #}
+      ENDSOURCE
+      SOURCE #parmTotalPrice
+        #public Price parmTotalPrice(Price _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TotalPrice, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TotalPrice);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

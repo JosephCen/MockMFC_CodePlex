@@ -1,0 +1,23 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echReturnOrderTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echReturnOrderTable
+    Type: 1
+    PROPERTIES
+      Name                #echReturnOrderTable
+      Label               #@SYS104102
+      HelpText            #@SYS98886
+      Object              #echReturnOrderTable
+      SecurityKey         #CustDaily
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

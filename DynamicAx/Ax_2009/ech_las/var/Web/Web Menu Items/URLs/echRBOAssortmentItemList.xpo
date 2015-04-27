@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echRBOAssortmentItemList unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echRBOAssortmentItemList
+    PROPERTIES
+      Name                #echRBOAssortmentItemList
+      Label               #@RBO3394
+      HelpText            #@ECH286
+      URL                 #Retail/Enterprise%20Portal/echRBOAssortmentItemList.aspx
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

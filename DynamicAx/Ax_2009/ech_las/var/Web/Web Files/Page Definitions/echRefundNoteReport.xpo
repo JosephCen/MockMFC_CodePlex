@@ -1,0 +1,87 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WPD
+
+; Microsoft Dynamics AX PAGEDEFINITION : echRefundNoteReport unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  PAGEDEFINITION #echRefundNoteReport
+    PROPERTIES
+      Name                #echRefundNoteReport
+      HelpText            #
+      PublicPage          #No
+      URL                 #Enterprise%20Portal/echRefundNoteReport.aspx
+      PageTitle           #@ECH232
+      ImageResource       #WebIcon_wpicon
+      WebModule           #Home\Sales
+      MOSSOnly            #No
+      ParentPage          #EPSalesTableInfo
+      UseContext          #No
+      WSSHelpTopic        #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<File Url="1033\AXSITEDEF\doctemp\smartpgs\spstd3.aspx" Name="echRefundNoteReport" DefaultTitle=""><AllUsersWebPart><![CDATA[<webParts><webPart xmlns="http://schemas.microsoft.com/WebPart/v3"><metaData><type name="Microsoft.Dynamics.Framework.Portal.UI.We[cr]
+      #bControls.WebParts.AxPageTitleWebPart, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><importErrorMessage>Cannot import this Web Part.</importErrorMessage></metaData><data><properties><property na[cr]
+      #me="CatalogIconImageUrl" type="string" /><property name="AllowZoneChange" type="bool">True</property><property name="ExportMode" type="exportmode">All</property><property name="HelpUrl" type="string" /><property name="Hidden" type="bool">False</property><[cr]
+      #property name="TitleUrl" type="string"></property><property name="Description" type="string" /><property name="AllowHide" type="bool">True</property><property name="AllowMinimize" type="bool">True</property><property name="DefaultTitle" type="string" /><p[cr]
+      #roperty name="UpdateMode" type="System.Web.UI.UpdatePanelUpdateMode, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">Conditional</property><property name="AllowConnect" type="bool">True</property><property name="W[cr]
+      #idth" type="unit" /><property name="Height" type="unit" /><property name="HelpMode" type="helpmode">Navigate</property><property name="WebPartRole" type="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.WebPartRole, Microsoft.Dynamics.Framework[cr]
+      #.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">None</property><property name="AllowEdit" type="bool">True</property><property name="TitleIconImageUrl" type="string" /><property name="Direction" type="direction">NotSet</propert[cr]
+      #y><property name="AllowClose" type="bool">True</property><property name="ZoneID" type="string">TitleBar</property><property name="ZoneIndex" type="int">0</property><property name="ID" type="string">g_c32d4373_d44f_4f75_be6e_a9f442a0f365</property><propert[cr]
+      #y name="IsClosed" type="bool">False</property></properties></data></webPart></webParts>]]></AllUsersWebPart><AllUsersWebPart><![CDATA[<webParts><webPart xmlns="http://schemas.microsoft.com/WebPart/v3"><metaData><type name="Microsoft.Dynamics.Framework.Por[cr]
+      #tal.UI.WebControls.WebParts.QuickLaunchWebPart, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><importErrorMessage>Cannot import this Web Part.</importErrorMessage></metaData><data><properties><pr[cr]
+      #operty name="CatalogIconImageUrl" type="string" /><property name="AllowZoneChange" type="bool">True</property><property name="ExportMode" type="exportmode">All</property><property name="HelpUrl" type="string" /><property name="Hidden" type="bool">False</p[cr]
+      #roperty><property name="WebMenuName" type="string">EPSalesQuickLaunch</property><property name="TitleUrl" type="string"></property><property name="Description" type="string" /><property name="AllowHide" type="bool">True</property><property name="AllowMini[cr]
+      #mize" type="bool">True</property><property name="DefaultTitle" type="string" /><property name="UpdateMode" type="System.Web.UI.UpdatePanelUpdateMode, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">Conditional</pr[cr]
+      #operty><property name="ChromeType" type="chrometype">Default</property><property name="AllowConnect" type="bool">True</property><property name="Width" type="unit" /><property name="Height" type="unit" /><property name="HelpMode" type="helpmode">Navigate</[cr]
+      #property><property name="WebPartRole" type="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.WebPartRole, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">None</property><property name="All[cr]
+      #owEdit" type="bool">True</property><property name="TitleIconImageUrl" type="string" /><property name="Direction" type="direction">NotSet</property><property name="AllowClose" type="bool">True</property><property name="ChromeState" type="chromestate">Norma[cr]
+      #l</property><property name="ZoneID" type="string">LeftColumn</property><property name="ZoneIndex" type="int">0</property><property name="ID" type="string">g_ed3fc451_9cde_44fa_9de1_c25e6374506d</property><property name="IsClosed" type="bool">False</proper[cr]
+      #ty></properties></data></webPart></webParts>]]></AllUsersWebPart><AllUsersWebPart><![CDATA[<webParts><webPart xmlns="http://schemas.microsoft.com/WebPart/v3"><metaData><type name="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.AxInfolog, Micr[cr]
+      #osoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><importErrorMessage>Cannot import this Web Part.</importErrorMessage></metaData><data><properties><property name="CatalogIconImageUrl" type="string" /><p[cr]
+      #roperty name="AllowZoneChange" type="bool">True</property><property name="ExportMode" type="exportmode">All</property><property name="HelpUrl" type="string" /><property name="Hidden" type="bool">False</property><property name="TitleUrl" type="string"></pr[cr]
+      #operty><property name="Description" type="string" /><property name="AllowHide" type="bool">True</property><property name="AllowMinimize" type="bool">True</property><property name="DefaultTitle" type="string" /><property name="UpdateMode" type="System.Web.[cr]
+      #UI.UpdatePanelUpdateMode, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">Conditional</property><property name="ChromeType" type="chrometype">Default</property><property name="AllowConnect" type="bool">True</prope[cr]
+      #rty><property name="Width" type="unit" /><property name="Height" type="unit" /><property name="HelpMode" type="helpmode">Navigate</property><property name="WebPartRole" type="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.WebPartRole, Microso[cr]
+      #ft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">None</property><property name="AllowEdit" type="bool">True</property><property name="TitleIconImageUrl" type="string" /><property name="Direction" type="direc[cr]
+      #tion">NotSet</property><property name="AllowClose" type="bool">True</property><property name="ChromeState" type="chromestate">Normal</property><property name="ZoneID" type="string">Header</property><property name="ZoneIndex" type="int">0</property><proper[cr]
+      #ty name="ID" type="string">g_7e28f310_d4cd_45b4_a099_bfdffaaf2dc9</property><property name="IsClosed" type="bool">False</property></properties></data></webPart></webParts>]]></AllUsersWebPart><AllUsersWebPart><![CDATA[<WebPart xmlns:xsi="http://www.w3.org[cr]
+      #/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/WebPart/v2">
+      #  <FrameType>None</FrameType>
+      #  <Description>Web Part that hosts a report or Web report for Microsoft Dynamics AX (Web Content Item of Output type) on the Enterprise Portal site.</Description>
+      #  <IsIncluded>true</IsIncluded>
+      #  <ZoneID>Body</ZoneID>
+      #  <PartOrder>0</PartOrder>
+      #  <FrameState>Normal</FrameState>
+      #  <Height />
+      #  <Width />
+      #  <AllowRemove>true</AllowRemove>
+      #  <AllowZoneChange>true</AllowZoneChange>
+      #  <AllowMinimize>true</AllowMinimize>
+      #  <AllowConnect>true</AllowConnect>
+      #  <AllowEdit>true</AllowEdit>
+      #  <AllowHide>true</AllowHide>
+      #  <IsVisible>true</IsVisible>
+      #  <DetailLink />
+      #  <HelpLink />
+      #  <HelpMode>Modeless</HelpMode>
+      #  <Dir>Default</Dir>
+      #  <PartImageSmall />
+      #  <MissingAssembly>Cannot import this Web Part.</MissingAssembly>
+      #  <PartImageLarge>/_layouts/ep/images/Webreport.gif</PartImageLarge>
+      #  <IsIncludedFilter />
+      #  <Title>Web Report Web Part</Title>
+      #  <Assembly>Microsoft.Dynamics.WebParts, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</Assembly>
+      #  <TypeName>Microsoft.Dynamics.WebParts.WebReportWebPart</TypeName>
+      #  <Title xmlns="Microsoft.Dynamics.WebParts" />
+      #  <DefaultTitle xmlns="Microsoft.Dynamics.WebParts">Refund note</DefaultTitle>
+      #  <Configuration xmlns="Microsoft.Dynamics.WebParts">&lt;!--AXAPTA TYPE="WebReportWebLet" WebletItemName="WebReportWebLet" WebletName="WebLet639078265" WebOutputContentItemName="echRefundNoteReport"  --&gt;</Configuration>
+      #<ID xmlns="">g_177c4454_db9a_4832_b595_090b890b89cd</ID></WebPart>]]></AllUsersWebPart><SPWebPartConnections /></File>
+    ENDSOURCE
+  ENDPAGEDEFINITION
+  
+
+***Element: END

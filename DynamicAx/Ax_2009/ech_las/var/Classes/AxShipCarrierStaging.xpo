@@ -1,0 +1,732 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxShipCarrierStaging unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxShipCarrierStaging
+    Id 30118
+    PROPERTIES
+      Name                #AxShipCarrierStaging
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxShipCarrierStaging axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxShipCarrierStaging extends AxInternalBase
+        #{
+        #    ShipCarrierStaging ShipCarrierStaging;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public ShipCarrierStaging currentRecord(ShipCarrierStaging _ShipCarrierStaging = ShipCarrierStaging)
+        #{
+        #    if (!prmisdefault(_ShipCarrierStaging))
+        #    {
+        #        super(_ShipCarrierStaging);
+        #        ShipCarrierStaging = _ShipCarrierStaging;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return ShipCarrierStaging;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected ShipCarrierStaging emptyRecord()
+        #{
+        #    ShipCarrierStaging localShipCarrierStaging;
+        #    ;
+        #    return localShipCarrierStaging;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getShipCarrierPackage
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #private ShipCarrierPackage getShipCarrierPackage()
+        #{
+        #    ShipCarrierPackage slipPack;
+        #;
+        #    select firstonly slipPack
+        #      where slipPack.SalesId       == this.parmSalesId()
+        #         && slipPack.PackingSlipId == this.parmPackingSlipId();
+        #
+        #    return slipPack;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSignDate
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #public echSignDate parmEchSignDate(echSignDate _echSignDate = utcDateTimeNull())
+        #{
+        #;
+        #    return this.getShipCarrierPackage().echSignDate;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSignPerson
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #public echSignPerson parmEchSignPerson(echSignPerson _echSignPerson = '')
+        #{
+        #;
+        #    return this.getShipCarrierPackage().echSignPerson;
+        #}
+      ENDSOURCE
+      SOURCE #parmFuelSurcharge
+        #public ShipCarrierRate parmFuelSurcharge(ShipCarrierRate _fuelSurcharge = 0)
+        #{
+        #    if (!prmisdefault(_fuelSurcharge))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, FuelSurcharge), _fuelSurcharge);
+        #    }
+        #
+        #    return shipCarrierStaging.FuelSurcharge;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmFuelSurchargeText
+        #public Num parmFuelSurchargeText(Num _fuelSurchargeText = '')
+        #{
+        #    if (!prmisdefault(_fuelSurchargeText))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, FuelSurchargeText), _fuelSurchargeText);
+        #    }
+        #
+        #    return shipCarrierStaging.FuelSurchargeText;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHandlingCharge
+        #public ShipCarrierRate parmHandlingCharge(ShipCarrierRate _handlingCharge = 0)
+        #{
+        #    if (!prmisdefault(_handlingCharge))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, HandlingCharge), _handlingCharge);
+        #    }
+        #
+        #    return shipCarrierStaging.HandlingCharge;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHandlingCharge2
+        #public ShipCarrierRate parmHandlingCharge2(ShipCarrierRate _handlingCharge2 = 0)
+        #{
+        #    if (!prmisdefault(_handlingCharge2))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, HandlingCharge2), _handlingCharge2);
+        #    }
+        #
+        #    return shipCarrierStaging.HandlingCharge2;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHandlingCharge2Text
+        #public Num parmHandlingCharge2Text(Num _handlingCharge2Text = '')
+        #{
+        #    if (!prmisdefault(_handlingCharge2Text))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, HandlingCharge2Text), _handlingCharge2Text);
+        #    }
+        #
+        #    return shipCarrierStaging.HandlingCharge2Text;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHandlingCharge3
+        #public ShipCarrierRate parmHandlingCharge3(ShipCarrierRate _handlingCharge3 = 0)
+        #{
+        #    if (!prmisdefault(_handlingCharge3))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, HandlingCharge3), _handlingCharge3);
+        #    }
+        #
+        #    return shipCarrierStaging.HandlingCharge3;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHandlingCharge3Text
+        #public Num parmHandlingCharge3Text(Num _handlingCharge3Text = '')
+        #{
+        #    if (!prmisdefault(_handlingCharge3Text))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, HandlingCharge3Text), _handlingCharge3Text);
+        #    }
+        #
+        #    return shipCarrierStaging.HandlingCharge3Text;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHandlingChargeText
+        #public Num parmHandlingChargeText(Num _handlingChargeText = '')
+        #{
+        #    if (!prmisdefault(_handlingChargeText))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, HandlingChargeText), _handlingChargeText);
+        #    }
+        #
+        #    return shipCarrierStaging.HandlingChargeText;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOtherCharge
+        #public ShipCarrierRate parmOtherCharge(ShipCarrierRate _otherCharge = 0)
+        #{
+        #    if (!prmisdefault(_otherCharge))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, OtherCharge), _otherCharge);
+        #    }
+        #
+        #    return shipCarrierStaging.OtherCharge;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOtherCharge2
+        #public ShipCarrierRate parmOtherCharge2(ShipCarrierRate _otherCharge2 = 0)
+        #{
+        #    if (!prmisdefault(_otherCharge2))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, OtherCharge2), _otherCharge2);
+        #    }
+        #
+        #    return shipCarrierStaging.OtherCharge2;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOtherCharge2Text
+        #public Num parmOtherCharge2Text(Num _otherCharge2Text = '')
+        #{
+        #    if (!prmisdefault(_otherCharge2Text))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, OtherCharge2Text), _otherCharge2Text);
+        #    }
+        #
+        #    return shipCarrierStaging.OtherCharge2Text;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOtherCharge3
+        #public ShipCarrierRate parmOtherCharge3(ShipCarrierRate _otherCharge3 = 0)
+        #{
+        #    if (!prmisdefault(_otherCharge3))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, OtherCharge3), _otherCharge3);
+        #    }
+        #
+        #    return shipCarrierStaging.OtherCharge3;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOtherCharge3Text
+        #public Num parmOtherCharge3Text(Num _otherCharge3Text = '')
+        #{
+        #    if (!prmisdefault(_otherCharge3Text))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, OtherCharge3Text), _otherCharge3Text);
+        #    }
+        #
+        #    return shipCarrierStaging.OtherCharge3Text;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOtherChargeText
+        #public Num parmOtherChargeText(Num _otherChargeText = '')
+        #{
+        #    if (!prmisdefault(_otherChargeText))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, OtherChargeText), _otherChargeText);
+        #    }
+        #
+        #    return shipCarrierStaging.OtherChargeText;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPackageId
+        #public ShipCarrierPackageId parmPackageId(ShipCarrierPackageId _packageId = '')
+        #{
+        #    if (!prmisdefault(_packageId))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, PackageId), _packageId);
+        #    }
+        #
+        #    return shipCarrierStaging.PackageId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPackingSlipId
+        #public PackingSlipId parmPackingSlipId(PackingSlipId _packingSlipId = '')
+        #{
+        #    if (!prmisdefault(_packingSlipId))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, PackingSlipId), _packingSlipId);
+        #    }
+        #
+        #    return shipCarrierStaging.PackingSlipId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPublishedRate
+        #public ShipCarrierRate parmPublishedRate(ShipCarrierRate _publishedRate = 0)
+        #{
+        #    if (!prmisdefault(_publishedRate))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, PublishedRate), _publishedRate);
+        #    }
+        #
+        #    return shipCarrierStaging.PublishedRate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPublishedRateText
+        #public Num parmPublishedRateText(Num _publishedRateText = '')
+        #{
+        #    if (!prmisdefault(_publishedRateText))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, PublishedRateText), _publishedRateText);
+        #    }
+        #
+        #    return shipCarrierStaging.PublishedRateText;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesId parmSalesId(SalesId _salesId = '')
+        #{
+        #    if (!prmisdefault(_salesId))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, SalesId), _salesId);
+        #    }
+        #
+        #    return shipCarrierStaging.SalesId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmShipDate
+        #public SalesShippingDateConfirmed parmShipDate(SalesShippingDateConfirmed _shipDate = dateNull())
+        #{
+        #    if (!prmisdefault(_shipDate))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, ShipDate), _shipDate);
+        #    }
+        #
+        #    return shipCarrierStaging.ShipDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmShippingCharge
+        #public ShipCarrierRate parmShippingCharge(ShipCarrierRate _shippingCharge = 0)
+        #{
+        #    if (!prmisdefault(_shippingCharge))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, ShippingCharge), _shippingCharge);
+        #    }
+        #
+        #    return shipCarrierStaging.ShippingCharge;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmShippingChargeText
+        #public Num parmShippingChargeText(Num _shippingChargeText = '')
+        #{
+        #    if (!prmisdefault(_shippingChargeText))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, ShippingChargeText), _shippingChargeText);
+        #    }
+        #
+        #    return shipCarrierStaging.ShippingChargeText;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTrackingNumber
+        #public ShipCarrierTrackingNum parmTrackingNumber(ShipCarrierTrackingNum _trackingNumber = '')
+        #{
+        #    if (!prmisdefault(_trackingNumber))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, TrackingNumber), _trackingNumber);
+        #    }
+        #
+        #    return shipCarrierStaging.TrackingNumber;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTransferred
+        #public NoYes parmTransferred(NoYes _transferred = NoYes::No)
+        #{
+        #    if (!prmisdefault(_transferred))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, Transferred), _transferred);
+        #    }
+        #
+        #    return shipCarrierStaging.Transferred;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public Weight parmWeight(Weight _weight = 0)
+        #{
+        #    if (!prmisdefault(_weight))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, Weight), _weight);
+        #    }
+        #
+        #    return shipCarrierStaging.Weight;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmWeightText
+        #public Num parmWeightText(Num _weightText = '')
+        #{
+        #    if (!prmisdefault(_weightText))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierStaging, WeightText), _weightText);
+        #    }
+        #
+        #    return shipCarrierStaging.WeightText;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFuelSurcharge
+        #protected void setFuelSurcharge()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, FuelSurcharge)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFuelSurchargeText
+        #protected void setFuelSurchargeText()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, FuelSurchargeText)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHandlingCharge
+        #protected void setHandlingCharge()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, HandlingCharge)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHandlingCharge2
+        #protected void setHandlingCharge2()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, HandlingCharge2)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHandlingCharge2Text
+        #protected void setHandlingCharge2Text()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, HandlingCharge2Text)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHandlingCharge3
+        #protected void setHandlingCharge3()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, HandlingCharge3)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHandlingCharge3Text
+        #protected void setHandlingCharge3Text()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, HandlingCharge3Text)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHandlingChargeText
+        #protected void setHandlingChargeText()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, HandlingChargeText)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOtherCharge
+        #protected void setOtherCharge()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, OtherCharge)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOtherCharge2
+        #protected void setOtherCharge2()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, OtherCharge2)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOtherCharge2Text
+        #protected void setOtherCharge2Text()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, OtherCharge2Text)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOtherCharge3
+        #protected void setOtherCharge3()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, OtherCharge3)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOtherCharge3Text
+        #protected void setOtherCharge3Text()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, OtherCharge3Text)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOtherChargeText
+        #protected void setOtherChargeText()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, OtherChargeText)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPackageId
+        #protected void setPackageId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, PackageId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPackingSlipId
+        #protected void setPackingSlipId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, PackingSlipId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPublishedRate
+        #protected void setPublishedRate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, PublishedRate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPublishedRateText
+        #protected void setPublishedRateText()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, PublishedRateText)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSalesId
+        #protected void setSalesId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, SalesId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShipDate
+        #protected void setShipDate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, ShipDate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShippingCharge
+        #protected void setShippingCharge()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, ShippingCharge)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShippingChargeText
+        #protected void setShippingChargeText()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, ShippingChargeText)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setPackageId();
+        #    this.setSalesId();
+        #    this.setPackingSlipId();
+        #    this.setShipDate();
+        #    this.setWeight();
+        #    this.setPublishedRate();
+        #    this.setShippingCharge();
+        #    this.setHandlingCharge();
+        #    this.setOtherCharge();
+        #    this.setFuelSurcharge();
+        #    this.setTransferred();
+        #    this.setTrackingNumber();
+        #    this.setHandlingCharge2();
+        #    this.setHandlingCharge3();
+        #    this.setOtherCharge2();
+        #    this.setOtherCharge3();
+        #    this.setWeightText();
+        #    this.setPublishedRateText();
+        #    this.setShippingChargeText();
+        #    this.setHandlingChargeText();
+        #    this.setHandlingCharge2Text();
+        #    this.setHandlingCharge3Text();
+        #    this.setOtherChargeText();
+        #    this.setOtherCharge2Text();
+        #    this.setOtherCharge3Text();
+        #    this.setFuelSurchargeText();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTrackingNumber
+        #protected void setTrackingNumber()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, TrackingNumber)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTransferred
+        #protected void setTransferred()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, Transferred)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setWeight
+        #protected void setWeight()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, Weight)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setWeightText
+        #protected void setWeightText()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierStaging, WeightText)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #ShipCarrierStaging
+        #public ShipCarrierStaging shipCarrierStaging(ShipCarrierStaging _shipCarrierStaging = shipCarrierStaging)
+        #{
+        #    if (!prmisdefault(_shipCarrierStaging))
+        #    {
+        #        this.setCurrentRecordFromExternal(_shipCarrierStaging);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxShipCarrierStaging construct()
+        #{
+        #    return new AxShipCarrierStaging();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newShipCarrierStaging
+        #public static AxShipCarrierStaging newShipCarrierStaging(ShipCarrierStaging _ShipCarrierStaging)
+        #{
+        #    AxShipCarrierStaging AxShipCarrierStaging = AxShipCarrierStaging::construct();
+        #    ;
+        #    AxShipCarrierStaging.ShipCarrierStaging(_ShipCarrierStaging);
+        #
+        #    return AxShipCarrierStaging;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

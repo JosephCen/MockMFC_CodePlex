@@ -1,0 +1,136 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchSendInventoryOnHand unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchSendInventoryOnHand
+    Id 30034
+    PROPERTIES
+      Name                #AxdEchSendInventoryOnHand
+      Extends             #AxdSend
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02230 by mengqi.cen on 20130603
+        #//
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN02_1
+        #// *** Customization Date: 26 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: send on hand inventory to all aif endpoints
+        #
+        #class AxdEchSendInventoryOnHand extends AxdSend
+        #{
+        #    NoYes             isDeltaUpdate;
+        #    InventLocationId  invLocationId;
+        #}
+      ENDSOURCE
+      SOURCE #packSendContext
+        #// Add ECH_WI_02230 by mengqi.cen on 20130603
+        #protected container packSendContext()
+        #{
+        #    AxdEchSendInventoryOnHandContext axdEchSendInventOnHandContext;
+        #;
+        #    if (classidget(axdSendContext) == classnum(AxdEchSendInventoryOnHandContext))
+        #    {
+        #        axdEchSendInventOnHandContext = axdSendContext;
+        #        axdEchSendInventOnHandContext.parmIsDeltaUpdate(this.parmIsDeltaUpdate());
+        #        axdEchSendInventOnHandContext.parmInventLocationId(this.parmInventLocationId());
+        #    }
+        #
+        #    return super();
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = invLocationId)
+        #{
+        #;
+        #    invLocationId = _value;
+        #
+        #    return invLocationId;
+        #}
+      ENDSOURCE
+      SOURCE #parmIsDeltaUpdate
+        #public NoYes parmIsDeltaUpdate(NoYes _value = isDeltaUpdate)
+        #{
+        #;
+        #    isDeltaUpdate = _value;
+        #
+        #    return isDeltaUpdate;
+        #}
+      ENDSOURCE
+      SOURCE #sendDocumentsToAif
+        #// Update ECH_WI_02230 by mengqi.cen on 20130531
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN02_1
+        #// *** Customization Date: 26 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: send document to all aif endpoints
+        #
+        #public void sendDocumentsToAif()
+        #{
+        #    AifConstraint           aifConstraint;
+        #    ;
+        #    aifConstraint       = new AifConstraint();
+        #    aifConstraint.parmType(AifConstraintType::NoConstraint);
+        #
+        #    aifConstraintList   = new AifConstraintList();
+        #    aifConstraintList.addConstraint(aifConstraint);
+        #
+        #    aifDocumentClassId  = classnum(EchInventOnHand);
+        #    serviceClassId      = classnum(EchInventOnHandService);
+        #// Begin - Update ECH_WI_02230 by mengqi.cen on 20130531
+        #    // aifSendMode         = AifSendMode::Async;
+        #    axdSendContext      = new AxdEchSendInventoryOnHandContext();
+        #// End - Update ECH_WI_02230 by mengqi.cen on 20130531
+        #    sendActionType      = AifSendActionType::SendByQuery;
+        #    aifActionId         = this.getActionId() ;
+        #
+        #    this.retrieveEndPoints();
+        #
+        #    while select tmpAifEndPoint
+        #    {
+        #        this.parmEndPoint(tmpAifEndpoint.EndpointId);
+        #        super();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setAifSendMode
+        #// Add ECH_WI_02230 by mengqi.cen on 20130531
+        #public void setAifSendMode(AifSendMode _aifSendMode)
+        #{
+        #;
+        #    aifSendMode = _aifSendMode;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// Update ECH_WI_02230 by mengqi.cen on 20130531
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN02_1
+        #// *** Customization Date: 26 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #static AxdEchSendInventoryOnHand construct()
+        #{
+        #    AxdEchSendInventoryOnHand _axdEchSendInventoryOnHand;
+        #;
+        #    _axdEchSendInventoryOnHand = new AxdEchSendInventoryOnHand();
+        #    _axdEchSendInventoryOnHand.setAifSendMode(AifSendMode::Async);
+        #
+        #    return _axdEchSendInventoryOnHand;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

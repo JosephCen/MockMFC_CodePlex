@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echCustInvoiceTrans unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echCustInvoiceTrans
+    PROPERTIES
+      Name                #echCustInvoiceTrans
+      Label               #@SYS123905
+      HelpText            #@SYS27200
+      Object              #echCustInvoiceTrans
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

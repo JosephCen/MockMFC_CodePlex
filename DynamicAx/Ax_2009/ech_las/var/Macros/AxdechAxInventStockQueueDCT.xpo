@@ -1,0 +1,15 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdechAxInventStockQueueDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdechAxInventStockQueueDCT
+    ##define.echAxInventStockQueue('echAxInventStockQueue')
+    ##define.echAxInventStockQueue_echInventStockQueue('echAxInventStockQueue.echInventStockQueue')
+  ENDSOURCE
+
+***Element: END

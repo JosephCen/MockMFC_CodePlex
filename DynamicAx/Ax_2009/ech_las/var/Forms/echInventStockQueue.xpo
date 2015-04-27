@@ -1,0 +1,581 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echInventStockQueue
+  PROPERTIES
+    Name                #echInventStockQueue
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 22 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: stock counting queue form
+      #
+      #public class FormRun extends ObjectRun
+      #{
+      #    QueryBuildRange     criteriaStatus;
+      #}
+    ENDSOURCE
+    SOURCE #run
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 22 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: set by default on status waiting
+      #
+      #public void run()
+      #{
+      #    showStatus.selection(BatchStatus::Waiting);
+      #
+      #    super();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echInventStockQueue
+          Table               #echInventStockQueue
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 22 Mar 2012
+          #// *** Customization Type: created
+          #// *** Description: enable/disable on hand button
+          #
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    if (ret)
+          #    {
+          #        InventOnHandItem.enabled(echInventStockQueue.ItemId ? true : false);
+          #    }
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #numOfFinished
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 22 Mar 2012
+          #// *** Customization Type: created
+          #// *** Description: return number of records with status finished
+          #
+          #//BP Deviation Documented
+          #display RecId numOfFinished()
+          #{
+          #    echInventStockQueue     tmpEchInventStockQueue
+          #    ;
+          #
+          #    select count(recid) from tmpEchInventStockQueue
+          #        where tmpEchInventStockQueue.BatchStatus == BatchStatus::Finished;
+          #
+          #    return tmpEchInventStockQueue.RecId;
+          #}
+        ENDSOURCE
+        SOURCE #numOfError
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 22 Mar 2012
+          #// *** Customization Type: created
+          #// *** Description: return number of records with status error
+          #
+          #//BP Deviation Documented
+          #display RecId numOfError()
+          #{
+          #    echInventStockQueue     tmpEchInventStockQueue
+          #    ;
+          #
+          #    select count(recid) from tmpEchInventStockQueue
+          #        where tmpEchInventStockQueue.BatchStatus == BatchStatus::Error;
+          #
+          #    return tmpEchInventStockQueue.RecId;
+          #}
+        ENDSOURCE
+        SOURCE #numOfWaiting
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 22 Mar 2012
+          #// *** Customization Type: created
+          #// *** Description: return number of records with status waiting
+          #
+          #//BP Deviation Documented
+          #display RecId numOfWaiting()
+          #{
+          #    echInventStockQueue     tmpEchInventStockQueue
+          #    ;
+          #
+          #    select count(recid) from tmpEchInventStockQueue
+          #        where tmpEchInventStockQueue.BatchStatus == BatchStatus::Waiting;
+          #
+          #    return tmpEchInventStockQueue.RecId;
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 22 Mar 2012
+          #// *** Customization Type: created
+          #// *** Description: init range
+          #
+          #public void init()
+          #{
+          #    ;
+          #
+          #    super();
+          #
+          #    criteriaStatus  = echInventStockQueue_ds.query().dataSourceTable(tablenum(echInventStockQueue)).addRange(fieldnum(echInventStockQueue, BatchStatus));
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 22 Mar 2012
+          #// *** Customization Type: created
+          #// *** Description: apply range
+          #
+          #public void executeQuery()
+          #{
+          #    ;
+          #
+          #    criteriaStatus.value(queryvalue(ShowStatus.valueStr()));
+          #    InventOnHandItem.enabled(false);
+          #
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH63
+      TitleDatasource     #echInventStockQueue
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Status
+          Width               #Column width
+          FrameType           #None
+          Columns             #4
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #ShowStatus
+                AutoDeclaration     #Yes
+                EnumType            #BatchStatus
+              ENDPROPERTIES
+              
+              METHODS
+                Version: 3
+                SOURCE #selectionChange
+                  #// *** ECHINA - Anthony Christiaens ***
+                  #// *** Customization Code: ECH_E_001
+                  #// *** Customization Date: 22 Mar 2012
+                  #// *** Customization Type: created
+                  #// *** Description: execute query
+                  #
+                  #public int selectionChange()
+                  #{
+                  #    int ret;
+                  #
+                  #    ret = super();
+                  #
+                  #    if (ret)
+                  #        echInventStockQueue_ds.executeQuery();
+                  #
+                  #    return ret;
+                  #}
+                ENDSOURCE
+              ENDMETHODS
+            ENDCONTROL 
+            
+            CONTROL INT64EDIT
+              PROPERTIES
+                Name                #StatusWaiting
+                Border              #None
+                Label               #@SYS3853
+                DataSource          #echInventStockQueue
+                DataMethod          #numOfWaiting
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL INT64EDIT
+              PROPERTIES
+                Name                #StatusError
+                Border              #None
+                Label               #@SYS36230
+                DataSource          #echInventStockQueue
+                DataMethod          #numOfError
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL INT64EDIT
+              PROPERTIES
+                Name                #StatusFinished
+                Border              #None
+                Label               #@SYS12257
+                DataSource          #echInventStockQueue
+                DataMethod          #numOfFinished
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #tpOverview
+              Caption             #@SYS34991
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echInventStockQueue
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_SeqId
+                        DataSource          #echInventStockQueue
+                        DataField           #SeqId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #Grid_BatchStatus
+                        DataSource          #echInventStockQueue
+                        DataField           #BatchStatus
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_ItemId
+                        DataSource          #echInventStockQueue
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_M_echGetItemBarCode
+                        AllowEdit           #No
+                        DataSource          #echInventStockQueue
+                        DataMethod          #echGetItemBarCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #Grid_Qty
+                        DataSource          #echInventStockQueue
+                        DataField           #Qty
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_configId
+                        DataSource          #echInventStockQueue
+                        DataField           #configId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_InventColorId
+                        DataSource          #echInventStockQueue
+                        DataField           #InventColorId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_InventSizeId
+                        DataSource          #echInventStockQueue
+                        DataField           #InventSizeId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_InventSiteId
+                        DataSource          #echInventStockQueue
+                        DataField           #InventSiteId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_ErrorMessage
+                        DisplayHeight       #1
+                        DataSource          #echInventStockQueue
+                        DataField           #ErrorMessage
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Grid_InventStyleId
+                        DataSource          #echInventStockQueue
+                        DataField           #InventStyleId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #Grid_IsFromWMS
+                        BackgroundColor     #Window background
+                        DataSource          #echInventStockQueue
+                        DataField           #IsFromWMS
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL UTCDATETIMEEDIT
+                      PROPERTIES
+                        Name                #Grid_createdDateTime
+                        DataSource          #echInventStockQueue
+                        DataField           #createdDateTime
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL UTCDATETIMEEDIT
+                      PROPERTIES
+                        Name                #Grid_AllocStartDateTime
+                        DataSource          #echInventStockQueue
+                        DataField           #AllocStartDateTime
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #tpGeneral
+              Caption             #@SYS19924
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Information
+                  DataSource          #echInventStockQueue
+                  DataGroup           #Information
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventoryDimensions
+                  DataSource          #echInventStockQueue
+                  DataGroup           #InventoryDimensions
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ErrorMessage
+                  Caption             #@SYS84736
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ErrorMessage_ErrorMessage
+                        DataSource          #echInventStockQueue
+                        DataField           #ErrorMessage
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTONGROUP
+                      PROPERTIES
+                        Name                #ButtonGroup1
+                        Left                #Auto (right)
+                      ENDPROPERTIES
+                      
+                      CONTAINER
+                        CONTROL BUTTON
+                          PROPERTIES
+                            Name                #ViewInfolog
+                            AutoDeclaration     #Yes
+                            HelpText            #@SYS92942
+                            Text                #@SYS92863
+                          ENDPROPERTIES
+                          
+                          METHODS
+                            Version: 3
+                            SOURCE #clicked
+                              #// *** ECHINA - Anthony Christiaens ***
+                              #// *** Customization Code: ECH_E_001
+                              #// *** Customization Date: 22 Mar 2012
+                              #// *** Customization Type: created
+                              #// *** Description: view error in infolog
+                              #
+                              #void clicked()
+                              #{
+                              #    ;
+                              #
+                              #    super();
+                              #
+                              #    if(echInventStockQueue.ErrorMessage)
+                              #    {
+                              #        error(echInventStockQueue.ErrorMessage);
+                              #    }
+                              #}
+                            ENDSOURCE
+                          ENDMETHODS
+                        ENDCONTROL 
+                        
+                      ENDCONTAINER
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #echInventStockQueueBatch
+              MenuItemType        #Action
+              MenuItemName        #echInventStockQueueBatch
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventOnHandItem
+              AutoDeclaration     #Yes
+              MenuItemName        #InventOnhandItem
+              DataSource          #echInventStockQueue
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

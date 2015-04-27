@@ -1,0 +1,49 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MAP
+
+; Microsoft Dynamics AX Map : LogMap unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  MAP #LogMap
+    Id 326
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    MAPPINGS
+      MAPPING #echEventCUD
+      PROPERTIES
+        MappingTable        #echEventCUD
+      ENDPROPERTIES
+      
+      FIELDMAPPINGS
+        PROPERTIES
+          MapField            #CudTableId
+          MapFieldTo          #CudTableId
+        ENDPROPERTIES
+        
+        PROPERTIES
+          MapField            #RefRecId
+          MapFieldTo          #
+        ENDPROPERTIES
+        
+        PROPERTIES
+          MapField            #Data
+          MapFieldTo          #Data
+        ENDPROPERTIES
+        
+      ENDFIELDMAPPINGS
+      ENDMAPPING
+    ENDMAPPINGS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDMAP
+  
+
+***Element: END

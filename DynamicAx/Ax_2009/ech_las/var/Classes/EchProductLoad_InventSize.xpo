@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_InventSize unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_InventSize
+    Id 30307
+    PROPERTIES
+      Name                #EchProductLoad_InventSize
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_InventSize extends AfStronglyTypedDataContainer
+        #{
+        #    #define.Name('Name')
+        #    #define.ItemId('ItemId')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.Description('Description')
+        #    #define.EchSortingNum('EchSortingNum')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsDescription
+        #public boolean existsDescription()
+        #{
+        #    return this.exists(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchSortingNum
+        #public boolean existsEchSortingNum()
+        #{
+        #    return this.exists(#EchSortingNum);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSizeId
+        #public boolean existsInventSizeId()
+        #{
+        #    return this.exists(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsName
+        #public boolean existsName()
+        #{
+        #    return this.exists(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_InventSize);
+        #}
+      ENDSOURCE
+      SOURCE #parmDescription
+        #public InventSizeTxt parmDescription(InventSizeTxt _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Description, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Description);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSortingNum
+        #public SortingNumber parmEchSortingNum(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSortingNum, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSortingNum);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSizeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmName
+        #public Name parmName(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Name, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Name);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

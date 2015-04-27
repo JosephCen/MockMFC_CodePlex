@@ -1,0 +1,115 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: ECHGenerateTableInfoExcel unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #ECHGenerateTableInfoExcel
+    #static void ECHGenerateTableInfoExcel(Args _args)
+    #{
+    #    container               tables = [  "Address",
+    #                                        "DirPartyAddressRelationshipMapping",
+    #                                        "DirPartyAddressRelationship",
+    #                                        "AifXsltRepository",
+    #                                        "AifSchemaStore",
+    #                                        "echSalesReasonTable",
+    #                                        "CustTable",
+    #                                        "DocuRef",
+    #                                        "SalesTable",
+    #                                        "echMessagingPartner",
+    #                                        "echMsgPartnerItems",
+    #                                        "MarkupTrans",
+    #                                        "SalesLine",
+    #                                        "InventLocation",
+    #                                        "InventTable",
+    #                                        "WMSPickingRoute",
+    #                                        "WMSOrderTrans",
+    #                                        "InventDimCombination",
+    #                                        "echSkuTable",
+    #                                        "InventDim"
+    #                                     ];
+    #    container               header = [  "Fieldname",
+    #                                        "FieldLabel",
+    #                                        "Field HelpText",
+    #                                        "Mandatory",
+    #                                        "AllowEdit",
+    #                                        "AllowEditOnCreate",
+    #                                        "Part of Primary Key"
+    #                                     ];
+    #    #File
+    #    #Properties
+    #    #define.delimiter(';')
+    #    FileName                destinationFile = "C:\\tmp\\tbl.csv";
+    #    CommaIO                 commaIO;
+    #    FileIOPermission        fileIOPermission;
+    #    SysDictTable            dictTable;
+    #    DictField               dictField;
+    #    SysDictIndex            dictIndex;
+    #    int                     idx;
+    #    int                     fieldIdx;
+    #    container               row;
+    #    boolean                 isPartOfPrimaryKey;
+    #    ;
+    #
+    #    fileIOPermission    = new FileIOPermission(destinationFile, #io_write);
+    #    fileIOPermission.assert();
+    #
+    #    commaIO             = new CommaIO(destinationFile, #io_write);
+    #    commaIO.outFieldDelimiter(#delimiter);
+    #
+    #    for (idx = 1; idx <= conlen(tables); idx++)
+    #    {
+    #        //write empty line
+    #        commaIO.write(connull());
+    #
+    #        dictTable = new SysDictTable(tablename2id(conpeek(tables, idx)));
+    #
+    #        if (dictTable)
+    #        {
+    #            row  = connull();
+    #            row += conpeek(tables, idx);
+    #            row += dictTable.label();
+    #
+    #            commaIO.write(row);
+    #            commaIO.write(header);
+    #
+    #            dictField = new DictField(dictTable.id(), dictTable.fieldNext(0));
+    #
+    #            do
+    #            {
+    #                row  = connull();
+    #                row += dictField.name();
+    #                row += dictField.label();
+    #                row += dictField.help();
+    #                row += dictField.mandatory();
+    #                row += dictField.allowEdit();
+    #                row += dictField.allowEditOnCreate();
+    #
+    #                isPartOfPrimaryKey  = false;
+    #                dictIndex           = new SysDictIndex(dictTable.id(), dictTable.primaryIndex());
+    #                for (fieldIdx = 1; fieldIdx <= dictIndex.numberOfFields(); fieldIdx++)
+    #                {
+    #                    if (dictIndex.field(fieldIdx) == dictField.id())
+    #                    {
+    #                        isPartOfPrimaryKey = true;
+    #                        break;
+    #                    }
+    #                }
+    #
+    #                row += isPartOfPrimaryKey;
+    #
+    #                commaIO.write(row);
+    #
+    #                dictField = new DictField(dictTable.id(), dictTable.fieldNext(dictField.id()));
+    #            } while (dictField);
+    #        }
+    #    }
+    #
+    #    info(strfmt("%1 has been created", destinationFile));
+    #}
+  ENDSOURCE
+
+***Element: END

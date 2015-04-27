@@ -1,0 +1,808 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxWMSArrivalDetailTmp unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxWMSArrivalDetailTmp
+    Id 30044
+    PROPERTIES
+      Name                #AxWMSArrivalDetailTmp
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxWMSArrivalDetailTmp axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: add skuid
+        #
+        #class AxWMSArrivalDetailTmp extends AxInternalBase
+        #{
+        #    WMSArrivalDetailTmp WMSArrivalDetailTmp;
+        #
+        #// CS - ECH_I_OR04_3 - Anthony Christiaens - 29 Mar 2012
+        #    echSkuId            echSkuId;
+        #// CE - ECH_I_OR04_3 - Anthony Christiaens - 29 Mar 2012
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public WMSArrivalDetailTmp currentRecord(WMSArrivalDetailTmp _WMSArrivalDetailTmp = WMSArrivalDetailTmp)
+        #{
+        #    if (!prmisdefault(_WMSArrivalDetailTmp))
+        #    {
+        #        super(_WMSArrivalDetailTmp);
+        #        WMSArrivalDetailTmp = _WMSArrivalDetailTmp;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return WMSArrivalDetailTmp;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected WMSArrivalDetailTmp emptyRecord()
+        #{
+        #    WMSArrivalDetailTmp localWMSArrivalDetailTmp;
+        #    ;
+        #    return localWMSArrivalDetailTmp;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmArrivalHandlingTime
+        #public WMSArrivalHandlingTime parmArrivalHandlingTime(WMSArrivalHandlingTime _arrivalHandlingTime = 0)
+        #{
+        #    if (!prmisdefault(_arrivalHandlingTime))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, ArrivalHandlingTime), _arrivalHandlingTime);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.ArrivalHandlingTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmArrivalTimeMissing
+        #public NoYes parmArrivalTimeMissing(NoYes _arrivalTimeMissing = NoYes::No)
+        #{
+        #    if (!prmisdefault(_arrivalTimeMissing))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, ArrivalTimeMissing), _arrivalTimeMissing);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.ArrivalTimeMissing;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDateStatus
+        #public DateStatus parmDateStatus(DateStatus _dateStatus = dateNull())
+        #{
+        #    if (!prmisdefault(_dateStatus))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, DateStatus), _dateStatus);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.DateStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the external SKU ID
+        #
+        #public extCodeValue parmEchExtSkuId(extCodeValue _echExtSkuId = '')
+        #{
+        #    ;
+        #
+        #    return echExternalSkuId::GetExternalSkuId(this.parmInventLocationId(), this.parmEchSkuId());
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: add skuid
+        #
+        #public echSkuId parmEchSkuId(echSkuId _echSkuId = echSkuId)
+        #{
+        #    ItemId      itemId;
+        #    ;
+        #
+        #    if (_echSkuId)
+        #    {
+        #        echSkuId = _echSkuId;
+        #        itemId   = InventItemBarcode::findItemIdBySkuId(echSkuId);
+        #
+        #        if (itemId)
+        #        {
+        #            this.parmItemId(itemId);
+        #            this.setItemId();
+        #        }
+        #    }
+        #
+        #    return echSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHeaderMarked
+        #public NoYes parmHeaderMarked(NoYes _headerMarked = NoYes::No)
+        #{
+        #    if (!prmisdefault(_headerMarked))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, HeaderMarked), _headerMarked);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.HeaderMarked;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInProgress
+        #public NoYes parmInProgress(NoYes _inProgress = NoYes::No)
+        #{
+        #    if (!prmisdefault(_inProgress))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InProgress), _inProgress);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InProgress;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInProgressArrivalHandlingTime
+        #public WMSArrivalHandlingTime parmInProgressArrivalHandlingTime(WMSArrivalHandlingTime _inProgressArrivalHandlingTime = 0)
+        #{
+        #    if (!prmisdefault(_inProgressArrivalHandlingTime))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InProgressArrivalHandlingTime), _inProgressArrivalHandlingTime);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InProgressArrivalHandlingTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInProgressNoOfPallets
+        #public WMSPalletCount parmInProgressNoOfPallets(WMSPalletCount _inProgressNoOfPallets = 0)
+        #{
+        #    if (!prmisdefault(_inProgressNoOfPallets))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InProgressNoOfPallets), _inProgressNoOfPallets);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InProgressNoOfPallets;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInProgressQty
+        #public InventQty parmInProgressQty(InventQty _inProgressQty = 0)
+        #{
+        #    if (!prmisdefault(_inProgressQty))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InProgressQty), _inProgressQty);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InProgressQty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInProgressVolume
+        #public Volume parmInProgressVolume(Volume _inProgressVolume = 0)
+        #{
+        #    if (!prmisdefault(_inProgressVolume))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InProgressVolume), _inProgressVolume);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InProgressVolume;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInProgressWeight
+        #public Weight parmInProgressWeight(Weight _inProgressWeight = 0)
+        #{
+        #    if (!prmisdefault(_inProgressWeight))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InProgressWeight), _inProgressWeight);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InProgressWeight;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _inventLocationId = '')
+        #{
+        #    if (!prmisdefault(_inventLocationId))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InventLocationId), _inventLocationId);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InventLocationId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventQty
+        #public InventQty parmInventQty(InventQty _inventQty = 0)
+        #{
+        #    if (!prmisdefault(_inventQty))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InventQty), _inventQty);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InventQty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _inventSiteId = '')
+        #{
+        #    if (!prmisdefault(_inventSiteId))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InventSiteId), _inventSiteId);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InventSiteId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventTransId
+        #public InventTransId parmInventTransId(InventTransId _inventTransId = '')
+        #{
+        #    if (!prmisdefault(_inventTransId))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InventTransId), _inventTransId);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InventTransId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventTransRefId
+        #public InventTransRefId parmInventTransRefId(InventTransRefId _inventTransRefId = '')
+        #{
+        #    if (!prmisdefault(_inventTransRefId))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InventTransRefId), _inventTransRefId);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InventTransRefId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventTransType
+        #public InventTransType parmInventTransType(InventTransType _inventTransType = InventTransType::Sales)
+        #{
+        #    if (!prmisdefault(_inventTransType))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, InventTransType), _inventTransType);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.InventTransType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(WMSArrivalDetailTmp),fieldnum(WMSArrivalDetailTmp,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axSalesItemId('', wMSArrivalDetailTmp.ItemId,wMSArrivalDetailTmp.inventDim()),1);
+        #    }
+        #    else
+        #    {
+        #        return wMSArrivalDetailTmp.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmNoOfPallets
+        #public WMSPalletCount parmNoOfPallets(WMSPalletCount _noOfPallets = 0)
+        #{
+        #    if (!prmisdefault(_noOfPallets))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, NoOfPallets), _noOfPallets);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.NoOfPallets;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOutOfRange
+        #public NoYes parmOutOfRange(NoYes _outOfRange = NoYes::No)
+        #{
+        #    if (!prmisdefault(_outOfRange))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, OutOfRange), _outOfRange);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.OutOfRange;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPalletQtyMissing
+        #public NoYes parmPalletQtyMissing(NoYes _palletQtyMissing = NoYes::No)
+        #{
+        #    if (!prmisdefault(_palletQtyMissing))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, PalletQtyMissing), _palletQtyMissing);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.PalletQtyMissing;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmQuarantineControlled
+        #public NoYes parmQuarantineControlled(NoYes _quarantineControlled = NoYes::No)
+        #{
+        #    if (!prmisdefault(_quarantineControlled))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, QuarantineControlled), _quarantineControlled);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.QuarantineControlled;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReturnItemNum
+        #public ReturnItemNum parmReturnItemNum(ReturnItemNum _returnItemNum = '')
+        #{
+        #    if (!prmisdefault(_returnItemNum))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, ReturnItemNum), _returnItemNum);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.ReturnItemNum;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSelected
+        #public NoYes parmSelected(NoYes _selected = NoYes::No)
+        #{
+        #    if (!prmisdefault(_selected))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, Selected), _selected);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.Selected;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmVolume
+        #public Volume parmVolume(Volume _volume = 0)
+        #{
+        #    if (!prmisdefault(_volume))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, Volume), _volume);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.Volume;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmVolumeMissing
+        #public NoYes parmVolumeMissing(NoYes _volumeMissing = NoYes::No)
+        #{
+        #    if (!prmisdefault(_volumeMissing))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, VolumeMissing), _volumeMissing);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.VolumeMissing;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public Weight parmWeight(Weight _weight = 0)
+        #{
+        #    if (!prmisdefault(_weight))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, Weight), _weight);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.Weight;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmWeightMissing
+        #public NoYes parmWeightMissing(NoYes _weightMissing = NoYes::No)
+        #{
+        #    if (!prmisdefault(_weightMissing))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalDetailTmp, WeightMissing), _weightMissing);
+        #    }
+        #
+        #    return wMSArrivalDetailTmp.WeightMissing;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setArrivalHandlingTime
+        #protected void setArrivalHandlingTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, ArrivalHandlingTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setArrivalTimeMissing
+        #protected void setArrivalTimeMissing()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, ArrivalTimeMissing)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDateStatus
+        #protected void setDateStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, DateStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHeaderMarked
+        #protected void setHeaderMarked()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, HeaderMarked)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInProgress
+        #protected void setInProgress()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InProgress)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInProgressArrivalHandlingTime
+        #protected void setInProgressArrivalHandlingTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InProgressArrivalHandlingTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInProgressNoOfPallets
+        #protected void setInProgressNoOfPallets()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InProgressNoOfPallets)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInProgressQty
+        #protected void setInProgressQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InProgressQty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInProgressVolume
+        #protected void setInProgressVolume()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InProgressVolume)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInProgressWeight
+        #protected void setInProgressWeight()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InProgressWeight)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventLocationId
+        #protected void setInventLocationId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InventLocationId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventQty
+        #protected void setInventQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InventQty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventSiteId
+        #protected void setInventSiteId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InventSiteId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventTransId
+        #protected void setInventTransId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InventTransId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventTransRefId
+        #protected void setInventTransRefId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InventTransRefId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventTransType
+        #protected void setInventTransType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, InventTransType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setNoOfPallets
+        #protected void setNoOfPallets()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, NoOfPallets)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOutOfRange
+        #protected void setOutOfRange()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, OutOfRange)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPalletQtyMissing
+        #protected void setPalletQtyMissing()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, PalletQtyMissing)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setQuarantineControlled
+        #protected void setQuarantineControlled()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, QuarantineControlled)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReturnItemNum
+        #protected void setReturnItemNum()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, ReturnItemNum)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSelected
+        #protected void setSelected()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, Selected)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setNoOfPallets();
+        #    this.setItemId();
+        #    this.setInventQty();
+        #    this.setInventTransType();
+        #    this.setInventTransRefId();
+        #    this.setDateStatus();
+        #    this.setOutOfRange();
+        #    this.setQuarantineControlled();
+        #    this.setInventLocationId();
+        #    this.setVolume();
+        #    this.setWeight();
+        #    this.setInventTransId();
+        #    this.setSelected();
+        #    this.setHeaderMarked();
+        #    this.setInProgress();
+        #    this.setInProgressQty();
+        #    this.setInProgressVolume();
+        #    this.setInProgressWeight();
+        #    this.setInProgressNoOfPallets();
+        #    this.setVolumeMissing();
+        #    this.setPalletQtyMissing();
+        #    this.setWeightMissing();
+        #    this.setArrivalHandlingTime();
+        #    this.setInProgressArrivalHandlingTime();
+        #    this.setArrivalTimeMissing();
+        #    this.setInventSiteId();
+        #    this.setReturnItemNum();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setVolume
+        #protected void setVolume()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, Volume)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setVolumeMissing
+        #protected void setVolumeMissing()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, VolumeMissing)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setWeight
+        #protected void setWeight()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, Weight)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setWeightMissing
+        #protected void setWeightMissing()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalDetailTmp, WeightMissing)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #validateField
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: do not validate inventTransId, because inventTransId on return sales line does not exist in inventTrans
+        #
+        #protected void validateField(fieldId _field)
+        #{
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echInterfaces)) &&
+        #        _field != fieldnum(WMSArrivalDetailTmp, InventTransId))
+        #        super(_field);
+        #}
+      ENDSOURCE
+      SOURCE #WMSArrivalDetailTmp
+        #public WMSArrivalDetailTmp wMSArrivalDetailTmp(WMSArrivalDetailTmp _wMSArrivalDetailTmp = wMSArrivalDetailTmp)
+        #{
+        #    if (!prmisdefault(_wMSArrivalDetailTmp))
+        #    {
+        #        this.setCurrentRecordFromExternal(_wMSArrivalDetailTmp);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxWMSArrivalDetailTmp construct()
+        #{
+        #    return new AxWMSArrivalDetailTmp();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newWMSArrivalDetailTmp
+        #public static AxWMSArrivalDetailTmp newWMSArrivalDetailTmp(WMSArrivalDetailTmp _WMSArrivalDetailTmp)
+        #{
+        #    AxWMSArrivalDetailTmp AxWMSArrivalDetailTmp = AxWMSArrivalDetailTmp::construct();
+        #    ;
+        #    AxWMSArrivalDetailTmp.WMSArrivalDetailTmp(_WMSArrivalDetailTmp);
+        #
+        #    return AxWMSArrivalDetailTmp;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,749 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventItemBarcode
+  PROPERTIES
+    Name                #InventItemBarcode
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #    InventDimCtrl_Frm_ItemBarcode   inventDimFormSetup;
+      #    // <RETAIL>
+      #
+      #    ItemId  callerItemId;
+      #    // </RETAIL>
+      #}
+    ENDSOURCE
+    SOURCE #bookrefresh
+      #void bookrefresh()
+      #{
+      #    InventItemBarcode_ds.research();
+      #}
+    ENDSOURCE
+    SOURCE #updateDesign
+      #void updateDesign(InventDimFormDesignUpdate mode)
+      #{
+      #    InventTable inventTable;
+      #    ;
+      #
+      #    switch (mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init           :
+      #            if (!inventDimFormSetup)
+      #                inventDimFormSetup  = InventDimCtrl_Frm_ItemBarcode::newFromForm(element);
+      #            inventDimFormSetup.parmSkipOnHandLookUp(true);
+      #            // do continue
+      #        case InventDimFormDesignUpdate::Active         :
+      #            inventTable = InventTable::find(inventItemBarcode.itemId);
+      #            inventDimFormSetup.formActiveSetup(inventTable.dimGroupId);
+      #            inventDimFormSetup.formSetControls(true);
+      #            break;
+      #
+      #        case InventDimFormDesignUpdate::FieldChange    :
+      #            inventTable = InventTable::find(inventItemBarcode.itemId);
+      #            inventDimFormSetup.formActiveSetup(inventTable.dimGroupId);
+      #            inventDim.clearNotSelectedDim(inventDimFormSetup.parmDimParmEnabled());
+      #            inventDimFormSetup.formSetControls(true);
+      #            break;
+      #
+      #        default : throw error(strfmt("@SYS54195",funcname()));
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #void init()
+      #{
+      #    // <RETAIL>
+      #    InventTable inventTable;
+      #
+      #    // </RETAIL>
+      #    super();
+      #    // <RETAIL>
+      #
+      #    if (element.args().caller() && element.args().record())
+      #    {
+      #        if (element.args().dataset() == tablenum(InventTable))
+      #        {
+      #            inventTable = element.args().record();
+      #            callerItemId = inventTable.ItemId;
+      #        }
+      #    }
+      #    // </RETAIL>
+      #
+      #    element.updateDesign(InventDimFormDesignUpdate::Init);
+      #
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #Object inventDimSetupObject()
+      #{
+      #    return inventDimFormSetup;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventItemBarcode
+          Table               #InventItemBarcode
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD itemId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    element.updateDesign(InventDimFormDesignUpdate::FieldChange);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD RBOVariantId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormStringControl _formControl, str _filterStr)
+                #{
+                #//    super(_formControl, _filterStr);
+                #
+                #    FormRun formRun = new FormRun(new Args(formstr(RBOVariantLookup)));
+                #    ;
+                #
+                #    formRun.args().parm(InventItemBarcode.itemId);
+                #    formRun.args().caller(_formControl);
+                #    formRun.init();
+                #    _formControl.performFormLookup(formRun);
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    InventDimCombination    comb;
+                #
+                #    super();
+                #
+                #    comb = InventDimCombination::findVariantId(InventItemBarcode.RBOVariantId);
+                #    if (comb)
+                #    {
+                #        InventDim.InventSizeId = comb.InventSizeId;
+                #        InventDim.InventColorId = comb.InventColorId;
+                #        InventDim.InventStyleId = comb.InventStyleId;
+                #        InventDim.configId = comb.ConfigId;
+                #        InventItemBarcode.description = comb.Name;
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #create
+          #public void create(boolean _append = false)
+          #{
+          #    super(_append);
+          #
+          #    InventItemBarcode.initFromItemId();
+          #}
+        ENDSOURCE
+        SOURCE #validateWrite
+          #//AOSRunmode::Client
+          #public boolean validateWrite()
+          #{
+          #    // <RETAIL>
+          #    InventItemBarcode   tmpInventItemBarcode;
+          #    // </RETAIL>
+          #    boolean ret;
+          #    ;
+          #
+          #    inventItemBarcode.inventDimId = InventDim::findOrCreate(inventDim).inventDimId;
+          #
+          #    ret = super();
+          #
+          #    // <RETAIL>
+          #    if (inventItemBarcode.RBOShowForItem)
+          #    {
+          #        tmpInventItemBarcode = InventItemBarcode::findShowForItem(inventItemBarcode.itemId);
+          #        if (tmpInventItemBarcode && tmpInventItemBarcode.RecId != inventItemBarcode.RecId)
+          #            ret = checkFailed("@RBO1318");
+          #    }
+          #
+          #    // </RETAIL>
+          #    return ret;
+          #}
+          #
+          #
+        ENDSOURCE
+        SOURCE #write
+          #// AOSRunMode::Client
+          #void write()
+          #{
+          #    ;
+          #    ttsbegin;
+          #
+          #    inventItemBarcode.inventDimId = InventDim::findOrCreate(inventDim).inventDimId;
+          #
+          #    super();
+          #
+          #    if (inventItemBarcode.inventDimId != inventDim.inventDimId)
+          #    {
+          #        inventDim.data(InventDim::find(inventItemBarcode.inventDimId));
+          #        inventDim_ds.setCurrent();
+          #    }
+          #
+          #    ttscommit;
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #// *** ECHINA - Marijn Catthoor ***
+          #// *** Customization Code: ECH_WI_00837
+          #// *** Customization Date: 07 Aug 2012
+          #// *** Customization Type: Modified
+          #// *** Description: Enable or disable the External SKU ID form
+          #
+          #int active()
+          #{
+          #    int ret;
+          #    ret = super();
+          #    element.updateDesign(InventDimFormDesignUpdate::Active);
+          #
+          #    inventDim_DS.active();
+          #
+          #
+          #
+          #// CS - ECH_WI_00837 - Marijn Catthoor - 07 Aug 2012
+          #    echExternalSkuId.enabled(InventItemBarCode.barcodeSetupId == InventParameters::find().echSkuBarcodeSetup);
+          #// CE - ECH_WI_00837 - Marijn Catthoor - 07 Aug 2012
+          #
+          #    Return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          JoinSource          #InventItemBarcode
+          LinkType            #InnerJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD configId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    InventDimCombination    comb;
+                #
+                #    super();
+                #
+                #    comb = InventDimCombination::Find(InventItemBarcode.itemId, InventDim);
+                #    if (comb)
+                #    {
+                #        InventItemBarcode.RBOVariantId = comb.RBOVariantId;
+                #        InventItemBarcode.description = comb.Name;
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSizeId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    InventDimCombination    comb;
+                #
+                #    super();
+                #
+                #    comb = InventDimCombination::Find(InventItemBarcode.itemId, InventDim);
+                #    if (comb)
+                #    {
+                #        InventItemBarcode.RBOVariantId = comb.RBOVariantId;
+                #        InventItemBarcode.description = comb.Name;
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventColorId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    InventDimCombination    comb;
+                #
+                #    super();
+                #
+                #    comb = InventDimCombination::Find(InventItemBarcode.itemId, InventDim);
+                #    if (comb)
+                #    {
+                #        InventItemBarcode.RBOVariantId = comb.RBOVariantId;
+                #        InventItemBarcode.description = comb.Name;
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventStyleId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    InventDimCombination    comb;
+                #
+                #    super();
+                #
+                #    comb = InventDimCombination::Find(InventItemBarcode.itemId, InventDim);
+                #    if (comb)
+                #    {
+                #        InventItemBarcode.RBOVariantId = comb.RBOVariantId;
+                #        InventItemBarcode.description = comb.Name;
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #public void write()
+          #{
+          #//  super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    InventDim InventItemBarcode
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS63146
+      TitleDatasource     #InventItemBarcode
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/5CF64E40-90DF-4C2D-8A91-FB6B8D837E31.htm
+      DataSource          #InventItemBarcode
+      Columns             #Auto
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Columns             #Auto
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #InventItemBarcode
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventItemBarcode_itemId
+                        DataSource          #InventItemBarcode
+                        DataField           #itemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventItemBarcode_RBOVariantId
+                        LabelAlignment      #Right
+                        DataSource          #InventItemBarcode
+                        DataField           #RBOVariantId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensionsGrid
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/3FA99171-4FF7-48E4-8BCD-F105A926D3C9.htm
+                        BackgroundColor     #Window background
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventItemBarcode_barcodeSetupId
+                        DataSource          #InventItemBarcode
+                        DataField           #barcodeSetupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #InventItemBarcode_RBOShowForItem
+                        BackgroundColor     #Window background
+                        LabelAlignment      #Right
+                        DataSource          #InventItemBarcode
+                        DataField           #RBOShowForItem
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #InventItemBarcode_useForInput
+                        BackgroundColor     #Window background
+                        DataSource          #InventItemBarcode
+                        DataField           #useForInput
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #InventItemBarcode_useForPrinting
+                        BackgroundColor     #Window background
+                        DataSource          #InventItemBarcode
+                        DataField           #useForPrinting
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventItemBarcode_itemBarCode
+                        DataSource          #InventItemBarcode
+                        DataField           #itemBarCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventItemBarcode_echItemBarCode
+                        DataSource          #InventItemBarcode
+                        DataField           #echItemBarCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS2952
+              Columns             #Auto
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Item
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/EC77D0A7-6E59-4607-BAFE-18A0B05EED45.htm
+                  DataSource          #InventItemBarcode
+                  DataGroup           #Item
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Barcode
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/993D443A-E421-4434-83CD-9250EB0E2762.htm
+                  DataSource          #InventItemBarcode
+                  DataGroup           #Barcode
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Setup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/996A87B7-BE69-4331-ADAB-862633DA0B1C.htm
+                  DataSource          #InventItemBarcode
+                  DataGroup           #Setup
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Inventorydimensions
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/77D43B5F-AEA4-4A1B-AF94-466EBFC531B8.htm
+                  Caption             #@SYS54752
+                  DataSource          #InventDim
+                  DataGroup           #InventoryDimensions
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Invent
+              HelpText            #@SYS69645
+              Text                #@SYS981
+              SaveRecord          #No
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventDimParmFixed
+                  SaveRecord          #No
+                  MenuItemName        #InventDimParmFixed
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #SetupButton
+              Text                #@SYS2186
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventItemSectionLocation
+                  MenuItemName        #RBOInventItemSectionLocation
+                  DataSource          #InventItemBarcode
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Functions
+              Text                #@RBO2391
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL BUTTON
+                PROPERTIES
+                  Name                #CreateBarcodes
+                  HelpText            #@RBO2392
+                  Text                #@RBO2393
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #    Args args       = new Args();
+                    #    MenuFunction    CreateBarcodesMen = new MenuFunction(menuItemDisplayStr(RBOCreateBarcodes), MenuItemType::Display);
+                    #
+                    #    super();
+                    #
+                    #    args.caller(element);
+                    #    args.parm(callerItemId);
+                    #    args.record(InventItemBarcode);
+                    #    CreateBarcodesMen.run(args);
+                    #}
+                    #
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL BUTTON
+                PROPERTIES
+                  Name                #CreateBarcodesFromNumSeq
+                  HelpText            #@RBO2394
+                  Text                #@RBO2395
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #    Args args       = new Args();
+                    #    MenuFunction    CreateBarcodesMen = new MenuFunction(menuItemDisplayStr(RBOCreateBarcodesFromNumSeq), MenuItemType::Display);
+                    #
+                    #    super();
+                    #
+                    #    args.caller(element);
+                    #    if (InventItemBarcode.RecId)
+                    #        args.record(InventItemBarcode);
+                    #    else
+                    #        args.parm(callerItemId);
+                    #    args.record(InventItemBarcode);
+                    #    CreateBarcodesMen.run(args);
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #MicroSite
+              HelpText            #@ECH863
+              ConfigurationKey    #echProcesses
+              Text                #@ECH863
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #echExternalSkuId
+                  AutoDeclaration     #Yes
+                  MenuItemName        #echExternalSkuId
+                  DataSource          #InventItemBarcode
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #echItemBarcodeTMallPropValue
+                  MenuItemName        #echItemBarcodeTMallPropValue
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

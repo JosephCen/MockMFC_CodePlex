@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: ItemBarCode unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #ItemBarCode
+  Id 32
+  STRING
+    PROPERTIES
+      Name                #ItemBarCode
+      Label               #@ech29
+      HelpText            #@ech30
+      FormHelp            #InventItemBarcodeLookup
+      DisplayLength       #15
+      ConfigurationKey    #LogisticsBasic
+      StringSize          #80
+      ChangeCase          #None
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+      TYPEREFERENCETYPE DATASET
+      PROPERTIES
+        Table               #InventItemBarcode
+        RelatedField        #itemBarCode
+      ENDPROPERTIES
+      
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

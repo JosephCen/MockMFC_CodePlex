@@ -1,0 +1,65 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02334 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02334
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02334
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #Classes
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30035
+        NODETYPE 329
+        NAME #AxdEchInventOnHand
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30034
+        NODETYPE 329
+        NAME #AxdEchSendInventoryOnHand
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30326
+        NODETYPE 329
+        NAME #AxdEchSendInventoryOnHandContext
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30037
+        NODETYPE 329
+        NAME #EchInventOnHandService
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30033
+        NODETYPE 329
+        NAME #echSendInventoryOnHandBatch
+      ENDNODE
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

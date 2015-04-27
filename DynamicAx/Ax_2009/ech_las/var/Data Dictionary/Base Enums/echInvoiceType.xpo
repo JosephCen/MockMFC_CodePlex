@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echInvoiceType unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echInvoiceType
+    Id 30009
+    PROPERTIES
+      Name                #echInvoiceType
+      Label               #@SYS50025
+      Help                #@ECH317
+      ConfigurationKey    #echProcesses
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #Normal
+      PROPERTIES
+        Name                #Normal
+        Label               #@ECH309
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #VAT
+      PROPERTIES
+        Name                #VAT
+        Label               #@ECH310
+        EnumValue           #1
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

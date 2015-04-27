@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_InventDimPrice unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_InventDimPrice
+    Id 30312
+    PROPERTIES
+      Name                #EchProductLoad_InventDimPrice
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_InventDimPrice extends AfStronglyTypedDataContainer
+        #{
+        #    #define.InventStyleId('InventStyleId')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.InventColorId('InventColorId')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsInventColorId
+        #public boolean existsInventColorId()
+        #{
+        #    return this.exists(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationId
+        #public boolean existsInventLocationId()
+        #{
+        #    return this.exists(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSiteId
+        #public boolean existsInventSiteId()
+        #{
+        #    return this.exists(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSizeId
+        #public boolean existsInventSizeId()
+        #{
+        #    return this.exists(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventStyleId
+        #public boolean existsInventStyleId()
+        #{
+        #    return this.exists(#InventStyleId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_InventDimPrice);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventColorId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSiteId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSizeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventStyleId
+        #public RBOInventStyleId parmInventStyleId(RBOInventStyleId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventStyleId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventStyleId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

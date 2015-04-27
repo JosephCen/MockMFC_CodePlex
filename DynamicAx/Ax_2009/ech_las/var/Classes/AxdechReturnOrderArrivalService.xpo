@@ -1,0 +1,425 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdechReturnOrderArrivalService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdechReturnOrderArrivalService
+    Id 30045
+    PROPERTIES
+      Name                #AxdechReturnOrderArrivalService
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdechReturnOrderArrivalService extends AxdBase
+        #{
+        #    WMSArrivalDetailTmp     wmsArrivalDetailTmpBuffer;
+        #    WMSJournalId            wmsJournalId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createList
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR05_1
+        #// *** Customization Date: 04 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: return entityKey of created journal
+        #
+        #public AifEntityKeyList createList(AifDocumentXml _xml, AifEndpointActionPolicyInfo _actionPolicyInfo, AifConstraintListCollection _constraintListCollection)
+        #{
+        #    AifEntityKeyList    ret;
+        #    AifEntityKey        aifEntityKey;
+        #    WMSJournalTable     wmsJournalTable;
+        #    ;
+        #
+        #    ret = super(_xml, _actionPolicyInfo, _constraintListCollection);
+        #
+        #// CS - ECH_I_OR05_1 - Anthony Christiaens - 04 Apr 2012
+        #    wmsJournalTable = WMSJournalTable::find(wmsJournalId);
+        #    aifEntityKey    = AifEntityKey::construct();
+        #
+        #    aifEntityKey.parmTableId    (tablenum(WMSJournalTable));
+        #    aifEntityKey.parmRecId      (wmsJournalTable.RecId);
+        #    aifEntityKey.parmKeyDataMap (SysDictTable::getKeyData(wmsJournalTable));
+        #
+        #    ret = AifEntityKeyList::construct();
+        #    ret.addEntityKey(aifEntityKey);
+        #// CE - ECH_I_OR05_1 - Anthony Christiaens - 04 Apr 2012
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findList
+        #public AifDocumentXml findList(AifQueryCriteria            _queryCriteria,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel(strfmt('%1 ', "@SYS52744"));
+        #    aifActionInfo.parmDescription("@ECH87");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint            aifConstraint = new AifConstraint();
+        #    WMSArrivalOverviewTmp    WMSArrivalOverviewTmp;
+        #    ;
+        #    if (_curRec.TableId != tablenum(WMSArrivalOverviewTmp))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    WMSArrivalOverviewTmp = _curRec ;
+        #    aifConstraint.parmType(AIFConstraintType::Vendor);
+        #
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getQueryName
+        #public QueryName getQueryName()
+        #{
+        #    return querystr(echReturnOrderArrivalService);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initFieldAccessOverrides
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: override field access
+        #
+        #protected void initFieldAccessOverrides()
+        #{
+        #    Map fields          = new Map(Types::Integer, Types::Enum);
+        #    Map accessOverRide  = new Map(Types::Integer, Types::Class);
+        #    ;
+        #
+        #    super();
+        #
+        #    fields.insert(fieldnum(WMSArrivalDetailTmp, DateStatus), NoYes::Yes);
+        #    fields.insert(fieldnum(WMSArrivalDetailTmp, ItemId), NoYes::Yes);
+        #    fields.insert(fieldnum(WMSArrivalDetailTmp, InventLocationId), NoYes::Yes);
+        #    fields.insert(fieldnum(WMSArrivalDetailTmp, InventQty), NoYes::Yes);
+        #    fields.insert(fieldnum(WMSArrivalDetailTmp, InventSiteId), NoYes::Yes);
+        #    fields.insert(fieldnum(WMSArrivalDetailTmp, InventTransId), NoYes::Yes);
+        #    fields.insert(fieldnum(WMSArrivalDetailTmp, InventTransRefId), NoYes::Yes);
+        #
+        #    accessOverRide.insert(AxdFieldAccess::AllowEditOnCreate, fields);
+        #    accessOverRide.insert(AxdFieldAccess::AllowEdit, fields);
+        #
+        #    accessOverRides.insert(tablenum(WMSArrivalDetailTmp), accessOverRide);
+        #}
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01491
+        #// *** Customization Date: 14 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: No need to save the records
+        #
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    AxWMSArrivalOverviewTmp  AxWMSArrivalOverviewTmp;
+        #    AxWMSArrivalDetailTmp    AxWMSArrivalDetailTmp;
+        #    ;
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxWMSArrivalOverviewTmp) :
+        #            AxWMSArrivalOverviewTmp = _axdStack.top();
+        #
+        #// CS - ECH_WI_01491 - Marijn Catthoor - 14 Sep 2012
+        #            //return true;
+        #            return true;
+        #// CE - ECH_WI_01491 - Marijn Catthoor - 14 Sep 2012
+        #
+        #        case classnum(AxWMSArrivalDetailTmp) :
+        #            AxWMSArrivalDetailTmp = _axdStack.top();
+        #// CS - ECH_WI_01491 - Marijn Catthoor - 14 Sep 2012
+        #            //return true;
+        #            return true;
+        #// CE - ECH_WI_01491 - Marijn Catthoor - 14 Sep 2012
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+        #
+      ENDSOURCE
+      SOURCE #processingRecord
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01491
+        #// *** Customization Date: 14 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Don't overwrite the inventLocation that is passed in the aif message
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: add proccessing records from tmp table to tmp table buffer on the class
+        #
+        #public void processingRecord(Common common)
+        #{
+        #    SalesLine               salesLine;
+        #    InventDim               inventDim;
+        #    InventQty               inProgress;
+        #    InventQuarantineControl quarantineControl               = NoYes::No;
+        #    boolean                 quarantineControlInitialized    = false;
+        #
+        #    InventTable             inventTable;
+        #    Weight                  weight;
+        #
+        #    InventDim               inventDimOrderSetup;
+        #    InventDimId             inventDimIdOrderSetup;
+        #
+        #    QtyStandard             standardOrderQty;
+        #
+        #    ;
+        #
+        #    super(common);
+        #
+        #    if (common.TableId == tablenum(wmsArrivalDetailTmp))
+        #    {
+        #        wmsArrivalDetailTmpBuffer.data(common);
+        #
+        #        salesLine   = SalesLine::findInventTransId(wmsArrivalDetailTmpBuffer.InventTransId);
+        #        inventDim   = salesLine.inventDim();
+        #        inventTable = InventTable::find(salesLine.itemId);
+        #
+        #// CS - ECH_WI_01491 - Marijn Catthoor - 19 Sep 2012
+        #        // when the inventLocationId is different then the one specified on the salesline, we need to duplicate the salesline and reference it
+        #        // in the item arrival journal
+        #        if (inventDim.InventLocationId != wmsArrivalDetailTmpBuffer.InventLocationId)
+        #        {
+        #            // create the new salesLine and update the reference
+        #            salesLine = this.updateReturnOrderLine(wmsArrivalDetailTmpBuffer, salesLine);
+        #            inventDim = salesLine.inventDim();
+        #            wmsArrivalDetailTmpBuffer.InventTransId = salesLine.InventTransId;
+        #        }
+        #
+        #// CE - ECH_WI_01491 - Marijn Catthoor - 19 Sep 2012
+        #
+        #        inProgress  = WMSJournalTable::receiptQtyInProgress(salesLine.InventTransId);
+        #        weight      = inventTable.grossWeight();
+        #
+        #        wmsArrivalDetailTmpBuffer.Selected           = NoYes::Yes;
+        #        wmsArrivalDetailTmpBuffer.InventTransType    = InventTransType::Sales;
+        #        wmsArrivalDetailTmpBuffer.InventTransRefId   = salesLine.SalesId;
+        #        wmsArrivalDetailTmpBuffer.DateStatus         = salesLine.ReturnDeadline;
+        #        wmsArrivalDetailTmpBuffer.InventSiteId       = inventDim.InventSiteId;
+        #
+        #// CS - ECH_WI_01491 - Marijn Catthoor - 14 Sep 2012
+        #
+        #        // keep the values as specified in the message
+        #        /*
+        #        wmsArrivalDetailTmpBuffer.InventLocationId   = inventDim.InventLocationId;
+        #        wmsArrivalDetailTmpBuffer.InventQty          = max(0, salesLine.calcQtyOrdered(salesLine.ExpectedRetQty *-1)  - inProgress);
+        #        */
+        #// CE - ECH_WI_01491 - Marijn Catthoor - 14 Sep 2012
+        #        wmsArrivalDetailTmpBuffer.ReturnItemNum      = SalesTable::find(salesLine.SalesId).ReturnItemNum;
+        #        wmsArrivalDetailTmpBuffer.ItemId             = salesLine.ItemId;
+        #
+        #        if (inventTable.StandardPalletQuantity)
+        #        {
+        #            wmsArrivalDetailTmpBuffer.NoOfPallets            = any2int(roundUp(wmsArrivalDetailTmpBuffer.InventQty / inventTable.StandardPalletQuantity,1));
+        #            wmsArrivalDetailTmpBuffer.InProgressNoOfPallets  = any2int(roundUp(inProgress / inventTable.StandardPalletQuantity,1));
+        #        }
+        #        else
+        #        {
+        #            if (InventDimSetup::find(inventTable.DimGroupId,fieldnum(InventDim,wmsPalletId)).Active)
+        #                wmsArrivalDetailTmpBuffer.PalletQtyMissing   = NoYes::Yes;
+        #        }
+        #        if (InventTrans::canTransTypeDoQuarantineMgmt(wmsArrivalDetailTmpBuffer.InventTransType) && InventModelGroup::find(inventTable.ModelGroupId).QuarantineControl)
+        #            wmsArrivalDetailTmpBuffer.QuarantineControlled = NoYes::Yes;
+        #
+        #        wmsArrivalDetailTmpBuffer.Volume             = wmsArrivalDetailTmpBuffer.InventQty * inventTable.UnitVolume;
+        #        wmsArrivalDetailTmpBuffer.InProgressVolume   = inProgress * inventTable.UnitVolume;
+        #        if (!inventTable.UnitVolume)
+        #            wmsArrivalDetailTmpBuffer.VolumeMissing  = NoYes::Yes;
+        #
+        #        wmsArrivalDetailTmpBuffer.Weight             = wmsArrivalDetailTmpBuffer.InventQty * weight;
+        #        wmsArrivalDetailTmpBuffer.InProgressWeight   = inProgress * weight;
+        #        if (!weight)
+        #            wmsArrivalDetailTmpBuffer.WeightMissing = NoYes::Yes;
+        #
+        #        if (inventTable.wmsArrivalHandlingTime)
+        #        {
+        #            inventDimOrderSetup.clear();
+        #
+        #            if(wmsArrivalDetailTmpBuffer.InventLocationId)
+        #            {
+        #                inventDimOrderSetup.InventSiteId    = InventLocation::find(wmsArrivalDetailTmpBuffer.InventLocationId).InventSiteId;
+        #            }
+        #
+        #            if(inventDimOrderSetup.InventSiteId)
+        #            {
+        #                inventDimIdOrderSetup   = InventDim::findOrCreate(inventDimOrderSetup).InventDimId;
+        #            }
+        #            else
+        #            {
+        #                inventDimIdOrderSetup   = InventDim::inventDimIdBlank();
+        #            }
+        #
+        #            standardOrderQty    = inventTable.inventStandardQty(inventDimIdOrderSetup);
+        #
+        #            wmsArrivalDetailTmpBuffer.ArrivalHandlingTime            = real2int(wmsArrivalDetailTmpBuffer.InventQty * inventTable.wmsArrivalHandlingTime / (standardOrderQty ? standardOrderQty : 1));
+        #            wmsArrivalDetailTmpBuffer.InProgressArrivalHandlingTime  = real2int(inProgress * inventTable.wmsArrivalHandlingTime / (standardOrderQty ? standardOrderQty : 1));
+        #        }
+        #        else
+        #        {
+        #            wmsArrivalDetailTmpBuffer.ArrivalTimeMissing = NoYes::Yes;
+        #        }
+        #
+        #        if (inProgress)
+        #        {
+        #            wmsArrivalDetailTmpBuffer.InProgress     = NoYes::Yes;
+        #            wmsArrivalDetailTmpBuffer.InProgressQty  = inProgress;
+        #            if (wmsArrivalDetailTmpBuffer.QuarantineControlled == NoYes::No)
+        #            {
+        #                if (!quarantineControlInitialized)
+        #                {
+        #                    quarantineControl               = WMSJournalTable::receiptQuarantineControl(salesLine.InventTransId);
+        #                    quarantineControlInitialized    = true;
+        #                }
+        #                wmsArrivalDetailTmpBuffer.QuarantineControlled = quarantineControl;
+        #            }
+        #        }
+        #        wmsArrivalDetailTmpBuffer.insert();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #readList
+        #public AifDocumentXml readList(AifEntityKeyList            _aifEntityKeyList,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateList
+        #public AifEntityKey updateList(AifEntityKeyList            _entityKeyList,
+        #                               AifDocumentXML              _xml,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListcollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateNow
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: convert tmp table to an item arrival journal
+        #
+        #public void updateNow()
+        #{
+        #    ;
+        #
+        #    wmsJournalId = WMSArrivalCreateJournal::createJournal(wmsArrivalDetailTmpBuffer, WMSParameters::find().ReceptionJournalNameId, '', '', '');
+        #
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #updateReturnOrderLine
+        #protected salesLine updateReturnOrderLine(WMSArrivalDetailTmp _arrivalDetailTmp, SalesLine _origSalesLine)
+        #{
+        #    SalesLine   salesLineUpdate;
+        #    Salesline   newSalesLine;
+        #    InventDim   newInventDim;
+        #    ;
+        #
+        #    //copy the data from the salesline
+        #    newSalesLine.data(_origSalesLine);
+        #
+        #    // clear the inventTransId
+        #    newSalesLine.InventTransId = '';
+        #    // clear the linenum
+        #    newSalesLine.LineNum = SalesLine::lastLineNum(newSalesLine.SalesId) + 1.0;
+        #
+        #    // update the qty
+        #    newSalesLine.ExpectedRetQty = _arrivalDetailTmp.InventQty * -1;
+        #
+        #    // update the location
+        #    newInventDim = newSalesLine.inventDim();
+        #    newInventDim.InventLocationId = _arrivalDetailTmp.InventLocationId;
+        #    newSalesLine.InventDimId = InventDim::findOrCreate(newInventDim).inventDimId;
+        #
+        #    newSalesLine.insert();
+        #
+        #    saleslineUpdate = SalesLine::find(_origSalesLine.SalesId, _origSalesLine.LineNum, true);
+        #    salesLineUpdate.ExpectedRetQty += _arrivalDetailTmp.InventQty;
+        #    salesLineUpdate.update();
+        #
+        #    return newSalesLine;
+        #
+        #
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

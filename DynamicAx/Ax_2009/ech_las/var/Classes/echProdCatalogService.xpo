@@ -1,0 +1,59 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echProdCatalogService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echProdCatalogService
+    Id 30146
+    PROPERTIES
+      Name                #echProdCatalogService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echProdCatalogService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #public echProdCatalog find(AifQueryCriteria _queryCriteria)
+        #{
+        #    echProdCatalog echProdCatalog = new echProdCatalog();
+        #    this.findList(_queryCriteria, echProdCatalog);
+        #    return echProdCatalog;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #read
+        #public echProdCatalog read(AifEntityKeyList _entityKeyList)
+        #{
+        #    echProdCatalog echProdCatalog = new echProdCatalog();
+        #    this.readList(_entityKeyList, echProdCatalog);
+        #    return echProdCatalog;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echProdCatalogService construct()
+        #{
+        #    return new echProdCatalogService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

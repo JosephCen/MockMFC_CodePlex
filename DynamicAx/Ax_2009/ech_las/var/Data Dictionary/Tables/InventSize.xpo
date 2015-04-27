@@ -1,0 +1,51 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventSize unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventSize
+    Id 1616
+    PROPERTIES
+      Name                #InventSize
+      Label               #@SYS73745
+      FormRef             #InventSizes
+      TitleField1         #ItemId
+      TitleField2         #InventSizeId
+      ConfigurationKey    #InventItemDimSize
+      SecurityKey         #InventTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Main
+      PrimaryIndex        #ItemSizeIdx
+      ClusterIndex        #ItemSizeIdx
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS123999
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

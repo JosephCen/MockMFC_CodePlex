@@ -1,0 +1,54 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventInventColor_InventColor unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventInventColor_InventColor
+    Id 14080
+    PROPERTIES
+      Name                #InventInventColor_InventColor
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class InventInventColor_InventColor extends AfStronglyTypedDataContainer
+        #{
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Name('Name')
+        #    #define.ItemId('ItemId')
+        #    #define.InventColorId('InventColorId')
+        #    #define.Description('Description')
+        #    #define._DocumentHash('_DocumentHash')
+        #    #define.Weight('Weight')
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsWeight
+        #public boolean existsWeight()
+        #{
+        #    return this.exists(#Weight);
+        #}
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public RBOWeight parmWeight(RBOWeight _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Weight, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Weight);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

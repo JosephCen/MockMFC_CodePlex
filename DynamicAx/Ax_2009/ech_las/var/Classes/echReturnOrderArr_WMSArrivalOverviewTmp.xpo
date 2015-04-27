@@ -1,0 +1,420 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echReturnOrderArr_WMSArrivalOverviewTmp unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echReturnOrderArr_WMSArrivalOverviewTmp
+    Id 30056
+    PROPERTIES
+      Name                #echReturnOrderArr_WMSArrivalOverviewTmp
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echReturnOrderArr_WMSArrivalOverviewTmp extends AfStronglyTypedDataContainer
+        #{
+        #    #define.WMSArrivalDetailTmp('WMSArrivalDetailTmp')
+        #    #define.Weight('Weight')
+        #    #define.Volume('Volume')
+        #    #define.VendRef('VendRef')
+        #    #define.Selected('Selected')
+        #    #define.ReturnItemNum('ReturnItemNum')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.ReceiptStatus('ReceiptStatus')
+        #    #define.QuarantineControlled('QuarantineControlled')
+        #    #define.NoOfLines('NoOfLines')
+        #    #define.Name('Name')
+        #    #define.InventTransType('InventTransType')
+        #    #define.InventTransRefId('InventTransRefId')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventQty('InventQty')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.DlvModeId('DlvModeId')
+        #    #define.DateStatus('DateStatus')
+        #    #define.CustVendAC('CustVendAC')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createWMSArrivalDetailTmp
+        #public AfStronglyTypedDataContainerList createWMSArrivalDetailTmp()
+        #{
+        #    return this.get_NewList(#WMSArrivalDetailTmp);
+        #}
+      ENDSOURCE
+      SOURCE #exists_DocumentHash
+        #public boolean exists_DocumentHash()
+        #{
+        #    return this.exists(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #existsCustVendAC
+        #public boolean existsCustVendAC()
+        #{
+        #    return this.exists(#CustVendAC);
+        #}
+      ENDSOURCE
+      SOURCE #existsDateStatus
+        #public boolean existsDateStatus()
+        #{
+        #    return this.exists(#DateStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsDlvModeId
+        #public boolean existsDlvModeId()
+        #{
+        #    return this.exists(#DlvModeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationId
+        #public boolean existsInventLocationId()
+        #{
+        #    return this.exists(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventQty
+        #public boolean existsInventQty()
+        #{
+        #    return this.exists(#InventQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSiteId
+        #public boolean existsInventSiteId()
+        #{
+        #    return this.exists(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventTransRefId
+        #public boolean existsInventTransRefId()
+        #{
+        #    return this.exists(#InventTransRefId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventTransType
+        #public boolean existsInventTransType()
+        #{
+        #    return this.exists(#InventTransType);
+        #}
+      ENDSOURCE
+      SOURCE #existsName
+        #public boolean existsName()
+        #{
+        #    return this.exists(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #existsNoOfLines
+        #public boolean existsNoOfLines()
+        #{
+        #    return this.exists(#NoOfLines);
+        #}
+      ENDSOURCE
+      SOURCE #existsQuarantineControlled
+        #public boolean existsQuarantineControlled()
+        #{
+        #    return this.exists(#QuarantineControlled);
+        #}
+      ENDSOURCE
+      SOURCE #existsReceiptStatus
+        #public boolean existsReceiptStatus()
+        #{
+        #    return this.exists(#ReceiptStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsReturnItemNum
+        #public boolean existsReturnItemNum()
+        #{
+        #    return this.exists(#ReturnItemNum);
+        #}
+      ENDSOURCE
+      SOURCE #existsSelected
+        #public boolean existsSelected()
+        #{
+        #    return this.exists(#Selected);
+        #}
+      ENDSOURCE
+      SOURCE #existsVendRef
+        #public boolean existsVendRef()
+        #{
+        #    return this.exists(#VendRef);
+        #}
+      ENDSOURCE
+      SOURCE #existsVolume
+        #public boolean existsVolume()
+        #{
+        #    return this.exists(#Volume);
+        #}
+      ENDSOURCE
+      SOURCE #existsWeight
+        #public boolean existsWeight()
+        #{
+        #    return this.exists(#Weight);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSArrivalDetailTmp
+        #public boolean existsWMSArrivalDetailTmp()
+        #{
+        #    return this.exists(#WMSArrivalDetailTmp);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echReturnOrderArrivalService_WMSArrivalOverviewTmp);
+        #}
+      ENDSOURCE
+      SOURCE #parm_DocumentHash
+        #public str parm_DocumentHash(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#_DocumentHash, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #parmCustVendAC
+        #public CustVendAC parmCustVendAC(CustVendAC _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CustVendAC, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CustVendAC);
+        #}
+      ENDSOURCE
+      SOURCE #parmDateStatus
+        #public DateStatus parmDateStatus(DateStatus _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DateStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DateStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmDlvModeId
+        #public str parmDlvModeId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DlvModeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DlvModeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventQty
+        #public InventQty parmInventQty(InventQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSiteId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventTransRefId
+        #public InventTransRefId parmInventTransRefId(InventTransRefId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventTransRefId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventTransRefId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventTransType
+        #public InventTransType parmInventTransType(InventTransType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventTransType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventTransType);
+        #}
+      ENDSOURCE
+      SOURCE #parmName
+        #public Name parmName(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Name, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #parmNoOfLines
+        #public Lines parmNoOfLines(Lines _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#NoOfLines, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#NoOfLines);
+        #}
+      ENDSOURCE
+      SOURCE #parmQuarantineControlled
+        #public NoYes parmQuarantineControlled(NoYes _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#QuarantineControlled, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#QuarantineControlled);
+        #}
+      ENDSOURCE
+      SOURCE #parmReceiptStatus
+        #public WMSReceiptStatus parmReceiptStatus(WMSReceiptStatus _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReceiptStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReceiptStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmReturnItemNum
+        #public ReturnItemNum parmReturnItemNum(ReturnItemNum _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReturnItemNum, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReturnItemNum);
+        #}
+      ENDSOURCE
+      SOURCE #parmSelected
+        #public NoYes parmSelected(NoYes _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Selected, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Selected);
+        #}
+      ENDSOURCE
+      SOURCE #parmVendRef
+        #public VendRef parmVendRef(VendRef _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#VendRef, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#VendRef);
+        #}
+      ENDSOURCE
+      SOURCE #parmVolume
+        #public Volume parmVolume(Volume _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Volume, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Volume);
+        #}
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public Weight parmWeight(Weight _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Weight, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Weight);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSArrivalDetailTmp
+        #public AfStronglyTypedDataContainerList parmWMSArrivalDetailTmp(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#WMSArrivalDetailTmp, _value);
+        #    }
+        #
+        #    return this.get_List(#WMSArrivalDetailTmp);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

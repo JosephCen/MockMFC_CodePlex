@@ -1,0 +1,138 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_InventItemSalesSetup unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_InventItemSalesSetup
+    Id 30285
+    PROPERTIES
+      Name                #EchProductLoad_InventItemSalesSetup
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_InventItemSalesSetup extends AfStronglyTypedDataContainer
+        #{
+        #    #define.Stopped('Stopped')
+        #    #define.StandardQty('StandardQty')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Override('Override')
+        #    #define.MultipleQty('MultipleQty')
+        #    #define.MandatoryInventSite('MandatoryInventSite')
+        #    #define.MandatoryInventLocation('MandatoryInventLocation')
+        #    #define.LowestQty('LowestQty')
+        #    #define.LeadTime('LeadTime')
+        #    #define.ItemId('ItemId')
+        #    #define.InventDimIdDefault('InventDimIdDefault')
+        #    #define.InventDimId('InventDimId')
+        #    #define.HighestQty('HighestQty')
+        #    #define.DeliveryDateControlType('DeliveryDateControlType')
+        #    #define.ATPTimeFence('ATPTimeFence')
+        #    #define.ATPInclPlannedOrders('ATPInclPlannedOrders')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsHighestQty
+        #public boolean existsHighestQty()
+        #{
+        #    return this.exists(#HighestQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsLowestQty
+        #public boolean existsLowestQty()
+        #{
+        #    return this.exists(#LowestQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsMultipleQty
+        #public boolean existsMultipleQty()
+        #{
+        #    return this.exists(#MultipleQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsStopped
+        #public boolean existsStopped()
+        #{
+        #    return this.exists(#Stopped);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_InventItemSalesSetup);
+        #}
+      ENDSOURCE
+      SOURCE #parmHighestQty
+        #public QtyHighest parmHighestQty(QtyHighest _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HighestQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HighestQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmLowestQty
+        #public QtyLowest parmLowestQty(QtyLowest _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LowestQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LowestQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmMultipleQty
+        #public QtyMultiples parmMultipleQty(QtyMultiples _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MultipleQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MultipleQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmStopped
+        #public ItemStopped parmStopped(ItemStopped _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Stopped, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Stopped);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

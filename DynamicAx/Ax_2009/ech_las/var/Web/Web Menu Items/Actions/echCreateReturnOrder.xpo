@@ -1,0 +1,22 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echCreateReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echCreateReturnOrder
+    PROPERTIES
+      Name                #echCreateReturnOrder
+      Label               #@ECH702
+      HelpText            #@ECH704
+      Object              #echCreateReturnOrder
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

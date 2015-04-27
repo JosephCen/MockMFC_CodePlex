@@ -1,0 +1,23 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echCustomerListGrid unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echCustomerListGrid
+    PROPERTIES
+      Name                #echCustomerListGrid
+      Label               #@ECH662
+      HelpText            #@ECH697
+      URL                 #Sales/Enterprise%20Portal/echCustomerListGrid.aspx
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

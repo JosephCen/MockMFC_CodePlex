@@ -1,0 +1,85 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxAddress unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxAddress
+    Id 5786
+    PROPERTIES
+      Name                #AxAddress
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmFRCARAddressing
+        #public Addressing parmFRCARAddressing(Addressing _fRCARAddressing = '')
+        #{
+        #    if (!prmisdefault(_fRCARAddressing))
+        #    {
+        #        this.setField(fieldNum(Address, FRCARAddressing), _fRCARAddressing);
+        #    }
+        #
+        #    return address.FRCARAddressing;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDistrictName
+        #protected void setDistrictName()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(Address, DistrictName)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setExciseType_IN
+        #protected void setExciseType_IN()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(Address, ExciseType_IN)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFRCARAddressing
+        #protected void setFRCARAddressing()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(Address, FRCARAddressing)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setLatitude
+        #protected void setLatitude()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(Address, Latitude)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setLongitude
+        #protected void setLongitude()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(Address, Longitude)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

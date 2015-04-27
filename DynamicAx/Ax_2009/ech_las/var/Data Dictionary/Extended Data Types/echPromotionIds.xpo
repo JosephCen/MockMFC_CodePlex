@@ -1,0 +1,29 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echPromotionIds unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echPromotionIds
+  Id 50011
+  STRING
+    PROPERTIES
+      Name                #echPromotionIds
+      Label               #@ech547
+      HelpText            #@ECH719
+      StringSize          #180
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

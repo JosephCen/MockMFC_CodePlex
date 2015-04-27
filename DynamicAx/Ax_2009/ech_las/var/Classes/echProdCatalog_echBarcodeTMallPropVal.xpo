@@ -1,0 +1,179 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echProdCatalog_echBarcodeTMallPropVal unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echProdCatalog_echBarcodeTMallPropVal
+    Id 30330
+    PROPERTIES
+      Name                #echProdCatalog_echBarcodeTMallPropVal
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echProdCatalog_echBarcodeTMallPropVal extends AfStronglyTypedDataContainer
+        #{
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.PropValueId('PropValueId')
+        #    #define.PropId('PropId')
+        #    #define.InventDimId('InventDimId')
+        #    #define.Cid('Cid')
+        #    #define.ItemId('ItemId')
+        #    #define.ColorSizeName('ColorSizeName')
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsCid
+        #public boolean existsCid()
+        #{
+        #    return this.exists(#Cid);
+        #}
+      ENDSOURCE
+      SOURCE #existsColorSizeName
+        #public boolean existsColorSizeName()
+        #{
+        #    return this.exists(#ColorSizeName);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimId
+        #public boolean existsInventDimId()
+        #{
+        #    return this.exists(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsPropId
+        #public boolean existsPropId()
+        #{
+        #    return this.exists(#PropId);
+        #}
+      ENDSOURCE
+      SOURCE #existsPropValueId
+        #public boolean existsPropValueId()
+        #{
+        #    return this.exists(#PropValueId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echProdCatalog_echBarcodeTMallPropVal);
+        #}
+      ENDSOURCE
+      SOURCE #parmCid
+        #public echTMallCategoryId parmCid(echTMallCategoryId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Cid, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Cid);
+        #}
+      ENDSOURCE
+      SOURCE #parmColorSizeName
+        #public Name parmColorSizeName(Name _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ColorSizeName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ColorSizeName);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #public InventDimId parmInventDimId(InventDimId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventDimId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public ItemId parmItemId(ItemId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmPropId
+        #public echTMallPropertyId parmPropId(echTMallPropertyId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PropId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PropId);
+        #}
+      ENDSOURCE
+      SOURCE #parmPropValueId
+        #public echTMallPropertyValueId parmPropValueId(echTMallPropertyValueId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PropValueId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PropValueId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

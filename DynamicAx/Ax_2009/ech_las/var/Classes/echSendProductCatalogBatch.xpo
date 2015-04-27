@@ -1,0 +1,229 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSendProductCatalogBatch unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSendProductCatalogBatch
+    Id 30104
+    PROPERTIES
+      Name                #echSendProductCatalogBatch
+      Extends             #RunBaseBatch
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_PR01
+        #// *** Customization Date: 20 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: batch to send product catalog to all eligible endpoints
+        #
+        #class echSendProductCatalogBatch extends RunBaseBatch
+        #{
+        #    DialogField g_FieldIsDetaUpdate;
+        #    NoYes       g_IsDetaUpdate;
+        #
+        #    #define.CurrentVersion(1)
+        #    #localmacro.CurrentList
+        #        g_IsDetaUpdate
+        #    #endmacro
+        #}
+      ENDSOURCE
+      SOURCE #detaUpdate
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #private void detaUpdate()
+        #{
+        #    AxdEchSendProductCatalog   echSendProdCatalog;
+        #    InventTable                invTable;
+        #    RBOAssortmentItemList      assortmentList;
+        #    echSendProductCatalogLog   sendProdCatalog;
+        #    Set                        recIdSet;
+        #    SetEnumerator              recIdSetEnumor;
+        #;
+        #    recIdSet = new Set(Types::Int64);
+        #
+        #    while select invTable
+        #                 join sendProdCatalog
+        #                         where sendProdCatalog.ItemId  == invTable.ItemId
+        #                            && sendProdCatalog.HasSent == NoYes::No
+        #                 exists join assortmentList
+        #                         where invTable.ItemId == assortmentList.itemRelation
+        #
+        #    {
+        #        echSendProdCatalog = AxdEchSendProductCatalog::construct();
+        #        echSendProdCatalog.setEntityKey(invTable);
+        #        echSendProdCatalog.sendDocumentsToAif();
+        #
+        #        recIdSet.add(sendProdCatalog.RecId);
+        #    }
+        #    // Set all these sent record to 'HasSent' in table 'echSendProductCatalogLog'
+        #    recIdSetEnumor = recIdSet.getEnumerator();
+        #    TTSBegin;
+        #    while(recIdSetEnumor.moveNext())
+        #    {
+        #        select forupdate sendProdCatalog
+        #          where sendProdCatalog.RecId == recIdSetEnumor.current();
+        #        sendProdCatalog.setHasSent();
+        #    }
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+      SOURCE #dialog
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #protected Object dialog(DialogRunbase dialog, boolean forceOnClient)
+        #{
+        #    dialog _dlg;
+        #;
+        #    _dlg = super(dialog, forceOnClient);
+        #    g_FieldIsDetaUpdate =
+        #        _dlg.addFieldValue(typeid(NoYes), g_IsDetaUpdate, "@ECH790", "@ECH791");
+        #
+        #    return _dlg;
+        #}
+      ENDSOURCE
+      SOURCE #fullUpdate
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #private void fullUpdate()
+        #{
+        #    AxdEchSendProductCatalog   echSendProdCatalog;
+        #    InventTable                invTable;
+        #    RBOAssortmentItemList      assortmentList;
+        #;
+        #    while select invTable
+        #                 exists join assortmentList
+        #                         where invTable.ItemId == assortmentList.itemRelation
+        #    {
+        #        echSendProdCatalog = AxdEchSendProductCatalog::construct();
+        #        echSendProdCatalog.setEntityKey(invTable);
+        #        echSendProdCatalog.sendDocumentsToAif();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #getFromDialog
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #public boolean getFromDialog()
+        #{
+        #    boolean _retVal;
+        #;
+        #    _retVal = super();
+        #    g_IsDetaUpdate = g_FieldIsDetaUpdate.value();
+        #
+        #    return _retVal;
+        #}
+      ENDSOURCE
+      SOURCE #initParmDefault
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #public void initParmDefault()
+        #{
+        #;
+        #    super();
+        #
+        #    g_IsDetaUpdate = NoYes::Yes;
+        #}
+      ENDSOURCE
+      SOURCE #pack
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #public container pack()
+        #{
+        #    ;
+        #
+        #    return [#CurrentVersion, #CurrentList];
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #// Update ECH_WI_02195 by mengqi.cen on 20130522
+        #//
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_PR01
+        #// *** Customization Date: 20 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: call send
+        #
+        #public void run()
+        #{
+        #;
+        #    if (g_IsDetaUpdate == NoYes::No)
+        #        this.fullUpdate();
+        #    else
+        #        this.detaUpdate();
+        #}
+      ENDSOURCE
+      SOURCE #unpack
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #public boolean unpack(container packedClass)
+        #{
+        #    int     _version;
+        #    boolean _retVal;
+        #;
+        #    _version = conpeek(packedClass, 1);
+        #
+        #    switch (_version)
+        #    {
+        #        case #CurrentVersion :
+        #            [_version, #CurrentList] = packedClass;
+        #            _retVal = true;
+        #            break;
+        #        default :
+        #            _retVal = false;
+        #            break;
+        #    }
+        #
+        #    return _retVal;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_PR01
+        #// *** Customization Date: 20 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #public static echSendProductCatalogBatch construct()
+        #{
+        #    return new echSendProductCatalogBatch() ;
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #static ClassDescription description()
+        #{
+        #;
+        #    return "@ECH241";
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_PR01
+        #// *** Customization Date: 20 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #public static void Main(Args _args)
+        #{
+        #    echSendProductCatalogBatch     echSendProductCatalogBatch = echSendProductCatalogBatch::construct();
+        #    ;
+        #
+        #    if (echSendProductCatalogBatch.prompt())
+        #        echSendProductCatalogBatch.run();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

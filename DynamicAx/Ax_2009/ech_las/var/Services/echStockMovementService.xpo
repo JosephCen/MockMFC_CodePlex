@@ -1,0 +1,43 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SVC
+
+; Microsoft Dynamics AX SERVICE : echStockMovementService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICE #echStockMovementService
+    PROPERTIES
+      Name                #echStockMovementService
+      ExternalName        #echStockMovementService
+      Namespace           #http://schemas.microsoft.com/dynamics/2008/01/services
+      Class               #echStockMovementService
+      SecurityKey         #echStockMovementService
+      Description         #
+    ENDPROPERTIES
+    
+    OPERATIONS
+      OPERATION #create
+        PROPERTIES
+          Name                #create
+          Method              #create
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #read
+        PROPERTIES
+          Name                #read
+          Method              #read
+          EnableIdempotence   #No
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+    ENDOPERATIONS
+    
+  ENDSERVICE
+  
+
+***Element: END

@@ -1,0 +1,931 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : RBO unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #RBO
+    PROPERTIES
+      Name                #RBO
+      Label               #@RBO903
+      ConfigurationKey    #RetailHeadquarters
+      SecurityKey         #RBO
+      SetCompany          #Yes
+      NormalImage         #RBO.gif
+    ENDPROPERTIES
+    
+    MENUITEM
+      PROPERTIES
+        Name                #Items
+        MenuItemName        #InventTableListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Retail items
+        MenuItemName        #RBOInventTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Promotion
+        MenuItemName        #RBOPromotionTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Discount offer
+        MenuItemName        #RBODiscountOfferTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Multibuy
+        MenuItemName        #RBOMultibuyDiscountTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Mix & match
+        MenuItemName        #RBOMixAndMatchTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Gift cards
+        MenuItemName        #RBOGiftCardTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #POS batches
+        MenuItemName        #RBOPosBatchTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENU #@SYS9020
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS9020
+        SecurityKey         #RBOJournals
+        NormalResource      #3475
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Open statements
+          MenuItemName        #RBOStatementTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS3850
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS3850
+        SecurityKey         #RBOInquiries
+        NormalResource      #3474
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Posted statements
+          MenuItemName        #RBOStatementJour
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Transactions
+          MenuItemName        #RBOTransactionTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Retail sales
+          MenuItemName        #RBOSales
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Credit vouchers
+          MenuItemName        #RBOCreditVoucherTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Loyalty cards
+          MenuItemName        #RBOLoyaltyMSRCardTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #All discounts
+          MenuItemType        #Action
+          MenuItemName        #RBODiscountPriorityControl
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@FSH308
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@FSH308
+        HelpText            #@FSH316
+        NormalResource      #3477
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Discount offer
+          MenuItemType        #Output
+          MenuItemName        #FSHDiscountOfferTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #End of life cycle
+          MenuItemType        #Output
+          MenuItemName        #FSHEndOfLifeCycleReport
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS8782
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS8782
+        SecurityKey         #RBOPeriodic
+        NormalResource      #3476
+      ENDPROPERTIES
+      
+      MENU #@RBO857
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO857
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Print shelf labels
+            MenuItemName        #RBOInventItemLabelPrinting_Shelf
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Print item labels
+            MenuItemName        #RBOInventItemLabelPrinting_Item
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@FSH201
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@FSH201
+          SecurityKey         #FSHMiscellaneous
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Vendors
+            MenuItemName        #VendTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item import journal
+            MenuItemName        #FSHImportJournalTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Imported files
+            MenuItemName        #FSHImportTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@FSH130
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@FSH130
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Purchase order
+            MenuItemName        #PurchTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Buyer's push
+            MenuItemName        #FSHBuyersPush
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@FSH55
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@FSH55
+          ConfigurationKey    #RetailConcession
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Concession contract
+            MenuItemName        #FSHConcessionContractTableView
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Concession sales
+            MenuItemName        #FSHConcessionFileLog
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Concession purchases
+            MenuItemName        #FSHConcessionPurchLog
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        SEPARATOR
+        MENUITEM
+          PROPERTIES
+            Name                #Create part payment
+            MenuItemType        #Action
+            MenuItemName        #FSHConsessionPartPaymentCreate
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Part payment
+            MenuItemName        #FSHConsessionPartPayment
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Print part payment
+            MenuItemType        #Output
+            MenuItemName        #FSHConsessionPartPaymentSettlement
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        SEPARATOR
+        MENUITEM
+          PROPERTIES
+            Name                #Create contract cost sales
+            MenuItemType        #Action
+            MenuItemName        #FSHConcessionContractCreateInvoice
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Concessions settlement create
+            MenuItemType        #Action
+            MenuItemName        #FSHConsessionSettlementCreate
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Concession settlements
+            MenuItemName        #FSHConsessionSettlementTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Print concession settlement
+            MenuItemType        #Output
+            MenuItemName        #FSHConsessionSettlementReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Contract status report
+            MenuItemType        #Output
+            MenuItemName        #FSHConcessionContractReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO3130
+        PROPERTIES
+          Name                #POSSales
+          Label               #@RBO3130
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Post inventory
+            MenuItemType        #Action
+            MenuItemName        #RBOTransactionSalesTransMark_Multi
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Calculate statement
+            MenuItemType        #Action
+            MenuItemName        #RBOStatementCalculate_Multi
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Post statement
+            MenuItemType        #Action
+            MenuItemName        #RBOStatementPost_Multi
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENUREFERENCE
+        PROPERTIES
+          Name                #echProductCatalog
+        ENDPROPERTIES
+        
+      ENDMENUREFERENCE
+    ENDMENU
+    MENU #@SYS2186
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS2186
+        SecurityKey         #RBOSetup
+        NormalResource      #3478
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Parameters
+          MenuItemName        #RBOParameters
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@RBO21
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO21
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Stores
+            MenuItemName        #RBOStoreTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Store groups
+            MenuItemName        #RBOStoreGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #POS Terminals
+            MenuItemName        #RBOTerminalTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Staff
+            MenuItemName        #RBOStaffTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO956
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO956
+          SecurityKey         #POSSetup
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Hardware profiles
+            MenuItemName        #POSHardwareProfile
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Visual profiles
+            MenuItemName        #POSVisualProfile
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Functionality profiles
+            MenuItemName        #POSFunctionalityProfile
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transaction Service profiles
+            MenuItemName        #POSTransactionServiceProfile
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENU #@PIS220
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@PIS220
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Till layout
+              MenuItemName        #PosIsTillLayout
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Button grid
+              MenuItemName        #PosIsButtonGrid
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Images
+              MenuItemName        #PosIsImages
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Form layout
+              MenuItemName        #PosIsFormLayout
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Receipt profile
+              MenuItemName        #POSReceiptProfile
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Keyboard mapping group
+              MenuItemName        #PosIsKeyboardMappingTable
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Operations
+              MenuItemName        #PosIsOperations
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Permissions
+              MenuItemName        #PosIsPermissions
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@RBO85
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO85
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Retail hierarchy
+            MenuItemName        #rboretailHierarchy
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Special groups
+            MenuItemName        #RBOSpecialGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Assortments
+            MenuItemName        #RBOAssortmentTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Season
+            MenuItemName        #FSHSeasonTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sizes
+            MenuItemName        #RBOSizes
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Colors
+            MenuItemName        #RBOColors
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Styles
+            MenuItemName        #RBOStyles
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Size group
+            MenuItemName        #RBOSizeGroupTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Color group
+            MenuItemName        #RBOColorGroupTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Style group
+            MenuItemName        #RBOStyleGroupTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bar codes
+            MenuItemName        #InventItemBarcode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Vendor's item numbers
+            MenuItemName        #RBOCustVendExternalItem_Vend
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item packages
+            MenuItemName        #RBOPackage
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO1480
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO1480
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Trade agreement journal names
+            MenuItemName        #pricediscadmname_sales
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer price/discount groups
+            MenuItemName        #PriceDiscGroup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Price point groups
+            MenuItemName        #FSHSalesPricePointGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Rounding method group
+            MenuItemName        #FSHRoundingMethodGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO2834
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO2834
+          HelpText            #@RBO2874
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Sales tax override group
+            MenuItemName        #RBOTaxOverrideGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales tax overrides
+            MenuItemName        #RBOTaxOverrideCode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO46
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO46
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Tender types
+            MenuItemName        #RBOTenderTypeTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Card types
+            MenuItemName        #RBOTenderTypeCardTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Card number
+            MenuItemName        #RBOTenderTypeCardNumbers
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO1616
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO1616
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Loyalty schemes
+            MenuItemName        #RBOLoyaltySchemesTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Loyalty customers
+            MenuItemName        #RBOLoyaltyCustTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS2952
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS2952
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Infocodes
+            MenuItemName        #RBOInfocodeTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Mask characters
+            MenuItemName        #RBOBarcodeMaskCharacter
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bar code Mask Setup
+            MenuItemName        #RBOBarcodeMaskSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Coupon issuer
+            MenuItemName        #RBOCouponIssuerTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Competitors
+            MenuItemName        #RBOCompetitorTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Discount period
+            MenuItemName        #RBODiscountValidationPeriod
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Mix & match line groups
+            MenuItemName        #RBOMixAndMatchLineGroups
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Mix & match line group setup
+            MenuItemName        #RBOMixAndMatchLineGroupSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Statistics time setup
+            MenuItemName        #RBOStatisticsTimeSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Number sequence groups
+            MenuItemName        #NumberSequenceGroupRBOTerminal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO857
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO857
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Shelf label reports
+            MenuItemName        #RBOInventItemLabelReportSetup_Shelf
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item label reports
+            MenuItemName        #RBOInventItemLabelReportSetup_Item
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO2597
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO2597
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Replenishment group
+            MenuItemName        #FSHReplenishmentGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Replenishment rules
+            MenuItemName        #FSHReplenishmentRuleTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Service category
+            MenuItemName        #FSHServiceCategory
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@FSH201
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@FSH201
+          SecurityKey         #FSHSetup
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Item import hierarchy setup
+            MenuItemName        #FSHImportItemHierarchySetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Vendor sales price margin setup
+            MenuItemName        #FSHVendorSalesPriceMarginSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Vendor sales price point setup
+            MenuItemName        #FSHVendorSalesPricePointSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@RBO3377
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@RBO3377
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Sales by hour report scheduler job
+            MenuItemType        #Action
+            MenuItemName        #RBOSalesByHourReportScheduler
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales by staff report scheduler job
+            MenuItemType        #Action
+            MenuItemName        #RBOSalesByStaffReportScheduler
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales by item hierarchy report scheduler job
+            MenuItemType        #Action
+            MenuItemName        #RBOSalesByItemHierarchyReportScheduler
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales performance report scheduler job
+            MenuItemType        #Action
+            MenuItemName        #RBOSalesPerformanceReportScheduler
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+  ENDMENU
+  
+
+***Element: END

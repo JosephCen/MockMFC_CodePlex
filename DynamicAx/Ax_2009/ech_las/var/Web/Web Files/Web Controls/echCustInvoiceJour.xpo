@@ -1,0 +1,182 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echCustInvoiceJour unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echCustInvoiceJour
+    PROPERTIES
+      Name                #echCustInvoiceJour
+      HelpText            #
+      Filename            #echCustInvoiceJour.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echCustInvoiceJour.ascx.cs" Inherits="echCustInvoiceJour" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="EPFindSOHeader_DS" runat="server" 
+      #    DataSetName="echCustInvoiceJour" ProviderView="CustInvoiceJour">
+      #</dynamics:AxDataSource> 
+      #
+      #<asp:Button ID="btnOk" runat="server" onclick="btnOk_Click" 
+      #    Text="Update lines" />
+      #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      #<asp:Button ID="btnCancel" runat="server" onclick="btnCancel_Click" 
+      #    Text="Cancel" />
+      #
+      #<br />
+      #
+      #<dynamics:AxGridView ID="FindSOHeaderGrid" runat="server" DataKeyNames="invoiceId" 
+      #    DataMember="CustInvoiceJour" DataSourceID="EPFindSOHeader_DS"> 
+      #    <Columns>    
+      #        <dynamics:AxBoundField DataField="SalesId" DataSet="echCustInvoiceJour" 
+      #            DataSetView="CustInvoiceJour" SortExpression="SalesId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="InvoiceAccount"  
+      #            DataSet="echCustInvoiceJour" DataSetView="CustInvoiceJour" 
+      #            SortExpression="InvoiceAccount">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="DeliveryName" 
+      #            DataSet="echCustInvoiceJour" DataSetView="CustInvoiceJour" 
+      #            SortExpression="DeliveryName">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="InvoiceId" DataSet="echCustInvoiceJour" 
+      #            DataSetView="CustInvoiceJour" SortExpression="InvoiceId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="InvoiceDate" 
+      #            DataSet="echCustInvoiceJour" DataSetView="CustInvoiceJour" 
+      #            SortExpression="InvoiceDate">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="LedgerVoucher" 
+      #            DataSet="echCustInvoiceJour" DataSetView="CustInvoiceJour" 
+      #            SortExpression="LedgerVoucher">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="InvoiceAmount" 
+      #            DataSet="echCustInvoiceJour" DataSetView="CustInvoiceJour" 
+      #            SortExpression="InvoiceAmount">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="CurrencyCode" 
+      #            DataSet="echCustInvoiceJour" DataSetView="CustInvoiceJour" 
+      #            SortExpression="CurrencyCode">
+      #        </dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echCustInvoiceJour_ascx_cs
+      HelpText            #
+      Filename            #echCustInvoiceJour.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Proxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using ApplicationProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #
+      #
+      #public partial class echCustInvoiceJour: System.Web.UI.UserControl
+      #{	
+      #    DataSetViewRow custInvoiceJour_current
+      #    {
+      #        get
+      #        {
+      #            return this.EPFindSOHeader_DS.GetDataSourceView(this.FindSOHeaderGrid.DataMember).DataSetView.GetCurrent();
+      #        }
+      #    }
+      #
+      #    //Web part session
+      #    ISession AxSession
+      #    {
+      #        get
+      #        {
+      #            //get the current webpart session
+      #            return this.BaseWebpart == null ? null : this.BaseWebpart.Session;
+      #        }
+      #    }
+      #
+      #    //Web part private
+      #    AxBaseWebPart _baseWebpart = null;
+      #
+      #    //Web part 
+      #    AxBaseWebPart BaseWebpart
+      #    {
+      #        get
+      #        {
+      #            //return the basewebpart if it is not null
+      #            if (this._baseWebpart != null)
+      #                return this._baseWebpart;
+      #            //get the webpart if basewebpart is null
+      #            this._baseWebpart = AxBaseWebPart.GetWebpart(this);
+      #            return this._baseWebpart;
+      #        }
+      #    }
+      #
+      #    protected void Page_Init(object sender, EventArgs e)
+      #    {
+      #        
+      #    }
+      #
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #    }
+      #
+      #    protected void btnCancel_Click(object sender, EventArgs e)
+      #    {
+      #        AxUrlMenuItem menuItem = new AxUrlMenuItem("EPSalesReturnItemList");
+      #        this.Page.Response.Redirect(menuItem.Url.ToString());
+      #    }
+      #
+      #    protected void btnOk_Click(object sender, EventArgs e)
+      #    {
+      #        Hashtable lines = (Hashtable)Cache["CheckedLines"];
+      #
+      #        IDictionaryEnumerator enumorator = lines.GetEnumerator();
+      #
+      #        Proxy.List list = new Microsoft.Dynamics.Framework.BusinessConnector.Proxy.List(AxSession.AxaptaAdapter, Proxy.Types.String);
+      #
+      #        while (enumorator.MoveNext())
+      #        {
+      #            string inventTransId = Convert.ToString(enumorator.Key);
+      #
+      #            if (!string.IsNullOrEmpty(inventTransId))
+      #                list.addEnd(inventTransId);
+      #        }
+      #
+      #        this.EPFindSOHeader_DS.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("salesCopy", list);
+      #
+      #        /*if (lines.Count > 0)
+      #            this.EPFindSOHeader_DS.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("salesCopy");*/
+      #
+      #        btnCancel_Click(sender, e);
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

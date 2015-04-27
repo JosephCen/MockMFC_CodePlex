@@ -1,0 +1,673 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echStockAllocationRule
+  PROPERTIES
+    Name                #echStockAllocationRule
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 16 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: Allocate stock
+      #
+      #public class FormRun extends ObjectRun
+      #{
+      #    InventDimCtrl_Frm   inventDimFormSetup;
+      #}
+    ENDSOURCE
+    SOURCE #initControls
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 16 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: init form controls
+      #
+      #void initControls()
+      #{
+      #    ;
+      #
+      #    if (echStockAllocationRule.Type == TableGroupAll::All ||
+      #        echStockAllocationRule.Type == TableGroupAll::GroupId)
+      #    {
+      #        echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, VirtualStock)).allowEdit(false);
+      #        echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, ItemId)).allowEdit(false);
+      #
+      #        if (echStockAllocationRule.Type == TableGroupAll::GroupId)
+      #        {
+      #            echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, RetailGroup)).allowEdit(true);
+      #        }
+      #        else
+      #        {
+      #            echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, RetailGroup)).allowEdit(false);
+      #        }
+      #    }
+      #    else
+      #    {
+      #        echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, VirtualStock)).allowEdit(true);
+      #        echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, ItemId)).allowEdit(true);
+      #
+      #        echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, RetailGroup)).allowEdit(false);
+      #    }
+      #
+      #    if (InventDim.inventLocation().echIsTemp)
+      #    {
+      #        echStockAllocationRule_ds.object(fieldnum(echStockAllocationRule, VirtualStock)).allowEdit(false);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 16 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: init
+      #
+      #public void init()
+      #{
+      #    ;
+      #
+      #    super();
+      #
+      #    this.updateDesign(InventDimFormDesignUpdate::Init);
+      #    this.initControls();
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 16 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: return inventDimFormSetup
+      #
+      #InventDimCtrl_Frm inventDimSetupObject()
+      #{
+      #    ;
+      #
+      #    return inventDimFormSetup;
+      #}
+    ENDSOURCE
+    SOURCE #updateDesign
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 16 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: update design
+      #
+      #void updateDesign(InventDimFormDesignUpdate mode)
+      #{
+      #    InventDimParm   inventDimParmEnabled;
+      #    ;
+      #
+      #    // set dimensions
+      #    switch (mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init          :
+      #        case InventDimFormDesignUpdate::LinkActive    :
+      #
+      #            if (!inventDimFormSetup)
+      #            {
+      #                inventDimFormSetup  = InventDimCtrl::newFromForm(element);
+      #            }
+      #
+      #            inventDimFormSetup.formSetControls(true);
+      #            break;
+      #
+      #        case InventDimFormDesignUpdate::Active        :
+      #        case InventDimFormDesignUpdate::FieldChange   :
+      #
+      #            inventDimFormSetup.formActiveSetup();
+      #            if (echStockAllocationRule.Type == TableGroupAll::Table && echStockAllocationRule.ItemId)
+      #            {
+      #                inventDimParmEnabled.initDimActive(InventTable::find(echStockAllocationRule.ItemId).DimGroupId);
+      #            }
+      #            else
+      #            {
+      #                inventDimParmEnabled.initCovDimAllGrp();
+      #            }
+      #
+      #            inventDimFormSetup.parmDimParmEnabled(inventDimParmEnabled);
+      #            inventDimFormSetup.formSetControls(true);
+      #            break;
+      #    }
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echStockAllocationRule
+          Table               #echStockAllocationRule
+          StartPosition       #Last
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD Type
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// *** ECHINA - Anthony Christiaens ***
+                #// *** Customization Code: ECH_E_001
+                #// *** Customization Date: 16 Mar 2012
+                #// *** Customization Type: created
+                #// *** Description: modified
+                #
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    element.initControls();
+                #    element.updateDesign(InventDimFormDesignUpdate::FieldChange);
+                #
+                #    if (echStockAllocationRule.InventDimId != inventDim.InventDimId)
+                #    {
+                #        inventDim.data(InventDim::find(echStockAllocationRule.InventDimId));
+                #        inventDim_ds.setCurrent();
+                #    }
+                #
+                #    inventDim_ds.refresh();
+                #    echStockAllocationRule_ds.refresh();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ItemId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// *** ECHINA - Anthony Christiaens ***
+                #// *** Customization Code: ECH_E_001
+                #// *** Customization Date: 16 Mar 2012
+                #// *** Customization Type: created
+                #// *** Description: modified
+                #
+                #public void modified()
+                #{
+                #    super();
+                #
+                #
+                #    element.initControls();
+                #    element.updateDesign(InventDimFormDesignUpdate::FieldChange);
+                #
+                #    if (echStockAllocationRule.InventDimId != inventDim.InventDimId)
+                #    {
+                #        inventDim.data(InventDim::find(echStockAllocationRule.InventDimId));
+                #        inventDim_ds.setCurrent();
+                #    }
+                #
+                #    inventDim_ds.refresh();
+                #    echStockAllocationRule_ds.refresh();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 19 Mar 2012
+          #// *** Customization Type: create
+          #// *** Description: write
+          #
+          #public void write()
+          #{
+          #    ;
+          #
+          #    echStockAllocationRule.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #
+          #    super();
+          #
+          #    if (echStockAllocationRule.InventDimId != inventDim.InventDimId)
+          #    {
+          #        inventDim.data(InventDim::find(echStockAllocationRule.InventDimId));
+          #        inventDim_ds.setCurrent();
+          #    }
+          #
+          #    echStockAllocationRule_ds.research();
+          #    echStockAllocationRule_ds.refresh();
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 16 Mar 2012
+          #// *** Customization Type: created
+          #// *** Description: active
+          #
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    if (ret)
+          #    {
+          #        element.updateDesign(InventDimFormDesignUpdate::Active);
+          #        element.initControls();
+          #    }
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          JoinSource          #echStockAllocationRule
+          LinkType            #InnerJoin
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD InventLocationId
+            PROPERTIES
+              Mandatory           #Yes
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #
+                #    super();
+                #
+                #    element.initControls();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSiteId
+            PROPERTIES
+              Mandatory           #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD inventBatchId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD wMSLocationId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD wMSPalletId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD inventSerialId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD configId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD InventSizeId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD InventColorId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD InventStyleId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_001
+          #// *** Customization Date: 19 Mar 2012
+          #// *** Customization Type: create
+          #// *** Description: disable write
+          #
+          #public void write()
+          #{
+          #    //super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    InventDim echStockAllocationRule
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH52
+      TitleDatasource     #echStockAllocationRule
+      DataSource          #echStockAllocationRule
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GROUP
+        PROPERTIES
+          Name                #StockAllocationGroup
+          Width               #Column width
+          Height              #Column height
+          FrameType           #None
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL GROUP
+              PROPERTIES
+                Name                #Body
+                Width               #Column width
+                Height              #Column height
+                FrameType           #None
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL GRID
+                    PROPERTIES
+                      Name                #Grid
+                      Width               #Column width
+                      Height              #Column height
+                      DataSource          #echStockAllocationRule
+                    ENDPROPERTIES
+                    
+                      CONTAINER
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #Identification
+                            BackgroundColor     #Window background
+                            DataSource          #echStockAllocationRule
+                            DataGroup           #Identification
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                              CONTROL COMBOBOX
+                                PROPERTIES
+                                  Name                #Identification_Type
+                                  DataSource          #echStockAllocationRule
+                                  DataField           #Type
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #Identification_ItemId
+                                  AutoDeclaration     #Yes
+                                  DataSource          #echStockAllocationRule
+                                  DataField           #ItemId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #Identification_M_itemName
+                                  AllowEdit           #No
+                                  DataSource          #echStockAllocationRule
+                                  DataMethod          #itemName
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #Identification_RetailGroup
+                                  DataSource          #echStockAllocationRule
+                                  DataField           #RetailGroup
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #InventoryDimensions
+                            BackgroundColor     #Window background
+                            DataSource          #InventDim
+                            DataGroup           #InventoryDimensions
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_configId
+                                  DataSource          #InventDim
+                                  DataField           #configId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_InventSizeId
+                                  DataSource          #InventDim
+                                  DataField           #InventSizeId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_InventColorId
+                                  DataSource          #InventDim
+                                  DataField           #InventColorId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_InventSiteId
+                                  DataSource          #InventDim
+                                  DataField           #InventSiteId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_InventLocationId
+                                  DataSource          #InventDim
+                                  DataField           #InventLocationId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_inventBatchId
+                                  DataSource          #InventDim
+                                  DataField           #inventBatchId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_wMSLocationId
+                                  DataSource          #InventDim
+                                  DataField           #wMSLocationId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_wMSPalletId
+                                  DataSource          #InventDim
+                                  DataField           #wMSPalletId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_inventSerialId
+                                  DataSource          #InventDim
+                                  DataField           #inventSerialId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL STRINGEDIT
+                                PROPERTIES
+                                  Name                #InventoryDimensions_InventStyleId
+                                  DataSource          #InventDim
+                                  DataField           #InventStyleId
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                        CONTROL GROUP
+                          PROPERTIES
+                            Name                #StockAllocation
+                            BackgroundColor     #Window background
+                            DataSource          #echStockAllocationRule
+                            DataGroup           #StockAllocation
+                          ENDPROPERTIES
+                          
+                            CONTAINER
+                              CONTROL INTEDIT
+                                PROPERTIES
+                                  Name                #StockAllocation_AllocationRulePercentage
+                                  DataSource          #echStockAllocationRule
+                                  DataField           #AllocationRulePercentage
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                              CONTROL INTEDIT
+                                PROPERTIES
+                                  Name                #StockAllocation_VirtualStock
+                                  DataSource          #echStockAllocationRule
+                                  DataField           #VirtualStock
+                                ENDPROPERTIES
+                                
+                              ENDCONTROL 
+                              
+                            ENDCONTAINER
+                            
+                        ENDCONTROL 
+                        
+                      ENDCONTAINER
+                      
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonsLine
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #ButtonLineInventory
+              HelpText            #@SYS69645
+              Text                #@SYS981
+              SaveRecord          #No
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventDimParmFixed
+                  AutoDeclaration     #Yes
+                  SaveRecord          #No
+                  MenuItemName        #InventDimParmFixed
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

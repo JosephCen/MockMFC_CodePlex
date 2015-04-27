@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdSalesOrderDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdSalesOrderDCT
+    ##define.SalesOrder('SalesOrder')
+    ##define.SalesOrder_SalesTable('SalesOrder.SalesTable')
+    ##define.SalesOrder_SalesLine('SalesOrder.SalesLine')
+    ##define.SalesOrder_InventDim('SalesOrder.InventDim')
+    ##define.SalesOrder_DocuRefLine('SalesOrder.DocuRefLine')
+    ##define.SalesOrder_MarkupTransLine('SalesOrder.MarkupTransLine')
+    ##define.SalesOrder_DocuRefHeader('SalesOrder.DocuRefHeader')
+    ##define.SalesOrder_MarkupTransHeader('SalesOrder.MarkupTransHeader')
+    ##define.SalesOrder_echSOPromotionsLine('SalesOrder.echSOPromotionsLine')
+    ##define.SalesOrder_ShipCarrierStaging('SalesOrder.ShipCarrierStaging')
+    ##define.SalesOrder_echSOPromotionsHeader('SalesOrder.echSOPromotionsHeader')
+  ENDSOURCE
+
+***Element: END

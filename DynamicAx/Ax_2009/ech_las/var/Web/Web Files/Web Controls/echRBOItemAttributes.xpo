@@ -1,0 +1,94 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echRBOItemAttributes unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echRBOItemAttributes
+    PROPERTIES
+      Name                #echRBOItemAttributes
+      HelpText            #
+      Filename            #echRBOItemAttributes.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echRBOItemAttributes.ascx.cs" Inherits="echRBOItemAttributes" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="echROBItemAttributes_DS" runat="server" 
+      #    DataSetName="echRBOItemAttributes" ProviderView="echItemAttributes">
+      #</dynamics:AxDataSource> 
+      #<dynamics:AxGridView ID="echRBOItemAttributesGrid" runat="server" 
+      #    DataKeyNames="ItemId" DataMember="echItemAttributes" 
+      #    DataSourceID="echROBItemAttributes_DS">
+      #    <Columns>
+      #        <dynamics:AxBoundField DataField="AttributeId" DataSet="echRBOItemAttributes" 
+      #            DataSetView="echItemAttributes" SortExpression="AttributeId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="AttributeName" DataSet="echRBOItemAttributes" 
+      #            DataSetView="echItemAttributes" SortExpression="AttributeName">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="AttributeDesc" DataSet="echRBOItemAttributes" 
+      #            DataSetView="echItemAttributes" SortExpression="AttributeDesc">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="AttributeValue" 
+      #            DataSet="echRBOItemAttributes" DataSetView="echItemAttributes" 
+      #            SortExpression="AttributeValue">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="UnitID" DataSet="echRBOItemAttributes" 
+      #            DataSetView="echItemAttributes" SortExpression="UnitID">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxCheckBoxBoundField DataField="Mandatory" 
+      #            DataSet="echRBOItemAttributes" DataSetView="echItemAttributes" 
+      #            SortExpression="Mandatory">
+      #        </dynamics:AxCheckBoxBoundField>
+      #        <dynamics:AxCheckBoxBoundField DataField="Visible" 
+      #            DataSet="echRBOItemAttributes" DataSetView="echItemAttributes" 
+      #            SortExpression="Visible">
+      #        </dynamics:AxCheckBoxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echRBOItemAttributes_ascx_cs
+      HelpText            #
+      Filename            #echRBOItemAttributes.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echRBOItemAttributes : System.Web.UI.UserControl
+      #{	
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #		
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

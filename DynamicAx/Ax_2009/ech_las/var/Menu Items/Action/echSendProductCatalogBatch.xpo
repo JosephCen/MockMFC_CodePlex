@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSendProductCatalogBatch unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSendProductCatalogBatch
+    Type: 3
+    PROPERTIES
+      Name                #echSendProductCatalogBatch
+      Label               #@ECH241
+      HelpText            #@ECH240
+      ObjectType          #Class
+      Object              #echSendProductCatalogBatch
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #RBO
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

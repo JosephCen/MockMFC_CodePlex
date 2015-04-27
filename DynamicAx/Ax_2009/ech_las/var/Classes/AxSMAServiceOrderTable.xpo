@@ -1,0 +1,125 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxSMAServiceOrderTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxSMAServiceOrderTable
+    Id 7923
+    PROPERTIES
+      Name                #AxSMAServiceOrderTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmSignOffDateTime
+        #public SMASignOffDateTime parmSignOffDateTime(SMASignOffDateTime _signOffDateTime = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_signOffDateTime))
+        #    {
+        #        this.setField(fieldNum(SMAServiceOrderTable, SignOffDateTime), _signOffDateTime);
+        #    }
+        #
+        #    return sMAServiceOrderTable.SignOffDateTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setActivityTypeId
+        #protected void setActivityTypeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, ActivityTypeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAddressCategory_BR
+        #protected void setAddressCategory_BR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, AddressCategory_BR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAddressCNPJCPFNum_BR
+        #protected void setAddressCNPJCPFNum_BR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, AddressCNPJCPFNum_BR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAddressIENum_BR
+        #protected void setAddressIENum_BR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, AddressIENum_BR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCompliance
+        #protected void setCompliance()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, Compliance)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setIncomingWebOrder
+        #protected void setIncomingWebOrder()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, IncomingWebOrder)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPreferredTechnician
+        #protected void setPreferredTechnician()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, PreferredTechnician)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPriority
+        #protected void setPriority()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, Priority)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSignOffDateTime
+        #protected void setSignOffDateTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderTable, SignOffDateTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,26 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSendStockMgmt unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSendStockMgmt
+    Type: 3
+    PROPERTIES
+      Name                #echSendStockMgmt
+      Label               #@SYS88739
+      HelpText            #@ECH378
+      ObjectType          #Class
+      Object              #echSendStockMgmt
+      ConfigurationKey    #AIF
+      SecurityKey         #InventMisc
+      MultiSelect         #Yes
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

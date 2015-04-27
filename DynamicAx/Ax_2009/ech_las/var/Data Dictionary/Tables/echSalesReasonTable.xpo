@@ -1,0 +1,143 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSalesReasonTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSalesReasonTable
+    Id 30001
+    PROPERTIES
+      Name                #echSalesReasonTable
+      Label               #@ECH20
+      TitleField1         #Id
+      TitleField2         #Name
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      PrimaryIndex        #PrimaryIdx
+      ClusterIndex        #PrimaryIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Id
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #Id
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSalesReasonTable
+          ExtendedDataType    
+            ARRAY 
+              #echSalesReasonId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Name
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #Name
+          Table               #echSalesReasonTable
+          ExtendedDataType    
+            ARRAY 
+              #echSalesReasonName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PrimaryIdx
+      Id 30001
+      PROPERTIES
+        Name                #PrimaryIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Id
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #public static boolean exist(echSalesReasonId _id)
+        #{
+        #    echSalesReasonTable echSalesReasonTable;
+        #    ;
+        #
+        #    select firstonly RecId from echSalesReasonTable
+        #        index hint PrimaryIdx
+        #        where echSalesReasonTable.Id == _id;
+        #
+        #    return echSalesReasonTable.RecId ? true : false;
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #public static echSalesReasonTable find(echSalesReasonId _id, boolean _forUpdate = false)
+        #{
+        #    echSalesReasonTable echSalesReasonTable;
+        #    ;
+        #
+        #    echSalesReasonTable.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSalesReasonTable
+        #        index hint PrimaryIdx
+        #        where echSalesReasonTable.Id == _id;
+        #
+        #    return echSalesReasonTable;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

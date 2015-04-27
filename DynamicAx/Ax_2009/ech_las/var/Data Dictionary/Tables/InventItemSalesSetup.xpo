@@ -1,0 +1,43 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventItemSalesSetup unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventItemSalesSetup
+    Id 1764
+    FIELDS
+      FIELD #LeadTime
+        Id 10
+        INT
+        PROPERTIES
+          Name                #LeadTime
+          Label               #@SYS88204
+          HelpText            #@SYS35
+          Table               #InventItemSalesSetup
+          ExtendedDataType    
+            ARRAY 
+              #LeadTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,220 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echReturnOrderLine unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echReturnOrderLine
+    Id 30060
+    PROPERTIES
+      Name                #echReturnOrderLine
+      Label               #@ECH504
+      TitleField1         #ProductId
+      TitleField2         #Qty
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ReturnOrderId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ReturnOrderId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #ProductId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #ProductId
+          Label               #@ECH494
+          HelpText            #@ECH495
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #ExtCodeValue
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #Qty
+        Id 30003
+        REAL
+        PROPERTIES
+          Name                #Qty
+          Label               #@ECH498
+          HelpText            #@ECH499
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #SalesQty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Price
+        Id 30004
+        REAL
+        PROPERTIES
+          Name                #Price
+          Label               #@ECH496
+          HelpText            #@ECH497
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #Price
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #ExtSkuId
+        Id 30005
+        STRING
+        PROPERTIES
+          Name                #ExtSkuId
+          Label               #@ECH500
+          HelpText            #@ECH306
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #ExtCodeValue
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #AttachmentCode
+        Id 30006
+        STRING
+        PROPERTIES
+          Name                #AttachmentCode
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #echReturnAttachmentCode
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #SkuId
+        Id 30007
+        STRING
+        PROPERTIES
+          Name                #SkuId
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #echSkuId
+              #
+            ENDARRAY
+          StringSize          #80
+        ENDPROPERTIES
+        
+      FIELD #SkuName
+        Id 30008
+        STRING
+        PROPERTIES
+          Name                #SkuName
+          Label               #@ECH502
+          HelpText            #@ECH503
+          Table               #echReturnOrderLine
+          ExtendedDataType    
+            ARRAY 
+              #Description
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReturnOrderId
+          #ProductId
+          #Price
+          #Qty
+          #ExtSkuId
+          #SkuId
+          #AttachmentCode
+          #SkuName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AllFields
+        PROPERTIES
+          Name                #AllFields
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReturnOrderId
+          #ProductId
+          #Price
+          #Qty
+          #ExtSkuId
+          #SkuId
+          #AttachmentCode
+          #SkuName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS9039
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReturnOrderId
+          #ExtSkuId
+          #Price
+          #Qty
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+      REFERENCE #echReturnOrderTable
+        PROPERTIES
+          Name                #echReturnOrderTable
+          Table               #echReturnOrderTable
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #ReturnOrderId
+            RelatedField        #ReturnOrderId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

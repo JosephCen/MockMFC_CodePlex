@@ -1,0 +1,447 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: AxdEchProductLoad unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #AxdEchProductLoad
+  PROPERTIES
+    Name                #AxdEchProductLoad
+    Title               #@SYS15649
+    Version             #1140
+    NextUniqueId        #1061
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #InventTable
+      PROPERTIES
+        Name                #InventTable
+        Table               #InventTable
+        UniqueId            #1000
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #ItemId
+        FIELD #BOMUnitId
+        FIELD #DimGroupId
+        FIELD #echLegacySystemId
+        FIELD #grossDepth
+        FIELD #grossHeight
+        FIELD #grossWidth
+        FIELD #ItemGroupId
+        FIELD #ItemName
+        FIELD #ItemType
+        FIELD #ModelGroupId
+        FIELD #NetWeight
+        FIELD #PrimaryVendorId
+        FIELD #TaraWeight
+        FIELD #UnitVolume
+        FIELD #NameAlias
+      ENDFIELDLIST
+      SORTING
+        FIELD #RecId
+          PROPERTIES
+            Table               #InventTable
+            Field               #RecId
+          ENDPROPERTIES
+          
+      ENDSORTING
+      LINES
+        LINE #ItemId
+        PROPERTIES
+          Name                #ItemId
+          Table               #InventTable
+          Field               #ItemId
+        ENDPROPERTIES
+        
+      ENDLINES
+      BLOCKS
+        BLOCK #InventItemSalesSetup
+          PROPERTIES
+            Name                #InventItemSalesSetup
+            Table               #InventItemSalesSetup
+            UniqueId            #1025
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #HighestQty
+            FIELD #ItemId
+            FIELD #LowestQty
+            FIELD #MultipleQty
+            FIELD #Stopped
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #RBOInventTable
+          PROPERTIES
+            Name                #RBOInventTable
+            Table               #RBOInventTable
+            UniqueId            #1044
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #BarcodeSetupId
+            FIELD #fabricComposition
+            FIELD #itemId
+            FIELD #lifeFrom
+            FIELD #lifeTo
+            FIELD #retailGroup
+            FIELD #seasonCode
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #itemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #echItemAttributes
+          PROPERTIES
+            Name                #echItemAttributes
+            Table               #echItemAttributes
+            UniqueId            #1039
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #AttributeDesc
+            FIELD #AttributeId
+            FIELD #AttributeName
+            FIELD #AttributeValue
+            FIELD #ItemId
+            FIELD #Mandatory
+            FIELD #UnitID
+            FIELD #Visible
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventSize
+          PROPERTIES
+            Name                #InventSize
+            Table               #InventSize
+            UniqueId            #1051
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #InventSizeId
+            FIELD #ItemId
+            FIELD #Name
+            FIELD #Description
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventColor
+          PROPERTIES
+            Name                #InventColor
+            Table               #InventColor
+            UniqueId            #1052
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #InventColorId
+            FIELD #ItemId
+            FIELD #Name
+            FIELD #Description
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #RBOInventStyle
+          PROPERTIES
+            Name                #RBOInventStyle
+            Table               #RBOInventStyle
+            UniqueId            #1053
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #InventStyleId
+            FIELD #ItemId
+            FIELD #Name
+            FIELD #Description
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventItemBarcode
+          PROPERTIES
+            Name                #InventItemBarcode
+            Table               #InventItemBarcode
+            UniqueId            #1042
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #barcodeSetupId
+            FIELD #description
+            FIELD #itemBarCode
+            FIELD #itemId
+            FIELD #UnitID
+            FIELD #echItemBarCode
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDimBarcode
+                Table               #InventDim
+                UniqueId            #1058
+                JoinMode            #OuterJoin
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                  Dynamic             #No
+                ENDPROPERTIES
+                
+                FIELD #InventColorId
+                FIELD #InventSizeId
+                FIELD #InventStyleId
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #inventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #itemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #PriceDiscTable
+          PROPERTIES
+            Name                #PriceDiscTable
+            Table               #PriceDiscTable
+            UniqueId            #1056
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #Amount
+            FIELD #Currency
+            FIELD #FromDate
+            FIELD #ItemCode
+            FIELD #PriceInclVAT
+            FIELD #QuantityAmount
+            FIELD #ToDate
+            FIELD #UnitId
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDimPrice
+                Table               #InventDim
+                UniqueId            #1059
+                JoinMode            #OuterJoin
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                  Dynamic             #No
+                ENDPROPERTIES
+                
+                FIELD #InventColorId
+                FIELD #InventLocationId
+                FIELD #InventSiteId
+                FIELD #InventSizeId
+                FIELD #InventStyleId
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #InventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemRelation
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #DocuRef
+          PROPERTIES
+            Name                #DocuRefHeader
+            Table               #DocuRef
+            UniqueId            #1060
+            JoinMode            #OuterJoin
+            Update              #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #InventTable
+              MASTERFIELD  #TableId
+              DETAILSFIELD #RefTableId
+            ASSOCIATION
+              JOINDATASOURCE #InventTable
+              MASTERFIELD  #dataAreaId
+              DETAILSFIELD #RefCompanyId
+            ASSOCIATION
+              JOINDATASOURCE #InventTable
+              MASTERFIELD  #RecId
+              DETAILSFIELD #RefRecId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

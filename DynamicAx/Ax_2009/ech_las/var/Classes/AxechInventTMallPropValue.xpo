@@ -1,0 +1,214 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechInventTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechInventTMallPropValue
+    Id 30329
+    PROPERTIES
+      Name                #AxechInventTMallPropValue
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechInventTMallPropValue axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechInventTMallPropValue extends AxInternalBase
+        #{
+        #    echInventTMallPropValue echInventTMallPropValue;
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echInventTMallPropValue currentRecord(echInventTMallPropValue _echInventTMallPropValue = echInventTMallPropValue)
+        #{
+        #    if (!prmisdefault(_echInventTMallPropValue))
+        #    {
+        #        super(_echInventTMallPropValue);
+        #        echInventTMallPropValue = _echInventTMallPropValue;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echInventTMallPropValue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echInventTMallPropValue
+        #public echInventTMallPropValue echInventTMallPropValue(echInventTMallPropValue _echInventTMallPropValue = echInventTMallPropValue)
+        #{
+        #    if (!prmisdefault(_echInventTMallPropValue))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echInventTMallPropValue);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echInventTMallPropValue emptyRecord()
+        #{
+        #    echInventTMallPropValue localechInventTMallPropValue;
+        #    ;
+        #    return localechInventTMallPropValue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCid
+        #public echTMallCategoryId parmCid(echTMallCategoryId _cid = 0)
+        #{
+        #    if (!prmisdefault(_cid))
+        #    {
+        #        this.setField(fieldNum(echInventTMallPropValue, Cid), _cid);
+        #    }
+        #
+        #    return echInventTMallPropValue.Cid;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public ItemId parmItemId(ItemId _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(echInventTMallPropValue),fieldnum(echInventTMallPropValue,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(echInventTMallPropValue, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axSalesItemId('', echInventTMallPropValue.ItemId,InventDim::findOrCreateBlank()),1);
+        #    }
+        #    else
+        #    {
+        #        return echInventTMallPropValue.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPropId
+        #public echTMallPropertyId parmPropId(echTMallPropertyId _propId = 0)
+        #{
+        #    if (!prmisdefault(_propId))
+        #    {
+        #        this.setField(fieldNum(echInventTMallPropValue, PropId), _propId);
+        #    }
+        #
+        #    return echInventTMallPropValue.PropId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPropValueId
+        #public echTMallPropertyValueId parmPropValueId(echTMallPropertyValueId _propValueId = 0)
+        #{
+        #    if (!prmisdefault(_propValueId))
+        #    {
+        #        this.setField(fieldNum(echInventTMallPropValue, PropValueId), _propValueId);
+        #    }
+        #
+        #    return echInventTMallPropValue.PropValueId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCid
+        #protected void setCid()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventTMallPropValue, Cid)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventTMallPropValue, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPropId
+        #protected void setPropId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventTMallPropValue, PropId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPropValueId
+        #protected void setPropValueId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventTMallPropValue, PropValueId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setItemId();
+        #    this.setCid();
+        #    this.setPropId();
+        #    this.setPropValueId();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechInventTMallPropValue construct()
+        #{
+        #    return new AxechInventTMallPropValue();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechInventTMallPropValue
+        #public static AxechInventTMallPropValue newechInventTMallPropValue(echInventTMallPropValue _echInventTMallPropValue)
+        #{
+        #    AxechInventTMallPropValue AxechInventTMallPropValue = AxechInventTMallPropValue::construct();
+        #    ;
+        #    AxechInventTMallPropValue.echInventTMallPropValue(_echInventTMallPropValue);
+        #
+        #    return AxechInventTMallPropValue;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

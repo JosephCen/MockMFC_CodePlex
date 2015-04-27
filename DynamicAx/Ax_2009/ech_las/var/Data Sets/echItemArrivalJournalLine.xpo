@@ -1,0 +1,179 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echItemArrivalJournalLine
+  PROPERTIES
+    Name                #echItemArrivalJournalLine
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #unpack
+      #public boolean unpack(container _pack)
+      #{
+      #    Integer     version = conpeek(_pack,1);
+      #    container   base;
+      #    boolean     ret;
+      #    ;
+      #
+      #    switch (version)
+      #    {
+      #        case #CurrentVersion    :   [version, #currentList , base] = _pack;
+      #                                    ret = super(base);
+      #                                    break;
+      #        default: super(_pack);
+      #    }
+      #
+      #    return ret;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #pack
+      #public container pack()
+      #{
+      #    return [#CurrentVersion, #CurrentList] + [super()];
+      #}
+    ENDSOURCE
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    WMSJournalTrans     WMSJournalTransRec;
+      #    #DEFINE.CurrentVersion(1)
+      #    #LOCALMACRO.CurrentList
+      #      WMSJournalTransRec
+      #    ENDMACRO
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+      Version             #8
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #WMSJournalTrans
+          Table               #WMSJournalTrans
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #dspInventBatchId
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_008
+          #// *** Customization Date: 05 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display dimension
+          #
+          #//BP Deviation documented
+          #display InventBatchId dspInventBatchId(WMSJournalTrans _WMSJournalTrans)
+          #{
+          #    ;
+          #    return _WMSJournalTrans.inventDim().InventBatchId;
+          #}
+        ENDSOURCE
+        SOURCE #dspInventSerialId
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_008
+          #// *** Customization Date: 05 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display dimension
+          #
+          #//BP Deviation documented
+          #display InventSerialId dspInventSerialId(WMSJournalTrans _WMSJournalTrans)
+          #{
+          #    ;
+          #    return _WMSJournalTrans.inventDim().InventSerialId;
+          #}
+        ENDSOURCE
+        SOURCE #dspWMSLocationId
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_008
+          #// *** Customization Date: 05 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display dimension
+          #
+          #//BP Deviation documented
+          #display WMSLocationId dspWMSLocationId(WMSJournalTrans _WMSJournalTrans)
+          #{
+          #    ;
+          #    return _WMSJournalTrans.inventDim().WMSLocationId;
+          #}
+        ENDSOURCE
+        SOURCE #dspInventLocationId
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_008
+          #// *** Customization Date: 05 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display dimension
+          #
+          #//BP Deviation documented
+          #display InventLocationId dspInventLocationId(WMSJournalTrans _WMSJournalTrans)
+          #{
+          #    ;
+          #    return _WMSJournalTrans.inventDim().InventLocationId;
+          #}
+        ENDSOURCE
+        SOURCE #dspInventColorId
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_008
+          #// *** Customization Date: 05 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display dimension
+          #
+          #//BP Deviation documented
+          #display InventColorId dspInventColorId(WMSJournalTrans _WMSJournalTrans)
+          #{
+          #    ;
+          #    return _WMSJournalTrans.inventDim().InventColorId;
+          #}
+        ENDSOURCE
+        SOURCE #dspInventSizeId
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_008
+          #// *** Customization Date: 05 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display dimension
+          #
+          #//BP Deviation documented
+          #display InventSizeId dspInventSizeId(WMSJournalTrans _WMSJournalTrans)
+          #{
+          #    ;
+          #    return _WMSJournalTrans.inventDim().InventSizeId;
+          #}
+        ENDSOURCE
+        SOURCE #dspConfigId
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_008
+          #// *** Customization Date: 05 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display dimension
+          #
+          #//BP Deviation documented
+          #display configId dspConfigId(WMSJournalTrans _WMSJournalTrans)
+          #{
+          #    ;
+          #    return _WMSJournalTrans.inventDim().configId;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

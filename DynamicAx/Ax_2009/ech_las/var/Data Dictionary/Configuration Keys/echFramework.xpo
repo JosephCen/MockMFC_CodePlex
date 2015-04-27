@@ -1,0 +1,20 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CON
+
+; Microsoft Dynamics AX CONFIGURATIONKEY : echFramework unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  CONFIGURATIONKEY #echFramework
+    Id 30001
+    PROPERTIES
+      Name                #echFramework
+      Label               #@ECH3
+    ENDPROPERTIES
+    
+  ENDCONFIGURATIONKEY
+  
+
+***Element: END

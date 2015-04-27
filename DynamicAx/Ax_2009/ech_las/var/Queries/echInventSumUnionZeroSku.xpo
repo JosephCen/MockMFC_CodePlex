@@ -1,0 +1,100 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: echInventSumUnionZeroSku unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #echInventSumUnionZeroSku
+  PROPERTIES
+    QueryType           #Union
+    Name                #echInventSumUnionZeroSku
+    Version             #37
+    NextUniqueId        #1002
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #InventSum
+      PROPERTIES
+        Name                #InventSum
+        Table               #InventSum
+        UniqueId            #1001
+        FetchMode           #1:1
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #InventDimId
+        FIELD #ItemId
+        FIELD #RecId
+        FIELD #recVersion
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+    BLOCK #echInventOnHandZeroSku
+      PROPERTIES
+        Name                #echInventOnHandZeroSku
+        Table               #echInventOnHandZeroSku
+        UniqueId            #1000
+        FetchMode           #1:1
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #InventDimId
+        FIELD #ItemId
+        FIELD #RecId
+        FIELD #recVersion
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+    DEPENDENT
+      PROPERTIES
+        Name                #echInventSumUnionZeroSkuVw
+        DependentType       #View
+      ENDPROPERTIES
+      
+      Id 30079
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

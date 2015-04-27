@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echEPCreatePartialReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echEPCreatePartialReturnOrder
+    PROPERTIES
+      Name                #echEPCreatePartialReturnOrder
+      Label               #@ech761
+      HelpText            #@ech762
+      Object              #echEPCreatePartialReturnOrder
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

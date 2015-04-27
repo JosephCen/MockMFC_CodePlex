@@ -1,0 +1,63 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : TaxTrans unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #TaxTrans
+    Id 440
+    PROPERTIES
+      Name                #TaxTrans
+      Label               #@SYS23189
+      FormRef             #TaxTrans
+      TitleField1         #Voucher
+      TitleField2         #TransDate
+      ConfigurationKey    #LedgerBasicSalesTax
+      SecurityKey         #LedgerTables
+      MaxAccessMode       #View
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Transaction
+      PrimaryIndex        #RecId
+      ClusterIndex        #RecId
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS126038
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #ECHTaxChangeDisplaySign
+        #Amount ECHTaxChangeDisplaySign()
+        #{
+        #    ;
+        #    return  this.SourceTaxAmountCur * Tax::changeDisplaySign(this.TaxDirection);
+        #}
+        #
+        #
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

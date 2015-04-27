@@ -1,0 +1,61 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : EPSalesReturnItemListToolbar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #EPSalesReturnItemListToolbar
+    PROPERTIES
+      Name                #EPSalesReturnItemListToolbar
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS40422
+      PROPERTIES
+        Name                #Actions
+        Label               #@SYS40422
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Order Information
+          MenuItemName        #echEPReturnTableInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #New Return Order
+          MenuItemName        #echNewReturnOrder
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Edit Return Order
+          MenuItemName        #echEditReturnOrder
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS111665
+      PROPERTIES
+        Name                #RelatedInformation
+        Label               #@SYS111665
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Customer information
+          MenuItemName        #EPCustTableInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

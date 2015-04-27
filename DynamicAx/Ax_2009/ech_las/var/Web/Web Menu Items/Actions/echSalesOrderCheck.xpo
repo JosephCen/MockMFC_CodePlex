@@ -1,0 +1,22 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echSalesOrderCheck unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echSalesOrderCheck
+    PROPERTIES
+      Name                #echSalesOrderCheck
+      Label               #@ECH703
+      HelpText            #@ECH705
+      Object              #echSalesOrderCheck
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

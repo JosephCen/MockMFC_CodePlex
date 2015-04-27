@@ -1,0 +1,97 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInventOnHandServiceExeLog unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInventOnHandServiceExeLog
+    Id 30077
+    PROPERTIES
+      Name                #echInventOnHandServiceExeLog
+      Label               #@ECH858
+      TitleField1         #SalesOrderInventLocationId
+      TitleField2         #SalesOrderCreatedDateTime
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #BasicTables
+      CreateRecIdIndex    #Yes
+      CreatedDateTime     #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #SalesOrderInventLocationId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #SalesOrderInventLocationId
+          Table               #echInventOnHandServiceExeLog
+          ExtendedDataType    
+            ARRAY 
+              #InventLocationId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #SalesOrderCreatedDateTime
+        Id 30002
+        DATETIME
+        PROPERTIES
+          Name                #SalesOrderCreatedDateTime
+          Table               #echInventOnHandServiceExeLog
+          ExtendedDataType    
+            ARRAY 
+              #createdDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesOrderInventLocationId
+          #SalesOrderCreatedDateTime
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesOrderInventLocationId
+          #SalesOrderCreatedDateTime
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesOrderInventLocationId
+          #SalesOrderCreatedDateTime
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

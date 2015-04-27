@@ -1,0 +1,969 @@
+﻿@ECH0 Label files created on 5/3/2012
+By user marij
+@ECH1 Invoice created
+@ECH2 Indicates whether the invoice has been created
+@ECH3 eChina framework
+@ECH4 eChina interfaces
+@ECH5 eChina processes
+@ECH6 Sales reason
+@ECH7 Sales reason identification
+@ECH8 Sales reason name
+@ECH9 Name of the sales reason
+@ECH10 Partner name
+@ECH11 Messaging partner name
+@ECH12 Messaging partner identification
+@ECH13 Partner external code
+@ECH14 The messaging partner's external order code
+@ECH15 Invoice requested
+@ECH16 Indicates whether the invoice has been requested
+@ECH17 Sales reasons
+@ECH18 Messaging partners
+@ECH19 Messaging partner
+@ECH20 sales reasons
+@ECH21 test
+test
+@ECH23 Send sales order documents electronically
+@ECH24 %1 %2 has been send electronically
+@ECH25 External partners
+@ECH26 External messaging partners
+@ECH27 External Exception/Cancel reasons
+@ECH28 SKU's
+@ECH29 SKU Id
+@ECH30 SKU identification
+@ECH31 Unique key for SKUs
+@ECH32 Check setup of number sequence for SKU's
+@ECH33 View SKU's
+@ECH34 A record for partner %1 with external code %2 already exists
+@ECH35 Front end modified date
+@ECH36 The date when a sales order is modified on the front end
+@ECH37 Front end end time date
+@ECH38 The date when a sales order has ended on the front end
+@ECH39 Front end creation date
+@ECH40 The date when a sales order is created on the front end
+@ECH41 Reference to Alipay
+@ECH42 Payment reference
+Payment reference
+@ECH43 Front end dates
+@ECH44 Alipay
+@ECH45 Other options
+@ECH46 Send the document electronically to all eligible endpoints
+@ECH47 Create/Update pipeline component parameters
+@ECH48 Base table
+@ECH49 Configure Create/Update pipeline component
+@ECH50 Create/update pipeline component
+@ECH51 No pipeline parameters exists
+@ECH52 Stock allocation rules
+@ECH53 Stock allocation
+@ECH54 The definition of virtual stock can only be performed on product level
+@ECH55 %1 cannot be lower than zero
+@ECH56 Virtual stock that is available
+@ECH57 Virtual stock
+@ECH58 Percentage of stock that is allocated
+@ECH59 Allocation rule (%)
+@ECH60 Allocation settings
+@ECH61 Define the stock allocation rules
+@ECH62 Sales channel allocation rules
+@ECH63 Inventory stock queue
+@ECH64 Payment time
+@ECH65 The time the payment was done.
+@ECH66 The total amount payed by the customer
+@ECH67 Promotion code
+@ECH68 The promotion code specified for this order
+@ECH69 Frontend
+@ECH70 Discount fee
+@ECH71 Discount fee provided to the customer
+@ECH72 Adjustment fee provided to the customer
+@ECH73 Adjustment fee
+@ECH74 Coupon code
+@ECH75 The coupon code specified for this order line
+@ECH76 Process inventory stock queue
+@ECH77 The company the customer works for.
+@ECH78 Temporary warehouse for unallocated items during stock allocation
+@ECH79 Temporary warehouse
+@ECH80 Perform stock counting of items that are received from the WMS
+@ECH81 View the inventory stock queue
+@ECH82 eChina inventory stock queue service
+@ECH83 Send the on hand inventory to all eligible endpoints
+@ECH84 Send inventory on hand
+@ECH85 Line amount as specified on the front end.
+@ECH86 Front end line amount
+@ECH87 Receives in an XML string and creates them in the system.
+@ECH88 eChina inventory on hand service
+@ECH89 Send from query
+@ECH90 Selects through a query and sends them in an XML string.
+@ECH91 Send list of
+@ECH92 Sends from the system in an XML string.
+@ECH93 Identifies which barcode setup is used for the SKUs
+@ECH94 SKU barcode setup
+@ECH95 SKU
+@ECH96 Sales order %1 has been cancelled
+@ECH97 Cancel the sales order
+@ECH98 Cancel sales order
+@ECH99 eChina return order arrival service
+@ECH101 Exception/Cancel Identification
+@ECH102 Exception/Cancel Reason name
+@ECH103 Description of the exception/cancel reason
+@ECH104 Exception/Cancel Reason
+@ECH105 Payment Confirmed
+@ECH106 Checks failed
+@ECH107 Checks OK
+@ECH108 Send to WMS
+@ECH109 Shipped to customer
+@ECH110 Delivered at Customer
+@ECH111 Products received
+@ECH112 Refund or Replacement
+@ECH113 Return to Customer
+@ECH114 Refunded
+@ECH115 Setup cases of Exception/Cancel reasons for sales orders
+@ECH116 Aggregate Status Orders
+@ECH117 Indicates whether this warehouse is a temporary one
+@ECH118 Aggregate status order
+@ECH119 Aggregation for the status order
+@ECH120 A temporary warehouse named %1 already exists for site %2
+@ECH121 There is no temporary warehouse configured for site %1
+@ECH122 The result of the sales order check
+@ECH123 Sales order check result
+@ECH124 The received counted quantity %1 should be higher than the on-hand quantity %2 of site %3
+@ECH125 The result of the check
+@ECH126 The sequence of the check
+@ECH127 Sales orders checks
+@ECH128 Check quantity parameter
+@ECH129 Check amount
+eChina
+@ECH130 Check invoice parameter
+@ECH131 Check frequency parameter
+@ECH132 Check promotions
+@ECH133 Check code parameter
+@ECH134 Check of the invoice parameter
+@ECH135 Invoice parameter check
+Invoice parameter check
+@ECH136 Item arrival journal lines
+@ECH137 Item arrival journal header
+@ECH149 Promotion parameters
+@ECH150 Parameters for the promotion sales order check
+@ECH151 Frequency parameters
+@ECH152 Paramaters for the frequency sales order check
+@ECH153 This class needs an active margin
+@ECH154 Promotion parameters check
+@ECH155 Quantity parameter check
+@ECH156 Check of the quantity parameter
+@ECH157 Check of the promotion parameter
+@ECH158 Frequency parameter check
+@ECH159 Check of the frequency parameter
+@ECH160 Max amount check
+@ECH161 Check of the max amount
+@ECH162 Amount parameter
+@ECH163 The parameter for the amount sales order check
+@ECH164 Check results
+@ECH165 NOK
+@ECH166 The description of the check
+@ECH167 The class with the number %1 does not exist
+@ECH168 Maximal quantity
+@ECH169 Parameter used for the max quantity sales order check
+@ECH170 Maximal amount
+@ECH171 Parameter used for the max amount sales order check
+@ECH172 The configuration form for the sales order checks
+@ECH173 Quantity parameter form used for the quantity sales order check
+@ECH174 COD control parameter
+@ECH175 The parameter form used for the COD Control sales order check
+@ECH176 Invoice parameter check
+@ECH177 The parameter used for the invoice sales order check
+@ECH178 Customer black list
+@ECH179 The black list of customers used for black list sales order check
+@ECH180 Check of the delivery city
+@ECH181 Shipping information check
+@ECH182 Check of the payment confirmation
+@ECH183 Payment confirmation check
+@ECH184 Reference RecId
+@ECH185 Number of orders
+@ECH186 The maximum number of orders for a customer
+@ECH187 The maximum number of days for a customer
+@ECH188 Information that the check is enabled or not
+@ECH189 Sales order identification
+@ECH190 Frequency check parameter
+@ECH191 Invoice check parameter
+@ECH192 Caller must pass a sales order
+@ECH193 Thesales order has not been saved.
+@ECH194 Create \ Update sales order check class
+@ECH195 Creation\Update of the sales order check class
+@ECH196 Checks
+eChina
+@ECH197 Class %1 is not a valid sales order check. It does not implement the sales order check interface.
+@ECH198 echSoCheckAmount
+@ECH199 All fileds
+@ECH200 Customer blacklist check
+@ECH201 echSoCheckCODControl
+@ECH202 echSoCheckFrequencyParam
+@ECH203 echSoCheckInvoice
+@ECH204 echSoCheckPayment
+@ECH205 echSoCheckPromotions
+@ECH206 echSoCheckQuantityParam
+@ECH207 echSoCheckShippingCity
+@ECH208 this class don't need parameters
+@ECH209 Sales order check classes
+@ECH210 The list of sales order checks classes names
+@ECH211 Used to configure the sales order checks which need parameters
+@ECH212 Sales order check
+@ECH213 Scanning for sales order check classes
+@ECH214 Check of the customer black list
+@ECH215 Check of the COD Control
+@ECH216 COD control check
+@ECH217 Check of the shipping information
+@ECH218 Sales order checks
+@ECH219 Batch class used to check the sales orders confirmed
+@ECH222 The delivery address on sales order %1 cannot be modified for aggregate status %2
+@ECH223 Receives in an XML string and updates them in the system.
+@ECH224 eChina picking list registration service
+@ECH226 Edit Return Order
+@ECH227 Edit the return order selected
+@ECH228 Find the sales order for the return order selected
+@ECH231 Mark All
+eChina
+@ECH232 Refund note
+@ECH233 Print current refund note for the sales order
+@ECH234 Print the refund note
+@ECH235 This report needs an active margin
+@ECH236 Print refund note
+@ECH237 Customer phone
+@ECH238 Customer Email
+@ECH239 Enterprise information
+@ECH240 Batch job that will send the product catalog to all eligible endpoints
+@ECH241 Send product catalog
+@ECH242 eChina product catalog service
+@ECH243 eChina assortment store trade agreements
+@ECH244 eChina assortment store items
+@ECH245 Promotions
+eChina
+@ECH246 Promotion reference
+@ECH247 Promotion name
+@ECH248 Display discounts informations for the sales order header
+@ECH249 Display discounts informations for the sales order line
+@ECH250 Used for the link to the sales line
+@ECH251 Promotions informations for a sales order line
+@ECH252 Promotions informations for a sales order header
+@ECH253 Promotion informations for the sales order header
+@ECH254 Address changed
+@ECH255 Checked when one of an address element has changed
+@ECH256 One check was not completed correctly
+@ECH257 Sales order addresses check
+@ECH258 Checks if the sales order addresses were changed
+@ECH259 The attribute identifier
+@ECH260 The name of the attribute
+@ECH261 The unit of the attribute
+@ECH262 The description of the attribute
+@ECH263 Set the attribute value mandatory or not
+@ECH264 Set if the attribute is visible or not
+@ECH265 the value of the attribute must be filled
+@ECH266 Display the item attributes
+@ECH267 Wait for shipping
+@ECH268 Store list of a retail item screen
+@ECH269 Discounts for the sales line
+@ECH270 Discounts for the sales order
+@ECH271 Assortment list of retail items
+@ECH272 New discount
+@ECH273 Add new discount to the sales order
+@ECH274 Discounts sales order
+@ECH275 Discounts sales orders
+@ECH276 Discounts sales lines
+@ECH277 Configure the sales order checks
+@ECH278 Reservation status
+@ECH279 The order's reservation status of the inventory quantity
+@ECH280 Insufficient stock
+@ECH281 Sales line reservation status update
+@ECH282 Update the reservation status of the sales line's quantities based on the current stock levels
+@ECH283 Tracking information
+@ECH284 No allocation rules can be created on the temporary warehouse '%1'
+@ECH285 Virtual stock cannot be defined on a temporary warehouse
+@ECH286 Store list of retail items
+@ECH287 Check payment parameter
+@ECH288 Sales update service
+@ECH289 Field %1 in table %2 has changed
+@ECH290 Send out events
+@ECH291 Send out events via AIF
+@ECH292 Automatically generate sales order alert rules
+@ECH293 Generate sales order alert rules
+@ECH294 Send out alerts
+@ECH295 Send out alerts via AIF
+@ECH296 Sales order event rules have been generated
+@ECH297 Sales aggregate status
+@ECH298 Cannot send %1 %2 electronically
+@ECH299 Sales order outbound aggregate status constraints
+@ECH300 Sales aggregate status %1 is not configured to be send out
+@ECH301 Sales order aggregate status constrains
+@ECH302 Configure sales order outbound aggregate status constrains
+@ECH303 Stock reserved
+@ECH304 Method of payment check parameters
+@ECH305 Parameters for the Method of Payment sales order check
+@ECH306 External SKU id
+@ECH307 The internal value for the external SKU ID %1 for warehouse %2 doesn't exist.
+@ECH308 Show the external SKU id's for the different sales channels.
+@ECH309 Normal Invoice
+@ECH310 VAT Invoice
+@ECH311 Content of the invoice
+@ECH312 Invoice content
+@ECH313 Invoice id
+@ECH314 The id of the invoice
+@ECH315 Invoice name
+@ECH316 The name on the invoice
+@ECH317 The type of invoice
+@ECH318 Note about the delivery of this package
+@ECH319 Delivery note
+@ECH320 Date the package has been signed off
+@ECH321 Sign date
+@ECH322 Person who signed for the receiving of the package
+@ECH323 Sign person
+@ECH324 The shipping fee that is actually paid for the shipping
+@ECH325 Actual shipping fee
+@ECH326 Sales order delivery service
+@ECH327 Sales order delivered
+@ECH328 Receive sales order delivered message
+@ECH329 Mark a sales order as delivered
+@ECH330 Mark sales orders as delivered
+@ECH331 Sales order delivered AIF message
+@ECH332 Sales order %1 not found.
+@ECH333 Packing slip for sales order %1 doesn't exist.
+@ECH334 Send External SKU from query
+@ECH335 Selects External SKU through a query and sends them in an XML string.
+@ECH336 Send list of External SKU
+@ECH337 Sends External SKU from the system in an XML string.
+@ECH338 Receive External SKU
+@ECH339 Receives External SKU in an XML string and creates them in the system.
+@ECH340 External SKU
+@ECH341 eChina External SKU service
+@ECH342 Invoice title
+@ECH343 Title of the invoice
+@ECH344 Edit sales order check result
+@ECH345 Posting Shipping charges for packing slip %1 of S/O %2 have not been retrieved.
+@ECH346 Invalid SKU ID '%1'
+@ECH347 %1 posted for return order %2
+@ECH348 The order should be of type %1
+@ECH349 Return order %1 has been cancelled
+@ECH350 Id of the legacy system
+@ECH351 Name of the legacy system
+@ECH352 Legacy system
+@ECH353 List of all legacy systems
+@ECH354 Legacy
+@ECH355 EAN barcode setup
+@ECH356 Identifies which barcode setup is used for the EANs
+@ECH357 Legacy ID
+@ECH358 Original sales order id
+@ECH360 Reason Identification
+@ECH361 eChina stock movement service
+@ECH362 Send list of Stock Movement
+@ECH363 Sends Stock Movement from the system in an XML string.
+@ECH364 Receive Stock Movement
+@ECH365 Receives Stock Movement in an XML string and creates them in the system.
+@ECH366 Stock Movement journal
+@ECH367 Stock management
+@ECH368 Reason1
+@ECH369 Reason2
+@ECH370 HHT Infocode mandatory
+@ECH371 HHT Infocode
+@ECH372 View by style
+@ECH373 HHT PR Document
+@ECH374 Create new PR doc
+@ECH375 The related handheld documents
+@ECH376 Lowest Retail status
+@ECH377 Journal Id %1 could not be sent
+@ECH378 Send Invent journal documents electronically
+@ECH379 Journal reasons
+@ECH380 Invent Journals reason Id
+@ECH381 Profit/loss reason
+@ECH382 Inventory Journal reasons
+@ECH383 Journal Id %1 has been sent electronically
+@ECH384 Receives Product Catalog creation and Update in an XML string and updates them in the system.
+@ECH385 Update Product Catalog creation and Update
+@ECH386 Receives Product Catalog creation and Update in an XML string and creates them in the system.
+@ECH387 Receive Product Catalog creation and Update
+@ECH388 Sends Product Catalog creation and Update from the system in an XML string.
+@ECH389 Send list of Product Catalog creation and Update
+@ECH390 Product Catalog creation and Update
+@ECH391 HHT Subcode
+@ECH392 Bar code
+ECH
+@ECH393 Bar code digits
+ECH
+@ECH394 Invoice Bank Account Number
+@ECH395 Invoice Deposit Bank
+@ECH396 Invoice Registered Phone Number
+@ECH397 Invoice Registered Address
+@ECH398 Invoice Tax Player Identification Number
+@ECH399 Invoice Company Name
+@ECH400 The invoice bank account number
+@ECH401 The invoice deposit bank
+@ECH402 The invoice registered phone number
+@ECH403 The invoice registered address
+@ECH404 The invoice tax player identification number
+@ECH405 The invoice company name
+@ECH410 Is Online Pay
+@ECH411 A value indicates whether this pay method is online pay.
+@ECH412 Online Pay
+@ECH413 Sum of percentage value for allocation rule %1 cannot be greater than 100.
+@ECH415 Stock Allocation Priority
+@ECH416 Address Source
+@ECH417 An enum value indicates where address value come from.
+@ECH418 ZipCode
+@ECH419 Inbound Xml
+@ECH420 External Item Id
+@ECH421 Show the external Item Id for different sales channels.
+@ECH422 Sales order check failed for %1.
+@ECH423 Item Attributes
+@ECH424 Delivery information
+@ECH425 echReturnOrderId
+@ECH426 Identification of the ech return order.
+@ECH427 ExternalReturnId
+@ECH428 Identification of the external return order.
+@ECH429 ReturnOrderRefundReason
+@ECH430 Refund reason of this return order.
+@ECH431 Status of the original order associated with this return order.
+@ECH432 ReturnOrderAdvanceStatus
+@ECH433 TMall advance refund status of this return order.
+@ECH434 AlipayNo
+@ECH435 Alipay number.
+@ECH436 Goods Status of this return order.
+@ECH437 GoodsStatus
+@ECH438 ReturnOrderTimeOut
+@ECH439 Timeout of this return order.
+@ECH440 ReturnOrderSalesOrderStatus
+@ECH441 ReturnShippingType
+@ECH442 Shipping type of this return order.
+@ECH443 RefundStatus
+@ECH444 Refund status of this return order.
+@ECH445 ReturnType
+@ECH446 Return type of this return order.
+@ECH447 ReturnAttachmentCode
+@ECH448 Attachment code of this return order.
+@ECH449 OriginalSalesOrderId
+@ECH450 Id of original external sales order associated with this return order.
+@ECH451 TotalPrice
+@ECH452 ImageURL
+@ECH453 Image URL of this return order.
+@ECH454 ItemTitle
+@ECH455 Title of item.
+@ECH456 Address of seller.
+@ECH457 Address2
+@ECH458 Province Name
+@ECH459 City Name
+@ECH461 BuyerNickName
+@ECH462 Buyer nick name.
+@ECH463 CompanyName
+@ECH464 CreatedDate
+@ECH465 Date when this return order was created.
+@ECH466 Brief description of refund.
+@ECH467 GoodsReturnTime
+@ECH468 Goods return time of this return order.
+@ECH469 Value indicates whether the goods of this return order has been returned.
+@ECH470 HasGoodsReturn
+@ECH471 ModifiedDate
+@ECH472 Date when this return order was modified.
+@ECH473 Amount which will be paid to seller.
+@ECH474 RefundedFee
+@ECH475 Amount which will be paid back to buyer.
+@ECH476 ExistTimeOut
+@ECH477 Value indicates whether there is timeout existing for this return order.
+@ECH478 RemindType
+@ECH479 Remind type of this return order.
+@ECH480 SellerNickName
+@ECH481 Seller nick name.
+@ECH482 SplitSellerFee
+@ECH483 Amount which will be paid to taobao.
+@ECH484 SplitTaobaoFee
+@ECH485 ConsigneeName
+@ECH486 Cousigee Name
+@ECH487 ConsignorName
+@ECH488 Consignor Name
+@ECH489 SendTime
+@ECH490 Send time of this return order.
+@ECH491 Status of client service of this return order.
+@ECH492 ClientServiceStatus
+@ECH493 Total price of this return order.
+@ECH494 ExternalProductId
+@ECH495 External product Id
+@ECH496 ProductPrice
+@ECH497 Price of this product.
+@ECH498 SalesQty
+@ECH499 Sales quantity of this product.
+@ECH500 ExternalSkuId
+@ECH502 SkuName
+@ECH503 Sku Name
+@ECH504 Return order lines
+@ECH505 Check of the comment on sales order
+@ECH506 Sales order comment check
+@ECH507 sales Order
+@ECH508 Partner external code
+@ECH509 Sales Channel
+@ECH510 Customer Name
+@ECH511 Payment amount
+EP
+@ECH512 Created date and time
+@ECH513 Aggtrgate status order
+@ECH514 Customer reference
+EP
+@ECH515 Exception/Cancel Reason
+EP
+@ECH516 Front end dates
+EP
+@ECH517 Front end time date
+EP
+@ECH518 Front end nodified date
+EP
+@ECH519 Payment reference
+EP
+@ECH520 Payment time
+EP
+@ECH521 Payment amount
+EP2
+@ECH522 Total Disc
+EP
+@ECH523 Currency
+EP
+@ECH524 Customer account
+EP
+@ECH525 Mobile Phone
+EP
+@ECH526 Fexed TelePhone
+EP
+@ECH527 Receiver name
+EP
+@ECH528 Receiver mobile phone
+@ECH529 Receiver faxed telephone
+@ECH530 ZiP/postal Code
+EP
+@ECH531 Delivery address
+EP
+@ECH532 PackingSlipDate
+EP
+@ECH533 Carrier ID
+EP
+@ECH534 Carrier company
+EP
+@ECH535 Tracking number
+EP
+@ECH536 Invoice id
+EP
+@ECH537 Invoice name
+EP
+@ECH538 Invoice Company name
+EP
+@ECH539 Invoice title
+EP
+@ECH540 Invoice type
+EP
+@ECH541 Invoice content
+EP
+@ECH542 Invoice Tax Player Identification
+EP
+@ECH543 Invoice Bank Account Number
+EP
+@ECH544 Invoice Deposit Bank
+EP
+@ECH545 Invoice Registered PhoneNumber
+EP
+@ECH546 Invoice Registered Address
+EP
+@ECH547 Promotion code
+EP
+@ECH548 Item number
+EP
+@ECH549 Item Name
+EP
+@ECH550 Size Id
+EP
+@ECH551 Size Name
+@ECH552 Color Id
+@ECH553 Color Name
+@ECH554 Style
+EP
+@ECH555 Quantity
+EP
+@ECH556 Unit
+EP
+@ECH557 Unit price
+EP
+@ECH558 Discount
+EP
+@ECH559 Disc.pct
+EP
+@ECH560 Net amount
+EP
+@ECH561 Check
+EP
+@ECH562 Result
+EP
+@ECH563 Modified date and Time
+EP
+@ECH564 Modified by
+EP
+@ECH565 Aggregate status order
+EP
+@ECH566 OFMS Returned order Id
+EP
+@ECH567 Original Sales Order Id
+EP
+@ECH568 Partner external code
+EP
+@ECH569 Payment amount
+EP3
+@ECH570 Aggregate status order
+EP2
+@ECH571 Return Aplication Date
+@ECH572 RMA number
+@ECH573 Return reason code
+EP
+@ECH574 Return Reason Description
+EP
+@ECH575 Deadline
+EP
+@ECH576 Replacement reference
+EP
+@ECH577 Return Created Date Time
+@ECH578 Return Modified Date Time
+@ECH579 Reveiver address
+@ECH580 Carrier Conpany Name
+@ECH581 Tracking Number
+@ECH582 Return Customer Name
+@ECH583 Return Customer Address
+@ECH584 Return Mobile Phone
+@ECH585 Return Telephone
+@ECH586 Item Type
+@ECH587 Item Description
+@ECH588 Packaging quantity
+@ECH589 Net weight
+EP
+@ECH590 Tare weight
+EP
+@ECH591 Gross weight
+EP
+@ECH592 Retail Group Level One
+@ECH593 Retail Group Level Two
+@ECH594 Retail Group Level Three
+@ECH595 Attributes Name
+@ECH596 Attributes Value
+@ECH597 SKU Number
+@ECH598 Bar Code
+@ECH599 SKU Description
+@ECH600 Cost Price
+@ECH601 Market Price
+@ECH602 Sales Price
+@ECH603 Price Unit
+@ECH604 Price quantity
+EP
+@ECH605 From Date
+@ECH606 To Date
+EP
+@ECH607 Physical Invent
+@ECH608 Reserver Invent
+@ECH609 Available Invent
+@ECH610 Virtual Stock
+@ECH611 Customer group
+EP
+@ECH612 Amount
+EP
+@ECH613 External Customer Account
+@ECH614 Balance
+EP
+@ECH615 Fixed Telephone
+@ECH616 Extension
+EP
+@ECH617 E-mail
+EP
+@ECH618 Address
+EP
+@ECH619 Language
+EP
+@ECH620 Customer classification
+@ECH621 Memo
+EP
+@ECH622 Stopped
+EP
+@ECH623 Faxed Telephone
+@ECH624 Extension
+EP2
+@ECH625 Mobile Phone
+EP2
+@ECH626 Contacts
+EP
+@ECH627 Customer Name
+EP
+@ECH628 State
+EP
+@ECH629 City
+EP
+@ECH630 County
+EP
+@ECH631 Street
+EP
+@ECH632 Extension
+EP3
+@ECH633 Fax
+EP
+@ECH634 E-mail
+EP2
+@ECH635 Sales Order
+EP
+@ECH636 Amount of Sales Order
+@ECH637 Amount of Return Order
+@ECH638 Return Status
+@ECH639 Return Order Created Date
+@ECH640 Sales Order Information
+EP
+@ECH641 Sales Order Basic Information
+@ECH642 Payment Information
+@ECH643 Customer Information
+EP
+@ECH644 Take Delivery Information
+@ECH645 Delivery Information
+@ECH646 Invoice Information
+@ECH647 Promotion Information
+@ECH648 Item Information
+EP
+@ECH649 Order Pre-Check Record
+@ECH650 Return Order List
+@ECH651 Return Order Basic Information
+@ECH652 Refund Information
+@ECH653 Return Customer Information
+@ECH654 Items List Information
+@ECH655 Item Basic Information
+@ECH656 Item channel Information
+@ECH657 Item Type Information
+@ECH658 Item Attribution Information
+@ECH659 Item SKU Information
+@ECH660 Item SKU Price
+@ECH661 Item SKU Invent
+@ECH662 Customer List
+@ECH663 Customer Basic Information
+@ECH664 Customer Address Information
+@ECH665 Customer Sales Order Information
+@ECH666 Customer Ruturn Order Information
+@ECH667 Receiver Information
+@ECH668 Fail to update external code for %1 %2!
+@ECH669 Fail to find xml node %1!
+@ECH670 Inner text of xml node %1 under path %2 is empty string!
+@ECH672 Fail to find xml node %1 under path %2!
+@ECH673 Item Hierarchy Information
+@ECH674 Contact Information
+@ECH675 Send list of %1
+@ECH676 Receive %1
+@ECH677 Sends %1 from the system in an XML string.
+@ECH678 Receives %1 in an XML string and creates them in the system.
+@ECH679 EchReturnOrder
+@ECH680 EchReturnOrderIn
+@ECH681 Sales Order Information
+EP
+@ECH682 Information of sales order
+@ECH683 Check Failed Sales Order
+@ECH684 The check failed sales order
+@ECH685 Return Order Information
+@ECH686 The information of return order
+@ECH687 Customer Information
+@ECH688 The information of customer
+@ECH689 Item Hierarchy
+@ECH690 Item List
+@ECH691 The Tracking Number
+@ECH692 The Carrier Company Name
+@ECH693 Return Information
+@ECH694 Return order list of EP
+@ECH695 Item Information of EP
+@ECH696 Item List of EP
+@ECH697 Customer List of EP
+@ECH698 LevelId
+@ECH699 The Hierarchy of Item
+@ECH701 Item Hierarchy Group
+ECH
+@ECH702 Create Return Order
+@ECH703 Sales Order Check
+@ECH704 Create return order of this sales order
+@ECH705 Check this sales order
+@ECH706 Is Check in Picking List
+@ECH707 A value indicate whether the sales order check need be re-check before picking list posting.
+@ECH708 Check of the stock reservation on sales order
+@ECH709 Sales order stock reservation check
+@ECH710 The Invoice Information
+@ECH711 Save
+ECH
+@ECH712 Cancel
+ECH
+@ECH713 Post Invoice
+@ECH714 Pro-forma Invoice
+@ECH715 Total amount of this SalesOrder header promotion cannot be greater than total amount of this SalesOrder.
+@ECH716 Edit Invoice Information
+@ECH717 Edit the information of invoice
+@ECH718 Promotion Description
+@ECH719 The code of the promotion
+@ECH720 The description of promotion
+@ECH721 Reverse Approve
+@ECH722 Reverse Reject
+@ECH723 Approve-Return Order
+@ECH724 Approve the return order request of customer
+@ECH725 Reject-Return Order
+@ECH726 Reject the return order request of customer
+@ECH727 Approve
+ECH
+@ECH728 Header Promotion
+@ECH729 Line Promotion
+@ECH730 This sales order have been returned
+@ECH731 This sales order is not invioced
+@ECH732 sales order can not be returned
+@ECH733 Create success.the RAM return order: %1
+@ECH734 can't approved again
+@ECH735 is approved
+@ECH736 can't rejected again
+@ECH737 is rejected
+@ECH738 Discount Round Off
+@ECH739 Sales order discount round off.
+@ECH740 Current table variable must be ForUpdate.
+@ECH741 Reject Reason Dialog
+@ECH742 This dialog used to input the reject reason.
+@ECH743 Reject-Return Order Reason
+@ECH744 The reason of you reject this return order
+@ECH745 This order does't allow check.
+@ECH746 Edit Pre-Check Information
+@ECH747 The Edit Pre-Check Sales Order Information
+@ECH748 QuantityAmount = 0 (price is normal price) and QuantityAmount = 1 (price is promotion price)
+@ECH749 Latest price agreements
+@ECH750 echReturnOrderInService
+@ECH751 Invoice Content Id
+@ECH752 The Id of invoice content
+@ECH753 Edit Receiver Address
+@ECH754 Edit the address exclude phone number
+@ECH755 Check OK
+@ECH756 Can't create the return order.
+@ECH757 Please contact the administrtor
+@ECH758 You can't %1, because the %2 must be %3.
+@ECH759 Create Return Reason Code
+@ECH760 please type the return reason code
+@ECH761 Create Partial Return Order
+@ECH762 Create the partial Return Order
+@ECH763 Over Allocation
+@ECH764 WMS Quantity
+@ECH765 Increment Stock Allocation
+@ECH766 Value indicate whether increment stock allocation will be used.
+@ECH768 Stock Allocation Over Allocated
+@ECH770 Query the record of over allocated during stock allocation.
+@ECH771 Stock Movement Auto Posting
+@ECH772 Stock Movement Auto Posting
+ECH
+@ECH773 Stock movement automatic posting or not
+@ECH774 Invoice Content Table
+@ECH775 Refunded Date
+@ECH776 The date when refund paid to customer.
+@ECH777 Is Latest Price
+@ECH778 Set as Latest Price
+@ECH779 Unset Latest Price
+@ECH780 Functions that can be executed in relation to the price record.
+@ECH781 Set current price record as latest price.
+@ECH782 Unset current price record as latest price.
+@ECH783 Tax registration
+ECH
+@ECH784 the concession contract
+@ECH785 create loyalty cards
+@ECH786 check loyalty cards
+@ECH787 The other tender in finalizing
+@ECH788 The post as shipment
+@ECH789 Use the order number reference
+@ECH790 Is Delta Update
+@ECH791 A value indicate current product catalog update is full or delta update.
+@ECH792 Send product catalog Log
+@ECH793 Invoice title Id
+@ECH794 Id of invoice title
+@ECH795 Last Available physical
+@ECH796 Last physical quantity available
+@ECH797 A value indicate current inventory on hand update is full or delta update.
+@ECH798 Load TMall Item Sku Id
+@ECH799 Load TMall Item Sku Id from xml files.
+@ECH800 Duplicate SKU Id %1 was found!
+@ECH801 the Sales order can't be cancelled.
+@ECH802 TMall Category Id
+TMall
+@ECH803 TMall Property Id
+TMall
+@ECH804 TMall Property Value Id
+TMall
+@ECH805 TMall Category Name
+TMall
+@ECH806 TMall Property Name
+TMall
+@ECH807 TMall Property Value
+TMall
+@ECH808 Identification of TMall category.
+TMall
+@ECH809 Name of TMall category.
+TMall
+@ECH810 Identification of TMall property.
+TMall
+@ECH811 Name of TMall property.
+TMall
+@ECH812 Identification of value of TMall property.
+TMall
+@ECH813 Value of TMall property.
+TMall
+@ECH814 Is Must Property
+TMall
+@ECH815 Is Ax Property
+TMall
+@ECH816 Is User Defined Property
+TMall
+@ECH817 A value indicate whether this is a mandatory property.
+TMall
+@ECH818 A value indicate whether this property is mapped to Ax existing value.
+TMall
+@ECH819 A value indicate whether this is a TMall user defined property.
+TMall
+@ECH820 TMall Category Property
+TMall
+@ECH821 Items TMall Property
+TMall
+@ECH822 Item Barcode TMall Property
+TMall
+@ECH823 Is From WMS
+@ECH824 A value indicate whether this record is came from WMS.
+@ECH825 Allocation Start Time
+@ECH826 Begin datetime of stock allocation.
+@ECH827 Set WMS Missing Sku to Zero
+@ECH828 A value indicate whether stock for these WMS missing Skus will be set to zero.
+@ECH829 %1 is cancelled!
+@ECH830 There is no stock information from WMS.
+@ECH831 Sequence Id
+ECH Inventory Stock Queue
+@ECH833 Sequence Id of inventory stock queue.
+@ECH834 Inventory Stock Queue Sequenece
+@ECH835 Type of current report line.
+@ECH836 Report - Return Refund DW
+@ECH837 Lacoste - Return&Refund report per week
+@ECH838 Return&Refund report per week
+@ECH839 Partner Report Name
+@ECH840 Name of messaging partner for report
+@ECH841 TMall Category
+TMall
+@ECH842 Level 1 Category Name
+TMall
+@ECH843 Name of Level 1 TMall Category.
+TMall
+@ECH844 Level 2 Category Name
+TMall
+@ECH845 Name of Level 2 TMall Category.
+TMall
+@ECH846 Is Key Property
+TMall
+@ECH847 A value indicate whether this is a key property.
+TMall
+@ECH848 Is Sales Property
+TMall
+@ECH849 A value indicate whether this is a sales property.
+TMall
+@ECH850 Color TMall Property Value Mapping
+@ECH851 Size TMall Property Value Mapping
+@ECH852 TMall Property Mapping Type
+@ECH853 Type of current TMall property mapping.
+@ECH854 Read TMall Property Value
+@ECH855 Fail to find column %1.
+@ECH856 Fail to find relevant row for %1 in table %2.
+@ECH857 Fail to read title row in sheet %1.
+@ECH858 Inventory on Hand Service Execution Log
+@ECH859 Inventory on Hand Service Zero OnHand Sku
+@ECH860 On-hand inventory Union Zero Onhand Sku
+@ECH861 Update items TMall property
+@ECH862 Update item barcode TMall property
+@ECH863 Micro-site
+@ECH864 Fail to find property value id for '%1' for property '%2' for item '%3'.
+@ECH865 Fail to map property value id for property '%1' for item barcode '%2'.

@@ -1,0 +1,37 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02208 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02208
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02208
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #Queries
+      PROPERTIES
+        Name                #Queries
+        ProjectGroupType    #Queries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 20
+        UTILOBJECTID 0
+        NODETYPE 330
+        NAME #AxdEchInventOnHand
+      ENDNODE
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

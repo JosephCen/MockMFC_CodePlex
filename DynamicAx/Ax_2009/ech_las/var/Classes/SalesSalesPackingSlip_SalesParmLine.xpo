@@ -1,0 +1,87 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesSalesPackingSlip_SalesParmLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesSalesPackingSlip_SalesParmLine
+    Id 14029
+    PROPERTIES
+      Name                #SalesSalesPackingSlip_SalesParmLine
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class SalesSalesPackingSlip_SalesParmLine extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchSkuId('EchSkuId')
+        #    #define.WMSOrder('WMSOrder')
+        #    #define.TableRefId('TableRefId')
+        #    #define.ShipCarrierId('ShipCarrierId')
+        #    #define.ShipCarrierAddress('ShipCarrierAddress')
+        #    #define.ShipCarrierAccount('ShipCarrierAccount')
+        #    #define.Scrap('Scrap')
+        #    #define.SalesLineRecId('SalesLineRecId')
+        #    #define.RemainBeforeInvent('RemainBeforeInvent')
+        #    #define.RemainBefore('RemainBefore')
+        #    #define.RemainAfterInvent('RemainAfterInvent')
+        #    #define.RemainAfter('RemainAfter')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.ParmId('ParmId')
+        #    #define.PackingUnitQty('PackingUnitQty')
+        #    #define.PackingUnit('PackingUnit')
+        #    #define.OrigSalesId('OrigSalesId')
+        #    #define.LineNum('LineNum')
+        #    #define.LineAmount('LineAmount')
+        #    #define.ItemId('ItemId')
+        #    #define.InvoiceAccount('InvoiceAccount')
+        #    #define.InventTransId('InventTransId')
+        #    #define.InventNow('InventNow')
+        #    #define.InventDimId('InventDimId')
+        #    #define.InventDim('InventDim')
+        #    #define.DocuRefLine('DocuRefLine')
+        #    #define.DlvMode('DlvMode')
+        #    #define.DeliveryName('DeliveryName')
+        #    #define.DeliveryAddress('DeliveryAddress')
+        #    #define.DeliverNow('DeliverNow')
+        #    #define.CustAccount('CustAccount')
+        #    #define.Complete('Complete')
+        #    #define.Closed('Closed')
+        #    #define.ChangedManually('ChangedManually')
+        #
+        #    // <GIN>
+        #    #define.MaximumRetailPrice_IN('MaximumRetailPrice_IN')
+        #    #define.AssessableValue_IN('AssessableValue_IN')
+        #    #define.CustomsShippingBillNumber_IN('CustomsShippingBillNumber_IN')
+        #    // </GIN>
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsEchSkuId
+        #public boolean existsEchSkuId()
+        #{
+        #    return this.exists(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #public echSkuId parmEchSkuId(echSkuId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSkuId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

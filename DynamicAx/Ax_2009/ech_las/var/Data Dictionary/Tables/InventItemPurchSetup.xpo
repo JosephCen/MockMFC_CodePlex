@@ -1,0 +1,43 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventItemPurchSetup unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventItemPurchSetup
+    Id 1754
+    FIELDS
+      FIELD #LeadTime
+        Id 10
+        INT
+        PROPERTIES
+          Name                #LeadTime
+          Label               #@SYS110981
+          HelpText            #@SYS35
+          Table               #InventItemPurchSetup
+          ExtendedDataType    
+            ARRAY 
+              #LeadTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

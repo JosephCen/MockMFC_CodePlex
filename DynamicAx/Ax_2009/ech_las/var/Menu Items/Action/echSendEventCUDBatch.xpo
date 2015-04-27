@@ -1,0 +1,26 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSendEventCUDBatch unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSendEventCUDBatch
+    Type: 3
+    PROPERTIES
+      Name                #echSendEventCUDBatch
+      Label               #@ECH294
+      HelpText            #@ECH295
+      ObjectType          #Class
+      Object              #echSendEventCUDBatch
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicPeriodic
+      NeededAccessLevel   #Edit
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

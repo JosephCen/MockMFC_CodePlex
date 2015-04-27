@@ -1,0 +1,36 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventSiteActivateUpdate unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventSiteActivateUpdate
+    Id 3258
+    PROPERTIES
+      Name                #InventSiteActivateUpdate
+      Extends             #
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #echUpdateStockAllocationRule
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: update echStockAllocationRule.inventDimId
+        #
+        #public void echUpdateStockAllocationRule()
+        #{
+        #    ;
+        #    inventSiteActivateUpdRuleInvLoc.echUpdateStockAllocationRule();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

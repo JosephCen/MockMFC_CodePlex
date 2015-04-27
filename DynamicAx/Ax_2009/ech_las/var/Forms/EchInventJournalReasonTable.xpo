@@ -1,0 +1,144 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #EchInventJournalReasonTable
+  PROPERTIES
+    Name                #EchInventJournalReasonTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #EchInventJournalReasonTable
+          Table               #EchInventJournalReasonTable
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH381
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          DataSource          #EchInventJournalReasonTable
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #EchInventJournalReasonTable
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #EchInventJournalReasonTable_Id
+                        DataSource          #EchInventJournalReasonTable
+                        DataField           #Id
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #EchInventJournalReasonTable_Name
+                        DataSource          #EchInventJournalReasonTable
+                        DataField           #Name
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS2952
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL STRINGEDIT
+                PROPERTIES
+                  Name                #EchInventJournalReasonTable_Id1
+                  DataSource          #EchInventJournalReasonTable
+                  DataField           #Id
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL STRINGEDIT
+                PROPERTIES
+                  Name                #EchInventJournalReasonTable_Name1
+                  DataSource          #EchInventJournalReasonTable
+                  DataField           #Name
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

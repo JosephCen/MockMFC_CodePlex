@@ -1,0 +1,50 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSalesOrderDeliveredService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSalesOrderDeliveredService
+    Id 30217
+    PROPERTIES
+      Name                #echSalesOrderDeliveredService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echSalesOrderDeliveredService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #create
+        #
+        #public AifEntityKeyList create(echSODelivered _echSODelivered)
+        #{
+        #    return this.createList(_echSODelivered);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echSalesOrderDeliveredService construct()
+        #{
+        #    return new echSalesOrderDeliveredService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

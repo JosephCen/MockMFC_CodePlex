@@ -1,0 +1,374 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventItemBarcode unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventItemBarcode
+    Id 1213
+    PROPERTIES
+      Name                #InventItemBarcode
+      Label               #@SYS63146
+      TitleField1         #itemId
+      TitleField2         #itemBarCode
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Main
+      PrimaryIndex        #ItemIdx
+      ClusterIndex        #ItemIdx
+      ModifiedDateTime    #Yes
+      DEL_modifiedTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS123975
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echItemBarCode
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echItemBarCode
+          Table               #InventItemBarcode
+          ExtendedDataType    
+            ARRAY 
+              #EchItemBarCode
+              #
+            ENDARRAY
+          StringSize          #80
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #itemBarCode
+          #echItemBarCode
+          #itemId
+          #description
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Barcode
+        PROPERTIES
+          Name                #Barcode
+          Label               #@SYS24296
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #itemBarCode
+          #echItemBarCode
+          #description
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #BarcodeIdx
+      Id 2
+      PROPERTIES
+        Name                #BarcodeIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #barcodeSetupId
+        #itemBarCode
+      ENDINDEXFIELDS
+      
+      #echBarcodeIdx
+      Id 30001
+      PROPERTIES
+        Name                #echBarcodeIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #echItemBarCode
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echExternalSkuId
+      PROPERTIES
+        Table               #echExternalSkuId
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #echItemBarcodeTMallPropValue
+      PROPERTIES
+        Table               #echItemBarcodeTMallPropValue
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echGetRBOColorName
+        #//add By Steven at 20130322
+        #//BP deviation documented
+        #display RBOShortName echGetRBOColorName()
+        #{
+        #    InventDim   m_InventDim;
+        #    RBOColors    m_RBOColors;
+        #    ;
+        #    select m_InventDim
+        #        where m_InventDim.inventDimId == this.InventDimId;
+        #    select m_RBOColors
+        #        where m_RBOColors.color ==m_InventDim.InventColorId;
+        #
+        #    return m_RBOColors.name;
+        #}
+      ENDSOURCE
+      SOURCE #echGetRBOSizeName
+        #//add By Steven at 20130322
+        #//BP deviation documented
+        #display RBOShortName echGetRBOSizeName()
+        #{
+        #    InventDim   m_InventDim;
+        #    RBOSizes    m_RBOSizes;
+        #    ;
+        #    select m_InventDim
+        #        where m_InventDim.inventDimId == this.InventDimId;
+        #    select m_RBOSizes
+        #        where m_RBOSizes.size == m_InventDim.InventSizeId;
+        #
+        #    return m_RBOSizes.name;
+        #}
+      ENDSOURCE
+      SOURCE #initFromItemId
+        #void initFromItemId()
+        #{
+        #    // Begin - Avanade.27.nov.2012.nte.Project : < ECH_WI_01500 >
+        #    /*
+        #    this.description = InventTable::find(this.itemId).ItemName;
+        #    this.UnitID = InventTable::find(this.itemId).salesUnitId();
+        #    this.barcodeSetupId = RBOInventTable::find(this.itemId).BarcodeSetupId;
+        #    */
+        #
+        #    this.description = !this.description ? InventTable::find(this.itemId).ItemName : this.description;
+        #    this.UnitID = !this.UnitID ? InventTable::find(this.itemId).salesUnitId() : this.UnitID;
+        #    this.barcodeSetupId = !this.barcodeSetupId ? RBOInventTable::find(this.itemId).BarcodeSetupId : this.barcodeSetupId;
+        #    // End - Avanade.27.nov.2012.nte.Project : < ECH_WI_01500 >
+        #}
+      ENDSOURCE
+      SOURCE #modifiedField
+        #// Create ECH_WI_01939 by mengqi.cen on 20121224
+        #//     If 'itemBarCode' is modified and 'echItemBarCode' has not been given, then value of 'itemBarCode'
+        #//     will be copied into 'echItemBarCode'.
+        #public void modifiedField(fieldId _fieldId)
+        #{
+        #    ;
+        #    super(_fieldId);
+        #    if (fieldnum(InventItemBarcode, itemBarCode) == _fieldId)
+        #    {
+        #        if (0 == strLen(this.echItemBarCode))
+        #            this.echItemBarCode = this.itemBarCode;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #update
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #public void update()
+        #{
+        #    // <RETAIL>
+        #    Boolean replicate = false;
+        #;
+        #    replicate = DRMActionManagement::shouldReplicate(this, this.orig());
+        #
+        #    if (!this.UnitID)
+        #    {
+        #        this.UnitID = InventTable::find(this.itemId).salesUnitId();
+        #    }
+        #    // </RETAIL>
+        #
+        #    super();
+        #
+        #    // <RETAIL>
+        #    if (replicate)
+        #    {
+        #        DRMActionManagement::createActions(this, DRMActionUpdate::Update);
+        #    }
+        #    // </RETAIL>
+        #
+        #    // Begin - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #    if (strLen(this.itemId) > 0)
+        #        echSendProductCatalogLog::AddSendItemId(this.itemId);
+        #    // End - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #}
+      ENDSOURCE
+      SOURCE #validateWrite
+        #// Update ECH_WI_01939 by mengqi.cen on 20130109
+        #public boolean validateWrite()
+        #{
+        #    boolean ret;
+        #    InventItemBarcode   tmpInventItemBarcode;
+        #    // <RETAIL>
+        #    InventItemBarcode   itemBarcode;
+        #    // </RETAIL>
+        #    ;
+        #
+        #    ret = super();
+        #
+        #    ret = ret && this.checkItemDim();
+        #
+        #    if (this.BarcodeSetupId)
+        #        ret = BarcodeSetup::find(this.BarcodeSetupId).validateBarcode(this.ItemBarCode) && ret;
+        #
+        #    if (this.UseForPrinting)
+        #    {
+        #        tmpInventItemBarcode = InventItemBarcode::findPrintItemDimensions(this.ItemId, this.inventDim());
+        #        if (tmpInventItemBarcode && tmpInventItemBarcode.RecId != this.RecId)
+        #            ret = checkFailed("@SYS63153");
+        #    }
+        #
+        #    if (this.UseForInput)
+        #    {
+        #        tmpInventItemBarcode = InventItemBarcode::findInputBarcode(this.ItemBarCode);
+        #        if (tmpInventItemBarcode && tmpInventItemBarcode.RecId != this.RecId)
+        #            ret = checkFailed("@SYS63158");
+        #    }
+        #
+        #    // <RETAIL>
+        #    if (ret)
+        #    {
+        #        // Begin - Update ECH_WI_01939 by mengqi.cen on 20130109
+        #        while select itemBarcode
+        #                where itemBarcode.itemId == this.itemId
+        #                   && itemBarcode.itemBarCode != this.itemBarCode
+        #                   && itemBarcode.barcodeSetupId == this.barcodeSetupId // Confirm dialog should NOT popup if we provide 'BAR' barcode with same ItemId and RBOVariantId
+        #                   && itemBarcode.RBOVariantId == this.RBOVariantId
+        #        // End - Update ECH_WI_01939 by mengqi.cen on 20130109
+        #        {
+        #            switch (box::yesYesAllNoCancel(strfmt("@RBO1188",itemBarcode.itemBarCode),DialogButton::No,"@RBO1190"))
+        #            {
+        #                case DialogButton::YesToAll:
+        #                {
+        #                    return ret;
+        #                }
+        #                case DialogButton::No:
+        #                case DialogButton::Cancel:
+        #                {
+        #                    ret = checkFailed("@RBO1191");
+        #                }
+        #            }
+        #        }
+        #    }
+        #    // </RETAIL>
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #findBySkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00103
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: find record by sku id
+        #
+        #public static InventItemBarcode findBySkuId(echSkuId _echSkuId)
+        #{
+        #    InventItemBarcode           inventItemBarcode;
+        #    ;
+        #
+        #    select firstonly inventItemBarcode
+        #        where   inventItemBarcode.itemBarCode == _echSkuId;
+        #
+        #    return inventItemBarcode;
+        #}
+      ENDSOURCE
+      SOURCE #findItemByInventDimCSCS_SkuBarcodeSetup
+        #// Add ECH_WI_01965 by mengqi.cen on 20130123
+        #//   Distall the logical of get EchItemBarcode into 1 function
+        #public server static InventItemBarcode findItemByInventDimCSCS_SkuBarcodeSetup(
+        #                                                                 ItemId      itemId,
+        #                                                                 InventDimId inventDimId_SW, // InventDimId of InventDim record which's InventSiteId & InventLocationId are not empty
+        #                                                                 boolean     _update = false)
+        #{
+        #    InventItemBarcode inventItemBarcode;
+        #    InventDim         inventDim;
+        #    InventDim         inventDim_SW;
+        #;
+        #    inventDim_SW = InventDim::find(inventDimId_SW);
+        #
+        #    // Get InventDim record which's InventSiteId and InventLocationId are not specified.
+        #    select firstonly inventDim
+        #        where inventDim.configId            == inventDim_SW.configId
+        #           && inventDim.InventSizeId        == inventDim_SW.InventSizeId
+        #           && inventDim.InventColorId       == inventDim_SW.InventColorId
+        #           && inventDim.InventStyleId       == inventDim_SW.InventStyleId
+        #           && inventDim.InventSiteId        == ''
+        #           && inventDim.InventLocationId    == '';
+        #
+        #    inventItemBarcode = InventItemBarcode::findItem(itemId,
+        #                                                    inventDim.inventDimId,
+        #                                                    false,
+        #                                                    false,
+        #                                                    InventParameters::find().echSkuBarcodeSetup,
+        #                                                    _update);
+        #
+        #    return inventItemBarcode;
+        #}
+      ENDSOURCE
+      SOURCE #findItemIdBySkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00103
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: find item id by sku id
+        #
+        #public static ItemId findItemIdBySkuId(echSkuId _echSkuId)
+        #{
+        #    InventItemBarcode           inventItemBarcode;
+        #    ;
+        #
+        #    select firstonly itemId from inventItemBarcode
+        #        where   inventItemBarcode.itemBarCode == _echSkuId;
+        #
+        #    return inventItemBarcode.itemId;
+        #}
+      ENDSOURCE
+      SOURCE #findSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00103
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: find sku id
+        #
+        #public static echSkuId findSkuId(ItemId _itemId, InventDimId _inventDimId)
+        #{
+        #    InventDim                   inventDim;
+        #    InventDim                   inventDimCriteria = InventDim::find(_inventDimId);
+        #    InventDimParm               inventDimParm;
+        #    InventItemBarcode           inventItemBarcode;
+        #    BarcodeSetupId              barcodeSetupId = InventParameters::find().echSkuBarcodeSetup;
+        #    ;
+        #
+        #    inventDimParm.initItemDimension((select DimGroupId from InventTable where InventTable.ItemId == _itemId).DimGroupId);
+        #
+        #    select firstonly itemBarCode from inventItemBarcode
+        #        where   inventItemBarcode.itemId            == _itemId
+        #        &&      inventItemBarcode.barcodeSetupId    == barcodeSetupId
+        #        #InventDimExistsJoin(inventItemBarcode.inventDimId, inventDim, inventDimCriteria, inventDimParm);
+        #
+        #    return inventItemBarcode.itemBarCode;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

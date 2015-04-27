@@ -1,0 +1,4978 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #RBOInventTable
+  PROPERTIES
+    Name                #RBOInventTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #final class FormRun extends ObjectRun
+      #{
+      #    QueryBuildRange             criteriaPurch;
+      #    QueryBuildRange             criteriaInvent;
+      #    QueryBuildRange             criteriaSalesOrder;
+      #    QueryBuildRange             criteriaItemList;
+      #
+      #    NumberSeqFormHandler        numberSeqFormHandler;
+      #
+      #    RBOTransactionSalesTrans    transactionSalesTransFilter;
+      #    QueryRun                    queryRun;
+      #    QueryRun                    queryRunOnHand;
+      #    QueryRun                    queryRetailItems;
+      #
+      #    RBOHierarchyTree            addHierarchyTree;
+      #
+      #    int                         asessionId;
+      #}
+    ENDSOURCE
+    SOURCE #initRetailGroupFromHierarchy
+      #void initRetailGroupFromHierarchy()
+      #{
+      #    String30                    id;
+      #    RBOHierarchyTable           tmpHierarchyTable_exe;
+      #    str                         string, strHierarchy;
+      #    RBOItemHierarchy            hierarchy;
+      #    int                         length, middle;
+      #    ;
+      #
+      #    if (addHierarchyTree)
+      #    {
+      #        string = strfmt("%1",addHierarchyTree.selectedData());
+      #        length = strlen(string);
+      #        middle = strfind(string,';',1,length);
+      #        strHierarchy = substr(string,1,middle-1);
+      #
+      #        if (strHierarchy)
+      #        {
+      #            hierarchy = str2enum(hierarchy, strHierarchy);
+      #            id = substr(string, middle + 1, length);
+      #            select tmpHierarchyTable_exe
+      #                where tmpHierarchyTable_exe.Id == id &&
+      #                      tmpHierarchyTable_exe.ItemHierarchy == hierarchy;
+      #        }
+      #
+      #        if (hierarchy == RBOItemHierarchy::RetailGroup)
+      #            rboInventTable.RetailGroup = id;
+      #
+      #        if (rboInventTable.RetailGroup && hierarchy == RBOItemHierarchy::RetailGroup)
+      #        {
+      #            element.initFromRetailGroup();
+      #
+      #            purch_ds.write();
+      #            invent_ds.write();
+      #            sales_ds.write();
+      #            inventItemLocation_ds.write();
+      #            rboInventTable_ds.write();
+      #            inventTable_ds.write();
+      #
+      #            rboInventTable.copyFromRetailGroup();
+      #        }
+      #    }
+      #
+      #}
+    ENDSOURCE
+    SOURCE #run
+      #public void run()
+      #{
+      #    ;
+      #    SysListPageHelper::handleRunPreSuper(element, tab, 2, 0);
+      #    super();
+      #    SysListPageHelper::handleRunPostSuper(element);
+      #}
+    ENDSOURCE
+    SOURCE #setItemPriceToleranceGroupEnabled
+      #/// <summary>
+      #/// Enables or disables the ItemPriceToleranceGroupId field based upon the status of 'Use invoice matching' for the current company.
+      #/// </summary>
+      #public void setItemPriceToleranceGroupEnabled()
+      #{
+      #    VendParameters  vp;
+      #    boolean         enable;
+      #    ;
+      #
+      #    vp = VendParameters::find();
+      #    enable = (vp.useInvoiceMatching() == NoYes::Yes);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, ItemPriceToleranceGroupId)).allowEdit(enable);
+      #    inventTable_ds.object(fieldnum(InventTable, ItemPriceToleranceGroupId)).skip(!enable);
+      #}
+    ENDSOURCE
+    SOURCE #refreshInventTableModule
+      #void refreshInventTableModule()
+      #{
+      #    ;
+      #    inventTable_ds.reread();
+      #    purch_ds.reread();
+      #    invent_ds.reread();
+      #    sales_ds.reread();
+      #    inventTable_ds.refresh();
+      #    inventTable_ds.active();
+      #    pricesInvent.update();
+      #    pricesInvent.update();
+      #}
+    ENDSOURCE
+    SOURCE #setFiscalLIFOenabled
+      #void setFiscalLIFOenabled()
+      #{;
+      #    inventTable_ds.object(fieldnum(InventTable,FiscalLIFOGroup)).allowEdit(inventTable.ItemType != ItemType::Service);
+      #    inventTable_ds.object(fieldnum(InventTable,FiscalLIFOAvoidCalc)).allowEdit(inventTable.ItemType != ItemType::Service);
+      #    inventTable_ds.object(fieldnum(InventTable,FiscalLIFONormalValue)).allowEdit(inventTable.ItemType != ItemType::Service);
+      #    inventTable_ds.object(fieldnum(InventTable,FiscalLIFONormalValueCalc)).allowEdit(inventTable.ItemType != ItemType::Service);
+      #}
+    ENDSOURCE
+    SOURCE #setBOMRouteEnabled
+      #void setBOMRouteEnabled()
+      #{
+      #    InventItemType  inventItemType      = inventTable.inventItemType();
+      #    boolean         canHaveBOM          = inventItemType.canHaveBOM();
+      #    boolean         canHaveRoute        = inventItemType.canHaveRoutes();
+      #    boolean         canBeProduced       = inventItemType.canBeProduced();
+      #    boolean         isConfigActive      = inventTable.configActive();
+      #    ;
+      #
+      #    ctrlBOMConsistOf.enabled(canHaveBOM);
+      #    ctrlBOMDesigner.enabled(canHaveBOM);
+      #    ctrlBOMConfigRoute.enabled(canHaveBOM && isConfigActive);
+      #    ctrlBOMReportFinished.enabled(canBeProduced);
+      #    ctrlBOMReportFinishMax.enabled(canBeProduced);
+      #    ctrlBOMConfigHierarchy.enabled(canHaveBOM && isConfigActive);
+      #
+      #    element.setNonBOMFields();
+      #
+      #    ctrlRoute.enabled(canHaveRoute);
+      #}
+    ENDSOURCE
+    SOURCE #setRFIDEnabled
+      #void setRFIDEnabled()
+      #{
+      #    InventDimSearch dimSearch = new InventDimSearch();
+      #    ;
+      #
+      #    if (inventTable.ItemType != ItemType::Service &&
+      #        dimSearch.findActive(inventTable.DimGroupId, fieldnum(InventDim,InventSerialId)))
+      #    {
+      #        inventTable_ds.object(fieldnum(InventTable, ItemTaggingLevel)).allowEdit(true);
+      #        inventTable_ds.object(fieldnum(InventTable, ItemTaggingLevel)).skip(false);
+      #    }
+      #    else
+      #    {
+      #        inventTable_ds.object(fieldnum(InventTable, ItemTaggingLevel)).allowEdit(false);
+      #        inventTable_ds.object(fieldnum(InventTable, ItemTaggingLevel)).skip(true);
+      #    }
+      #
+      #    if (inventTable.ItemType != ItemType::Service &&
+      #        dimSearch.findActive(inventTable.DimGroupId, fieldnum(InventDim,wmsPalletId)))
+      #    {
+      #        inventTable_ds.object(fieldnum(InventTable, PalletTagging)).allowEdit(true);
+      #        inventTable_ds.object(fieldnum(InventTable, PalletTagging)).skip(false);
+      #    }
+      #    else
+      #    {
+      #        inventTable_ds.object(fieldnum(InventTable, PalletTagging)).allowEdit(false);
+      #        inventTable_ds.object(fieldnum(InventTable, PalletTagging)).skip(true);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #setAltItemDimEnabled
+      #void setAltItemDimEnabled()
+      #{
+      #    boolean     altConfigActive;
+      #    boolean     altSizeActive;
+      #    boolean     altColorActive;
+      #    boolean     altStyleActive;
+      #    InventTable altInventTable;
+      #    ;
+      #
+      #    altInventTable  = InventTable::find(inventTable.AltItemId);
+      #    altConfigActive = altInventTable.RecId && altInventTable.configActive();
+      #    altSizeActive   = altInventTable.RecId && altInventTable.sizeActive();
+      #    altColorActive  = altInventTable.RecId && altInventTable.colorActive();
+      #    altStyleActive  = altInventTable.RecId && altInventTable.styleActive();
+      #
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, AltConfigId)).allowEdit(altConfigActive);
+      #    inventTable_ds.object(fieldnum(InventTable, AltInventSizeId)).allowEdit(altSizeActive);
+      #    inventTable_ds.object(fieldnum(InventTable, AltInventColorId)).allowEdit(altColorActive);
+      #    inventTable_ds.object(fieldnum(InventTable, AltInventStyleId)).allowEdit(altStyleActive);
+      #}
+      #
+      #
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    RBOParameters   parameters = RBOParameters::find();
+      #    Session     session = new Session();
+      #    ;
+      #
+      #    asessionId = session.sessionId();
+      #
+      #    //Item list page can open this for edit/create
+      #    SysListPageHelper::handleInitPreSuper(element);
+      #
+      #    if (!parameters || parameters.SystemInUse == false)
+      #        throw info("@RBO1342");
+      #
+      #    super();
+      #    this.setItemPriceToleranceGroupEnabled();
+      #
+      #    SysListPageHelper::handleInitPostSuper(element);
+      #
+      #    if (element.args().caller())
+      #    {
+      #        groupTree.visible(false);
+      #    }
+      #    else
+      #    {
+      #        addHierarchyTree = new RBOHierarchyTree(tmpHierarchyTable_DS, tree,
+      #                                                fieldnum(RBOHierarchyTable, Id),
+      #                                                fieldnum(RBOHierarchyTable, ParentId),
+      #                                                tmpHierarchyTable.Description, true, true
+      #                                                );
+      #
+      #        addHierarchyTree.initRoot('@RBO2927',';');
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #numberSeqFormHandler
+      #NumberSeqFormHandler numberSeqFormHandler()
+      #{
+      #    if (!numberSeqFormHandler)
+      #        numberSeqFormHandler = NumberSeqFormHandler::newForm(InventParameters::numRefItemId().NumberSequence,
+      #                                                             element,
+      #                                                             inventTable_DS,
+      #                                                             fieldnum(InventTable,ItemId)
+      #                                                            );
+      #    return numberSeqFormHandler;
+      #}
+    ENDSOURCE
+    SOURCE #docCursor
+      #public Common docCursor()
+      #{
+      #    return inventTable;
+      #}
+    ENDSOURCE
+    SOURCE #setNonBOMFields
+      #void setNonBOMFields()
+      #{
+      #    InventItemType  inventItemType = inventTable.inventItemType();
+      #    boolean         canHaveBOM     = inventItemType.canHaveBOM();
+      #    boolean         canBeProduced  = inventItemType.canBeProduced();
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, Phantom)).allowEdit(canHaveBOM);
+      #    inventTable_ds.object(fieldnum(InventTable, Phantom)).skip(!canHaveBOM);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, AutoReportFinished)).allowEdit(canBeProduced && !inventTable.Phantom);
+      #    inventTable_ds.object(fieldnum(InventTable, AutoReportFinished)).skip(!(canBeProduced && !inventTable.Phantom));
+      #
+      #    // PBA begin
+      #    inventTable_ds.object(fieldnum(InventTable, pbaItemConfigurable)).allowEdit(canHaveBOM);
+      #    inventTable_ds.object(fieldnum(InventTable, pbaItemConfigurable)).skip(!canHaveBOM);
+      #
+      #    if ( ! canHaveBOM )
+      #    {
+      #        inventTable.pbaItemConfigurable             = NoYes::No;
+      #        inventTable.pbaHideDialog                   = NoYes::No;
+      #        inventTable.pbaHideApproval                 = NoYes::No;
+      #        inventTable.pbaMandatoryConfig              = NoYes::No;
+      #    }
+      #    // PBA end
+      #}
+      #
+    ENDSOURCE
+    SOURCE #Close
+      #void close()
+      #{
+      #    ;
+      #    if (numberSeqFormHandler)
+      #        numberSeqFormHandler.formMethodClose();
+      #
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #setItemDimEnabled
+      #void setItemDimEnabled()
+      #{
+      #    boolean     canHaveBOM      = inventTable.inventItemType().canHaveBOM();
+      #    boolean     configActive    = inventTable.configActive();
+      #    boolean     sizeActive      = inventTable.sizeActive();
+      #    boolean     colorActive     = inventTable.colorActive();
+      #    boolean     styleActive     = inventTable.styleActive();
+      #    boolean     itemDim         = InventDim::hasItemDimActive(inventTable.DimGroupId);
+      #    boolean     multiItemDim    = InventDim::hasMultipleItemDimActive(inventTable.DimGroupId);
+      #    ;
+      #
+      #    element.lock();
+      #
+      #    configs.enabled(configActive);
+      #    inventSizes.enabled(sizeActive);
+      #    inventColors.enabled(colorActive);
+      #    rboInventStyles.enabled(styleActive);
+      #
+      #    inventDimCombination.enabled(itemDim);
+      #    extCodeValueTable.enabled(!itemDim);
+      #
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, StandardConfigId)).allowEdit(configActive);
+      #    inventTable_ds.object(fieldnum(InventTable, StandardConfigId)).skip(!configActive);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, Configurable)).allowEdit(configActive && canHaveBOM);
+      #    inventTable_ds.object(fieldnum(InventTable, Configurable)).skip(!(configActive && canHaveBOM));
+      #    if (inventTable.Configurable && !(configActive && canHaveBOM))
+      #        inventTable.Configurable = NoYes::No;
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, ConfigSimilar)).allowEdit(configActive && canHaveBOM);
+      #    inventTable_ds.object(fieldnum(InventTable, ConfigSimilar)).skip(!(configActive && canHaveBOM));
+      #    if (inventTable.ConfigSimilar && !(configActive && canHaveBOM))
+      #        inventTable.ConfigSimilar = NoYes::No;
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, StandardInventSizeId)).allowEdit(sizeActive);
+      #    inventTable_ds.object(fieldnum(InventTable, StandardInventSizeId)).skip(!sizeActive);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, StandardInventColorId)).allowEdit(colorActive);
+      #    inventTable_ds.object(fieldnum(InventTable, StandardInventColorId)).skip(!colorActive);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, StandardInventStyleId)).allowEdit(styleActive);
+      #    inventTable_ds.object(fieldnum(InventTable, StandardInventStyleId)).skip(!styleActive);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, ItemDimCombinationAutoCreate)).allowEdit(multiItemDim);
+      #    inventTable_ds.object(fieldnum(InventTable, ItemDimCombinationAutoCreate)).skip(!multiItemDim);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, ItemDimCostPrice)).allowEdit(itemDim);
+      #    inventTable_ds.object(fieldnum(InventTable, ItemDimCostPrice)).skip(!itemDim);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, ItemIdCompany)).allowEdit(!itemDim);
+      #    inventTable_ds.object(fieldnum(InventTable, ItemIdCompany)).skip(itemDim);
+      #
+      #    rboInventTable_ds.object(fieldnum(RBOInventTable, SizeGroup)).allowEdit(sizeActive);
+      #    rboInventTable_ds.object(fieldnum(RBOInventTable, SizeGroup)).skip(!sizeActive);
+      #
+      #    rboInventTable_ds.object(fieldnum(RBOInventTable, ColorGroup)).allowEdit(colorActive);
+      #    rboInventTable_ds.object(fieldnum(RBOInventTable, ColorGroup)).skip(!colorActive);
+      #
+      #    rboInventTable_ds.object(fieldnum(RBOInventTable, StyleGroup)).allowEdit(styleActive);
+      #    rboInventTable_ds.object(fieldnum(RBOInventTable, StyleGroup)).skip(!styleActive);
+      #
+      #    element.setAltItemDimEnabled();
+      #
+      #    element.unLock();
+      #}
+      #
+      #
+    ENDSOURCE
+    SOURCE #DoReread
+      #void doReread(Object caller = null)
+      #{
+      #    inventTable_ds.reread();
+      #    purch_ds.reread();
+      #    invent_ds.reread();
+      #    sales_ds.reread();
+      #    inventTable_ds.refresh();
+      #    inventTable_ds.active();
+      #
+      #    if (caller && SysDictClass::isEqualOrSuperclass(classidget(caller),classnum(FormRun)))
+      #    {
+      #        if (caller.name() == formstr(bomCalcTable))
+      #        {
+      #            pricesInvent.update();
+      #            pricesInvent.update();
+      #        }
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #PBAsetEnabled
+      #void pbAsetEnabled()
+      #{
+      #    inventTable_ds.object(fieldnum(InventTable, pbaHideDialog)).allowEdit(inventTable.pbaItemConfigurable);
+      #    inventTable_ds.object(fieldnum(InventTable, pbaHideDialog)).skip(!inventTable.pbaItemConfigurable);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, pbaHideApproval)).allowEdit(inventTable.pbaItemConfigurable);
+      #    inventTable_ds.object(fieldnum(InventTable, pbaHideApproval)).skip(!inventTable.pbaItemConfigurable);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, pbaAutoStart)).allowEdit(inventTable.pbaItemConfigurable);
+      #    inventTable_ds.object(fieldnum(InventTable, pbaAutoStart)).skip(!inventTable.pbaItemConfigurable);
+      #
+      #    inventTable_ds.object(fieldnum(InventTable, pbaMandatoryConfig)).allowEdit(inventTable.pbaItemConfigurable);
+      #    inventTable_ds.object(fieldnum(InventTable, pbaMandatoryConfig)).skip(!inventTable.pbaItemConfigurable);
+      #}
+    ENDSOURCE
+    SOURCE #initFromRetailGroup
+      #boolean initFromRetailGroup()
+      #{
+      #    RBOParameters                       parameters = RBOParameters::find();
+      #    RBOInventItemRetailGroup            itemGroup_local;
+      #    InventModelGroupId                  inventModelGroupId;
+      #    InventDimGroupId                    inventDimGroupId;
+      #
+      #    if (!parameters || parameters.SystemInUse == false)
+      #        return checkFailed("@RBO1067");
+      #
+      #    itemGroup_local = RBOInventItemRetailGroup::find(rboInventTable.RetailGroup);
+      #
+      #    if (!inventTable.ItemId)
+      #    {
+      #        return checkFailed("@RBO1497");
+      #    }
+      #
+      #    inventModelGroupId = inventTable.ModelGroupId;
+      #    inventDimGroupId = inventTable.DimGroupId;
+      #
+      #    inventTable.ModelGroupId = itemGroup_local.InventModelGroupId;
+      #    inventTable.DimGroupId = itemGroup_local.InventDimGroupId; //ATH
+      #    if (inventTable.inventModelGroup().inventModelType().validateFieldInventTable(inventTable,fieldnum(InventTable,ModelGroupId)) == false ||
+      #        inventTable.inventModelGroup().inventModelType().validateFieldInventTable(inventTable,fieldnum(InventTable,DimGroupId)) == false)
+      #    {
+      #        inventTable.ModelGroupId = inventModelGroupId;
+      #        inventTable.DimGroupId = inventDimGroupId;
+      #        return false;
+      #    }
+      #
+      #    element.setItemDimEnabled();
+      #
+      #    inventTable.ItemGroupId = itemGroup_local.ItemGroupId;
+      #
+      #/*
+      #    purch.InventLocationId = itemGroup.InventLocationIdForPurchaseOrder;
+      #    invent.InventLocationId = itemGroup.InventLocationIdForInventory;
+      #    sales.InventLocationId = itemGroup.InventLocationIdForSalesOrder;
+      #*/
+      #
+      #    purch.TaxItemGroupId = itemGroup_local.PurchaseTaxItemGroup;
+      #    sales.TaxItemGroupId = itemGroup_local.SalesTaxItemGroup;
+      #
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #txt
+      #//BP Deviation Documented
+      #display ItemFreeTxt txt()
+      #{
+      #    #RBO
+      #
+      #    return inventTable.txt(#ENUS,inventItemLocation.inventDim());
+      #}
+    ENDSOURCE
+    SOURCE #getComparisonPrice
+      #//BP Deviation Documented
+      #display Price getComparisonPrice()
+      #{
+      #    return UnitConvert::valueConvert(sales.Price,rboInventTable.BaseComparisonUnitCode,sales.UnitId,inventTable.ItemId);
+      #}
+    ENDSOURCE
+    SOURCE #getInventAvailable
+      #//BP Deviation Documented
+      #display InventQtyAvailOrdered getInventAvailable()
+      #{
+      #    InventSum   inventSum;
+      #
+      #    select sum(AvailPhysical) from
+      #        inventSum where inventSum.ItemId == inventTable.ItemId;
+      #
+      #    return inventSum.AvailPhysical;
+      #}
+    ENDSOURCE
+    SOURCE #actualQtyOnHand
+      #//BP Deviation Documented
+      #display Qty actualQtyOnHand()
+      #{
+      #//    return qtyOnHand.realValue() - qtySoldNotPosted.realValue();
+      #//    return fieldInventAvailable.realValue() - qtySoldNotPosted.realValue();
+      #    return this.getInventAvailable() + qtySoldNotPosted.realValue();
+      #}
+    ENDSOURCE
+    SOURCE #qtyOnHand
+      #Qty qtyOnHand()
+      #{
+      #    QueryBuildDataSource dataSource;
+      #    Query query = new Query();
+      #
+      #    InventTrans inventTrans;
+      #
+      #    Qty ret;
+      #    ;
+      #
+      #    dataSource = query.addDataSource(tablenum(InventTrans));
+      #
+      #    dataSource.addRange(fieldnum(InventTrans, ItemId)).value(inventTable.ItemId);
+      #
+      #    dataSource.orderMode(OrderMode::GroupBy);
+      #
+      #    dataSource.addSelectionField(fieldnum(InventTrans, Qty), SelectionField::Sum);
+      #
+      #    queryRunOnHand = new QueryRun(query);
+      #
+      #    queryRunOnHand.next();
+      #
+      #    inventTrans = queryRunOnHand.get(tablenum(InventTrans));
+      #
+      #    ret = inventTrans.Qty;
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #displayLookup
+      #void displayLookup(str _formName, tableId _tableId, QueryRun _queryRun)
+      #{
+      #    QueryBuildDataSource dataSourceTable;
+      #    QueryBuildRange queryBuildRange;
+      #    int rangeIndex;
+      #    int tableIndex;
+      #    FormDataSource  formDataSource;
+      #    Args args = new Args();
+      #    FormRun formRun;
+      #    ;
+      #
+      #    args.name(_formName);
+      #    args.caller(element);
+      #
+      #    formRun = new FormRun(args);
+      #    formRun.init();
+      #    formRun.run();
+      #
+      #    for (tableIndex = 1; tableIndex <= formRun.dataSourceCount(); tableIndex++)
+      #    {
+      #        formDataSource = formRun.dataSource(tableIndex);
+      #
+      #        if (formDataSource.table() == _tableId)
+      #        {
+      #            break;
+      #        }
+      #    }
+      #
+      #    dataSourceTable = _queryRun.query().dataSourceTable(_tableId);
+      #
+      #    for(rangeIndex = 1; rangeIndex <= dataSourceTable.rangeCount(); rangeIndex++)
+      #    {
+      #        queryBuildRange = dataSourceTable.range(rangeIndex);
+      #
+      #        formDataSource.filter(queryBuildRange.field(), queryBuildRange.value());
+      #    }
+      #
+      #    formRun.wait();
+      #}
+    ENDSOURCE
+    SOURCE #qtySoldNotPosted
+      #Qty qtySoldNotPosted()
+      #{
+      #    QueryBuildDataSource dataSource;
+      #    Query query = new Query();
+      #
+      #    RBOTransactionSalesTrans    transactionSalesTrans;
+      #    Qty ret;
+      #    ;
+      #
+      #    dataSource = query.addDataSource(tablenum(RBOTransactionSalesTrans));
+      #
+      #    dataSource.addRange(fieldnum(RBOTransactionSalesTrans, ItemId)).value(inventTable.ItemId);
+      #    dataSource.addRange(fieldnum(RBOTransactionSalesTrans, TransactionStatus)).value(queryValue(RBOEntryStatus::None));
+      #
+      #    dataSource.orderMode(OrderMode::GroupBy);
+      #
+      #    dataSource.addSelectionField(fieldnum(RBOTransactionSalesTrans, Qty), SelectionField::Sum);
+      #
+      #    queryRun = new QueryRun(query);
+      #
+      #    queryRun.next();
+      #
+      #    transactionSalesTrans = queryRun.get(tablenum(RBOTransactionSalesTrans));
+      #
+      #    ret = -transactionSalesTrans.Qty;
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #RBOInventTable
+          Table               #RBOInventTable
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD retailGroup
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    ret = ret && element.initFromRetailGroup();
+                #
+                #    if (ret)
+                #    {
+                #        purch_ds.write();
+                #        invent_ds.write();
+                #        sales_ds.write();
+                #        inventItemLocation_ds.write();
+                #        rboInventTable_ds.write();
+                #        inventTable_ds.write();
+                #
+                #        rboInventTable.copyFromRetailGroup();
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD scaleItem
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    sales_ds.reread();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    String30                    id;
+          #    RBOHierarchyTable           tmpHierarchyTable_exe;
+          #    str                         string, strHierarchy;
+          #    RBOItemHierarchy            hierarchy;
+          #    int                         length, middle;
+          #    SysGlobalCache              cache = classfactory.globalCache();
+          #    RBOTmpItemList              tmpItemList;
+          #
+          #    ;
+          #
+          #    if (addHierarchyTree)
+          #    {
+          #        string = strfmt("%1",addHierarchyTree.selectedData());
+          #        length = strlen(string);
+          #        middle = strfind(string,';',1,length);
+          #        strHierarchy = substr(string,1,middle-1);
+          #
+          #        if (strHierarchy)
+          #        {
+          #            hierarchy = str2enum(hierarchy, strHierarchy);
+          #            id = substr(string, middle + 1, length);
+          #            select tmpHierarchyTable_exe
+          #                where tmpHierarchyTable_exe.Id == id &&
+          #                      tmpHierarchyTable_exe.ItemHierarchy == hierarchy;
+          #        }
+          #
+          #        if (!cache.isSet(funcname(), [tmpHierarchyTable_exe, itemGroup.valueStr(), buyersGroup.valueStr(), vendor.valueStr(), specialGroup.valueStr()]))
+          #        {
+          #            delete_from tmpItemList
+          #                where tmpItemList.FormSessionId == asessionId;
+          #
+          #            cache.clear(funcname());
+          #            cache.set(funcname(), [tmpHierarchyTable_exe, itemGroup.valueStr(), buyersGroup.valueStr(), vendor.valueStr(), specialGroup.valueStr()], true);
+          #            RBOTmpItemListHelper::filterInventTable(asessionId,
+          #                                                    tmpHierarchyTable_exe,
+          #                                                    itemGroup.valueStr(),
+          #                                                    buyersGroup.valueStr(),
+          #                                                    vendor.valueStr(),
+          #                                                    specialGroup.valueStr());
+          #        }
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #validateWrite
+          #public boolean validateWrite()
+          #{
+          #    ;
+          #    rboInventTable.ItemId = inventTable.ItemId;
+          #
+          #    return true;
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    RBOInventItemDepartment     itemDepartment;
+          #    RBOInventItemRetailGroup    retailGroup;
+          #    RBOStoreGroup               rboStoreGroup;
+          #    RBOStoreTable               rboStoreTable;
+          #    RBOStoreGroupTrans          rboStoreGroupTrans;
+          #    TmpGroupTable               tmpGroupTable;
+          #    RBOTmpItemList              tmpItemList;
+          #    RBOMixAndMatchLine          rboMixAndMatchLine;
+          #    RBOSpecialGroupItems        rboSpecialGroupItems;
+          #    RBOMultibuyDiscountItems    rboMultibuyDiscountItems;
+          #    RBODiscountOfferLine        rboDiscountOfferLine;
+          #    RBOAssortmentItemList       rboAssortmentItemList;
+          #
+          #    boolean isFiltered = false;
+          #
+          #    ;
+          #
+          #    delete_from tmpItemList
+          #        where tmpItemList.FormSessionId == asessionId;
+          #
+          #    if (element.args().dataset())
+          #    {
+          #        isFiltered = true;
+          #        switch (element.args().dataset())
+          #        {
+          #            case (tablenum(TmpGroupTable)) :
+          #            {
+          #                tmpGroupTable = element.args().record();
+          #                if (tmpGroupTable.rboItemHierarchy == RBOItemHierarchy::RetailDepartment)
+          #                {
+          #                    RBOTmpItemListHelper::populateTmpItemListForItemDepartment(asessionId, tmpGroupTable.Id);
+          #                }
+          #                else if (tmpGroupTable.rboItemHierarchy == RBOItemHierarchy::RetailGroup)
+          #                {
+          #                    RBOTmpItemListHelper::populateTmpItemListForRetailGroup(asessionId, tmpGroupTable.Id);
+          #                }
+          #
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOInventItemDepartment)) :
+          #            {
+          #                itemDepartment = element.args().record();
+          #                RBOTmpItemListHelper::populateTmpItemListForItemDepartment(asessionId, itemDepartment.DepartmentId);
+          #                break;
+          #            }
+          #            case (tablenum(RBOInventItemRetailGroup)) :
+          #            {
+          #                retailGroup = element.args().record();
+          #                RBOTmpItemListHelper::populateTmpItemListForRetailGroup(asessionId, retailGroup.GroupId);
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOStoreTable)) :
+          #            {
+          #                rboStoreTable = element.args().record();
+          #                RBOTmpItemListHelper::storeItemListQuery(asessionId, rboStoreTable.StoreId);
+          #                break;
+          #            }
+          #
+          #
+          #            case (tablenum(RBOStoreGroupTrans)) :
+          #            {
+          #                rboStoreGroupTrans = element.args().record();
+          #                RBOTmpItemListHelper::storeItemListQuery(asessionId, rboStoreGroupTrans.StoreId);
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOStoreGroup)) :
+          #            {
+          #                rboStoreGroup = element.args().record();
+          #                RBOTmpItemListHelper::groupItemListQuery(asessionId, rboStoreGroup.GroupId);
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOInventTable)) :
+          #            {
+          #                // if opened with a particular retail item, display it instead of the whole list
+          #                rboInventTable = element.args().record();
+          #                RBOTmpItemListHelper::itemItemListQuery(asessionId, rboInventTable.ItemId);
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOMixAndMatchLine)) :
+          #            {
+          #                rboMixAndMatchLine = element.args().record();
+          #                if (rboMixAndMatchLine.type == RBOMixAndMatchTypeBase::Item)
+          #                {
+          #                    RBOTmpItemListHelper::itemItemListQuery(asessionid, rboMixAndMatchLine.number);
+          #                }
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOSpecialGroupItems)) :
+          #            {
+          #                rboSpecialGroupItems = element.args().record();
+          #                if (rboSpecialGroupItems.Type == RBOItemGroupDepartmentAllBase::Item)
+          #                {
+          #                    RBOTmpItemListHelper::itemItemListQuery(asessionid, rboSpecialGroupItems.itemId);
+          #                }
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOMultibuyDiscountItems)) :
+          #            {
+          #                rboMultibuyDiscountItems = element.args().record();
+          #                if (rboMultibuyDiscountItems.type == RBOMultibuyTypeBase::Item)
+          #                {
+          #                    RBOTmpItemListHelper::itemItemListQuery(asessionid, rboMultibuyDiscountItems.ItemRelation);
+          #                }
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBODiscountOfferLine)) :
+          #            {
+          #                rboDiscountOfferLine = element.args().record();
+          #                if (rboDiscountOfferLine.Type == RBOItemGroupDepartmentAllBase::Item)
+          #                {
+          #                    RBOTmpItemListHelper::itemItemListQuery(asessionid, rboDiscountOfferLine.itemRelation);
+          #                }
+          #                break;
+          #            }
+          #
+          #            case (tablenum(RBOAssortmentItemList)) :
+          #            {
+          #                rboAssortmentItemList = element.args().record();
+          #                if (rboAssortmentItemList.itemGroupDepartmentAll == RBOItemGroupDepartmentAllBase::Item)
+          #                {
+          #                    RBOTmpItemListHelper::itemItemListQuery(asessionid, rboAssortmentItemList.itemRelation);
+          #                }
+          #                break;
+          #            }
+          #
+          #            default :
+          #            {
+          #                isFiltered = false;
+          #            }
+          #        }
+          #    }
+          #
+          #    if (!isFiltered) // if not passed in a record (or one we know about), show everything
+          #    {
+          #        RBOTmpItemListHelper::resolveItemList(asessionid, RBOItemGroupDepartmentAllBase::All, '');
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventTable
+          Table               #InventTable
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD ItemType
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    element.setNonBOMFields();
+                #    element.setItemDimEnabled();
+                #    element.setRFIDEnabled();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD AltItemId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    element.setAltItemDimEnabled();
+                #    inventTable_ds.refresh();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Phantom
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #    super();
+                #
+                #    element.setNonBOMFields();
+                #    element.redraw();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD AltConfigId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #    ConfigTable::lookupConfigIdSimple(_formControl,inventTable.AltItemId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD AltInventSizeId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #    InventSize::lookupSizeIdSimple(_formControl,inventTable.AltItemId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD AltInventColorId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #    InventColor::lookupColorIdSimple(_formControl,inventTable.AltItemId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD PBAItemConfigurable
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    element.pbAsetEnabled();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD PBAAutoStart
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    inventTable.modifiedField(fieldnum(InventTable,pbaAutoStart));
+                #    inventTable_ds.refresh();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD PBAMandatoryConfig
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    inventTable.modifiedField(fieldnum(InventTable,pbaMandatoryConfig));
+                #    inventTable_ds.refresh();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DimGroupId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #    super();
+                #    element.setItemDimEnabled();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ItemGroupId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    InventItemGroup inventItemGroup;
+                #
+                #    super();
+                #
+                #    inventItemGroup = InventItemGroup::find(inventTable.ItemGroupId);
+                #    purch.initTaxItemGroupFromSlsPrchItemGrp(inventItemGroup);
+                #    sales.initTaxItemGroupFromSlsPrchItemGrp(inventItemGroup);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD AltInventStyleId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #    RBOInventStyle::lookupStyleIdSimple(_formControl,inventTable.AltItemId);
+                #}
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ItemId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #    element.initRetailGroupFromHierarchy();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #    this.query().dataSourceTable(this.table()).clearRanges();
+          #    inventTable_ds.query().dataSourceTable(tablenum(InventTable)).clearDynalinks();
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    ;
+          #
+          #    rboInventTable_ds.executeQuery();
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #linkActive
+          #void linkActive()
+          #{
+          #    ;
+          #    element.numberSeqFormHandler().formMethodDataSourceLinkActive();
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #WRITE
+          #// AOSRunMode::Client
+          #void write()
+          #{
+          #    ttsbegin;
+          #
+          #    purch.ItemId                = inventTable.ItemId;
+          #    invent.ItemId               = inventTable.ItemId;
+          #    sales.ItemId                = inventTable.ItemId;
+          #    inventitemLocation.ItemId   = inventTable.ItemId;
+          #    rboInventTable.ItemId       = inventTable.ItemId;
+          #
+          #    super();
+          #
+          #    element.numberSeqFormHandler().formMethodDataSourceWrite();
+          #
+          #    ttscommit;
+          #
+          #    // update sales price
+          #
+          #    sales_ds.reread();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    boolean ret = true;
+          #    ;
+          #
+          #    purch.ItemId                = inventTable.ItemId;
+          #    invent.ItemId               = inventTable.ItemId;
+          #    sales.ItemId                = inventTable.ItemId;
+          #    inventitemLocation.ItemId   = inventTable.ItemId;
+          #    rboInventTable.ItemId       = inventTable.ItemId;
+          #
+          #    if (!inventTable.RecId && InventTable::exist(inventTable.ItemId))
+          #        return checkFailed(strfmt("@SYS58214", inventTable.ItemId));
+          #
+          #    ret = super();
+          #    ret = element.numberSeqFormHandler().formMethodDataSourceValidateWrite(ret) && ret;
+          #    if (!ret)
+          #        return false;
+          #
+          #    if (!inventTable.checkItemDimCombination())
+          #        return false;
+          #
+          #    if (!UnitConvert::canConvert(purch.UnitId, invent.UnitId, inventTable.ItemId))
+          #        ret = checkFailed(strfmt("@SYS28690", purch.UnitId, invent.UnitId));
+          #
+          #    if (!UnitConvert::canConvert(invent.UnitId, sales.UnitId, inventTable.ItemId))
+          #        ret = checkFailed(strfmt("@SYS28690", invent.UnitId, sales.UnitId));
+          #
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #Delete
+          #// AOSRunMode::Client
+          #void delete()
+          #{
+          #    ttsbegin;
+          #
+          #    element.numberSeqFormHandler().formMethodDataSourceDelete();
+          #
+          #    super();
+          #
+          #    ttscommit;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #create
+          #// AOSRunMode::Client
+          #void create(boolean appenD = false)
+          #{
+          #    ;
+          #    ctrlInventTable_ItemId.setFocus();
+          #
+          #    element.numberSeqFormHandler().formMethodDataSourceCreatePre();
+          #
+          #    super(appenD);
+          #
+          #    element.numberSeqFormHandler().formMethodDataSourceCreate();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #Active
+          #int active()
+          #{
+          #    int ret;
+          #    ;
+          #
+          #    ret = super();
+          #
+          #    element.setBOMRouteEnabled();
+          #    element.setRFIDEnabled();
+          #    element.setItemDimEnabled();
+          #    element.pbAsetEnabled();
+          #    element.setFiscalLIFOEnabled();
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #Purch
+          Table               #InventTableModule
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD Price
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    purch_Ds.updateNewPrice();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD PriceUnit
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    purch_Ds.updateNewPrice();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Markup
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    purch_Ds.updateNewPrice();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD UnitId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #    ;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        if (!UnitConvert::canConvert(purch.UnitId, invent.UnitId, inventTable.ItemId))
+                #            return checkFailed(strfmt("@SYS28690", purch.UnitId, invent.UnitId));
+                #    }
+                #
+                #    return ret;
+                #}
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    ;
+          #    purch.ItemId = inventTable.ItemId;
+          #    purch.ModuleType = ModuleInventPurchSales::Purch;
+          #    return super();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    #DEFINE.PURCHDATASOURCENO(3)
+          #    super();
+          #
+          #    criteriaPurch = this.query().dataSourceNo(#PURCHDATASOURCENO).addRange(fieldnum(InventTableModule,ModuleType));
+          #    criteriaPurch.value(queryValue(ModuleInventPurchSales::Purch));
+          #    criteriaPurch.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceNo(#PURCHDATASOURCENO).addSortIndex(indexnum(InventTableModule,ItemModuleIdx));
+          #    this.query().dataSourceNo(#PURCHDATASOURCENO).indexIsHint(true);
+          #}
+        ENDSOURCE
+        SOURCE #UpdateNewPrice
+          #void updateNewPrice()
+          #{
+          #    if (purch && inventTable.SalesModel && inventTable.SalesPriceModelBasic == SalesPriceModelBasic::PurchPrice)
+          #    {
+          #        purch_DS.write();
+          #        sales_DS.reread();
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #Invent
+          Table               #InventTableModule
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD Price
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    invent_DS.updateNewPrice();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD PriceUnit
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    invent_DS.updateNewPrice();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Markup
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    invent_DS.updateNewPrice();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    ;
+          #    invent.ItemId = inventTable.ItemId;
+          #    invent.ModuleType = ModuleInventPurchSales::Invent;
+          #    return super();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    #DEFINE.INVENTDATASOURCENO(4)
+          #    super();
+          #
+          #    criteriaInvent= this.query().dataSourceNo(#INVENTDATASOURCENO).addRange(fieldnum(InventTableModule,ModuleType));
+          #    criteriaInvent.value(queryValue(ModuleInventPurchSales::Invent));
+          #    criteriaInvent.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceNo(#INVENTDATASOURCENO).addSortIndex(indexnum(InventTableModule,ItemModuleIdx));
+          #    this.query().dataSourceNo(#INVENTDATASOURCENO).indexIsHint(true);
+          #}
+        ENDSOURCE
+        SOURCE #UpdateNewPrice
+          #void updateNewPrice()
+          #{
+          #    DialogBox   dialogBox;
+          #    ;
+          #
+          #    if (invent && inventTable.SalesModel && inventTable.SalesPriceModelBasic == SalesPriceModelBasic::CostPrice)
+          #    {
+          #        dialogBox = new DialogBox(DialogBoxType::YesNoBox, strfmt('%1 %2?', '@SYS40695', '@SYS77785'), '@SYS6998','', 1);
+          #        if( dialogBox.retval() == DialogButton::Yes )
+          #        {
+          #            invent_DS.write();
+          #            sales_DS.reread();
+          #        }
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #Sales
+          Table               #InventTableModule
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD UnitId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #    ;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        if (!UnitConvert::canConvert(invent.UnitId, sales.UnitId, inventTable.ItemId))
+                #            return checkFailed(strfmt("@SYS28690", invent.UnitId, sales.UnitId));
+                #    }
+                #
+                #    return ret;
+                #}
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    ;
+          #    sales.ItemId = inventTable.ItemId;
+          #    sales.ModuleType = ModuleInventPurchSales::Sales;
+          #    return super();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    #DEFINE.SALESDATASOURCENO(5)
+          #    super();
+          #
+          #    criteriaSalesOrder= this.query().dataSourceNo(#SALESDATASOURCENO).addRange(fieldnum(InventTableModule,ModuleType));
+          #    criteriaSalesOrder.value(queryValue(ModuleInventPurchSales::Sales));
+          #    criteriaSalesOrder.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceNo(#SALESDATASOURCENO).addSortIndex(indexnum(InventTableModule,ItemModuleIdx));
+          #    this.query().dataSourceNo(#SALESDATASOURCENO).indexIsHint(true);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventItemLocation
+          Table               #InventItemLocation
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    ;
+          #    inventItemLocation.ItemId = inventTable.ItemId;
+          #    inventItemLocation.InventDimId = InventDim::inventDimIdBlank();
+          #    return super();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #Init
+          #void init()
+          #{
+          #    QueryBuildRange queryBuildRange;
+          #
+          #    ;
+          #
+          #    super();
+          #
+          #    queryBuildRange = this.query().dataSourceTable(tablenum(InventItemLocation)).addRange(fieldnum(InventItemLocation,InventDimId));
+          #    queryBuildRange.value(queryValue(InventDim::inventDimIdBlank()));
+          #    queryBuildRange.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceTable(tablenum(InventItemLocation)).addSortIndex(indexnum(InventItemLocation,ItemDimIdx));
+          #    this.query().dataSourceTable(tablenum(InventItemLocation)).indexIsHint(true);
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #TmpHierarchyTable
+          Table               #RBOHierarchyTable
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #research
+          #public void research(boolean _retainPosition = false)
+          #{
+          #    RecId   dummyRecId;
+          #    super(_retainPosition);
+          #
+          #    addHierarchyTree.add(dummyrecId, true);
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #
+          #    if(!element.args().caller())
+          #    {
+          #        inventTable_ds.executeQuery();
+          #    }
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #RBOTmpItemList
+          Table               #RBOTmpItemList
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #RBOInventTable
+          LinkType            #ExistJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    if (element.args().caller())
+          #    {
+          #        this.linkType(FormLinkType::Delayed);
+          #    }
+          #    else
+          #    {
+          #        this.linkType(FormLinkType::ExistJoin);
+          #    }
+          #
+          #    criteriaItemList = this.query().dataSourceTable(tablenum(RBOTmpItemList)).addRange(fieldnum(RBOTmpItemList, FormSessionId));
+          #    criteriaItemList.value(queryValue(asessionId));
+          #    criteriaItemList.status(RangeStatus::Hidden);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    RBOInventTable InventTable
+    Purch InventTable
+    Invent InventTable
+    Sales InventTable
+    InventItemLocation InventTable
+    RBOTmpItemList RBOInventTable
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@RBO923
+      TitleDatasource     #InventTable
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/7F60CC0A-3806-4144-A685-582529D80EE6.htm
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #Column height
+          Tabs                #11
+          Columns             #1
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Caption             #@SYS9039
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GroupTree
+                  AutoDeclaration     #Yes
+                  Width               #300
+                  Height              #Column height
+                  FrameType           #Raised 3D
+                  Caption             #@RBO856
+                  Columnspace         #25
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL TREE
+                      PROPERTIES
+                        Name                #Tree
+                        Width               #Column width
+                        Height              #Column height
+                        DragDrop            #Manual
+                        Border              #Single line 
+                        EditLabels          #Yes
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #mouseDblClick
+                          #public int mouseDblClick(int _x, int _y, int _button, boolean _ctrl, boolean _shift)
+                          #{
+                          #    int ret;
+                          #
+                          #    ret = super(_x, _y, _button, _ctrl, _shift);
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                        SOURCE #SelectionChanged
+                          #void selectionChanged(FormTreeItem oldItem, FormTreeItem newItem, FormTreeSelect how)
+                          #{
+                          #
+                          #    super(oldItem, newItem, how);
+                          #    addHierarchyTree.selectionChanged(oldItem,newItem);
+                          #}
+                        ENDSOURCE
+                        SOURCE #expanding
+                          #boolean expanding(int idx, FormTreeExpand action, anytype data)
+                          #{
+                          #    boolean ret;
+                          #
+                          #    ret = super(idx, action, data);
+                          #    addHierarchyTree.expanding(idx, action, data);
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                        SOURCE #Drop
+                          #void drop(FormControl dragSource, FormDrag dragMode, int x, int y)
+                          #{
+                          #
+                          #    super(dragSource, dragMode, x, y);
+                          #    addHierarchyTree.drop(dragSource, dragMode, x, y);
+                          #}
+                        ENDSOURCE
+                        SOURCE #DragOver
+                          #FormDrag dragOver(FormControl dragSource, FormDrag dragMode, int x, int y)
+                          #{
+                          #    FormDrag ret;
+                          #
+                          #    ret = super(dragSource, dragMode, x, y);
+                          #    ret = addHierarchyTree.dragOver(dragSource, dragMode, x, y);
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                        SOURCE #DragLeave
+                          #void dragLeave()
+                          #{
+                          #
+                          #    super();
+                          #    addHierarchyTree.dragLeave();
+                          #}
+                        ENDSOURCE
+                        SOURCE #BeginDrag
+                          #int beginDrag(int x, int y)
+                          #{
+                          #    int ret;
+                          #
+                          #    ret = super(x, y);
+                          #    ret = addHierarchyTree.beginDrag(x, y);
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ItemGroup
+                        AutoDeclaration     #Yes
+                        ExtendedDataType    
+                          ARRAY 
+                            #ItemGroupId
+                            #
+                          ENDARRAY
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #modified
+                          #public boolean modified()
+                          #{
+                          #    boolean ret;
+                          #
+                          #    ret = super();
+                          #    inventTable_ds.executeQuery();
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #BuyersGroup
+                        AutoDeclaration     #Yes
+                        ExtendedDataType    
+                          ARRAY 
+                            #ItemBuyerGroupId
+                            #
+                          ENDARRAY
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #modified
+                          #public boolean modified()
+                          #{
+                          #    boolean ret;
+                          #
+                          #    ret = super();
+                          #    inventTable_ds.executeQuery();
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Vendor
+                        AutoDeclaration     #Yes
+                        ExtendedDataType    
+                          ARRAY 
+                            #VendAccount
+                            #
+                          ENDARRAY
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #modified
+                          #public boolean modified()
+                          #{
+                          #    boolean ret;
+                          #
+                          #    ret = super();
+                          #    inventTable_ds.executeQuery();
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SpecialGroup
+                        AutoDeclaration     #Yes
+                        Label               #@RBO1908
+                        ExtendedDataType    
+                          ARRAY 
+                            #RBOSpecialGroupId
+                            #
+                          ENDARRAY
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #modified
+                          #public boolean modified()
+                          #{
+                          #    boolean ret;
+                          #
+                          #    ret = super();
+                          #    inventTable_ds.executeQuery();
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ctrlInventTable_ItemId
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2a944a98-4940-4bf9-bcd5-3deb2e8edb56.htm
+                        DataSource          #InventTable
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventTable_ItemName
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/243986d6-3e2c-4ccb-a80c-ae953d8606bb.htm
+                        DataSource          #InventTable
+                        DataField           #ItemName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventTable_NameAlias
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8ede0323-0790-48d2-8ed5-744e84a3ddad.htm
+                        DataSource          #InventTable
+                        DataField           #NameAlias
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventTable_ItemGroupId
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8568e6c7-57fa-44c7-bc33-78c02a31c4be.htm
+                        DataSource          #InventTable
+                        DataField           #ItemGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #InventTable_ItemType
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/1dc0f263-1d78-4c87-9a4a-9766d4c96a28.htm
+                        Selection           #255
+                        DataSource          #InventTable
+                        DataField           #ItemType
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS2952
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column1
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/D66814C8-5632-4065-BAED-16F64024F489.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Identification
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/99E81F4D-D2AA-40AB-8382-7AA5097A6F0D.htm
+                        DataSource          #InventTable
+                        DataGroup           #Identification
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ctrlItemId
+                              AutoDeclaration     #Yes
+                              DataSource          #InventTable
+                              DataField           #ItemId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Name
+                        Width               #Column width
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/AE9EF650-937F-4925-9C8F-11A760C69351.htm
+                        Caption             #@SYS7407
+                        DataSource          #InventTable
+                        DataGroup           #Name
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Name_ItemName
+                              DataSource          #InventTable
+                              DataField           #ItemName
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Name_NameAlias
+                              DataSource          #InventTable
+                              DataField           #NameAlias
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #Name_ItemType
+                              DataSource          #InventTable
+                              DataField           #ItemType
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Name_M_txtDefault
+                              HelpText            #@SYS58702
+                              DisplayLength       #30
+                              MultiLine           #Yes
+                              DataSource          #InventTable
+                              DataMethod          #txtDefault
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column2
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/3F577A08-870A-41C2-9394-561B42BF4AC8.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Groups
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/3BBFA138-CA8F-4164-86C5-FBC90F3285BD.htm
+                        DataSource          #InventTable
+                        DataGroup           #Groups
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InvenItemtLocationGroup
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/ECE49E37-5A09-4C7F-B184-D68C27F0A724.htm
+                        Caption             #@SYS2828
+                        DataSource          #InventItemLocation
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #InventItemLocation_CountGroupId
+                              DataSource          #InventItemLocation
+                              DataField           #CountGroupId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #FiscalLIFO
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/1AFDD48D-0F1D-4AA6-9484-B4A2E9A10B70.htm
+                        DataSource          #InventTable
+                        DataGroup           #FiscalLIFO
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column3
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/A9F1AE9C-F58E-4747-9D1C-D49CF8EBC176.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ProductConfigurator
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B473CF93-CC63-44BA-BCD2-620439CAC5ED.htm
+                        DataSource          #InventTable
+                        DataGroup           #ProductConfigurator
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ctrlStandardConfigId
+                              DataSource          #InventTable
+                              DataField           #StandardConfigId
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #Lookup
+                                #void lookup()
+                                #{
+                                #;
+                                #    ConfigTable::lookupConfigId(this,inventTable.ItemId);
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #ctrlConfigurable
+                              DataSource          #InventTable
+                              DataField           #Configurable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #ctrlConfigSimilar
+                              DataSource          #InventTable
+                              DataField           #ConfigSimilar
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ProductBuilder
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/367708FF-DA12-42CE-9B23-AD60A0DDCDAA.htm
+                        DataSource          #InventTable
+                        DataGroup           #ProductBuilder
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #ProductBuilder_PBAItemConfigurable
+                              DataSource          #InventTable
+                              DataField           #PBAItemConfigurable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #ProductBuilder_PBAHideDialog
+                              DataSource          #InventTable
+                              DataField           #PBAHideDialog
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #ProductBuilder_PBAHideApproval
+                              DataSource          #InventTable
+                              DataField           #PBAHideApproval
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #ProductBuilder_PBAAutoStart
+                              DataSource          #InventTable
+                              DataField           #PBAAutoStart
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #ProductBuilder_PBAMandatoryConfig
+                              DataSource          #InventTable
+                              DataField           #PBAMandatoryConfig
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ItemdimensionsSetup
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2EECD454-DE43-4A87-A6FC-EB562E0AB251.htm
+                        DataSource          #InventTable
+                        DataGroup           #ItemDimensionsSetup
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ItemdimensionsDefault
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/5B5AA721-3D74-4CCB-99BF-11E390AA55C2.htm
+                        DataSource          #InventTable
+                        DataGroup           #ItemDimensionsDefault
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Setup
+              Caption             #@SYS2186
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PriceUpdate
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/E86DA39D-1CEB-4135-8816-23819E5A3A54.htm
+                  DataSource          #InventTable
+                  DataGroup           #PriceUpdate
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #SetupColumn2
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/66CE841D-77B5-4725-9101-A5AB6F2C0F8B.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ItemData
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B34AC4FA-D0D1-4126-9CEE-ADCBDE55F248.htm
+                        Caption             #@SYS23860
+                        DataSource          #InventTable
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ItemData_InventUnitId
+                              Label               #@SYS16617
+                              DataSource          #Invent
+                              DataField           #UnitId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #ItemData_UnitVolume
+                              DataSource          #InventTable
+                              DataField           #UnitVolume
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #ItemData_TaxPackagingQty
+                              DataSource          #InventTable
+                              DataField           #TaxPackagingQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #ItemData_NetWeight
+                              DataSource          #InventTable
+                              DataField           #NetWeight
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #ItemData_TaraWeight
+                              DataSource          #InventTable
+                              DataField           #TaraWeight
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #grossWeight
+                              AllowEdit           #No
+                              DataSource          #InventTable
+                              DataMethod          #grossWeight
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #InventTable_echLegacySystemId
+                              DataSource          #InventTable
+                              DataField           #echLegacySystemId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PhysicalDimensions
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/FE77CBCE-F779-4268-BA4A-3D3F02A5DDA3.htm
+                  DataSource          #InventTable
+                  DataGroup           #PhysicalDimensions
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #WarehouseManagement
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/3E6AEB84-DE4C-44DD-AD01-A311C11B491D.htm
+                  DataSource          #InventTable
+                  DataGroup           #WarehouseManagement
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #RFIDTagging
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/13119992-5836-4202-B0D8-72996B76E0D2.htm
+                  DataSource          #InventTable
+                  DataGroup           #RFIDTagging
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #RFIDTagging_ItemTaggingLevel
+                        DataSource          #InventTable
+                        DataField           #ItemTaggingLevel
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #RFIDTagging_PalletTagging
+                        ConfigurationKey    #WMSPallet
+                        DataSource          #InventTable
+                        DataField           #PalletTagging
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #References
+              Caption             #@SYS14018
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PurchaseOrderGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/F34B2454-4F15-49D8-AD87-DB4A7B3D1C89.htm
+                  Caption             #@SYS15812
+                  DataSource          #Purch
+                  DataGroup           #Setup
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Purch_UnitId
+                        Label               #@SYS22997
+                        DataSource          #Purch
+                        DataField           #UnitId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Purch_MarkupGroupId
+                        DataSource          #Purch
+                        DataField           #MarkupGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Purch_TaxItemGroupId
+                        DataSource          #Purch
+                        DataField           #TaxItemGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #Purch_OverDeliveryPct
+                        DataSource          #Purch
+                        DataField           #OverDeliveryPct
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #Purch_UnderDeliveryPct
+                        DataSource          #Purch
+                        DataField           #UnderDeliveryPct
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #Purch_InterCompanyBlocked
+                        DataSource          #Purch
+                        DataField           #InterCompanyBlocked
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #PurchaseOrderGroup_TaxWithholdCalculate_TH
+                        DataSource          #Purch
+                        DataField           #TaxWithholdCalculate_TH
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #PurchaseOrderGroup_TaxWithholdItemGroup_TH
+                        DataSource          #Purch
+                        DataField           #TaxWithholdItemGroup_TH
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #BOMGroup
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/2DF49979-9EF6-449B-A242-078424F4A4E1.htm
+                  DataSource          #InventTable
+                  DataGroup           #BOM
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #SalesOrderGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/67F8AF9D-5D02-46A9-902F-A75BB94B431B.htm
+                  Caption             #@SYS7443
+                  DataSource          #Sales
+                  DataGroup           #Setup
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Sales_UnitId
+                        Label               #@SYS79797
+                        DataSource          #Sales
+                        DataField           #UnitId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Sales_MarkupGroupId
+                        DataSource          #Sales
+                        DataField           #MarkupGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Sales_TaxItemGroupId
+                        DataSource          #Sales
+                        DataField           #TaxItemGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #Sales_OverDeliveryPct
+                        DataSource          #Sales
+                        DataField           #OverDeliveryPct
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #Sales_UnderDeliveryPct
+                        DataSource          #Sales
+                        DataField           #UnderDeliveryPct
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #Sales_InterCompanyBlocked
+                        DataSource          #Sales
+                        DataField           #InterCompanyBlocked
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #SalesOrderGroup_TaxWithholdCalculate_TH
+                        DataSource          #Sales
+                        DataField           #TaxWithholdCalculate_TH
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesOrderGroup_TaxWithholdItemGroup_TH
+                        DataSource          #Sales
+                        DataField           #TaxWithholdItemGroup_TH
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ProductionGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/F5195CAA-FBF0-4A55-AF91-5CF638323828.htm
+                  DataSource          #InventTable
+                  DataGroup           #Production
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventTransferOrders
+                  Caption             #@SYS78286
+                  DataSource          #Invent
+                  DataGroup           #DeliveryPercent
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ProjectGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/D12C6AE7-AB83-47F5-80AD-8E1B47524F38.htm
+                  DataSource          #InventTable
+                  DataGroup           #Project
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #BOMCalculationGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/A90210CD-B656-4EA0-8FD9-DB60F62EA728.htm
+                  DataSource          #InventTable
+                  DataGroup           #BOMCalculation
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ItemCovGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/F91C8126-EFB1-49B7-9B18-8AB9EBEEDE8A.htm
+                  DataSource          #InventTable
+                  DataGroup           #ItemCoverage
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #PriceDisc
+              Caption             #@SYS19789
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PriceDiscPurch
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/0E004336-9720-491B-B9C4-A47F394CFC53.htm
+                  Caption             #@SYS111222
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Prices
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8DB72B50-6FD8-4566-9BAE-539F8BD15805.htm
+                        FrameType           #None
+                        DataSource          #Purch
+                        DataGroup           #Prices
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #Prices_Price
+                              DataSource          #Purch
+                              DataField           #Price
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #Prices_PriceUnit
+                              DataSource          #Purch
+                              DataField           #PriceUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #Prices_Markup
+                              DataSource          #Purch
+                              DataField           #Markup
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #Prices_PriceQty
+                              DataSource          #Purch
+                              DataField           #PriceQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #Prices_PriceDate
+                              DataSource          #Purch
+                              DataField           #PriceDate
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #Prices_AllocateMarkup
+                              DataSource          #Purch
+                              DataField           #AllocateMarkup
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #Prices_MaximumRetailPrice_IN
+                              DataSource          #Purch
+                              DataField           #MaximumRetailPrice_IN
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #PurchDisc
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2AD61921-26EC-4BD3-9D31-1FFB36577E17.htm
+                        FrameType           #None
+                        DataSource          #Purch
+                        DataGroup           #Discount
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Purch_LineDisc
+                              DataSource          #Purch
+                              DataField           #LineDisc
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Purch_MultiLineDisc
+                              DataSource          #Purch
+                              DataField           #MultiLineDisc
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #Purch_EndDisc
+                              DataSource          #Purch
+                              DataField           #EndDisc
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #PurchSupplementaryItem
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/1D06E4E9-ABAB-4A91-8D7D-FFB259BCBEB3.htm
+                        FrameType           #None
+                        DataSource          #Purch
+                        DataGroup           #SupplementaryItem
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #PurchSuppItemGroupId
+                              DataSource          #Purch
+                              DataField           #SuppItemGroupId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PriceDiscInvent
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/75CF4D0A-8FE7-4C3A-8668-B1E2BBAECE29.htm
+                  Caption             #@SYS111223
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #PricesInvent
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/82C55B91-99AF-4AC2-84BF-5484BB4F4500.htm
+                        FrameType           #None
+                        DataSource          #Invent
+                        DataGroup           #Prices
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #PricesInvent_Price
+                              DataSource          #Invent
+                              DataField           #Price
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #PricesInvent_PriceUnit
+                              DataSource          #Invent
+                              DataField           #PriceUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #PricesInvent_Markup
+                              DataSource          #Invent
+                              DataField           #Markup
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #PricesInvent_PriceQty
+                              DataSource          #Invent
+                              DataField           #PriceQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #PricesInvent_PriceDate
+                              DataSource          #Invent
+                              DataField           #PriceDate
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #PricesInvent_AllocateMarkup
+                              DataSource          #Invent
+                              DataField           #AllocateMarkup
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #PricesInvent_MaximumRetailPrice_IN
+                              DataSource          #Invent
+                              DataField           #MaximumRetailPrice_IN
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PriceDiscSales
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/97ACA68F-D9AF-4C95-A675-1C31C0E8AB49.htm
+                  Caption             #@SYS111224
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #PricesSales
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/D7555837-FB48-4B16-AC8D-CAFF5FFA1D6B.htm
+                        FrameType           #None
+                        DataSource          #Sales
+                        DataGroup           #Prices
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #SalesDisc
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/57055A33-E9E7-49F9-A759-6AF5113BFB91.htm
+                        FrameType           #None
+                        DataSource          #Sales
+                        DataGroup           #Discount
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Sales_LineDisc
+                              DataSource          #Sales
+                              DataField           #LineDisc
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Sales_MultiLineDisc
+                              DataSource          #Sales
+                              DataField           #MultiLineDisc
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #Sales_EndDisc
+                              DataSource          #Sales
+                              DataField           #EndDisc
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #SalesSupplementaryItem
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/6E407A14-B823-42A7-92B0-DB834691AC9D.htm
+                        FrameType           #None
+                        DataSource          #Sales
+                        DataGroup           #SupplementaryItem
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesSuppItemGroupId
+                              DataSource          #Sales
+                              DataField           #SuppItemGroupId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Various
+              Caption             #@SYS1284
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #VariousCol1
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/1028B663-77D8-4BDB-BCAE-718ECE5348C2.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #groupItemCompany
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/AB091DBE-9299-44C5-BEB2-CA7B1F942D96.htm
+                        DataSource          #InventTable
+                        DataGroup           #ItemCompany
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #groupInterCompany_companyItem
+                              DataSource          #InventTable
+                              DataField           #ItemIdCompany
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ItemAlternative
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/C073976B-8AD0-4CB2-9775-879CD93653F3.htm
+                        DataSource          #InventTable
+                        DataGroup           #ItemAlternative
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #UseAltItemId
+                              DataSource          #InventTable
+                              DataField           #UseAltItemId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #AltItemId
+                              DataSource          #InventTable
+                              DataField           #AltItemId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #AltConfigId
+                              AutoDeclaration     #Yes
+                              DataSource          #InventTable
+                              DataField           #AltConfigId
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #Lookup
+                                #void lookup()
+                                #{
+                                #;
+                                #    ConfigTable::lookupConfigId(this,inventTable.AltItemId,false);
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ItemAlternative_AltInventSizeId
+                              AutoDeclaration     #Yes
+                              DataSource          #InventTable
+                              DataField           #AltInventSizeId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ItemAlternative_AltInventColorId
+                              AutoDeclaration     #Yes
+                              DataSource          #InventTable
+                              DataField           #AltInventColorId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ItemAlternative_AltInventStyleId
+                              DataSource          #InventTable
+                              DataField           #AltInventStyleId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Settlement
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/AAAD6508-899C-421C-BD45-73D5B9F562CB.htm
+                        DataSource          #InventTable
+                        DataGroup           #Settlement
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #VariousCol2
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/DE341B52-CEB6-42A6-BA28-A00B2C0C7A9D.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ABC
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/69DAC01F-C299-48D8-9825-7168435A79F0.htm
+                        DataSource          #InventTable
+                        DataGroup           #ABC
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ForeignTrade
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/D03E3CEF-BAD8-48C0-BF3C-E43149D02A8B.htm
+                        DataSource          #InventTable
+                        DataGroup           #ForeignTrade
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #VariousCol3
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/93C4582A-8B75-4E0D-8B7C-7A60CA96CAEA.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Measurement
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B74C15E3-3AB5-49EF-893F-861FFF6C8ECD.htm
+                        DataSource          #InventTable
+                        DataGroup           #Measurement
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Forecast1
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/E547272E-F285-4DD9-87B5-0F21FA96D355.htm
+                        DataSource          #InventTable
+                        DataGroup           #Forecast
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Dimension
+              Caption             #@SYS14926
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #DimensionGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/92FF2FCE-AB5F-44A2-B4B4-367784E11F4E.htm
+                  FrameType           #None
+                  DataSource          #InventTable
+                  DataGroup           #Dimension
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #RBOSpecials
+              Caption             #@RBO92
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Type
+                  DataSource          #RBOInventTable
+                  DataGroup           #Type
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ItemHierarchy
+                  DataSource          #RBOInventTable
+                  DataGroup           #ItemHierarchy
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ComparisonPrice
+                  Caption             #@RBO178
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #RBOInventTable_baseComparisonUnitCode
+                        LabelAlignment      #Right
+                        DataSource          #RBOInventTable
+                        DataField           #baseComparisonUnitCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #getComparisonPrice
+                        AllowEdit           #No
+                        Label               #@RBO178
+                        LabelAlignment      #Right
+                        DataMethod          #getComparisonPrice
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Price
+                  DataSource          #RBOInventTable
+                  DataGroup           #Price
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Variants
+                  DataSource          #RBOInventTable
+                  DataGroup           #Variants
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Barcode
+                  DataSource          #RBOInventTable
+                  DataGroup           #Barcode
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Activation
+                  DataSource          #RBOInventTable
+                  DataGroup           #Activation
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Blocking
+                  DataSource          #RBOInventTable
+                  DataGroup           #Blocking
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Temperature
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTSetup
+                  DataSource          #RBOInventTable
+                  DataGroup           #Temperature
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #RBOSpecialsSum
+              Visible             #No
+              Caption             #@RBO2453
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Inventory
+                  Caption             #@RBO867
+                  DataSource          #RBOInventTable
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #fieldInventAvailable
+                        AutoDeclaration     #Yes
+                        LabelAlignment      #Right
+                        DataMethod          #getInventAvailable
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #qtySoldNotPosted
+                        AutoDeclaration     #Yes
+                        LookupButton        #Always
+                        BackStyle           #Transparent
+                        BackgroundColor     #Button face (3D)
+                        Label               #@RBO868
+                        LabelAlignment      #Right
+                        ExtendedDataType    
+                          ARRAY 
+                            #Qty
+                            #
+                          ENDARRAY
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #textChange
+                          #public void textChange()
+                          #{
+                          #    this.realValue(element.qtySoldNotPosted());
+                          #}
+                        ENDSOURCE
+                        SOURCE #lookup
+                          #public void lookup()
+                          #{
+                          #    element.displayLookup(tablestr(RBOTransactionSalesTrans), tablenum(RBOTransactionSalesTrans), queryRun);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #actualQtyOnHand
+                        AllowEdit           #No
+                        BackStyle           #Transparent
+                        BackgroundColor     #Button face (3D)
+                        Label               #@RBO869
+                        LabelAlignment      #Right
+                        DataMethod          #actualQtyOnHand
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #FashionSpecials
+              Caption             #@FSH46
+              Columns             #Auto
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Clothing
+                  DataSource          #RBOInventTable
+                  DataGroup           #Clothing
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ItemLifeCycle
+                  DataSource          #RBOInventTable
+                  DataGroup           #ItemLifeCycle
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #concession
+                  ConfigurationKey    #RetailConcession
+                  DataSource          #RBOInventTable
+                  DataGroup           #concession
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #POSTerminals
+              Caption             #@RBO315
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #POSTerminal
+                  DataSource          #RBOInventTable
+                  DataGroup           #POSTerminal
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventTransItem
+              MenuItemName        #InventTransItem1
+              DataSource          #InventTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventOnHandItem
+              MenuItemName        #InventOnhandItem
+              DataSource          #InventTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #SetupMenu
+              HelpText            #@SYS28777
+              Text                #@SYS2186
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Texts
+                  SaveRecord          #No
+                  MenuItemName        #InventTxt
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Configs
+                  AutoDeclaration     #Yes
+                  SaveRecord          #No
+                  MenuItemName        #ConfigTable
+                  DataSource          #RBOInventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventSizes
+                  AutoDeclaration     #Yes
+                  MenuItemName        #InventSizes
+                  DataSource          #RBOInventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventColors
+                  AutoDeclaration     #Yes
+                  MenuItemName        #InventColors
+                  DataSource          #RBOInventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventStyles
+                  AutoDeclaration     #Yes
+                  MenuItemName        #RBOInventStyles
+                  DataSource          #RBOInventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventDimCombination
+                  AutoDeclaration     #Yes
+                  MenuItemName        #InventDimCombination
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventItemOrderSetup
+                  MenuItemName        #InventItemOrderSetup
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventItemOrderSetupDim
+                  MenuItemName        #InventItemOrderSetupDim
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventItemLocation
+                  SaveRecord          #No
+                  MenuItemName        #InventItemLocation
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ReqItemTable
+                  MenuItemName        #ReqItemTable
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #echStockAllocationRule
+                  MenuItemName        #echStockAllocationRule
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventItemBarcode
+                  MenuItemName        #InventItemBarcode
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventTestItemQualityGroup
+                  MenuItemName        #InventTestItemQualityGroup
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventItemGTIN
+                  MenuItemName        #InventItemGTIN
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Setup_Separator1
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ProductPresentation
+                  MenuItemName        #ECPpresentation
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Setup_Separator2
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #CustExternalItem
+                  Text                #@SYS54851
+                  MenuItemName        #CustExternalItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #VendExternalItem
+                  Text                #@SYS54852
+                  MenuItemName        #VendExternalItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ExtCodeValueTable
+                  AutoDeclaration     #Yes
+                  MenuItemName        #ExtCodeValueTable
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Setup_Separator3
+                  Height              #100
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOCustVendExternalItem_Cust
+                  MenuItemName        #RBOCustVendExternalItem_Cust
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOCustVendExternalItem_Vend
+                  MenuItemName        #RBOCustVendExternalItem_Vend
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Commission
+                  SaveRecord          #No
+                  MenuItemName        #CommissionCalc
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #UnitRecalc
+                  SaveRecord          #No
+                  MenuItemName        #UnitConvert
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Setup_Separator4
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Posting
+                  SaveRecord          #No
+                  MenuItemName        #InventPosting
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventProdComSetup
+                  MenuItemType        #Action
+                  MenuItemName        #InventProdComSetup
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator1
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventItemLabelSetup_Shelf
+                  MenuItemName        #RBOInventItemLabelSetup_Shelf
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventItemLabelSetup_Item
+                  MenuItemName        #RBOInventItemLabelSetup_Item
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator5
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventItemImage
+                  MenuItemName        #RBOInventItemImage
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInfocodeTableSpecific_Item
+                  MenuItemName        #RBOInfocodeTableSpecific_Item
+                  DataSource          #RBOInventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator14
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventLinkedItem
+                  MenuItemName        #RBOInventLinkedItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventWhereLinkedItem
+                  MenuItemName        #RBOInventWhereLinkedItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator6
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventItemSectionLocation
+                  MenuItemName        #RBOInventItemSectionLocation
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventItemStoreOrderingInfo
+                  Visible             #No
+                  Enabled             #No
+                  MenuItemName        #RBOInventItemStoreOrderingInfo
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator11
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOAssortmentItemList
+                  Text                #@RBO3394
+                  MenuItemName        #RBOAssortmentItemList
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOSpecialGroupItems
+                  MenuItemName        #RBOSpecialGroupItems
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator9
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #DRMDistributionList
+                  MenuItemName        #DRMDistributionList
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #echItemAttributes
+                  HelpText            #@ECH266
+                  Text                #@SYS31826
+                  MenuItemName        #echItemAttributes
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #TradeAgreements
+              HelpText            #@SYS28753
+              Text                #@SYS13768
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SalesPrice
+                  MenuItemName        #PriceDiscTable_PriceSales
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SalesLineDisc
+                  MenuItemName        #PriceDiscTable_LineDiscSales
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SalesMultiLineDisc
+                  MenuItemName        #PriceDiscTable_MultiLineDiscSales
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SalesEndDisc
+                  MenuItemName        #PriceDiscTable_EndDiscSales
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #TradeAgreements_Separator1
+                  Height              #100
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #PurchPrice
+                  MenuItemName        #PriceDiscTable_PricePurch
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #PurchLineDisc
+                  MenuItemName        #PriceDiscTable_LineDiscPurch
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #PurchMultiLineDisc
+                  MenuItemName        #PriceDiscTable_MultiLineDiscPurch
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #PurchEndDisc
+                  MenuItemName        #PriceDiscTable_EndDiscPurch
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #TradeAgreements_Separator2
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SuppItemTable_Sales
+                  MenuItemName        #SuppItemTable_Sales
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #TradeAgreements_Separator3
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SuppItemTable_Purch
+                  MenuItemName        #SuppItemTable_Purch
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Functions
+              HelpText            #@SYS28752
+              Text                #@SYS10340
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ItemTypeChange
+                  SaveRecord          #No
+                  MenuItemType        #Action
+                  MenuItemName        #InventItemTypeChange
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #EditDimensions
+                  MenuItemName        #InventTransEditDimensions
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InterCompanyCreateItem
+                  MenuItemName        #InterCompanyCreateItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator2
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL BUTTON
+                PROPERTIES
+                  Name                #RBOPrintSpecificShelfLabel
+                  Text                #@RBO2452
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #    Args args = new Args();
+                    #    MenuFunction    createItemLabelByItemMen = new MenuFunction(menuitemactionstr(RBOCreateSpecificShelfLabel), MenuItemType::Action);
+                    #
+                    #    super();
+                    #
+                    #    args.caller(element);
+                    #    args.record(inventTable);
+                    #    args.parm(inventTable.ItemId);
+                    #
+                    #    createItemLabelByItemMen.run(args);
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL BUTTON
+                PROPERTIES
+                  Name                #RBOPrintSpecificItemLabel
+                  Text                #@RBO2451
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #    Args args = new Args();
+                    #    MenuFunction    createItemLabelByItemMen = new MenuFunction(menuitemactionstr(RBOCreateSpecificItemLabel), MenuItemType::Action);
+                    #
+                    #    super();
+                    #
+                    #    args.caller(element);
+                    #    args.record(inventTable);
+                    #    args.parm(inventTable.ItemId);
+                    #
+                    #    createItemLabelByItemMen.run(args);
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator3
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOMandatoryCheck
+                  MenuItemName        #RBOMandatoryCheck
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOMandatoryCheckManagement
+                  MenuItemType        #Action
+                  MenuItemName        #RBOMandatoryCheckManagement
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator4
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #FSHBuyersPush
+                  MenuItemName        #FSHBuyersPush
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator7
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #FSHImportJournalTable
+                  Visible             #No
+                  Enabled             #No
+                  MenuItemName        #FSHImportJournalTable
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Inquiries
+              HelpText            #@SYS28754
+              Text                #@SYS3850
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Lots
+                  SaveRecord          #No
+                  MenuItemName        #InventLotItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventBatch
+                  MenuItemName        #InventBatch
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Inquiries_Separator1
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #PurchLineOpenOrder
+                  MenuItemName        #PurchLineOpenOrder
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SalesLineOpenOrder
+                  MenuItemName        #SalesLineOpenOrder
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Inquiries_Separator2
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ProdTable
+                  MenuItemName        #ProdTable
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventNonConformanceTable
+                  MenuItemName        #InventNonConformanceTable
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Inquiries_Separator3
+                  Height              #100
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ReqTransact
+                  SaveRecord          #No
+                  MenuItemName        #ReqTransNet
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventReqMaster
+                  MenuItemName        #ReqTransGross
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Inquiries_Separator4
+                  AllowEdit           #No
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SalesATP
+                  MenuItemName        #SalesATP
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventSupply
+                  MenuItemName        #InventSupply
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Inquiries_Separator5
+                  AllowEdit           #No
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #CostControlCommittedCost
+                  AllowEdit           #No
+                  SaveRecord          #No
+                  MenuItemName        #costcontrolCommittedCost
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Inquiries_Separator6
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Statistics
+                  AllowEdit           #No
+                  SaveRecord          #No
+                  MenuItemName        #InventStatistics
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator8
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOInventItemActivityTrans
+                  Visible             #No
+                  Enabled             #No
+                  MenuItemName        #RBOInventItemActivityTrans
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOCompetitorPriceTable
+                  MenuItemName        #RBOCompetitorPriceTable
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RBOTransactionSalesTrans
+                  MenuItemName        #RBOTransactionSalesTrans
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator10
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL BUTTON
+                PROPERTIES
+                  Name                #RBODiscountPriorityControl
+                  Text                #@RBO352
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #    ;
+                    #    RBODiscountPriorityControl::checkOverLap(RBODiscountOfferTypeBase::DiscountOffer,rboInventTable.ItemId,true);
+                    #    super();
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Forecast
+              HelpText            #@SYS28775
+              Text                #@SYS26551
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #BudgetPurch
+                  SaveRecord          #No
+                  MenuItemName        #ForecastPurchItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #BudgetSales
+                  SaveRecord          #No
+                  MenuItemName        #ForecastSalesItem
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Invent
+                  SaveRecord          #No
+                  MenuItemName        #ForecastInvent
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #BOM
+              HelpText            #@SYS28776
+              ConfigurationKey    #BOM
+              Text                #@SYS7916
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Clicked
+                #void clicked()
+                #{
+                #    inventTable_ds.active();
+                #
+                #    super();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ctrlBOMConsistOf
+                  AutoDeclaration     #Yes
+                  MenuItemName        #BOMConsistOf
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ctrlBOMDesigner
+                  AutoDeclaration     #Yes
+                  MenuItemName        #BOMDesigner
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #BOMPartOf
+                  SaveRecord          #No
+                  MenuItemName        #BOMPartOf
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #BOM_Separator1
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ctrlBOMConfigRoute
+                  AutoDeclaration     #Yes
+                  SaveRecord          #No
+                  MenuItemName        #BOMConfigRoute
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ctrlBOMConfigHierarchy
+                  AutoDeclaration     #Yes
+                  MenuItemName        #ConfigHierarchy
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #BOM_Separator2
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ctrlBOMReportFinished
+                  AutoDeclaration     #Yes
+                  SaveRecord          #No
+                  MenuItemType        #Action
+                  MenuItemName        #BOMReportFinished
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ctrlBOMReportFinishMax
+                  AutoDeclaration     #Yes
+                  MenuItemName        #BOMReportFinishMax
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #BOM_Separator3
+                  Height              #100
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #ctrlRoute
+              AutoDeclaration     #Yes
+              MenuItemName        #RouteInventProd
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #AxdSendItem
+              MultiSelect         #No
+              MenuItemType        #Action
+              MenuItemName        #AxdSendItem
+              DataSource          #InventTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #CtrlProjectControl
+              HelpText            #@SYS56214
+              Text                #@SYS56214
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ProjStatistic
+                  MenuItemName        #ProjStatistic
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ProjCostControl
+                  Text                #@SYS103931
+                  MenuItemName        #projCostControl
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #projInvoiceControl
+                  MenuItemName        #projInvoiceControl
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #ProjCashFlow
+                  ConfigurationKey    #ProjAdvCashFlow
+                  MenuItemName        #ProjCashFlow
+                  DataSource          #InventTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventItemPrice
+              MenuItemName        #InventItemPrice
+              DataSource          #InventTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

@@ -1,0 +1,621 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxSalesLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxSalesLine
+    Id 5797
+    PROPERTIES
+      Name                #AxSalesLine
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Send out the External SKU ID
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: added SKU id
+        #
+        #class AxSalesLine extends AxInternalBase implements AxInventSiteDimensionable
+        #{
+        #    SalesLine                       salesLine;
+        #    AxInventDim_SalesLine           axInventDim;
+        #
+        #    int                             inventTableIdx;
+        #    int                             inventItemBarcodeIdx;
+        #    int                             salesTableIdx;
+        #    int                             projTableIdx;
+        #    int                             returnActionDefaultsIdx;
+        #    int                             salesParametersIdx;
+        #    int                             priceParametersIdx;
+        #
+        #    int                             priceDisc_PriceIdx;
+        #    int                             priceDisc_LineDiscIdx;
+        #    int                             custExternalItemDescriptionIdx;
+        #    int                             axSalesTableIdx;
+        #    int                             zipCodeIdx;
+        #    str                             item;
+        #    str                             county;
+        #    str                             state;
+        #    LineNum                         lineNum;
+        #
+        #    boolean                         forceDeliveryDates;
+        #    boolean                         skipCreditLimitCheck;
+        #    boolean                         salesPriceExternallySet;
+        #
+        #// CS - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #    echSkuId                        echSkuId;
+        #    boolean                         skuPrior;
+        #// CE - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #
+        #
+        #// CS - ECH_WI_00837 - Marijn Catthoor - 17 Aug 2012
+        #    extCodeValue                    echExtSkuId;
+        #// CE - ECH_WI_00837 - Marijn Catthoor - 17 Aug 2012
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getEchExtSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Get the external SKU ID
+        #
+        #protected extCodeValue getEchExtSkuId()
+        #{
+        #    echSkuId        skuId;
+        #    ;
+        #
+        #    skuId = this.getEchSkuId();
+        #
+        #    if (skuId)
+        #    {
+        #        echExtSkuId = echExternalSkuId::GetExternalSkuId(InventDim::find(this.parmInventDimId()).InventLocationId, skuId);
+        #    }
+        #
+        #    return echExtSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getEchSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR05_1
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: get sku id
+        #
+        #protected echSkuId getEchSkuId()
+        #{
+        #    echSkuId    ret;
+        #    ;
+        #
+        #    if (skuPrior && echSkuId)
+        #        ret = echSkuId;
+        #    else
+        #        ret = InventItemBarcode::findSkuId(this.parmItemId(), this.parmInventDimId());
+        #
+        #    return ret;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #init
+        #// Create ECH_WI_01983 by mengqi.cen on 20130301
+        #protected void init()
+        #{
+        #;
+        #    super();
+        #    skuPrior = false;
+        #}
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsExemptionList
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set itemid not mandatory
+        #
+        #protected void initMandatoryFieldsExemptionList()
+        #{
+        #    super();
+        #
+        #// CS - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #    echSalesOrder::initMandatoryFieldsExemptionList(this);
+        #// CE - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #
+        #    this.setParmMethodAsNotMandatory(methodstr(AxSalesLine,parmCustAccount));
+        #    this.setParmMethodAsNotMandatory(methodstr(AxSalesLine,parmCustGroup));
+        #    this.setParmMethodAsNotMandatory(methodstr(AxSalesLine,parmShippingDateRequested));
+        #    this.setParmMethodAsNotMandatory(methodstr(AxSalesLine,parmCurrencyCode));
+        #
+        #}
+      ENDSOURCE
+      SOURCE #parmEchAdjustFee
+        #public echAdjustFee parmEchAdjustFee(echAdjustFee _echAdjustFee = 0)
+        #{
+        #    if (!prmisdefault(_echAdjustFee))
+        #    {
+        #        this.setField(fieldNum(SalesLine, EchAdjustFee), _echAdjustFee);
+        #    }
+        #
+        #    return salesLine.EchAdjustFee;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchBarCodeId
+        #// Update ECH_WI_01965 by mengqi.cen on 20130123
+        #//     Distall the logical of get EchItemBarcode into 1 function
+        #// Update ECH_WI_01952 by mengqi.cen on 20130111
+        #//     Retrieve value of 'EchBarcodeId' from table field 'InventItemBarcode.echItemBarCode'.
+        #// Avanade.15.Nov.2012.nte.Project : < ECH_WI_1508 >
+        #public EchItemBarCode parmEchBarcodeId()
+        #{
+        #    EchItemBarCode echItemBarCode;
+        #;
+        #    echItemBarCode = InventItemBarcode::findItemByInventDimCSCS_SkuBarcodeSetup(
+        #                                                                        this.parmItemId(),
+        #                                                                        this.parmInventDimId()).echItemBarCode;
+        #
+        #    return echItemBarCode;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchCouponCode
+        #public echCouponCode parmEchCouponCode(echCouponCode _echCouponCode = '')
+        #{
+        #    if (!prmisdefault(_echCouponCode))
+        #    {
+        #        this.setField(fieldNum(SalesLine, EchCouponCode), _echCouponCode);
+        #    }
+        #
+        #    return salesLine.EchCouponCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchDiscountFee
+        #public echDiscountFee parmEchDiscountFee(echDiscountFee _echDiscountFee = 0)
+        #{
+        #    if (!prmisdefault(_echDiscountFee))
+        #    {
+        #        this.setField(fieldNum(SalesLine, EchDiscountFee), _echDiscountFee);
+        #    }
+        #
+        #    return salesLine.EchDiscountFee;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the external SKU ID
+        #
+        #public extCodeValue parmEchExtSkuId(extCodeValue _extSkuId = '')
+        #{
+        #    axSalesTable        axSalesTable;
+        #    ;
+        #
+        #    if (_extSkuId)
+        #    {
+        #        // get the InventLocationId based on the one that is specified on the Sales Order Header
+        #        if (classidget(this.parentAxBC()) == classnum(axSalesTable))
+        #        {
+        #            axSalesTable = this.parentAxBC();
+        #
+        #            this.setEchExtSkuId(_extSkuId, axSalesTable.parmInventLocationId());
+        #        }
+        #    }
+        #
+        #    return this.getEchExtSkuId();
+        #}
+      ENDSOURCE
+      SOURCE #parmEchFrontEndLineAmount
+        #public SalesLineAmount parmEchFrontEndLineAmount(SalesLineAmount _echFrontEndLineAmount = 0)
+        #{
+        #    if (!prmisdefault(_echFrontEndLineAmount))
+        #    {
+        #        this.setField(fieldNum(SalesLine, EchFrontEndLineAmount), _echFrontEndLineAmount);
+        #    }
+        #
+        #    return salesLine.EchFrontEndLineAmount;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchLineId
+        #public echReturnId parmEchLineId(echReturnId _echLineId = '')
+        #{
+        #    if (!prmisdefault(_echLineId))
+        #    {
+        #        this.setField(fieldnum(SalesLine, echLineId), _echLineId);
+        #    }
+        #
+        #    return salesLine.echLineId;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchPromotionCode
+        #public echPromotionCode parmEchPromotionCode(echPromotionCode _echPromotionCode = '')
+        #{
+        #    if (!prmisdefault(_echPromotionCode))
+        #    {
+        #        this.setField(fieldNum(SalesLine, EchPromotionCode), _echPromotionCode);
+        #    }
+        #
+        #    return salesLine.EchPromotionCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchReservationStatus
+        #public echReservationStatus parmEchReservationStatus(echReservationStatus _echReservationStatus = echReservationStatus::Blank)
+        #{
+        #    if (!prmisdefault(_echReservationStatus))
+        #    {
+        #        this.setField(fieldNum(SalesLine, EchReservationStatus), _echReservationStatus);
+        #    }
+        #
+        #    return salesLine.EchReservationStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00103
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: different implementation
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set itemId based on skuId
+        #
+        #public echSkuId parmEchSkuId(echSkuId _echSkuId = '')
+        #{
+        #    ;
+        #
+        #    if (_echSkuId)
+        #    {
+        #        this.setEchSkuId(_echSkuId, true);
+        #    }
+        #
+        #    return this.getEchSkuId();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchVatDiscount
+        #// *** ECHINA - Nathanaël Tetouom ***
+        #// *** Customization Code: ECH_WI_1508
+        #// *** Customization Date: 08 Oct 2012
+        #// *** Customization Type: create
+        #// *** Description:
+        #
+        #public SalesLineDisc parmEchVatDiscount()
+        #{
+        #    TaxGroupData        taxGroupData;
+        #    TaxOnItem           taxOnItem;
+        #    SalesLineDisc       salesLineDisc;
+        #    ;
+        #
+        #    select firstOnly taxOnItem
+        #        where taxOnItem.TaxItemGroup            == this.parmTaxItemGroup()
+        #    exists join taxGroupData
+        #        where taxGroupData.TaxGroup             == this.parmTaxGroup()      &&
+        #              taxGroupData.TaxCode              == taxOnItem.TaxCode;
+        #
+        #    salesLineDisc = this.parmLineDisc() - ((this.parmLineDisc() / (100 + taxOnItem.showTaxValue()))*100);
+        #
+        #    return salesLineDisc;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchVatUnitPrice
+        #// *** ECHINA - Nathanaël Tetouom ***
+        #// *** Customization Code: ECH_WI_1508
+        #// *** Customization Date: 08 Oct 2012
+        #// *** Customization Type: create
+        #// *** Description:
+        #
+        #public PriceUnit parmEchVatUnitPrice()
+        #{
+        #    PriceUnit vatUnitPrice;
+        #    ;
+        #
+        #    vatUnitPrice = this.parmLineAmount() - this.salesLine().lineAmountExclTax();
+        #
+        #    return vatUnitPrice;
+        #}
+      ENDSOURCE
+      SOURCE #parmHHTHandheldUserId
+        #public HHTUserId parmHHTHandheldUserId(HHTUserId _hHTHandheldUserId = '')
+        #{
+        #    if (!prmisdefault(_hHTHandheldUserId))
+        #    {
+        #        this.setField(fieldNum(SalesLine, HHTHandheldUserId), _hHTHandheldUserId);
+        #    }
+        #
+        #    return salesLine.HHTHandheldUserId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTTransDate
+        #public HHTDate parmHHTTransDate(HHTDate _hHTTransDate = dateNull())
+        #{
+        #    if (!prmisdefault(_hHTTransDate))
+        #    {
+        #        this.setField(fieldNum(SalesLine, HHTTransDate), _hHTTransDate);
+        #    }
+        #
+        #    return salesLine.HHTTransDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTTransTime
+        #public HHTTime parmHHTTransTime(HHTTime _hHTTransTime = 0)
+        #{
+        #    if (!prmisdefault(_hHTTransTime))
+        #    {
+        #        this.setField(fieldNum(SalesLine, HHTTransTime), _hHTTransTime);
+        #    }
+        #
+        #    return salesLine.HHTTransTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR05_1
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: set sku id based from inventdimid
+        #
+        #public InventDimId parmInventDimId(InventDimId _inventDimId = '')
+        #{
+        #    if (!prmisdefault(_inventDimId))
+        #    {
+        #        this.setField(fieldnum(SalesLine, InventDimId), _inventDimId);
+        #        axInventDim.inventDim().modifiedInventSiteFromParent(salesLine);
+        #// CS - ECH_I_OR05_1 - Anthony Christiaens - 02 Apr 2012
+        #        if (!skuPrior)
+        #            this.setEchSkuId(InventItemBarcode::findSkuId(this.parmItemId(), _inventDimId));
+        #// CE - ECH_I_OR05_1 - Anthony Christiaens - 02 Apr 2012
+        #    }
+        #
+        #    return salesLine.InventDimId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR05_1
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: based from item id
+        #
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(SalesLine),fieldnum(SalesLine,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if (this.valueMappingInbound())
+        #        {
+        #            item = _itemId;
+        #        }
+        #
+        #        this.setField(fieldnum(SalesLine, ItemId), _itemId);
+        #
+        #// CS - ECH_I_OR05_1 - Anthony Christiaens - 02 Apr 2012
+        #        if (!skuPrior)
+        #            this.setEchSkuId(InventItemBarcode::findSkuId(_itemId, this.parmInventDimId()));
+        #// CE - ECH_I_OR05_1 - Anthony Christiaens - 02 Apr 2012
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axSalesItemId(salesLine.CustAccount,salesLine.ItemId,salesLine.inventDim()),1);
+        #    }
+        #    else
+        #    {
+        #        return salesLine.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchAdjustFee
+        #protected void setEchAdjustFee()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, EchAdjustFee)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchCouponCode
+        #protected void setEchCouponCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, EchCouponCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchDiscountFee
+        #protected void setEchDiscountFee()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, EchDiscountFee)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchExtSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Set the external SKU ID
+        #
+        #protected void setEchExtSkuId(extCodeValue _echExtSkuId, InventlocationId _inventLocationId)
+        #{
+        #    ;
+        #
+        #    echExtSkuId = _echExtSkuId;
+        #
+        #    if (_inventlocationId && echExtSkuId && ! skuPrior)
+        #    {
+        #        this.setEchSkuId(echExternalSkuId::GetInternalSkuId(_inventlocationId, echExtSkuId), true);
+        #
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchFrontEndLineAmount
+        #protected void setEchFrontEndLineAmount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, EchFrontEndLineAmount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchLineId
+        #protected void setEchLineId()
+        #{
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesLine, echLineId)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchPromotionCode
+        #protected void setEchPromotionCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, EchPromotionCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchReservationStatus
+        #protected void setEchReservationStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, EchReservationStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR05_1
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: set sku id
+        #
+        #protected void setEchSkuId(echSkuId _echSkuId, boolean _skuPrior = false)
+        #{
+        #    InventItemBarcode      inventItemBarcode;
+        #    ;
+        #
+        #    echSkuId = _echSkuId;
+        #    skuPrior = _skuPrior;
+        #
+        #    if (_skuPrior)
+        #    {
+        #        inventItemBarcode   = InventItemBarcode::findBySkuId(echSkuId);
+        #
+        #        if (inventItemBarcode)
+        #        {
+        #            this.parmItemId(inventItemBarcode.itemId);
+        #        }
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTHandheldUserId
+        #protected void setHHTHandheldUserId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, HHTHandheldUserId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTTransDate
+        #protected void setHHTTransDate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, HHTTransDate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTTransTime
+        #protected void setHHTTransTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, HHTTransTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRBOVariantId
+        #protected void setRBOVariantId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, RBOVariantId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTaxWithholdGroup
+        #protected void setTaxWithholdGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, TaxWithholdGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTaxWithholdItemGroup_TH
+        #protected void setTaxWithholdItemGroup_TH()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesLine, TaxWithholdItemGroup_TH)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

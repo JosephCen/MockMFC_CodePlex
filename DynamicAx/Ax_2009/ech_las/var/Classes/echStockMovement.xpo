@@ -1,0 +1,97 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echStockMovement unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echStockMovement
+    Id 30227
+    PROPERTIES
+      Name                #echStockMovement
+      Extends             #AifDocument
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchStockMovement extends AifDocument
+        #{
+        #    #define.SenderId('SenderId')
+        #    #define.InventJournalTable('InventJournalTable')
+        #    #define.DocPurpose('DocPurpose')
+        #    #define.EchStockMovement('EchStockMovement')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventJournalTable
+        #public AfStronglyTypedDataContainerList createInventJournalTable()
+        #{
+        #    return this.get_NewList(#InventJournalTable);
+        #}
+      ENDSOURCE
+      SOURCE #existsDocPurpose
+        #public boolean existsDocPurpose()
+        #{
+        #    return this.exists(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventJournalTable
+        #public boolean existsInventJournalTable()
+        #{
+        #    return this.exists(#InventJournalTable);
+        #}
+      ENDSOURCE
+      SOURCE #existsSenderId
+        #public boolean existsSenderId()
+        #{
+        #    return this.exists(#SenderId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchStockMovement);
+        #}
+      ENDSOURCE
+      SOURCE #parmDocPurpose
+        #public XMLDocPurpose parmDocPurpose(XMLDocPurpose _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DocPurpose, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventJournalTable
+        #public AfStronglyTypedDataContainerList parmInventJournalTable(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventJournalTable, _value);
+        #    }
+        #
+        #    return this.get_List(#InventJournalTable);
+        #}
+      ENDSOURCE
+      SOURCE #parmSenderId
+        #public dataAreaId parmSenderId(dataAreaId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SenderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SenderId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

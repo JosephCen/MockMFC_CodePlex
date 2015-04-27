@@ -1,0 +1,29 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTZ
+
+; Microsoft Dynamics AX UtcDateTime: echSignDate unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echSignDate
+  Id 30049
+  DATETIME
+    PROPERTIES
+      Name                #echSignDate
+      Label               #@ECH321
+      HelpText            #@ECH320
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

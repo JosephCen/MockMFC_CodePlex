@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSalesReasonTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSalesReasonTable
+    Type: 1
+    PROPERTIES
+      Name                #echSalesReasonTable
+      Label               #@ECH20
+      HelpText            #@ECH27
+      Object              #echSalesReasonTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

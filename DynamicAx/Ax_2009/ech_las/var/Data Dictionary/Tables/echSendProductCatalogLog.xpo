@@ -1,0 +1,176 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSendProductCatalogLog unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSendProductCatalogLog
+    Id 30065
+    PROPERTIES
+      Name                #echSendProductCatalogLog
+      Label               #@ECH792
+      TitleField1         #ItemId
+      TitleField2         #HasSent
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echSendProductCatalogLog
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #HasSent
+        Id 30002
+        ENUM
+        PROPERTIES
+          Name                #HasSent
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echSendProductCatalogLog
+          ExtendedDataType    
+            ARRAY 
+              #NoYesId
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #HasSent
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #HasSent
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #HasSent
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #HasSentIdx
+      Id 30001
+      PROPERTIES
+        Name                #HasSentIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #HasSent
+        #ItemId
+      ENDINDEXFIELDS
+      
+      #RecIdIdx
+      Id 30002
+      PROPERTIES
+        Name                #RecIdIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #RecId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #initValue
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #public void initValue()
+        #{
+        #;
+        #    super();
+        #
+        #    this.HasSent = NoYes::No;
+        #    this.ItemId  = '';
+        #}
+      ENDSOURCE
+      SOURCE #setHasSent
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #public void setHasSent()
+        #{
+        #;
+        #    TTSBegin;
+        #
+        #    this.HasSent = NoYes::Yes;
+        #    this.update();
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+      SOURCE #AddSendItemId
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #public static void AddSendItemId(ItemId itemId)
+        #{
+        #    echSendProductCatalogLog sendProdCatalog;
+        #;
+        #    TTSBegin;
+        #
+        #    select sendProdCatalog
+        #      where sendProdCatalog.HasSent == NoYes::No
+        #         && sendProdCatalog.ItemId  == itemId;
+        #
+        #    if (!sendProdCatalog)
+        #    {
+        #        sendProdCatalog.clear();
+        #        sendProdCatalog.initValue();
+        #        sendProdCatalog.ItemId = itemId;
+        #
+        #        sendProdCatalog.insert();
+        #    }
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

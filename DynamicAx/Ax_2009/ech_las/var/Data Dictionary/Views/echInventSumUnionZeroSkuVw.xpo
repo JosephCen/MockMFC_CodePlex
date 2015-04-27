@@ -1,0 +1,92 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: VIE
+
+; Microsoft Dynamics AX View : echInventSumUnionZeroSkuVw unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  VIEW #echInventSumUnionZeroSkuVw
+    Id 30079
+    PROPERTIES
+      Name                #echInventSumUnionZeroSkuVw
+      Label               #@ECH860
+      TitleField1         #ItemId
+      TitleField2         #InventDimId
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #BasicTables
+      SaveDataPerCompany  #Yes
+      Query               #echInventSumUnionZeroSku
+    ENDPROPERTIES
+    
+    QUERY #Metadata
+      PROPERTIES
+        QueryType           #Union
+        Name                #Metadata
+        Version             #23
+        NextUniqueId        #1005
+      ENDPROPERTIES
+      
+      BLOCKS
+      ENDBLOCKS
+      QUERY #echInventSumUnionZeroSku
+      ENDQUERY
+      
+    ENDQUERY
+    
+    FIELDS
+      VIEWFIELD #ItemId
+        Id 30001
+        PROPERTIES
+          Name                #ItemId
+          Table               #echInventSumUnionZeroSkuVw
+          ExtendedDataType    #ItemId
+          StringSize          #20
+          DataSource          #InventSum
+          DataField           #ItemId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #InventDimId
+        Id 30002
+        PROPERTIES
+          Name                #InventDimId
+          Table               #echInventSumUnionZeroSkuVw
+          ExtendedDataType    #InventDimId
+          StringSize          #20
+          DataSource          #InventSum
+          DataField           #InventDimId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+  ENDVIEW
+  
+
+***Element: END

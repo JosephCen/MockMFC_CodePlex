@@ -1,0 +1,588 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_I_OR04_3 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_I_OR04_3
+   SHARED
+  PROPERTIES
+    Name                #ECH_I_OR04_3
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #Data Dictionary
+      PROPERTIES
+        Name                #Data Dictionary
+        ProjectGroupType    #DataDictionary
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Tables
+        PROPERTIES
+          Name                #Tables
+          ProjectGroupType    #Tables
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 44
+          UTILOBJECTID 2708
+          NODETYPE 204
+          NAME #WMSArrivalDetailTmp
+        ENDNODE
+        ENDGROUP
+        
+      GROUP #Maps
+        PROPERTIES
+          Name                #Maps
+          ProjectGroupType    #Maps
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Views
+        PROPERTIES
+          Name                #Views
+          ProjectGroupType    #Views
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Extended Data Types
+        PROPERTIES
+          Name                #Extended Data Types
+          ProjectGroupType    #ExtendedDataTypes
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Base Enums
+        PROPERTIES
+          Name                #Base Enums
+          ProjectGroupType    #BaseEnums
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #License Codes
+        PROPERTIES
+          Name                #License Codes
+          ProjectGroupType    #LicenseCodes
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Configuration Keys
+        PROPERTIES
+          Name                #Configuration Keys
+          ProjectGroupType    #ConfigurationKeys
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Security Keys
+        PROPERTIES
+          Name                #Security Keys
+          ProjectGroupType    #SecurityKeys
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 36
+          UTILOBJECTID 30007
+          NODETYPE 313
+          NAME #echReturnOrderArrivalService
+        ENDNODE
+        ENDGROUP
+        
+      GROUP #Table Collections
+        PROPERTIES
+          Name                #Table Collections
+          ProjectGroupType    #TableCollections
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Macros
+      PROPERTIES
+        Name                #Macros
+        ProjectGroupType    #Macros
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 4
+        UTILOBJECTID 0
+        NODETYPE 218
+        NAME #AxdechReturnOrderArrivalServiceDCT
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 4
+        UTILOBJECTID 0
+        NODETYPE 218
+        NAME #DataContainerTypes
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 4
+        UTILOBJECTID 0
+        NODETYPE 218
+        NAME #SysBPCheckIgnore
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #Classes
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30056
+        NODETYPE 329
+        NAME #echReturnOrderArr_WMSArrivalOverviewTmp
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30055
+        NODETYPE 329
+        NAME #AxWMSArrivalOverviewTmp
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 14027
+        NODETYPE 329
+        NAME #SalesSalesPackingSlip_SalesParmTable
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30049
+        NODETYPE 329
+        NAME #echSalesPackingSlip
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30045
+        NODETYPE 329
+        NAME #AxdechReturnOrderArrivalService
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30046
+        NODETYPE 329
+        NAME #echReturnOrderArr
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30047
+        NODETYPE 329
+        NAME #echReturnOrderArrivalService
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30048
+        NODETYPE 329
+        NAME #echReturnOrderArr_WMSArrivalDetailTmp
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30044
+        NODETYPE 329
+        NAME #AxWMSArrivalDetailTmp
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30043
+        NODETYPE 329
+        NAME #AxEchInventDim_SalesParmLine
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 2054
+        NODETYPE 329
+        NAME #AxInventDim_SalesParmLine
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 2044
+        NODETYPE 329
+        NAME #AxSalesParmTable
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 2048
+        NODETYPE 329
+        NAME #AxSalesShippingStat
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 14029
+        NODETYPE 329
+        NAME #SalesSalesPackingSlip_SalesParmLine
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 3645
+        NODETYPE 329
+        NAME #AxSalesParmLine
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 2056
+        NODETYPE 329
+        NAME #AxdSalesPackingSlip
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Forms
+      PROPERTIES
+        Name                #Forms
+        ProjectGroupType    #Forms
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 11
+        UTILOBJECTID 0
+        NODETYPE 201
+        NAME #WMSJournalTable
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #DataSets
+      PROPERTIES
+        Name                #DataSets
+        ProjectGroupType    #DataSets
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Reports
+      PROPERTIES
+        Name                #Reports
+        ProjectGroupType    #Reports
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #ReportLibraries
+      PROPERTIES
+        Name                #ReportLibraries
+        ProjectGroupType    #ReportLibraries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Queries
+      PROPERTIES
+        Name                #Queries
+        ProjectGroupType    #Queries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 20
+        UTILOBJECTID 0
+        NODETYPE 330
+        NAME #echReturnOrderArrivalService
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Jobs
+      PROPERTIES
+        Name                #Jobs
+        ProjectGroupType    #Jobs
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Menus
+      PROPERTIES
+        Name                #Menus
+        ProjectGroupType    #Menus
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Menu Items
+      PROPERTIES
+        Name                #Menu Items
+        ProjectGroupType    #MenuItems
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Display
+        PROPERTIES
+          Name                #Display
+          ProjectGroupType    #Display
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Output
+        PROPERTIES
+          Name                #Output
+          ProjectGroupType    #Output
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Action
+        PROPERTIES
+          Name                #Action
+          ProjectGroupType    #Action
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Web
+      PROPERTIES
+        Name                #Web
+        ProjectGroupType    #Web
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Web Forms
+        PROPERTIES
+          Name                #Web Forms
+          ProjectGroupType    #WebForms
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Web Reports
+        PROPERTIES
+          Name                #Web Reports
+          ProjectGroupType    #WebReports
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebMenuItems
+        PROPERTIES
+          Name                #WebMenuItems
+          ProjectGroupType    #WebMenuItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebContent
+        PROPERTIES
+          Name                #WebContent
+          ProjectGroupType    #WebContentItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Web Menus
+        PROPERTIES
+          Name                #Web Menus
+          ProjectGroupType    #WebMenus
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Web Files
+        PROPERTIES
+          Name                #Web Files
+          ProjectGroupType    #WebFiles
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Weblets
+        PROPERTIES
+          Name                #Weblets
+          ProjectGroupType    #WebletItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebModules
+        PROPERTIES
+          Name                #WebModules
+          ProjectGroupType    #WebModules
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Services
+      PROPERTIES
+        Name                #Services
+        ProjectGroupType    #Services
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 76
+        UTILOBJECTID 0
+        NODETYPE 1321
+        NAME #echReturnOrderArrivalService
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Workflow
+      PROPERTIES
+        Name                #Workflow
+        ProjectGroupType    #Workflow
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #WorkflowCategories
+        PROPERTIES
+          Name                #WorkflowCategories
+          ProjectGroupType    #WorkflowCategories
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Approvals
+        PROPERTIES
+          Name                #Approvals
+          ProjectGroupType    #WorkflowApprovals
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Tasks
+        PROPERTIES
+          Name                #Tasks
+          ProjectGroupType    #WorkflowTasks
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WorkflowTemplates
+        PROPERTIES
+          Name                #WorkflowTemplates
+          ProjectGroupType    #WorkflowTemplates
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Resources
+      PROPERTIES
+        Name                #Resources
+        ProjectGroupType    #Resources
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #References
+      PROPERTIES
+        Name                #References
+        ProjectGroupType    #References
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

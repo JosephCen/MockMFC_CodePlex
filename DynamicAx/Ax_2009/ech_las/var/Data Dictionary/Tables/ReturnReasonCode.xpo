@@ -1,0 +1,69 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : ReturnReasonCode unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #ReturnReasonCode
+    Id 2417
+    PROPERTIES
+      Name                #ReturnReasonCode
+      Label               #@SYS106031
+      FormRef             #ReturnReasonCode
+      TitleField1         #ReasonCodeId
+      TitleField2         #ReasonCodeGroupId
+      ConfigurationKey    #ReturnItem
+      SecurityKey         #CustSetup
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #ReturnReasonCodeIdx
+      ClusterIndex        #ReturnReasonCodeIdx
+      DeveloperDocumentation  #@SYS122881
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #SalesTable
+      PROPERTIES
+        Table               #SalesTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #initValue
+        #// add by Jason Wu 4/26/2013
+        #public void initValue()
+        #{
+        #;
+        #    super();
+        #    this.ReasonCodeId = returnReasonCode::getNextReturnReasonCodeId();
+        #}
+      ENDSOURCE
+      SOURCE #getNextReturnReasonCodeId
+        #// add by Jason Wu 4/26/2013;
+        #public static server ReturnReasonCodeId getNextReturnReasonCodeId()
+        #{
+        #;
+        #    return NumberSeq::newGetNum(NumberSequenceReference::find(
+        #        typeId2ExtendedTypeId(typeid(ReturnReasonCodeId)))).num();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

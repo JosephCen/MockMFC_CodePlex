@@ -1,0 +1,56 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : SalesParameters unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #SalesParameters
+    Id 367
+    FIELDS
+      FIELD #ReturnReasonGroupId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ReturnReasonGroupId
+          Table               #SalesParameters
+          ExtendedDataType    
+            ARRAY 
+              #ReturnReasonGroupId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #DefaultValues
+        PROPERTIES
+          Name                #DefaultValues
+          Label               #@SYS21682
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #OrderType
+          #ValidDays
+          #SalesPoolId
+          #Reservation
+          #SalesOriginId
+          #ReturnReasonGroupId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

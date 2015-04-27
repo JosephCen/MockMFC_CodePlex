@@ -1,0 +1,198 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echCreateReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echCreateReturnOrder
+    Id 57719
+    PROPERTIES
+      Name                #echCreateReturnOrder
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echCreateReturnOrder
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #createReturnOrder
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 6 May 2013
+        #// *** Customization Type: Edit
+        #// *** Description: Create Return Order
+        #void createReturnOrder(CustAccount _custAccount,SalesId _salesId,ReturnReasonCodeId _returnReasonCodeId)
+        #{
+        #    SalesTable  salesOrderTable;
+        #    SalesTable  _SalesTable;
+        #    SalesTable  returnOrderTable;
+        #    SalesLine   returnOrderLine;
+        #    SalesLine   _SalesLine;
+        #    InventTable inventTable;
+        #    //InventTrans inventTrans;
+        #    NumberSeq   numberSeqSalesOrder;
+        #    NumberSeq   numberSeqReturnOrder;
+        #    //edit by steven 20130503
+        #    //echEPRedirectToReturnTableInfo  m_echEPRedirectToReturnTableInfo = new echEPRedirectToReturnTableInfo();
+        #    echEPRedirectToReturnReasonCode m_echEPRedirectToReturnReasonCode = new echEPRedirectToReturnReasonCode();
+        #    //end
+        #    ;
+        #    select firstonly salesOrderTable
+        #        where salesOrderTable.SalesId == _salesId;
+        #
+        #    if (salesOrderTable)
+        #    {
+        #        select firstonly returnOrderTable
+        #            where returnOrderTable.echMsgPartnerExtCode == salesOrderTable.echMsgPartnerExtCode
+        #                && returnOrderTable.SalesType           == SalesType::ReturnItem;
+        #        if (returnOrderTable)
+        #        {
+        #            info("@ECH730");
+        #        }
+        #        //Edit by steven 20130506
+        #        else if (salesOrderTable.SalesType == SalesType::Sales &&
+        #                salesOrderTable.ECHAggStatus != ECHAggStatus::Invoiced &&
+        #                salesOrderTable.ECHAggStatus != ECHAggStatus::ShippedToCustomer &&
+        #                salesOrderTable.ECHAggStatus != ECHAggStatus::DeliveredAtCustomer &&
+        #                salesOrderTable.ECHAggStatus != ECHAggStatus::Paid)
+        #        {
+        #            info("@ECH731");
+        #        }
+        #        else if (salesOrderTable.SalesType == SalesType::Sales && (salesOrderTable.ECHAggStatus == ECHAggStatus::Invoiced
+        #                || salesOrderTable.ECHAggStatus == ECHAggStatus::ShippedToCustomer
+        #                || salesOrderTable.ECHAggStatus == ECHAggStatus::DeliveredAtCustomer
+        #                || salesOrderTable.ECHAggStatus == ECHAggStatus::Paid))
+        #        {
+        #            ttsbegin;
+        #
+        #            numberSeqSalesOrder  = NumberSeq::newGetNumFromCode(SalesParameters::numRefSalesId().NumberSequence);
+        #            numberSeqReturnOrder = NumberSeq::newGetNumFromCode(SalesParameters::numRefReturnItemNum().NumberSequence);
+        #
+        #            _SalesTable.clear();
+        #            _SalesTable.SalesId              = numberSeqSalesOrder.num();
+        #            _SalesTable.ReturnItemNum        = numberSeqReturnOrder.num();
+        #            _SalesTable.CustAccount          = _custAccount;
+        #            _SalesTable.initFromCustTable();
+        #            _SalesTable.setReturnAddressFromInventLocationId(_SalesTable.InventLocationId);
+        #            _SalesTable.ReturnStatus         = ReturnStatusHeader::Open;
+        #            _SalesTable.SalesType            = SalesType::ReturnItem;
+        #            _SalesTable.initValue();
+        #            _SalesTable.CurrencyCode         = salesOrderTable.CurrencyCode;
+        #            _SalesTable.CustGroup            = salesOrderTable.CustGroup;
+        #            _SalesTable.ShipCarrierAccount   = salesOrderTable.ShipCarrierAccount;
+        #            _SalesTable.SalesType            = SalesType::ReturnItem;
+        #            _SalesTable.echMsgPartnerExtCode = salesOrderTable.echMsgPartnerExtCode;
+        #            _SalesTable.echMsgPartnerId      = salesOrderTable.echMsgPartnerId;
+        #            _SalesTable.SettleVoucher        = SettlementType::None;
+        #            _SalesTable.ReturnStatus         = ReturnStatusHeader::Created;
+        #            _SalesTable.ECHAggStatus         = ECHAggStatus::Created;
+        #            _SalesTable.ReturnReasonCodeId   = _returnReasonCodeId;
+        #            _SalesTable.insert();
+        #
+        #            while select returnOrderLine
+        #                where returnOrderLine.SalesId == _salesId
+        #                Join inventTable
+        #                where inventTable.ItemId == returnOrderLine.ItemId
+        #                   && inventTable.ItemType != ItemType::Service
+        #            {
+        #                _SalesLine.clear();
+        #                _SalesLine.SalesId              = _SalesTable.SalesId;
+        #                _SalesLine.ItemId               = returnOrderLine.ItemId;
+        #                _SalesTable.ShipCarrierAccount  = salesOrderTable.ShipCarrierAccount;
+        #                _SalesLine.InventDimId          = returnOrderLine.InventDimId;
+        #                _SalesLine.initFromSalesTable(_SalesTable);
+        #                _SalesLine.initFromSalesLine(returnOrderLine,true,true,false,returnOrderLine.SalesQty);
+        #                _salesLine.SalesQty             = 0;
+        #
+        #                _SalesLine.createLine(NoYes::Yes, // Validate
+        #                                      NoYes::Yes, // initFromSalesTable
+        #                                      NoYes::Yes, // initFromInventTable
+        #                                      NoYes::Yes, // calcInventQty
+        #                                      NoYes::Yes, // searchMarkup
+        #                                      NoYes::Yes); // searchPrice
+        #
+        #                _salesLine.selectForUpdate(true);
+        #                _salesLine.ExpectedRetQty       = -returnOrderLine.SalesQty;
+        #                _salesLine.SalesPrice           = returnOrderLine.SalesPrice;
+        #                _salesLine.LineAmount           = -returnOrderLine.LineAmount;
+        #                _salesLine.LineDisc             = returnOrderLine.LineDisc;
+        #                _salesLine.InventTransIdReturn  = returnOrderLine.InventTransId;
+        #                _salesLine.CostPrice            = -inventTrans::findTransId(returnOrderLine.InventTransId).CostAmountPhysical;
+        #                _salesLine.doUpdate();
+        #            }
+        #            ttscommit;
+        #            //end
+        #            // Edit By steven 20130506
+        #            //m_echEPRedirectToReturnTableInfo.echRedirectToReturnTableInfo(_SalesTable);
+        #            m_echEPRedirectToReturnReasonCode.echRedirectToReturnReasonCode(_SalesTable);
+        #            //Info(strfmt("@ECH733",_SalesTable.ReturnItemNum));
+        #            //end
+        #        }
+        #        else
+        #        {
+        #            info("@ECH732");
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #deleteReturnOrder
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 7 May 2013
+        #// *** Customization Type: Create
+        #// *** Description: Delete Return Order
+        #public boolean deleteReturnOrder(SalesId _salesId)
+        #{
+        #    SalesTable  m_SalesTable;
+        #    ;
+        #    m_SalesTable = SalesTable::find(_salesId);
+        #    if(m_SalesTable.SalesType == SalesType::ReturnItem)
+        #    {
+        #        ttsBegin;
+        #        m_SalesTable.delete();
+        #        ttscommit;
+        #        return true;
+        #    }
+        #    return false;
+        #    //info("@ECH757");
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 11 April 2013
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #static echCreateReturnOrder construct()
+        #{
+        #    ;
+        #    return new echCreateReturnOrder();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 11 April 2013
+        #// *** Customization Type: created
+        #// *** Description: main
+        #static void main(Args _args)
+        #{
+        #    SalesTable              m_SalesTable;
+        #    echCreateReturnOrder    m_echCreateReturnOrder;
+        #    ;
+        #    m_echCreateReturnOrder = echCreateReturnOrder::construct();
+        #    m_SalesTable = _args.record();
+        #    m_echCreateReturnOrder.createReturnOrder(m_SalesTable.CustAccount,m_SalesTable.SalesId,m_SalesTable.ReturnReasonCodeId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

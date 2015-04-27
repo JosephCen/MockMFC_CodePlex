@@ -1,0 +1,538 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxWMSArrivalOverviewTmp unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxWMSArrivalOverviewTmp
+    Id 30055
+    PROPERTIES
+      Name                #AxWMSArrivalOverviewTmp
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxWMSArrivalOverviewTmp axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxWMSArrivalOverviewTmp extends AxInternalBase
+        #{
+        #    WMSArrivalOverviewTmp WMSArrivalOverviewTmp;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public WMSArrivalOverviewTmp currentRecord(WMSArrivalOverviewTmp _WMSArrivalOverviewTmp = WMSArrivalOverviewTmp)
+        #{
+        #    if (!prmisdefault(_WMSArrivalOverviewTmp))
+        #    {
+        #        super(_WMSArrivalOverviewTmp);
+        #        WMSArrivalOverviewTmp = _WMSArrivalOverviewTmp;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return WMSArrivalOverviewTmp;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected WMSArrivalOverviewTmp emptyRecord()
+        #{
+        #    WMSArrivalOverviewTmp localWMSArrivalOverviewTmp;
+        #    ;
+        #    return localWMSArrivalOverviewTmp;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCustVendAC
+        #public CustVendAC parmCustVendAC(CustVendAC _custVendAC = '')
+        #{
+        #    if (!prmisdefault(_custVendAC))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, CustVendAC), _custVendAC);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.CustVendAC;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDateStatus
+        #public DateStatus parmDateStatus(DateStatus _dateStatus = dateNull())
+        #{
+        #    if (!prmisdefault(_dateStatus))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, DateStatus), _dateStatus);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.DateStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDlvModeId
+        #public str parmDlvModeId(str _dlvModeId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_dlvModeId))
+        #    {
+        #        dictField = new DictField(tablenum(WMSArrivalOverviewTmp),fieldnum(WMSArrivalOverviewTmp,DlvModeId));
+        #        if(this.valueMappingInbound())
+        #        {
+        #            this.validateInboundString(_dlvModeId,dictField,this.mapPolicy().xMLMapDlvMode());
+        #            _dlvModeId = this.axDlvModeId(_dlvModeId);
+        #        }
+        #        else
+        #        {
+        #            this.validateInboundString(_dlvModeId,dictField);
+        #        }
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, DlvModeId), _dlvModeId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return this.axDlvModeId(wMSArrivalOverviewTmp.DlvModeId);
+        #    }
+        #    else
+        #    {
+        #        return wMSArrivalOverviewTmp.DlvModeId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _inventLocationId = '')
+        #{
+        #    if (!prmisdefault(_inventLocationId))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, InventLocationId), _inventLocationId);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.InventLocationId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventQty
+        #public InventQty parmInventQty(InventQty _inventQty = 0)
+        #{
+        #    if (!prmisdefault(_inventQty))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, InventQty), _inventQty);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.InventQty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _inventSiteId = '')
+        #{
+        #    if (!prmisdefault(_inventSiteId))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, InventSiteId), _inventSiteId);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.InventSiteId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventTransRefId
+        #public InventTransRefId parmInventTransRefId(InventTransRefId _inventTransRefId = '')
+        #{
+        #    if (!prmisdefault(_inventTransRefId))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, InventTransRefId), _inventTransRefId);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.InventTransRefId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventTransType
+        #public InventTransType parmInventTransType(InventTransType _inventTransType = InventTransType::Sales)
+        #{
+        #    if (!prmisdefault(_inventTransType))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, InventTransType), _inventTransType);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.InventTransType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmName
+        #public Name parmName(Name _name = '')
+        #{
+        #    if (!prmisdefault(_name))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, Name), _name);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmNoOfLines
+        #public Lines parmNoOfLines(Lines _noOfLines = 0)
+        #{
+        #    if (!prmisdefault(_noOfLines))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, NoOfLines), _noOfLines);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.NoOfLines;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmNoOfPallets
+        #public WMSPalletCount parmNoOfPallets(WMSPalletCount _noOfPallets = 0)
+        #{
+        #    if (!prmisdefault(_noOfPallets))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, NoOfPallets), _noOfPallets);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.NoOfPallets;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmQuarantineControlled
+        #public NoYes parmQuarantineControlled(NoYes _quarantineControlled = NoYes::No)
+        #{
+        #    if (!prmisdefault(_quarantineControlled))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, QuarantineControlled), _quarantineControlled);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.QuarantineControlled;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReceiptStatus
+        #public WMSReceiptStatus parmReceiptStatus(WMSReceiptStatus _receiptStatus = WMSReceiptStatus::None)
+        #{
+        #    if (!prmisdefault(_receiptStatus))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, ReceiptStatus), _receiptStatus);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.ReceiptStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReturnItemNum
+        #public ReturnItemNum parmReturnItemNum(ReturnItemNum _returnItemNum = '')
+        #{
+        #    if (!prmisdefault(_returnItemNum))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, ReturnItemNum), _returnItemNum);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.ReturnItemNum;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSelected
+        #public NoYes parmSelected(NoYes _selected = NoYes::No)
+        #{
+        #    if (!prmisdefault(_selected))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, Selected), _selected);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.Selected;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmVendRef
+        #public VendRef parmVendRef(VendRef _vendRef = '')
+        #{
+        #    if (!prmisdefault(_vendRef))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, VendRef), _vendRef);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.VendRef;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmVolume
+        #public Volume parmVolume(Volume _volume = 0)
+        #{
+        #    if (!prmisdefault(_volume))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, Volume), _volume);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.Volume;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public Weight parmWeight(Weight _weight = 0)
+        #{
+        #    if (!prmisdefault(_weight))
+        #    {
+        #        this.setField(fieldNum(WMSArrivalOverviewTmp, Weight), _weight);
+        #    }
+        #
+        #    return wMSArrivalOverviewTmp.Weight;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCustVendAC
+        #protected void setCustVendAC()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, CustVendAC)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDateStatus
+        #protected void setDateStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, DateStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDlvModeId
+        #protected void setDlvModeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, DlvModeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventLocationId
+        #protected void setInventLocationId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, InventLocationId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventQty
+        #protected void setInventQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, InventQty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventSiteId
+        #protected void setInventSiteId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, InventSiteId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventTransRefId
+        #protected void setInventTransRefId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, InventTransRefId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventTransType
+        #protected void setInventTransType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, InventTransType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setName
+        #protected void setName()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, Name)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setNoOfLines
+        #protected void setNoOfLines()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, NoOfLines)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setNoOfPallets
+        #protected void setNoOfPallets()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, NoOfPallets)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setQuarantineControlled
+        #protected void setQuarantineControlled()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, QuarantineControlled)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReceiptStatus
+        #protected void setReceiptStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, ReceiptStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReturnItemNum
+        #protected void setReturnItemNum()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, ReturnItemNum)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSelected
+        #protected void setSelected()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, Selected)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setVendRef();
+        #    this.setDateStatus();
+        #    this.setInventTransType();
+        #    this.setInventTransRefId();
+        #    this.setCustVendAC();
+        #    this.setDlvModeId();
+        #    this.setName();
+        #    this.setInventLocationId();
+        #    this.setNoOfLines();
+        #    this.setNoOfPallets();
+        #    this.setInventQty();
+        #    this.setVolume();
+        #    this.setWeight();
+        #    this.setQuarantineControlled();
+        #    this.setSelected();
+        #    this.setReceiptStatus();
+        #    this.setInventSiteId();
+        #    this.setReturnItemNum();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setVendRef
+        #protected void setVendRef()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, VendRef)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setVolume
+        #protected void setVolume()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, Volume)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setWeight
+        #protected void setWeight()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSArrivalOverviewTmp, Weight)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #WMSArrivalOverviewTmp
+        #public WMSArrivalOverviewTmp wMSArrivalOverviewTmp(WMSArrivalOverviewTmp _wMSArrivalOverviewTmp = wMSArrivalOverviewTmp)
+        #{
+        #    if (!prmisdefault(_wMSArrivalOverviewTmp))
+        #    {
+        #        this.setCurrentRecordFromExternal(_wMSArrivalOverviewTmp);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxWMSArrivalOverviewTmp construct()
+        #{
+        #    return new AxWMSArrivalOverviewTmp();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newWMSArrivalOverviewTmp
+        #public static AxWMSArrivalOverviewTmp newWMSArrivalOverviewTmp(WMSArrivalOverviewTmp _WMSArrivalOverviewTmp)
+        #{
+        #    AxWMSArrivalOverviewTmp AxWMSArrivalOverviewTmp = AxWMSArrivalOverviewTmp::construct();
+        #    ;
+        #    AxWMSArrivalOverviewTmp.WMSArrivalOverviewTmp(_WMSArrivalOverviewTmp);
+        #
+        #    return AxWMSArrivalOverviewTmp;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

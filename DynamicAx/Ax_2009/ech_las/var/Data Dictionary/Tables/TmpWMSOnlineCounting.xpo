@@ -1,0 +1,105 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : TmpWMSOnlineCounting unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #TmpWMSOnlineCounting
+    Id 1000
+    PROPERTIES
+      Name                #TmpWMSOnlineCounting
+      Label               #@SYS60309
+      TitleField1         #itemId
+      Temporary           #Yes
+      SecurityKey         #InventTables
+      TableGroup          #WorksheetLine
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echOverAllocQty
+        Id 30002
+        REAL
+        PROPERTIES
+          Name                #echOverAllocQty
+          Label               #@ECH763
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          ConfigurationKey    #echProcesses
+          Table               #TmpWMSOnlineCounting
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echWMSQty
+        Id 30003
+        REAL
+        PROPERTIES
+          Name                #echWMSQty
+          Label               #@ECH764
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          ConfigurationKey    #echProcesses
+          Table               #TmpWMSOnlineCounting
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echStockQueueSeqId
+        Id 30005
+        STRING
+        PROPERTIES
+          Name                #echStockQueueSeqId
+          Table               #TmpWMSOnlineCounting
+          ExtendedDataType    
+            ARRAY 
+              #echInventStockQueueSeqId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #itemId
+          #inventDimId
+          #qtyCounted
+          #qtyOnHand
+          #inventTransId
+          #echOverAllocQty
+          #echWMSQty
+          #echStockQueueSeqId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

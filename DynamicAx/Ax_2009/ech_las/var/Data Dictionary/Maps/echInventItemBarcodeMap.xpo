@@ -1,0 +1,132 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MAP
+
+; Microsoft Dynamics AX Map : echInventItemBarcodeMap unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  MAP #echInventItemBarcodeMap
+    Id 30066
+    PROPERTIES
+      Name                #echInventItemBarcodeMap
+      Label               #@SYS63146
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Table               #echInventItemBarcodeMap
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #InventDimId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #InventDimId
+          Table               #echInventItemBarcodeMap
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    MAPPINGS
+      MAPPING #echInventDimPriceDiscVw
+      PROPERTIES
+        MappingTable        #echInventDimPriceDiscVw
+      ENDPROPERTIES
+      
+      FIELDMAPPINGS
+        PROPERTIES
+          MapField            #ItemId
+          MapFieldTo          #ItemRelation
+        ENDPROPERTIES
+        
+        PROPERTIES
+          MapField            #InventDimId
+          MapFieldTo          #inventDimId
+        ENDPROPERTIES
+        
+      ENDFIELDMAPPINGS
+      ENDMAPPING
+      MAPPING #echInventStockQueue
+      PROPERTIES
+        MappingTable        #echInventStockQueue
+      ENDPROPERTIES
+      
+      FIELDMAPPINGS
+        PROPERTIES
+          MapField            #ItemId
+          MapFieldTo          #ItemId
+        ENDPROPERTIES
+        
+        PROPERTIES
+          MapField            #InventDimId
+          MapFieldTo          #inventDimId
+        ENDPROPERTIES
+        
+      ENDFIELDMAPPINGS
+      ENDMAPPING
+      MAPPING #echItemBarcodeTMallPropValue
+      PROPERTIES
+        MappingTable        #echItemBarcodeTMallPropValue
+      ENDPROPERTIES
+      
+      FIELDMAPPINGS
+        PROPERTIES
+          MapField            #ItemId
+          MapFieldTo          #ItemId
+        ENDPROPERTIES
+        
+        PROPERTIES
+          MapField            #InventDimId
+          MapFieldTo          #InventDimId
+        ENDPROPERTIES
+        
+      ENDFIELDMAPPINGS
+      ENDMAPPING
+    ENDMAPPINGS
+    
+    METHODS
+      Version: 3
+      SOURCE #inventItemBarcode
+        #// Add ECH_WI_02282 by mengqi.cen on 20130619
+        #InventItemBarcode inventItemBarcode()
+        #{
+        #    InventItemBarcode invBarcode;
+        #    InventDimParm     invDimParm;
+        #    InventDim         invDim, invDimCriteria;
+        #;
+        #    invDimParm.initItemDimension(InventTable::find(this.ItemId).DimGroupId);
+        #    invDimCriteria = InventDim::find(this.InventDimId);
+        #
+        #    select firstonly invBarcode
+        #      where invBarcode.barcodeSetupId == InventParameters::find().echSkuBarcodeSetup
+        #         && invBarcode.itemId         == this.ItemId
+        #      #InventDimExistsJoin(invBarcode.inventDimId, invDim, invDimCriteria, invDimParm);
+        #
+        #    return invBarcode;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDMAP
+  
+
+***Element: END

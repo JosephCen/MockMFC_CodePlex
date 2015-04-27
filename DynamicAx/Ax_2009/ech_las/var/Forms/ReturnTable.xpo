@@ -1,0 +1,4516 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #ReturnTable
+  PROPERTIES
+    Name                #ReturnTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #    SalesTableType                  salesTableType;
+      #    InventDimCtrl_Frm_Mov           inventDimFormSetup;
+      #    SysFormSplitter_Y               formSplitterVertical;
+      #    boolean                         advanced;
+      #    SalesTableForm_Return           salesTableForm;
+      #    SalesTable2LineUpdatePrompt     salesTable2LineUpdatePrompt;
+      #
+      #    QueryBuildRange                 qbrRMAStatusFilter;
+      #    QueryBuildRange                 qbrCreatedDateFilter;
+      #
+      #    boolean                         isOrderCancelled;
+      #
+      #    RecId                           interCompanyIsPriceDiscSearchNeeded;
+      #    // Button Management
+      #    FormButtonManager               formButtonManager;
+      #    ReturnTableButtonStateProvider  returnTableButtonStateProvider;
+      #    boolean                         isROApprove;
+      #    echROApproveStatusProcess       ApproveStatusProcess; //add by Jason wu 04/12;
+      #    #define.blank('')
+      #}
+      #
+    ENDSOURCE
+    SOURCE #ROTrackingInfoEdit
+      #//add by Jason Wu 4/15/2013
+      #void ROTrackingInfoEdit()
+      #{
+      #    if(SalesTable.SalesStatus==SalesStatus::Delivered ||
+      #       SalesTable.SalesStatus==SalesStatus::Invoiced    )
+      #    {
+      #        SalesTable_ds.object(fieldnum(SalesTable,echROShipCarrierTrackingNum)).allowEdit(false);
+      #        SalesTable_ds.object(fieldnum(SalesTable,echROShipCarrierId)).allowEdit(false);
+      #    }
+      #    else
+      #    {
+      #        SalesTable_ds.object(fieldnum(SalesTable,echROShipCarrierTrackingNum)).allowEdit(true);
+      #        SalesTable_ds.object(fieldnum(SalesTable,echROShipCarrierId)).allowEdit(true);
+      #    }
+      #    if(salesTable.ECHAggStatus == ECHAggStatus::Rejected)
+      #    {
+      #        SalesTable_ds.allowEdit(false);
+      #        SalesTable_ds.allowDelete(false);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #docCursor
+      #public Common docCursor()
+      #{
+      #    Common docCursor;
+      #
+      #    docCursor = super();
+      #
+      #    if (docCursor.TableId == tablenum(InventDim))
+      #    {
+      #        docCursor = salesLine;
+      #    }
+      #
+      #    return docCursor;
+      #}
+    ENDSOURCE
+    SOURCE #setHeaderSiteLocationAccess
+      #void setHeaderSiteLocationAccess()
+      #{
+      #    salesTable_ds.object(fieldnum(SalesTable, InventSiteId)).allowEdit(salesTable.ReturnStatus == ReturnStatusHeader::Created);
+      #    salesTable_ds.object(fieldnum(SalesTable, InventLocationId)).allowEdit(salesTable.ReturnStatus == ReturnStatusHeader::Created);
+      #
+      #}
+    ENDSOURCE
+    SOURCE #registerButtonRules
+      #/// <summary>
+      #/// Registers each control with rules governing the enabled state.
+      #/// </summary>
+      #void registerButtonRules()
+      #{
+      #    ;
+      #    formButtonManager.setDatasources(salesTable);
+      #
+      #    formButtonManager.registerButtonRule(buttonHeaderSetup, buttonMarkupTransHeading, methodstr(ReturnTableButtonStateProvider, checkRuleMarkupTrans_HeadingSales),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderFunction, returnFindSalesOrder, methodstr(ReturnTableButtonStateProvider, checkRuleReturnFindSalesOrder),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderFunction, returnCancel, methodstr(ReturnTableButtonStateProvider, checkRuleReturnCancel),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderFunction, returnDocument, methodstr(ReturnTableButtonStateProvider, checkRuleReturnDocument),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderFunction, returnAcknowledgment, methodstr(ReturnTableButtonStateProvider, checkRuleReturnAcknowledgment),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderFunction, returnCreateReplacement, methodstr(ReturnTableButtonStateProvider, checkRuleReturnCreateReplacement),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderFunction, buttonUpdatePackingSlip, methodstr(ReturnTableButtonStateProvider, checkRulePackingSlipUpdate),  ButtonRuleEffectType::Enabled);
+      #
+      #    formButtonManager.registerButtonRule(buttonHeaderInquiry, buttonJournalInvoice, methodstr(ReturnTableButtonStateProvider, checkRuleJournalInvoice),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderInquiry, buttonPurchTable, methodstr(ReturnTableButtonStateProvider, checkRulePurchTable),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderInquiry, buttonReplacementOrder, methodstr(ReturnTableButtonStateProvider, checkRuleReplacementOrder),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(buttonHeaderInquiry, buttonPackingSlipJournal, methodstr(ReturnTableButtonStateProvider, checkRuleJournalPackingSlip),  ButtonRuleEffectType::Enabled);
+      #    this.setButtonAccess(); // Call refresh
+      #}
+      #
+    ENDSOURCE
+    SOURCE #setButtonAccess
+      #/// <summary>
+      #/// Refreshes the enabled state of all controls.
+      #/// </summary>
+      #public void setButtonAccess()
+      #{;
+      #      this.lockWindowUpdate(true);
+      #      formButtonManager.refresh();
+      #      this.lockWindowUpdate(false);
+      #}
+      #
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #;
+      #    SysListPageHelper::handleInitPreSuper(element);
+      #
+      #    returnTableButtonStateProvider = new ReturnTableButtonStateProvider();
+      #    formButtonManager = FormButtonManager::construct();
+      #    formButtonManager.parmRuleImplementer(returnTableButtonStateProvider);
+      #    ApproveStatusProcess = new echROApproveStatusProcess();//add by Jason wu 04/12;
+      #    super();
+      #
+      #    SysListPageHelper::handleInitPostSuper(element);
+      #    this.dataSource().init();
+      #
+      #    salesTableForm = SalesTableForm::construct(SalesTableFormId::Journal, element.args().record());
+      #    salesTableForm = SalesTableForm::construct(SalesTableFormId::ReturnOrder, element.args().record());
+      #
+      #    salesTableForm.parmFormDataSource(salesTable_ds);
+      #    salesTableForm.parmArgs(this.args());
+      #
+      #    salesTableForm.parmReturnStatus(ReturnStatusHeader::Created);
+      #
+      #    element.updateDesign(InventDimFormDesignUpdate::Init);
+      #
+      #    salesLineGrid.visibleColsValue(8 + conlen(inventDimFormSetup.dimFieldsActive(inventDimFormSetup.parmDimParmVisibleGrid())));
+      #
+      #    [advanced] = salesTableForm.isAdvanced();
+      #
+      #    element.toggelSimpleAdvanced();
+      #
+      #    formSplitterVertical = new SysFormSplitter_Y(ctrlSplitVertical, table, this);
+      #
+      #    //Default filter on RMS Status is "All"
+      #    filterRMAStatus.selection(ReturnStatusFilter::All);
+      #    element.setFilterAccess();
+      #
+      #    this.registerButtonRules(); // Add button rules
+      #
+      #    salesTable_ds.query(salesTableForm.querySalesTable(salesTable_ds.query()));
+      #    salesLine_ds.query(salesTableForm.querySalesLine(salesLine_ds.query()));
+      #}
+      #
+    ENDSOURCE
+    SOURCE #run
+      #void run()
+      #{
+      #    #define.tabPageSimple(2)
+      #    #define.tabPageGeneral(3)
+      #    ;
+      #
+      #    if (!advanced)
+      #    {
+      #        tabHeader.tab(2);
+      #        SysListPageHelper::handleRunPreSuper(element, tabHeader, #tabPageSimple, #tabPageSimple);
+      #    }
+      #    else
+      #    {
+      #        tabHeader.tab(1);
+      #        SysListPageHelper::handleRunPreSuper(element, tabHeader, #tabPageGeneral, #tabPageGeneral);
+      #    }
+      #
+      #    super();
+      #
+      #    SysListPageHelper::handleRunPostSuper(element, tabHeader);
+      #}
+    ENDSOURCE
+    SOURCE #setFilterAccess
+      #void setFilterAccess()
+      #{
+      #    boolean     enterDate;
+      #    ;
+      #
+      #    enterDate = filterRMAStatus.selection() != ReturnStatusFilter::All;
+      #
+      #    filterDate.allowEdit(enterDate);
+      #}
+    ENDSOURCE
+    SOURCE #editLineAllowed
+      #boolean editLineAllowed()
+      #{
+      #    boolean  editLine = true;
+      #    ;
+      #
+      #    if (!salesTable.checkUpdate(false))
+      #    {
+      #        editLine = false;
+      #    }
+      #
+      #    if (salesTable.ReturnStatus == ReturnStatusHeader::Canceled || salesTable.ReturnStatus == ReturnStatusHeader::Closed || salesTable.ReturnStatus == ReturnStatusHeader::None)
+      #    {
+      #        editLine = false;
+      #    }
+      #
+      #    return editLine;
+      #}
+    ENDSOURCE
+    SOURCE #toggelSimpleAdvanced
+      #void toggelSimpleAdvanced(boolean _advanced = advanced)
+      #{;
+      #    element.lock();
+      #
+      #    advanced = _advanced;
+      #
+      #    if (!advanced)
+      #    {
+      #        tabHeader.showTabs(false);
+      #        tabLine.showTabs(false);
+      #
+      #        tabHeaderSimple.visible(true);
+      #        tabHeaderOverview.visible(false);
+      #        tabHeaderGeneral.visible(false);
+      #        tabHeaderSetUp.visible(false);
+      #        tabHeaderAddress.visible(false);
+      #        tabHeaderOther.visible(false);
+      #
+      #        tabLineOverview.visible(true);
+      #        tabLineGeneral.visible(false);
+      #        tabLineDimension.visible(false);
+      #
+      #        buttonToggelSimple.visible(true);
+      #        buttonToggelAdvanced.visible(false);
+      #
+      #        buttonLine.visible(false);
+      #
+      #        tabHeader.tab(2);
+      #        tabLine.tab(1);
+      #    }
+      #    else
+      #    {
+      #        tabHeader.showTabs(true);
+      #        tabLine.showTabs(true);
+      #
+      #        tabHeaderOverview.visible(true);
+      #        tabHeaderGeneral.visible(true);
+      #        tabHeaderSetUp.visible(true);
+      #        tabHeaderAddress.visible(true);
+      #        tabHeaderOther.visible(true);
+      #
+      #        tabLineOverview.visible(true);
+      #        tabLineGeneral.visible(true);
+      #        tabLineDimension.visible(true);
+      #
+      #        tabHeaderSimple.visible(false);
+      #
+      #        buttonToggelSimple.visible(false);
+      #        buttonToggelAdvanced.visible(true);
+      #
+      #        buttonLine.visible(true);
+      #
+      #        tabHeader.tab(1);
+      #    }
+      #
+      #    element.resetSize();
+      #
+      #    element.unLock();
+      #
+      #    if (advanced)
+      #    {
+      #        salesTable_ReturnItemNum.setFocus();
+      #    }
+      #    else
+      #    {
+      #        salesTable_ReturnItemNumSim.setFocus();
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #editSales
+      #void  editSales(boolean  allowEdit, boolean allowDelete = allowEdit)
+      #{;
+      #    if (element.args() && element.args().dataset() == tablenum(SalesTable))
+      #    {
+      #        salesTable_ds.allowEdit    (allowEdit);
+      #        salesTable_ds.allowCreate  (false);
+      #        salesTable_ds.allowDelete  (false);
+      #        salesLine_ds.allowEdit     (allowEdit);
+      #        salesLine_ds.allowCreate   (allowEdit);
+      #        salesLine_ds.allowDelete   (allowEdit);
+      #
+      #    }
+      #    else
+      #    {
+      #        salesTable_ds.allowEdit    (allowEdit);
+      #        salesTable_ds.allowDelete  (allowEdit && allowDelete);
+      #        salesLine_ds.allowEdit     (allowEdit);
+      #        salesLine_ds.allowCreate   (allowEdit);
+      #        salesLine_ds.allowDelete   (allowEdit && allowDelete);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #setEditItemAllowed
+      #void setEditItemAllowed(boolean _allowEdit)
+      #{;
+      #    salesLine_ds.object(fieldnum(SalesLine, ItemId)).allowEdit(_allowEdit);
+      #}
+      #
+    ENDSOURCE
+    SOURCE #updateDesign
+      #void updateDesign(InventDimFormDesignUpdate _mode)
+      #{
+      #    InventMovement movement = InventMovement::construct(salesLine);
+      #    ;
+      #
+      #    switch (_mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init :
+      #            if (!inventDimFormSetup)
+      #            {
+      #                inventDimFormSetup = InventDimCtrl_Frm_Mov_Sales::newFromFormMovement(element, movement);
+      #            }
+      #
+      #        case InventDimFormDesignUpdate::Active :
+      #            inventDimFormSetup.formActiveSetup(movement.inventTable().DimGroupId, movement);
+      #            inventDimFormSetup.formSetControls(true);
+      #            break;
+      #
+      #        case InventDimFormDesignUpdate::FieldChange :
+      #            inventDimFormSetup.formActiveSetup(movement.inventTable().DimGroupId, movement);
+      #            inventDimFormSetup.formSetControls(false);
+      #            break;
+      #
+      #        default :
+      #            // Incorrect parameter for the function %1
+      #            throw error(strfmt("@SYS54195", funcname()));
+      #    }
+      #}
+      #
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #Object inventDimSetupObject()
+      #{;
+      #    return inventDimFormSetup;
+      #}
+    ENDSOURCE
+    SOURCE #canClose
+      #public boolean canClose()
+      #{
+      #    boolean  ret;
+      #    ;
+      #
+      #    ret = super();
+      #
+      #    if (element.closedCancel() && ret)
+      #    {
+      #        ret = salesTableForm.canClose(salesTable);
+      #    }
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #close
+      #public void close()
+      #{;
+      #    super();
+      #
+      #    salesTableForm.isAdvanced(advanced);
+      #    xSysLastValue::saveLast(salesTableForm);
+      #
+      #    if (element.args() && element.args().caller() && element.args().caller().name() == formstr(ReturnTableListPage))
+      #    {
+      #        element.args().caller().executeQuery();
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #gotoLines
+      #void gotoLines()
+      #{;
+      #    salesLineGrid.setFocus();
+      #}
+    ENDSOURCE
+    SOURCE #interCompanyIsPriceDiscSearchNeeded
+      #RecId interCompanyIsPriceDiscSearchNeeded()
+      #{;
+      #    return interCompanyIsPriceDiscSearchNeeded;
+      #}
+      #
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          Index               #SalesIdx
+          StartPosition       #Last
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD CustAccount
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean     ret;
+                #    SalesLine   returnLine;
+                #    ;
+                #
+                #    returnLine = SalesLine::find(salesTable.SalesId);
+                #
+                #    if (returnLine)
+                #    {
+                #        // All the return lines would be deleted. Do you want to proceed?
+                #        if (Box::yesNo("@SYS104096", DialogButton::No) == DialogButton::Yes)
+                #        {
+                #            if (salesTable.validateDelete())
+                #            {
+                #                SalesTable::deleteAllLines(salesTable.SalesId);
+                #                ret = super();
+                #            }
+                #        }
+                #    }
+                #    else
+                #    {
+                #        ret = super();
+                #    }
+                #
+                #    return ret;
+                #}
+                #
+              ENDSOURCE
+              SOURCE #modified
+                #public void modified()
+                #{;
+                #    super();
+                #
+                #    if (salesLine)
+                #    {
+                #        salesLine_ds.executeQuery();
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ReturnItemNum
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD InterCompanyAutoCreateOrders
+            PROPERTIES
+              AllowEdit           #No
+              Enabled             #No
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    if (salesTable.InterCompanyAutoCreateOrders)
+                #    {
+                #        salesTableForm.interCompanyAutoCreateOrdersNow(true);
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InterCompanyDirectDelivery
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    if (salesTable.InterCompanyAutoCreateOrders)
+                #    {
+                #        salesTableForm.interCompanyAutoCreateOrdersNow(true);
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryZipCode
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #jumpRef
+                #// Create ECH_WI_01984 by mengqi.cen on 20130304
+                #public void jumpRef()
+                #{
+                #;
+                #    echAddressJumpRef::jumpRefZipCodes(element);
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #// Update ECH_WI_01984 by mengqi.cen on 20130304
+                #public void lookup(FormControl _formCtrl, str _filterStr)
+                #{
+                #;
+                #    echAddressLookup::lookupZipCodeByCountry(
+                #                            _formCtrl,
+                #                            SalesTable.DeliveryCountryRegionId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryCounty
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #jumpRef
+                #// Create ECH_WI_01984 by mengqi.cen on 20130304
+                #public void jumpRef()
+                #{
+                #;
+                #    echAddressJumpRef::jumpRefCountyByRecord(element, SalesTable);
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #// Create ECH_WI_01984 by mengqi.cen on 20130304
+                #public void lookup(FormControl _formCtrl, str _filterStr)
+                #{
+                #;
+                #    echAddressLookup::lookupCountyByCountryState(
+                #                            _formCtrl,
+                #                            SalesTable.DeliveryCountryRegionId,
+                #                            SalesTable.DeliveryState);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryState
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #jumpRef
+                #// Create ECH_WI_01984 by mengqi.cen on 20130304
+                #public void jumpRef()
+                #{
+                #;
+                #    echAddressJumpRef::jumpRefStateByRecord(element, SalesTable);
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #// Create ECH_WI_01984 by mengqi.cen on 20130304
+                #public void lookup(FormControl _formCtrl, str _filterStr)
+                #{
+                #;
+                #    echAddressLookup::lookupStateByCountry(
+                #                            _formCtrl,
+                #                            SalesTable.DeliveryCountryRegionId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #setFilter
+          #/// <summary>
+          #/// Passes the filter values from the form UI to the data scource query.
+          #/// </summary>
+          #void setFilter()
+          #{
+          #    ;
+          #    switch(filterRMAStatus.selection())
+          #    {
+          #        case ReturnStatusFilter::All :
+          #            qbrRMAStatusFilter.enabled(false);
+          #        break;
+          #
+          #        case ReturnStatusFilter::Open :
+          #            qbrRMAStatusFilter.enabled(true);
+          #            qbrRMAStatusFilter.value(queryValue(ReturnStatusHeader::Open));
+          #        break;
+          #
+          #        case ReturnStatusFilter::Created :
+          #            qbrRMAStatusFilter.enabled(true);
+          #            qbrRMAStatusFilter.value(queryValue(ReturnStatusHeader::Created));
+          #        break;
+          #
+          #        case ReturnStatusFilter::Closed :
+          #            qbrRMAStatusFilter.enabled(true);
+          #            qbrRMAStatusFilter.value(queryValue(ReturnStatusHeader::Closed));
+          #
+          #        break;
+          #
+          #        case ReturnStatusFilter::Canceled :
+          #            qbrRMAStatusFilter.enabled(true);
+          #            qbrRMAStatusFilter.value(queryValue(ReturnStatusHeader::Canceled));
+          #
+          #        break;
+          #    }
+          #
+          #    if (filterDate.valueStr())
+          #    {
+          #        qbrCreatedDateFilter.value(strfmt('..%1',queryValue(filterDate.valueStr())));
+          #    }
+          #
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #;
+          #
+          #    super();
+          #
+          #    // Add range for filtering on RMA status
+          #    qbrRMAStatusFilter = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable, ReturnStatus));
+          #
+          #    // Add range for filtering on CreatedDate
+          #    qbrCreatedDateFilter = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable, CreatedDateTime));
+          #}
+          #
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean _append = true)
+          #{
+          #    SalesTable   newSalesTable;
+          #    ;
+          #    element.editSales(true);
+          #
+          #    if (salesTableForm.create())
+          #    {
+          #        salesTableForm.interCompanyAutoCreateOrders();
+          #
+          #        newSalesTable = SalesTable::find(salesTableForm.newSalesId(),true);
+          #
+          #        if (newSalesTable)
+          #        {
+          #            newSalesTable.setReturnAddressFromInventLocationId(newSalesTable.InventLocationId);
+          #            newSalesTable.update();
+          #            super(_append);
+          #
+          #            salesTable.data(newSalesTable);
+          #            // update misc charges according to Reason code
+          #            if(salesTable.ReturnReasonCodeId)
+          #            {
+          #                salesTable.modifiedField(fieldnum(SalesTable,ReturnReasonCodeId));
+          #            }
+          #
+          #            salesTable_ds.reread();
+          #
+          #            tabLineOverview.setFocus();
+          #        }
+          #    }
+          #    else
+          #    {
+          #        element.editSales(salesTableForm.editHeaderAllowed(), salesTableForm.deleteHeaderAllowed());
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #editSales
+          #void  editSales()
+          #{;
+          #    element.editSales(salesTableForm.editHeaderAllowed(), salesTableForm.deleteHeaderAllowed());
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{;
+          #    this.setFilter();
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #reReadLines
+          #void reReadLines()
+          #{;
+          #    salesLine_ds.executeQuery();
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #public int active()
+          #{
+          #    int             ret;
+          #    SalesTableType  editSalesTableType;
+          #    ;
+          #
+          #    editSalesTableType = salesTable.type();
+          #    salesTable_ds.allowDelete(returnTableButtonStateProvider.checkRuleDeleteButton());
+          #
+          #    if (salesTable.ReturnStatus == ReturnStatusHeader::Canceled
+          #    ||  salesTable.ReturnStatus == ReturnStatusHeader::Closed
+          #    ||  salesTable.ReturnStatus == ReturnStatusHeader::None
+          #    ||  salesTable.ECHAggStatus == ECHAggStatus::Approved       )
+          #    {
+          #        salesTable_ds.allowEdit(false);
+          #        salesTable_ds.object(fieldnum(SalesTable,echROShipCarrierId)).allowEdit(true);
+          #        salesTable_ds.object(fieldnum(SalesTable,echROShipCarrierTrackingNum)).allowEdit(true);
+          #    }//modified by Jason Wu
+          #    else
+          #    {
+          #        salesLine_ds.allowEdit(true);
+          #        salesTable_ds.allowEdit(true);
+          #
+          #        if (salesTable.existRegisteredReceivedInvoicedLines())
+          #        {
+          #            salesLine_ds.allowCreate(false);
+          #            salesTable_ds.object(fieldnum(SalesTable, CustAccount)).allowEdit(false);
+          #        }
+          #        else
+          #        {
+          #            salesTable_ds.object(fieldnum(SalesTable, CustAccount)).allowEdit(true);
+          #            salesLine_ds.allowCreate(true);
+          #        }
+          #    }
+          #    element.ROTrackingInfoEdit();//add by Jason Wu 4/15/2013;
+          #    ret = super();
+          #
+          #    isOrderCancelled = salesTable.ReturnStatus == ReturnStatusHeader::Canceled ? true : false;
+          #
+          #    salesTableForm.salesTable(salesTable);
+          #    salesTableForm.interCompanySetHeaderAccess(interCompanyAllowIndirectCreationOrig,groupIntercompanyPurchTable);
+          #
+          #    salesTable_Reference_ds.executeQuery();
+          #    interCompanyPurchSalesReference_ds.executeQuery();
+          #
+          #    element.design().caption(strfmt("@SYS106617", salesTable.ReturnItemNum, salesTableForm.captionName()));
+          #    element.setButtonAccess();
+          #    element.setHeaderSiteLocationAccess();
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    boolean         ret;
+          #    NoYes           noYes;
+          #    ;
+          #
+          #    ret = super();
+          #
+          #    if (ret)
+          #    {
+          #        noYes = CustParameters::find().ReturnOrdersReasonReq;
+          #
+          #        if (!salesTable.ReturnReasonCodeId && noYes == NoYes::Yes)
+          #        {
+          #            salesTable_ds.object(fieldnum(SalesTable, ReturnReasonCodeId)).mandatory(true);
+          #            ret = checkFailed(strfmt("@SYS116347", fieldpname(SalesTable,ReturnReasonCodeId)));
+          #        }
+          #
+          #        salesTable2LineUpdatePrompt = SalesTable2LineUpdatePrompt::construct(salesTable);
+          #
+          #        if (!salesTable2LineUpdatePrompt.prompt())
+          #        {
+          #            ret = false;
+          #        }
+          #    }
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #void write()
+          #{
+          #    DialogButton            copyAddress = DialogButton::YesToAll;
+          #    boolean                 convertCurrency         = false;
+          #    TradeCurencyConversion  tradeCurencyConversion  = TradeCurencyConversion::ExchRate;
+          #    Addressing              origDeliveryAddress     = salesTable.orig().DeliveryAddress;
+          #    ;
+          #
+          #    if (SalesLine::exist(salesTable.SalesId) || MarkupTrans::exist(salesTable.TableId, salesTable.RecId))
+          #    {
+          #        // Is the currency code changed
+          #        if (salesTable.CurrencyCode != salesTable.orig().CurrencyCode)
+          #        {
+          #            // Prompt for currency conversion
+          #            [convertCurrency, tradeCurencyConversion] = SalesTable::promptConvertCurrencyCode();
+          #        }
+          #    }
+          #
+          #    ttsbegin;
+          #
+          #    if (convertCurrency)
+          #    {
+          #        salesTable.convertCurrencyCode(salesTable.CurrencyCode, tradeCurencyConversion);
+          #    }
+          #
+          #    salesTable.Touched = NoYes::No;
+          #
+          #    if (salesTableType)
+          #    {
+          #        salesTableType.formMethodDataSourceWrite(element, salesTable_ds);
+          #    }
+          #
+          #    super();
+          #
+          #    salesTableForm.salesTable(salesTable);
+          #    salesTableForm.interCompanySetHeaderAccess(interCompanyAllowIndirectCreationOrig,groupIntercompanyPurchTable);
+          #
+          #    if (salesTable2LineUpdatePrompt)
+          #    {
+          #        salesTable2LineUpdatePrompt.run();
+          #        salesTable2LineUpdatePrompt = null;
+          #    }
+          #
+          #    if (SalesLine::exist(salesTable.SalesId) && salesTable.DeliveryAddress != origDeliveryAddress)
+          #    {
+          #        salesTable.copyAddressToLine(copyAddress, salesTable);
+          #    }
+          #
+          #    ttscommit;
+          #
+          #    salesTableType = null;
+          #}
+        ENDSOURCE
+        SOURCE #leave
+          #public boolean leave()
+          #{
+          #    boolean ret;
+          #
+          #    ret = super();
+          #
+          #    salesTableForm.interCompanyAutoCreateOrders();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #setTouched
+          #void setTouched()
+          #{
+          #    // required by form MarkupTrans to communicate changes to the caller
+          #    ;
+          #    salesTableForm.setTouched(salesTable);
+          #}
+        ENDSOURCE
+        SOURCE #delete
+          #public void delete()
+          #{
+          #    ;
+          #
+          #    super();
+          #
+          #    element.setButtonAccess();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesLine
+          Table               #SalesLine
+          Index               #SalesLineIdx
+          CounterField        #LineNum
+          JoinSource          #SalesTable
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD ItemId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #    ItemId  itemId;
+                #    ;
+                #
+                #    super();
+                #
+                #    itemId = salesLine.ItemId;
+                #
+                #    salesTableForm.resetSalesLine(salesLine);
+                #
+                #    salesLine.ItemId = itemId;
+                #
+                #    salesLine_ds.setCostPriceAccess();
+                #
+                #    salesLine_ds.itemIdModified();
+                #
+                #    salesLine.LineAmount = salesLine.calcLineAmount(salesLine.ExpectedRetQty);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Scrap
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesPrice
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine_ds.refresh();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD SalesUnit
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void  modified()
+                #{;
+                #    super();
+                #    interCompanyIsPriceDiscSearchNeeded = salesLine.RecId;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ExpectedRetQty
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void  modified()
+                #{;
+                #    super();
+                #    interCompanyIsPriceDiscSearchNeeded = salesLine.RecId;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ReturnAllowReservation
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #    super();
+                #    salesLine_ds.write();
+                #    return_ReturnDispositionCodeId.enabled(!salesLine.ReturnAllowReservation);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ReturnDispositionCodeId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #    super();
+                #    return_ReturnAllowReservation.enabled(salesLine.ReturnStatus == ReturnStatusLine::Awaiting && !salesLine.ReturnDispositionCodeId);
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    Set dispositionActions = new Set(Types::Enum);
+                #    ;
+                #
+                #    dispositionActions.add(DispositionAction::CreditOnly);
+                #    ReturnDispositionCode::lookupDispositionCode(_formControl, _filterStr, dispositionActions);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #    ;
+                #
+                #    ret = super();
+                #
+                #    if (ret && salesLine.ReturnDispositionCodeId && salesLine.ReturnDispositionCodeId != salesLine.orig().ReturnDispositionCodeId
+                #        && ReturnDispositionCode::find(salesLine.ReturnDispositionCodeId).DispositionAction != DispositionAction::CreditOnly)
+                #    {
+                #        // The entered value '%1' is not a valid Disposition code.
+                #        ret = checkFailed(strfmt("@SYS121768", salesLine.ReturnDispositionCodeId));
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #initValue
+          #void initValue()
+          #{;
+          #    salesLine.SalesType = SalesType::ReturnItem;
+          #    salesLine.initFromSalesTable(salesTable);
+          #    super();
+          #
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean _append = true)
+          #{;
+          #    element.setEditItemAllowed(true);
+          #
+          #    if (salesTable.checkUpdate())
+          #    {
+          #        super(_append);
+          #    }
+          #
+          #    if (salesLine.ItemId)
+          #    {
+          #        this.itemIdModified();
+          #    }
+          #
+          #    salesLine_ds.refresh();
+          #
+          #    salesTableForm.salesLine_Create(salesLine);
+          #}
+          #
+        ENDSOURCE
+        SOURCE #active
+          #int active()
+          #{
+          #    int     ret;
+          #    boolean inventTransExist     = InventTrans::findTransId(salesLine.InventTransId).RecId;
+          #    boolean wmsJournalTransExist = WMSJournalTrans::existInventTransId(salesLine.InventTransId);
+          #    ;
+          #
+          #    ret = super();
+          #
+          #    if (salesLine.RecId)
+          #    {
+          #        element.setEditItemAllowed(false);
+          #    }
+          #    else
+          #    {
+          #        element.setEditItemAllowed(true);
+          #    }
+          #
+          #    salesLine_ds.allowCreate(salesTableForm.createLineAllowed());
+          #    salesLine_ds.allowEdit  (salesTableForm.editLineAllowed());
+          #    salesLine_ds.allowDelete(salesTableForm.deleteLineAllowed(salesLine));
+          #    //add by Jason Wu 4/19/2013 Begin;
+          #    if (salesTable.ECHAggStatus == ECHAggStatus::Approved ||
+          #        salesTable.ECHAggStatus == ECHAggStatus::Rejected   )
+          #    {
+          #        salesLine_ds.allowEdit(false);
+          #        salesLine_ds.allowCreate(false);
+          #        salesLine_ds.allowDelete(false);
+          #    }
+          #    //add by Jason Wu 4/19/2013 End;
+          #    element.updateDesign(InventDimFormDesignUpdate::Active);
+          #
+          #    buttonLineInterCompany.enabled(salesTableForm.interCompanyShowButtonLine());
+          #    salesTableForm.interCompanySetLineAccess(salesLine);
+          #
+          #    if (!salesTable.isInterCompanyOrder())
+          #    {
+          #        salesLine_ds.object(fieldnum(SalesLine, SalesUnit)).allowEdit(salesLine.ReturnStatus == ReturnStatusLine::Awaiting && salesLine.InventTransIdReturn == #blank);
+          #        salesLine_ds.object(fieldnum(SalesLine, SalesPrice)).allowEdit(salesLine.InventTransIdReturn == #blank);
+          #        salesLine_ds.object(fieldnum(SalesLine, ExpectedRetQty)).allowEdit(salesLine.ReturnStatus == ReturnStatusLine::Awaiting);
+          #    }
+          #
+          #    salesLine_ds.setCostPriceAccess();
+          #    return_ReturnAllowReservation.enabled(salesLine.ReturnStatus == ReturnStatusLine::Awaiting && !salesLine.ReturnDispositionCodeId && !wmsJournalTransExist);
+          #    return_ReturnDispositionCodeId.enabled(!salesLine.ReturnAllowReservation && !inventTransExist);
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #validateWrite
+          #public boolean validateWrite()
+          #{
+          #    boolean                 ret;
+          #    ;
+          #    salesTableForm.setTouched(salesTable);
+          #    salesLine.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #
+          #    ret = super();
+          #
+          #    if (ret)
+          #    {
+          #        ret = salesTable.checkUpdate();
+          #        if (!ret)
+          #        {
+          #            salesLine_ds.reread();
+          #            salesTable_ds.reread();
+          #        }
+          #    }
+          #
+          #    if (ret)
+          #    {
+          #       ret = salesTableForm.salesLine_validateWrite(salesLine, inventDim);
+          #    }
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #write
+          #void  write()
+          #{
+          #    SalesLine   _salesLine;
+          #    ;
+          #
+          #    try
+          #    {
+          #
+          #        salesLine.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #        salesTableForm.salesLine_Write(salesLine);
+          #
+          #        super();
+          #
+          #
+          #        if (salesLine.InventDimId != inventDim.InventDimId)
+          #        {
+          #            inventDim.data(InventDim::find(salesLine.InventDimId));
+          #            inventDim_ds.setCurrent();
+          #        }
+          #
+          #        salesLine_ds.reread();
+          #
+          #        if (PurchTable::find(salesLine.InventRefId).InterCompanyOrder
+          #        ||  salesTable.InterCompanyOrder)
+          #        {
+          #            _salesLine.data(salesLine.data());
+          #            salesLine_ds.executeQuery();
+          #            salesLine_ds.findRecord(_salesLine);
+          #            interCompanyPurchSalesReference_ds.executeQuery();
+          #        }
+          #        salesTable_ds.reread();
+          #        salesTable_ds.refresh();
+          #        salesTable_ds.setTouched();
+          #        element.setHeaderSiteLocationAccess();
+          #
+          #        interCompanyIsPriceDiscSearchNeeded = 0;
+          #    }
+          #    catch (Exception::Error)
+          #    {
+          #        //intentionally no retry. No refresh of line if error in write
+          #        salesLine_ds.reread();
+          #        salesTable_ds.reread();
+          #    }
+          #
+          #
+          #}
+          #
+          #
+          #
+          #
+          #
+          #
+        ENDSOURCE
+        SOURCE #delete
+          #public void delete()
+          #{
+          #    SalesId salesId;
+          #    boolean interCompanySalesLineExist;
+          #    ;
+          #    if (salesLine.checkDelete())
+          #    {
+          #        salesId                    = salesLine.SalesId;
+          #        interCompanySalesLineExist = salesLine.interCompanySalesLineExist();
+          #
+          #        super();
+          #
+          #        if (SalesTable::exist(salesId))
+          #        {
+          #            if (SalesParameters::find().DeleteHeading == NoYes::Yes && SalesTable::find(salesId).SalesStatus == SalesStatus::Invoiced)
+          #            {
+          #                salesTable.delete();
+          #                salesTable_ds.research();
+          #            }
+          #            else
+          #            {
+          #                if (!SalesLine::exist(salesTable.salesId))
+          #                {
+          #                    SalesTable.ReturnStatus = ReturnStatusHeader::Created;
+          #                    SalesTable.doUpdate();
+          #                }
+          #                salesTable_ds.reread();
+          #                salesTable_ds.refresh();
+          #
+          #                if (interCompanySalesLineExist)
+          #                {
+          #                    interCompanyPurchSalesReference_ds.research();
+          #                }
+          #            }
+          #        }
+          #        else
+          #        {
+          #            salesTable_ds.research();
+          #        }
+          #
+          #        salesTableForm.setTouched(salesTable);
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #itemIdModified
+          #void itemIdModified()
+          #{;
+          #    salesLine.itemIdChanged();
+          #    salesLine.SalesQty = 0;
+          #    inventDim.data(InventDim::find(salesLine.InventDimId));
+          #    salesLine.modifyItemDim(inventDim, fieldnum(InventDim, InventLocationId), InventTable::find(salesLine.ItemId).DimGroupId);
+          #    InventMovement::bufferSetTransQtyUnit(salesLine);
+          #    element.updateDesign(InventDimFormDesignUpdate::FieldChange);
+          #}
+        ENDSOURCE
+        SOURCE #setCostPriceAccess
+          #void setCostPriceAccess()
+          #{;
+          #    salesLine_ds.object(fieldnum(SalesLine, CostPrice)).allowEdit(salesLine.InventTransIdReturn == #blank && !InventModelGroup::find(InventTable::find(salesLine.ItemId).ModelGroupId).StandardCost);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          JoinSource          #SalesLine
+          LinkType            #InnerJoin
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD configId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,ConfigId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,ConfigId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSizeId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventSizeId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventSizeId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventColorId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventColorId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventColorId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSiteId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventSiteId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventSiteId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventLocationId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{;
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventLocationId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #
+                #    if(salesLine_ds && salesLine)
+                #        salesLine_ds.refresh();
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventLocationId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD inventBatchId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventBatchId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventBatchId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD wMSLocationId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,wmsLocationId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,wmsLocationId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD wMSPalletId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,wmsPalletId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,wmsPalletId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD inventSerialId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventSerialId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #
+                #    if (salesLine.DeliveryDateControlType)
+                #        SalesCalcAvailableDlvDates::modifiedField(salesLine,0,false,false,inventDim);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventSerialId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventStyleId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventStyleId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventStyleId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #public void write()
+          #{
+          #//  super();
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #void initValue()
+          #{;
+          #    inventDim.data(InventDim::find(salesLine.InventDimId));
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    this.object(fieldnum(InventDim, ConfigId)).allowEdit(salesLine.SalesQty == salesLine.RemainSalesPhysical && salesLine.InventTransIdReturn == #blank);
+          #    this.object(fieldnum(InventDim, InventSizeId)).allowEdit(salesLine.SalesQty == salesLine.RemainSalesPhysical && salesLine.InventTransIdReturn == #blank);
+          #    this.object(fieldnum(InventDim, InventColorId)).allowEdit(salesLine.SalesQty == salesLine.RemainSalesPhysical && salesLine.InventTransIdReturn == #blank);
+          #    // <RETAIL>
+          #    this.object(fieldnum(InventDim, InventStyleId)).allowEdit(salesLine.SalesQty == salesLine.RemainSalesPhysical && salesLine.InventTransIdReturn == #blank);
+          #    // </RETAIL>
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InterCompanyPurchSalesReference
+          Table               #InterCompanyPurchSalesReference
+          AllowCheck          #No
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #SalesTable
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #PurchTable_Reference
+          Table               #PurchTable
+          AllowCheck          #No
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #InterCompanyPurchSalesReference
+          LinkType            #InnerJoin
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #interCompanySalesType
+          #//BP Deviation Documented
+          #display InterCompanySalesType interCompanySalesType(PurchTable _purchTable)
+          #{
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    DocumentStatus          documentStatus;
+          #    date                    documentDate;
+          #    Num                     documentNum;
+          #    ;
+          #    [salesType,salesStatus,documentStatus,documentDate,documentNum] = salesTableForm.interCompanySalesCache(_purchTable);
+          #    return salesType;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #interCompanySalesStatus
+          #//BP Deviation Documented
+          #display SalesStatus interCompanySalesStatus(PurchTable _purchTable)
+          #{
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    DocumentStatus          documentStatus;
+          #    date                    documentDate;
+          #    Num                     documentNum;
+          #    ;
+          #    [salesType,salesStatus,documentStatus,documentDate,documentNum] = salesTableForm.interCompanySalesCache(_purchTable);
+          #    return salesStatus;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #interCompanyDocumentStatus
+          #//BP Deviation Documented
+          #display DocumentStatus interCompanyDocumentStatus(PurchTable _purchTable)
+          #{
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    DocumentStatus          documentStatus;
+          #    date                    documentDate;
+          #    Num                     documentNum;
+          #    ;
+          #    [salesType,salesStatus,documentStatus,documentDate,documentNum] = salesTableForm.interCompanySalesCache(_purchTable);
+          #    return documentStatus;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #interCompanyDocumentNum
+          #//BP Deviation Documented
+          #display DocumentNum interCompanyDocumentNum(PurchTable _purchTable)
+          #{
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    DocumentStatus          documentStatus;
+          #    date                    documentDate;
+          #    Num                     documentNum;
+          #    ;
+          #    [salesType,salesStatus,documentStatus,documentDate,documentNum] = salesTableForm.interCompanySalesCache(_purchTable);
+          #    return documentNum;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #interCompanyDocumentDate
+          #//BP Deviation Documented
+          #display DocumentDate interCompanyDocumentDate(PurchTable _purchTable)
+          #{
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    DocumentStatus          documentStatus;
+          #    date                    documentDate;
+          #    Num                     documentNum;
+          #    ;
+          #    [salesType,salesStatus,documentStatus,documentDate,documentNum] = salesTableForm.interCompanySalesCache(_purchTable);
+          #    return documentDate;
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable_Reference
+          Table               #SalesTable
+          AllowCheck          #No
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.query().dataSourceTable(tablenum(SalesTable)).clearLinks();
+          #    this.query().dataSourceTable(tablenum(SalesTable)).clearDynalinks();
+          #    this.query().dataSourceTable(tablenum(SalesTable)).clearRanges();
+          #    this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable,SalesId));
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    if (salesTable.InterCompanyPurchId)
+          #    {
+          #        this.query().dataSourceTable(tablenum(SalesTable)).findRange(fieldnum(SalesTable,SalesId)).value(salesTable.SalesId);
+          #        super();
+          #    }
+          #    else
+          #    {
+          #        salesTable_Reference.clear();
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #interCompanyPurchStatus
+          #//BP Deviation Documented
+          #display PurchStatus interCompanyPurchStatus()
+          #{
+          #    PurchStatus             purchStatus;
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    ;
+          #    [purchStatus,salesType,salesStatus] = salesTableForm.interCompanyOriginalSalesCache(salesTable_Reference);
+          #    return purchStatus;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #interCompanyOriginalSalesType
+          #//BP Deviation Documented
+          #display InterCompanySalesType interCompanyOriginalSalesType()
+          #{
+          #    PurchStatus             purchStatus;
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    ;
+          #    [purchStatus,salesType,salesStatus] = salesTableForm.interCompanyOriginalSalesCache(salesTable_Reference);
+          #    return salesType;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #interCompanyOriginalSalesStatus
+          #//BP Deviation Documented
+          #display SalesStatus interCompanyOriginalSalesStatus()
+          #{
+          #    PurchStatus             purchStatus;
+          #    InterCompanySalesType   salesType;
+          #    SalesStatus             salesStatus;
+          #    ;
+          #    [purchStatus,salesType,salesStatus] = salesTableForm.interCompanyOriginalSalesCache(salesTable_Reference);
+          #    return salesStatus;
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    SalesLine SalesTable
+    InventDim SalesLine
+    InterCompanyPurchSalesReference SalesTable
+    PurchTable_Reference InterCompanyPurchSalesReference
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS104918
+      SaveSize            #Yes
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/66fbc27b-e6a2-4a51-913a-e5d38b58d853.htm
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Filter
+          FrameType           #Edged 3D
+          Caption             #@SYS2163
+          ArrangeMethod       #Horizontal, flush right
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #filterRMAStatus
+                AutoDeclaration     #Yes
+                EnumType            #ReturnStatusFilter
+              ENDPROPERTIES
+              
+              METHODS
+                Version: 3
+                SOURCE #modified
+                  #public boolean modified()
+                  #{
+                  #    boolean ret;
+                  #    ;
+                  #
+                  #    ret = super();
+                  #
+                  #    if (filterRMAStatus.selection() == ReturnStatusFilter::All)
+                  #    {
+                  #        filterDate.dateValue(dateNull());
+                  #    }
+                  #
+                  #    element.setFilterAccess();
+                  #
+                  #    if (ret)
+                  #    {
+                  #        element.lock();
+                  #
+                  #        salesTable_ds.executeQuery();
+                  #        salesTable_ds.refresh();
+                  #
+                  #        element.unLock();
+                  #    }
+                  #
+                  #
+                  #    return ret;
+                  #}
+                ENDSOURCE
+              ENDMETHODS
+            ENDCONTROL 
+            
+            CONTROL DATEEDIT
+              PROPERTIES
+                Name                #filterDate
+                AutoDeclaration     #Yes
+                LookupButton        #Always
+                Label               #@SYS4244
+                ExtendedDataType    
+                  ARRAY 
+                    #ReturnClosedDate
+                    #
+                  ENDARRAY
+              ENDPROPERTIES
+              
+              METHODS
+                Version: 3
+                SOURCE #modified
+                  #public boolean modified()
+                  #{
+                  #    boolean ret;
+                  #    ;
+                  #
+                  #    ret = super();
+                  #
+                  #    if (ret)
+                  #    {
+                  #        element.lock();
+                  #
+                  #        salesTable_ds.executeQuery();
+                  #        salesTable_ds.refresh();
+                  #
+                  #        element.unLock();
+                  #    }
+                  #
+                  #    return ret;
+                  #}
+                ENDSOURCE
+              ENDMETHODS
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Table
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #Column height
+          HTMLHelpFile        #HTMLHelpFileAxShared
+          HTMLHelpTopic       #html/DC87F0AD-43DD-4F36-955E-E6FF82C5C8F8.htm
+          FrameType           #None
+          DataSource          #SalesTable
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL TAB
+              PROPERTIES
+                Name                #TabHeader
+                AutoDeclaration     #Yes
+                Width               #Column width
+                Height              #Column height
+                Tabs                #10
+                DataSource          #SalesTable
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderOverview
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS9039
+                    DataSource          #SalesTable
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GRID
+                      PROPERTIES
+                        Name                #GridHeader
+                        Width               #Column width
+                        Height              #Column height
+                        VisibleCols         #7
+                        VisibleRows         #9
+                        DataSource          #SalesTable
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_ReturnItemNum
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesTable
+                              DataField           #ReturnItemNum
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_CustAccountAdv
+                              AutoDeclaration     #Yes
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/996ce646-1849-4a1b-8ef5-23e87aa5b44d.htm
+                              DataSource          #SalesTable
+                              DataField           #CustAccount
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_InvoiceAccountAdv
+                              AutoDeclaration     #Yes
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/d9c3be94-9c71-4067-ad43-7a725c2ed6d6.htm
+                              DataSource          #SalesTable
+                              DataField           #InvoiceAccount
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_ReturnReasonCodeId
+                              DataSource          #SalesTable
+                              DataField           #ReturnReasonCodeId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #SalesTable_ReturnDeadline
+                              DataSource          #SalesTable
+                              DataField           #ReturnDeadline
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #SalesTable_ReturnStatus
+                              DataSource          #SalesTable
+                              DataField           #ReturnStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #SalesTable_ECHAggStatus
+                              DataSource          #SalesTable
+                              DataField           #ECHAggStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_echCancelExceptionId
+                              DataSource          #SalesTable
+                              DataField           #echCancelExceptionId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_echSalesReasonId
+                              DataSource          #SalesTable
+                              DataField           #echSalesReasonId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderSimple
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS4925
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #GroupHeader
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/9FB8D97A-C373-4227-B283-04390015CAD9.htm
+                        FrameType           #None
+                        Caption             #@SYS4925
+                        DataSource          #SalesTable
+                        Columns             #2
+                        ArrangeGuide        
+                          ARRAY INDEX Columns 
+                            #0
+                            #0
+                          ENDARRAY
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #Group1
+                              FrameType           #None
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_ReturnItemNumSim
+                                    AutoDeclaration     #Yes
+                                    DataSource          #SalesTable
+                                    DataField           #ReturnItemNum
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #Salestable_CustAccountSim
+                                    AutoDeclaration     #Yes
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/996ce646-1849-4a1b-8ef5-23e87aa5b44d.htm
+                                    DataSource          #SalesTable
+                                    DataField           #CustAccount
+                                    PresenceIndicatorAllowed    #No
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #CustomerName
+                                    AllowEdit           #No
+                                    DataSource          #SalesTable
+                                    DataMethod          #CustomerName
+                                    PresenceDataSource  #SalesTable
+                                    PresenceDataField   #CustAccount
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_ContactPersonIdSimple
+                                    AutoDeclaration     #Yes
+                                    Visible             #No
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/e8a9f5f5-8d64-49d7-ab26-2ce496ffc637.htm
+                                    DataSource          #SalesTable
+                                    DataField           #ContactPersonId
+                                    PresenceIndicatorAllowed    #No
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #editContactPersonName
+                                    LookupButton        #Always
+                                    DataSource          #SalesTable
+                                    DataMethod          #editContactPersonName
+                                    PresenceDataSource  #SalesTable
+                                    PresenceDataField   #ContactPersonId
+                                  ENDPROPERTIES
+                                  
+                                  METHODS
+                                    Version: 3
+                                    SOURCE #lookup
+                                      #void lookup()
+                                      #{;
+                                      #    ContactPerson::lookupCustContactPerson(salesTable_ContactPersonIdSimple,
+                                      #                                           salesTable.CustAccount,
+                                      #                                           this,
+                                      #                                           salesTable.ContactPersonId);
+                                      #}
+                                      #
+                                    ENDSOURCE
+                                  ENDMETHODS
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_CustomerRef
+                                    DataSource          #SalesTable
+                                    DataField           #CustomerRef
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #PurchOrderFormNum
+                                    DataSource          #SalesTable
+                                    DataField           #PurchOrderFormNum
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #_InventSiteId
+                                    DataSource          #SalesTable
+                                    DataField           #InventSiteId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #InventLocationId
+                                    DataSource          #SalesTable
+                                    DataField           #InventLocationId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_ReturnReasonCodeIdSimple
+                                    DataSource          #SalesTable
+                                    DataField           #ReturnReasonCodeId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL COMBOBOX
+                                  PROPERTIES
+                                    Name                #ReturnStatusSimple
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/52dbd3ce-dabc-4aa7-9f2a-7ac3ffd6f3d0.htm
+                                    DataSource          #SalesTable
+                                    DataField           #ReturnStatus
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #Group
+                              FrameType           #None
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_CurrencyCodeSim
+                                    DataSource          #SalesTable
+                                    DataField           #CurrencyCode
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_InvoiceAccountSim
+                                    AutoDeclaration     #Yes
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/d9c3be94-9c71-4067-ad43-7a725c2ed6d6.htm
+                                    DataSource          #SalesTable
+                                    DataField           #InvoiceAccount
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_DeliveryName
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/59246cb6-ce2f-4f11-8d84-ec888c8b8cae.htm
+                                    DataSource          #SalesTable
+                                    DataField           #DeliveryName
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_DeliveryAddress
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/4fc61233-5215-4325-a6c5-072384ba41a6.htm
+                                    MultiLine           #Yes
+                                    DataSource          #SalesTable
+                                    DataField           #DeliveryAddress
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderGeneral
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS2952
+                    DataSource          #SalesTable
+                    Columns             #2
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #pageActivated
+                      #public void pageActivated()
+                      #{;
+                      #    if (salesTable.ReturnReplacementId)
+                      #    {
+                      #        salesTable_ds.reread();
+                      #    }
+                      #
+                      #    super();
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ReturnOrder
+                        DataSource          #SalesTable
+                        DataGroup           #ReturnOrder
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_ReturnItemNum
+                              DataSource          #SalesTable
+                              DataField           #ReturnItemNum
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_ReturnReasonCodeId
+                              DataSource          #SalesTable
+                              DataField           #ReturnReasonCodeId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_ReturnDeadline
+                              DataSource          #SalesTable
+                              DataField           #ReturnDeadline
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_SalesId
+                              DataSource          #SalesTable
+                              DataField           #SalesId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_CurrencyCode
+                              DataSource          #SalesTable
+                              DataField           #CurrencyCode
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_CustAccount
+                              DataSource          #SalesTable
+                              DataField           #CustAccount
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_InvoiceAccount
+                              DataSource          #SalesTable
+                              DataField           #InvoiceAccount
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_M_editContactPersonName
+                              AutoDeclaration     #Yes
+                              LookupButton        #Always
+                              DataSource          #SalesTable
+                              DataMethod          #editContactPersonName
+                              PresenceDataSource  #SalesTable
+                              PresenceDataField   #ContactPersonId
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #jumpRef
+                                #public void jumpRef()
+                                #{
+                                #    returnOrder_ContactPersonId.jumpRef();
+                                #}
+                              ENDSOURCE
+                              SOURCE #lookup
+                                #void lookup()
+                                #{;
+                                #    ContactPerson::lookupCustContactPerson(returnOrder_ContactPersonId,
+                                #                                           salesTable.CustAccount,
+                                #                                           returnOrder_M_editContactPersonName,
+                                #                                           salesTable.ContactPersonId);
+                                #}
+                                #
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ReturnOrder_ContactPersonId
+                              AutoDeclaration     #Yes
+                              Visible             #No
+                              DataSource          #SalesTable
+                              DataField           #ContactPersonId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #echOriginalSalesOrder
+                        Caption             #@SYS114675
+                        DataSource          #SalesTable
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echOriginalSalesId
+                              DataSource          #SalesTable
+                              DataMethod          #echOriginalSalesId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ReturnGeneral
+                        FrameType           #None
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #ContactInfo
+                              Caption             #@SYS36902
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_Email
+                                    DataSource          #SalesTable
+                                    DataField           #Email
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #Status
+                              Caption             #@SYS25587
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL UTCDATETIMEEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_createdDateTime
+                                    DataSource          #SalesTable
+                                    DataField           #createdDateTime
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL COMBOBOX
+                                  PROPERTIES
+                                    Name                #ReturnStatus
+                                    DataSource          #SalesTable
+                                    DataField           #ReturnStatus
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #ReturnReplacement
+                              DataSource          #SalesTable
+                              DataGroup           #ReturnReplacement
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #ReturnReplacement_ReturnReplacementId
+                                    DataSource          #SalesTable
+                                    DataField           #ReturnReplacementId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #ReturnReplacement_ReturnReplacementCreated
+                                    DataSource          #SalesTable
+                                    DataField           #ReturnReplacementCreated
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #echMsgPartner
+                        DataSource          #SalesTable
+                        DataGroup           #echMsgPartner
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderSetup
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS2186
+                    DataSource          #SalesTable
+                    Columns             #2
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Administration
+                        Caption             #@SYS9853
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_SalesTaker
+                              DataSource          #SalesTable
+                              DataField           #SalesTaker
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_LanguageId
+                              DataSource          #SalesTable
+                              DataField           #LanguageId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Warehouse
+                        Caption             #@SYS6437
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_InventSiteId
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesTable
+                              DataField           #InventSiteId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_InventLocationId
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesTable
+                              DataField           #InventLocationId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #TrackingInfo
+                        DataSource          #SalesTable
+                        DataGroup           #echROechTrackingInformation
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #RefundInfo
+                        DataSource          #SalesTable
+                        DataGroup           #echRORefundInformation
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL UTCDATETIMEEDIT
+                            PROPERTIES
+                              Name                #RefundInfo_echRefundedDateTime
+                              DataSource          #SalesTable
+                              DataField           #echRefundedDateTime
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderAddress
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS9362
+                    DataSource          #SalesTable
+                    Columns             #2
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #HeaderDeliveryAddress
+                        AutoDeclaration     #Yes
+                        Height              #Column height
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/4fc61233-5215-4325-a6c5-072384ba41a6.htm
+                        DataSource          #SalesTable
+                        DataGroup           #DeliveryAddress
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #HeaderAddressDisplay
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B91E5794-9953-480C-BFCB-69A356F79A06.htm
+                        DataSource          #SalesTable
+                        DataGroup           #AddressDisplay
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderOther
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS1284
+                    Columns             #2
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InterCompany
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8543E75A-40AA-47B2-B411-E23ECBBBA2ED.htm
+                        ConfigurationKey    #TradeInterCompany
+                        FrameType           #None
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #InterCompanyAdmin
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/121E20D1-5782-4469-B323-410DF450EF57.htm
+                              DataSource          #SalesTable
+                              DataGroup           #IntercompanyAdmin
+                              AutoDataGroup       #Yes
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #interCompanyAllowIndirectCreationOrig
+                              AutoDeclaration     #Yes
+                              AllowEdit           #No
+                              AlignControl        #No
+                              MultiLine           #Yes
+                              ShowLabel           #No
+                              DataSource          #SalesTable
+                              DataMethod          #interCompanyAllowIndirectCreationOrig
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InterCompanyReturn
+                        DataSource          #SalesTable
+                        DataGroup           #InterCompanyReturn
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderReferences
+                    Caption             #@SYS14018
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #References
+                        Caption             #@SYS14018
+                        ArrangeMethod       #Horizontal, flush right
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #CustomerRef
+                              DataSource          #SalesTable
+                              DataField           #CustomerRef
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesTable_PurchOrderFormNum
+                              DataSource          #SalesTable
+                              DataField           #PurchOrderFormNum
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #groupIntercompanyPurchTable
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/4CCAFD8D-7C25-447A-90C1-66D07E8DE6E0.htm
+                        ConfigurationKey    #TradeInterCompany
+                        Caption             #@SYS75319
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL GRID
+                            PROPERTIES
+                              Name                #Grid1
+                              AllowEdit           #No
+                              Height              #80
+                              MultiSelect         #No
+                              HighlightActive     #No
+                              DataSource          #SalesTable_Reference
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_InterCompanyPurchId
+                                    Width               #75
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataField           #InterCompanyPurchId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL COMBOBOX
+                                  PROPERTIES
+                                    Name                #intercompanyPurchStatus
+                                    AllowEdit           #No
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/E0C3A467-B55C-4984-AE12-F006E2CC11B5.htm
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataMethod          #intercompanyPurchStatus
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #SalesTable_InterCompanyOrder
+                                    BackgroundColor     #Window background
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataField           #InterCompanyOrder
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_InterCompanyCompanyId
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataField           #InterCompanyCompanyId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_IntercompanyPurch_InterCompanyOriginalSalesId
+                                    Label               #@SYS93838
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataField           #InterCompanyOriginalSalesId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #intercompanyOriginalSalesType
+                                    AllowEdit           #No
+                                    Width               #100
+                                    Height              #15
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/5DE8BD24-47F3-49C9-9EC8-9338A9FB1A14.htm
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataMethod          #intercompanyOriginalSalesType
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL COMBOBOX
+                                  PROPERTIES
+                                    Name                #intercompanyOriginalSalesStatus
+                                    AllowEdit           #No
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/DA3F778A-7C14-49E5-9941-40B9EA228326.htm
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataMethod          #intercompanyOriginalSalesStatus
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #SalesTable_IntercompanyPurch_InterCompanyOriginalCustAccount
+                                    Label               #@SYS302
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataField           #InterCompanyOriginalCustAccount
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #SalesTable_InterCompanyDirectDeliveryOrig
+                                    BackgroundColor     #Window background
+                                    LabelAlignment      #Right
+                                    DataSource          #SalesTable_Reference
+                                    DataField           #InterCompanyDirectDeliveryOrig
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #groupPurchaseTable
+                        Width               #Column width
+                        Height              #Column height
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/9A04F97A-E8B4-4AE9-A46E-84BF83796C65.htm
+                        Caption             #@SYS25204
+                        DataSource          #SalesTable
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL GRID
+                            PROPERTIES
+                              Name                #Grid
+                              Width               #Column width
+                              Height              #Column height
+                              DataSource          #InterCompanyPurchSalesReference
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #PurchTable_PurchId
+                                    Width               #75
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataField           #PurchId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL COMBOBOX
+                                  PROPERTIES
+                                    Name                #PurchTable_PurchStatus
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/e67e719d-27f5-43d3-a180-4c68091c65b6.htm
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataField           #PurchStatus
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #PurchTable_InterCompanyOrder
+                                    BackgroundColor     #Window background
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataField           #InterCompanyOrder
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #PurchTable_InterCompanyCompanyId
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataField           #InterCompanyCompanyId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #PurchTable_InterCompanySalesId
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/69e402f4-304d-4eff-9463-59bbf1fa0fb4.htm
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataField           #InterCompanySalesId
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #interCompanySalesType
+                                    AllowEdit           #No
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/1DB119D7-47DC-4C66-9C86-D70672DFB71A.htm
+                                    ConfigurationKey    #TradeInterCompany
+                                    DataSource          #PurchTable_Reference
+                                    DataMethod          #interCompanySalesType
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL COMBOBOX
+                                  PROPERTIES
+                                    Name                #interCompanySalesStatus
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/040178E5-59A5-44E1-A96F-EBE6621E7958.htm
+                                    ConfigurationKey    #TradeInterCompany
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataMethod          #interCompanySalesStatus
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL COMBOBOX
+                                  PROPERTIES
+                                    Name                #interCompanyDocumentStatus
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/844F6EAC-E88B-4371-9D4B-31C11ED98FAA.htm
+                                    ConfigurationKey    #TradeInterCompany
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataMethod          #interCompanyDocumentStatus
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL STRINGEDIT
+                                  PROPERTIES
+                                    Name                #interCompanyDocumentNum
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/E4ECE14C-4117-474A-BF09-D3D79548F3B7.htm
+                                    ConfigurationKey    #TradeInterCompany
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataMethod          #interCompanyDocumentNum
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                                CONTROL DATEEDIT
+                                  PROPERTIES
+                                    Name                #interCompanyDocumentDate
+                                    HTMLHelpFile        #HTMLHelpFileAxShared
+                                    HTMLHelpTopic       #html/8E5B6961-FB24-4292-BD86-78F5DA0147D0.htm
+                                    ConfigurationKey    #TradeInterCompany
+                                    LabelAlignment      #Right
+                                    DataSource          #PurchTable_Reference
+                                    DataMethod          #interCompanyDocumentDate
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+            CONTROL BUTTONGROUP
+              PROPERTIES
+                Name                #ButtonsHeader
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL BUTTON
+                  PROPERTIES
+                    Name                #ButtonToggelSimple
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS69463
+                    Text                #@SYS23466
+                    SaveRecord          #No
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #Clicked
+                      #void clicked()
+                      #{;
+                      #    super();
+                      #
+                      #    element.toggelSimpleAdvanced(!advanced);
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL BUTTON
+                  PROPERTIES
+                    Name                #ButtonToggelAdvanced
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS69464
+                    Text                #@SYS24899
+                    SaveRecord          #No
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #Clicked
+                      #void clicked()
+                      #{;
+                      #    super();
+                      #
+                      #    element.toggelSimpleAdvanced(!advanced);
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonHeaderSetup
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS76660
+                    Text                #@SYS2186
+                    SaveRecord          #No
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #Clicked
+                      #void clicked()
+                      #{
+                      #    ;
+                      #
+                      #    formButtonManager.refreshGroup(buttonHeaderSetup);
+                      #    super();
+                      #}
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ButtonMarkupTransHeading
+                        AutoDeclaration     #Yes
+                        MenuItemName        #MarkupTrans_HeadingSales
+                        DataSource          #SalesTable
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonHeaderFunction
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS69469
+                    Text                #@SYS10340
+                    MultiSelect         #Yes
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void clicked()
+                      #{
+                      #    boolean     returnItem = salesTable.returnItem();
+                      #
+                      #    ;
+                      #
+                      #    if (salesTable.ReturnReplacementId)
+                      #    {
+                      #        salesTable_ds.reread();
+                      #    }
+                      #
+                      #    formButtonManager.refreshGroup(buttonHeaderFunction);
+                      #
+                      #    salesTableForm.enableUpdateJournalButtons(salesTable,
+                      #                                              null,
+                      #                                              null,
+                      #                                              null,
+                      #                                              buttonUpdatePackingSlip,
+                      #                                              null,
+                      #                                              null,
+                      #                                              null,
+                      #                                              null,
+                      #                                              null,
+                      #                                              null);
+                      #
+                      #    super();
+                      #}
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ReturnFindSalesOrder
+                        AutoDeclaration     #Yes
+                        MenuItemName        #ReturnFindSalesOrder
+                        DataSource          #SalesTable
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #Separator
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ReturnCancel
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS104951
+                        Text                #@SYS104171
+                        MultiSelect         #Yes
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    ;
+                          #
+                          #    super();
+                          #    salesTableForm.returnCancel();
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #Separator1
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ReturnDocument
+                        AutoDeclaration     #Yes
+                        Enabled             #No
+                        MenuItemType        #Output
+                        MenuItemName        #ReturnDocument
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ReturnAcknowledgment
+                        AutoDeclaration     #Yes
+                        Enabled             #No
+                        MenuItemType        #Output
+                        MenuItemName        #ReturnAcknowledgment
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #Separator2
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ReturnCreateReplacement
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS105835
+                        Text                #@SYS106874
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    ;
+                          #
+                          #    super();
+                          #    salesTableForm.returnCreateReplacement();
+                          #}
+                          #
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #Separator3
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #buttonUpdatePackingSlip
+                        AutoDeclaration     #Yes
+                        MenuItemType        #Action
+                        MenuItemName        #SalesFormLetter_PackingSlip
+                        DataSource          #SalesTable
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonHeaderInquiry
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS69471
+                    Text                #@SYS3850
+                    SaveRecord          #No
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void clicked()
+                      #{
+                      #    ;
+                      #
+                      #    formButtonManager.refreshGroup(buttonHeaderInquiry);
+                      #    super();
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #buttonJournalInvoice
+                        AutoDeclaration     #Yes
+                        MenuItemName        #CustInvoiceJournal
+                        DataSource          #SalesTable
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #HeaderInquiry_Separator5
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ButtonPackingSlipJournal
+                        AutoDeclaration     #Yes
+                        MenuItemName        #CustPackingSlipJournal
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #HeaderInquiry_Separator3
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #buttonPurchTable
+                        AutoDeclaration     #Yes
+                        MenuItemName        #PurchTable
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #HeaderInquiry_Separator4
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #buttonReplacementOrder
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS105835
+                        Text                #@SYS105911
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    ;
+                          #
+                          #    super();
+                          #    salesTableForm.buttonReplacementOrder();
+                          #}
+                          #
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonHeaderInterCompany
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS94420
+                    ConfigurationKey    #TradeInterCompany
+                    Text                #@SYS74106
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void clicked()
+                      #{
+                      #    container   checkIfUpdate           = purchTable_Reference.interCompanySalesTable().checkIfUpdate();
+                      #    boolean     enablePickingListButton;
+                      #;
+                      #    enablePickingListButton = conlen(checkIfUpdate) ? conpeek(checkIfupdate, SalesTableType::posPickingList()) : false;
+                      #
+                      #    buttonPurchTableThisCompany.                  enabled(purchTable_Reference.InterCompanySalesId ? true : false);
+                      #    buttonInterCompanyPurchTable.                 enabled(salesTable.InterCompanyPurchId           ? true : false);
+                      #    buttonInterCompanyOriginalSalesTable.         enabled(salesTable.InterCompanyOriginalSalesId   ? true : false);
+                      #    buttonInterCompanySalesTable.                 enabled(purchTable_Reference.InterCompanySalesId ? true : false);
+                      #
+                      #    super();
+                      #}
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonInterCompanySalesTable
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS94562
+                        Text                #@SYS93837
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #
+                          #    TradeInterCompany::construct(purchTable_Reference).formRun(formstr(ReturnTable),element);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonInterCompanyOriginalSalesTable
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS94563
+                        Text                #@SYS93838
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #
+                          #    TradeInterCompany::construct(salesTable,true).formRun(formstr(ReturnTable),element);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ButtonPurchTableThisCompany
+                        AutoDeclaration     #Yes
+                        MenuItemName        #PurchTable
+                        DataSource          #PurchTable_Reference
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonInterCompanyPurchTable
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS94560
+                        Text                #@SYS75319
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #
+                          #    TradeInterCompany::construct(salesTable).formRun(formstr(PurchTable),element);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #Audit
+                    HelpText            #@SYS120159
+                    Text                #@SYS117971
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void clicked()
+                      #{
+                      #    ;
+                      #    ApproveStatusProcess.parmSalesTable(SalesTable);
+                      #    ApproveStatusProcess.parmApproveButton(Approve);
+                      #    ApproveStatusProcess.parmRejectButton(Reject);
+                      #    ApproveStatusProcess.buttonEnabled();
+                      #
+                      #    super();
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL COMMANDBUTTON
+                      PROPERTIES
+                        Name                #Approve
+                        AutoDeclaration     #Yes
+                        Text                #@ECH727
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    ;
+                          #    ApproveStatusProcess.ROApproveStatusProcess(true);
+                          #    super();
+                          #    SalesTable_ds.research(true);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL COMMANDBUTTON
+                      PROPERTIES
+                        Name                #Reject
+                        AutoDeclaration     #Yes
+                        Text                #@SYS22331
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    ;
+                          #    ApproveStatusProcess.ROApproveStatusProcess(false);
+                          #    super();
+                          #    SalesTable_ds.research(true);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #CtrlSplitVertical
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #5
+          AlignControl        #Yes
+          HTMLHelpFile        #HTMLHelpFileAxShared
+          HTMLHelpTopic       #html/DD6D1AB6-1A41-4D7B-AEFC-163E623DF926.htm
+          FrameType           #Raised 3D
+          BackgroundColor     #Window background
+          HideIfEmpty         #No
+          AlignChild          #No
+        ENDPROPERTIES
+        
+        METHODS
+          Version: 3
+          SOURCE #mouseUp
+            #int mouseUp(int _x, int _y, int _button, boolean _ctrl, boolean _shift)
+            #{
+            #    int ret;
+            #    ;
+            #
+            #    ret = super(_x, _y, _button, _ctrl, _shift);
+            #
+            #    return formSplitterVertical.mouseUp(_x, _y, _button, _ctrl, _shift);
+            #}
+          ENDSOURCE
+          SOURCE #mouseMove
+            #int mouseMove(int _x, int _y, int _button, boolean _ctrl, boolean _shift)
+            #{
+            #    int ret;
+            #    ;
+            #
+            #    ret = super(_x, _y, _button, _ctrl, _shift);
+            #
+            #    return formSplitterVertical.mouseMove(_x, _y, _button, _ctrl, _shift);
+            #}
+          ENDSOURCE
+          SOURCE #mouseDown
+            #int mouseDown(int _x, int _y, int _button, boolean _ctrl, boolean _shift)
+            #{
+            #    int ret;
+            #    ;
+            #
+            #    ret = super(_x, _y, _button, _ctrl, _shift);
+            #
+            #    return formSplitterVertical.mouseDown(_x, _y, _button, _ctrl, _shift);
+            #}
+          ENDSOURCE
+        ENDMETHODS
+          CONTAINER
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Line
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #Column height
+          HTMLHelpFile        #HTMLHelpFileAxShared
+          HTMLHelpTopic       #html/e3432930-c481-4a79-a7da-d62033dce4a9.htm
+          FrameType           #None
+          DataSource          #SalesLine
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL TAB
+              PROPERTIES
+                Name                #TabLine
+                AutoDeclaration     #Yes
+                Width               #Column width
+                Height              #Column height
+                Tabs                #7
+                DataSource          #SalesLine
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabLineOverview
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS15451
+                    DataSource          #SalesLine
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GRID
+                      PROPERTIES
+                        Name                #SalesLineGrid
+                        AutoDeclaration     #Yes
+                        Width               #Column width
+                        Height              #Column height
+                        VisibleRows         #9
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ItemId
+                              AutoDeclaration     #Yes
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/f44c2019-8ad4-4f6d-995d-16838fca4121.htm
+                              DataSource          #SalesLine
+                              DataField           #ItemId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #InventoryDimensionsGrid
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/BC84CC81-55F4-406A-9937-9F4136D9175A.htm
+                              BackgroundColor     #Window background
+                              DataSource          #InventDim
+                              DataGroup           #InventoryDimensions
+                              AutoDataGroup       #Yes
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ExpectedRetQty
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesLine
+                              DataField           #ExpectedRetQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesLine_SalesUnit
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/aab1a7e0-3781-4168-a7a0-6534144f748a.htm
+                              DataSource          #SalesLine
+                              DataField           #SalesUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #SalesLine_SalesPrice
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/d435f437-c343-4c31-8c1a-267a91edf7a2.htm
+                              ShowZero            #No
+                              DataSource          #SalesLine
+                              DataField           #SalesPrice
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #SalesLine_LineAmount
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/112405fb-2594-47d2-9fdb-788f2dad00f2.htm
+                              DataSource          #SalesLine
+                              DataField           #LineAmount
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ItemName
+                              AllowEdit           #No
+                              Skip                #Yes
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/FF61467E-2CD6-4ED8-96E3-D13318BDC5B9.htm
+                              DataSource          #SalesLine
+                              DataMethod          #ItemName
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #returnedQty
+                              AllowEdit           #No
+                              Label               #@SYS103786
+                              DataSource          #SalesLine
+                              DataField           #SalesQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #SalesLine_ReturnStatus
+                              DataSource          #SalesLine
+                              DataField           #ReturnStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabLineGeneral
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS2952
+                    DataSource          #SalesLine
+                    Columns             #3
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Sales
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/5B9B4908-2CCE-456F-A393-2E478EA56F40.htm
+                        Caption             #@SYS22920
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesLine_Name
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/b68d08f5-9389-4ffb-86b3-8781901ce1a2.htm
+                              MultiLine           #Yes
+                              DataSource          #SalesLine
+                              DataField           #Name
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ExternalItemId
+                              Width               #Column width
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/e8b1f6bd-4a86-47e5-bdd3-ecb328b02420.htm
+                              DataSource          #SalesLine
+                              DataField           #ExternalItemId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #SalesLineAdministrationGroup
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/10DD5D41-3914-42B8-A2C4-BE8EA412FD59.htm
+                        Caption             #@SYS80127
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL UTCDATETIMEEDIT
+                            PROPERTIES
+                              Name                #SalesLine_CreatedDateTime
+                              AllowEdit           #No
+                              Skip                #Yes
+                              HelpText            #@SYS69504
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/e6f08d5d-6a26-4ace-95a3-d608ad44aa8d.htm
+                              DataSource          #SalesLine
+                              DataField           #createdDateTime
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #SalesLine_ReturnStatus1
+                              DataSource          #SalesLine
+                              DataField           #ReturnStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ReturnDeadline
+                              DataSource          #SalesLine
+                              DataField           #ReturnDeadline
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ReturnArrivalDate
+                              DataSource          #SalesLine
+                              DataField           #ReturnArrivalDate
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ReturnClosedDate
+                              DataSource          #SalesLine
+                              DataField           #ReturnClosedDate
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #SalesLineIntercompany
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/AC604793-F94E-4314-89BE-5F9694852E45.htm
+                        DataSource          #SalesLine
+                        DataGroup           #Intercompany
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Return
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/60B8BD35-FA2B-4DDA-957D-0C4286075FCA.htm
+                        DataSource          #SalesLine
+                        DataGroup           #ReturnGroupRMA
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesLine_InventTransIdReturn
+                              AllowEdit           #No
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/d806a831-d47f-4f1c-ab73-c84049d7b5b9.htm
+                              DataSource          #SalesLine
+                              DataField           #InventTransIdReturn
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ReturnCostPrice
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/e146aa18-0777-4ee2-ba06-126733c7b628.htm
+                              DataSource          #SalesLine
+                              DataField           #CostPrice
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Return_ReturnDispositionCodeId
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesLine
+                              DataField           #ReturnDispositionCodeId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #Return_ReturnAllowReservation
+                              AutoDeclaration     #Yes
+                              HelpText            #@SYS121714
+                              DataSource          #SalesLine
+                              DataField           #ReturnAllowReservation
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ReturnedItem
+                        DataSource          #SalesLine
+                        DataGroup           #ReturnedItem
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ReturnQty
+                        Caption             #@SYS107029
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #SalesLine_ExpectedRetQty1
+                              DataSource          #SalesLine
+                              DataField           #ExpectedRetQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #returnedQty1
+                              AllowEdit           #No
+                              Label               #@SYS69586
+                              DataSource          #SalesLine
+                              DataField           #SalesQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabLineOther
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS1284
+                    DataSource          #SalesLine
+                    Columns             #3
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #ItemReference
+                        AllowEdit           #No
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/874063BB-18E2-467B-B320-573D0F53A376.htm
+                        DataSource          #SalesLine
+                        DataGroup           #ItemReference
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabLineDimension
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS14926
+                    DataSource          #SalesLine
+                    Columns             #3
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensions
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/FBBCE417-C0A7-4575-8A69-9A8BC05180AB.htm
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL STATICTEXT
+                      PROPERTIES
+                        Name                #StaticText
+                        AutoDeclaration     #Yes
+                        Visible             #No
+                        BackgroundColor     #Window background
+                        ForegroundColor     #Disabled text
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+            CONTROL BUTTONGROUP
+              PROPERTIES
+                Name                #ButtonLine
+                AutoDeclaration     #Yes
+                DataSource          #SalesLine
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonLineSetup
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS69478
+                    Text                #@SYS2186
+                    SaveRecord          #No
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void clicked()
+                      #{;
+                      #    buttonMarkupTransLine.enabled(salesLine.markupAllowed() && salesTable.ReturnStatus != ReturnStatusHeader::Canceled);
+                      #
+                      #    super();
+                      #}
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ButtonMarkupTransLine
+                        AutoDeclaration     #Yes
+                        MenuItemName        #MarkupTrans_LineSales
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonLineFunctions
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS120201
+                    Text                #@SYS10340
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void clicked()
+                      #{
+                      #    boolean returnReplacement = false;
+                      #    boolean returnAllowReplacement = false;
+                      #    ;
+                      #
+                      #    returnReplacement       = salesLine.returnCreateReplacement() && !salesLine.isReturnReservationLine() ;
+                      #    returnAllowReplacement  = salesLine.ReturnStatus != ReturnStatusLine::Invoiced && salesLine.ReturnStatus != ReturnStatusLine::Received;
+                      #    returnReplaceItem.enabled(returnReplacement && returnAllowReplacement);
+                      #
+                      #    super();
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ReturnReplaceItem
+                        AutoDeclaration     #Yes
+                        MenuItemName        #ReturnReplaceItem
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonLineInventory
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS69645
+                    Text                #@SYS981
+                    SaveRecord          #No
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #Clicked
+                      #void clicked()
+                      #{
+                      #    SalesTableType menuSalesTableType = salesTable.type();
+                      #    ;
+                      #
+                      #    buttonLineInventTrans.enabled(menuSalesTableType.inventTransactInvoke() && !isOrderCancelled);
+                      #    buttonLineInventOnHand.enabled(menuSalesTableType.inventOnHandInvoke() && !isOrderCancelled);
+                      #    buttonLineInventLot.enabled(menuSalesTableType.inventLotInvoke() && !isOrderCancelled);
+                      #
+                      #    inventDimTracking.enabled(!isOrderCancelled);
+                      #    inventDimParmFixed.enabled(!isOrderCancelled);
+                      #
+                      #
+                      #    super();
+                      #}
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #buttonLineInventTrans
+                        AutoDeclaration     #Yes
+                        MenuItemName        #InventTrans
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #buttonLineInventOnHand
+                        AutoDeclaration     #Yes
+                        MenuItemName        #InventOnhand
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #buttonLineInventLot
+                        AutoDeclaration     #Yes
+                        MenuItemName        #InventLot
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #InventDimTracking
+                        AutoDeclaration     #Yes
+                        MenuItemName        #InventDimTracking
+                        DataSource          #SalesLine
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #LineInventory_Separator1
+                        Height              #100
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #InventDimParmFixed
+                        AutoDeclaration     #Yes
+                        SaveRecord          #No
+                        MenuItemName        #InventDimParmFixed
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonLineInterCompany
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS94420
+                    ConfigurationKey    #TradeInterCompany
+                    Text                #@SYS74106
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void  clicked()
+                      #{;
+                      #    if (salesLine.DeliveryType == TradeLineDlvType::None
+                      #    &&  salesLine.InventRefTransId
+                      #    &&  salesLine.interCompanySalesLineExist())
+                      #        interCompanyRemoveMarking.enabled(true);
+                      #    else
+                      #        interCompanyRemoveMarking.enabled(false);
+                      #
+                      #    super();
+                      #
+                      #}
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #InventOnhandInterCompany
+                        AutoDeclaration     #Yes
+                        MenuItemName        #InventOnhandInterCompany
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL SEPARATOR
+                      PROPERTIES
+                        Name                #ButtonLineIntercompany_Separator
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #InterCompanyRemoveMarking
+                        AutoDeclaration     #Yes
+                        Visible             #No
+                        HelpText            #@SYS94561
+                        Text                #@SYS67038
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #
+                          #    TradeInterCompany::removeMarking(salesLine,element);
+                          #}
+                          #
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

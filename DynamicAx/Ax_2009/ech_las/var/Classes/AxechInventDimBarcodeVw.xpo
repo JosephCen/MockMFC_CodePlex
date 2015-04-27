@@ -1,0 +1,286 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechInventDimBarcodeVw unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechInventDimBarcodeVw
+    Id 30159
+    PROPERTIES
+      Name                #AxechInventDimBarcodeVw
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechInventDimBarcodeVw axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechInventDimBarcodeVw extends AxInternalBase
+        #{
+        #    echInventDimBarcodeVw echInventDimBarcodeVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echInventDimBarcodeVw currentRecord(echInventDimBarcodeVw _echInventDimBarcodeVw = echInventDimBarcodeVw)
+        #{
+        #    if (!prmisdefault(_echInventDimBarcodeVw))
+        #    {
+        #        super(_echInventDimBarcodeVw);
+        #        echInventDimBarcodeVw = _echInventDimBarcodeVw;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echInventDimBarcodeVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echInventDimBarcodeVw
+        #public echInventDimBarcodeVw echInventDimBarcodeVw(echInventDimBarcodeVw _echInventDimBarcodeVw = echInventDimBarcodeVw)
+        #{
+        #    if (!prmisdefault(_echInventDimBarcodeVw))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echInventDimBarcodeVw);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echInventDimBarcodeVw emptyRecord()
+        #{
+        #    echInventDimBarcodeVw localechInventDimBarcodeVw;
+        #    ;
+        #    return localechInventDimBarcodeVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmBarcodeSetupId
+        #public BarcodeSetupId parmBarcodeSetupId(BarcodeSetupId _barcodeSetupId = '')
+        #{
+        #    if (!prmisdefault(_barcodeSetupId))
+        #    {
+        #        this.setField(fieldNum(echInventDimBarcodeVw, BarcodeSetupId), _barcodeSetupId);
+        #    }
+        #
+        #    return echInventDimBarcodeVw.BarcodeSetupId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmConfigId
+        #public ConfigId parmConfigId(ConfigId _configId = '')
+        #{
+        #    if (!prmisdefault(_configId))
+        #    {
+        #        this.setField(fieldNum(echInventDimBarcodeVw, ConfigId), _configId);
+        #    }
+        #
+        #    return echInventDimBarcodeVw.ConfigId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchItemBarCode
+        #public EchItemBarCode parmEchItemBarCode(EchItemBarCode _echItemBarCode = '')
+        #{
+        #    if (!prmisdefault(_echItemBarCode))
+        #    {
+        #        this.setField(fieldNum(echInventDimBarcodeVw, echItemBarCode), _echItemBarCode);
+        #    }
+        #
+        #    return echInventDimBarcodeVw.echItemBarCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _inventColorId = '')
+        #{
+        #    if (!prmisdefault(_inventColorId))
+        #    {
+        #        this.setField(fieldNum(echInventDimBarcodeVw, InventColorId), _inventColorId);
+        #    }
+        #
+        #    return echInventDimBarcodeVw.InventColorId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _inventSizeId = '')
+        #{
+        #    if (!prmisdefault(_inventSizeId))
+        #    {
+        #        this.setField(fieldNum(echInventDimBarcodeVw, InventSizeId), _inventSizeId);
+        #    }
+        #
+        #    return echInventDimBarcodeVw.InventSizeId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemBarCode
+        #public ItemBarCode parmItemBarCode(ItemBarCode _itemBarCode = '')
+        #{
+        #    if (!prmisdefault(_itemBarCode))
+        #    {
+        #        this.setField(fieldNum(echInventDimBarcodeVw, ItemBarCode), _itemBarCode);
+        #    }
+        #
+        #    return echInventDimBarcodeVw.ItemBarCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    InventDim   inventDim;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(echInventDimBarcodeVw),fieldnum(echInventDimBarcodeVw,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(echInventDimBarcodeVw, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        inventDim.InventColorId = this.parmInventColorId();
+        #        inventDim.configId      = this.parmConfigId();
+        #        inventDim.InventSizeId  = this.parmInventSizeId();
+        #        inventDim = InventDim::findDim(inventDim);
+        #
+        #        return conpeek(this.axSalesItemId('', echInventDimBarcodeVw.ItemId,inventDim),1);
+        #    }
+        #    else
+        #    {
+        #        return echInventDimBarcodeVw.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBarcodeSetupId
+        #protected void setBarcodeSetupId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimBarcodeVw, BarcodeSetupId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConfigId
+        #protected void setConfigId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimBarcodeVw, ConfigId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchItemBarCode
+        #protected void setEchItemBarCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimBarcodeVw, echItemBarCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setInventColorId
+        #protected void setInventColorId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimBarcodeVw, InventColorId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventSizeId
+        #protected void setInventSizeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimBarcodeVw, InventSizeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemBarCode
+        #protected void setItemBarCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimBarcodeVw, ItemBarCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimBarcodeVw, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setConfigId();
+        #    this.setInventColorId();
+        #    this.setInventSizeId();
+        #    this.setItemId();
+        #    this.setItemBarCode();
+        #    this.setBarcodeSetupId();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechInventDimBarcodeVw construct()
+        #{
+        #    return new AxechInventDimBarcodeVw();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechInventDimBarcodeVw
+        #public static AxechInventDimBarcodeVw newechInventDimBarcodeVw(echInventDimBarcodeVw _echInventDimBarcodeVw)
+        #{
+        #    AxechInventDimBarcodeVw AxechInventDimBarcodeVw = AxechInventDimBarcodeVw::construct();
+        #    ;
+        #    AxechInventDimBarcodeVw.echInventDimBarcodeVw(_echInventDimBarcodeVw);
+        #
+        #    return AxechInventDimBarcodeVw;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

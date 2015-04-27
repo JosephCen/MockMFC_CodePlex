@@ -1,0 +1,187 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechExternalSkuId unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechExternalSkuId
+    Id 30219
+    PROPERTIES
+      Name                #AxechExternalSkuId
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechExternalSkuId axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechExternalSkuId extends AxInternalBase
+        #{
+        #    echExternalSkuId echExternalSkuId;
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echExternalSkuId currentRecord(echExternalSkuId _echExternalSkuId = echExternalSkuId)
+        #{
+        #    if (!prmisdefault(_echExternalSkuId))
+        #    {
+        #        super(_echExternalSkuId);
+        #        echExternalSkuId = _echExternalSkuId;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echExternalSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echExternalSkuId
+        #public echExternalSkuId echExternalSkuId(echExternalSkuId _echExternalSkuId = echExternalSkuId)
+        #{
+        #    if (!prmisdefault(_echExternalSkuId))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echExternalSkuId);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echExternalSkuId emptyRecord()
+        #{
+        #    echExternalSkuId localechExternalSkuId;
+        #    ;
+        #    return localechExternalSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmExtCodeValue
+        #public ExtCodeValue parmExtCodeValue(ExtCodeValue _extCodeValue = '')
+        #{
+        #    if (!prmisdefault(_extCodeValue))
+        #    {
+        #        this.setField(fieldNum(echExternalSkuId, ExtCodeValue), _extCodeValue);
+        #    }
+        #
+        #    return echExternalSkuId.ExtCodeValue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmExtItemId
+        #public ExtCodeValue parmExtItemId(ExtCodeValue _extItemId = '')
+        #{
+        #    if (!prmisdefault(_extItemId))
+        #    {
+        #        this.setField(fieldNum(echExternalSkuId, ExtItemId), _extItemId);
+        #    }
+        #
+        #    return echExternalSkuId.ExtItemId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _inventLocationId = '')
+        #{
+        #    if (!prmisdefault(_inventLocationId))
+        #    {
+        #        this.setField(fieldNum(echExternalSkuId, InventLocationId), _inventLocationId);
+        #    }
+        #
+        #    return echExternalSkuId.InventLocationId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemBarCode
+        #public ItemBarCode parmItemBarCode(ItemBarCode _itemBarCode = '')
+        #{
+        #    if (!prmisdefault(_itemBarCode))
+        #    {
+        #        this.setField(fieldNum(echExternalSkuId, ItemBarCode), _itemBarCode);
+        #    }
+        #
+        #    return echExternalSkuId.ItemBarCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setExtCodeValue
+        #protected void setExtCodeValue()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echExternalSkuId, ExtCodeValue)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventLocationId
+        #protected void setInventLocationId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echExternalSkuId, InventLocationId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemBarCode
+        #protected void setItemBarCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echExternalSkuId, ItemBarCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setItemBarCode();
+        #    this.setInventLocationId();
+        #    this.setExtCodeValue();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechExternalSkuId construct()
+        #{
+        #    return new AxechExternalSkuId();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechExternalSkuId
+        #public static AxechExternalSkuId newechExternalSkuId(echExternalSkuId _echExternalSkuId)
+        #{
+        #    AxechExternalSkuId AxechExternalSkuId = AxechExternalSkuId::construct();
+        #    ;
+        #    AxechExternalSkuId.echExternalSkuId(_echExternalSkuId);
+        #
+        #    return AxechExternalSkuId;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

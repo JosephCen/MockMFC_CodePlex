@@ -1,0 +1,41 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : echEPSalesReturnInfoToolBar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #echEPSalesReturnInfoToolBar
+    PROPERTIES
+      Name                #echEPSalesReturnInfoToolBar
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS40422
+      PROPERTIES
+        Name                #Actions
+        Label               #@SYS40422
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Approve-Return Order
+          MenuItemType        #Action
+          MenuItemName        #Approve
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Reject-Return Order
+          MenuItemName        #echRORejectDialog
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

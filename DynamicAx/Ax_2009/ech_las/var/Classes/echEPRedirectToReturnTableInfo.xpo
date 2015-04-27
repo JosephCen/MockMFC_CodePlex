@@ -1,0 +1,70 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echEPRedirectToReturnTableInfo unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echEPRedirectToReturnTableInfo
+    Id 57725
+    PROPERTIES
+      Name                #echEPRedirectToReturnTableInfo
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echEPRedirectToReturnTableInfo
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #echRedirectToReturnTableInfo
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 11 April 2013
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #public void echRedirectToReturnTableInfo(SalesId _salesId)
+        #{
+        #    SalesTable  m_SalesTable;
+        #    Weblink     link;
+        #    ;
+        #    m_SalesTable = SalesTable::find(_salesId);
+        #    //if(m_SalesTable)
+        #    //{
+        #        link = new Weblink();
+        #        link.record(m_SalesTable);
+        #        link.menufunction(new WebUrlMenuFunction(weburlitemstr(echEPReturnTableInfo)));
+        #        webSession().redirect(link);
+        #    //}
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 11 April 2013
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #static void main(Args args)
+        #{
+        #    SalesTable  m_SalesTable;
+        #    Weblink     link;
+        #    ;
+        #    if(args.dataset() == tablenum(SalesTable))
+        #    {
+        #        m_SalesTable = args.record();
+        #        link = new Weblink();
+        #        link.record(m_SalesTable);
+        #        link.menufunction(new WebUrlMenuFunction(weburlitemstr(echEPReturnTableInfo)));
+        #        webSession().redirect(link);
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

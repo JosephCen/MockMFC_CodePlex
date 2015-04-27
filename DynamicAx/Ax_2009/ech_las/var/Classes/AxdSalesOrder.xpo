@@ -1,0 +1,425 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdSalesOrder unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdSalesOrder
+    Id 3250
+    PROPERTIES
+      Name                #AxdSalesOrder
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Added an extra variable
+        #
+        #/// <summary>
+        #///    The <c>AxdSalesOrder</c> class is used for receiving sales orders into Microsoft Dynamics AX.
+        #/// </summary>
+        #class AxdSalesOrder extends AxdBase
+        #{
+        #    SalesTable  salesTable;
+        #
+        #// CS - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #    boolean         echAddressChanged;
+        #// CE - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #
+        #}
+      ENDSOURCE
+      SOURCE #echPrepareForSerialization
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 06 Jul 2012
+        #// *** Customization Type: Created
+        #// *** Description: Update the AxInteralBase class
+        #
+        #public void echPrepareForSerialization(AxInternalBase _axInternalBase)
+        #{
+        #    axSalesTable        axSalesTable;
+        #    ;
+        #
+        #    if (!_axInternalBase)
+        #        return;
+        #
+        #
+        #    if (classidget(_axInternalbase) == classnum(axSalesTable))
+        #    {
+        #        axSalesTable = _axInternalBase;
+        #        axSalesTable.parmechAddressChanged(echAddressChanged);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #getActionList
+        #/// <summary>
+        #///    Gets a list of all possible actions for the <c>AxdSalesOrder</c> object.
+        #/// </summary>
+        #/// <returns>
+        #///    A list of <c>AifActionInfo</c> objects representing all possible actions.
+        #/// </returns>
+        #/// <remarks>
+        #///    For the <c>AxdSalesOrder</c>, the only possible action is: receive-create a document.
+        #/// </remarks>
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #
+        #    //create
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, create), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocument);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, create));
+        #    aifActionInfo.parmLabel("@SYS90181");
+        #    aifActionInfo.parmDescription("@SYS90182");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    //createList
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel("@SYS94826");
+        #    aifActionInfo.parmDescription("@SYS94827");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    //read
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, read), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::SendDocument);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, read));
+        #    aifActionInfo.parmLabel("@SYS96440");
+        #    aifActionInfo.parmDescription("@SYS96441");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    //readList
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, readList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::SendDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, readList));
+        #    aifActionInfo.parmLabel("@SYS96443");
+        #    aifActionInfo.parmDescription("@SYS96444");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    //findList
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, findList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::QueryDocuments);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, findList));
+        #    aifActionInfo.parmLabel("@SYS96446");
+        #    aifActionInfo.parmDescription("@SYS96447");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    //findEntityKeys
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, findEntityKeyList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::QueryEntityKeys);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, findEntityKeyList));
+        #    aifActionInfo.parmLabel("@SYS96449");
+        #    aifActionInfo.parmDescription("@SYS96450");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, deleteList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ProcessEntityList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, deleteList));
+        #    aifActionInfo.parmLabel("@SYS102568");
+        #    aifActionInfo.parmDescription("@SYS102569");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, update), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ProcessEntity);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, update));
+        #    aifActionInfo.parmLabel("@SYS106231");
+        #    aifActionInfo.parmDescription("@SYS106232");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, updateList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ProcessEntityList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, updateList));
+        #    aifActionInfo.parmLabel("@SYS106233");
+        #    aifActionInfo.parmDescription("@SYS106234");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+      ENDSOURCE
+      SOURCE #initFieldAccessOverrides
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 07 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: override field access
+        #
+        #protected void initFieldAccessOverrides()
+        #{
+        #    ;
+        #
+        #    super();
+        #
+        #    // insert override map into overrides
+        #    if (isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #        accessOverRides.insert(tablenum(SalesTable), echSalesOrder::initFieldAccessOverrides());
+        #}
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set sku mandatory
+        #
+        #protected void initMandatoryFieldsMap()
+        #{
+        #    ;
+        #    super();
+        #
+        #// CS - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #    echSalesOrder::initMandatoryFieldsMap(this);
+        #// CE - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #
+        #    this.setParmMethodAsMandatory(classnum(AxSalesLine),methodstr(AxSalesLine,parmSalesQty)) ;
+        #// Begin - Avanade.28.nov.2012.nte.Project : < ECH_WI_01741 >
+        #// fields should not be required anymore
+        #/*
+        #    this.setParmMethodAsMandatory(classnum(AxSalesLine),methodstr(AxSalesLine,parmSalesUnit));
+        #    this.setParmMethodAsMandatory(classnum(AxSalesTable), methodstr(AxSalesTable,parmPurchOrderFormNum)) ;
+        #    this.setParmMethodAsMandatory(classnum(AxSalesTable), methodstr(AxSalesTable,parmDeliveryDate)) ;
+        #*/
+        #// End - Avanade.28.nov.2012.nte.Project : < ECH_WI_01741 >
+        #}
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_RO01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: custom validate
+        #
+        #public boolean prepareForSave(AxdStack _axdStack, str _dataSourceName)
+        #{
+        #    AxSalesTable            axSalesTable;
+        #    AxSalesLine             axSalesLine;
+        #    AxInventDim             axInventDim;
+        #    AxInventDim_SalesLine   axInventDim_SalesLine;
+        #    AxDocuRef               axDocuRef;
+        #    AxMarkupTrans           axMarkupTrans;
+        #    // Begin - Avanade.25.Nov.2012.nte.Project : < ECH_WI_01742 >
+        #    AxechSOPromotionsHeader axechSOPromotionsHeader;
+        #    AxechSOPromotionsLine   axechSOPromotionsLine;
+        #    // End - Avanade.25.Nov.2012.nte.Project : < ECH_WI_01742 >
+        #    ;
+        #
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxSalesTable) :
+        #            axSalesTable = _axdStack.top();
+        #            this.checkSalesTable(axSalesTable);
+        #// CS - ECH_I_RO01 - Anthony Christiaens - 12 Mar 2012
+        #            if (!echSalesOrder::validateSalesOrderDocument(axSalesTable))
+        #                throw error("@SYS107513");
+        #// CE - ECH_I_RO01 - Anthony Christiaens - 12 Mar 2012
+        #
+        #            this.prepareSalesTable(axSalesTable);
+        #
+        #            return true;
+        #
+        #        case classnum(AxSalesLine) :
+        #            axSalesLine = _axdStack.top();
+        #
+        #            this.checkSalesLine(axSalesLine);
+        #            this.prepareSalesLine(axSalesLine);
+        #
+        #            return true;
+        #
+        #        case classnum(AxInventDim) :
+        #            axInventDim = _axdStack.top();
+        #            axSalesLine = axInventDim.parentAxBC();
+        #            axSalesLine.axInventDim().resetInternalValues();
+        #            axInventDim.moveAxInventDim(axSalesLine.axInventDim());
+        #
+        #            _axdStack.pop();
+        #
+        #            axSalesLine.setFieldAsTouched(fieldnum(SalesLine,ItemId));
+        #            axSalesLine.setFieldAsTouched(fieldnum(SalesLine,SalesQty));
+        #            axInventDim_SalesLine = AxInventDim_SalesLine::newAxSalesLine(axSalesLine);
+        #            _axdStack.push(axInventDim_SalesLine);
+        #            return true;
+        #
+        #        case classnum(AxMarkupTrans) :
+        #            axMarkupTrans = _axdStack.top();
+        #            axMarkupTrans.parmModuleType(ModuleInventCustVend::Cust);
+        #            axMarkupTrans.parmTransRecId(axMarkupTrans.parentAxBC().currentRecord().RecId);
+        #            axMarkupTrans.parmTransTableId(axMarkupTrans.parentAxBC().currentRecord().TableId);
+        #            return true;
+        #
+        #        case classnum(AxDocuRef) :
+        #            axDocuRef = _axdStack.top();
+        #            axDocuRef.parmTypeId(AxdDocumentParameters::find().DocuTypeId);
+        #            axDocuRef.parmRefCompanyId(axDocuRef.parentAxBC().currentRecord().DataAreaId);
+        #            axDocuRef.parmRefRecId(axDocuRef.parentAxBC().currentRecord().RecId);
+        #            axDocuRef.parmRefTableId(axDocuRef.parentAxBC().currentRecord().TableId);
+        #            return true;
+        #
+        #        // Begin - Avanade.25.Nov.2012.nte.Project : < ECH_WI_01742 >
+        #        case classnum(AxechSOPromotionsHeader) :
+        #            axechSOPromotionsHeader = _axdStack.top();
+        #            axSalesTable = axechSOPromotionsHeader.parentAxBC();
+        #            axechSOPromotionsHeader.parmSalesId(axSalesTable.parmSalesId());
+        #            return true;
+        #
+        #        case classnum(AxechSOPromotionsLine) :
+        #            axechSOPromotionsLine = _axdStack.top();
+        #            axSalesLine = axechSOPromotionsLine.parentAxBC();
+        #            axechSOPromotionsLine.parmSalesId(axSalesLine.parmSalesId());
+        #            axechSOPromotionsLine.parmSalesLineNum(axSalesLine.parmLineNum());
+        #            return true;
+        #        // End - Avanade.25.Nov.2012.nte.Project : < ECH_WI_01742 >
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #
+        #    return false;
+        #}
+      ENDSOURCE
+      SOURCE #prepareSalesTable
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: init aggregate sales order status during the creation
+        #
+        #protected void prepareSalesTable(AxSalesTable _axSalesTable)
+        #{
+        #    SalesTable              localSalesTable;
+        #    CustTable               custTable;
+        #    CustAccount             invoiceAccount;
+        #    ;
+        #    if (!_axSalesTable.salesTable())
+        #    {
+        #        _axSalesTable.parmSalesType(this.salesType());
+        #
+        #        select firstonly localSalesTable
+        #            where localSalesTable.CustAccount       == _axSalesTable.parmCustAccount()
+        #               && localSalesTable.PurchOrderFormNum == _axSalesTable.parmPurchOrderFormNum()
+        #               && localSalesTable.SalesId           != _axSalesTable.parmSalesId();
+        #
+        #        if (localSalesTable)
+        #        {
+        #            _axSalesTable.parmSalesType(SalesType::Journal);
+        #        }
+        #
+        #        if (_axSalesTable.parmInvoiceAccount())
+        #        {
+        #            custTable      = CustTable::find(_axSalesTable.parmCustAccount());
+        #            invoiceAccount = custTable.InvoiceAccount ? custTable.InvoiceAccount : custTable.AccountNum;
+        #            if (invoiceAccount != _axSalesTable.parmInvoiceAccount())
+        #            {
+        #                _axSalesTable.parmSalesType(SalesType::Journal);
+        #            }
+        #        }
+        #
+        #        // CS - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #        if (isConfigurationKeyEnabled(configurationKeyNum(echInterfaces)))
+        #        {
+        #            echSalesOrder::initSalesTableFields(AxdRecordAction::Create, _axSalesTable);
+        #        }
+        #        // CE - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #unpackPropertyBag
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Created
+        #// *** Description:   Get extra info out of the propertybag
+        #
+        #protected void unpackPropertyBag(AifPropertyBag _aifPropertyBag)
+        #{
+        #    super(_aifPropertyBag);
+        #
+        #    if (conlen(_aifPropertyBag) > 1)
+        #        echAddressChanged = conpeek(_aifPropertyBag, 2);
+        #    else
+        #        echAddressChanged = false;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #updateNow
+        #// Update ECH_WI_02045 by mengqi.cen on 20130409
+        #public void updateNow()
+        #{
+        #    AxdDocumentParameters   parameters = AxdDocumentParameters::find();
+        #    CustCreditLimit         custCreditLimit;
+        #    SalesTable              curSalesTable;
+        #    ;
+        #
+        #    if(parameters.CalculateTotalDiscount || (parameters.CalculateMultilineDiscount && CustParameters::find().AutomaticTotalDiscount))
+        #    {
+        #        salesTable.updateFinalDisc();
+        #    }
+        #
+        #    if(parameters.CalculateMultilineDiscount)
+        #    {
+        #        salesTable.updateMultiLineDisc();
+        #    }
+        #
+        #    curSalesTable = SalesTable::find(salesTable.SalesId, true);
+        #    curSalesTable.echAllocPromotion();
+        #
+        #    if (parameters.CheckCreditLimit && salesTable.isCreditCheckEligible())
+        #    {
+        #        custCreditLimit = CustCreditLimit::construct(salesTable);
+        #        custCreditLimit.warning(parameters.CreditLineError == CreditLineErrorType::Warning);
+        #        custCreditLimit.check();
+        #    }
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

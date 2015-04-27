@@ -1,0 +1,401 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchInventOnHand unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchInventOnHand
+    Id 30035
+    PROPERTIES
+      Name                #AxdEchInventOnHand
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02230 by mengqi.cen on 20130603
+        #class AxdEchInventOnHand extends AxdBase
+        #{
+        #    AxdEchSendInventoryOnHandContext  axdEchSendInventOnHandContext;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createList
+        #public AifEntityKeyList createList(XML                         _xML,
+        #                                   AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                                   AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, findList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::QueryDocuments);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, findList));
+        #    aifActionInfo.parmLabel("@ECH89");
+        #    aifActionInfo.parmDescription("@ECH90");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, readList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::SendDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, readList));
+        #    aifActionInfo.parmLabel("@ECH91");
+        #    aifActionInfo.parmDescription("@ECH92");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #    InventLocation    InventLocation;
+        #    ;
+        #    if (_curRec.TableId != tablenum(InventLocation))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    InventLocation = _curRec ;
+        #    aifConstraint.parmType(AIFConstraintType::Vendor);
+        #    //aifConstraint.parmId(InventLocation.IdType);
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #protected void initMandatoryFieldsMap()
+        #{
+        #;
+        #    super();
+        #    this.setParmMethodAsMandatory(classnum(AxInventSum), methodstr(AxInventSum, parmEchVirtualStock));
+        #}
+      ENDSOURCE
+      SOURCE #initQuery
+        #// Add ECH_WI_02353 by mengqi.cen on 20130822
+        #//   Refind the delta logic of outbound interface 'EchInventOnHand'
+        #protected void initQuery()
+        #{
+        #    QueryBuildDataSource  _inventLocationDS;
+        #    QueryBuildRange       _inventLocationId;
+        #;
+        #    if (axdEchSendInventOnHandContext.parmInventLocationId())
+        #    {
+        #        _inventLocationDS = query.dataSourceTable(tablenum(InventLocation));
+        #        _inventLocationId = _inventLocationDS.addRange(fieldnum(InventLocation, InventLocationId));
+        #        _inventLocationId.value(axdEchSendInventOnHandContext.parmInventLocationId());
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #insertZeroSku
+        #// Add ECH_WI_02353 by mengqi.cen on 20130829
+        #//   Send out on-hand inventory of all these sku which has not relevant inventory transaction.
+        #public void insertZeroSku()
+        #{
+        #    InventLocation              invLoc;
+        #    echItemStoreListVw          itemStoreListVw;
+        #    InventDim                   invDim, invDimBar, invDimUnion;
+        #    InventSum                   invSum;
+        #    InventTable                 invTable;
+        #    InventItemBarcode           invBarcode;
+        #    echInventSumUnionZeroSkuVw  unionSkuVw;
+        #    echInventOnHandZeroSku      zeroSku;
+        #    BarcodeSetupId              barcodeSetupId;
+        #;
+        #    TTSBegin;
+        #
+        #    barcodeSetupId = InventParameters::find().echSkuBarcodeSetup;
+        #
+        #    while select invBarcode
+        #             where invBarcode.barcodeSetupId == barcodeSetupId
+        #           join TableId from invTable
+        #             where invBarcode.itemId == invTable.ItemId
+        #                && invTable.ItemType != ItemType::Service
+        #           join TableId from itemStoreListVw
+        #             where itemStoreListVW.itemRelation == invBarcode.itemId
+        #           join InventLocationId, InventSiteId from invLoc
+        #             where invLoc.InventLocationId == itemStoreListVw.inventLocation
+        #           join invDimBar
+        #             where invBarcode.inventDimId == invDimBar.inventDimId
+        #           notexists join TableId from invDimUnion
+        #           join unionSkuVw
+        #             where invDimUnion.inventDimId      == unionSkuVw.InventDimId
+        #                && invBarcode.itemId            == unionSkuVw.ItemId
+        #                && invDimUnion.configId         == invDimBar.configId      // Inventory Dim
+        #                && invDimUnion.InventColorId    == invDimBar.InventColorId
+        #                && invDimUnion.InventSizeId     == invDimBar.InventSizeId
+        #                && invDimUnion.InventStyleId    == invDimBar.InventStyleId
+        #                && invDimUnion.InventLocationId == invLoc.InventLocationId // Warehouse Dim
+        #                && invDimUnion.InventSiteId     == invLoc.InventSiteId
+        #    {
+        #        zeroSku.clear();
+        #        zeroSku.HasSent = NoYes::No;
+        #        zeroSku.ItemId = invBarcode.itemId;
+        #
+        #        invDim.data(invDimBar);
+        #        invDim.InventSiteId     = invLoc.InventSiteId;
+        #        invDim.InventLocationId = invLoc.InventLocationId;
+        #        invDim = InventDim::findOrCreate(invDim);
+        #
+        #        zeroSku.InventDimId = invDim.inventDimId;
+        #        zeroSku = echInventOnHandZeroSku::findOrCreate(zeroSku);
+        #    }
+        #
+        #    delete_from zeroSku
+        #      exists join invSum
+        #        where zeroSku.ItemId      == invSum.ItemId
+        #           && zeroSku.InventDimId == invSum.InventDimId;
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+      SOURCE #prepareForQuery
+        #// Update ECH_WI_02353 by mengqi.cen on 20130829
+        #//   Send out on-hand inventory of all these sku which has not relevant inventory transaction.
+        #// Add ECH_WI_02353 by mengqi.cen on 20130822
+        #//   Refind the delta logic of outbound interface 'EchInventOnHand'
+        #void prepareForQuery(QueryRun _queryRun)
+        #{
+        #    InventLocation                tmpInvLoc, invLoc;
+        #    InventDim                     tmpInvDim, invDim;
+        #    InventSum                     tmpInvSum, invSum;
+        #    SalesLine                     salesLine;
+        #    echInventOnHandServiceExeLog  serviceExeLog;
+        #    echInventOnHandZeroSku        zeroSku;
+        #    echInventSumUnionZeroSkuVw    unionSkuVw;
+        #;
+        #    // BP Deviation Documented
+        #    tmpInvLoc.setTmp();
+        #    while select invLoc
+        #    {
+        #        tmpInvLoc.clear();
+        #        tmpInvLoc.data(invLoc);
+        #
+        #        tmpInvLoc.doInsert();
+        #    }
+        #
+        #    // BP Deviation Documented
+        #    tmpInvDim.setTmp();
+        #    while select invDim
+        #           exists join unionSkuVw
+        #             where unionSkuVw.InventDimId == invDim.inventDimId
+        #    {
+        #        tmpInvDim.clear();
+        #        tmpInvDim.data(invDim);
+        #
+        #        tmpInvDim.doInsert();
+        #    }
+        #
+        #    if (axdEchSendInventOnHandContext.parmIsDeltaUpdate())
+        #    {
+        #        // BP Deviation Documented
+        #        tmpInvSum.setTmp();
+        #        while select invSum
+        #                where invSum.AvailPhysical != invSum.echLastAvailPhysical
+        #        {
+        #            tmpInvSum.clear();
+        #            tmpInvSum.data(invSum);
+        #
+        #            tmpInvSum.doInsert();
+        #        }
+        #
+        #        select firstonly serviceExeLog
+        #          order by createdDateTime desc
+        #          where serviceExeLog.SalesOrderInventLocationId == axdEchSendInventOnHandContext.parmInventLocationId();
+        #
+        #        while select invSum
+        #                where invSum.AvailPhysical == invSum.echLastAvailPhysical
+        #                exists join salesLine
+        #                  where salesLine.ItemId          == invSum.ItemId
+        #                     && salesLine.InventDimId     == invSum.InventDimId
+        #                     && salesLine.SalesType       == SalesType::Sales
+        #                     && salesLine.createdDateTime >= serviceExeLog.SalesOrderCreatedDateTime
+        #                  exists join invDim
+        #                    where invDim.inventDimId      == salesLine.InventDimId
+        #                       && invDim.InventLocationId == serviceExeLog.SalesOrderInventLocationId
+        #        {
+        #            tmpInvSum.clear();
+        #            tmpInvSum.data(invSum);
+        #
+        #            tmpInvSum.doInsert();
+        #        }
+        #
+        #        // Add non-existing sku
+        #        while select zeroSku
+        #                where zeroSku.HasSent == NoYes::No
+        #        {
+        #            tmpInvSum.clear();
+        #            tmpInvSum.ItemId      = zeroSku.ItemId;
+        #            tmpInvSum.InventDimId = zeroSku.InventDimId;
+        #
+        #            tmpInvSum.doInsert();
+        #        }
+        #    }
+        #    else
+        #    {
+        #        // BP Deviation Documented
+        #        tmpInvSum.setTmp();
+        #        while select invSum
+        #        {
+        #            tmpInvSum.clear();
+        #            tmpInvSum.data(invSum);
+        #
+        #            tmpInvSum.doInsert();
+        #        }
+        #
+        #        // Add non-existing sku
+        #        while select zeroSku
+        #        {
+        #            tmpInvSum.clear();
+        #            tmpInvSum.ItemId      = zeroSku.ItemId;
+        #            tmpInvSum.InventDimId = zeroSku.InventDimId;
+        #
+        #            tmpInvSum.doInsert();
+        #        }
+        #    }
+        #
+        #    _queryRun.setRecord(tmpInvLoc);
+        #    _queryRun.setRecord(tmpInvDim);
+        #    _queryRun.setRecord(tmpInvSum);
+        #}
+      ENDSOURCE
+      SOURCE #unpackPropertyBag
+        #protected void unpackPropertyBag(AifPropertyBag _aifPropertyBag)
+        #{
+        #;
+        #    axdEchSendInventOnHandContext = AxdEchSendInventoryOnHandContext::create(_aifPropertyBag);
+        #}
+      ENDSOURCE
+      SOURCE #updateInventSum
+        #// Add ECH_WI_02334 by mengqi.cen on 20130718
+        #//   Split echInventOnhand message into several message
+        #public void updateInventSum()
+        #{
+        #    InventSum   inventSum;
+        #    InventDim   inventDim;
+        #;
+        #    TTSBegin;
+        #
+        #    inventSum.skipDataMethods(true);
+        #
+        #    if (axdEchSendInventOnHandContext && axdEchSendInventOnHandContext.parmInventLocationId())
+        #    {
+        #        update_recordset inventSum
+        #          setting echLastAvailPhysical = inventSum.AvailPhysical
+        #          exists join inventDim
+        #            where inventDim.inventDimId      == inventSum.InventDimId
+        #               && inventDim.InventLocationId == axdEchSendInventOnHandContext.parmInventLocationId();
+        #    }
+        #    else
+        #    {
+        #        update_recordset inventSum
+        #          setting echLastAvailPhysical = inventSum.AvailPhysical;
+        #    }
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+      SOURCE #updateList
+        #public AifEntityKey updateList(AifEntityKeyList            _entityKeyList,
+        #                               AifDocumentXML              _xml,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListcollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateServiceExeLog
+        #// Add ECH_WI_02353 by mengqi.cen on 20130822
+        #//   Refind the delta logic of outbound interface 'EchInventOnHand'
+        #public void updateServiceExeLog()
+        #{
+        #    echInventOnHandServiceExeLog  serviceExeLog;
+        #;
+        #    TTSBegin;
+        #
+        #    serviceExeLog.clear();
+        #    serviceExeLog.SalesOrderCreatedDateTime = DateTimeUtil::utcNow();
+        #    if (axdEchSendInventOnHandContext && axdEchSendInventOnHandContext.parmInventLocationId())
+        #        serviceExeLog.SalesOrderInventLocationId = axdEchSendInventOnHandContext.parmInventLocationId();
+        #
+        #    serviceExeLog.insert();
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+      SOURCE #updateZeroSku
+        #// Add ECH_WI_02353 by mengqi.cen on 20130829
+        #//   Send out on-hand inventory of all these sku which has not relevant inventory transaction.
+        #public void updateZeroSku()
+        #{
+        #    echInventOnHandZeroSku  zeroSku;
+        #    InventDim               inventDim;
+        #;
+        #    TTSBegin;
+        #
+        #    if (axdEchSendInventOnHandContext && axdEchSendInventOnHandContext.parmInventLocationId())
+        #    {
+        #        update_recordset zeroSku
+        #          setting HasSent = NoYes::Yes
+        #          exists join inventDim
+        #            where inventDim.inventDimId      == zeroSku.InventDimId
+        #               && inventDim.InventLocationId == axdEchSendInventOnHandContext.parmInventLocationId();
+        #    }
+        #    else
+        #    {
+        #        update_recordset zeroSku
+        #          setting HasSent = NoYes::Yes;
+        #    }
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

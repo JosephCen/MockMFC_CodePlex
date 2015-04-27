@@ -1,0 +1,512 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPCreatePartialReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPCreatePartialReturnOrder
+    PROPERTIES
+      Name                #echEPCreatePartialReturnOrder
+      HelpText            #
+      Filename            #echEPCreatePartialReturnOrder.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPCreatePartialReturnOrder.ascx.cs" Inherits="echEPCreatePartialReturnOrder" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>	
+      #<%@ Register Src="AxUtility.ascx" TagName="AxUtility" TagPrefix="Ax" %>
+      #	
+      #<dynamics:AxDataSource ID="dsechCreatePartialReturnOrder" runat="server" 
+      #    DataSetName="echEPCreatePartialReturnOrder" ProviderView="SalesTable">
+      #</dynamics:AxDataSource>
+      #<asp:Wizard ID="WizechCreatePartialReturnOrder" runat="server" 
+      #    ActiveStepIndex="0" DisplayCancelButton="True" Width="100%" 
+      #    DisplaySideBar="False" OnInit="wizechCreatePartialReturnOrder_Init"
+      #    OnPreRender="wizechCreatePartialReturnOrder_PreRender" >
+      #    <HeaderTemplate>
+      #        <asp:PlaceHolder ID="PlaceHolder1" runat="server" />
+      #    </HeaderTemplate>
+      #    <WizardSteps>
+      #        <asp:WizardStep ID="ReturnReasonCodeStep" runat="server" title="Step 1">
+      #            <dynamics:AxForm ID="formReturnReasonCode" runat="server" 
+      #                DataSourceID="dsechCreatePartialReturnOrder" DefaultMode="Edit" 
+      #                DataMember="SalesTable_Current"
+      #                DataKeyNames="SalesId" UpdateOnPostBack="True">
+      #                <dynamics:AxGroup ID="grpCustomer" runat="server" GridLines="Both" >
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="SalesId" HeaderText="<%$ AxLabel:@ECH566 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="ReturnItemNum"
+      #                            ReadOnly="true" HeaderText="<%$ AxLabel:@ECH572 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="ReturnReasonCodeId"
+      #                            HeaderText="<%$ AxLabel:@ECH573 %>">
+      #                        </dynamics:AxBoundField>
+      #                        <%--<dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="DeadLine">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="CurrencyCode">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="InventLocationId">
+      #                        </dynamics:AxBoundField>--%>
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </dynamics:AxForm>
+      #        </asp:WizardStep>
+      #        <asp:WizardStep ID="ReturnItemStep" runat="server" title="Step 2">
+      #            <dynamics:AxGridView ID="gridSalesLine" runat="server" AllowEdit="False" AllowDelete="true"
+      #                DataKeyNames="RecId" DataMember="SalesLine" 
+      #                DataSourceID="dsechCreatePartialReturnOrder" AllowPaging="True" 
+      #                ShowFilter="False" UpdateOnPostBack="True">
+      #                <Columns>
+      #                    <dynamics:AxHyperLinkBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine"
+      #                        DataField="ItemId" SortExpression="ItemId" MenuItem="EPInventTableInfo" HeaderText="<%$AxLabel:@ECH548 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" 
+      #                        DataSetView="SalesLine" DataField="ItemName**"
+      #                        ItemStyle-Width="100" HeaderText="<%$AxLabel:@ECH549 %>">
+      #                        <ItemStyle Width="100px"></ItemStyle>
+      #                    </dynamics:AxBoundField>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="InventDim!InventSizeId"
+      #                        SortExpression="InventDim!InventSizeId" ReadOnly="true" HeaderText="<%$AxLabel:@ECH550 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="echGetRBOSizeName**"
+      #                        ReadOnly="true" HeaderText="<%$AxLabel:@ECH551 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="InventDim!InventColorId"
+      #                        SortExpression="InventDim!InventColorId" ReadOnly="true" HeaderText="<%$AxLabel:@ECH552 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="echGetRBOColorName**"
+      #                        ReadOnly="true" HeaderText="<%$AxLabel:@ECH553 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="InventDim!InventStyleId"
+      #                        SortExpression="InventDim!InventStyleId" ReadOnly="true" HeaderText="<%$AxLabel:@ECH554 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="SalesQty"
+      #                        SortExpression="SalesQty" ReadOnly="true" HeaderText="<%$AxLabel:@ECH555 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="SalesUnit"
+      #                        SortExpression="SalesUnit" ReadOnly="true" HeaderText="<%$AxLabel:@ECH556 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="SalesPrice"
+      #                        SortExpression="SalesPrice" ReadOnly="true" HeaderText="<%$AxLabel:@ECH557 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="LineDisc"
+      #                        SortExpression="LineDisc" ReadOnly="true" HeaderText="<%$AxLabel:@ECH558 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="LineAmount"
+      #                        SortExpression="LineAmount" ReadOnly="true" HeaderText="<%$AxLabel:@ECH560 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="echGetPromotionDescs**"
+      #                        SortExpression="LineAmount" ReadOnly="true" HeaderText="<%$AxLabel:@ECH718 %>">
+      #                    </dynamics:AxBoundField>
+      #                </Columns>
+      #            </dynamics:AxGridView>
+      #            <%--<br />
+      #            <asp:Button ID="btFineSalesOrder" runat="server" />
+      #            <br />--%>
+      #        </asp:WizardStep>
+      #        <%--<asp:WizardStep runat="server" Title="Step 3">
+      #            <dynamics:AxForm ID="formDeliveryAddress" runat="server"
+      #                DataSourceID="dsechCreatePartialReturnOrder"
+      #                DataKeyNames="SalesId" DefaultMode="Edit" DataMember="SalesTable_Current" UpdateOnPostBack="True">
+      #                <dynamics:AxGroup ID="grpDeliveryAddress" runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryName" HeaderText="<%$AxLabel:@ECH527 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryState" HeaderText="<%$AxLabel:@ECH628 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryCity" HeaderText="<%$AxLabel:@ECH629 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryCounty" HeaderText="<%$AxLabel:@ECH630 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryAddress" HeaderText="<%$AxLabel:@ECH531 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryZipCode" HeaderText="<%$AxLabel:@ECH530 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="echCustomerMobilePhone**" HeaderText="<%$AxLabel:@ECH528 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="CustomerPhone**" HeaderText="<%$AxLabel:@ECH529 %>"/>
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </dynamics:AxForm>
+      #        </asp:WizardStep>--%>
+      #        <%--<asp:WizardStep runat="server" Title="Step 4">
+      #            <dynamics:AxForm ID="fromFinish" runat="server"
+      #                DataSourceID="dsechCreatePartialReturnOrder"
+      #                DataKeyNames="SalesId" DataMember="SalesTable_Current" 
+      #                UpdateOnPostBack="True" DefaultMode="Edit" AutoGenerateEditButton="True">
+      #                <dynamics:AxGroup ID="grpCustomerInfo" runat="server" >
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="CustAccount">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="InvoiceAccount">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="ReturnItemNum">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="DeadLine">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="CurrencyCode">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="SalesId">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="ReturnReasonCodeId">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder"
+      #                            DataSetView="SalesTable" DataField="InventLocationId">
+      #                        </dynamics:AxBoundField>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryName" HeaderText="<%$AxLabel:@ECH527 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryState" HeaderText="<%$AxLabel:@ECH628 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryCity" HeaderText="<%$AxLabel:@ECH629 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryCounty" HeaderText="<%$AxLabel:@ECH630 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryAddress" HeaderText="<%$AxLabel:@ECH531 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="DeliveryZipCode" HeaderText="<%$AxLabel:@ECH530 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="echCustomerMobilePhone**" HeaderText="<%$AxLabel:@ECH528 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesTable" 
+      #                            DataField="CustomerPhone**" HeaderText="<%$AxLabel:@ECH529 %>"/>
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </dynamics:AxForm>
+      #                <br />
+      #            <dynamics:AxGridView ID="gridSalesLineInfo" runat="server"
+      #                DataKeyNames="RecId" DataMember="SalesLine" 
+      #                DataSourceID="dsechCreatePartialReturnOrder" AllowPaging="True" ShowFilter="False">
+      #                <Columns>
+      #                    <dynamics:AxHyperLinkBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine"
+      #                        DataField="ItemId" SortExpression="ItemId" MenuItem="EPInventTableInfo" HeaderText="<%$AxLabel:@ECH548 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" 
+      #                        DataSetView="SalesLine" DataField="ItemName**"
+      #                        ItemStyle-Width="100" HeaderText="<%$AxLabel:@ECH549 %>">
+      #                        <ItemStyle Width="100px"></ItemStyle>
+      #                    </dynamics:AxBoundField>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="InventDim!InventSizeId"
+      #                        SortExpression="InventDim!InventSizeId" ReadOnly="true" HeaderText="<%$AxLabel:@ECH550 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="echGetRBOSizeName**"
+      #                        ReadOnly="true" HeaderText="<%$AxLabel:@ECH551 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="InventDim!InventColorId"
+      #                        SortExpression="InventDim!InventColorId" ReadOnly="true" HeaderText="<%$AxLabel:@ECH552 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="echGetRBOColorName**"
+      #                        ReadOnly="true" HeaderText="<%$AxLabel:@ECH553 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="InventDim!InventStyleId"
+      #                        SortExpression="InventDim!InventStyleId" ReadOnly="true" HeaderText="<%$AxLabel:@ECH554 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="SalesQty"
+      #                        SortExpression="SalesQty" ReadOnly="true" HeaderText="<%$AxLabel:@ECH555 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="SalesUnit"
+      #                        SortExpression="SalesUnit" ReadOnly="true" HeaderText="<%$AxLabel:@ECH556 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="SalesPrice"
+      #                        SortExpression="SalesPrice" ReadOnly="true" HeaderText="<%$AxLabel:@ECH557 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="LineDisc"
+      #                        SortExpression="LineDisc" ReadOnly="true" HeaderText="<%$AxLabel:@ECH558 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="LineAmount"
+      #                        SortExpression="LineAmount" ReadOnly="true" HeaderText="<%$AxLabel:@ECH560 %>"/>
+      #                    <dynamics:AxBoundField DataSet="echEPCreatePartialReturnOrder" DataSetView="SalesLine" DataField="echGetPromotionDescs**"
+      #                        SortExpression="LineAmount" ReadOnly="true" HeaderText="<%$AxLabel:@ECH718 %>">
+      #                    </dynamics:AxBoundField>
+      #                </Columns>
+      #            </dynamics:AxGridView>
+      #            
+      #        </asp:WizardStep>--%>
+      #    </WizardSteps>
+      #</asp:Wizard>
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPCreatePartialReturnOrder_ascx_cs
+      HelpText            #
+      Filename            #echEPCreatePartialReturnOrder.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #
+      #public partial class echEPCreatePartialReturnOrder : System.Web.UI.UserControl
+      #{
+      #    private const string SalesTable = "SalesTable";
+      #    //Web part private
+      #    AxBaseWebPart _baseWebpart = null;
+      #
+      #    //Web part 
+      #    AxBaseWebPart BaseWebpart
+      #    {
+      #        get
+      #        {
+      #            //return the basewebpart if it is not null
+      #            if (this._baseWebpart != null)
+      #                return this._baseWebpart;
+      #            //get the webpart if basewebpart is null
+      #            this._baseWebpart = AxBaseWebPart.GetWebpart(this);
+      #            return this._baseWebpart;
+      #        }
+      #    }
+      #
+      #    private DataSetViewRow getCurrentDataSetViewRow()
+      #    {
+      #        DataSetViewRow row = null;
+      #        if (this.dsechCreatePartialReturnOrder.GetDataSourceView("SalesTable")!=null)
+      #        {
+      #            row = this.dsechCreatePartialReturnOrder.GetDataSourceView("SalesTable").DataSetView.GetCurrent();
+      #        }
+      #        return row;
+      #    }
+      #
+      #    #region "Common Code for Wizard Control Header Navigation."
+      #
+      #    /// <summary>
+      #    /// Code to set the Naviagation hyperlinks in the Wizard header.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizechCreatePartialReturnOrder_Init(object sender, EventArgs e)
+      #    {
+      #        //Set Wizard Buttons Text in Ax language
+      #        AxUtility.SetWizardButtonsText(WizechCreatePartialReturnOrder);
+      #
+      #        PlaceHolder ph = WizechCreatePartialReturnOrder.Controls[0].Controls[0].Controls[0].Controls[1] as PlaceHolder;
+      #        for (int i = 0; i < WizechCreatePartialReturnOrder.WizardSteps.Count; i++)
+      #        {
+      #            int j = i;
+      #            LinkButton link = new LinkButton();
+      #            link.Text = WizechCreatePartialReturnOrder.WizardSteps[j].Title;
+      #            link.Command += delegate { WizechCreatePartialReturnOrder.ActiveStepIndex = Math.Min(j, WizechCreatePartialReturnOrder.ActiveStepIndex); };
+      #            link.Font.Underline = false;
+      #            ph.Controls.Add(link);
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Code to set the Naviagation hyperlinks in the Wizard header.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizechCreatePartialReturnOrder_PreRender(object sender, EventArgs e)
+      #    {
+      #        System.Web.UI.WebControls.Label lbl;
+      #
+      #        // show links for only old pages
+      #        PlaceHolder ph = WizechCreatePartialReturnOrder.Controls[0].Controls[0].Controls[0].Controls[1] as PlaceHolder;
+      #        for (int i = ph.Controls.Count - 1; i >= WizechCreatePartialReturnOrder.ActiveStepIndex; i--)
+      #            ph.Controls.RemoveAt(i);
+      #        for (int i = 0; i < WizechCreatePartialReturnOrder.ActiveStepIndex; i++)
+      #        {
+      #            lbl = new System.Web.UI.WebControls.Label();
+      #            lbl.Text = " > ";
+      #            ph.Controls.AddAt(2 * i + 1, lbl);
+      #        }
+      #
+      #        // current page
+      #        lbl = new System.Web.UI.WebControls.Label();
+      #        lbl.Text = WizechCreatePartialReturnOrder.ActiveStep.Title;
+      #        lbl.Font.Bold = true;
+      #        ph.Controls.Add(lbl);
+      #
+      #        // future pages
+      #        for (int i = WizechCreatePartialReturnOrder.ActiveStepIndex + 1; i < WizechCreatePartialReturnOrder.WizardSteps.Count; i++)
+      #        {
+      #            lbl = new System.Web.UI.WebControls.Label();
+      #            lbl.Text = " > ";
+      #            ph.Controls.Add(lbl);
+      #
+      #            lbl = new System.Web.UI.WebControls.Label();
+      #            lbl.Text = WizechCreatePartialReturnOrder.WizardSteps[i].Title;
+      #            ph.Controls.Add(lbl);
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// since user might navigate out-of-order (i.e. step 5 -> step 3), make previous button ignore
+      #    /// control browsing history by manually forcing index.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizechCreatePartialReturnOrder_PreviousButtonClick(object sender, WizardNavigationEventArgs e)
+      #    {
+      #        Page.Validate();
+      #        if (Page.IsValid)
+      #        {
+      #            if (WizechCreatePartialReturnOrder.ActiveStepIndex > 0)
+      #            {
+      #                WizechCreatePartialReturnOrder.ActiveStepIndex--;
+      #            }
+      #        }
+      #        else
+      #        {
+      #            e.Cancel = true;
+      #        }
+      #    }
+      #
+      #
+      #    /// <summary>
+      #    /// Delegates functions for all the events.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void Page_Init(object sender, EventArgs e)
+      #    {
+      #        WizechCreatePartialReturnOrder.PreviousButtonClick += new WizardNavigationEventHandler(wizechCreatePartialReturnOrder_PreviousButtonClick);
+      #        WizechCreatePartialReturnOrder.NextButtonClick += new WizardNavigationEventHandler(wizechCreatePartialReturnOrder_NextButtonClick);
+      #        //WizechCreatePartialReturnOrder.ActiveStepChanged += new EventHandler(wizchCreatePartialReturnOrder_ActiveStepChanged);
+      #        //WizechCreatePartialReturnOrder.FinishButtonClick += new WizardNavigationEventHandler(wizSalesTableCreateTunnel_FinishButtonClick);
+      #        //WizechCreatePartialReturnOrder.CancelButtonClick += new EventHandler(wizSalesTableCreateTunnel_CancelButtonClick);
+      #        //CustomerForm.ItemUpdating += new DetailsViewUpdateEventHandler(CustomerForm_ItemUpdating);
+      #        //InvoiceInformationForm.ItemUpdating += new DetailsViewUpdateEventHandler(InvoiceInformationForm_ItemUpdating);
+      #        //this.popupAddItem.PopupClosed += new EventHandler(popupAddItem_PopupClosed);
+      #        //this.popupPBA.PopupClosed += new EventHandler(popupPBA_PopupClosed);
+      #
+      #    }
+      #
+      #
+      #    /// <summary>
+      #    /// This method is called before we go to the next step.  Perform any step-specific clean-up here. 
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizechCreatePartialReturnOrder_NextButtonClick(object sender, WizardNavigationEventArgs e)
+      #    {
+      #        Page.Validate();
+      #        if (Page.IsValid)
+      #            e.Cancel = WizardStepChanged(e);
+      #        else
+      #            e.Cancel = true;
+      #    }
+      #
+      #    ///// <summary>
+      #    ///// This method is called after we enter the next step. Perform any step-specific initialization here. 
+      #    ///// </summary>
+      #    ///// <param name="sender"></param>
+      #    ///// <param name="e"></param>
+      #    //protected void wizchCreatePartialReturnOrder_ActiveStepChanged(object sender, EventArgs e)
+      #    //{
+      #    //    switch (WizechCreatePartialReturnOrder.WizardSteps[WizechCreatePartialReturnOrder.ActiveStepIndex].ID.ToUpper())
+      #    //    {
+      #    //        case "FORMRETURNREASONCODE":
+      #    //            formReturnReasonCode.DataBind();
+      #    //            break;
+      #    //        case "GRIDSALESLINE":
+      #    //            gridSalesLine.DataBind();
+      #    //            break;
+      #    //        case "FORMDELIVERYADDRESS":
+      #    //            formDeliveryAddress.DataBind();
+      #    //            break;
+      #    //        case "FORMFINISH":
+      #    //            fromFinish.DataBind();
+      #    //            gridSalesLineInfo.DataBind();
+      #    //            break;
+      #    //    }
+      #    //}
+      #
+      #    private bool WizardStepChanged(WizardNavigationEventArgs e)
+      #    {
+      #        bool retValue = false;
+      #
+      #
+      #        switch (WizechCreatePartialReturnOrder.WizardSteps[e.CurrentStepIndex].ID.ToUpper())
+      #        {
+      #            case "RETURNREASONCODESTEP":
+      #                formReturnReasonCode.UpdateItem(true);
+      #                //DataSetViewRow currentRow = getCurrentDataSetViewRow();
+      #                //retValue = retValue = !(bool)this.dsechCreatePartialReturnOrder.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("UpdateReturnReasonCode",
+      #                                                                                                                                 //currentRow.GetFieldValue("SalesId"),
+      #                                                                                                                                 //currentRow.GetFieldValue("ReturnReasonCodeId"));
+      #                break;
+      #
+      #            case "RETURNITEMSTEP":
+      #                //gridSalesLine.UpdateRow(
+      #                //retValue = !isValidInvoiceInformation;
+      #                break;
+      #
+      #            //case "ORDERLINESSTEP":
+      #            //    retValue = !(bool)this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("validateLines");
+      #            //    break;
+      #
+      #            //case "DELIVERYADDRESSSTEP":
+      #            //    DeliveryAddressForm.UpdateItem(true);
+      #            //    retValue = !(bool)this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("validateAddress");
+      #            //    break;
+      #
+      #            //case "ADMINISTRATIONSTEP":
+      #            //    AdministrationForm.UpdateItem(true);
+      #            //    break;
+      #
+      #            //case "FINISHSTEP":
+      #            //    break;
+      #        }
+      #
+      #        //switch (WizechCreatePartialReturnOrder.WizardSteps[e.NextStepIndex].ID.ToUpper())
+      #        //{
+      #        //    case "DELIVERYADDRESSSTEP":
+      #        //         //If user has modified the grid values and clicked any of the controls without updating the records. Then
+      #        //         //this piece of code will automatically update the records in the grid.
+      #        //        if (this.OrderLinesGridView.SelectedIndex != -1)
+      #        //        {
+      #        //            this.OrderLinesGridView.UpdateRow(this.OrderLinesGridView.SelectedIndex, false);
+      #        //        }
+      #
+      #        //         Validate whether user has selected any items.
+      #        //        bool validationFailed = false;
+      #
+      #        //        if (this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasketLine").DataSetView.GetCurrent() != null)
+      #        //        {
+      #        //            using (IAxaptaRecordAdapter recItems = this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasketLine").DataSetView.GetCurrent().GetRecord())
+      #        //            {
+      #        //                if (recItems == null)
+      #        //                {
+      #        //                    validationFailed = true;
+      #        //                }
+      #        //            }
+      #        //        }
+      #
+      #        //        if (validationFailed)
+      #        //        {
+      #        //            using (BCProxy.Info infoLog = new BCProxy.Info(AxSession.AxaptaAdapter))
+      #        //            {
+      #        //                infoLog.add(BCProxy.Exception.Warning, Labels.GetLabel("@SYS77622"));
+      #        //                retValue = true;
+      #        //            }
+      #        //        }
+      #
+      #        //        break;
+      #
+      #        //    case "FINISHSTEP":
+      #        //        this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("formatAddress");
+      #        //        break;
+      #        //}
+      #        return retValue;
+      #    }
+      #    #endregion
+      #}
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

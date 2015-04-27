@@ -1,0 +1,140 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02035 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02035
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02035
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #DataDictionary
+      PROPERTIES
+        Name                #DataDictionary
+        ProjectGroupType    #DataDictionary
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Views
+        PROPERTIES
+          Name                #Views
+          ProjectGroupType    #Views
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 44
+          UTILOBJECTID 30046
+          NODETYPE 243
+          NAME #echInventDimBarcodeVw
+        ENDNODE
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Macros
+      PROPERTIES
+        Name                #Macros
+        ProjectGroupType    #Macros
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 4
+        UTILOBJECTID 0
+        NODETYPE 218
+        NAME #AxdechProdCatalogDCT
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #Classes
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30159
+        NODETYPE 329
+        NAME #AxechInventDimBarcodeVw
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30321
+        NODETYPE 329
+        NAME #echProdCatalog_DocuRefHeader
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30160
+        NODETYPE 329
+        NAME #echProdCatalog_echInventDimBarcodeVw
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30161
+        NODETYPE 329
+        NAME #echProdCatalog_echInventItemBarcodeVw
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30322
+        NODETYPE 329
+        NAME #echProdCatalog_InventItemSalesSetup
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30323
+        NODETYPE 329
+        NAME #echProdCatalog_RBOInventTable
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 45
+        UTILOBJECTID 30147
+        NODETYPE 329
+        NAME #echProdCatalog_InventTable
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Queries
+      PROPERTIES
+        Name                #Queries
+        ProjectGroupType    #Queries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 20
+        UTILOBJECTID 0
+        NODETYPE 330
+        NAME #echProdCatalog
+      ENDNODE
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

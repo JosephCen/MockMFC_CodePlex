@@ -1,0 +1,59 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventItemSalesSetup unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventItemSalesSetup
+    Id 1832
+    PROPERTIES
+      Name                #AxInventItemSalesSetup
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #initMandatoryFieldsExemptionList
+        #protected void initMandatoryFieldsExemptionList()
+        #{
+        #    ;
+        #    super();
+        #
+        #    // Begin - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #    if (isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #    {
+        #        this.setParmMethodAsNotMandatory(methodstr(axInventItemSalesSetup, parmItemId));
+        #    }
+        #    // End - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #}
+      ENDSOURCE
+      SOURCE #parmLeadTime
+        #public LeadTime parmLeadTime(LeadTime _leadTime = 0)
+        #{
+        #    if (!prmisdefault(_leadTime))
+        #    {
+        #        this.setField(fieldnum(InventItemSalesSetup, LeadTime), _leadTime);
+        #    }
+        #
+        #    return inventItemSalesSetup.LeadTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDeliveryDateControlType
+        #protected void setDeliveryDateControlType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemSalesSetup, DeliveryDateControlType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

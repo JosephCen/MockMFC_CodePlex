@@ -1,0 +1,1127 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechReturnOrderTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechReturnOrderTable
+    Id 30315
+    PROPERTIES
+      Name                #AxechReturnOrderTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechReturnOrderTable axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechReturnOrderTable extends AxInternalBase
+        #{
+        #    echReturnOrderTable echReturnOrderTable;
+        #
+        #    str             county;
+        #    str             state;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echReturnOrderTable currentRecord(echReturnOrderTable _echReturnOrderTable = echReturnOrderTable)
+        #{
+        #    if (!prmisdefault(_echReturnOrderTable))
+        #    {
+        #        super(_echReturnOrderTable);
+        #        echReturnOrderTable = _echReturnOrderTable;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echReturnOrderTable;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echReturnOrderTable
+        #public echReturnOrderTable echReturnOrderTable(echReturnOrderTable _echReturnOrderTable = echReturnOrderTable)
+        #{
+        #    if (!prmisdefault(_echReturnOrderTable))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echReturnOrderTable);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echReturnOrderTable emptyRecord()
+        #{
+        #    echReturnOrderTable localechReturnOrderTable;
+        #    ;
+        #    return localechReturnOrderTable;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #init
+        #protected void init()
+        #{
+        #    super();
+        #
+        #    state   = '';
+        #    county  = '';
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAddress
+        #public Addressing parmAddress(Addressing _address = '')
+        #{
+        #    if (!prmisdefault(_address))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Address), _address);
+        #    }
+        #
+        #    return echReturnOrderTable.Address;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAddress2
+        #public Addressing parmAddress2(Addressing _address2 = '')
+        #{
+        #    if (!prmisdefault(_address2))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Address2), _address2);
+        #    }
+        #
+        #    return echReturnOrderTable.Address2;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAdvanceStatus
+        #public echReturnOrderAdvanceStatus parmAdvanceStatus(echReturnOrderAdvanceStatus _advanceStatus = '')
+        #{
+        #    if (!prmisdefault(_advanceStatus))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, AdvanceStatus), _advanceStatus);
+        #    }
+        #
+        #    return echReturnOrderTable.AdvanceStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAlipayNo
+        #public echAlipayNo parmAlipayNo(echAlipayNo _alipayNo = '')
+        #{
+        #    if (!prmisdefault(_alipayNo))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, AlipayNo), _alipayNo);
+        #    }
+        #
+        #    return echReturnOrderTable.AlipayNo;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmBuyerNick
+        #public Name parmBuyerNick(Name _buyerNick = '')
+        #{
+        #    if (!prmisdefault(_buyerNick))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, BuyerNick), _buyerNick);
+        #    }
+        #
+        #    return echReturnOrderTable.BuyerNick;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCity
+        #public AddressCity parmCity(AddressCity _city = '')
+        #{
+        #    if (!prmisdefault(_city))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, City), _city);
+        #    }
+        #
+        #    return echReturnOrderTable.City;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCompanyName
+        #public Name parmCompanyName(Name _companyName = '')
+        #{
+        #    if (!prmisdefault(_companyName))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, CompanyName), _companyName);
+        #    }
+        #
+        #    return echReturnOrderTable.CompanyName;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmConsignee
+        #public Name parmConsignee(Name _consignee = '')
+        #{
+        #    if (!prmisdefault(_consignee))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Consignee), _consignee);
+        #    }
+        #
+        #    return echReturnOrderTable.Consignee;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmConsignor
+        #public Name parmConsignor(Name _consignor = '')
+        #{
+        #    if (!prmisdefault(_consignor))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Consignor), _consignor);
+        #    }
+        #
+        #    return echReturnOrderTable.Consignor;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCreated
+        #public echFrontEndCreationDate parmCreated(echFrontEndCreationDate _created = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_created))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Created), _created);
+        #    }
+        #
+        #    return echReturnOrderTable.Created;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCSStatus
+        #public echReturnOrderCSStatus parmCSStatus(echReturnOrderCSStatus _cSStatus = '')
+        #{
+        #    if (!prmisdefault(_cSStatus))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, CSStatus), _cSStatus);
+        #    }
+        #
+        #    return echReturnOrderTable.CSStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDescription
+        #public Description parmDescription(Description _description = '')
+        #{
+        #    if (!prmisdefault(_description))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Description), _description);
+        #    }
+        #
+        #    return echReturnOrderTable.Description;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDistrict
+        #public AddressCountyId parmDistrict(AddressCountyId _district = '')
+        #{
+        #    if (!prmisdefault(_district))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, District), _district);
+        #    }
+        #
+        #    return echReturnOrderTable.District;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchMsgPartnerExtCode
+        #public echMsgPartnerExtCode parmEchMsgPartnerExtCode(echMsgPartnerExtCode _echMsgPartnerExtCode = '')
+        #{
+        #    if (!prmisdefault(_echMsgPartnerExtCode))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, EchMsgPartnerExtCode), _echMsgPartnerExtCode);
+        #    }
+        #
+        #    return echReturnOrderTable.EchMsgPartnerExtCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchMsgPartnerId
+        #public echMsgPartnerId parmEchMsgPartnerId(echMsgPartnerId _echMsgPartnerId = '')
+        #{
+        #    if (!prmisdefault(_echMsgPartnerId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, EchMsgPartnerId), _echMsgPartnerId);
+        #    }
+        #
+        #    return echReturnOrderTable.EchMsgPartnerId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmExistTimeOut
+        #public NoYesId parmExistTimeOut(NoYesId _existTimeOut = NoYes::No)
+        #{
+        #    if (!prmisdefault(_existTimeOut))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, ExistTimeOut), _existTimeOut);
+        #    }
+        #
+        #    return echReturnOrderTable.ExistTimeOut;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmGoodsReturnTime
+        #public echReturnOrderGoodsReturnTime parmGoodsReturnTime(echReturnOrderGoodsReturnTime _goodsReturnTime = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_goodsReturnTime))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, GoodsReturnTime), _goodsReturnTime);
+        #    }
+        #
+        #    return echReturnOrderTable.GoodsReturnTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmGoodsStatus
+        #public echReturnGoodsStatus parmGoodsStatus(echReturnGoodsStatus _goodsStatus = '')
+        #{
+        #    if (!prmisdefault(_goodsStatus))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, GoodsStatus), _goodsStatus);
+        #    }
+        #
+        #    return echReturnOrderTable.GoodsStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHasGoodsReturn
+        #public NoYesId parmHasGoodsReturn(NoYesId _hasGoodsReturn = NoYes::No)
+        #{
+        #    if (!prmisdefault(_hasGoodsReturn))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, HasGoodsReturn), _hasGoodsReturn);
+        #    }
+        #
+        #    return echReturnOrderTable.HasGoodsReturn;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmImageURL
+        #public URL parmImageURL(URL _imageURL = '')
+        #{
+        #    if (!prmisdefault(_imageURL))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, ImageURL), _imageURL);
+        #    }
+        #
+        #    return echReturnOrderTable.ImageURL;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmModified
+        #public echFrontEndModifiedDate parmModified(echFrontEndModifiedDate _modified = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_modified))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Modified), _modified);
+        #    }
+        #
+        #    return echReturnOrderTable.Modified;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOriginalOrderId
+        #public echMsgPartnerExtCode parmOriginalOrderId(echMsgPartnerExtCode _originalOrderId = '')
+        #{
+        #    if (!prmisdefault(_originalOrderId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, OriginalOrderId), _originalOrderId);
+        #    }
+        #
+        #    return echReturnOrderTable.OriginalOrderId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmOriginalOrderStatus
+        #public echReturnOrderSoStatus parmOriginalOrderStatus(echReturnOrderSoStatus _originalOrderStatus = '')
+        #{
+        #    if (!prmisdefault(_originalOrderStatus))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, OriginalOrderStatus), _originalOrderStatus);
+        #    }
+        #
+        #    return echReturnOrderTable.OriginalOrderStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPayment
+        #public Amount parmPayment(Amount _payment = 0)
+        #{
+        #    if (!prmisdefault(_payment))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Payment), _payment);
+        #    }
+        #
+        #    return echReturnOrderTable.Payment;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPhone
+        #public Phone parmPhone(Phone _phone = '')
+        #{
+        #    if (!prmisdefault(_phone))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Phone), _phone);
+        #    }
+        #
+        #    return echReturnOrderTable.Phone;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPost
+        #public NoYesId parmPost(NoYesId _post = NoYes::No)
+        #{
+        #    if (!prmisdefault(_post))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Post), _post);
+        #    }
+        #
+        #    return echReturnOrderTable.Post;
+        #}
+      ENDSOURCE
+      SOURCE #parmPostalCode
+        #public echAddressZipCodeId parmPostalCode(echAddressZipCodeId _postalCode = '')
+        #{
+        #    if (!prmisdefault(_postalCode))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, PostalCode), _postalCode);
+        #    }
+        #
+        #    return echReturnOrderTable.PostalCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmProvince
+        #public AddressStateId parmProvince(AddressStateId _province = '')
+        #{
+        #    if (!prmisdefault(_province))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Province), _province);
+        #    }
+        #
+        #    return echReturnOrderTable.Province;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRefundedFee
+        #public Amount parmRefundedFee(Amount _refundedFee = 0)
+        #{
+        #    if (!prmisdefault(_refundedFee))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, RefundedFee), _refundedFee);
+        #    }
+        #
+        #    return echReturnOrderTable.RefundedFee;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRefundReason
+        #public echReturnOrderRefundReason parmRefundReason(echReturnOrderRefundReason _refundReason = '')
+        #{
+        #    if (!prmisdefault(_refundReason))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, RefundReason), _refundReason);
+        #    }
+        #
+        #    return echReturnOrderTable.RefundReason;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRemindType
+        #public Integer parmRemindType(Integer _remindType = 0)
+        #{
+        #    if (!prmisdefault(_remindType))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, RemindType), _remindType);
+        #    }
+        #
+        #    return echReturnOrderTable.RemindType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReturnId
+        #public echReturnId parmReturnId(echReturnId _returnId = '')
+        #{
+        #    if (!prmisdefault(_returnId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, ReturnId), _returnId);
+        #    }
+        #
+        #    return echReturnOrderTable.ReturnId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReturnOrderId
+        #public echReturnOrderId parmReturnOrderId(echReturnOrderId _returnOrderId = '')
+        #{
+        #    if (!prmisdefault(_returnOrderId))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, ReturnOrderId), _returnOrderId);
+        #    }
+        #
+        #    return echReturnOrderTable.ReturnOrderId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReturnType
+        #public echReturnType parmReturnType(echReturnType _returnType = '')
+        #{
+        #    if (!prmisdefault(_returnType))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, ReturnType), _returnType);
+        #    }
+        #
+        #    return echReturnOrderTable.ReturnType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSellerNick
+        #public Name parmSellerNick(Name _sellerNick = '')
+        #{
+        #    if (!prmisdefault(_sellerNick))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, SellerNick), _sellerNick);
+        #    }
+        #
+        #    return echReturnOrderTable.SellerNick;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSendTime
+        #public echFrontEndCreationDate parmSendTime(echFrontEndCreationDate _sendTime = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_sendTime))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, SendTime), _sendTime);
+        #    }
+        #
+        #    return echReturnOrderTable.SendTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmShippingType
+        #public echReturnShippingType parmShippingType(echReturnShippingType _shippingType = '')
+        #{
+        #    if (!prmisdefault(_shippingType))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, ShippingType), _shippingType);
+        #    }
+        #
+        #    return echReturnOrderTable.ShippingType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSID
+        #public ShipCarrierTrackingNum parmSID(ShipCarrierTrackingNum _sID = '')
+        #{
+        #    if (!prmisdefault(_sID))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, SID), _sID);
+        #    }
+        #
+        #    return echReturnOrderTable.SID;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSplitSellerFee
+        #public Amount parmSplitSellerFee(Amount _splitSellerFee = 0)
+        #{
+        #    if (!prmisdefault(_splitSellerFee))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, SplitSellerFee), _splitSellerFee);
+        #    }
+        #
+        #    return echReturnOrderTable.SplitSellerFee;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSplitTaobaoFee
+        #public Amount parmSplitTaobaoFee(Amount _splitTaobaoFee = 0)
+        #{
+        #    if (!prmisdefault(_splitTaobaoFee))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, SplitTaobaoFee), _splitTaobaoFee);
+        #    }
+        #
+        #    return echReturnOrderTable.SplitTaobaoFee;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmStatus
+        #public echReturnOrderRefundStatus parmStatus(echReturnOrderRefundStatus _status = '')
+        #{
+        #    if (!prmisdefault(_status))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Status), _status);
+        #    }
+        #
+        #    return echReturnOrderTable.Status;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTimeOut
+        #public echReturnOrderTimeOut parmTimeOut(echReturnOrderTimeOut _timeOut = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_timeOut))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, TimeOut), _timeOut);
+        #    }
+        #
+        #    return echReturnOrderTable.TimeOut;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTitle
+        #public Name parmTitle(Name _title = '')
+        #{
+        #    if (!prmisdefault(_title))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, Title), _title);
+        #    }
+        #
+        #    return echReturnOrderTable.Title;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTotalPrice
+        #public Price parmTotalPrice(Price _totalPrice = 0)
+        #{
+        #    if (!prmisdefault(_totalPrice))
+        #    {
+        #        this.setField(fieldNum(echReturnOrderTable, TotalPrice), _totalPrice);
+        #    }
+        #
+        #    return echReturnOrderTable.TotalPrice;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAddress
+        #protected void setAddress()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Address)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAddress2
+        #protected void setAddress2()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Address2)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAdvanceStatus
+        #protected void setAdvanceStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, AdvanceStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAlipayNo
+        #protected void setAlipayNo()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, AlipayNo)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBuyerNick
+        #protected void setBuyerNick()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, BuyerNick)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCity
+        #protected void setCity()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, City)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCompanyName
+        #protected void setCompanyName()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, CompanyName)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConsignee
+        #protected void setConsignee()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Consignee)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConsignor
+        #protected void setConsignor()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Consignor)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCreated
+        #protected void setCreated()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Created)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCSStatus
+        #protected void setCSStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, CSStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDescription
+        #protected void setDescription()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Description)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDistrict
+        #protected void setDistrict()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, District)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchMsgPartnerExtCode
+        #protected void setEchMsgPartnerExtCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, EchMsgPartnerExtCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchMsgPartnerId
+        #protected void setEchMsgPartnerId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, EchMsgPartnerId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setExistTimeOut
+        #protected void setExistTimeOut()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, ExistTimeOut)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setGoodsReturnTime
+        #protected void setGoodsReturnTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, GoodsReturnTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setGoodsStatus
+        #protected void setGoodsStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, GoodsStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHasGoodsReturn
+        #protected void setHasGoodsReturn()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, HasGoodsReturn)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setImageURL
+        #protected void setImageURL()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, ImageURL)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setModified
+        #protected void setModified()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Modified)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOriginalOrderId
+        #protected void setOriginalOrderId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, OriginalOrderId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setOriginalOrderStatus
+        #protected void setOriginalOrderStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, OriginalOrderStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPayment
+        #protected void setPayment()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Payment)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPhone
+        #protected void setPhone()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Phone)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPost
+        #protected void setPost()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Post)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setPostalCode
+        #protected void setPostalCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, PostalCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setProvince
+        #protected void setProvince()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Province)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRefundedFee
+        #protected void setRefundedFee()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, RefundedFee)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRefundReason
+        #protected void setRefundReason()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, RefundReason)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRemindType
+        #protected void setRemindType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, RemindType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReturnId
+        #protected void setReturnId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, ReturnId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReturnOrderId
+        #protected void setReturnOrderId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, ReturnOrderId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReturnType
+        #protected void setReturnType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, ReturnType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSellerNick
+        #protected void setSellerNick()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, SellerNick)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSendTime
+        #protected void setSendTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, SendTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShippingType
+        #protected void setShippingType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, ShippingType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSID
+        #protected void setSID()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, SID)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSplitSellerFee
+        #protected void setSplitSellerFee()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, SplitSellerFee)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSplitTaobaoFee
+        #protected void setSplitTaobaoFee()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, SplitTaobaoFee)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setStatus
+        #protected void setStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Status)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setReturnOrderId();
+        #    this.setReturnId();
+        #    this.setEchMsgPartnerExtCode();
+        #    this.setEchMsgPartnerId();
+        #    this.setOriginalOrderId();
+        #    this.setTotalPrice();
+        #    this.setRefundReason();
+        #    this.setImageURL();
+        #    this.setOriginalOrderStatus();
+        #    this.setTitle();
+        #    this.setAddress();
+        #    this.setAddress2();
+        #    this.setProvince();
+        #    this.setCity();
+        #    this.setDistrict();
+        #    this.setPostalCode();
+        #    this.setAdvanceStatus();
+        #    this.setAlipayNo();
+        #    this.setBuyerNick();
+        #    this.setCompanyName();
+        #    this.setCreated();
+        #    this.setCSStatus();
+        #    this.setGoodsReturnTime();
+        #    this.setGoodsStatus();
+        #    this.setHasGoodsReturn();
+        #    this.setModified();
+        #    this.setPayment();
+        #    this.setRefundedFee();
+        #    this.setExistTimeOut();
+        #    this.setRemindType();
+        #    this.setTimeOut();
+        #    this.setSellerNick();
+        #    this.setSID();
+        #    this.setShippingType();
+        #    this.setSplitSellerFee();
+        #    this.setSplitTaobaoFee();
+        #    this.setStatus();
+        #    this.setReturnType();
+        #    this.setConsignee();
+        #    this.setConsignor();
+        #    this.setSendTime();
+        #    this.setPhone();
+        #    this.setDescription();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTimeOut
+        #protected void setTimeOut()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, TimeOut)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTitle
+        #protected void setTitle()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, Title)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTotalPrice
+        #protected void setTotalPrice()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echReturnOrderTable, TotalPrice)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechReturnOrderTable construct()
+        #{
+        #    return new AxechReturnOrderTable();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechReturnOrderTable
+        #public static AxechReturnOrderTable newechReturnOrderTable(echReturnOrderTable _echReturnOrderTable)
+        #{
+        #    AxechReturnOrderTable AxechReturnOrderTable = AxechReturnOrderTable::construct();
+        #    ;
+        #    AxechReturnOrderTable.echReturnOrderTable(_echReturnOrderTable);
+        #
+        #    return AxechReturnOrderTable;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

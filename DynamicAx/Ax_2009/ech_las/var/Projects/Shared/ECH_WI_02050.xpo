@@ -1,0 +1,592 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02050 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02050
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02050
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #DataDictionary
+      PROPERTIES
+        Name                #DataDictionary
+        ProjectGroupType    #DataDictionary
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Tables
+        PROPERTIES
+          Name                #Tables
+          ProjectGroupType    #Tables
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 44
+          UTILOBJECTID 366
+          NODETYPE 204
+          NAME #SalesTable
+        ENDNODE
+        ENDGROUP
+        
+      GROUP #Maps
+        PROPERTIES
+          Name                #Maps
+          ProjectGroupType    #Maps
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Views
+        PROPERTIES
+          Name                #Views
+          ProjectGroupType    #Views
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #ExtendedDataTypes
+        PROPERTIES
+          Name                #ExtendedDataTypes
+          ProjectGroupType    #ExtendedDataTypes
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 41
+          UTILOBJECTID 50011
+          NODETYPE 234
+          NAME #echPromotionIds
+        ENDNODE
+        BEGINNODE
+          FILETYPE 0
+          UTILTYPE 41
+          UTILOBJECTID 50010
+          NODETYPE 234
+          NAME #echPromotionDescs
+        ENDNODE
+        ENDGROUP
+        
+      GROUP #BaseEnums
+        PROPERTIES
+          Name                #BaseEnums
+          ProjectGroupType    #BaseEnums
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #LicenseCodes
+        PROPERTIES
+          Name                #LicenseCodes
+          ProjectGroupType    #LicenseCodes
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #ConfigurationKeys
+        PROPERTIES
+          Name                #ConfigurationKeys
+          ProjectGroupType    #ConfigurationKeys
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #SecurityKeys
+        PROPERTIES
+          Name                #SecurityKeys
+          ProjectGroupType    #SecurityKeys
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #TableCollections
+        PROPERTIES
+          Name                #TableCollections
+          ProjectGroupType    #TableCollections
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Perspectives
+        PROPERTIES
+          Name                #Perspectives
+          ProjectGroupType    #Perspectives
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Macros
+      PROPERTIES
+        Name                #Macros
+        ProjectGroupType    #Macros
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Classes
+      PROPERTIES
+        Name                #Classes
+        ProjectGroupType    #Classes
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Forms
+      PROPERTIES
+        Name                #Forms
+        ProjectGroupType    #Forms
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #DataSets
+      PROPERTIES
+        Name                #DataSets
+        ProjectGroupType    #DataSets
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 72
+        UTILOBJECTID 0
+        NODETYPE 207
+        NAME #EPSalesTableInfo
+      ENDNODE
+      ENDGROUP
+      
+    GROUP #Reports
+      PROPERTIES
+        Name                #Reports
+        ProjectGroupType    #Reports
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #ReportLibraries
+      PROPERTIES
+        Name                #ReportLibraries
+        ProjectGroupType    #ReportLibraries
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Jobs
+      PROPERTIES
+        Name                #Jobs
+        ProjectGroupType    #Jobs
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Menus
+      PROPERTIES
+        Name                #Menus
+        ProjectGroupType    #Menus
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #MenuItems
+      PROPERTIES
+        Name                #MenuItems
+        ProjectGroupType    #MenuItems
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #Display
+        PROPERTIES
+          Name                #Display
+          ProjectGroupType    #Display
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Output
+        PROPERTIES
+          Name                #Output
+          ProjectGroupType    #Output
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Action
+        PROPERTIES
+          Name                #Action
+          ProjectGroupType    #Action
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Web
+      PROPERTIES
+        Name                #Web
+        ProjectGroupType    #Web
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #WebReports
+        PROPERTIES
+          Name                #WebReports
+          ProjectGroupType    #WebReports
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebForms
+        PROPERTIES
+          Name                #WebForms
+          ProjectGroupType    #WebForms
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebMenuItems
+        PROPERTIES
+          Name                #WebMenuItems
+          ProjectGroupType    #WebMenuItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        GROUP #URLs
+          PROPERTIES
+            Name                #URLs
+            ProjectGroupType    #WebUrlMenuItems
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #Actions
+          PROPERTIES
+            Name                #Actions
+            ProjectGroupType    #WebActionMenuItems
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        ENDGROUP
+        
+      GROUP #WebContent
+        PROPERTIES
+          Name                #WebContent
+          ProjectGroupType    #WebContentItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        GROUP #Display
+          PROPERTIES
+            Name                #Display
+            ProjectGroupType    #WebDisplayContentItems
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #Output
+          PROPERTIES
+            Name                #Output
+            ProjectGroupType    #WebOutputContentItems
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #Managed
+          PROPERTIES
+            Name                #Managed
+            ProjectGroupType    #WebManagedContentItems
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          BEGINNODE
+            FILETYPE 0
+            UTILTYPE 75
+            UTILOBJECTID 0
+            NODETYPE 890
+            NAME #echEPSalesTableInfo
+          ENDNODE
+          ENDGROUP
+          
+        ENDGROUP
+        
+      GROUP #WebMenus
+        PROPERTIES
+          Name                #WebMenus
+          ProjectGroupType    #WebMenus
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebFiles
+        PROPERTIES
+          Name                #WebFiles
+          ProjectGroupType    #WebFiles
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        GROUP #WebParts
+          PROPERTIES
+            Name                #WebParts
+            ProjectGroupType    #WebWebParts
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #SiteDefinitions
+          PROPERTIES
+            Name                #SiteDefinitions
+            ProjectGroupType    #WebSiteDefs
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #SiteTemplates
+          PROPERTIES
+            Name                #SiteTemplates
+            ProjectGroupType    #WebSiteTemps
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #PageDefinitions
+          PROPERTIES
+            Name                #PageDefinitions
+            ProjectGroupType    #WebPageDefs
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #ListDefinitions
+          PROPERTIES
+            Name                #ListDefinitions
+            ProjectGroupType    #WebListDefs
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #StaticFiles
+          PROPERTIES
+            Name                #StaticFiles
+            ProjectGroupType    #WebStaticFiles
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          ENDGROUP
+          
+        GROUP #WebControls
+          PROPERTIES
+            Name                #WebControls
+            ProjectGroupType    #WebControls
+            GroupMask           #
+            PreventEditProperties #No
+          ENDPROPERTIES
+          
+          BEGINNODE
+            FILETYPE 0
+            UTILTYPE 73
+            UTILOBJECTID 0
+            NODETYPE 887
+            NAME #echEPSalesTableInfo
+          ENDNODE
+          ENDGROUP
+          
+        ENDGROUP
+        
+      GROUP #WebletItems
+        PROPERTIES
+          Name                #WebletItems
+          ProjectGroupType    #WebletItems
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WebModules
+        PROPERTIES
+          Name                #WebModules
+          ProjectGroupType    #WebModules
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Services
+      PROPERTIES
+        Name                #Services
+        ProjectGroupType    #Services
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #Workflow
+      PROPERTIES
+        Name                #Workflow
+        ProjectGroupType    #Workflow
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      GROUP #WorkflowCategories
+        PROPERTIES
+          Name                #WorkflowCategories
+          ProjectGroupType    #WorkflowCategories
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Approvals
+        PROPERTIES
+          Name                #Approvals
+          ProjectGroupType    #WorkflowApprovals
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #Tasks
+        PROPERTIES
+          Name                #Tasks
+          ProjectGroupType    #WorkflowTasks
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      GROUP #WorkflowTemplates
+        PROPERTIES
+          Name                #WorkflowTemplates
+          ProjectGroupType    #WorkflowTemplates
+          GroupMask           #
+          PreventEditProperties #No
+        ENDPROPERTIES
+        
+        ENDGROUP
+        
+      ENDGROUP
+      
+    GROUP #Resources
+      PROPERTIES
+        Name                #Resources
+        ProjectGroupType    #Resources
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #References
+      PROPERTIES
+        Name                #References
+        ProjectGroupType    #References
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+    GROUP #HTMLHelpFiles
+      PROPERTIES
+        Name                #HTMLHelpFiles
+        ProjectGroupType    #HelpFiles
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

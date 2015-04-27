@@ -1,0 +1,35 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : echEPSOPromotionsToolbar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #echEPSOPromotionsToolbar
+    PROPERTIES
+      Name                #echEPSOPromotionsToolbar
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS40422
+      PROPERTIES
+        Name                #Actions
+        Label               #@SYS40422
+        MenuItemType        #Action
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #New discount
+          MenuItemType        #Action
+          MenuItemName        #echNewPromotion
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

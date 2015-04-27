@@ -1,0 +1,114 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventItem_Sales unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventItem_Sales
+    Id 14098
+    PROPERTIES
+      Name                #InventItem_Sales
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class InventItem_Sales extends AfStronglyTypedDataContainer
+        #{
+        #    #define.PriceInclVAT('PriceInclVAT')
+        #    #define.MinPriceInclVAT('MinPriceInclVAT')
+        #    #define.MaxPriceInclVAT('MaxPriceInclVAT')
+        #    // <GTH>
+        #    #define.TaxWithholdItemGroup_TH('TaxWithholdItemGroup_TH')
+        #    #define.TaxWithholdCalculate_TH('TaxWithholdCalculate_TH')
+        #    // </GTH>
+        #
+        #    #define.UnitId('UnitId')
+        #    #define.UnderDeliveryPct('UnderDeliveryPct')
+        #    #define.TaxItemGroupId('TaxItemGroupId')
+        #    #define.SuppItemGroupId('SuppItemGroupId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.PriceUnit('PriceUnit')
+        #    #define.PriceQty('PriceQty')
+        #    #define.PriceDate('PriceDate')
+        #    #define.Price('Price')
+        #    #define.PcsPrice('PcsPrice')
+        #    #define.OverDeliveryPct('OverDeliveryPct')
+        #    #define.MultiLineDisc('MultiLineDisc')
+        #    #define.ModuleType('ModuleType')
+        #    #define.MarkupGroupId('MarkupGroupId')
+        #    #define.Markup('Markup')
+        #    #define.LineDisc('LineDisc')
+        #    #define.ItemId('ItemId')
+        #    #define.InterCompanyBlocked('InterCompanyBlocked')
+        #    #define.EndDisc('EndDisc')
+        #    #define.AllocateMarkup('AllocateMarkup')
+        #
+        #    // <GIN>
+        #    #define.MaximumRetailPrice_IN('MaximumRetailPrice_IN')
+        #    // </GIN>
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsMaxPriceInclVAT
+        #public boolean existsMaxPriceInclVAT()
+        #{
+        #    return this.exists(#MaxPriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #existsMinPriceInclVAT
+        #public boolean existsMinPriceInclVAT()
+        #{
+        #    return this.exists(#MinPriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #existsPriceInclVAT
+        #public boolean existsPriceInclVAT()
+        #{
+        #    return this.exists(#PriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #parmMaxPriceInclVAT
+        #public RBOPriceInclVAT parmMaxPriceInclVAT(RBOPriceInclVAT _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MaxPriceInclVAT, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MaxPriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #parmMinPriceInclVAT
+        #public RBOPriceInclVAT parmMinPriceInclVAT(RBOPriceInclVAT _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MinPriceInclVAT, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MinPriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #parmPriceInclVAT
+        #public RBOPriceInclVAT parmPriceInclVAT(RBOPriceInclVAT _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PriceInclVAT, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PriceInclVAT);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

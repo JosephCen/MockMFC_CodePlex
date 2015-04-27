@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : ECHCancelException unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #ECHCancelException
+    Type: 1
+    PROPERTIES
+      Name                #ECHCancelException
+      Label               #@ECH104
+      HelpText            #@ECH115
+      Object              #ECHCancelException
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

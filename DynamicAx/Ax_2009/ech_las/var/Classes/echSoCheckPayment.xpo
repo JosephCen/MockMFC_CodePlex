@@ -1,0 +1,105 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckPayment unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckPayment
+    Id 30069
+    PROPERTIES
+      Name                #echSoCheckPayment
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the invoice parameter
+        #
+        #class echSoCheckPayment implements echISoCheck
+        #{
+        #    InventLocationId    inventLocationId;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #// Update ECH_WI_02038 by mengqi.cen on 20130403
+        #//   Config dialog of this SoCheck should be commented out.
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00809
+        #// *** Customization Date: 02 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Return the display menu item
+        #
+        # // *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return ''; //menuItemDisplayStr(echSoCheckPayment);
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH182";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// Update ECH_WI_02038 by mengqi.cen on 20130402
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean                     execute;
+        #    SalesTable                  salesTable  = SalesTable::find(_salesId);
+        #    CustPaymModeTable           paymTable;
+        #    ;
+        #
+        #    paymTable = CustPaymModeTable::find(salesTable.PaymMode);
+        #
+        #    if (paymTable)
+        #    {
+        #        if (paymTable.echIsOnlinePay != echIsOnlinePay::COD)
+        #        {
+        #            if(paymTable.echIsOnlinePay == echIsOnlinePay::OnlinePay ||
+        #               salesTable.SalesStatus == SalesStatus::Invoiced)
+        #                execute = true;
+        #            else
+        #                execute = false;
+        #        }
+        #        else
+        #            execute = true;
+        #    }
+        #    else
+        #        execute = false;
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH183";
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

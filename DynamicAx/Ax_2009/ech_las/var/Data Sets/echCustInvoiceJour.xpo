@@ -1,0 +1,171 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echCustInvoiceJour
+  PROPERTIES
+    Name                #echCustInvoiceJour
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_007
+      #// *** Customization Date: 02 May 2012
+      #// *** Customization Type: created
+      #// *** Description: data set to find sales orders in EP
+      #
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    SalesTable      callerSalesTable;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_007
+      #// *** Customization Date: 02 May 2012
+      #// *** Customization Type: created
+      #// *** Description: set caller sales table
+      #
+      #public void init()
+      #{
+      #    if (this.args().record() && this.args().record().TableId == tablenum(SalesTable))
+      #        callerSalesTable.data(this.args().record());
+      #
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #salesCopy
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_007
+      #// *** Customization Date: 02 May 2012
+      #// *** Customization Type: created
+      #// *** Description: copy lines to return order
+      #
+      #void salesCopy(List inventTransIds)
+      #{
+      #    salesCopying        salesCopying;
+      #    TmpFrmVirtual       tmpFrmVirtualHeader;
+      #    TmpFrmVirtual       tmpFrmVirtualLines;
+      #    CustInvoiceTrans    custInvoiceTransLocal;
+      #    ListEnumerator      listenumerator = inventTransIds.getEnumerator();
+      #    ;
+      #
+      #    if (callerSalesTable)
+      #    {
+      #        while (listenumerator.moveNext())
+      #        {
+      #            custInvoiceTransLocal = CustInvoiceTrans::findInventTransid(listenumerator.current());
+      #
+      #            tmpFrmVirtualLines.TableNum     = custInvoiceTransLocal.tableId;
+      #            tmpFrmVirtualLines.RecordNo     = custInvoiceTransLocal.recId;
+      #            tmpFrmVirtualLines.Id           = custInvoiceTransLocal.InvoiceId;
+      #            tmpFrmVirtualLines.LineNum      = custInvoiceTransLocal.LineNum;
+      #            tmpFrmVirtualLines.TransDate    = systemDateget();
+      #            tmpFrmVirtualLines.Qty          = custInvoiceTransLocal.Qty;
+      #
+      #            tmpFrmVirtualLines.insert();
+      #        }
+      #
+      #        ttsbegin;
+      #        callerSalesTable.selectForUpdate(true);
+      #
+      #        salesCopying = SalesCopying::construct(salesPurchCopy::CreditNoteHeader);
+      #                    salesCopying.initParameters(callerSalesTable,
+      #                                                tmpFrmVirtualLines,
+      #                                                tmpFrmVirtualHeader,
+      #                                                1,
+      #                                                true,
+      #                                                false,
+      #                                                false,
+      #                                                true,
+      #                                                true);
+      #        salesCopying.promptRemoveSettlement();
+      #        salesCopying.promptConvertCurrencyCode();
+      #        salesCopying.parmCustInvoiceJour(CustInvoiceJour::findFromSalesId(custInvoiceTransLocal.SalesId));
+      #
+      #        salesCopying.copy();
+      #        ttscommit;
+      #    }
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #CustInvoiceJour
+          Table               #CustInvoiceJour
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_E_007
+          #// *** Customization Date: 02 May 2012
+          #// *** Customization Type: created
+          #// *** Description: only show lines for certain customer
+          #
+          #public void executeQuery()
+          #{
+          #    QueryBuildDataSource    qbds = this.query().dataSourceTable(tablenum(CustInvoiceJour));
+          #    QueryBuildRange         qbr1, qbr2;
+          #    ;
+          #
+          #    if (callerSalesTable)
+          #    {
+          #        qbds.clearDynalinks();
+          #        qbr1 = SysQuery::findOrCreateRange(qbds, fieldnum(CustInvoiceJour, OrderAccount));
+          #        qbr1.value(queryvalue(callerSalesTable.CustAccount));
+          #
+          #        qbr2 = SysQuery::findOrCreateRange(qbds, fieldnum(CustInvoiceJour, RefNum));
+          #        qbr2.value(queryvalue(RefNum::SalesOrder));
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #itemLookup
+          #void itemLookup(SysDataSetLookup sysDataSetLookup)
+          #{
+          #    List list = new List(Types::String);
+          #    Query query = new Query();
+          #    #define.itemId('ItemId')
+          #    ;
+          #
+          #    query.addDataSource(tableNum(InventTable));
+          #
+          #    list.addEnd(fieldStr(InventTable, ItemId));
+          #    list.addEnd(fieldStr(InventTable, ItemName));
+          #
+          #    sysDataSetLookup.parmLookupFields(list);
+          #    sysDataSetLookup.parmSelectField(#itemId);
+          #
+          #    sysDataSetLookup.parmQuery(query);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

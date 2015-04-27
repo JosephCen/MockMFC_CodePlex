@@ -1,0 +1,231 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echTMallPropertyValue unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echTMallPropertyValue
+    Id 30070
+    PROPERTIES
+      Name                #echTMallPropertyValue
+      Label               #@ECH807
+      TitleField1         #PropValueId
+      TitleField2         #PropValueName
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Cid
+        Id 30001
+        INT
+        PROPERTIES
+          Name                #Cid
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echTMallPropertyValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropId
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #PropId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echTMallPropertyValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropValueId
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #PropValueId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echTMallPropertyValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyValueId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropValueName
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #PropValueName
+          Table               #echTMallPropertyValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyValueName
+              #
+            ENDARRAY
+          StringSize          #80
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PropValueId
+          #PropValueName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PropValueId
+          #PropValueName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #PropId
+          #PropValueId
+          #PropValueName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #PropertyValue
+        PROPERTIES
+          Name                #PropertyValue
+          Label               #@ECH807
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PropValueId
+          #PropValueName
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #CidPropValueIdx
+      Id 30001
+      PROPERTIES
+        Name                #CidPropValueIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Cid
+        #PropId
+        #PropValueName
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #echTMallCategoryProperty
+        PROPERTIES
+          Name                #echTMallCategoryProperty
+          Table               #echTMallCategoryProperty
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Cid
+            RelatedField        #Cid
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PropId
+            RelatedField        #PropId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echInventTMallPropValue
+      PROPERTIES
+        Table               #echInventTMallPropValue
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #echItemBarcodeTMallPropValue
+      PROPERTIES
+        Table               #echItemBarcodeTMallPropValue
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #findByPropertyName
+        #static echTMallPropertyValue findByPropertyName(echTMallCategoryId         cid,
+        #                                                echTMallPropertyId         propId,
+        #                                                echTMallPropertyValueName  propValName,
+        #                                                boolean                    update = false)
+        #{
+        #    echTMallPropertyValue  tmallPropVal;
+        #;
+        #    tmallPropVal.selectForUpdate(update);
+        #
+        #    if (cid && propId && propValName)
+        #    {
+        #        select firstonly tmallPropVal
+        #          where tmallPropVal.Cid           == cid
+        #             && tmallPropVal.PropId        == propId
+        #             && tmallPropVal.PropValueName == propValName;
+        #    }
+        #
+        #    return tmallPropVal;
+        #}
+      ENDSOURCE
+      SOURCE #lookupByCidPropId
+        #public static void lookupByCidPropId(
+        #    FormControl         formCtrl,
+        #    echTMallCategoryId  cid,
+        #    echTMallPropertyId  propId)
+        #{
+        #    SysTableLookup        lookup;
+        #    Query                 qry;
+        #    QueryBuildDataSource  qbds;
+        #;
+        #    lookup = SysTableLookup::newParameters(tablenum(echTMallPropertyValue), formCtrl);
+        #    lookup.addLookupfield(fieldnum(echTMallPropertyValue, PropValueName), true);
+        #
+        #    qry = new Query();
+        #    qbds = qry.addDataSource(tablenum(echTMallPropertyValue));
+        #    qbds.addRange(fieldnum(echTMallPropertyValue, Cid)).value(queryValue(cid));
+        #    qbds.addRange(fieldnum(echTMallPropertyValue, PropId)).value(queryValue(propId));
+        #
+        #    lookup.parmQuery(qry);
+        #    lookup.performFormLookup();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

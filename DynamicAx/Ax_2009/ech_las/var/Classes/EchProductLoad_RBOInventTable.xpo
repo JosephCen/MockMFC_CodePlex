@@ -1,0 +1,197 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_RBOInventTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_RBOInventTable
+    Id 30286
+    PROPERTIES
+      Name                #EchProductLoad_RBOInventTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_RBOInventTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.ZeroPriceValid('ZeroPriceValid')
+        #    #define.UseEanStandardBarcode('UseEanStandardBarcode')
+        #    #define.UnitPriceIncludingTax('UnitPriceIncludingTax')
+        #    #define.TempGroupId('TempGroupId')
+        #    #define.TempControl('TempControl')
+        #    #define.StyleGroup('StyleGroup')
+        #    #define.SizeGroup('SizeGroup')
+        #    #define.SeasonCode('SeasonCode')
+        #    #define.ScaleItem('ScaleItem')
+        #    #define.RetailGroup('RetailGroup')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.QtyBecomesNegative('QtyBecomesNegative')
+        #    #define.PrintVariantsShelfLabels('PrintVariantsShelfLabels')
+        #    #define.NoInventPosting('NoInventPosting')
+        #    #define.NoDiscountAllowed('NoDiscountAllowed')
+        #    #define.MustKeyInComment('MustKeyInComment')
+        #    #define.LifeTo('LifeTo')
+        #    #define.LifeFrom('LifeFrom')
+        #    #define.KeyingInQty('KeyingInQty')
+        #    #define.KeyingInPrice('KeyingInPrice')
+        #    #define.ItemType('ItemType')
+        #    #define.ItemId('ItemId')
+        #    #define.ItemDepartment('ItemDepartment')
+        #    #define.InventoryOnPrePack('InventoryOnPrePack')
+        #    #define.FabricComposition('FabricComposition')
+        #    #define.DivisionGroup('DivisionGroup')
+        #    #define.DispensePrintingDisabled('DispensePrintingDisabled')
+        #    #define.DispensePrinterGroupId('DispensePrinterGroupId')
+        #    #define.DEL_validSalesPrice('DEL_validSalesPrice')
+        #    #define.DEL_itemFamily('DEL_itemFamily')
+        #    #define.DateToBeBlocked('DateToBeBlocked')
+        #    #define.DateToActivateItem('DateToActivateItem')
+        #    #define.DateBlocked('DateBlocked')
+        #    #define.CostCalculationOnPOS('CostCalculationOnPOS')
+        #    #define.ConcessionVendAccount('ConcessionVendAccount')
+        #    #define.ConcessionContractItem('ConcessionContractItem')
+        #    #define.ColorGroup('ColorGroup')
+        #    #define.BusinessGroup('BusinessGroup')
+        #    #define.BlockedOnPOS('BlockedOnPOS')
+        #    #define.BaseComparisonUnitCode('BaseComparisonUnitCode')
+        #    #define.BarcodeSetupId('BarcodeSetupId')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsBarcodeSetupId
+        #public boolean existsBarcodeSetupId()
+        #{
+        #    return this.exists(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #existsFabricComposition
+        #public boolean existsFabricComposition()
+        #{
+        #    return this.exists(#FabricComposition);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsLifeFrom
+        #public boolean existsLifeFrom()
+        #{
+        #    return this.exists(#LifeFrom);
+        #}
+      ENDSOURCE
+      SOURCE #existsLifeTo
+        #public boolean existsLifeTo()
+        #{
+        #    return this.exists(#LifeTo);
+        #}
+      ENDSOURCE
+      SOURCE #existsRetailGroup
+        #public boolean existsRetailGroup()
+        #{
+        #    return this.exists(#RetailGroup);
+        #}
+      ENDSOURCE
+      SOURCE #existsSeasonCode
+        #public boolean existsSeasonCode()
+        #{
+        #    return this.exists(#SeasonCode);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_RBOInventTable);
+        #}
+      ENDSOURCE
+      SOURCE #parmBarcodeSetupId
+        #public BarcodeSetupId parmBarcodeSetupId(BarcodeSetupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BarcodeSetupId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BarcodeSetupId);
+        #}
+      ENDSOURCE
+      SOURCE #parmFabricComposition
+        #public FSHFabricComposition parmFabricComposition(FSHFabricComposition _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#FabricComposition, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#FabricComposition);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmLifeFrom
+        #public FSHLifeFrom parmLifeFrom(FSHLifeFrom _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LifeFrom, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LifeFrom);
+        #}
+      ENDSOURCE
+      SOURCE #parmLifeTo
+        #public FSHLifeTo parmLifeTo(FSHLifeTo _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LifeTo, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LifeTo);
+        #}
+      ENDSOURCE
+      SOURCE #parmRetailGroup
+        #public RBORetailGroupId parmRetailGroup(RBORetailGroupId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RetailGroup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RetailGroup);
+        #}
+      ENDSOURCE
+      SOURCE #parmSeasonCode
+        #public FSHSeasonCode parmSeasonCode(FSHSeasonCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SeasonCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SeasonCode);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

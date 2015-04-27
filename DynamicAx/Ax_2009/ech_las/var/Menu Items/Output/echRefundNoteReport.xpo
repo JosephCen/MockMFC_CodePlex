@@ -1,0 +1,26 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echRefundNoteReport unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echRefundNoteReport
+    Type: 2
+    PROPERTIES
+      Name                #echRefundNoteReport
+      Label               #@ECH232
+      HelpText            #@ECH236
+      ObjectType          #Report
+      Object              #echRefundNoteReport
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+      WebMenuItemName     #echrefundNoteReport
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

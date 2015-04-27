@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSoCheckManager unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSoCheckManager
+    Type: 3
+    PROPERTIES
+      Name                #echSoCheckManager
+      Label               #@ECH218
+      HelpText            #@ECH219
+      ObjectType          #Class
+      Object              #echSoCheckManager
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustPeriodic
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

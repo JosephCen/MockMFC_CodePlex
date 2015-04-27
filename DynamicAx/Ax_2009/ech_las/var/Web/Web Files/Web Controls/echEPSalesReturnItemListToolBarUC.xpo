@@ -1,0 +1,140 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPSalesReturnItemListToolBarUC unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPSalesReturnItemListToolBarUC
+    PROPERTIES
+      Name                #echEPSalesReturnItemListToolBarUC
+      HelpText            #
+      Filename            #echEPSalesReturnItemListToolBarUC.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPSalesReturnItemListToolBarUC.ascx.cs" Inherits="AxWebUserControl" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts" tagprefix="dynamics" %>
+      #<dynamics:AxDataSource ID="ReturnItemTB_DS" runat="server" 
+      #    DataSetName="EPSalesTableList" ProviderView="SalesTable">
+      #</dynamics:AxDataSource> 
+      #<dynamics:AxToolBar ID="echEPSalesReturnItemListToolBar" runat="server" 
+      #    DataSourceID="ReturnItemTB_DS" 
+      #    WebMenuName="EPSalesReturnItemListToolbar" 
+      #    DataMember="SalesTable_Current" 
+      #    onactionmenuitemclicking="echEPSalesReturnItemListToolBar_ActionMenuItemClicking" />
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #
+      HelpText            #
+      Filename            #echEPSalesReturnItemListToolBarUC.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Microsoft.Dynamics.Portal.Application.Proxy;
+      #
+      #public partial class AxWebUserControl : System.Web.UI.UserControl
+      #{
+      #    DataSetViewRow currentRow
+      #    {
+      #        get
+      #        {
+      #            return this.ReturnItemTB_DS.GetDataSourceView(echEPSalesReturnItemListToolBar.DataMember).DataSetView.GetCurrent();
+      #        }
+      #    }
+      #
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #		
+      #
+      #    }
+      #
+      #    protected void echEPSalesReturnItemListToolBar_ActionMenuItemClicking(object sender, ActionMenuItemClickingEventArgs e)
+      #    {
+      #        if (e.MenuItem.MenuItemAOTName.Equals("echEditReturnOrder"))
+      #        {
+      #            e.MenuItem.ExtraParams.Add("SalesId", Convert.ToString(currentRow.GetRecord().GetField("SalesId")));
+      #        }
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+SOURCEFILE
+PROPERTIES
+  Name                #echEPSalesReturnItemListToolBarUC_ascx_cs
+  HelpText            #
+  Filename            #echEPSalesReturnItemListToolBarUC.ascx.cs
+  RelativePath        #
+  Version             #
+ENDPROPERTIES
+
+SOURCE #
+  #using System;
+  #using System.Collections;
+  #using System.Web;
+  #using System.Web.Security;
+  #using System.Web.UI;
+  #using System.Web.UI.WebControls;
+  #using System.Web.UI.WebControls.WebParts;
+  #using System.Web.UI.HtmlControls;
+  #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+  #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+  #using Microsoft.Dynamics.Framework.Data.Ax;
+  #using Microsoft.Dynamics.Portal.Application.Proxy;
+  #
+  #public partial class AxWebUserControl : System.Web.UI.UserControl
+  #{
+  #    DataSetViewRow currentRow
+  #    {
+  #        get
+  #        {
+  #            return this.ReturnItemTB_DS.GetDataSourceView(echEPSalesReturnItemListToolBar.DataMember).DataSetView.GetCurrent();
+  #        }
+  #    }
+  #
+  #    protected void Page_Load(object sender, EventArgs e)
+  #    {
+  #		
+  #
+  #    }
+  #
+  #    protected void echEPSalesReturnItemListToolBar_ActionMenuItemClicking(object sender, ActionMenuItemClickingEventArgs e)
+  #    {
+  #        if (e.MenuItem.MenuItemAOTName.Equals("echEditReturnOrder"))
+  #        {
+  #            e.MenuItem.ExtraParams.Add("SalesId", Convert.ToString(currentRow.GetRecord().GetField("SalesId")));
+  #        }
+  #    }
+  #}
+  #
+ENDSOURCE
+ENDSOURCEFILE
+
+ENDWEBCONTROL
+
+
+***Element: END

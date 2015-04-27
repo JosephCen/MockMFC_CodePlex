@@ -1,0 +1,109 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdBaseRead unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdBaseRead
+    Id 3319
+    PROPERTIES
+      Name                #AxdBaseRead
+      Extends             #
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #serializeRecord
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Call the new echPrepareForSerialization method
+        #
+        #protected void serializeRecord(AxdBaseRecordInfo _axdRecordInfo, boolean _topRecord=false)
+        #{
+        #    Common  common;
+        #    int     dataSourceId;
+        #    AxInternalBase  axInternalBase;
+        #    Map                     propertyInfoMap;
+        #    QueryBuildDataSource    queryBuildDataSource;
+        #    QueryBuildDataSource    childDataSource;
+        #    MapEnumerator              mapEnumerator;
+        #    int                     childDsCount;
+        #    int                     i;
+        #    ;
+        #    common = _axdRecordInfo.getRecord();
+        #    dataSourceId = _axdRecordInfo.getDatasourceId();
+        #    queryBuildDataSource = query.dataSourceNo(dataSourceId);
+        #    // Is AxInternalBase and PropertyInfoMap cached?
+        #    if (dataSourceId2AxBcMap.exists(dataSourceId)
+        #     && dataSourceIdPropertyInfoMap.exists(dataSourceId))
+        #    {
+        #        // Lookup AxInternalBase and PropertyInfoMap in the cache.
+        #        axInternalBase  = dataSourceId2AxBcMap.lookup(dataSourceId);
+        #        propertyInfoMap = dataSourceIdPropertyInfoMap.lookup(dataSourceId);
+        #        axInternalBase.setCurrentRecordFromExternal(common);
+        #    }
+        #    else
+        #    {
+        #        axInternalBase  = AxInternalBase::construct(common);
+        #        if (axInternalBase)
+        #        {
+        #            axInternalBase.mapPolicy(axMapPolicy);
+        #            axInternalBase.xmlDocDirection(XMLDocDirection::Outbound);
+        #            // Find all output properties and it's attributes
+        #            propertyInfoMap = this.getMethodInfoMap(classidget(axInternalBase), queryBuildDataSource);
+        #        }
+        #        else
+        #        {
+        #            // Find all output properties and it's attributes
+        #            propertyInfoMap = this.getFieldInfoMap(queryBuildDataSource);
+        #        }
+        #        dataSourceIdPropertyInfoMap.insert(queryBuildDataSource.id(), propertyInfoMap);
+        #        dataSourceId2AxBcMap.insert(queryBuildDataSource.id(), axInternalBase);
+        #    }
+        #
+        #
+        #// CS - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #    axdBase.echPrepareForSerialization(axInternalBase);
+        #// CE - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #
+        #    axdBase.processingRecord(common) ;
+        #    axdXmlWriter.writeStartTable(queryBuildDataSource.name());
+        #
+        #    if (axInternalBase)
+        #    {
+        #        if (_topRecord && propertyInfoMap.exists(methodstr(AxInternalBase,parm_DocumentHash)))
+        #        {
+        #            //Compute the document hash for top-level records that are not filtered out
+        #            axInternalBase.parm_DocumentHash(_axdRecordInfo.getRecordHash());
+        #        }
+        #        this.serializeClass(propertyInfoMap, axInternalBase);
+        #    }
+        #    else
+        #    {
+        #        this.serializeTable(propertyInfoMap , common);
+        #    }
+        #
+        #    childDSCount = queryBuildDataSource.childDataSourceCount();
+        #    //Serialize sub-datasources maintaining the order from the query
+        #    for (i=1; i<=childDSCount; i++)
+        #    {
+        #            childDataSource = queryBuildDataSource.childDataSourceNo(i);
+        #            mapEnumerator = _axdRecordInfo.getSubRecordsEnumerator(childDataSource.name());
+        #            while (mapEnumerator.moveNext())
+        #            {
+        #                this.serializeRecord(mapEnumerator.currentValue());
+        #            }
+        #    }
+        #    axdXmlWriter.writeEndTable();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

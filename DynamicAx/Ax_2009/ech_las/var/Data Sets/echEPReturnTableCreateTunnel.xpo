@@ -1,0 +1,642 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echEPReturnTableCreateTunnel
+  PROPERTIES
+    Name                #echEPReturnTableCreateTunnel
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_007
+      #// *** Customization Date: 02 May 2012
+      #// *** Customization Type: created
+      #// *** Description: duplicate from EPSalesTableCreateTunnel and adjusted for Return orders
+      #
+      #public class DataSetbRun extends ObjectRun
+      #{
+      #    SalesTableForm          salesTableForm;
+      #    int                     priceTransferParmId;
+      #    boolean                 basketRecordCreated;
+      #    Map                     mapDimCombinations;
+      #
+      #    NumberOfRecords         itemCounter;
+      #
+      #    SalesBasketId           salesBasketId;
+      #    SalesTable              tmpSalesTable;
+      #
+      #    CustAccount             custAccount_orig;
+      #    boolean                 showAddItemInventSiteCtrl;
+      #    boolean                 showAddItemInventLocationCtrl;
+      #
+      #    #define.SalesBasketId('EPSalesTableCreateTunnel_SalesBasketId')
+      #    #define.dimCombinations('EPSalesTableCreateTunnel_dimCombinations')
+      #    #define.custAccount_orig('EPSalesTableCreateTunnel_custAccount_orig')
+      #    #define.showAddItemInventSiteCtrl('EPSalesTableCreateTunnel_showshowAddItemInventSiteCtrl')
+      #    #define.showAddItemInventLocationCtrl('EPSalesTableCreateTunnel_showshowAddItemInventLocationCtrl')
+      #
+      #    #DEFINE.CurrentVersion(2)
+      #    #LOCALMACRO.CurrentList
+      #        salesBasketId, custAccount_Orig,
+      #        priceTransferParmId
+      #    ENDMACRO
+      #
+      #
+      #}
+    ENDSOURCE
+    SOURCE #validateLines
+      #boolean validateLines()
+      #{
+      #    return SalesBasket::checkPBALines(salesBasket.SalesBasketId);
+      #}
+    ENDSOURCE
+    SOURCE #cleanup
+      #public void cleanup()
+      #{;
+      #
+      #    if (salesBasketId)
+      #    {
+      #        ttsbegin;
+      #        delete_from salesBasketLine where salesBasketLine.SalesBasketId == salesBasketId;
+      #        ttscommit;
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #deleteSalesBasketInfo
+      #public void deleteSalesBasketInfo()
+      #{;
+      #
+      #    if (salesBasketId)
+      #    {
+      #        ttsbegin;
+      #        this.cleanup();
+      #        ttscommit;
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #createSalesOrder
+      #public SalesTable createSalesOrder()
+      #{
+      #    SalesTable      salesTableLocal;
+      #    ;
+      #
+      #    try
+      #    {
+      #        salesTableLocal = EP::createSalesOrder(salesTable,salesBasketLine_ds, '', false);
+      #    }
+      #    catch(Exception::Error)
+      #    {
+      #        return null;
+      #    }
+      #
+      #    if (salesTableLocal.RecId)
+      #        return salesTableLocal;
+      #
+      #    return null;
+      #}
+    ENDSOURCE
+    SOURCE #pack
+      #public container pack()
+      #{
+      #
+      #    return [#CurrentVersion, #CurrentList] + [super()];
+      #
+      #}
+    ENDSOURCE
+    SOURCE #unpack
+      #public boolean unpack(container _pack)
+      #{
+      #    Integer     version = conpeek(_pack,1);
+      #    container   base;
+      #    boolean     ret;
+      #    ;
+      #
+      #    switch (version)
+      #    {
+      #        case #CurrentVersion    :   [version, #currentList, base] = _pack;
+      #                                    ret = super(base);
+      #                                    break;
+      #        default: super(_pack);
+      #    }
+      #
+      #    return ret;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #initialiseSalesBasketSiteAndLocation
+      #boolean initialiseSalesBasketSiteAndLocation()
+      #{;
+      #
+      #    if (salesBasket.InventSiteId != salesTable.InventSiteId ||
+      #        salesBasket.InventLocationId != salesTable.InventLocationId)
+      #    {
+      #        salesBasket.reread();
+      #
+      #        salesBasket.InventSiteId = salesTable.InventSiteId;
+      #        salesBasket.InventLocationId = salesTable.InventLocationId;
+      #
+      #        if (salesBasket.validateField(fieldnum(SalesBasket,InventLocationId)) && salesBasket.validateWrite())
+      #        {
+      #            ttsbegin;
+      #            salesBasket.write();
+      #            ttscommit;
+      #        }
+      #        else
+      #        {
+      #            return false;
+      #        }
+      #    }
+      #
+      #    salesTable_ds.active();
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #initialiseCustomerInfo
+      #public boolean initialiseCustomerInfo(CustAccount _custAccount)
+      #{;
+      #
+      #    infolog.clear(0);
+      #
+      #    if (_custAccount == '')
+      #    {
+      #        // CustAccount is a mandatory field.
+      #        warning(strfmt('@SYS26332',fieldid2pname(tablenum(SalesTable), fieldnum(SalesTable, CustAccount))));
+      #        return false;
+      #    }
+      #    else
+      #    {
+      #        if (custAccount_orig && custAccount_orig != _custAccount)
+      #        {
+      #            ttsbegin;
+      #            delete_from salesBasketLine where salesBasketLine.SalesBasketId == salesBasket.SalesBasketId;
+      #            ttscommit;
+      #        }
+      #
+      #        salesTable.CustAccount = _custAccount;
+      #
+      #        if (!salesTable.validateField(fieldnum(SalesTable, CustAccount)))
+      #            return false;
+      #
+      #        if (custAccount_orig != _custAccount)
+      #        {
+      #            salesTableForm = SalesTableForm::construct(SalesTableFormId::ReturnOrder,salesTable);
+      #            salesTableForm.custAccount(_custAccount);
+      #            salesBasket_ds.create();
+      #            custAccount_orig = _custAccount;
+      #        }
+      #    }
+      #
+      #    salesTable_ds.active();
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #validateAddress
+      #boolean validateAddress()
+      #{
+      #    boolean     retVal;
+      #    ;
+      #
+      #    retVal = salesTable.AddressMap::validateAddress();
+      #    salesTable_ds.active();
+      #
+      #    return retVal;
+      #}
+    ENDSOURCE
+    SOURCE #formatAddress
+      #void formatAddress()
+      #{;
+      #
+      #    salesTable.AddressMap::formatAddress();
+      #    salesTable_ds.active();
+      #}
+    ENDSOURCE
+    SOURCE #addSalesBasketLine
+      #int addSalesBasketLine(RecId _inventTableRecId, RecId _inventDimCombinationRecId,
+      #        real _salesQty, InventSiteId _inventSiteId, InventSiteId _inventLocationId)
+      #{
+      #    #define.failed(0)
+      #    #define.saved(1)
+      #    #define.gotoPB(2)
+      #
+      #    InventTable             inventTable;
+      #    InventDimCombination    inventDimCombination;
+      #    InventDim               inventDim;
+      #    int                     retValue;
+      #    RecId                   tmpLineRecId = 0;
+      #    ;
+      #
+      #    // Clear all the previous infologs.
+      #    infolog.clear(0);
+      #
+      #    ttsbegin;
+      #    inventTable = InventTable::findRecId(_inventTableRecId);
+      #
+      #    if (inventTable)
+      #    {
+      #        salesBasketLine_ds.create();
+      #
+      #        salesBasketLine.ItemId = inventTable.ItemId;
+      #        salesBasketLine.modifiedField(fieldnum(SalesBasketLine,ItemId));
+      #
+      #        inventDim.initFromInventDim(salesBasketLine.inventDim());
+      #
+      #        if (_inventSiteId != '' || _inventLocationId != '')
+      #        {
+      #            if (_inventSiteId != '')
+      #            {
+      #                inventDim.InventSiteId = _inventSiteId;
+      #                inventDim.modifiedField(fieldnum(InventDim,InventSiteId));
+      #            }
+      #
+      #            if (_inventLocationId != '')
+      #            {
+      #                inventDim.InventLocationId = _inventLocationId;
+      #                inventDim.modifiedField(fieldnum(InventDim,InventLocationId));
+      #            }
+      #
+      #            salesBasketLine.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+      #            salesBasketLine.modifiedField(fieldnum(SalesBasketLine,InventDimId));
+      #        }
+      #
+      #        salesBasketLine.SalesQty = _salesQty;
+      #
+      #        inventDimCombination = InventDimCombination::findRecId(_inventDimCombinationRecId);
+      #        if (inventDimCombination)
+      #        {
+      #            inventDim = salesBasketLine.inventDim();
+      #            inventDim.initFromInventDimCombination(inventDimCombination);
+      #
+      #            if (inventDim.InventDimId)
+      #            {
+      #                salesBasketLine.ItemConfiguration = inventDimCombination.Name;
+      #                salesBasketLine.modifyItemDim(inventDim);
+      #            }
+      #        }
+      #
+      #        if (salesBasketLine.validateWrite())
+      #        {
+      #            salesBasketLine.setAlternativeItem();
+      #            salesBasketLine.modifiedField(fieldnum(SalesBasketLine,SalesQty));
+      #
+      #            salesBasketLine.insert();
+      #
+      #            salesBasketLine_ds.setCurrent();
+      #
+      #            retValue = 1;
+      #
+      #            if ( isConfigurationkeyEnabled(configurationkeynum(PBA_ProductBuildingWebApp)) &&
+      #               InventTable::find(salesBasketLine.ItemId).pbaItemConfigurable )
+      #            {
+      #                if(PBAExecute::checkErrors(salesBasketLine.ItemId,salesBasketLine.ItemPBAId))
+      #                {
+      #                    salesTable.write();
+      #                    salesTable_ds.refresh();
+      #                    retValue = 2;
+      #                }
+      #            }
+      #        }
+      #        else
+      #        {
+      #            salesBasketLine_ds.delete();
+      #
+      #            retValue = 0;
+      #        }
+      #    }
+      #
+      #    ttscommit;
+      #
+      #    return retValue;
+      #}
+    ENDSOURCE
+    SOURCE #multiSiteActive
+      #public boolean multiSiteActive()
+      #{;
+      #
+      #    return classfactory.inventDimGlobal().inventSiteActiveWithoutItem();
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    CustTable   custTable;
+      #    EPPriceCalc epPriceCalc;
+      #    ;
+      #
+      #    infolog.clear(0);
+      #
+      #    if (element.args().dataset() == tablenum(EPPriceCalc))
+      #    {
+      #        epPriceCalc = element.args().record();
+      #        custTable = CustTable::find(epPriceCalc.AccountNum);
+      #        priceTransferParmId = epPriceCalc.ParmId;
+      #    }
+      #
+      #    salesTableForm = SalesTableForm::construct(SalesTableFormId::ReturnOrder,salesTable); //element.args().record());
+      #
+      #    if (element.args().record())
+      #    {
+      #        switch(element.args().dataset())
+      #        {
+      #            case tablenum(CustTable)   :
+      #                custTable = element.args().record();
+      #                salesTableForm.custAccount(custTable.AccountNum);
+      #                break;
+      #
+      #            case tablenum(EPPriceCalc) :
+      #                salesTableForm.custAccount(custTable.AccountNum);
+      #                break;
+      #        }
+      #    }
+      #
+      #    super();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD CurrencyCode
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    if (salesBasket.CurrencyCode != salesTable.CurrencyCode)
+                #    {
+                #        salesBasket.convertCurrencyCode(salesTable.CurrencyCode, TradeCurencyConversion::TradeAgreements);
+                #        salesBasket.doUpdate();
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryCounty
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{;
+                #    AddressCounty::webLookupCounty(_filterStr);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    return true;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryState
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{;
+                #    AddressState::webLookupState(_filterStr);
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    return true;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #public boolean validateWrite()
+          #{;
+          #
+          #    return super();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #initValue
+          #void  initValue()
+          #{
+          #    EPPersonalize   epPersonalize = EPPersonalize::find(curuserid());
+          #    ;
+          #    super();
+          #
+          #    salesTableForm.initValues();
+          #
+          #    salesTable.SalesType    = SalesType::ReturnItem;
+          #    salesTable.ReturnStatus = ReturnStatusHeader::Created;
+          #
+          #    salesTable.ReturnItemNum = NumberSeq::newGetNum(SalesParameters::numRefReturnItemNum()).num();
+          #
+          #    salesTable.SalesId      = 'tmp';
+          #    salesTable.CustAccount  = salesTableForm.custAccount();
+          #
+          #    if (salesTable.CustAccount)
+          #    {
+          #        salesTable.initFromCustTable();
+          #        if (salesTable.CustAccount != salesTable.InvoiceAccount)
+          #            salesTable.transferInvoiceAccount();
+          #    }
+          #
+          #    salesTable.SalesTaker       = SysCompanyUserInfo::current().EmplId;
+          #    salesTable.SalesOriginId    = epPersonalize.SalesOriginId;
+          #    salesTable.SalesGroup       = epPersonalize.SalesGroupId;
+          #}
+          #
+          #
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #    //BP Deviation documented
+          #    salesTable.setTmp();
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #public void write()
+          #{
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesBasket
+          Table               #SalesBasket
+          DelayActive         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    EPPriceCalc     tmpPriceCalc;
+          #
+          #    super();
+          #
+          #    salesBasket.SalesBasketId   = NumberSeq::newGetNum(ECPParameters::numRefSalesBasketId()).num();
+          #    salesBasket.CustAccount     = salesTableForm.custAccount();
+          #    salesBasket.initFromCustTable();
+          #    salesBasket.InternalExternal= InternalExternal::Internal;
+          #    salesBasket.insert();
+          #
+          #    salesBasketId = salesBasket.SalesBasketId;
+          #
+          #    if (priceTransferParmId)
+          #    {
+          #        ttsbegin;
+          #        while select * from tmpPriceCalc where tmpPriceCalc.ParmId == priceTransferParmId && tmpPriceCalc.Transfer
+          #        {
+          #            salesBasketLine.clear();
+          #            salesBasketLine.SalesBasketId = salesBasket.SalesBasketId;
+          #            salesBasketLine.ItemId = tmpPriceCalc.ItemId;
+          #            salesbasketLine.initFromInventTable(InventTable::find(salesBasketLine.ItemId));
+          #            salesBasketLine.InventDimId = tmpPriceCalc.InventDimId;
+          #            salesBasketLine.SalesQty = tmpPriceCalc.SalesQty;
+          #            salesBasketLine.ItemConfiguration = InventDimCombination::find(salesBasketLine.ItemId, salesBasketLine.inventDim()).Name;
+          #            salesBasketLine.SalesPurchLine::resetPriceAgreement();
+          #            salesBasketLine.setPriceDisc(salesBasketLine.inventDim());
+          #            salesBasketLine.insert();
+          #        }
+          #        ttscommit;
+          #    }
+          #}
+          #
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    QueryBuildRange     rangeSalesBasketId;
+          #    super();
+          #
+          #    if (salesBasketId)
+          #    {
+          #        rangeSalesBasketId = this.query().dataSourceTable(tablenum(SalesBasket)).addRange(fieldnum(SalesBasket, SalesBasketId));
+          #        rangeSalesBasketId.value(queryValue(salesBasketId));
+          #        rangeSalesBasketId.status(RangeStatus::Hidden);
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesBasketLine
+          Table               #SalesBasketLine
+          JoinSource          #SalesBasket
+          LinkType            #Active
+          DelayActive         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD ItemConfiguration
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD LinePercent
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD LineDisc
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD LineAmount
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesPrice
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #initValue
+          #public void initValue()
+          #{;
+          #    salesBasketLine.initFromSalesBasket(salesBasket);
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #itemName
+          #//BP Deviation documented
+          #display ItemName itemName(SalesBasketLine _salesBasketLine)
+          #{;
+          #    return InventTable::find(_salesBasketLine.ItemId).ItemName;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    SalesBasketLine SalesBasket
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

@@ -1,0 +1,289 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventJournalTrans unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventJournalTrans
+    Id 2900
+    PROPERTIES
+      Name                #AxInventJournalTrans
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #/// <summary>
+        #///    The <c>AxInventJournalTrans</c> class wraps the <c>InventJournalTrans</c> table, applies the correct update sequence, and provides default values wherever possible.
+        #/// </summary>
+        #/// <remarks>
+        #///    This class is derived from <c>AxInternalBase</c> class.
+        #/// </remarks>
+        #class AxInventJournalTrans extends AxInternalBase implements AxInventSiteDimensionable
+        #{
+        #    JournalTableData                journalTableData;
+        #    JournalTransData                journalTransData;
+        #    AxInventDim_InventJournalTrans  axInventDim;
+        #    AxInventDim_InventJournalTrans  axToInventDim;
+        #    InventJournalTrans              inventJournalTrans;
+        #    InventJournalTrans              inventJournalTrans_Last;
+        #
+        #    int                             inventTableIdx;
+        #    int                             inventPriceMapIdx;
+        #    int                             inventJournalTableIdx;
+        #    LineNum                         lineNum;
+        #
+        #    echSkuId                        echSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsExemptionList
+        #protected void initMandatoryFieldsExemptionList()
+        #{
+        #    super();
+        #    this.setParmMethodAsNotMandatory(methodstr(AxInventJournalTrans, parmTransDate));
+        #
+        #    // Begin - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #    if (isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #    {
+        #        this.setParmMethodAsNotMandatory(methodstr(AxInventJournalTrans, parmItemId));
+        #    }
+        #    // End - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBarcodeId
+        #// Update ECH_WI_01965 by mengqi.cen on 20130123
+        #//     Distall the logical of get EchItemBarcode into 1 function
+        #// Update ECH_WI_01951 by mengqi.cen on 20130110
+        #//     Retrieve value of 'EchItemBarCode' from table field 'InventItemBarcode.echItemBarCode'.
+        #// Avanade.15.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #public EchItemBarCode parmEchBarcodeId(EchItemBarCode _echItemBarCode = '')
+        #{
+        #    EchItemBarCode echItemBarCode;
+        #;
+        #    echItemBarCode = InventItemBarcode::findItemByInventDimCSCS_SkuBarcodeSetup(
+        #                                                                        this.parmItemId(),
+        #                                                                        this.parmInventDimId()).echItemBarCode;
+        #
+        #    return echItemBarCode;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchReasonId
+        #// Avanade.15.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #public EchReasonId parmEchReasonId(echReasonId _echReasonId = '')
+        #{
+        #    if (!prmisdefault(_echReasonId))
+        #    {
+        #        this.setField(fieldNum(InventJournalTrans, EchReasonId), _echReasonId);
+        #    }
+        #
+        #    return inventJournalTrans.EchReasonId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #// Avanade.15.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #public echSkuId parmEchSkuId(echSkuId _echSkuId = '')
+        #{
+        #    if (_echSkuId)
+        #    {
+        #        this.setEchSkuId(_echSkuId);
+        #    }
+        #
+        #    return echSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTHandheldUserId
+        #public HHTUserId parmHHTHandheldUserId(HHTUserId _hHTHandheldUserId = '')
+        #{
+        #    if (!prmisdefault(_hHTHandheldUserId))
+        #    {
+        #        this.setField(fieldNum(InventJournalTrans, HHTHandheldUserId), _hHTHandheldUserId);
+        #    }
+        #
+        #    return inventJournalTrans.HHTHandheldUserId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTInfocodeId
+        #public HHTInfocodeId parmHHTInfocodeId(HHTInfocodeId _hHTInfocodeId = '')
+        #{
+        #    if (!prmisdefault(_hHTInfocodeId))
+        #    {
+        #        this.setField(fieldNum(InventJournalTrans, HHTInfocodeId), _hHTInfocodeId);
+        #    }
+        #
+        #    return inventJournalTrans.HHTInfocodeId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTInformationSubcodeId
+        #public HHTInformationSubcodeId parmHHTInformationSubcodeId(HHTInformationSubcodeId _hHTInformationSubcodeId = '')
+        #{
+        #    if (!prmisdefault(_hHTInformationSubcodeId))
+        #    {
+        #        this.setField(fieldNum(InventJournalTrans, HHTInformationSubcodeId), _hHTInformationSubcodeId);
+        #    }
+        #
+        #    return inventJournalTrans.HHTInformationSubcodeId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTTransDate
+        #public HHTDate parmHHTTransDate(HHTDate _hHTTransDate = dateNull())
+        #{
+        #    if (!prmisdefault(_hHTTransDate))
+        #    {
+        #        this.setField(fieldNum(InventJournalTrans, HHTTransDate), _hHTTransDate);
+        #    }
+        #
+        #    return inventJournalTrans.HHTTransDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTTransTime
+        #public HHTTime parmHHTTransTime(HHTTime _hHTTransTime = 0)
+        #{
+        #    if (!prmisdefault(_hHTTransTime))
+        #    {
+        #        this.setField(fieldNum(InventJournalTrans, HHTTransTime), _hHTTransTime);
+        #    }
+        #
+        #    return inventJournalTrans.HHTTransTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmReasonRefRecId
+        #public ReasonRefRecID parmReasonRefRecId(ReasonRefRecID _reasonRefRecId = 0)
+        #{
+        #    if (!prmisdefault(_reasonRefRecId))
+        #    {
+        #        this.setField(fieldNum(InventJournalTrans, ReasonRefRecId), _reasonRefRecId);
+        #    }
+        #
+        #    return inventJournalTrans.ReasonRefRecId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchReasonId
+        #// Avanade.15.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #protected void setEchReasonId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, EchReasonId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchSkuId
+        #// Update ECH_WI_01959 by mengqi.cen on 20130115
+        #//    Fix of Bug 1958 - stockmovement bug for can not setup color/size by echskuid
+        #// Avanade.15.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #protected void setEchSkuId(echSkuId _echSkuId)
+        #{
+        #    InventItemBarcode      inventItemBarcode;
+        #    InventDim              inventDim;
+        #    ;
+        #
+        #    echSkuId = _echSkuId;
+        #
+        #    inventItemBarcode   = InventItemBarcode::findBySkuId(echSkuId);
+        #
+        #    if (inventItemBarcode)
+        #    {
+        #        inventDim = InventDim::find(inventItemBarcode.inventDimId);
+        #
+        #        this.parmItemId(inventItemBarcode.itemId);
+        #        this.parmInventDimId(inventItemBarcode.inventDimId);
+        #        this.axInventDim().allDimensions(inventDim);
+        #    }
+        #    else
+        #    {
+        #        checkFailed(strFmt('@SYS112224', _echSkuId,
+        #                           strFmt('@SYS70938', fieldpname(InventItemBarcode, itemBarCode), fieldstr(InventItemBarcode, itemBarCode)),
+        #                           tablestr(InventItemBarcode)));
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTAreaId
+        #protected void setHHTAreaId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, HHTAreaId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTHandheldUserId
+        #protected void setHHTHandheldUserId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, HHTHandheldUserId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTInfocodeId
+        #protected void setHHTInfocodeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, HHTInfocodeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTInformationSubcodeId
+        #protected void setHHTInformationSubcodeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, HHTInformationSubcodeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTTransDate
+        #protected void setHHTTransDate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, HHTTransDate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTTransTime
+        #protected void setHHTTransTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, HHTTransTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReasonRefRecId
+        #protected void setReasonRefRecId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTrans, ReasonRefRecId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

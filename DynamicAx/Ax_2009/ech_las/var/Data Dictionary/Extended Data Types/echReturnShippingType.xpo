@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echReturnShippingType unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echReturnShippingType
+  Id 30080
+  STRING
+    PROPERTIES
+      Name                #echReturnShippingType
+      Label               #@ECH441
+      HelpText            #@ECH442
+      ConfigurationKey    #echProcesses
+      StringSize          #20
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

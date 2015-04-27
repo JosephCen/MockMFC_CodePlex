@@ -1,0 +1,57 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echWMSJournalPost unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echWMSJournalPost
+    Id 30061
+    PROPERTIES
+      Name                #echWMSJournalPost
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_008
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: post wmsjournals
+        #
+        #class echWMSJournalPost
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_008
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: actual post
+        #
+        #public static void Main(Args _args)
+        #{
+        #    WMSJournalTable     wmsJournalTable;
+        #    journalCheckPost    journalCheckPost;
+        #    ;
+        #
+        #    if (!_args || !_args.record() || _args.record().TableId != tablenum(WMSJournalTable))
+        #        throw error(strfmt("@SYS118115", staticmethodstr(echWMSJournalPost, Main)));
+        #
+        #    wmsJournalTable = _args.record();
+        #
+        #    journalCheckPost = WMSJournalCheckPostReception::newTypeJournalTable(JournalCheckPostType::Post, wmsJournalTable);
+        #    journalCheckPost.parmAutoBlock(true);
+        #    journalCheckPost.run();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

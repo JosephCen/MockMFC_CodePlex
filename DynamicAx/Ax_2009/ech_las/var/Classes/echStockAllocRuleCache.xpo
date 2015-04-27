@@ -1,0 +1,296 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echStockAllocRuleCache unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echStockAllocRuleCache
+    Id 30332
+    PROPERTIES
+      Name                #echStockAllocRuleCache
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echStockAllocRuleCache
+        #{
+        #    Map  assortmentCache;
+        #    Map  inventLocMap;
+        #    Map  itemAllocCache;
+        #
+        #    #define.PcntSumIdx(1)
+        #    #define.Pcnt100(100)
+        #}
+      ENDSOURCE
+      SOURCE #getAllocPercentage
+        #// Add ECH_WI_02335 by mengqi.cen on 20130722
+        #public container getAllocPercentage(ItemId _itemId)
+        #{
+        #;
+        #    return itemAllocCache.lookup(_itemId);
+        #}
+      ENDSOURCE
+      SOURCE #getInventLocationMap
+        #// Add ECH_WI_02335 by mengqi.cen on 20130722
+        #public Map getInventLocationMap()
+        #{
+        #;
+        #    return inventLocMap;
+        #}
+      ENDSOURCE
+      SOURCE #getPercentageSumIdx
+        #// Add ECH_WI_02335 by mengqi.cen on 20130722
+        #public int getPercentageSumIdx()
+        #{
+        #;
+        #    return #PcntSumIdx;
+        #}
+      ENDSOURCE
+      SOURCE #init
+        #// Add ECH_WI_02335 by mengqi.cen on 20130722
+        #public void init()
+        #{
+        #;
+        #    this.initAssortmentData();
+        #    this.initItemAllocData();
+        #}
+      ENDSOURCE
+      SOURCE #initAssortmentData
+        #// Add ECH_WI_02335 by mengqi.cen on 20130722
+        #private void initAssortmentData()
+        #{
+        #    InventLocation          invLocation;
+        #    echItemStoreListVw      itemStoreVw;
+        #    set                     _itemIdSet;
+        #;
+        #    if (!assortmentCache)
+        #    {
+        #        assortmentCache = new Map(Types::String, Types::Class);
+        #
+        #        while select invLocation
+        #                where invLocation.echMsgPartnerId != ''
+        #                   || invLocation.InventLocationType == InventLocationType::Standard
+        #        {
+        #            _itemIdSet = new set(Types::String);
+        #            assortmentCache.insert(invLocation.InventLocationId, _itemIdSet);
+        #        }
+        #
+        #        while select itemStoreVw
+        #        {
+        #            _itemIdSet = assortmentCache.lookup(itemStoreVw.inventLocation);
+        #            _itemIdSet.add(itemStoreVw.itemRelation);
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #initItemAllocData
+        #// Add ECH_WI_02335 by mengqi.cen on 20130722
+        #private void initItemAllocData()
+        #{
+        #    InventLocation                    invLocation;
+        #    RBOInventTable                    rboInvTable;
+        #    InventTable                       invTable;
+        #    echStockAllocationRule            stockAllocRule;
+        #    InventDim                         invDim;
+        #    int                               _allocPcntIdx;
+        #    echStockAllocationRulePercentage  _unAllocPcnt; // Sum of allocation percentage of an given item for all unassigned channels.
+        #    container                         _allocPcntCon;
+        #    ItemId                            _itemId;
+        #
+        #    container genEmptyPcntCon(int _conLen)
+        #    {
+        #        container emptyCon;
+        #        int       i;
+        #    ;
+        #        emptyCon = conNull();
+        #        for (i = 0; i < _conLen; ++i)
+        #            emptyCon += 0;
+        #
+        #        return emptyCon;
+        #    }
+        #
+        #    void insertAllocCon()
+        #    {
+        #    ;
+        #        if (_itemId && !itemAllocCache.exists(_itemId))
+        #        {
+        #            // If sum of allocation percentage is 0, assign 100 to sum.
+        #            if ((#Pcnt100 - _unAllocPcnt) > 0)
+        #                _allocPcntCon = conPoke(_allocPcntCon, #PcntSumIdx, (#Pcnt100 - _unAllocPcnt));
+        #            else
+        #                _allocPcntCon = conPoke(_allocPcntCon, #PcntSumIdx, #Pcnt100);
+        #            itemAllocCache.insert(_itemId, _allocPcntCon);
+        #        }
+        #    }
+        #
+        #    void addAllocRule(echStockAllocationRulePercentage _pcnt,
+        #                      InventLocationId                 _invLocId,
+        #                      ItemId                           _pcntItemId)
+        #    {
+        #        set      _itemIdSet;
+        #        boolean  _bInItemIdSet;
+        #    ;
+        #        // If item is not existing in a channel, set the allocation percentage of this item in thic channel to 0.
+        #        _itemIdSet = assortmentCache.lookup(_invLocId);
+        #        _bInItemIdSet = _itemIdSet.in(_pcntItemId);
+        #
+        #        if (_pcntItemId != _itemId)
+        #        {
+        #            if (_itemId && !itemAllocCache.exists(_itemId))
+        #                insertAllocCon();
+        #
+        #            _allocPcntCon = genEmptyPcntCon(inventLocMap.elements() + 1);
+        #            _itemId = _pcntItemId;
+        #
+        #            _unAllocPcnt = (_bInItemIdSet ? 0 : _pcnt);
+        #            _allocPcntCon = conPoke(_allocPcntCon, inventLocMap.lookup(_invLocId), (_bInItemIdSet ? _pcnt : 0));
+        #        }
+        #        else
+        #        {
+        #            _unAllocPcnt += (_bInItemIdSet ? 0 : _pcnt);
+        #            _allocPcntCon = conPoke(_allocPcntCon, inventLocMap.lookup(_invLocId), (_bInItemIdSet ? _pcnt : 0));
+        #        }
+        #    }
+        #;
+        #    if (!inventLocMap && !itemAllocCache)
+        #    {
+        #        inventLocMap = new Map(Types::String, Types::Integer);
+        #
+        #        _allocPcntIdx = #PcntSumIdx;
+        #
+        #        while select invLocation
+        #                where invLocation.echMsgPartnerId != ''
+        #                   || invLocation.InventLocationType == InventLocationType::Standard
+        #        {
+        #            ++_allocPcntIdx;
+        #            inventLocMap.insert(invLocation.InventLocationId, _allocPcntIdx);
+        #        }
+        #
+        #        itemAllocCache = new Map(Types::String, Types::Container);
+        #
+        #        // Initial item level allocation percentage
+        #        while select stockAllocRule
+        #                order by stockAllocRule.ItemId
+        #                where stockAllocRule.Type == TableGroupAll::Table
+        #                join invDim
+        #                  where stockAllocRule.InventDimId == invDim.inventDimId
+        #        {
+        #            addAllocRule(stockAllocRule.AllocationRulePercentage, invDim.InventLocationId, stockAllocRule.ItemId);
+        #        }
+        #        insertAllocCon();
+        #        _itemId = '';
+        #
+        #        // Initial retail group level allocation percentage
+        #        while select rboInvTable
+        #                order by rboInvTable.itemId
+        #                join stockAllocRule
+        #                  where stockAllocRule.RetailGroup == rboInvTable.retailGroup
+        #                     && stockAllocRule.Type == TableGroupAll::GroupId
+        #                  join invDim
+        #                    where stockAllocRule.InventDimId == invDim.inventDimId
+        #                exists join invTable
+        #                  where invTable.ItemId   == rboInvTable.itemId
+        #                     && invTable.ItemType != ItemType::Service
+        #        {
+        #            addAllocRule(stockAllocRule.AllocationRulePercentage, invDim.InventLocationId, rboInvTable.itemId);
+        #        }
+        #        insertAllocCon();
+        #        _itemId = '';
+        #
+        #        // Initial all level allocation percentage
+        #        while select invTable
+        #                order by invTable.ItemId
+        #                where invTable.ItemType != ItemType::Service
+        #                join stockAllocRule
+        #                  where stockAllocRule.Type == TableGroupAll::All
+        #                  join invDim
+        #                    where stockAllocRule.InventDimId == invDim.inventDimId
+        #        {
+        #            addAllocRule(stockAllocRule.AllocationRulePercentage, invDim.InventLocationId, invTable.ItemId);
+        #        }
+        #        insertAllocCon();
+        #        _itemId = '';
+        #
+        #        // All missing item allocation rule
+        #        while select invTable
+        #                where invTable.ItemType != ItemType::Service
+        #        {
+        #            if (!itemAllocCache.exists(invTable.ItemId))
+        #            {
+        #                _allocPcntCon = genEmptyPcntCon(inventLocMap.elements() + 1);
+        #                _allocPcntCon = conPoke(_allocPcntCon, #PcntSumIdx, #Pcnt100);
+        #                itemAllocCache.insert(invTable.ItemId, _allocPcntCon);
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echStockAllocRuleCache construct()
+        #{
+        #;
+        #    return (new echStockAllocRuleCache());
+        #}
+      ENDSOURCE
+      SOURCE #UnitTest_CheckPercentage
+        #// Add ECH_WI_02335 by mengqi.cen on 20130723
+        #public static boolean unitTest_CheckPercentage(echStockAllocRuleCache _testCache)
+        #{
+        #    #define.InventSiteECOM('ECOM')
+        #
+        #    boolean                           status;
+        #    InventTable                       invTable;
+        #    RBOInventTable                    rboInvTable;
+        #    Map                               inventLocMap;
+        #    MapEnumerator                     inventLocMapE;
+        #    container                         allocPcntCon;
+        #    InventDim                         invDim;
+        #    echStockAllocationRulePercentage  curPcnt, expectedPcnt;
+        #    echItemStoreListVw                itemStoreVw;
+        #;
+        #    status = true;
+        #
+        #    inventLocMap = _testCache.getInventLocationMap();
+        #    info(inventLocMap.toString());
+        #
+        #    while select invTable
+        #            where invTable.ItemType != ItemType::Service
+        #    {
+        #        select firstonly rboInvTable
+        #          where rboInvTable.itemId == invTable.ItemId;
+        #
+        #        allocPcntCon = _testCache.getAllocPercentage(invTable.ItemId);
+        #
+        #        inventLocMapE = inventLocMap.getEnumerator();
+        #        while (inventLocMapE.moveNext())
+        #        {
+        #            invDim.InventSiteId = #InventSiteECOM;
+        #            invDim.InventLocationId = inventLocMapE.currentKey();
+        #            expectedPcnt =
+        #                echStockAllocationRule::findRulePercentage(rboInvTable.itemId, rboInvTable.retailGroup, invDim);
+        #            select firstonly itemStoreVw
+        #              where itemStoreVw.itemRelation   == rboInvTable.itemId
+        #                 && itemStoreVw.inventLocation == inventLocMapE.currentKey();
+        #
+        #            curPcnt = conPeek(allocPcntCon, inventLocMapE.currentValue());
+        #            if (expectedPcnt != curPcnt && itemStoreVw)
+        #            {
+        #                status = false;
+        #                info(strFmt('%1: %2', invTable.ItemId, con2Str(allocPcntCon)));
+        #            }
+        #        }
+        #    }
+        #
+        #    return status;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

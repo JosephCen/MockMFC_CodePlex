@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echInvoiceTitleId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echInvoiceTitleId
+  Id 30089
+  STRING
+    PROPERTIES
+      Name                #echInvoiceTitleId
+      Label               #@ECH793
+      HelpText            #@ECH794
+      ConfigurationKey    #echProcesses
+      StringSize          #255
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

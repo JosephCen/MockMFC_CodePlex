@@ -1,0 +1,272 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echAxInventStckQueue_echInventStockQueue unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echAxInventStckQueue_echInventStockQueue
+    Id 30029
+    PROPERTIES
+      Name                #echAxInventStckQueue_echInventStockQueue
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_01978 by mengqi.cen on 20130218
+        #class echAxInventStckQueue_echInventStockQueue extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchSkuId('EchSkuId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Qty('Qty')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.InventStyleId('InventStyleId')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventColorId('InventColorId')
+        #    #define.ErrorMessage('ErrorMessage')
+        #    #define.ConfigId('ConfigId')
+        #    #define.BatchStatus('BatchStatus')
+        #    #define._DocumentHash('_DocumentHash')
+        #    #define.ItemId('ItemId')
+        #}
+        #
+      ENDSOURCE
+      SOURCE #exists_DocumentHash
+        #public boolean exists_DocumentHash()
+        #{
+        #    return this.exists(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #existsBatchStatus
+        #public boolean existsBatchStatus()
+        #{
+        #    return this.exists(#BatchStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsConfigId
+        #public boolean existsConfigId()
+        #{
+        #    return this.exists(#ConfigId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchSkuId
+        #public boolean existsEchSkuId()
+        #{
+        #    return this.exists(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsErrorMessage
+        #public boolean existsErrorMessage()
+        #{
+        #    return this.exists(#ErrorMessage);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventColorId
+        #public boolean existsInventColorId()
+        #{
+        #    return this.exists(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSiteId
+        #public boolean existsInventSiteId()
+        #{
+        #    return this.exists(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSizeId
+        #public boolean existsInventSizeId()
+        #{
+        #    return this.exists(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventStyleId
+        #// Create ECH_WI_01978 by mengqi.cen on 20130218
+        #public boolean existsInventStyleId()
+        #{
+        #    return this.exists(#InventStyleId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsQty
+        #public boolean existsQty()
+        #{
+        #    return this.exists(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echAxInventStockQueue_echInventStockQueue);
+        #}
+      ENDSOURCE
+      SOURCE #parm_DocumentHash
+        #public str parm_DocumentHash(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#_DocumentHash, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #parmBatchStatus
+        #public BatchStatus parmBatchStatus(BatchStatus _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#BatchStatus, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#BatchStatus);
+        #}
+      ENDSOURCE
+      SOURCE #parmConfigId
+        #public ConfigId parmConfigId(ConfigId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ConfigId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ConfigId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #public echSkuId parmEchSkuId(echSkuId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmErrorMessage
+        #public SysInfoLogStr parmErrorMessage(SysInfoLogStr _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ErrorMessage, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ErrorMessage);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventColorId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventColorId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSiteId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSizeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSizeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventStyleId
+        #// Create ECH_WI_01978 by mengqi.cen on 20130218
+        #public RBOInventStyleId parmInventStyleId(RBOInventStyleId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventStyleId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventStyleId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public ItemId parmItemId(ItemId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmQty
+        #public Qty parmQty(Qty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Qty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

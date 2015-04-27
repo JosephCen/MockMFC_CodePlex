@@ -1,0 +1,81 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echAddressJumpRef unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echAddressJumpRef
+    Id 30303
+    PROPERTIES
+      Name                #echAddressJumpRef
+      Extends             #
+      RunOn               #Client
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echAddressJumpRef 
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #jumpRefCountyByRecord
+        #// Create ECH_WI_01981 by mengqi.cen on 20130227
+        #public static client void jumpRefCountyByRecord(Object _caller, Common _record)
+        #{
+        #    Args    args;
+        #    FormRun formRun;
+        #;
+        #    args = new Args(formstr(AddressCounty));
+        #    args.record(_record);
+        #    args.caller(_caller);
+        #
+        #    formRun = classfactory.formRunClass(args);
+        #    formRun.init();
+        #    formRun.run();
+        #    formRun.detach();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #jumpRefStateByRecord
+        #// Create ECH_WI_01981 by mengqi.cen on 20130227
+        #public static client void jumpRefStateByRecord(Object _caller, Common _record)
+        #{
+        #    Args    args;
+        #    FormRun formRun;
+        #;
+        #    args = new Args(formstr(AddressState));
+        #    args.record(_record);
+        #    args.caller(_caller);
+        #
+        #    formRun = classfactory.formRunClass(args);
+        #    formRun.init();
+        #    formRun.run();
+        #    formRun.detach();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #jumpRefZipCodes
+        #// Create ECH_WI_01981 by mengqi.cen on 20130227
+        #public static client void jumpRefZipCodes(Object _caller)
+        #{
+        #    Args    args;
+        #    FormRun formRun;
+        #;
+        #    args = new Args(formstr(AddressZipCodes));
+        #    args.caller(_caller);
+        #
+        #    formRun = classfactory.formRunClass(args);
+        #    formRun.init();
+        #    formRun.run();
+        #    formRun.detach();
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

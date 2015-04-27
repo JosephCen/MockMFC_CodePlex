@@ -1,0 +1,100 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echExternalItemId
+  PROPERTIES
+    Name                #echExternalItemId
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echExternalItemId
+          Table               #echExternalItemId
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH420
+      TitleDatasource     #echExternalItemId
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GRID
+        PROPERTIES
+          Name                #Grid
+          Width               #Column width
+          Height              #Column height
+          DataSource          #echExternalItemId
+          DataGroup           #AllFields
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_ItemId
+                DataSource          #echExternalItemId
+                DataField           #ItemId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_InventLocationId
+                DataSource          #echExternalItemId
+                DataField           #InventLocationId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_ExtCodeValue
+                DataSource          #echExternalItemId
+                DataField           #ExtCodeValue
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

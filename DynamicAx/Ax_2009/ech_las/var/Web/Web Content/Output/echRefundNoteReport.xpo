@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCO
+
+; Microsoft Dynamics AX OUTPUTCONTENTITEM : echRefundNoteReport unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  OUTPUTCONTENTITEM #echRefundNoteReport
+    PROPERTIES
+      Name                #echRefundNoteReport
+      Label               #@ECH232
+      HelpText            #@ECH236
+      ObjectType          #Report
+      Object              #echRefundNoteReport
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustReports
+    ENDPROPERTIES
+    
+  ENDOUTPUTCONTENTITEM
+  
+
+***Element: END

@@ -1,0 +1,528 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchInventOnHand_InventLocation unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchInventOnHand_InventLocation
+    Id 30038
+    PROPERTIES
+      Name                #EchInventOnHand_InventLocation
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchInventOnHand_InventLocation extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchIsTemp('EchIsTemp')
+        #    #define.WMSRackNameActive('WMSRackNameActive')
+        #    #define.WMSRackFormat('WMSRackFormat')
+        #    #define.WMSPositionNameActive('WMSPositionNameActive')
+        #    #define.WMSPositionFormat('WMSPositionFormat')
+        #    #define.WMSLocationIdDefaultReceipt('WMSLocationIdDefaultReceipt')
+        #    #define.WMSlocationIdDefaultIssue('WMSlocationIdDefaultIssue')
+        #    #define.WMSLevelNameActive('WMSLevelNameActive')
+        #    #define.WMSLevelFormat('WMSLevelFormat')
+        #    #define.WMSAisleNameActive('WMSAisleNameActive')
+        #    #define.VendAccount('VendAccount')
+        #    #define.ReqRefill('ReqRefill')
+        #    #define.ReqCalendarId('ReqCalendarId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Name('Name')
+        #    #define.Manual('Manual')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventLocationType('InventLocationType')
+        #    #define.InventLocationLevel('InventLocationLevel')
+        #    #define.InventLocationIdTransit('InventLocationIdTransit')
+        #    #define.InventLocationIdReqMain('InventLocationIdReqMain')
+        #    #define.InventLocationIdQuarantine('InventLocationIdQuarantine')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.InventDim('InventDim')
+        #    #define.echMsgPartnerId('echMsgPartnerId')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventDim
+        #public AfStronglyTypedDataContainerList createInventDim()
+        #{
+        #    return this.get_NewList(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #exists_DocumentHash
+        #public boolean exists_DocumentHash()
+        #{
+        #    return this.exists(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchIsTemp
+        #public boolean existsEchIsTemp()
+        #{
+        #    return this.exists(#EchIsTemp);
+        #}
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerId
+        #public boolean existsechMsgPartnerId()
+        #{
+        #    return this.exists(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDim
+        #public boolean existsInventDim()
+        #{
+        #    return this.exists(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationId
+        #public boolean existsInventLocationId()
+        #{
+        #    return this.exists(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationIdQuarantine
+        #public boolean existsInventLocationIdQuarantine()
+        #{
+        #    return this.exists(#InventLocationIdQuarantine);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationIdReqMain
+        #public boolean existsInventLocationIdReqMain()
+        #{
+        #    return this.exists(#InventLocationIdReqMain);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationIdTransit
+        #public boolean existsInventLocationIdTransit()
+        #{
+        #    return this.exists(#InventLocationIdTransit);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationLevel
+        #public boolean existsInventLocationLevel()
+        #{
+        #    return this.exists(#InventLocationLevel);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocationType
+        #public boolean existsInventLocationType()
+        #{
+        #    return this.exists(#InventLocationType);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventSiteId
+        #public boolean existsInventSiteId()
+        #{
+        #    return this.exists(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #existsManual
+        #public boolean existsManual()
+        #{
+        #    return this.exists(#Manual);
+        #}
+      ENDSOURCE
+      SOURCE #existsName
+        #public boolean existsName()
+        #{
+        #    return this.exists(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsReqCalendarId
+        #public boolean existsReqCalendarId()
+        #{
+        #    return this.exists(#ReqCalendarId);
+        #}
+      ENDSOURCE
+      SOURCE #existsReqRefill
+        #public boolean existsReqRefill()
+        #{
+        #    return this.exists(#ReqRefill);
+        #}
+      ENDSOURCE
+      SOURCE #existsVendAccount
+        #public boolean existsVendAccount()
+        #{
+        #    return this.exists(#VendAccount);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSAisleNameActive
+        #public boolean existsWMSAisleNameActive()
+        #{
+        #    return this.exists(#WMSAisleNameActive);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSLevelFormat
+        #public boolean existsWMSLevelFormat()
+        #{
+        #    return this.exists(#WMSLevelFormat);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSLevelNameActive
+        #public boolean existsWMSLevelNameActive()
+        #{
+        #    return this.exists(#WMSLevelNameActive);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSlocationIdDefaultIssue
+        #public boolean existsWMSlocationIdDefaultIssue()
+        #{
+        #    return this.exists(#WMSlocationIdDefaultIssue);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSLocationIdDefaultReceipt
+        #public boolean existsWMSLocationIdDefaultReceipt()
+        #{
+        #    return this.exists(#WMSLocationIdDefaultReceipt);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSPositionFormat
+        #public boolean existsWMSPositionFormat()
+        #{
+        #    return this.exists(#WMSPositionFormat);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSPositionNameActive
+        #public boolean existsWMSPositionNameActive()
+        #{
+        #    return this.exists(#WMSPositionNameActive);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSRackFormat
+        #public boolean existsWMSRackFormat()
+        #{
+        #    return this.exists(#WMSRackFormat);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSRackNameActive
+        #public boolean existsWMSRackNameActive()
+        #{
+        #    return this.exists(#WMSRackNameActive);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchInventOnHand_InventLocation);
+        #}
+      ENDSOURCE
+      SOURCE #parm_DocumentHash
+        #public str parm_DocumentHash(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#_DocumentHash, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchIsTemp
+        #public echTmpInventLocation parmEchIsTemp(echTmpInventLocation _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchIsTemp, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchIsTemp);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDim
+        #public AfStronglyTypedDataContainerList parmInventDim(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventDim, _value);
+        #    }
+        #
+        #    return this.get_List(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationIdQuarantine
+        #public InventLocationIdQuarantine parmInventLocationIdQuarantine(InventLocationIdQuarantine _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationIdQuarantine, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationIdQuarantine);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationIdReqMain
+        #public InventLocationIdReqMain parmInventLocationIdReqMain(InventLocationIdReqMain _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationIdReqMain, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationIdReqMain);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationIdTransit
+        #public InventLocationIdTransit parmInventLocationIdTransit(InventLocationIdTransit _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationIdTransit, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationIdTransit);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationLevel
+        #public InventLocationLevel parmInventLocationLevel(InventLocationLevel _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationLevel, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationLevel);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationType
+        #public InventLocationType parmInventLocationType(InventLocationType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocationType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocationType);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventSiteId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventSiteId);
+        #}
+      ENDSOURCE
+      SOURCE #parmManual
+        #public ReqCovManual parmManual(ReqCovManual _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Manual, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Manual);
+        #}
+      ENDSOURCE
+      SOURCE #parmName
+        #public InventLocationName parmName(InventLocationName _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Name, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmReqCalendarId
+        #public ReqCalendarId parmReqCalendarId(ReqCalendarId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReqCalendarId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReqCalendarId);
+        #}
+      ENDSOURCE
+      SOURCE #parmReqRefill
+        #public ReqRefill parmReqRefill(ReqRefill _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReqRefill, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReqRefill);
+        #}
+      ENDSOURCE
+      SOURCE #parmVendAccount
+        #public str parmVendAccount(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#VendAccount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#VendAccount);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSAisleNameActive
+        #public WMSAisleNameActive parmWMSAisleNameActive(WMSAisleNameActive _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSAisleNameActive, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSAisleNameActive);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSLevelFormat
+        #public WMSLevelFormat parmWMSLevelFormat(WMSLevelFormat _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSLevelFormat, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSLevelFormat);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSLevelNameActive
+        #public WMSLevelNameActive parmWMSLevelNameActive(WMSLevelNameActive _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSLevelNameActive, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSLevelNameActive);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSlocationIdDefaultIssue
+        #public WMSLocationIdDefaultIssue parmWMSlocationIdDefaultIssue(WMSLocationIdDefaultIssue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSlocationIdDefaultIssue, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSlocationIdDefaultIssue);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSLocationIdDefaultReceipt
+        #public WMSLocationIdDefaultReceipt parmWMSLocationIdDefaultReceipt(WMSLocationIdDefaultReceipt _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSLocationIdDefaultReceipt, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSLocationIdDefaultReceipt);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSPositionFormat
+        #public WMSPositionFormat parmWMSPositionFormat(WMSPositionFormat _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSPositionFormat, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSPositionFormat);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSPositionNameActive
+        #public WMSPositionNameActive parmWMSPositionNameActive(WMSPositionNameActive _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSPositionNameActive, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSPositionNameActive);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSRackFormat
+        #public WMSRackFormat parmWMSRackFormat(WMSRackFormat _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSRackFormat, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSRackFormat);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSRackNameActive
+        #public WMSRackNameActive parmWMSRackNameActive(WMSRackNameActive _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WMSRackNameActive, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WMSRackNameActive);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

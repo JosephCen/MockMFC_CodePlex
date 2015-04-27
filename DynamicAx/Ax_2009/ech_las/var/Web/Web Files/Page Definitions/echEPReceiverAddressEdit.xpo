@@ -1,0 +1,66 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WPD
+
+; Microsoft Dynamics AX PAGEDEFINITION : echEPReceiverAddressEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  PAGEDEFINITION #echEPReceiverAddressEdit
+    PROPERTIES
+      Name                #echEPReceiverAddressEdit
+      HelpText            #
+      PublicPage          #No
+      URL                 #Enterprise%20Portal/echEPReceiverAddressEdit.aspx
+      PageTitle           #@ech753
+      ImageResource       #WebIcon_wpicon
+      WebModule           #Home\Sales
+      MOSSOnly            #No
+      ParentPage          #
+      UseContext          #No
+      WSSHelpTopic        #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<File Url="1033\AXSITEDEF\doctemp\smartpgs\spstd3.aspx" Name="echEPReceiverAddressEdit" DefaultTitle=""><AllUsersWebPart><![CDATA[<webParts><webPart xmlns="http://schemas.microsoft.com/WebPart/v3"><metaData><type name="Microsoft.Dynamics.Framework.Portal.[cr]
+      #UI.WebControls.WebParts.AxPageTitleWebPart, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><importErrorMessage>Cannot import this Web Part.</importErrorMessage></metaData><data><properties><proper[cr]
+      #ty name="CatalogIconImageUrl" type="string" /><property name="AllowZoneChange" type="bool">True</property><property name="ExportMode" type="exportmode">All</property><property name="HelpUrl" type="string" /><property name="Hidden" type="bool">False</prope[cr]
+      #rty><property name="TitleUrl" type="string"></property><property name="Description" type="string" /><property name="AllowHide" type="bool">True</property><property name="AllowMinimize" type="bool">True</property><property name="DefaultTitle" type="string"[cr]
+      # /><property name="UpdateMode" type="System.Web.UI.UpdatePanelUpdateMode, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">Conditional</property><property name="AllowConnect" type="bool">True</property><property na[cr]
+      #me="Width" type="unit" /><property name="Height" type="unit" /><property name="HelpMode" type="helpmode">Navigate</property><property name="WebPartRole" type="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.WebPartRole, Microsoft.Dynamics.Fram[cr]
+      #ework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">None</property><property name="AllowEdit" type="bool">True</property><property name="TitleIconImageUrl" type="string" /><property name="Direction" type="direction">NotSet</pr[cr]
+      #operty><property name="AllowClose" type="bool">True</property><property name="ZoneID" type="string">TitleBar</property><property name="ZoneIndex" type="int">0</property><property name="ID" type="string">g_cd11441c_6d14_49e9_af67_bf501cdabbfd</property><pr[cr]
+      #operty name="IsClosed" type="bool">False</property></properties></data></webPart></webParts>]]></AllUsersWebPart><AllUsersWebPart><![CDATA[<webParts><webPart xmlns="http://schemas.microsoft.com/WebPart/v3"><metaData><type name="Microsoft.Dynamics.Framewor[cr]
+      #k.Portal.UI.WebControls.WebParts.QuickLaunchWebPart, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><importErrorMessage>Cannot import this Web Part.</importErrorMessage></metaData><data><propertie[cr]
+      #s><property name="CatalogIconImageUrl" type="string" /><property name="AllowZoneChange" type="bool">True</property><property name="ExportMode" type="exportmode">All</property><property name="HelpUrl" type="string" /><property name="Hidden" type="bool">Fal[cr]
+      #se</property><property name="WebMenuName" type="string">EPSalesQuickLaunch</property><property name="TitleUrl" type="string"></property><property name="Description" type="string" /><property name="AllowHide" type="bool">True</property><property name="Allo[cr]
+      #wMinimize" type="bool">True</property><property name="DefaultTitle" type="string" /><property name="UpdateMode" type="System.Web.UI.UpdatePanelUpdateMode, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">Conditiona[cr]
+      #l</property><property name="ChromeType" type="chrometype">Default</property><property name="AllowConnect" type="bool">True</property><property name="Width" type="unit" /><property name="Height" type="unit" /><property name="HelpMode" type="helpmode">Navig[cr]
+      #ate</property><property name="WebPartRole" type="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.WebPartRole, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">None</property><property name[cr]
+      #="AllowEdit" type="bool">True</property><property name="TitleIconImageUrl" type="string" /><property name="Direction" type="direction">NotSet</property><property name="AllowClose" type="bool">True</property><property name="ChromeState" type="chromestate">[cr]
+      #Normal</property><property name="ZoneID" type="string">LeftColumn</property><property name="ZoneIndex" type="int">0</property><property name="ID" type="string">g_6ca5e2ab_3e77_4b2b_93d4_ac71cda54333</property><property name="IsClosed" type="bool">False</p[cr]
+      #roperty></properties></data></webPart></webParts>]]></AllUsersWebPart><AllUsersWebPart><![CDATA[<webParts><webPart xmlns="http://schemas.microsoft.com/WebPart/v3"><metaData><type name="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.AxInfolog,[cr]
+      # Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><importErrorMessage>Cannot import this Web Part.</importErrorMessage></metaData><data><properties><property name="CatalogIconImageUrl" type="string"[cr]
+      # /><property name="AllowZoneChange" type="bool">True</property><property name="ExportMode" type="exportmode">All</property><property name="HelpUrl" type="string" /><property name="Hidden" type="bool">False</property><property name="TitleUrl" type="string"[cr]
+      #></property><property name="Description" type="string" /><property name="AllowHide" type="bool">True</property><property name="AllowMinimize" type="bool">True</property><property name="DefaultTitle" type="string" /><property name="UpdateMode" type="System[cr]
+      #.Web.UI.UpdatePanelUpdateMode, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">Conditional</property><property name="ChromeType" type="chrometype">Default</property><property name="AllowConnect" type="bool">True</[cr]
+      #property><property name="Width" type="unit" /><property name="Height" type="unit" /><property name="HelpMode" type="helpmode">Navigate</property><property name="WebPartRole" type="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.WebPartRole, Mi[cr]
+      #crosoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">None</property><property name="AllowEdit" type="bool">True</property><property name="TitleIconImageUrl" type="string" /><property name="Direction" type="[cr]
+      #direction">NotSet</property><property name="AllowClose" type="bool">True</property><property name="ChromeState" type="chromestate">Normal</property><property name="ZoneID" type="string">Header</property><property name="ZoneIndex" type="int">0</property><p[cr]
+      #roperty name="ID" type="string">g_3522dc1e_9252_48ef_b636_c4563e69b36a</property><property name="IsClosed" type="bool">False</property></properties></data></webPart></webParts>]]></AllUsersWebPart><AllUsersWebPart><![CDATA[<webParts><webPart xmlns="http:/[cr]
+      #/schemas.microsoft.com/WebPart/v3"><metaData><type name="Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts.AxUserControlWebPart, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" /><importErr[cr]
+      #orMessage>Cannot import this Web Part.</importErrorMessage></metaData><data><properties><property name="CatalogIconImageUrl" type="string">/_layouts/ep/images/addwebcontrols.gif</property><property name="AllowZoneChange" type="bool">True</property><proper[cr]
+      #ty name="ExportMode" type="exportmode">All</property><property name="ManagedContentItem" type="string">echEPReceiverAddressEdit</property><property name="HelpUrl" type="string" /><property name="Hidden" type="bool">False</property><property name="TitleUrl[cr]
+      #" type="string"></property><property name="Description" type="string">Web Part that hosts a ASP.NET User Control.</property><property name="AllowHide" type="bool">True</property><property name="AllowMinimize" type="bool">True</property><property name="Def[cr]
+      #aultTitle" type="string" /><property name="UpdateMode" type="System.Web.UI.UpdatePanelUpdateMode, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">Conditional</property><property name="ChromeType" type="chrometype"[cr]
+      #>Default</property><property name="AllowConnect" type="bool">True</property><property name="Width" type="unit" /><property name="Height" type="unit" /><property name="HelpMode" type="helpmode">Navigate</property><property name="WebPartRole" type="Microsof[cr]
+      #t.Dynamics.Framework.Portal.UI.WebControls.WebParts.WebPartRole, Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">None</property><property name="AllowEdit" type="bool">True</property><property name="T[cr]
+      #itleIconImageUrl" type="string" /><property name="Direction" type="direction">NotSet</property><property name="AllowClose" type="bool">True</property><property name="ChromeState" type="chromestate">Normal</property><property name="ZoneID" type="string">Bo[cr]
+      #dy</property><property name="ZoneIndex" type="int">0</property><property name="ID" type="string">g_9b1c3beb_982b_4e68_84f8_a31dedace6ec</property><property name="IsClosed" type="bool">False</property></properties></data></webPart></webParts>]]></AllUsersW[cr]
+      #ebPart><SPWebPartConnections /></File>
+    ENDSOURCE
+  ENDPAGEDEFINITION
+  
+
+***Element: END

@@ -1,0 +1,394 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #EPSalesTableInfo
+  PROPERTIES
+    Name                #EPSalesTableInfo
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    SalesId                 callerSalesId;
+      #}
+    ENDSOURCE
+    SOURCE #returnOrder
+      #boolean returnOrder()
+      #{
+      #    boolean     bReturnOrder;
+      #    SalesTable  salesRec        = salesTable;
+      #    ;
+      #
+      #    bReturnOrder = salesRec && salesRec.returnJournal();
+      #    return bReturnOrder;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    CustInvoiceTrans    custInvoiceTrans;
+      #    CustTransOpen       custTransOpen;
+      #    CustTrans           custTrans;
+      #    CustInvoiceJour     custInvoiceJour;
+      #    ;
+      #
+      #    if (element.args().dataset() == tablenum(CustTransOpen))
+      #    {
+      #        custTransOpen = element.args().record();
+      #        custTrans     = custTransOpen.custTrans();
+      #        callerSalesId = CustInvoiceJour::findFromCustTransVoucher(custTrans.Invoice, custTrans.Voucher, custTrans.TransDate, custTrans.AccountNum).SalesId;
+      #    }
+      #    else if (element.args().dataset() == tablenum(CustInvoiceTrans))
+      #    {
+      #        custInvoiceTrans = element.args().record();
+      #        callerSalesId = custInvoiceTrans.SalesId;
+      #        element.args().record(null);
+      #    }
+      #    else if (element.args().dataset() == tablenum(CustInvoiceJour))
+      #    {
+      #        custInvoiceJour = element.args().record();
+      #        callerSalesId = custInvoiceJour.SalesId;
+      #    }
+      #
+      #    super();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD SalesId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesName
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CustAccount
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD DocumentStatus
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CurrencyCode
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesStatus
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesType
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD ReturnItemNum
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD Deadline
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #echTotalDisc
+          #//BP deviation documented
+          #Display DiscAmount echTotalDisc(SalesTable _salesTable)
+          #{
+          #    return _salesTable.echTotalDisc();
+          #}
+        ENDSOURCE
+        SOURCE #echCustomerMobilePhone
+          #//BP deviation documented
+          #display Phone echCustomerMobilePhone(SalesTable _salesTable)
+          #{
+          #    return _salesTable.echCustomerMobilePhone();
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    QueryBuildRange     rangeSalesId;
+          #
+          #    super();
+          #
+          #    if (callerSalesId)
+          #    {
+          #        this.query().dataSourceTable(tablenum(SalesTable)).clearDynalinks();
+          #        rangeSalesId = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable,SalesId));
+          #        rangeSalesId.value(SysQuery::value(callerSalesId));
+          #        rangeSalesId.status(RangeStatus::Hidden);
+          #    }
+          #
+          #    if (EP::isCustomer())
+          #    {
+          #        EPQuery::makeMyCustomerSelfServiceQuery(this.query(), tablenum(SalesTable));
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #echDispShipDate
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display the confirmed shipping date
+          #
+          #//BP Deviation documented
+          #display SalesShippingDateConfirmed echDispShipDate(SalesTable _salesTable)
+          #{
+          #    ;
+          #
+          #    return _salesTable.echShipCarrierPackage().ShipDate;
+          #}
+        ENDSOURCE
+        SOURCE #echDispCarrierName
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display the carrier name
+          #
+          #//BP Deviation documented
+          #display ShipCarrierName echDispCarrierName(SalesTable _salesTable)
+          #{
+          #    ;
+          #    return _salesTable.echShipCarrierPackage().CarrierName;
+          #}
+        ENDSOURCE
+        SOURCE #echDispCarrierId
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display the carrier id
+          #
+          #//BP Deviation documented
+          #display ShipCarrierId echDispCarrierId(SalesTable _salesTable)
+          #{
+          #    ;
+          #    return _salesTable.echShipCarrierPackage().CarrierId;
+          #}
+        ENDSOURCE
+        SOURCE #echDispTrackingNumber
+          #// *** ECHINA - abdessamad.almask ***
+          #// *** Customization Code: ECH_E_006
+          #// *** Customization Date: 12 Apr 2012
+          #// *** Customization Type: created
+          #// *** Description: display tracking number
+          #
+          #//BP Deviation documented
+          #display ShipCarrierTrackingNum echDispTrackingNumber(SalesTable _salesTable)
+          #{
+          #    ;
+          #    return _salesTable.echShipCarrierTracking().TrackingNumber;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesLine
+          Table               #SalesLine
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #echOrigSalesId
+          #// *** ECHINA - Marijn Catthoor ***
+          #// *** Customization Code: ECH_WI_01075
+          #// *** Customization Date: 24 Aug 2012
+          #// *** Customization Type: Created
+          #// *** Description: Display method for the Original Sales Order
+          #
+          #//BP Deviation documented
+          #display echOriginalSalesId echOrigSalesId(SalesLine _salesLine)
+          #{
+          #    InventTrans it;
+          #    ;
+          #
+          #    select firstonly TransRefId
+          #        from it
+          #            where it.InventTransId == _salesLine.InventTransIdReturn;
+          #
+          #    return it.TransRefId;
+          #
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTableLinks
+          Table               #SalesTableLinks
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #BlanketSalesTable
+          Table               #SalesTable
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #SalesTableLinks
+          LinkType            #InnerJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #SalesLine
+          LinkType            #InnerJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSalesOrderCheckResultTable
+          Table               #echSalesOrderCheckResultTable
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSOPromotionsHeader
+          Table               #echSOPromotionsHeader
+          JoinSource          #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSOPromotionsLine
+          Table               #echSOPromotionsLine
+          JoinSource          #SalesLine
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    SalesLine SalesTable
+    SalesTableLinks SalesTable
+    BlanketSalesTable SalesTableLinks
+    InventDim SalesLine
+    echSalesOrderCheckResultTable SalesTable
+    echSOPromotionsHeader SalesTable
+    echSOPromotionsLine SalesLine
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

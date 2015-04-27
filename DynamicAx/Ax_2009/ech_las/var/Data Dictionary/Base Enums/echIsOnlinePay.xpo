@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echIsOnlinePay unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echIsOnlinePay
+    Id 30012
+    PROPERTIES
+      Name                #echIsOnlinePay
+      Label               #@ECH410
+      Help                #@ECH411
+      ConfigurationKey    #echInterfaces
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #COD
+      PROPERTIES
+        Name                #COD
+        Label               #@SYS116780
+        EnumValue           #1
+      ENDPROPERTIES
+      
+      #OnlinePay
+      PROPERTIES
+        Name                #OnlinePay
+        Label               #@ECH412
+        EnumValue           #0
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

@@ -1,0 +1,16 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdechReturnOrderArrivalServiceDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdechReturnOrderArrivalServiceDCT
+    ##define.echReturnOrderArrivalService('echReturnOrderArrivalService')
+    ##define.echReturnOrderArrivalService_WMSArrivalDetailTmp('echReturnOrderArrivalService.WMSArrivalDetailTmp')
+    ##define.echReturnOrderArrivalService_WMSArrivalOverviewTmp('echReturnOrderArrivalService.WMSArrivalOverviewTmp')
+  ENDSOURCE
+
+***Element: END

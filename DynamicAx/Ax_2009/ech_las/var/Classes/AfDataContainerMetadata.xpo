@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AfDataContainerMetadata unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AfDataContainerMetadata
+    Id 3511
+    PROPERTIES
+      Name                #AfDataContainerMetadata
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #//-------------------------------------------------------------------------------------------------------
+        #//
+        #//  Class:          AfDataContainerMetadata
+        #//
+        #//  Extends:        AfStronglyTypedDataContainer
+        #//
+        #//  Description:    This interface represents a strongly typed version of DataContainerMetadata
+        #//                  data container.
+        #//
+        #//-------------------------------------------------------------------------------------------------------
+        #class AfDataContainerMetadata extends AfStronglyTypedDataContainer
+        #{
+        #    #DataContainerMetadataNames
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

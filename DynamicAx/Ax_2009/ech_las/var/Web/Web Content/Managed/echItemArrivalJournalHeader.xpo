@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echItemArrivalJournalHeader unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echItemArrivalJournalHeader
+    PROPERTIES
+      Name                #echItemArrivalJournalHeader
+      Label               #@ECH137
+      HelpText            #@SYS85215
+      Object              #echItemArrivalJournalHeader
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END
