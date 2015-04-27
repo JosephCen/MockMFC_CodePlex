@@ -1,0 +1,112 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : WMSPickingRoute unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #WMSPickingRoute
+    Id 680
+    PROPERTIES
+      Name                #WMSPickingRoute
+      Label               #@SYS50404
+      FormRef             #WMSPickingRegistration
+      TitleField1         #pickingRouteID
+      TitleField2         #pickingAreaId
+      ConfigurationKey    #LogisticsAdvanced
+      SecurityKey         #InventTables
+      CacheLookup         #NotInTTS
+      TableGroup          #WorksheetHeader
+      PrimaryIndex        #IdIdx
+      ClusterIndex        #IdIdx
+      DeveloperDocumentation  #@SYS123921
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #WMSPickingRouteLink
+      PROPERTIES
+        Table               #WMSPickingRouteLink
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #setStatus
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: call hook class
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 22 May 2012
+        #// *** Customization Type: modified
+        #// *** Description: set Sales order aggregate status
+        #
+        #///Sets the pickingRoutes status based on the status of the WMSOrderTrans
+        #/// </summary>
+        #/// <remarks>
+        #/// The route is not updated by the call, so update() or doUpdate() needs to be called afterwards
+        #/// </remarks>
+        #public void setStatus()
+        #{
+        #    ;
+        #    switch (this.lowestLineStatus())
+        #    {
+        #        case WMSExpeditionStatus::Registered    :   this.ExpeditionStatus = WMSExpeditionStatus::Registered;
+        #                                                    break;
+        #                                                    //route can be started even though transactions are still activated
+        #        case WMSExpeditionStatus::Activated     :   if (this.ExpeditionStatus == WMSExpeditionStatus::Started || this.ExpeditionStatus == WMSExpeditionStatus::Complete)//change from complete is when doing unpick
+        #                                                    {
+        #                                                        this.ExpeditionStatus = WMSExpeditionStatus::Started;
+        #                                                    }
+        #                                                    else
+        #                                                    {
+        #                                                        this.ExpeditionStatus = WMSExpeditionStatus::Activated;
+        #                                                    }
+        #                                                    break;
+        #
+        #        case WMSExpeditionStatus::Started       :   this.ExpeditionStatus = WMSExpeditionStatus::Started;
+        #                                                    break;
+        #
+        #        case WMSExpeditionStatus::Picked        :   if (this.wmsOutboundRule().DeliverPickedItems)
+        #                                                    {
+        #                                                        break;
+        #                                                    }
+        #
+        #        case WMSExpeditionStatus::Staged        :   //fall through
+        #        case WMSExpeditionStatus::Loaded        :   //fall through
+        #        case WMSExpeditionStatus::None          :   //fall through
+        #        case WMSExpeditionStatus::Complete      :   this.ExpeditionStatus = WMSExpeditionStatus::Complete;
+        #                                                    break;
+        #
+        #        case WMSExpeditionStatus::Cancelled     :   this.ExpeditionStatus = WMSExpeditionStatus::Cancelled;
+        #                                                    break;
+        #    }
+        #
+        #// CS - ECH_E_003 - Anthony Christiaens - 22 May 2012
+        #    new echWMSPickingRouteTable(this).setStatus();
+        #// CE - ECH_E_003 - Anthony Christiaens - 22 May 2012
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

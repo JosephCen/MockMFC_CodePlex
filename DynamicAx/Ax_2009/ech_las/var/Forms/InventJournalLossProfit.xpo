@@ -1,0 +1,1234 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventJournalLossProfit
+  PROPERTIES
+    Name                #InventJournalLossProfit
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #final class FormRun extends ObjectRun
+      #{
+      #    InventJournalFormTrans_Movement    journalFormTrans;
+      #    // <RETAIL>
+      #
+      #
+      #    HHTWorksheetFormLines       worksheetFormLines;
+      #    // </RETAIL>
+      #}
+    ENDSOURCE
+    SOURCE #journalForm
+      #JournalForm journalForm()
+      #{
+      #    return journalFormTrans;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #void init()
+      #{;
+      #    journalFormTrans = new InventJournalFormTrans_Movement(element);
+      #    // <RETAIL>
+      #
+      #
+      #    worksheetFormLines = new HHTWorksheetFormLines(element);
+      #    // </RETAIL>
+      #
+      #    super();
+      #
+      #    journalFormTrans.parmCtrlCheckJournal(checkJournal);
+      #    journalFormTrans.parmCtrlPostJournal(postJournal);
+      #    journalFormTrans.parmCtrlInfolog(showInfolog);
+      #    journalFormTrans.parmCtrlVoucherGrid(inventJournalTrans_Voucher);
+      #    journalFormTrans.parmCtrlVoucherTab(voucher);
+      #    journalFormTrans.parmCtrlLineLogImage(lineLogImage);
+      #
+      #    journalFormTrans.formInitPost();
+      #    // <RETAIL>
+      #
+      #
+      #    //worksheetFormLines.
+      #//    if (worksheetFormLines.parmActive())
+      #//    {
+      #        worksheetFormLines.formInitPost();
+      #//    }
+      #
+      #// </RETAIL>
+      #}
+    ENDSOURCE
+    SOURCE #close
+      #void close()
+      #{
+      #    ;
+      #    journalFormTrans.formClosePre();
+      #
+      #    // <RETAIL>
+      #    worksheetFormLines.formClosePre();
+      #    // </RETAIL>
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #// AOSRunMode::Client
+      #InventDimCtrl_Frm_Mov inventDimSetupObject()
+      #{
+      #    return journalFormTrans.inventDimSetupObject();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventJournalTrans
+          Table               #InventJournalTrans
+          CounterField        #LineNum
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD CostAmount
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedCostAmountPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CostMarkup
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedCostMarkupPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD PriceUnit
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedPriceUnitPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CostPrice
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedCostPricePost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Qty
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedQtyPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ItemId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    return journalFormTrans.fieldValidateItemId();
+                #}
+              ENDSOURCE
+              SOURCE #Modified
+                #void modified()
+                #{
+                #
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedItemIdPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD TransDate
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedTransDatePost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventTransIdReturn
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventTransIdReturnPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #public boolean validateWrite()
+          #{
+          #    boolean ret;
+          #    ;
+          #    inventJournalTrans.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #
+          #    ret = super();
+          #
+          #    ret = journalFormTrans.datasourceValidateWritePost(ret);
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #Write
+          #// AOSRunMode::Client
+          #void write()
+          #{
+          #    ;
+          #    try
+          #    {
+          #        journalFormTrans.datasourceWritePre();
+          #
+          #        ttsbegin;
+          #
+          #        super();
+          #
+          #        journalFormTrans.datasourceWritePost();
+          #
+          #        ttscommit;
+          #    }
+          #    catch (Exception::Error)
+          #    {
+          #        if (!inventJournalTrans.RecId)
+          #            inventJournalTrans.InventTransId = '';
+          #        throw Exception::Error;
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #LinkActive
+          #void linkActive()
+          #{
+          #    ;
+          #    journalFormTrans.datasourceLinkActivePre();
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    super();
+          #
+          #    journalFormTrans.datasourceExecuteQueryPost();
+          #}
+        ENDSOURCE
+        SOURCE #InitValue
+          #void initValue()
+          #{
+          #    ;
+          #    journalFormTrans.datasourceInitValuePre();
+          #
+          #    super();
+          #
+          #    journalFormTrans.datasourceInitValuePost();
+          #
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #void init()
+          #{
+          #    super();
+          #
+          #    journalFormTrans.datasourceInitPost(inventJournalTrans);
+          #    // <RETAIL>
+          #
+          #
+          #    worksheetFormLines.datasourceInitPost(InventJournalTrans);
+          #
+          #    // </RETAIL>
+          #}
+        ENDSOURCE
+        SOURCE #lineLogImage
+          #//BP Deviation documented
+          #display Integer lineLogImage(InventJournalTrans _journalTrans)
+          #{
+          #    return journalFormTrans.datasourceMethodLineLogImage(_journalTrans);
+          #}
+        ENDSOURCE
+        SOURCE #delete
+          #//AOSRunMode::Client
+          #void delete()
+          #// <RETAIL>
+          #{
+          #;
+          #
+          #    if (worksheetFormLines.datasourceDeletePre(InventJournalTrans))
+          #    // </RETAIL>
+          #    {
+          #        ttsbegin;
+          #
+          #        journalFormTrans.datasourceDeletePre();
+          #
+          #        super();
+          #
+          #        journalFormTrans.datasourceDeletePost();
+          #
+          #        ttscommit;
+          #    }
+          #    // <RETAIL>
+          #
+          #}
+          #// </RETAIL>
+        ENDSOURCE
+        SOURCE #Active
+          #int active()
+          #{
+          #    int ret;
+          #    ret = super();
+          #    journalFormTrans.datasourceActivePost();
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean append = false)
+          #{
+          #;
+          #// <RETAIL>
+          #
+          #    if (worksheetFormLines.datasourceCreatePre(InventJournalTrans))
+          #    {
+          #    // </RETAIL>
+          #        journalFormTrans.datasourceCreatePre();
+          #        super(append);
+          #    }
+          #    // <RETAIL>
+          #
+          #}
+          #// </RETAIL>
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          JoinSource          #InventJournalTrans
+          LinkType            #InnerJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD configId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim,fieldnum(InventDim,ConfigId));
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSizeId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim, fieldnum(InventDim,InventSizeId));
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventColorId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim, fieldnum(InventDim,InventColorId));
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventLocationId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim,fieldnum(InventDim,InventLocationId));
+                #
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD inventBatchId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim,fieldnum(InventDim,InventBatchId));
+                #
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD wMSLocationId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim,fieldnum(InventDim,wmsLocationId));
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD wMSPalletId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #
+                #    super();
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim,fieldnum(InventDim, wmsPalletId));
+                #
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD inventSerialId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #
+                #    super();
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim,fieldnum(InventDim,InventSerialId));
+                #
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSiteId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim, fieldnum(InventDim,InventSiteId));
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventStyleId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.fieldModifiedInventDimFieldsPost(inventDim, fieldnum(InventDim,InventStyleId));
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #public void write()
+          #{
+          #//    super();
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #    journalFormTrans.inventDimInitPost(inventDim);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    InventDim InventJournalTrans
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS24048
+      TitleDatasource     #InventJournalTrans
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/33E2612C-B58D-4750-A7B8-A3589390DF98.htm
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Tabs                #5
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #InventJournalTrans_TransDate
+                        DataSource          #InventJournalTrans
+                        DataField           #TransDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalTrans_Voucher
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTrans
+                        DataField           #Voucher
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalTrans_ItemId
+                        DataSource          #InventJournalTrans
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalTrans_EchReasonId
+                        DataSource          #InventJournalTrans
+                        DataField           #EchReasonId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensionsGrid
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/26249AE3-5403-4A3A-8329-1158204274D6.htm
+                        BackgroundColor     #Window background
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #InventJournalTrans_Qty
+                        DataSource          #InventJournalTrans
+                        DataField           #Qty
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #InventJournalTrans_CostPrice
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTrans
+                        DataField           #CostPrice
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #InventJournalTrans_CostAmount
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTrans
+                        DataField           #CostAmount
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL WINDOW
+                      PROPERTIES
+                        Name                #lineLogImage
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        Width               #18
+                        Height              #12
+                        AlignControl        #No
+                        Imagemode           #Size to fit
+                        Label               #@SYS2515
+                        DataSource          #InventJournalTrans
+                        DataMethod          #lineLogImage
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS2952
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Identification
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/74062C6E-B13C-4F69-99F1-AEE59D0556CD.htm
+                  DataSource          #InventJournalTrans
+                  DataGroup           #Identification
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #JournalId
+                        DataSource          #InventJournalTrans
+                        DataField           #JournalId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #LineNum
+                        DataSource          #InventJournalTrans
+                        DataField           #LineNum
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #TransDate
+                        DataSource          #InventJournalTrans
+                        DataField           #TransDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Voucher
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTrans
+                        DataField           #Voucher
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Item
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/2B47AAEA-517A-4718-B906-CFC059511B02.htm
+                  DataSource          #InventJournalTrans
+                  DataGroup           #Item
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #JournalLine
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/3473135E-54B7-4518-B02D-EFA53F74B5F5.htm
+                  DataSource          #InventJournalTrans
+                  DataGroup           #JournalLine
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #Qty
+                        DataSource          #InventJournalTrans
+                        DataField           #Qty
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #CostPrice
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTrans
+                        DataField           #CostPrice
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #PriceUnit
+                        DataSource          #InventJournalTrans
+                        DataField           #PriceUnit
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #CostMarkup
+                        DataSource          #InventJournalTrans
+                        DataField           #CostMarkup
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #CostAmount
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTrans
+                        DataField           #CostAmount
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Inventory
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/BA2DA2EB-C2C1-4464-9C7E-F3C86EEFD477.htm
+                  DataSource          #InventJournalTrans
+                  DataGroup           #Inventory
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ReturnLot
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/DA0B2676-7FC4-49F1-A5F8-CDE36D387458.htm
+                  Caption             #@SYS21678
+                  DataSource          #InventJournalTrans
+                  DataGroup           #ReturnLot
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventTransIdReturn
+                        AutoDeclaration     #Yes
+                        LookupButton        #Always
+                        DataSource          #InventJournalTrans
+                        DataField           #InventTransIdReturn
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #Lookup
+                          #void lookup()
+                          #{
+                          #    ;
+                          #    InventTrans::lookupTransIdReturn(this,inventJournalTrans.ItemId,inventDim);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Dimension
+              Caption             #@SYS14926
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Ledger
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/41E058C1-93C8-4BDD-914C-6EFA9D189426.htm
+                  Caption             #@SYS13356
+                  DataSource          #InventJournalTrans
+                  DataGroup           #Dimension
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventoryDimensions
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/C1AA5AFE-11E2-4C22-885E-74BA853CB5CC.htm
+                  DataSource          #InventDim
+                  DataGroup           #InventoryDimensions
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Handheld
+              ConfigurationKey    #RetailStoreInventory
+              SecurityKey         #HHTJournals
+              Caption             #@HHT242
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Handheld_ProfitLoss
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTJournals
+                  DataSource          #InventJournalTrans
+                  DataGroup           #Handheld_ProfitLoss
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #CheckJournal
+              AutoDeclaration     #Yes
+              AllowEdit           #No
+              MenuItemType        #Action
+              MenuItemName        #InventJournalCheck
+              DataSource          #InventJournalTrans
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #PostJournal
+              AutoDeclaration     #Yes
+              AllowEdit           #No
+              MenuItemType        #Action
+              MenuItemName        #InventJournalPost
+              DataSource          #InventJournalTrans
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL BUTTON
+            PROPERTIES
+              Name                #ShowInfoLog
+              AutoDeclaration     #Yes
+              HelpText            #@SYS85244
+              Text                #@SYS2515
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    super();
+                #
+                #    journalFormTrans.buttonClickedShowInfolog();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Functions
+              HelpText            #@SYS69656
+              Text                #@SYS10340
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventJournalDeleteTrans
+                  MenuItemType        #Action
+                  MenuItemName        #InventJournalDeleteTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #InventoryButton
+              HelpText            #@SYS28780
+              Text                #@SYS981
+              SaveRecord          #No
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventTrans
+                  MenuItemName        #InventTrans
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventOnHand
+                  MenuItemName        #InventOnhand
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventLot
+                  MenuItemName        #InventLot
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventDimTracking
+                  MenuItemName        #InventDimTracking
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator
+                  Height              #100
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Reserve
+                  MenuItemName        #InventReserve
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventMarking
+                  MenuItemName        #INventMarking
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator3
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Register
+                  MenuItemName        #InventTransRegister
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Pick
+                  MenuItemName        #InventTransPick
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator1
+                  Height              #100
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #WMSOrderAllowCreate
+                  MenuItemName        #WMSOrderAllowCreate
+                  DataSource          #InventJournalTrans
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator2
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventDimParmFixed
+                  SaveRecord          #No
+                  MenuItemName        #InventDimParmFixed
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

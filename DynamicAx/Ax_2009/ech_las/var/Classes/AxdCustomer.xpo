@@ -1,0 +1,182 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdCustomer unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdCustomer
+    Id 5322
+    PROPERTIES
+      Name                #AxdCustomer
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #echValidateAndUpdateAddress
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00873
+        #// *** Customization Date: 05 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Check the zipcode on the address record
+        #
+        #protected void echValidateAndUpdateAddress(axAddress _address)
+        #{
+        #    AddressZipCode  zipcodeTable;
+        #    ;
+        #
+        #    // check if the zipcode exists
+        #    zipcodeTable = AddressZipcode::find(_address.parmZipCode());
+        #    if (!zipcodeTable)
+        #    {
+        #        select firstonly zipcodeTable
+        #            where   zipcodeTable.City       == _address.parmCity()      &&
+        #                    zipcodeTable.County     == _address.parmCounty()    &&
+        #                    zipcodeTable.State      == _address.parmState();
+        #
+        #        // update the zipcode if found
+        #        if (zipcodeTable)
+        #            _address.parmZipCode(zipcodeTable.ZipCode);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #initFieldAccessOverrides
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 07 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: override field access
+        #
+        #protected void initFieldAccessOverrides()
+        #{
+        #    ;
+        #
+        #    super();
+        #
+        #    // insert override map into overrides
+        #    if (isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #        accessOverRides.insert(tablenum(CustTable), echCustomer::initFieldAccessOverrides());
+        #}
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set customs fields mandatory
+        #
+        #protected void initMandatoryFieldsMap()
+        #{
+        #    ;
+        #
+        #    super();
+        #
+        #    echCustomer::initMandatoryFieldsMap(this);
+        #}
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00873
+        #// *** Customization Date: 05 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Validate and update the address record
+        #
+        # // *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: EHC_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: validate document
+        #
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    boolean                                 shared;
+        #    boolean                                 primary;
+        #    AxCustTable                             axCustTable;
+        #    AxDirPartyAddressRelationship           axDirPartyAddressRelationship;
+        #    AxDirPartyAddressRelationshipMapping    axDirPartyAddressRelationshipMapping;
+        #    AxAddress                               axAddress;
+        #    CustTable                               custTable;
+        #    ;
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxCustTable) :
+        #            axCustTable = _axdStack.top();
+        #            custTable = axCustTable.custTable();
+        #// CS - EHC_I_CU01 - Anthony Christiaens - 12 Mar 2012
+        #            if (!echCustomer::validateCustomerDocument(axCustTable))
+        #                throw error("@SYS107513");
+        #// CE - EHC_I_CU01 - Anthony Christiaens - 12 Mar 2012
+        #            if (custTable && custTable.Currency != custTable.orig().Currency)
+        #            {
+        #                if (custTable.existOpenOrders())
+        #                {
+        #                    custTable.convertCurrencyCode();
+        #                }
+        #            }
+        #            return true;
+        #
+        #        case classnum(AxAddress) :
+        #            axAddress = _axdStack.top();
+        #            if (axAddress)
+        #            {
+        #                axDirPartyAddressRelationshipMapping = axAddress.parentAxBC();
+        #                if (axDirPartyAddressRelationshipMapping)
+        #                {
+        #                    axDirPartyAddressRelationship = axDirPartyAddressRelationshipMapping.parentAxBC();
+        #                    if (axDirPartyAddressRelationship)
+        #                    {
+        #                        shared = axDirPartyAddressRelationship.parmShared();
+        #                        primary = axDirPartyAddressRelationship.parmIsPrimary();
+        #                        axAddress.parmIsPrimary(primary);
+        #                        axCustTable = axDirPartyAddressRelationship.parentAxBC();
+        #// CS - ECH_WI_00873 - Marijn Catthoor - 05 Sep 2012
+        #                        // override the shared value
+        #                        shared = NoYes::Yes;
+        #// CE - ECH_WI_00873 - Marijn Catthoor - 05 Sep 2012
+        #                        if (axCustTable)
+        #                        {
+        #                            if (!shared)
+        #                            {
+        #                                axAddress.parmAddrRecId(axCustTable.currentRecord().RecId);
+        #                                axAddress.parmAddrTableId(axCustTable.currentRecord().TableId);
+        #                            }
+        #                            else
+        #                            {
+        #                                axAddress.parmAddrRecId(DirPartyTable::find(axCustTable.currentRecord().PartyId).RecId);
+        #                                axAddress.parmAddrTableId(tablenum(DirPartyTable));
+        #                            }
+        #                        }
+        #                    }
+        #                }
+        #
+        #// CS - ECH_WI_00873 - Marijn Catthoor - 05 Sep 2012
+        #
+        #                this.echValidateAndUpdateAddress(axAddress);
+        #
+        #// CE - ECH_WI_00873 - Marijn Catthoor - 05 Sep 2012
+        #
+        #            }
+        #            return true;
+        #
+        #        case classnum(AxDirPartyAddressRelationship) :
+        #            return false;
+        #
+        #        case classnum(AxDirPartyAddressRelationshipMapping) :
+        #            return false;
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

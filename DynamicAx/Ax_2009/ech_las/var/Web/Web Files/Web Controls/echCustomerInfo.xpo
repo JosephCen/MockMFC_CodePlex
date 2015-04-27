@@ -1,0 +1,222 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echCustomerInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echCustomerInfo
+    PROPERTIES
+      Name                #echCustomerInfo
+      HelpText            #
+      Filename            #echCustomerInfo.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echCustomerInfo.ascx.cs" Inherits="echCustomerInfo" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>
+      #
+      #<%@ Register assembly="ECH.AX.EP.CustomControlLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3c4f9127f02b162c" namespace="ECH.AX.EP.CustomControlLibrary" tagprefix="AXGroupInLine" %>
+      #
+      #<style type="text/css">
+      #.AxGroupHeaderCell
+      #{
+      #      text-align: Left;
+      #      color: #5a5a5a;
+      #      width:100px;
+      #      padding: 2px 4px 2px 2px;      
+      #      white-space:nowrap;
+      #}
+      #.AxGroupDataCell
+      #{
+      #      text-align: Left;
+      #      color: #000000;
+      #      width:100px;
+      #      padding: 2px;
+      #      white-space:nowrap;
+      #}
+      #</style>
+      #
+      #<dynamics:AxDataSource ID="dsECHCustomerInfo" runat="server" DataSetName="ECHCustomerInfo">
+      #</dynamics:AxDataSource>
+      #<dynamics:AxForm runat="server" ID="formECHCustomerInfo" DataKeyNames="RecId" DataMember="CustTable_Current"
+      #    DataSourceID="dsECHCustomerInfo">
+      #    <table>
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpCustBasicInfo" Caption="<%$Axlabel:@ECH663 %>"
+      #                    runat="server" >
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="AccountNum" HeaderText="<%$Axlabel:@ECH524 %>" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Name" HeaderText="<%$Axlabel:@ECH510 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="CustGroup" HeaderText="<%$Axlabel:@ECH611 %>" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="echMsgPartnerId" HeaderText="<%$Axlabel:@ECH09 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Currency" HeaderText="<%$Axlabel:@ECH523 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="balanceMST**" HeaderText="<%$Axlabel:@ECH614 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="echGetSalesOrderAmount**" HeaderText="<%$Axlabel:@ECH612 %>" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Phone" HeaderText="<%$Axlabel:@ECH615 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="PhoneLocal" HeaderText="<%$Axlabel:@ECH616 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Email" HeaderText="<%$Axlabel:@ECH617 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address" HeaderText="<%$Axlabel:@ECH618 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="LanguageId" HeaderText="<%$Axlabel:@ECH619 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="CustClassificationId" HeaderText="<%$Axlabel:@ECH620 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Memo" HeaderText="<%$Axlabel:@ECH621 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Blocked" HeaderText="<%$Axlabel:@ECH622 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr> 
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpECHContactInfo" Caption="<%$AxLabel:@ECH674 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Phone" HeaderText="<%$Axlabel:@ECH623 %>" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="PhoneLocal" HeaderText="<%$Axlabel:@ECH624%>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="CellularPhone" HeaderText="<%$Axlabel:@ECH625 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="AccountNum" HeaderText="<%$Axlabel:@ECH626 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr>
+      #        <%--<tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpECHCustAddressInfo" Caption="Customer Address Information"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address!Name" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address!Type" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address!ZipCode" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address!State" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address!City" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address!County" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Address!Street" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Phone" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="PhoneLocal" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="CellularPhone" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="TeleFax" />
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Email" />
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr>--%>
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="AXGroupRenderInLine1" Caption="<%$AxLabel:@ECH664 %>"
+      #                    runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Name" HeaderText="<%$AxLabel:@ECH626 %>" /><%--
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Type" />--%>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="ZipCode" HeaderText="<%$AxLabel:@ECH530 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="State" HeaderText="<%$AxLabel:@ECH628 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="City" HeaderText="<%$AxLabel:@ECH629 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="County" HeaderText="<%$AxLabel:@ECH630 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Street" HeaderText="<%$AxLabel:@ECH631 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Phone" HeaderText="<%$AxLabel:@ECH626 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="PhoneLocal" HeaderText="<%$AxLabel:@ECH632 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="CellularPhone" HeaderText="<%$AxLabel:@ECH525 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="TeleFax" HeaderText="<%$AxLabel:@ECH633 %>"/>
+      #                        <dynamics:AxBoundField DataSet="ECHCustomerInfo" DataSetView="CustTable" DataField="Email" HeaderText="<%$AxLabel:@ECH634 %>"/>
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr>
+      #    </table>
+      #</dynamics:AxForm> 
+      #
+      #<dynamics:AxMultiSection ID="ms1" runat="server">
+      #    <dynamics:AxSection ID="Sec1" runat="server">
+      #        <dynamics:AxGridView runat="server" ID="gridECHCustSOInfo" DataKeyNames="RecId" DataSourceID="dsECHCustomerInfo"
+      #             DataMember="SalesTable" Caption="<%$ AxLabel:@ECH665 %>" >
+      #            <Columns>
+      #                <dynamics:AxBoundField DataField="SalesId" DataSet="ECHCustomerInfo" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH635 %>" >
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="echAmountLine**" DataSet="ECHCustomerInfo" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH636 %>">
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="SalesStatus" DataSet="ECHCustomerInfo" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH513 %>">
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="CreatedDateTime" DataSet="ECHCustomerInfo" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH512 %>">
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="echMsgPartnerId" DataSet="ECHCustomerInfo" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH509 %>">
+      #                </dynamics:AxBoundField>
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #<dynamics:AxDataSource ID="dsECHCustomerInfoRetOrder" DataSetName="echCustomerInfoRetOrder" runat="server"></dynamics:AxDataSource>
+      #<dynamics:AxMultiSection ID="AxMultiSection1" runat="server">
+      #    <dynamics:AxSection ID="AxSection1" runat="server">
+      #        <dynamics:AxGridView runat="server" ID="gridECHCustROInfo" DataKeyNames="RecId" DataSourceID="dsECHCustomerInfoRetOrder"
+      #            DataMember="SalesTable" Caption="<%$AxLabel:@ECH666 %>" >
+      #            <Columns>
+      #                <dynamics:AxBoundField DataField="SalesId" DataSet="echCustomerInfoRetOrder" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH566 %>">
+      #                    <ItemStyle HorizontalAlign="Left" Width="10%" />
+      #                    <HeaderStyle HorizontalAlign="Left" Width="10%" />
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="echAmountLine**" DataSet="echCustomerInfoRetOrder" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH637 %>">
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="ReturnStatus" DataSet="echCustomerInfoRetOrder" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH638 %>">
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="CreatedDateTime" DataSet="echCustomerInfoRetOrder" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH639 %>">
+      #                </dynamics:AxBoundField>
+      #                <dynamics:AxBoundField DataField="echMsgPartnerId" DataSet="echCustomerInfoRetOrder" DataSetView="SalesTable" 
+      #                    HeaderText="<%$AxLabel:@ECH509 %>">
+      #                </dynamics:AxBoundField>
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echCustomerInfo_ascx_cs
+      HelpText            #
+      Filename            #echCustomerInfo.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echCustomerInfo : System.Web.UI.UserControl
+      #{
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

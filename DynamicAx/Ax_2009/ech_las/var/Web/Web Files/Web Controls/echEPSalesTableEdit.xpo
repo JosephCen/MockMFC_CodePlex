@@ -1,0 +1,118 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPSalesTableEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPSalesTableEdit
+    PROPERTIES
+      Name                #echEPSalesTableEdit
+      HelpText            #
+      Filename            #echEPSalesTableEdit.ascx
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPSalesTableEdit.ascx.cs"
+      #    Inherits="echEPSalesTableEdit" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #    Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>
+      #    
+      #<dynamics:AxDataSource ID="dsEPSalesTableEdit" runat="server" DataSetName="EPSalesTableEdit" />
+      #<dynamics:AxMultiSection runat="server" ID="MS_WebTab1">
+      #    <dynamics:AxSection ID="TabSalesOrdre" runat="server" Caption="<%$ AxLabel:@SYS9694 %>">
+      #        <dynamics:AxForm runat="server" ID="formEPSalesTableEdit" DataKeyNames="RecId" DataMember="SalesTable_Current"
+      #            DataSourceID="dsEPSalesTableEdit" DefaultMode="Edit" UpdateOnPostBack="true">
+      #            <dynamics:AxGroup ID="grpBaseInfo" runat="server" Caption="<%$ AxLabel:@SYS9694 %>">
+      #                <Fields>
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="SalesId" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="SalesName"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="ContactPersonName**"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="CustAccount"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="InvoiceAccount" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="CustomerRef" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="InventSiteId" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="InventLocationId" 
+      #                        OnLookup="LocationId_Lookup" LookupButtonDisplaySettings="Always" AutoPostBack="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="CurrencyCode"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="SalesType"
+      #                        ReadOnly="true" />
+      #                </Fields>
+      #            </dynamics:AxGroup>
+      #            <dynamics:AxGroup ID="grpStatus" runat="server">
+      #                <Fields>
+      #                    <dynamics:AxBoundFieldGroup DataSet="EPSalesTableEdit" DataSetView="SalesTable" FieldGroup="Status" />
+      #                </Fields>
+      #            </dynamics:AxGroup>
+      #             <dynamics:AxGroup ID="grpDeliveryAddress" runat="server" Caption="<%$ AxLabel:@SYS7924 %>">
+      #                <Fields>
+      #                    <dynamics:AxBoundFieldGroup DataSet="EPSalesTableEdit" DataSetView="SalesTable" FieldGroup="DeliveryAddress" />
+      #                </Fields>
+      #            </dynamics:AxGroup>
+      #        </dynamics:AxForm>
+      #    </dynamics:AxSection>
+      #    <dynamics:AxSection ID="TabLines" runat="server" Caption="<%$ AxLabel:@SYS15451 %>">
+      #        <dynamics:AxGridView ID="gridEPSalesLineEdit" runat="server" DataKeyNames="RecId,InventDim!inventDimId"
+      #            DataMember="SalesLine" DataSourceID="dsEPSalesTableEdit" AllowPaging="true"
+      #            ShowFilter="true" OnSelectedIndexChanged="gridEPSalesLineEdit_SelectedIndexChanged" UpdateOnPostBack="true">
+      #            <Columns>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="ItemId"
+      #                    SortExpression="ItemId" ReadOnly="true" />
+      #                <dynamics:AxBoundFieldGroup DataSet="EPSalesTableEdit" DataSetView="SalesLine" FieldGroup="InventDim!InventoryDimensions"  AutoPostBack="true"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="SalesQty"
+      #                    SortExpression="SalesQty" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="SalesUnit"
+      #                    SortExpression="SalesUnit" ReadOnly="true" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="SalesPrice"
+      #                    SortExpression="SalesPrice" ReadOnly="true" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="LineDisc"
+      #                    SortExpression="LineDisc" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="LinePercent"
+      #                    SortExpression="LinePercent" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="LineAmount"
+      #                    SortExpression="LineAmount" ReadOnly="true" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #    <dynamics:AxSection ID="sectionReleaseOrders" runat="server" Visible="false" Caption="<%$ AxLabel:@SYS59614 %>">
+      #        <dynamics:AxGridView ID="gridEPSalesTableLinksEdit" runat="server" DataKeyNames="SubSalesId" UpdateOnPostBack="true"
+      #            DataMember="SalesTableLinks" DataSourceID="dsEPSalesTableEdit" AllowPaging="True"
+      #            Visible="true" ShowFilter="true">
+      #            <Columns>
+      #                <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!CustAccount" SortExpression="CustAccount" MenuItem="EPCustTableInfo"
+      #                    ImageUrl="" />
+      #                <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!SalesId" SortExpression="SalesId" MenuItem="EPSalesTableInfo"
+      #                    ImageUrl="" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!createdDateTime"
+      #                    SortExpression="createdDateTime" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!DeliveryDate"
+      #                    SortExpression="DeliveryDate" />
+      #                <dynamics:AxDropDownBoundField DataField="BlanketSalesTable!SalesStatus" DataSet="EPSalesTableEdit"
+      #                    DataSetView="SalesTableLinks" SortExpression="BlanketSalesTable!SalesStatus">
+      #                </dynamics:AxDropDownBoundField>
+      #                <dynamics:AxDropDownBoundField DataField="BlanketSalesTable!SalesType" DataSet="EPSalesTableEdit"
+      #                    DataSetView="SalesTableLinks" SortExpression="BlanketSalesTable!SalesType">
+      #                </dynamics:AxDropDownBoundField>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!SalesTaker"
+      #                    SortExpression="SalesTaker" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #<asp:Button runat="server" ID="ButtonChange" Text="<%$ AxLabel:@SYS70959 %>" OnClick="ButtonChange_Click" />
+    ENDSOURCE
+  ENDWEBCONTROL
+  
+
+***Element: END

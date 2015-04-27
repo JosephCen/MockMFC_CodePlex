@@ -1,0 +1,61 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : EPRetailItemInfoToolBar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #EPRetailItemInfoToolBar
+    PROPERTIES
+      Name                #EPRetailItemInfoToolBar
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS111665
+      PROPERTIES
+        Name                #RelatedInformation
+        Label               #@SYS111665
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Attributes
+          MenuItemName        #echRBOItemAttributes
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #On-hand
+          MenuItemName        #EPInventOnhand
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Item variants
+          MenuItemName        #EPRetailItemVariants
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Documents
+          MenuItemName        #EPDocuListFromInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Store list
+          MenuItemName        #echRBOAssortmentItemList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

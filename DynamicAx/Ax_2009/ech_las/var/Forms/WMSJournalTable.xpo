@@ -1,0 +1,1411 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #WMSJournalTable
+  PROPERTIES
+    Name                #WMSJournalTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #class FormRun extends ObjectRun
+      #{
+      #    WMSJournalFormTable     journalFormTable;
+      #    boolean                 inCreate;
+      #    boolean                 inDelete;
+      #}
+    ENDSOURCE
+    SOURCE #timeOutRedraw
+      #void timeOutRedraw()
+      #{
+      #    ;
+      #    journalFormTable.formMethodTimeOutRedraw();
+      #}
+    ENDSOURCE
+    SOURCE #enableButtonsActive
+      #void enableButtonsActive(boolean _enableInfolog)
+      #{
+      #    ;
+      #    printButton.enabled(wmsJournalTable.RecId != 0);
+      #
+      #}
+    ENDSOURCE
+    SOURCE #close
+      #void close()
+      #{
+      #    ;
+      #    journalFormTable.formClosePre();
+      #
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #firstField
+      #void firstField(int _flags=1)
+      #{
+      #    super(_flags);
+      #
+      #    journalFormTable.formFirstFieldPost();
+      #}
+    ENDSOURCE
+    SOURCE #journalForm
+      #JournalForm journalForm()
+      #{
+      #    return journalFormTable;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_I_OR05_1
+      #// *** Customization Date: 04 Apr 2012
+      #// *** Customization Type: modified
+      #// *** Description: moved datasourceInitPost from datasource to init from form
+      #
+      #/// <summary>
+      #/// Inits the form values.
+      #/// </summary>
+      #/// <remarks>
+      #/// The WMSJournalTable form init method.
+      #/// </remarks>
+      #void init()
+      #{
+      #    ;
+      #
+      #    journalFormTable = new WMSJournalFormTable(element);
+      #
+      #    super();
+      #// CS - ECH_I_OR05_1 - Anthony Christiaens - 04 Apr 2012
+      #    journalFormTable.datasourceInitPost(wmsJournalTable);
+      #// CE - ECH_I_OR05_1 - Anthony Christiaens - 04 Apr 2012
+      #    journalFormTable.parmCtrlAllOpenPosted(allOpenPosted);
+      #    journalFormTable.parmCtrlJournalTypeGrid(wmsJournalTable_JournalType);
+      #    journalFormTable.parmCtrlJournalIdTab(journalId);
+      #    journalFormTable.parmCtrlJournalIdGrid(wmsJournalTable_JournalId);
+      #    journalFormTable.parmCtrlOverview(gridOverview);
+      #    journalFormTable.parmCtrlMarkUserBlock(markUserBlock);
+      #    journalFormTable.parmCtrlMarkInUseBlock(markInUseBlock);
+      #    journalFormTable.parmCtrlSystemBlocked(systemBlocked);
+      #    journalFormTable.parmCtrlLines(lines);
+      #    journalFormTable.parmCtrlCheckJournal(checkJournal);
+      #    journalFormTable.parmCtrlPostJournal(postJournal);
+      #    journalFormTable.parmCtrlCreateNew(createNew);
+      #    journalFormTable.parmCtrlInfolog(showInfolog);
+      #    journalFormTable.parmCtrlBlockImage(blockImage);
+      #    journalFormTable.parmCtrlInitTotals(initTotals);
+      #
+      #    journalFormTable.parmCtrlCreateLines(wmsJournalCreateLines);
+      #    journalFormTable.parmCtrlPackingSlipUpdate(purchFormLetter_PackingSlip);
+      #    journalFormTable.parmCtrlPackingSlipUpdateSales(salesFormLetter_PackingSlip);
+      #    journalFormTable.parmCtrlTransferOrderReceive(inventTransferReceive);
+      #
+      #    journalFormTable.parmCtrlReturnDispositionCodeId(returnOrders_ReturnDispositionCodeId);
+      #    journalFormTable.parmCtrlReturnItemNum(returnOrders_ReturnItemNum);
+      #    journalFormTable.formInitPost();
+      #
+      #}
+      #
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #WMSJournalTable
+          Table               #WMSJournalTable
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD journalNameId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    ;
+                #    super();
+                #    journalFormTable.fieldModifiedJournalNameIdPost();
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    ret = journalFormTable.fieldValidateJournalNameIdPost(ret);
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{;
+                #    journalFormTable.designLookupJournalName(_formControl);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD inventTransRefId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    if (!wmsJournalTable.lookupInventTransRefId(_formControl))
+                #        super(_formControl, _filterStr);
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #void modified()
+                #{
+                #
+                #    super();
+                #    journalFormTable.fieldModifiedInventTransRefIdPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD systemBlocked
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTable.fieldModifiedSystemBlockedPost();
+                #
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD blockUserGroupId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTable.fieldModifiedBlockUserGroupId();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ReturnItemNum
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #    super();
+                #    journalFormTable.fieldModifiedReturnItemNumPost();
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #/// <summary>
+                #/// Controls the lookup funtionallity on the ReturnItemNum field.
+                #/// </summary>
+                #/// <param name="_formControl">
+                #/// The field object.
+                #/// </param>
+                #/// <param name="_filterStr">
+                #/// The filtering string
+                #/// </param>
+                #/// <remarks>
+                #/// The look up is only available if the InventTransType is Sales.
+                #/// </remarks>
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{;
+                #    if (wmsJournalTable.InventTransType == InventTransType::Sales)
+                #    {
+                #        SalesTable::lookupWMSReceptionRMA(_formControl, wmsJournalTable.VendAccount);
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ReturnDispositionCodeId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{;
+                #    WMSJournalTable::lookupDispositionCodeId(wmsJournalTable.InventTransRefId, _formControl);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD inventTransType
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #    journalFormTable.fieldModifiedInventTransRefIdPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #//AOSRunMode::Client
+          #void write()
+          #{
+          #    ttsbegin;
+          #
+          #    wmsJournalTable.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #
+          #    super();
+          #
+          #    journalFormTable.datasourceWritePost();
+          #
+          #    if (wmsJournalTable.InventDimId != inventDim.InventDimId)
+          #    {
+          #        inventDim.data(InventDim::find(wmsJournalTable.InventDimId));
+          #        inventDim_ds.setCurrent();
+          #    }
+          #
+          #    ttscommit;
+          #}
+        ENDSOURCE
+        SOURCE #InitValue
+          #void initValue()
+          #{
+          #    ;
+          #    journalFormTable.datasourceInitValuePre();
+          #    super();
+          #    journalFormTable.datasourceInitValuePost();
+          #}
+        ENDSOURCE
+        SOURCE #Init
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_I_OR05_1
+          #// *** Customization Date: 04 Apr 2012
+          #// *** Customization Type: modified
+          #// *** Description: moved datasourceInitPost from datasource to init from form
+          #
+          #void init()
+          #{
+          #    super();
+          #// CS - ECH_I_OR05_1 - Anthony Christiaens - 04 Apr 2012
+          #    //journalFormTable.datasourceInitPost(wmsJournalTable);
+          #// CE - ECH_I_OR05_1 - Anthony Christiaens - 04 Apr 2012
+          #}
+        ENDSOURCE
+        SOURCE #delete
+          #//AOSRunmode::Client
+          #void delete()
+          #{
+          #    ;
+          #    try
+          #    {
+          #        inDelete = true;
+          #        ttsbegin;
+          #
+          #        super();
+          #
+          #        journalFormTable.datasourceDeletePost();
+          #
+          #        ttscommit;
+          #        inDelete = false;
+          #    }
+          #    catch(Exception::Error)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::Error;
+          #    }
+          #    catch(Exception::UpdateConflict)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::UpdateConflict;
+          #    }
+          #    catch(Exception::CodeAccessSecurity)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::CodeAccessSecurity;
+          #    }
+          #    catch(Exception::UpdateConflictNotRecovered)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::UpdateConflictNotRecovered;
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean _append = false)
+          #{
+          #    ;
+          #    inCreate = true;
+          #    if (! journalFormTable.datasourceCreatePre())
+          #    {
+          #        inCreate = false;
+          #        return;
+          #    }
+          #
+          #    super(_append);
+          #
+          #    journalFormTable.datasourceCreatePost();
+          #    inCreate = false;
+          #}
+        ENDSOURCE
+        SOURCE #linkActive
+          #void linkActive()
+          #{
+          #    ;
+          #    journalFormTable.datasourceLinkActivePre();
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #ExecuteQuery
+          #void executeQuery()
+          #{
+          #    ;
+          #    journalFormTable.datasourceExecuteQueryPre();
+          #    super();
+          #    journalFormTable.datasourceExecuteQueryPost();
+          #}
+        ENDSOURCE
+        SOURCE #leave
+          #public boolean leave()
+          #{
+          #    boolean ret = true;
+          #    ;
+          #    if (!inCreate && !inDelete)
+          #    {
+          #        ret = journalFormTable.datasourceLeavePre();
+          #    }
+          #
+          #    ret = ret && super();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #Active
+          #int active()
+          #{
+          #    int             ret;
+          #    ;
+          #    journalFormTable.datasourceActivePre();
+          #
+          #    ret = super();
+          #
+          #    journalFormTable.datasourceActivePost();
+          #
+          #    return ret;
+          #
+          #}
+        ENDSOURCE
+        SOURCE #reread
+          #void reread()
+          #{
+          #    super();
+          #
+          #    journalFormTable.datasourceReReadPost();
+          #}
+        ENDSOURCE
+        SOURCE #lockImage
+          #//BP Deviation documented
+          #display Integer lockImage(WMSJournalTable _journalTable)
+          #{
+          #    return journalFormTable.datasourceMethodLockImage(_journalTable);
+          #}
+        ENDSOURCE
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    boolean ret;
+          #
+          #    ret = super();
+          #
+          #    ret = journalFormTable.datasourceValidateWritePost(ret);
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #InUseBlock
+          #//BP Deviation documented
+          #edit JournalMarkInUseBlock inUseBlock(boolean set, JournalTableMap _journalTable, JournalMarkInUseBlock _value)
+          #{
+          #    return journalFormTable.datasourceMethodInUseBlock(set,_journalTable,_value);
+          #}
+        ENDSOURCE
+        SOURCE #InUseUserId
+          #//BP Deviation documented
+          #display JournalBlockInUseUserId inUseUserId(JournalTableMap _journalTable)
+          #{
+          #    return journalFormTable.datasourceMethodInUseUserId(_journalTable);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #inventDim
+          Table               #InventDim
+          JoinSource          #WMSJournalTable
+          LinkType            #InnerJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD InventLocationId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{;
+                #    return journalFormTable.fieldValidateDim_InventLocation();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #public void write()
+          #{
+          #//    super();
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #    journalFormTable.inventDimInitPost(inventDim);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    inventDim WMSJournalTable
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS51058
+      TitleDatasource     #WMSJournalTable
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/62262CB4-78AF-4D11-912B-BBA08AD1F4D1.htm
+      Columns             #Auto
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL COMBOBOX
+        PROPERTIES
+          Name                #AllOpenPosted
+          AutoDeclaration     #Yes
+          HelpText            #@SYS23749
+          Selection           #255
+          EnumType            #AllOpenPosted
+        ENDPROPERTIES
+        
+        METHODS
+          Version: 3
+          SOURCE #SelectionChange
+            #int selectionChange()
+            #{
+            #    int ret;
+            #
+            #    ret = super();
+            #
+            #    journalFormTable.designSelectionChangeAllOpenPosted();
+            #
+            #    return ret;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Tabs                #5
+          Columns             #Auto
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              AutoDeclaration     #Yes
+              Caption             #@SYS9039
+              Columns             #Auto
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #GridOverview
+                  AutoDeclaration     #Yes
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #WMSJournalTable
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSJournalTable_JournalNameId
+                        DataSource          #WMSJournalTable
+                        DataField           #journalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSJournalTable_journalId
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataField           #journalId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #WMSJournalTable_journalType
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataField           #journalType
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSJournalTable_description
+                        DataSource          #WMSJournalTable
+                        DataField           #description
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #WMSJournalTable_numOfLines
+                        DataSource          #WMSJournalTable
+                        DataField           #numOfLines
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #WMSJournalTable_posted
+                        AllowEdit           #No
+                        Skip                #Yes
+                        BackgroundColor     #Window background
+                        DataSource          #WMSJournalTable
+                        DataField           #posted
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL WINDOW
+                      PROPERTIES
+                        Name                #BlockImage
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        Width               #18
+                        Height              #12
+                        AlignControl        #No
+                        Imagemode           #Size to fit
+                        BackStyle           #Transparent
+                        Label               #@SYS10653
+                        DataSource          #WMSJournalTable
+                        DataMethod          #lockImage
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS2952
+              Columns             #Auto
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Identification
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/01DDB5BD-5FAD-4CB3-B741-F43E2B6BE259.htm
+                  DataSource          #WMSJournalTable
+                  DataGroup           #Identification
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #JournalId
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataField           #journalId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #journalType
+                        DataSource          #WMSJournalTable
+                        DataField           #journalType
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #journalNameId
+                        DataSource          #WMSJournalTable
+                        DataField           #journalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #description
+                        DataSource          #WMSJournalTable
+                        DataField           #description
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Posting
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/7DB7154A-3401-495D-BFB4-6A930FCE4F95.htm
+                  DataSource          #WMSJournalTable
+                  DataGroup           #Posting
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PackingSlipgroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/FCDDACB0-9494-49B6-BF16-D1ED5816770F.htm
+                  DataSource          #WMSJournalTable
+                  DataGroup           #PackingSlip
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #DefaultValues
+              Caption             #@SYS21682
+              Columns             #Auto
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Reference
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/B2F80303-E2D4-4D60-BD53-36F51548ED46.htm
+                  DataSource          #WMSJournalTable
+                  DataGroup           #Reference
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #vendAccount
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataField           #vendAccount
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #inventTransType
+                        DataSource          #WMSJournalTable
+                        DataField           #inventTransType
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #inventTransRefId
+                        LookupButton        #Always
+                        DataSource          #WMSJournalTable
+                        DataField           #inventTransRefId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventoryDimensions
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/59D2C3B1-5D08-4941-8338-D312B6E83620.htm
+                  DataSource          #inventDim
+                  DataGroup           #InventoryDimensions
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #configId
+                        DataSource          #inventDim
+                        DataField           #configId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventoryDimensions_InventSizeId
+                        DataSource          #inventDim
+                        DataField           #InventSizeId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventoryDimensions_InventColorId
+                        DataSource          #inventDim
+                        DataField           #InventColorId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventoryDimensions_InventSiteId
+                        DataSource          #inventDim
+                        DataField           #InventSiteId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventLocationId
+                        DataSource          #inventDim
+                        DataField           #InventLocationId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #batchId
+                        DataSource          #inventDim
+                        DataField           #inventBatchId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #locationId
+                        LookupButton        #Always
+                        DataSource          #inventDim
+                        DataField           #wMSLocationId
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #Lookup
+                          #void lookup()
+                          #{
+                          #    ;
+                          #    WMSLocation::lookupLocationId(this, inventDim.InventLocationId, inventDim.InventSiteId, true);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #palletId
+                        DataSource          #inventDim
+                        DataField           #wMSPalletId
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #lookup
+                          #void lookup()
+                          #{
+                          #    ;
+                          #    WMSPallet::lookupPalletId(this, inventDim.InventLocationId, inventdim.wmsLocationId);
+                          #
+                          #}
+                          #
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #serialId
+                        DataSource          #inventDim
+                        DataField           #inventSerialId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ModeOfHandling
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/CE3D8887-3762-42C4-97C2-1D02E9783512.htm
+                  DataSource          #WMSJournalTable
+                  DataGroup           #ModeOfHandling
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ReturnOrders
+                  DataSource          #WMSJournalTable
+                  DataGroup           #ReturnOrders
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ReturnOrders_ReturnItemNum
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataField           #ReturnItemNum
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ReturnOrders_ReturnDispositionCodeId
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataField           #ReturnDispositionCodeId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Block
+              Caption             #@SYS50247
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column1
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/CC50BD16-F06E-46BE-B5BD-3FA4421F3B68.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #MarkInUseBlock
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataMethod          #InUseBlock
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #MarkUserBlock
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS22217
+                        Label               #@SYS3324
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #modified
+                          #boolean modified()
+                          #{
+                          #    boolean ret;
+                          #
+                          #    ret = super();
+                          #
+                          #    journalFormTable.designModifiedMarkUserBlockPost();
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column2
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/191385D6-BA09-48BB-AB9F-7A5BE964AA1B.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #BlockInUseUserId
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        DataSource          #WMSJournalTable
+                        DataMethod          #InUseUserId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSJournalTable_blockUserId
+                        DataSource          #WMSJournalTable
+                        DataField           #blockUserId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column3
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/FD305D4A-0E27-4278-8E46-E78C9FCE1A0A.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #SystemBlocked
+                        AutoDeclaration     #Yes
+                        DataSource          #WMSJournalTable
+                        DataField           #systemBlocked
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSJournalTable_blockUserGroupId
+                        DataSource          #WMSJournalTable
+                        DataField           #blockUserGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #History
+              Caption             #@SYS10575
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #HistoryGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/0C3DC38D-84CC-49B5-89AE-01AE00418273.htm
+                  DataSource          #WMSJournalTable
+                  DataGroup           #History
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #TotalsGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/6701FA98-1752-4795-80AE-90AE14F6F726.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Totals
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B9207470-955E-4D78-A60C-405F9A77275D.htm
+                        DataSource          #WMSJournalTable
+                        DataGroup           #Totals
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #InitTotals
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS85243
+                        Text                #@SYS55661
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    ;
+                          #    journalFormTable.buttonClickedInitTotals();
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #Lines
+              AutoDeclaration     #Yes
+              Text                #@SYS15451
+              MenuItemName        #WMSJournalReception
+              DataSource          #WMSJournalTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #checkJournal
+              AutoDeclaration     #Yes
+              MenuItemType        #Action
+              MenuItemName        #WMSJournalCheck
+              DataSource          #WMSJournalTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #PostJournal
+              AutoDeclaration     #Yes
+              MenuItemType        #Action
+              MenuItemName        #WMSJournalPost
+              DataSource          #WMSJournalTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #CreateNew
+              AutoDeclaration     #Yes
+              MenuItemName        #JournalTableCreateNew
+              DataSource          #WMSJournalTable
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    if (! journalFormTable.buttonClickedCreateNewPre())
+                #        return;
+                #
+                #    super();
+                #
+                #    journalFormTable.buttonClickedCreateNewPost();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+          CONTROL BUTTON
+            PROPERTIES
+              Name                #showInfoLog
+              AutoDeclaration     #Yes
+              HelpText            #@SYS85244
+              Text                #@SYS2515
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    ;
+                #    super();
+                #
+                #    journalFormTable.buttonClickedShowInfolog();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Functions
+              HelpText            #@SYS28778
+              Text                #@SYS10340
+              MultiSelect         #Yes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #WMSJournalCreateLines
+                  AutoDeclaration     #Yes
+                  MenuItemType        #Action
+                  MenuItemName        #WMSJournalCreateLines
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #PurchFormLetter_PackingSlip
+                  AutoDeclaration     #Yes
+                  HelpText            #@SYS83625
+                  MultiSelect         #Yes
+                  MenuItemType        #Action
+                  MenuItemName        #PurchFormLetter_PackingSlip
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #
+                    #    if (wmsJournalTable.checkInTransportsComplete())
+                    #    {
+                    #        journalFormTable.linesLeftForUpdateInfo(this);
+                    #        super();
+                    #    }
+                    #}
+                    #
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #SalesFormLetter_PackingSlip
+                  AutoDeclaration     #Yes
+                  ConfigurationKey    #ReturnItem
+                  Text                #@SYS111685
+                  MultiSelect         #Yes
+                  MenuItemType        #Action
+                  MenuItemName        #SalesFormLetter_PackingSlip
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{;
+                    #    if (wmsJournalTable.checkInTransportsComplete() && WMSJournalTable::hasReturnLines(wmsJournalTable.JournalId))
+                    #    {
+                    #        journalFormTable.linesLeftForUpdateInfo(this);
+                    #        super();
+                    #    }
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventTransferReceive
+                  AutoDeclaration     #Yes
+                  MenuItemType        #Action
+                  MenuItemName        #InventTransferReceive
+                  DataSource          #WMSJournalTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #PrintButton
+              AutoDeclaration     #Yes
+              Text                #@SYS920
+              MenuItemType        #Output
+              MenuItemName        #WMSJournalTrans
+              DataSource          #WMSJournalTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

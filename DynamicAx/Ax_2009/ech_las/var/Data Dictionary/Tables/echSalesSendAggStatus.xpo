@@ -1,0 +1,127 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSalesSendAggStatus unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSalesSendAggStatus
+    Id 30049
+    PROPERTIES
+      Name                #echSalesSendAggStatus
+      Label               #@ECH299
+      TitleField1         #AggStatus
+      TitleField2         #RecId
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #CustTables
+      PrimaryIndex        #AggStatusIdx
+      ClusterIndex        #AggStatusIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #AggStatus
+        Id 30002
+        ENUM
+        PROPERTIES
+          Name                #AggStatus
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSalesSendAggStatus
+          EnumType            #ECHAggStatus
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AggStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AggStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #AggStatusIdx
+      Id 30001
+      PROPERTIES
+        Name                #AggStatusIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #AggStatus
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 04 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #static boolean exist(ECHAggStatus _aggStatus)
+        #{
+        #    echSalesSendAggStatus       echSalesSendAggStatus;
+        #    ;
+        #
+        #    select firstonly recid from echSalesSendAggStatus
+        #        index hint AggStatusIdx
+        #        where echSalesSendAggStatus.AggStatus == _aggStatus;
+        #
+        #
+        #    return echSalesSendAggStatus.RecId ? true : false;
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 04 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #static echSalesSendAggStatus find(ECHAggStatus _aggStatus, boolean _forUpdate = false)
+        #{
+        #    echSalesSendAggStatus       echSalesSendAggStatus;
+        #    ;
+        #
+        #    ttsbegin;
+        #    echSalesSendAggStatus.selectLocked(_forUpdate);
+        #
+        #    select firstonly echSalesSendAggStatus
+        #        index hint AggStatusIdx
+        #        where echSalesSendAggStatus.AggStatus == _aggStatus;
+        #
+        #    ttscommit;
+        #
+        #    return echSalesSendAggStatus;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

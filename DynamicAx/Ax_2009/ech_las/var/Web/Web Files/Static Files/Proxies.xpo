@@ -1,0 +1,916 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WRF
+
+; Microsoft Dynamics AX STATICFILE : Proxies unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  STATICFILE #Proxies
+    PROPERTIES
+      Name                #Proxies
+      HelpText            #
+      Filename            #generate.cmdline
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #/warn:2 /references+ /methods- /namespace:Microsoft.Dynamics.Portal.Application.Proxy /oldnamespace
+      #
+      #/class:EP
+      #    /method:EP.isCustomer
+      #    /method:EP.isSalesRep
+      #    /method:EP.isVendor
+      #    /method:EP.modifyCustTable
+      #    /method:EP.createCustTable  
+      #    /method:EP.redirectOnCreate
+      #    /method:EP.createDocuRef
+      #    /method:EP.modifyDocuRef
+      #    /method:EP.createServiceOrderTable
+      #    /method:EP.modifyServiceOrderTable
+      #    /method:EP.redirectToPBAWebForm
+      #    /method:EP.createSalesQuotation
+      #    /method:EP.getLanguageId
+      #    /method:EP.findECPPresentation
+      #    /method:EP.searchECPPresentation
+      #
+      #/enum:EPFormAction
+      #
+      #/table:TrvParameters
+      #    /method:TrvParameters.find
+      #/table:TrvAppEmplSub
+      #    /method:TrvAppEmplSub.findAllForCurrentUser
+      #/table:SysCompanyUserInfo
+      #    /method:SysCompanyUserInfo.current
+      #/table:EmplTable
+      #    /method:EmplTable.find
+      #
+      #/enum:TrvExpType
+      #/enum:TrvExpItemizationStatus
+      #/class:EPTrvHotelWizard
+      #    /method:EPTrvHotelWizard.insertItemizedLines
+      #    /method:EPTrvHotelWizard.insertNewRecord
+      #/table:TrvExpTable
+      #    /method:TrvExpTable.find
+      #    /method:TrvExpTable.findRecId
+      #    /method:TrvExpTable.isItemizationComplete
+      #    /method:TrvExpTable.deleteRecId
+      #/table:TrvExpTrans
+      #    /method:TrvExpTrans.find
+      #    /method:TrvExpTrans.itemizedAmount
+      #    /method:TrvExpTrans.insertNewRecord
+      #    /method:TrvExpTrans.insertRemainingAsPersonal
+      #    /method:TrvExpTrans.insertCostSplitLine
+      #/class:TrvPolicyEvalEngine
+      #    /method:TrvPolicyEvalEngine.showViolationsForChildLines
+      #    /method:TrvPolicyEvalEngine.showViolationsForExpLines
+      #    /method:TrvPolicyEvalEngine.showViolationsForExpHdr
+      #/enum:TrvPolicyViolationLevel
+      #
+      #/table:HierarchyLinkTable
+      #    /method:HierarchyLinkTable.findRefTableRecId
+      #/table:HierarchyTreeTable
+      #    /method:HierarchyTreeTable.findFirstLevelNodes
+      #    /method:HierarchyTreeTable.findSubLevelNodes
+      #    /method:HierarchyTreeTable.childNodeCount
+      #    /method:HierarchyTreeTable.findRecId 
+      #    /method:HierarchyTreeTable.getRecord
+      #    /method:HierarchyTreeTable.findElementNumber
+      #    /method:HierarchyTreeTable.findParentElement
+      #/table:smmActivities
+      #    /method:smmActivities.findWithRecId
+      #/table:smmProcessStage
+      #    /method:smmProcessStage.find
+      #/enum:smmActivityCategory
+      #/enum:ElementNodeType
+      #/enum:smmProcessStageStatus
+      #
+      #/table:TrvCostType
+      #    /method:TrvCostType.getCategories
+      #    /method:TrvCostType.findAll
+      #    /method:TrvCostType.find
+      #    /method:TrvCostType.countCostSplitCategories
+      #    /method:TrvCostType.getAllCategories
+      #    /method:TrvCostType.getExpenseCategories
+      #/table:TrvPBSMaindata
+      #    /method:TrvPBSMaindata.transfer2Expense
+      #
+      #/enum:TrvAppStatus
+      #/enum:ProjExpPolicyStatus
+      #
+      #/table:PurchReqParameters
+      #    /method:PurchReqParameters.find
+      #
+      #/table:PurchReqTable
+      #    /method:PurchReqTable.CheckDelete
+      #    /method:PurchReqTable.CheckUpdate
+      #    /method:PurchReqTable.CheckAddLines
+      #    /method:PurchReqTable.CanSubmit
+      #    /method:PurchReqTable.GetEPFilterCondition
+      #    /method:PurchReqTable.InventSiteActive
+      #    /method:PurchReqTable.webLookupRequisitionerQuery
+      #    /method:PurchReqTable.IsUserTaskOwner
+      #    /method:PurchReqTable.IsUserApprovalOwner
+      #
+      #/class:PurchReqDuplicate
+      #    /method:PurchReqDuplicate.newDuplicate
+      #
+      #/class:PurchReqTableNumSeqHandler
+      #    /method:PurchReqTableNumSeqHandler.Construct
+      #    /method:PurchReqTableNumSeqHandler.formMethodDataSourceCreate
+      #    /method:PurchReqTableNumSeqHandler.formMethodDataSourceWrite
+      #    /method:PurchReqTableNumSeqHandler.formMethodDataSourceValidateWrite
+      #
+      #/table:PurchReqLine
+      #    /method:PurchReqLine.CheckUpdate
+      #    /method:PurchReqLine.CheckDelete
+      #    /method:PurchReqLine.IsCatalogItem
+      #    /method:PurchReqLine.buildLedgerAccountLookupQuery
+      #    /method:PurchReqLine.BuildProductGroupIdCatagoryLookupQuery
+      #    /method:PurchReqLine.lookupFilterDisabled
+      #    /method:PurchReqLine.VendSearchName2AccountNum
+      #    /method:PurchReqLine.InventTable
+      #
+      #/table:PurchReqTempVendTable
+      #    /method:PurchReqTempVendTable.BuildLookup
+      #
+      #/enum:PurchReqTableFilterType
+      #/enum:PurchReqStatus
+      #
+      #/table:InventProductGroupBOM
+      #    /method:InventProductGroupBOM.findHierarchy
+      #    /method:InventProductGroupBOM.findParent
+      #
+      #/class:InventProductGroupTreeNode
+      #    /method:InventProductGroupTreeNode.create
+      #    /method:InventProductGroupTreeNode.parmParentValuePath
+      #    /method:InventProductGroupTreeNode.parmProductGroupId
+      #    /method:InventProductGroupTreeNode.parmName
+      #    /method:InventProductGroupTreeNode.parmHasChildNodes
+      #
+      #/table:InventLocation
+      #    /method:InventLocation.WebLookupBySiteIdQuery
+      #    /method:InventLocation.WebLookupFields
+      #    /method:InventLocation.exist
+      #
+      #/table:InventSite
+      #    /method:InventSite.exist
+      #
+      #/table:WorkflowWorkItemDelegationParameters
+      #    /method:WorkflowWorkItemDelegationParameters.getDelegationText
+      #    /method:WorkflowWorkItemDelegationParameters.getEPFilterCondition
+      #
+      #/table:WorkflowAOTTmp
+      #    /method:WorkflowAOTTmp.buildLookupCategory
+      #
+      #/enum:WorkflowWorkItemDelegationView
+      #/enum:WorkflowWorkItemDelegationType
+      #/enum:ModuleAxapta
+      #/enum:WorkflowConfigurationType
+      #
+      #/table:WorkflowConfigurationTable
+      #    /method:WorkflowConfigurationTable.buildLookupConfigurationIdQuery
+      #
+      #/class:WorkflowStatusTreeInfo
+      #    /method:WorkflowStatusTreeInfo.newTreeInfo
+      #    /method:WorkflowStatusTreeInfo.parmCorrelationId
+      #    /method:WorkflowStatusTreeInfo.parmDateTime
+      #    /method:WorkflowStatusTreeInfo.parmDocumentId
+      #    /method:WorkflowStatusTreeInfo.parmDocumentName
+      #    /method:WorkflowStatusTreeInfo.parmElapsedTime
+      #    /method:WorkflowStatusTreeInfo.parmElementName
+      #    /method:WorkflowStatusTreeInfo.parmEscalated
+      #    /method:WorkflowStatusTreeInfo.parmOverviewText
+      #    /method:WorkflowStatusTreeInfo.parmStatus
+      #    /method:WorkflowStatusTreeInfo.parmStatusUserName
+      #    /method:WorkflowStatusTreeInfo.parmTreeDetails
+      #
+      #/class:WorkflowStatusTreeInfoDetails
+      #    /method:WorkflowStatusTreeInfoDetails.create
+      #    /method:WorkflowStatusTreeInfoDetails.parmChildren
+      #    /method:WorkflowStatusTreeInfoDetails.parmIcon
+      #    /method:WorkflowStatusTreeInfoDetails.parmLevel
+      #    /method:WorkflowStatusTreeInfoDetails.parmParent
+      #    /method:WorkflowStatusTreeInfoDetails.parmText
+      #    /method:WorkflowStatusTreeInfoDetails.parmTrackingDetails
+      #    /method:WorkflowStatusTreeInfoDetails.parmTrackingType
+      #
+      #/class:EPTrv
+      #    /method:EPTrv.UserHasCurrentDelegateAccessFor
+      #    /method:EPTrv.UserHasAccessToExpenseReportNumber
+      #    /method:EPTrv.reportIsEditable
+      #    /method:EPTrv.userIsValidEmployee
+      #    /method:EPTrv.getCompanyCurrency
+      #    /method:EPTrv.getHeaderCustomFields
+      #    /method:EPTrv.getTransactionCustomFields
+      #    /method:EPTrv.costTypeLookupQuery
+      #    /method:EPTrv.merchantIdLookupQuery
+      #    /method:EPTrv.getUserPreferredTimeZoneDate
+      #    /method:EPTrv.internalGuestsQuery
+      #
+      #/class:SmmEntityCopy
+      #    /method:SmmEntityCopy.parmIncludeActivities
+      #    /method:SmmEntityCopy.parmIncludeCampaigns
+      #    /method:SmmEntityCopy.parmIncludeCompetitors
+      #    /method:SmmEntityCopy.parmIncludeContacts
+      #    /method:SmmEntityCopy.parmIncludeDocuments
+      #    /method:SmmEntityCopy.parmIncludeLeads
+      #    /method:SmmEntityCopy.parmIncludeOpportunities
+      #    /method:SmmEntityCopy.parmIncludeParty
+      #    /method:SmmEntityCopy.parmIncludeProjects
+      #    /method:SmmEntityCopy.parmIncludeResponsibilities
+      #    /method:SmmEntityCopy.parmIncludeSwotAnalysis
+      #    /method:SmmEntityCopy.parmShowInfoLog
+      #    /method:SmmEntityCopy.construct
+      #    /method:SmmEntityCopy.run
+      #
+      #/class:SmmEntityDelete
+      #    /method:SmmEntityDelete.parmIncludeActivities
+      #    /method:SmmEntityDelete.parmIncludeContacts
+      #    /method:SmmEntityDelete.parmIncludeDocuments
+      #    /method:SmmEntityDelete.parmIncludeLeads
+      #    /method:SmmEntityDelete.parmIncludeOpportunities
+      #    /method:SmmEntityDelete.parmIncludeProjects
+      #    /method:SmmEntityDelete.parmIncludeQuotes
+      #    /method:SmmEntityDelete.parmCommonTable
+      #    /method:SmmEntityDelete.parmShowInfoLog
+      #    /method:SmmEntityDelete.construct
+      #    /method:SmmEntityDelete.run
+      #
+      #/table:DirPartyTable
+      #    /method:DirPartyTable.isCustomer
+      #    /method:DirPartyTable.isRelation
+      #    /method:DirPartyTable.find
+      #
+      #/table:smmParametersTable
+      #    /method:smmParametersTable.find
+      #
+      #/enum:smmLeadStatus
+      #
+      #/enum:smmOpportunityStatus
+      #
+      #/enum:TrvUDFDisplayOption
+      #
+      #/table:CompanyNAFCode
+      #    /method:CompanyNAFCode.NAFCodeTableEmpty
+      #
+      #/table:CustTable
+      #   /method:CustTable.findByPartyId
+      #   /method:CustTable.find
+      #
+      #
+      #/table:ProjParameters
+      #    /method:ProjParameters.find
+      #    /method:ProjParameters.grossMarginDisplayLabel
+      #    /method:ProjParameters.grossMarginHelpLabel
+      #    /method:ProjParameters.GrossMarginDecimals
+      #
+      #/table:HRMLoanTable
+      #   /method:HRMLoanTable.find
+      #
+      #/table:HRMVirtualNetworkTable
+      #    /method:HRMVirtualNetworkTable.findTypeReference
+      #    /method:HRMVirtualNetworkTable.name
+      #    /method:HRMVirtualNetworkTable.virtualNetworkAddress
+      #    /method:HRMVirtualNetworkTable.virtualNetworkEmail
+      #    /method:HRMVirtualNetworkTable.collectionDescription
+      #    /method:HRMVirtualNetworkTable.find
+      #    /method:HRMVirtualNetworkTable.findName 
+      #
+      #/enum:HRMVirtualNetworkReferenceType
+      #
+      #/class:HRMSkillGapEmployee_Web
+      #    /method:HRMSkillGapEmployee_Web.run
+      #    /method:HRMSkillGapEmployee_Web.recordsFound
+      #
+      #/class:HRMSkillGapEmployee
+      #    /method:HRMSkillGapEmployee.parmTmpSkillGapReports
+      #    /method:HRMSkillGapEmployee.parmShowDate
+      #
+      #/class:HrmSkillGapByJob_Web
+      #    /method:HrmSkillGapByJob_Web.run
+      #    /method:HrmSkillGapByJob_Web.recordsFound
+      #    /method:HrmSkillGapByJob_Web.generateHTML
+      #
+      #/class:hrmSkillGapByJob
+      #    /method:hrmSkillGapByJob.parmTmpSkillGapReports
+      #    /method:hrmSkillGapByJob.parmShowDate
+      #
+      #/table:HRMTmpSkillGapReports
+      #    /method:HRMTmpSkillGapReports.name
+      #    /method:HRMTmpSkillGapReports.skillDescription
+      #    /method:HRMTmpSkillGapReports.jobDescription
+      #    /method:HRMTmpSkillGapReports.parmTmpSkillGapReports
+      #
+      #/class:HRMEPEmployeeCVWeblet
+      #    /method:HRMEPEmployeeCVWeblet.run
+      #
+      #/class:KMKnowledgeCollectorStatistics
+      #    /method:KMKnowledgeCollectorStatistics.hrmVirtualNetworkTable
+      #    /method:KMKnowledgeCollectorStatistics.questions
+      #    /method:KMKnowledgeCollectorStatistics.collectionDescription
+      #    /method:KMKnowledgeCollectorStatistics.collectionNote
+      #    /method:KMKnowledgeCollectorStatistics.reportTexts
+      #
+      #/class:KMKnowledgeCollectorQuestions
+      #    /method:KMKnowledgeCollectorQuestions.next
+      #    /method:KMKnowledgeCollectorQuestions.questionText
+      #    /method:KMKnowledgeCollectorQuestions.nextAnswer
+      #    /method:KMKnowledgeCollectorQuestions.answer
+      #    /method:KMKnowledgeCollectorQuestions.note
+      #
+      #/table:KMVirtualNetworkAnswerTable
+      #    /method:KMVirtualNetworkAnswerTable.name
+      #    /method:KMVirtualNetworkAnswerTable.targetName
+      #    /method:KMVirtualNetworkAnswerTable.Percent
+      #    /method:KMVirtualNetworkAnswerTable.find
+      #
+      #/table:KMCollection
+      #    /method:KMCollection.find
+      #
+      #/table:HRMParameters
+      #   /method:HRMParameters.find
+      #
+      #/table:EPWebSiteParameters
+      #    /method:EPWebSiteParameters.companyImageFileName
+      #    /method:EPWebSiteParameters.imageName
+      #    /method:EPWebSiteParameters.imageType
+      #    /method:EPWebSiteParameters.ecpPresentationImageFileName
+      #    /method:EPWebSiteParameters.find
+      #
+      #
+      #/enum:SMATransactionType
+      #
+      #/table:SMAStageTable
+      #    /method:SMAStageTable.find
+      #
+      # /table:HRMAbsenceRequest
+      #     /method:HRMAbsenceRequest.findEmplIdStatus
+      # 
+      # /class:HRMEPCourseAgenda
+      #     /method:HRMEPCourseAgenda.HRMVirtualNetworkId
+      #     /method:HRMEPCourseAgenda.showRadioButton
+      #     /method:HRMEPCourseAgenda.enableNoneSelection
+      #     /method:HRMEPCourseAgenda.enableLinks
+      #     /method:HRMEPCourseAgenda.disabledRadioButton	
+      #     /method:HRMEPCourseAgenda.construct
+      #     /method:HRMEPCourseAgenda.hrmCourseTable
+      #     /method:HRMEPCourseAgenda.save
+      #
+      # 
+      #/table:HRMCourseAttendeeLine
+      #     /method:HRMCourseAttendeeLine.exist
+      # 
+      #/table:HRMCourseSessionTrack
+      #     /method:HRMCourseSessionTrack.find
+      # 
+      #/table:HRMCourseSession
+      #     /method:HRMCourseSession.find
+      # 
+      #/enum:HRMVirtualNetworkReferenceType
+      # 
+      #/enum:HRMCourseAttendeeStatus
+      # 
+      #/table:HRMCourseTable
+      #    /method:HRMCourseTable.findByRecId
+      # 
+      #/table:HRMCourseAttendee
+      #   /method:HRMCourseAttendee.find
+      # 
+      #/table:HRMCourseAgenda
+      #   /method:HRMCourseAgenda.findByCourseId
+      # 
+      #/table:HRMCourseAgendaLine
+      #   /method:HRMCourseAgendaLine.findByCourseAndAgendaId
+      #
+      #/table:HRMAbsenceTrans
+      #   /method:HRMAbsenceTrans.findLast
+      #   /method:HRMAbsenceTrans.existOpen
+      #   /method:HRMAbsenceTrans.existTrans
+      #
+      #/enum:HRMCourseSetup 
+      #
+      #/enum:HRMAbsenceTableStatus
+      #
+      #/enum:HRMCourseAttendeeStatus
+      #
+      #/class:HRMEPEmployeeCVRun
+      #      /method:HRMEPEmployeeCVRun.getCaption
+      #      /method:HRMEPEmployeeCVRun.getAccessPermissions
+      #      /method:HRMEPEmployeeCVRun.saveReportContext
+      #      /method:HRMEPEmployeeCVRun.getReportContext
+      #
+      #/enum:KMQuestionAnswerInputType
+      #
+      #/class:KMQuestionnaireAnswerControl
+      #	/method:KMQuestionnaireAnswerControl.getCurrentAnswer
+      #	/method:KMQuestionnaireAnswerControl.questionAnswerInputType
+      #
+      #/class:KMQuestionnaireAnswerControl_Web
+      #	/method:KMQuestionnaireAnswerControl_Web.getAnswerText
+      #      /method:KMQuestionnaireAnswerControl_Web.getKMQuestion
+      #      /method:KMQuestionnaireAnswerControl_Web.getSelectedStatus
+      #      /method:KMQuestionnaireAnswerControl_Web.getSelectedStatusForMultiple
+      #      /method:KMQuestionnaireAnswerControl_Web.setAnswer
+      #
+      #/class:KMQuestionnaireRun
+      #	/method:KMQuestionnaireRun.close
+      #	/method:KMQuestionnaireRun.fromBase64String
+      #	/method:KMQuestionnaireRun.gotoQuestion
+      #	/method:KMQuestionnaireRun.KMQuestionnaireRunInformation
+      #	/method:KMQuestionnaireRun.kmQuestionnaireSave
+      #	/method:KMQuestionnaireRun.nextQuestion
+      #	/method:KMQuestionnaireRun.previousQuestion
+      #	/method:KMQuestionnaireRun.saveQuestion
+      #	/method:KMQuestionnaireRun.toBase64String
+      #	/method:KMQuestionnaireRun.toggleNote
+      #      /method:KMQuestionnaireRun.cancel
+      #
+      #/class:KMQuestionnaireRun_Web
+      #	/method:KMQuestionnaireRun_Web.cancel
+      #	/method:KMQuestionnaireRun_Web.construct
+      #	/method:KMQuestionnaireRun_Web.getKMQuestionnaireAnswerControl
+      #      /method:KMQuestionnaireRun_Web.setEPKMQuestionnaireRun
+      #      /method:KMQuestionnaireRun_Web.getEPKMQuestionnaireRun
+      #
+      #/class:KMQuestionnaireRunInformation
+      #	/method:KMQuestionnaireRunInformation.collectionDescription
+      #	/method:KMQuestionnaireRunInformation.currentAnswerNote
+      #	/method:KMQuestionnaireRunInformation.derivedMode
+      #	/method:KMQuestionnaireRunInformation.enableClose
+      #	/method:KMQuestionnaireRunInformation.enableNext
+      #	/method:KMQuestionnaireRunInformation.enableNote
+      #	/method:KMQuestionnaireRunInformation.enableOverview
+      #	/method:KMQuestionnaireRunInformation.enablePrevious
+      #	/method:KMQuestionnaireRunInformation.enableTime
+      #	/method:KMQuestionnaireRunInformation.kmCollection
+      #      /method:KMQuestionnaireRunInformation.kmQuestionId
+      #	/method:KMQuestionnaireRunInformation.mandatory
+      #	/method:KMQuestionnaireRunInformation.questionCounterText
+      #	/method:KMQuestionnaireRunInformation.questionInstruction
+      #	/method:KMQuestionnaireRunInformation.questionText
+      #	/method:KMQuestionnaireRunInformation.showNote
+      #	/method:KMQuestionnaireRunInformation.toggleOverview
+      #
+      #/class:KMQuestionnaireSave
+      #	/method:KMQuestionnaireSave.answered
+      #	/method:KMQuestionnaireSave.timeLeft
+      #      /method:KMQuestionnaireSave.mandatoryQuestions
+      #
+      #/class:KMQuestionnaireSave_Web
+      #	/method:KMQuestionnaireSave_Web.hasAnswered
+      #
+      #/table:KMCollectionQuestion
+      #      /method:KMCollectionQuestion.find
+      #	/method:KMCollectionQuestion.findKMCollectionId
+      #
+      #/table:KMQuestion
+      #	/method:KMQuestion.find
+      #
+      #/table:KMQuestionRow
+      #	/method:KMQuestionRow.find
+      #	/method:KMQuestionRow.findKMQuestionId
+      #
+      #/table:KMQuestionMedia
+      #      /method:KMQuestionMedia.find
+      #
+      #/class:KMFunction
+      #      /method:KMFunction.constructFromCommon
+      #      /method:KMFunction.fromDate
+      #      /method:KMFunction.toDate
+      #      /method:KMFunction.useActiveX
+      #      /method:KMFunction.showDescription
+      #      /method:KMFunction.showMode
+      #      /method:KMFunction.createAnalogmeters
+      #
+      #/enum:KMEPQuestionnaireResultShowMode
+      #
+      #/class:KMQuestionnaireCorrectAnswerReport
+      #      /method:KMQuestionnaireCorrectAnswerReport.generateHTML
+      #
+      #/enum:EPViewType
+      #
+      #/class:ProjProposalTotals
+      #      /method:ProjProposalTotals.new
+      #      /method:ProjProposalTotals.calc
+      #      /method:ProjProposalTotals.displayFields
+      #      /method:ProjProposalTotals.posCashDisc
+      #      /method:ProjProposalTotals.posCostValue
+      #      /method:ProjProposalTotals.posContributionMargen
+      #      /method:ProjProposalTotals.posContributionRatio
+      #      /method:ProjProposalTotals.posSumTax
+      #      /method:ProjProposalTotals.posInvoiceRoundOff
+      #      /method:ProjProposalTotals.posInvoiceAmount
+      #      /method:ProjProposalTotals.posLineDisc
+      #      /method:ProjProposalTotals.posBalance
+      #      /method:ProjProposalTotals.posMarkUp
+      #
+      #/class:SmmOpportunityStatusUpdate
+      #    /method:SmmOpportunityStatusUpdate.construct
+      #    /method:SmmOpportunityStatusUpdate.parmOpportunityStatus
+      #    /method:SmmOpportunityStatusUpdate.parmReasonId
+      #    /method:SmmOpportunityStatusUpdate.winOpportunity
+      #    /method:SmmOpportunityStatusUpdate.areQuotationsAssigned
+      #    /method:SmmOpportunityStatusUpdate.paramCustAccountNo
+      #    /method:SmmOpportunityStatusUpdate.validate
+      #    /method:SmmOpportunityStatusUpdate.checkCustomerAccount
+      #    /method:SmmOpportunityStatusUpdate.isCustomerNumberSeqManual
+      #    /method:SmmOpportunityStatusUpdate.parmTmpTable
+      #
+      #/class:smmParameters
+      #    /method:smmParameters.findNumberSequence
+      #    /method:smmParameters.findCustAccountNumberSequence
+      #    /method:smmParameters.getBusRelOpenCustForm
+      #    /method:smmParameters.isNumberSequenceManual
+      #
+      #/enum:SalesQuotationStatusNew
+      #
+      #/table:DocuType
+      #    /method:DocuType.find
+      #    /method:DocuType.findAll
+      #
+      #/table:DocuValue
+      #    /method:DocuValue.find
+      #    /method:DocuValue.originalFileName
+      #
+      #/enum:DocuTypeGroup
+      #
+      #/class:EPDocumentHandling
+      #    /method:EPDocumentHandling.checkEditAccess
+      #    /method:EPDocumentHandling.saveWebDocumentClient
+      #
+      #/enum:KMEPQuestionnaireResultShowMode
+      #
+      #/class:KMQuestionnaireStatisticsRun
+      #    /method:KMQuestionnaireStatisticsRun.deleteOld
+      #    /method:KMQuestionnaireStatisticsRun.function
+      #    /method:KMQuestionnaireStatisticsRun.profileType
+      #    /method:KMQuestionnaireStatisticsRun.run
+      #    /method:KMQuestionnaireStatisticsRun.saveLast
+      #    /method:KMQuestionnaireStatisticsRun.getLast
+      #
+      #/table:KMQuestionnaireStatisticsTable
+      #/method:KMQuestionnaireStatisticsTable.Grouping
+      #
+      #
+      #
+      #
+      #/class:DocuTypeSearch
+      #    /method:DocuTypeSearch.newNeglect
+      #    /method:DocuTypeSearch.next
+      #    /method:DocuTypeSearch.docuType
+      #
+      #/class:EPSendDocument
+      #    /method:EPSendDocument.new
+      #    /method:EPSendDocument.parmFileName
+      #    /method:EPSendDocument.parmDocumentTitle
+      #
+      #/table:DocuRef
+      #    /method:DocuRef.docuValue
+      #
+      #/class:Docu
+      #    /method:Docu.getFileName
+      #
+      #/table:TrvPreJourney
+      #      /method:TrvPreJourney.find
+      #
+      #/enum:TrvExpLineType
+      #
+      #/enum:smmActivityParentType
+      #
+      #/class:smmActivityParentLink
+      #    /method:smmActivityParentLink.getLookupFields
+      #    /method:smmActivityParentLink.getLookupQueryEP
+      #    /method:smmActivityParentLink.getExtendedTypeId
+      #
+      #/class:smmResponsibility
+      #    /method:smmResponsibility.refTableid2FieldIdForFlag
+      #
+      #/class:RunBaseBatch
+      #   /method:RunBaseBatch.saveLast
+      #   /method:RunBaseBatch.getLast
+      #
+      #/class:smmProcessInstance
+      #    /method:smmProcessInstance.moveToStageFromEP
+      #/class:Activities
+      #     /method:Activities.isActivityRecurring
+      #     /method:Activities.construct
+      #     /method:Activities.delete
+      #     /method:Activities.paramDeleteSeries
+      #
+      #/table:smmBusRelTable
+      #    /method:smmBusRelTable.canConvertToCustomer
+      #    /method:smmBusRelTable.convert2Customer
+      #    /method:smmBusRelTable.enableConversionToCustomer
+      #    /method:smmBusRelTable.find
+      #    /method:smmBusRelTable.CanCreateSalesQuotation
+      #
+      #/table:smmBusRelTypeGroup 
+      #    /method:smmBusRelTypeGroup.find
+      #
+      #/enum:TrvApprovalLevel
+      #
+      #/enum:TrvFieldVisibility
+      #
+      #/enum:OrganizationUnitType
+      #
+      #/class:KMEPKnowledgeAnalogmeter
+      #    /method:KMEPKnowledgeAnalogmeter.getValues
+      #    /method:KMEPKnowledgeAnalogmeter.saveValues
+      #
+      #/class:KMQuestionFeedback
+      #    /method:KMQuestionFeedback.getLast
+      #    /method:KMQuestionFeedback.includeSelf
+      #    /method:KMQuestionFeedback.includeManager
+      #    /method:KMQuestionFeedback.includeColleague
+      #    /method:KMQuestionFeedback.includeOther
+      #    /method:KMQuestionFeedback.details
+      #    /method:KMQuestionFeedback.average
+      #    /method:KMQuestionFeedback.score
+      #    /method:KMQuestionFeedback.showGraphics
+      #    /method:KMQuestionFeedback.fromDate
+      #    /method:KMQuestionFeedback.toDate
+      #    /method:KMQuestionFeedback.saveLast
+      #    /method:KMQuestionFeedback.kmCollectionId
+      #    /method:KMQuestionFeedback.dateSelection
+      #    /method:KMQuestionFeedback.hrmVirtualNetworkTargetId
+      #    /method:KMQuestionFeedback.kmTmpQuestionFeedback
+      #    /method:KMQuestionFeedback.getKMTmpQuestionFeedback
+      #
+      #/class:RunBase
+      #    /method:RunBase.getLast
+      #    /method:RunBase.saveLast
+      #
+      #/table:KMQuestionResultGroup
+      #    /method:KMQuestionResultGroup.find
+      #
+      #/class:KMKnowledgeCollectorReportTexts
+      #    /method:KMKnowledgeCollectorReportTexts.next
+      #    /method:KMKnowledgeCollectorReportTexts.description
+      #    /method:KMKnowledgeCollectorReportTexts.text
+      #
+      #/table:KMVirtualNetworkAnswerGroup
+      #    /method:KMVirtualNetworkAnswerGroup.findByKmVirtualNetworkAnswerTableId
+      #    /method:KMVirtualNetworkAnswerGroup.questionGroupDescription
+      #
+      #/table:InventTable
+      #    /method:InventTable.find
+      #    /method:InventTable.hasConfigs
+      #    /method:InventTable.salesUnitId
+      #    /method:InventTable.getSalesPriceAgreement
+      #    /method:InventTable.webLookupItemIdQuery
+      #
+      #
+      #/table:InventItemSalesSetup
+      #    /method:InventItemSalesSetup.findDefault
+      #    /method:InventItemSalesSetup.lowestQty
+      #    /method:InventItemSalesSetup.multipleQty
+      #    /method:InventItemSalesSetup.standardQty
+      #
+      #
+      #/table:SMAServiceOrderLine
+      #    /method:SMAServiceOrderLine.findRecId
+      #    /method:SMAServiceOrderLine.buildProjEmplIdQuery
+      #    /method:SMAServiceOrderLine.buildItemCombinationQuery
+      #    /method:SMAServiceOrderLine.buildProjCategoryQuery
+      #
+      #/class:smmLicense
+      #    /method:smmLicense.CRM
+      #
+      #/class:InventDimSearch
+      #    /method:InventDimSearch.find
+      #    /method:InventDimSearch.dimActive
+      #    /method:InventDimSearch.dimMandatory
+      #
+      #/class:InventDimGlobal
+      #    /method:InventDimGlobal.inventSiteActiveWithoutItem
+      #
+      #/class:ClassFactory
+      #    /method:ClassFactory.inventDimGlobal
+      #
+      #/table:SalesQuotationTable
+      #    /method:SalesQuotationTable.lookupBusRelAccountQuery
+      #
+      #/table:SalesTable
+      #    /method:SalesTable.returnJournal
+      #    /method:SalesTable.InventSiteActive
+      #
+      #/enum:SalesType
+      #/enum:SalesStatus
+      #
+      #/table:SalesLine
+      #    /method:SalesLine.findInventTransId
+      #
+      #/table:InventParameters
+      #    /method:InventParameters.find
+      #    /method:InventParameters.multiSiteDimensionLink2ArrayIdx
+      #
+      #/class:InventDimCtrl
+      #    /method:InventDimCtrl.parmDimParmVisible
+      #    /method:InventDimCtrl.newFromASPWebForm
+      #
+      #/class:InventDimCtrl_Frm
+      #    /method:InventDimCtrl_Frm.formActiveSetup
+      #    /method:InventDimCtrl_Frm.formSetControls
+      #    /method:InventDimCtrl_Frm.parmDimParmVisibleGrid
+      #    /method:InventDimCtrl_Frm.newFromASPWebForm
+      #    /method:InventDimCtrl_Frm.parmDimParmEnabled
+      #
+      #/class:InventDimCtrl_Frm_Mov
+      #    /method:InventDimCtrl_Frm_Mov.newFromASPWebFormMovement
+      #    /method:InventDimCtrl_Frm_Mov.formActiveSetup
+      #
+      #/class:InventDimCtrl_Frm_OnHand
+      #    /method:InventDimCtrl_Frm_OnHand.newFromASPWebForm
+      #    /method:InventDimCtrl_Frm_OnHand.parmDimParmVisible
+      #    /method:InventDimCtrl_Frm_OnHand.initFromCaller
+      #
+      #/class:InventDimCtrl_Frm_PurchReq
+      #    /method:InventDimCtrl_Frm_PurchReq.newFromASPWebForm
+      #
+      #/enum:InventDimFormDesignUpdate
+      #
+      #/table:InventDimParm
+      #    /method:InventDimParm.initFromInventDimParmCSS
+      #    /method:InventDimParm.initItemDimension
+      #    /method:InventDimParm.initItemDimAllGrp
+      #    /method:InventDimParm.initPriceDiscDimAllGrp
+      #    /method:InventDimParm.initDimActive
+      #
+      #/class:InventMovement
+      #    /method:InventMovement.construct
+      #    /method:InventMovement.inventTable
+      #
+      #/table:JmgParameters
+      #    /method:JmgParameters.find
+      #
+      #/enum:JmgJourRegTypeEnum
+      #
+      #/table:ProdTable
+      #    /method:ProdTable.exist
+      #
+      #/table:ProjTable
+      #    /method:ProjTable.exist
+      #
+      #/table:HRMAbsenceCodeGroup
+      #    /method:HRMAbsenceCodeGroup.find
+      #
+      #/table:JmgIpcCategory
+      #    /method:JmgIpcCategory.find
+      #
+      #/enum:PriceType
+      #
+      #/enum:ModuleInventCustVend
+      #/enum:PriceGroupType
+      #
+      #/Class:Info
+      #    /method:Info.Add
+      #
+      #/table:CustInvoiceTrans
+      #    /method:CustInvoiceTrans.existSalesId
+      #
+      #/table:ECPParameters
+      #    /method:ECPParameters.find
+      #
+      #/enum:PurchaseType
+      #
+      #/table:VendInvoiceJour
+      #    /method:VendInvoiceJour.exist
+      #
+      #/table:PurchLine
+      #
+      #/enum:WebHorzVert
+      #
+      #/enum:WebProductLayoutType
+      #
+      #/enum:EPCSSProductViewType
+      #
+      #/enum:InventProductGroupType
+      #
+      #/enum:ECPPresentationRefType
+      #
+      #/enum:ImageSizeType
+      #
+      #/enum:ItemNumAlternative
+      #
+      #/class:SysResource
+      #    /method:SysResource.getImagePath
+      #
+      #/table:InventProductGroup
+      #    /method:InventProductGroup.find
+      #    /method:InventProductGroup.productGroupTreeStructure
+      #
+      #/table:ECPPresentation
+      #    /method:ECPPresentation.find
+      #    /method:ECPPresentation.searchPresentation
+      #
+      #/table:InventDim
+      #    /method:InventDim.inventDimIdBlank
+      #
+      #/table:InventProductGroupItem
+      #    /method:InventProductGroupItem.inventDim
+      #    /method:InventProductGroupItem.itemName
+      #
+      #/table:InventDimCombination
+      #    /method:InventDimCombination.find
+      #    /method:InventDimCombination.itemDescription
+      #    /method:InventDimCombination.webLookupItemCombinationQuery
+      #
+      #/table:Currency
+      #    /method:Currency.find
+      #
+      #/table:CompanyInfo
+      #    /method:CompanyInfo.standardCurrency
+      #
+      #/class:MapEnumerator
+      #	/method:MapEnumerator.current
+      #	/method:MapEnumerator.currentKey
+      #	/method:MapEnumerator.currentValue
+      #	/method:MapEnumerator.definitionString
+      #	/method:MapEnumerator.moveNext
+      #	/method:MapEnumerator.reset
+      #
+      #/class:Map
+      #	/method:Map.definitionString
+      #	/method:Map.elements
+      #	/method:Map.empty
+      #	/method:Map.exists
+      #	/method:Map.getEnumerator
+      #	/method:Map.insert
+      #	/method:Map.lookup
+      #	/method:Map.pack
+      #	/method:Map.remove
+      #	/method:Map.create
+      #	/method:Map.createFromXML
+      #	/method:Map.equal
+      #
+      #/class:WebArgs
+      #	/method:WebArgs.table
+      #	/method:WebArgs.record
+      #
+      #/enum:SalesQuotationStatus
+      #/enum:TrvWorkflowCashAdvanceStatus
+      #
+      #/table:TrvCashAdvance
+      #    /method:TrvCashAdvance.find
+      #    /method:TrvCashAdvance.findRecId
+      #    /method:TrvCashAdvance.getEmployeeBalance
+      #    /method:TrvCashAdvance.deleteRecId
+      #    /method:TrvCashAdvance.transferCashAdvance
+      #
+      #/table:HRPPartyPositionTableRelationship
+      #    /method:HRPPartyPositionTableRelationship.exist
+      #
+      #/table:SMAServiceOrderTable
+      #    /method:SMAServiceOrderTable.find
+      #
+      #/enum:TrvCostSplitLineType
+      #
+      #/enum:ReturnStatusHeader
+      #
+      #/table:TrvExpTrans_Proj
+      #    /method:TrvExpTrans_Proj.lookupHierarchyTree
+      #    /method:TrvExpTrans_Proj.exist
+      #    /method:TrvExpTrans_Proj.delete
+      #
+      #/table:CategoryTable
+      #    /method:CategoryTable.find
+      #
+      #/class:smmSourceType
+      #    /method:smmSourceType.getLookupFields
+      #
+      #/enum:InternalExternal
+      #
+      #/table:ExpressionTable
+      #    /method:ExpressionTable.find
+      #
+      #/table:SysMapParameters
+      #   /method:SysMapParameters.find
+      #
+      #/table:VendTable
+      #    /method:VendTable.find
+      #
+      #/enum:DirPartyType
+      #
+      #/table:ContactPerson
+      #    /method:ContactPerson.findName
+      #
+      #/enum:RangeStatus
+      #
+      #/class:echReportRunFromEP
+      #	/method:echReportRunFromEP.reportToPDFFile
+      #
+      #/enum:echInvoiceType
+      #
+      #/enum:echAggStatus
+      #
+      #/class:echEPROApproveReject
+      #      /method:echEPROApproveReject.parmEPSalesTable
+      #      /method:echEPROApproveReject.ROApproveStatusProcess
+    ENDSOURCE
+  ENDSTATICFILE
+  
+
+***Element: END

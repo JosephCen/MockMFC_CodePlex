@@ -1,0 +1,1369 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventOnhandItem
+  PROPERTIES
+    Name                #InventOnhandItem
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #class FormRun extends ObjectRun
+      #{
+      #    InventDimCtrl_Frm_OnHandItem    inventDimFormSetup;
+      #
+      #    // the inventory unit for the active record
+      #    UnitID                          unitIdInvent;
+      #
+      #    // The unit used on the On-hand tab, for the active record. It corresponds to the unit drop-down.
+      #    // This variable is controlled by the units radiobutton when it's set to purchase/sales/inventory.
+      #    UnitID                          unitIdSecondary;
+      #
+      #    ItemId                          itemIdUnits;
+      #    InventItemUnitConvert           inventItemUnitConvert;
+      #    boolean                         reserveOnOrdered;
+      #}
+    ENDSOURCE
+    SOURCE #applyUnitIDFromUnitsRadiobutton
+      #void applyUnitIDFromUnitsRadiobutton()
+      #{
+      #    UnitID tempUnitID;
+      #
+      #    // If we don't have an item, then units don't matter
+      #    if (!inventSum.ItemId)
+      #        return;
+      #
+      #    // Determine new unit based on selection in radiobutton
+      #    switch (unitsRadioButton.selection())
+      #    {
+      #        case InventModuleUnits::InventoryUnit:  tempUnitID = InventTableModule::find(inventSum.ItemId, ModuleInventPurchSales::Invent).UnitId;
+      #                                                ctrlUnitId.allowEdit(false);
+      #                                                break;
+      #        case InventModuleUnits::SalesUnit:      tempUnitID = InventTableModule::find(inventSum.ItemId, ModuleInventPurchSales::Sales).UnitId;
+      #                                                ctrlUnitId.allowEdit(false);
+      #                                                break;
+      #        case InventModuleUnits::PurchaseUnit:   tempUnitID = InventTableModule::find(inventSum.ItemId, ModuleInventPurchSales::Purch).UnitId;
+      #                                                ctrlUnitId.allowEdit(false);
+      #                                                break;
+      #        case InventModuleUnits::None:           tempUnitID = unitIdSecondary;
+      #                                                ctrlUnitId.allowEdit(true);
+      #                                                break;
+      #    }
+      #
+      #    // Units may be empty, if so fall back to inventory units
+      #    if (!tempUnitID)
+      #    {
+      #        unitsRadioButton.selection(InventModuleUnits::InventoryUnit);
+      #        tempUnitID = unitIdInvent;
+      #        info("@SYS113267");
+      #    }
+      #
+      #    // Apply new unit
+      #    element.unitId(true, tempUnitID);
+      #}
+    ENDSOURCE
+    SOURCE #unitIdInvent
+      #//BP Deviation documented
+      #display UnitID unitIdInvent()
+      #{
+      #    return unitIdInvent;
+      #}
+      #
+      #
+    ENDSOURCE
+    SOURCE #otherUnit
+      #// Used by unit lookup form
+      #UnitID otherUnit()
+      #{
+      #    return unitIdInvent;
+      #}
+    ENDSOURCE
+    SOURCE #unitId
+      #//BP Deviation documented
+      #edit UnitID unitId(boolean set, UnitID unitID)
+      #{
+      #    if (set)
+      #    {
+      #        unitIdSecondary = unitID;
+      #    }
+      #    return unitIdSecondary;
+      #}
+      #
+    ENDSOURCE
+    SOURCE #updateUnits
+      #void updateUnits(InventSum _inventSum)
+      #{
+      #    if (!itemIdUnits || _inventSum.ItemId != itemIdUnits)
+      #    {
+      #        itemIdUnits = _inventSum.ItemId;
+      #        unitIdInvent = _inventSum.inventTable().inventUnitId();
+      #
+      #        element.applyUnitIDFromUnitsRadiobutton();
+      #
+      #        if (!UnitConvert::canConvert(unitIdInvent, unitIdSecondary, inventSum.ItemId))
+      #        {
+      #            unitIdSecondary = unitIdInvent;
+      #            unitsRadioButton.selection(InventModuleUnits::InventoryUnit);
+      #        }
+      #
+      #        ctrlUnitId.update();
+      #    }
+      #}
+      #
+    ENDSOURCE
+    SOURCE #selectedItemId
+      #// Used by unit lookup form
+      #ItemId selectedItemId()
+      #{
+      #    return inventSum.ItemId;
+      #}
+    ENDSOURCE
+    SOURCE #Init
+      #void  init()
+      #{;
+      #    inventItemUnitConvert = InventItemUnitConvert::newNoParameters();
+      #
+      #    super();
+      #
+      #    // Default to inventory units
+      #    unitsRadioButton.selection(InventModuleUnits::InventoryUnit);
+      #
+      #    element.updateDesign(InventDimFormDesignUpdate::Init);
+      #}
+      #
+      #
+    ENDSOURCE
+    SOURCE #rightClickModifyQuery
+      #void rightClickModifyQuery()
+      #{
+      #    inventSum_DS.executeQuery();
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #InventDimCtrl_Frm_OnHandItem inventDimSetupObject()
+      #{
+      #    if (!inventDimFormSetup)
+      #    {
+      #        inventDimFormSetup  = InventDimCtrl_Frm_OnHandItem::newFromForm(element);
+      #        inventDimFormSetup.parmLargeRightClickForm(NoYes::Yes);
+      #    }
+      #    return inventDimFormSetup;
+      #}
+      #
+    ENDSOURCE
+    SOURCE #updateDesign
+      #void updateDesign(InventDimFormDesignUpdate mode)
+      #{
+      #    switch (mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init          :
+      #            reserveOnOrdered = InventParameters::find().ReserveOnOrdered;
+      #            availReserveGroup_ReservePhysical.visible(!reserveOnOrdered);
+      #            availReserveGroup_ReserveOrdered.visible(reserveOnOrdered);
+      #
+      #        case InventDimFormDesignUpdate::LinkActive    :
+      #            element.inventDimSetupObject().initFromCaller();
+      #            element.inventDimSetupObject().parmCtrlItemId(inventSum_ItemId);
+      #            if (mode == InventDimFormDesignUpdate::Init)
+      #            {
+      #                if (element.inventDimSetupObject().parmDimParmVisibleGrid().ItemIdFlag == NoYes::No)
+      #                    itemName.visible(false);
+      #            }
+      #
+      #        case InventDimFormDesignUpdate::Active        :
+      #            element.inventDimSetupObject().formActiveSetup();
+      #            element.inventDimSetupObject().formSetControls(true,true);
+      #            break;
+      #
+      #        default : throw error(strfmt("@SYS54195",funcname()));
+      #    }
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventSum
+          Table               #InventSum
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD ItemId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD PostedQty
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD PostedValue
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD Deducted
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD Received
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD ReservPhysical
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD ReservOrdered
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD OnOrder
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD Ordered
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD QuotationIssue
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD QuotationReceipt
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD Closed
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #onOrderSumUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyOnOrderSum  onOrderSumUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.OnOrder, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #inventDim
+          #InventDim inventDim()
+          #{
+          #    return inventDim;
+          #}
+        ENDSOURCE
+        SOURCE #averageCostPriceUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display CostPriceAverage  averageCostPriceUnit(InventSum _inventSum)
+          #{
+          #    InventDim dim;
+          #    ;
+          #    element.updateUnits(_inventSum);
+          #
+          #    if(!_inventSum.InventDimId)
+          #    {
+          #        dim = InventDim::findDim(this.inventDim());
+          #        if(dim.InventDimId)
+          #            _inventSum.InventDimId = dim.InventDimId;
+          #    }
+          #
+          #    return inventItemUnitConvert.qty(_inventSum.costPricePcs(), unitIdSecondary, unitIdInvent, _inventSum.ItemId);
+          #}
+          #
+        ENDSOURCE
+        SOURCE #LinkActive
+          #void linkActive()
+          #{
+          #    ;
+          #    element.updateDesign(InventDimFormDesignUpdate::LinkActive);
+          #    super();
+          #}
+          #
+        ENDSOURCE
+        SOURCE #Init
+          #void init()
+          #{
+          #    super();
+          #
+          #    element.inventDimSetupObject().initQueryInventSum(inventSum_DS);
+          #}
+          #
+        ENDSOURCE
+        SOURCE #ExecuteQuery
+          #void executeQuery()
+          #{
+          #    ;
+          #    element.inventDimSetupObject().modifyQuery(inventSum_DS,inventDim_DS);
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #int active()
+          #{
+          #    int ret;
+          #
+          #    element.updateUnits(inventSum);
+          #    ret = super();
+          #
+          #    inventDim_ds.active();
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #postedQtyUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyPosted  postedQtyUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.PostedQty, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #orderedUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyOrdered  orderedUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.Ordered, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #deductedUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyDeducted  deductedUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.Deducted, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #pickedUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyPicked  pickedUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.Picked, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #receivedUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyReceived  receivedUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.Received, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #registeredUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyRegistered  registeredUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.Registered, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #availPhysicalUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyAvailPhysical availPhysicalUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.availPhysical(), unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #arrivedUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyArrived  arrivedUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.Arrived, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #reservOrderedUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyReservOrdered reservOrderedUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.ReservOrdered, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #onOrderUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyOnOrder onOrderUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.OnOrder, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #quotationReceiptUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyQuotationReceipt quotationReceiptUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.QuotationReceipt, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #quotationIssueUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyQuotationIssue quotationIssueUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.QuotationIssue, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #physicalInventUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyPhysicalOnhand physicalInventUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.physicalInvent(), unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #reservPhysicalUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyReservPhysical reservPhysicalUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.ReservPhysical, unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #orderedSumUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display inventQtyOrderedSum  orderedSumUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.orderedSum(), unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #availOrderedUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyAvailOrdered availOrderedUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.availOrdered(), unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+        SOURCE #availReservationUnit
+          #// AOSRunMode::Client
+          #//BP Deviation documented
+          #display InventQtyAvailReservation availReservationUnit(InventSum _inventSum)
+          #{
+          #    element.updateUnits(_inventSum);
+          #    return inventItemUnitConvert.qty(_inventSum.availReservation(reserveOnOrdered), unitIdInvent, unitIdSecondary, _inventSum.ItemId);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #InventSum
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #Init
+          #void init()
+          #{
+          #
+          #    super();
+          #
+          #    element.inventDimSetupObject().initQueryInventDim(inventDim_DS);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    InventDim InventSum
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS438
+      TitleDatasource     #InventSum
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/926c9f20-62cb-4c60-bfaa-eb67811c62c3.htm
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          HelpText            #@SYS11094
+          Tabs                #4
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  ShowRowLabels       #No
+                  DataSource          #InventSum
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventSum_ItemId
+                        AutoDeclaration     #Yes
+                        DataSource          #InventSum
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ItemBarCode
+                        DataSource          #InventSum
+                        DataMethod          #echGetItemBarCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #itemName
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/AC7B64D8-E9D8-4B5A-98B2-E8610D1A6F84.htm
+                        DataSource          #InventSum
+                        DataMethod          #itemName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensionsGrid
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8D2D9B2A-B078-4E96-ABC7-2426BA7595B5.htm
+                        BackgroundColor     #Window background
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #PhysicalInvent
+                        AllowEdit           #No
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B9F856BF-8AC7-4A92-B1EC-F606F611CDD5.htm
+                        DisplaceNegative    #0
+                        DataSource          #InventSum
+                        DataMethod          #PhysicalInvent
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #ReservPhysical
+                        AllowEdit           #No
+                        DisplaceNegative    #0
+                        DataSource          #InventSum
+                        DataField           #ReservPhysical
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #AvailPhysical
+                        AllowEdit           #No
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/E4CE3C0F-59DC-4548-9AA0-5629E2A6497D.htm
+                        DisplaceNegative    #0
+                        DataSource          #InventSum
+                        DataMethod          #AvailPhysical
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #OrderedSum
+                        AllowEdit           #No
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/57E7E7F8-047A-4313-A32F-C399E9EFA868.htm
+                        DisplaceNegative    #0
+                        DataSource          #InventSum
+                        DataMethod          #OrderedSum
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #OnOrder
+                        AllowEdit           #No
+                        DisplaceNegative    #0
+                        DataSource          #InventSum
+                        DataField           #OnOrder
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #ReservOrdered
+                        AllowEdit           #No
+                        DisplaceNegative    #0
+                        DataSource          #InventSum
+                        DataField           #ReservOrdered
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #AvailOrdered
+                        AllowEdit           #No
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/7040E8CA-D09F-46E7-B7E8-390F25BDA2A9.htm
+                        DisplaceNegative    #0
+                        DataSource          #InventSum
+                        DataMethod          #AvailOrdered
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #OnHand
+              Caption             #@SYS4118
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column1
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/8C0D81FD-1360-4DFB-80FC-680CF233A408.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Identification
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/C06B32B1-1759-46C9-9C61-3032A9047C5B.htm
+                        DataSource          #InventSum
+                        DataGroup           #Identification
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #itemNameOnHand
+                        Width               #Column width
+                        DataSource          #InventSum
+                        DataMethod          #itemName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensions
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/31C4CB74-0929-49ED-B3A9-E523810493C1.htm
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column2
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/93286397-A7F7-4412-8722-592EE468E724.htm
+                  Caption             #@SYS4118
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #PhysicalUnit
+                        VerticalSpacing     #4
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/410CC325-E3E0-41AC-A7F9-10E3D00F0618.htm
+                        FrameType           #None
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #physicalInventUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #physicalInventUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #reservPhysicalUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #reservPhysicalUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #AvailPhysicalUnitGroup
+                        VerticalSpacing     #4
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2260F4E7-7363-4703-B549-AD2983966D2D.htm
+                        FrameType           #Raised 3D
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #availPhysicalUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #availPhysicalUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #AvailReserveGroup_ReservePhysical
+                        AutoDeclaration     #Yes
+                        FrameType           #Raised 3D
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #AvailReservation_ReservePhysical
+                              DataSource          #InventSum
+                              DataMethod          #AvailReservationUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #OrderedOnHandUnitGroup
+                        VerticalSpacing     #4
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/769FE320-9597-4ED9-B7D2-A3F23A6A940B.htm
+                        FrameType           #None
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #orderedSumUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #orderedSumUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #reservOrderedUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #reservOrderedUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #AvailReserveGroup_ReserveOrdered
+                              AutoDeclaration     #Yes
+                              FrameType           #Raised 3D
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL REALEDIT
+                                  PROPERTIES
+                                    Name                #AvailReservation_ReserveOrdered
+                                    DataSource          #InventSum
+                                    DataMethod          #AvailReservationUnit
+                                  ENDPROPERTIES
+                                  
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #onOrderSumUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #onOrderSumUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #AvailOrderedUnitGroup
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/57CE6F1B-21F3-4362-8266-7AB4063DC03C.htm
+                        FrameType           #Raised 3D
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #availOrderedUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #availOrderedUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Value
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/1F19C5E6-FE44-42CE-A8E8-6E718D9E79FB.htm
+                        FrameType           #None
+                        DataSource          #InventSum
+                        DataGroup           #Value
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #CostPriceUnit
+                        AllowEdit           #No
+                        DataSource          #InventSum
+                        DataMethod          #AverageCostPriceUnit
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column3
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/94FAFA06-11EB-4B9B-8468-E3156667EFB5.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #AvailablePhysicalUnit
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/40EE4968-3023-4CC4-AB1A-CA9EC1DE30EA.htm
+                        Caption             #@SYS23942
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #postedQtyUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #postedQtyUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #deductedUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #deductedUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #pickedUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #pickedUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #receivedUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #receivedUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #registeredUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #registeredUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #OrderedInTotalUnitGroup
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/CF4DEA00-F97A-4171-A3CA-3BAC7DAB923F.htm
+                        Caption             #@SYS54915
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #arrivedUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #arrivedUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #orderedUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #orderedUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #VariousUnit
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B60A955C-22DC-4B64-ACDE-75A3CF9C5299.htm
+                        Caption             #@SYS28008
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #onOrderUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #onOrderUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #quotationReceiptUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #quotationReceiptUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #quotationIssueUnit
+                              AllowEdit           #No
+                              DataSource          #InventSum
+                              DataMethod          #quotationIssueUnit
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #UnitsRadioButtonGroup
+                        Caption             #@SYS7867
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL RADIOBUTTON
+                            PROPERTIES
+                              Name                #UnitsRadioButton
+                              AutoDeclaration     #Yes
+                              EnumType            #InventModuleUnits
+                              FrameType           #None
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #selectionChange
+                                #public int selectionChange()
+                                #{
+                                #    int ret;
+                                #
+                                #    ret = super();
+                                #
+                                #    element.applyUnitIDFromUnitsRadiobutton();
+                                #    inventSum_ds.refresh();
+                                #
+                                #    return ret;
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ctrlUnitId
+                              AutoDeclaration     #Yes
+                              DataMethod          #unitId
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #modified
+                                #boolean modified()
+                                #{
+                                #    boolean ret;
+                                #    UnitID oldUnitID;
+                                #
+                                #    // Remember the old value, so we can revert if necessary
+                                #    oldUnitID = unitIdSecondary;
+                                #
+                                #    ret = super();
+                                #
+                                #    // If we cannot convert to the new unit, revert to the old unit
+                                #    if (!UnitConvert::canConvert( unitIdInvent, this.text(), inventSum.ItemId))
+                                #    {
+                                #        ret = checkFailed(strfmt("@SYS28690",unitIdInvent,this.text()));
+                                #        element.unitId(true,oldUnitID);
+                                #        ctrlUnitId.update();
+                                #    }
+                                #
+                                #    if (ret)
+                                #        inventSum_ds.refresh();
+                                #    return ret;
+                                #}
+                              ENDSOURCE
+                              SOURCE #validate
+                                #/// <summary>
+                                #/// Validates the control contents when it is typed in manually.
+                                #/// </summary>
+                                #/// <returns>
+                                #/// true if the contents is ok; otherwise, false.
+                                #/// </returns>
+                                #boolean validate()
+                                #{
+                                #    boolean ret = true;
+                                #
+                                #    if (!UnitConvert::canConvert( unitIdInvent, this.text(), inventSum.ItemId))
+                                #    {
+                                #        ret = checkFailed(strfmt("@SYS28690",unitIdInvent,this.text()));
+                                #        this.text(unitIdSecondary);
+                                #    }
+                                #
+                                #    ret = ret && super();
+                                #
+                                #    return ret;
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+          DataSource          #InventSum
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventTransItemIdx
+              SaveRecord          #No
+              MenuItemName        #InventTransItemIdx
+              DataSource          #InventSum
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #ReqTransNet
+              SaveRecord          #No
+              MenuItemName        #ReqTransNet
+              DataSource          #InventSum
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventOnhandInterCompany
+              MenuItemName        #InventOnhandInterCompany
+              DataSource          #InventSum
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    MenuFunction            menuFunction;
+                #    FormRun                 configForm;
+                #    Args                    args;
+                #    InventTable             inventTable;
+                #    InventSum               inventSumLocal = inventSum;
+                #    ;
+                #    if (!inventSumLocal.ItemId)
+                #    {
+                #        inventTable           = TradeInterCompany::inventTable(element.args().record());
+                #        inventSumLocal.ItemId = inventTable.ItemId;
+                #    }
+                #
+                #    menuFunction = new MenuFunction(menuitemdisplaystr(InventOnHandInterCompany), MenuItemType::Display);
+                #    args = new Args();
+                #    args.caller(element);
+                #    args.record(inventSumLocal);
+                #    configForm = menuFunction.create(args);
+                #    configForm.run();
+                #}
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #WMSOnlineCounting
+              MenuItemType        #Action
+              MenuItemName        #WMSOnlineCounting
+              DataSource          #InventSum
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventCountJour
+              SaveRecord          #No
+              MenuItemName        #InventCountJour
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #InventDimParmFixed
+              MenuItemName        #InventDimParmFixed
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

@@ -1,0 +1,88 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: Global unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #Global
+    Id 61446
+    PROPERTIES
+      Name                #Global
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #echFindFiles
+        #// Create ECH_WI_02031 by mengqi.cen on 20130326
+        #public static container echFindFiles(str searchPattern, boolean acceptFolder = false)
+        #{
+        #    container fileNameCon;
+        #
+        #    int       hdl;
+        #    str       fileName;
+        #    str       filePath;
+        #    str       fileExt;
+        #    str       fileFullName;
+        #;
+        #    fileNameCon = connull();
+        #    [filePath, fileName, fileExt] = fileNameSplit(searchPattern);
+        #    [hdl, fileName] = WinAPI::findFirstFile(searchPattern);
+        #    while (fileName)
+        #    {
+        #        fileFullName = filePath + fileName;
+        #        if (acceptFolder || (!acceptFolder && System.IO.File::Exists(fileFullName)))
+        #            fileNameCon += fileFullName;
+        #        fileName = WinAPI::findNextFile(hdl);
+        #    }
+        #    WinAPI::findClose(hdl);
+        #
+        #    return fileNameCon;
+        #}
+      ENDSOURCE
+      SOURCE #echInsertField
+        #// Created - Avanade.28.Nov.2012.nte
+        #public static boolean echInsertField(Common _record,
+        #                                        FieldId _fieldId,
+        #                                        AnyType _value,
+        #                                        boolean _creation = true,
+        #                                        boolean _validatefield = true,
+        #                                        boolean _modifiedfield = true)
+        #{
+        #    AnyType valueOrig;
+        #    ;
+        #
+        #    if(_creation || _value)
+        #    {
+        #        if(_validatefield)
+        #        {
+        #            valueOrig = _record.(_fieldId);
+        #        }
+        #        _record.(_fieldId) = _value;
+        #
+        #        if (_validatefield && !_record.validateField(_fieldId))
+        #        {
+        #        _record.(_fieldId) = valueOrig;
+        #
+        #        return false;
+        #        }
+        #
+        #        if(_modifiedfield)
+        #        {
+        #            _record.modifiedField(_fieldId);
+        #        }
+        #    }
+        #
+        #    return true;
+        #}
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

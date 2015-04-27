@@ -1,0 +1,73 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventLocation unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventLocation
+    Id 6064
+    PROPERTIES
+      Name                #AxInventLocation
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmEchIsTemp
+        #public echTmpInventLocation parmEchIsTemp(echTmpInventLocation _echIsTemp = NoYes::No)
+        #{
+        #    if (!prmisdefault(_echIsTemp))
+        #    {
+        #        this.setField(fieldNum(InventLocation, EchIsTemp), _echIsTemp);
+        #    }
+        #
+        #    return inventLocation.EchIsTemp;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type:
+        #// *** Description:
+        #
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _echMsgPartnerId = '')
+        #{
+        #    if (!prmisdefault(_echMsgPartnerId))
+        #    {
+        #        this.setField(fieldnum(InventLocation, echMsgPartnerId), _echMsgPartnerId);
+        #    }
+        #
+        #    return inventLocation.echMsgPartnerId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchIsTemp
+        #protected void setEchIsTemp()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventLocation, EchIsTemp)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchMsgPartnerId
+        #protected void setEchMsgPartnerId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventLocation, EchMsgPartnerId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

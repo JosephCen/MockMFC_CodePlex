@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSizeTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSizeTMallPropValue
+    Id 30076
+    PROPERTIES
+      Name                #echSizeTMallPropValue
+      Label               #@ECH851
+      TitleField1         #SizeId
+      TitleField2         #PropValueId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #SizeId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #SizeId
+          Table               #echSizeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #RBOSizeId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Cid
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #Cid
+          Table               #echSizeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropId
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #PropId
+          Table               #echSizeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropValueId
+        Id 30004
+        INT
+        PROPERTIES
+          Name                #PropValueId
+          Table               #echSizeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyValueId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SizeId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SizeId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SizeId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,170 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : EPPurchaseQuickLaunch unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #EPPurchaseQuickLaunch
+    PROPERTIES
+      Name                #EPPurchaseQuickLaunch
+      Label               #@SYS9283
+      HelpText            #@SYS105502
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS116190
+      PROPERTIES
+        Name                #ListsAndPlaces
+        Label               #@SYS116190
+        HelpText            #@SYS116193
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Purchase orders
+          MenuItemName        #EPPurchTableList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Purchase requisitions
+          MenuItemName        #EPPurchReqTableList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Vendors
+          MenuItemName        #EPVendTableList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Items
+          MenuItemName        #EPInventTableList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Orders
+          MenuItemName        #EPPurchTableListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #All items
+          MenuItemName        #EPInventTableListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Invoice journal
+          MenuItemName        #EPVendInvoiceJournalListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Price agreements
+          MenuItemName        #EPPriceDiscTableListPurchVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Packing slip journal
+          MenuItemName        #EPVendPackingSlipJournalListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Purchase order journal
+          MenuItemName        #EPVendPurchOrderJournalListVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Item List
+          MenuItemName        #echEPInventTableList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS24500
+      PROPERTIES
+        Name                #Account
+        Label               #@SYS24500
+        HelpText            #@SYS116203
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #View account
+          MenuItemName        #EPVendTableInfoVSS
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS7800
+      PROPERTIES
+        Name                #Reports
+        Label               #@SYS7800
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Top item by quantity
+          MenuItemName        #EPInventTableByQty
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Top item by sales
+          MenuItemName        #EPInventTableBySales
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Top item by time
+          MenuItemName        #EPInventTableByTime
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Delivery date exceeded
+          MenuItemName        #EPPurchCollectionLetterList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Supply performance
+          MenuItemName        #EPPurchSupplyPerformance
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Supply capacity - Vendor
+          MenuItemName        #EPPurchSupplyCapacity
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

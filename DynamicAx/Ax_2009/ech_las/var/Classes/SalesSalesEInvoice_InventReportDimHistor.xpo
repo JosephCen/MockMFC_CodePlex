@@ -1,0 +1,186 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesSalesEInvoice_InventReportDimHistor unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesSalesEInvoice_InventReportDimHistor
+    Id 30004
+    PROPERTIES
+      Name                #SalesSalesEInvoice_InventReportDimHistor
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class SalesSalesEInvoice_InventReportDimHistor extends AfStronglyTypedDataContainer
+        #{
+        #    #define.TransRefId('TransRefId')
+        #    #define.TransactionLogType('TransactionLogType')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Qty('Qty')
+        #    #define.InventTransId('InventTransId')
+        #    #define.InventDimId('InventDimId')
+        #    #define.InventDim('InventDim')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventDim
+        #public AfStronglyTypedDataContainerList createInventDim()
+        #{
+        #    return this.get_NewList(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDim
+        #public boolean existsInventDim()
+        #{
+        #    return this.exists(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimId
+        #public boolean existsInventDimId()
+        #{
+        #    return this.exists(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventTransId
+        #public boolean existsInventTransId()
+        #{
+        #    return this.exists(#InventTransId);
+        #}
+      ENDSOURCE
+      SOURCE #existsQty
+        #public boolean existsQty()
+        #{
+        #    return this.exists(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsTransactionLogType
+        #public boolean existsTransactionLogType()
+        #{
+        #    return this.exists(#TransactionLogType);
+        #}
+      ENDSOURCE
+      SOURCE #existsTransRefId
+        #public boolean existsTransRefId()
+        #{
+        #    return this.exists(#TransRefId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#SalesInvoice_Einvoice_InventReportDimHistory);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDim
+        #public AfStronglyTypedDataContainerList parmInventDim(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventDim, _value);
+        #    }
+        #
+        #    return this.get_List(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #public InventDimId parmInventDimId(InventDimId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventDimId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventTransId
+        #public InventTransId parmInventTransId(InventTransId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventTransId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventTransId);
+        #}
+      ENDSOURCE
+      SOURCE #parmQty
+        #public InventQty parmQty(InventQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Qty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmTransactionLogType
+        #public InventReportDimHistoryLogType parmTransactionLogType(InventReportDimHistoryLogType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TransactionLogType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TransactionLogType);
+        #}
+      ENDSOURCE
+      SOURCE #parmTransRefId
+        #public InventTransRefId parmTransRefId(InventTransRefId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TransRefId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TransRefId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

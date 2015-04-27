@@ -1,0 +1,23 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echNewPromotion unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echNewPromotion
+    PROPERTIES
+      Name                #echNewPromotion
+      Label               #@ECH272
+      HelpText            #@ECH273
+      ConfigurationKey    #echProcesses
+      WebConfigurationkey #EP
+      SecurityKey         #EPSalesRepTasks
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

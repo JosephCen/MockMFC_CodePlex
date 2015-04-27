@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSoCheckCodParamTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSoCheckCodParamTable
+    Type: 1
+    PROPERTIES
+      Name                #echSoCheckCodParamTable
+      Label               #@ECH174
+      HelpText            #@ECH175
+      Object              #echSoCheckCodParamTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

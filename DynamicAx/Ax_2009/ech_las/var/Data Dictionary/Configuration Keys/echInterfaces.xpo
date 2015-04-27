@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CON
+
+; Microsoft Dynamics AX CONFIGURATIONKEY : echInterfaces unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  CONFIGURATIONKEY #echInterfaces
+    Id 30002
+    PROPERTIES
+      Name                #echInterfaces
+      Label               #@ECH4
+      ParentKey           #echFramework
+    ENDPROPERTIES
+    
+  ENDCONFIGURATIONKEY
+  
+
+***Element: END

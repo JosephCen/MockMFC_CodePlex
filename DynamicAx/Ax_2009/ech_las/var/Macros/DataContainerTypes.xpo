@@ -1,0 +1,87 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: DataContainerTypes unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #DataContainerTypes
+    ##MiscDataContainerTypes
+    ##MetadataServiceDataContainerTypes
+    ##SyncServiceDataContainerTypes
+    ##AxdCustomerDCT
+    ##AxdAddressDCT
+    ##AxdASNDCT
+    ##AxdAssetConditionDCT
+    ##AxdAssetGroupDCT
+    ##AxdAssetLocationDCT
+    ##AxdAssetMajorTypeDCT
+    ##AxdBillsofMaterialsDCT
+    ##AxdCashDiscDCT
+    ##AxdChartOfAccountsDCT
+    ##AxdConfigTableDCT
+    ##AxdContactPersonsDCT
+    ##AxdCountingJournalDCT
+    ##AxdCustomerGroupsDCT
+    ##AxdCustPaymJournalDCT
+    ##AxdDeliveryModesDCT
+    ##AxdDimensionsDCT
+    ##AxdExchangeRatesDCT
+    ##AxdFixedAssetDCT
+    ##AxdFreeTextInvoiceDCT
+    ##AxdInventColorDCT
+    ##AxdInventDimCombinationDCT
+    ##AxdInventItemGroupDCT
+    ##AxdInventLocationDCT
+    ##AxdInventoryOnHandDCT
+    ##AxdInventoryTransactionsDCT
+    ##AxdInventSizeDCT
+    ##AxdItemDCT
+    ##AxdPaymentTermsDCT
+    ##AxdPriceDiscountJournalDCT
+    ##AxdPriceListDCT
+    ##AxdProdPickingListDCT
+    ##AxdProfitLossJournalDCT
+    ##AxdPurchaseInvoiceDCT
+    ##AxdPurchaseRequisitionDCT
+    ##AxdRouteCardDCT
+    ##AxdSalesInvoiceDCT
+    ##AxdSalesOrderDCT
+    ##AxdSalesPackingSlipDCT
+    ##AxdSysImportBusSectorsDCT
+    ##AxdSysImportContactPersonsDCT
+    ##AxdSysImportLeadsDCT
+    ##AxdTransferJournalDCT
+    ##AxdTrvPBSDetailDCT
+    ##AxdTrvPBSMaindataDCT
+    ##AxdUnitDCT
+    ##AxdUnitConvertDCT
+    ##AxdLedgerGeneralJournalDCT
+    ##AxdVendGroupDCT
+    ##AxdVendTableDCT
+    ##AxdVendorPaymentDCT
+    ##AxdPickingListDCT
+    ##AxdProjectHourJournalDCT
+    ##AxdServiceAgreementDCT
+    ##AxdReturnOrderInDCT
+    ##AxdReturnOrderOutDCT
+    ##AxdSalesInvoice_EinvoiceDCT
+    ##AxdProjInvoiceDCT
+    ##AxdExpenseDCT
+    ##AxdServiceOrderDCT
+    ##AxdechAxInventStockQueueDCT
+    ##AxdEchInventOnHandDCT
+    ##AxdechReturnOrderArrivalServiceDCT
+    ##AxdEchPickingListRegDCT
+    ##AxdechProdCatalogDCT
+    ##AxdechSalesOrderDeliveredDCT
+    ##AxdechExternalSkuTableDCT
+    ##AxdechStockMovementDCT
+    ##AxdEchProductLoadDCT
+    ##AxdEchReturnOrderInDCT
+    #
+  ENDSOURCE
+
+***Element: END

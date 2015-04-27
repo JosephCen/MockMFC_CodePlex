@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echEPInventTableInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echEPInventTableInfo
+    PROPERTIES
+      Name                #echEPInventTableInfo
+      Label               #@ECH648
+      HelpText            #@ECH695
+      Object              #echEPInventTableInfo
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSalesOrderCheckTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSalesOrderCheckTable
+    Type: 1
+    PROPERTIES
+      Name                #echSalesOrderCheckTable
+      Label               #@ECH127
+      HelpText            #@ECH172
+      Object              #echSalesOrderCheckTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

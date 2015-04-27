@@ -1,0 +1,703 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: RG 
+
+; Microsoft Dynamics AX Report: echRefundNoteReport unloaded
+; --------------------------------------------------------------------------------
+VERSION 1
+
+REPORT #echRefundNoteReport
+  PROPERTIES
+    Name                #echRefundNoteReport
+    Interactive         #No
+    AllowCheck          #No
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class ReportRun extends ObjectRun
+      #{
+      #    CompanyInfo     companyInfo;
+      #    SalesTable      salesTableLocal;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #companyAddress
+      #//BP Deviation documented
+      #display Addressing  companyAddress()
+      #{;
+      #    return companyInfo.Address;
+      #}
+    ENDSOURCE
+    SOURCE #companyName
+      #//BP Deviation documented
+      #display Name companyName()
+      #{;
+      #    return companyInfo.Name;
+      #}
+    ENDSOURCE
+    SOURCE #contactPersonName
+      #//BP Deviation Documented
+      #display ContactPersonName contactPersonName()
+      #{
+      #    return ContactPerson::name(salesTableLocal.ContactPersonId);
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    ;
+      #    if(element.args().dataset() == tablenum(salesTable))
+      #        salesTableLocal  = element.args().record();
+      #    //else
+      #        //throw error("@ECH235");
+      #
+      #    super();
+      #
+      #    element.query().dataSourceTable(tableNum(SalesTable)).addRange(fieldNum(SalesTable,SalesId)).value(salesTableLocal.SalesId);
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  QUERY #Query
+    PROPERTIES
+      Name                #Query
+      Version             #13
+      Interactive         #No
+      NextUniqueId        #1002
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #public class QueryRun extends ObjectRun
+        #{
+        #}
+      ENDSOURCE
+    ENDMETHODS
+    BLOCKS
+      BLOCK #SalesTable
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          UniqueId            #1000
+        ENDPROPERTIES
+        
+        FIELDLIST
+          PROPERTIES
+          ENDPROPERTIES
+          
+        ENDFIELDLIST
+        SORTING
+        ENDSORTING
+        LINES
+        ENDLINES
+        BLOCKS
+          BLOCK #SalesLine
+            PROPERTIES
+              Name                #SalesLine
+              Table               #SalesLine
+              UniqueId            #1001
+              Relations           #Yes
+            ENDPROPERTIES
+            
+            FIELDLIST
+              PROPERTIES
+              ENDPROPERTIES
+              
+            ENDFIELDLIST
+            SORTING
+            ENDSORTING
+            LINES
+            ENDLINES
+            BLOCKS
+            ENDBLOCKS
+            ASSOCIATIONS
+              ASSOCIATION
+                MASTERFIELD  #SalesId
+                DETAILSFIELD #SalesId
+            ENDASSOCIATIONS
+          ENDBLOCK
+        ENDBLOCKS
+        GROUPBY
+        ENDGROUPBY
+        ORDERBY
+        ENDORDERBY
+      ENDBLOCK
+    ENDBLOCKS
+    DEPENDENTS
+    ENDDEPENDENTS
+    COMPOSITEQUERIES
+    ENDCOMPOSITEQUERIES
+  ENDQUERY
+  
+  DESIGNS
+    DESIGN
+      PROPERTIES
+        Name                #ReportDesign1
+        Caption             #@ECH232
+      ENDPROPERTIES
+      
+      AUTOBODIES
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDAUTOBODIES
+      GENERATEDDESIGN
+        PAGEHEADERBLOCK
+          PROPERTIES
+            Name                #EnterpriseInfo
+          ENDPROPERTIES
+          
+          METHODS
+            Version: 3
+            SOURCE #companyCoRegNum
+              #//BP Deviation documented
+              #display CompanyCoRegNumShortTxt companyCoRegNum()
+              #{
+              #    return companyInfo.CoRegNum;
+              #}
+            ENDSOURCE
+            SOURCE #companyVATNum
+              #//BP Deviation documented
+              #display VATNum companyVATNum()
+              #{
+              #    return companyInfo.vatNum;
+              #}
+            ENDSOURCE
+            SOURCE #companyLogo
+              #//BP Deviation documented
+              #display Bitmap  companyLogo()
+              #{
+              #    return FormLetter::companyLogo();
+              #}
+            ENDSOURCE
+            SOURCE #companyGiro
+              #//BP Deviation documented
+              #display GiroNum  companyGiro()
+              #{
+              #    return companyInfo.Giro;
+              #}
+            ENDSOURCE
+            SOURCE #companyTelefax
+              #//BP Deviation documented
+              #display TeleFax  companyTelefax()
+              #{;
+              #    return companyInfo.TeleFax;
+              #}
+            ENDSOURCE
+            SOURCE #companyPhone
+              #//BP Deviation documented
+              #display Phone    companyPhone()
+              #{;
+              #    return companyInfo.Phone;
+              #}
+            ENDSOURCE
+            SOURCE #companyEnterpriseNumber
+              #//BP Deviation Documented
+              #display TaxEnterpriseNumber companyEnterpriseNumber()
+              #{
+              #    return CompanyInfo::find().EnterpriseNumber;
+              #}
+            ENDSOURCE
+          ENDMETHODS
+          TXTFIELD
+            PROPERTIES
+              Name                #EnterpriseInfoTxt
+              Left                #0.00 char
+              Top                 #1.00 char
+              Width               #22.00 char
+              ShowLabel           #No
+              Text                #@ECH239
+              FontSize            #10
+              Bold                #Semibold
+            ENDPROPERTIES
+            
+          ENDTXTFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #companyNameLogo
+              AutoDeclaration     #Yes
+              Left                #23.00 char
+              Top                 #2.00 char
+              Width               #30.00 char
+              Label               #@SYS15581
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              DataMethod          #companyName
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+        ENDPAGEHEADERBLOCK
+        PAGEHEADERBLOCK
+          PROPERTIES
+            Name                #CustomerInfo
+          ENDPROPERTIES
+          
+          METHODS
+            Version: 3
+            SOURCE #customerEmail
+              #//BP Deviation documented
+              #display Email customerEmail()
+              #{;
+              #    return salesTableLocal.custTable_CustAccount().Email;
+              #}
+            ENDSOURCE
+            SOURCE #customerPhone
+              #//BP Deviation documented
+              #display Phone customerPhone()
+              #{;
+              #    return salesTableLocal.custTable_CustAccount().Phone;
+              #}
+            ENDSOURCE
+            SOURCE #customerAddress
+              #//BP Deviation documented
+              #display Addressing customerAddress()
+              #{;
+              #    return salesTableLocal.custTable_CustAccount().Address;
+              #}
+            ENDSOURCE
+            SOURCE #customerName
+              #//BP Deviation documented
+              #display Name customerName()
+              #{;
+              #    return salesTableLocal.custTable_CustAccount().Name;
+              #}
+            ENDSOURCE
+          ENDMETHODS
+          TXTFIELD
+            PROPERTIES
+              Name                #CustInfoTxt
+              Left                #0.00 char
+              Top                 #1.00 char
+              Width               #20.00 char
+              ShowLabel           #No
+              Text                #@SYS29051
+              FontSize            #10
+              Bold                #Semibold
+            ENDPROPERTIES
+            
+          ENDTXTFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #customerName
+              Left                #23.00 char
+              Top                 #2.00 char
+              Width               #20.00 char
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              DataMethod          #customerName
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #customerAddress
+              Left                #23.00 char
+              Top                 #3.00 char
+              Width               #20.00 char
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              DataMethod          #customerAddress
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #customerPhone
+              Left                #23.00 char
+              Top                 #8.00 char
+              Width               #20.00 char
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              DataMethod          #customerPhone
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #customerEmail
+              Left                #23.00 char
+              Top                 #9.00 char
+              Width               #20.00 char
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              DataMethod          #customerEmail
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+        ENDPAGEHEADERBLOCK
+        PAGEHEADERBLOCK
+          PROPERTIES
+            Name                #OrderInfo
+          ENDPROPERTIES
+          
+          TXTFIELD
+            PROPERTIES
+              Name                #RefundNote
+              Left                #50.00 char
+              Top                 #0.00 char
+              Width               #30.00 char
+              ShowLabel           #No
+              Text                #@ECH232
+              Alignment           #Left
+              ChangeCase          #None
+              FontSize            #18
+              Bold                #Medium
+            ENDPROPERTIES
+            
+          ENDTXTFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #SalesTable_SalesId
+              Left                #72.00 char
+              Top                 #2.00 char
+              Width               #30.00 char
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              Table               #SalesTable
+              DataField           #SalesId
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          DATETIMEFIELD
+            PROPERTIES
+              Name                #SalesTable_echFrontEndCreationDate
+              Left                #72.00 char
+              Top                 #3.00 char
+              Width               #30.00 char
+              Label               #@SYS7402
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              Table               #SalesTable
+              DataField           #echFrontEndCreationDate
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDDATETIMEFIELD
+          INTFIELD
+            PROPERTIES
+              Name                #Page
+              Left                #72.00 char
+              Top                 #4.00 char
+              Width               #5.00 char
+              Label               #@SYS7426
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              DataMethod          #Page
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDINTFIELD
+          INTFIELD
+            PROPERTIES
+              Name                #TotalOfPages
+              Left                #80.00 char
+              Top                 #4.00 char
+              Width               #5.00 char
+              Label               #@SYS26401
+              LabelTabLeader      #Do not append ...:
+              LabelPosition       #Left
+              DataMethod          #pagesTotal
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDINTFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #SalesTable_CustomerRef
+              Left                #72.00 char
+              Top                 #5.00 char
+              Width               #30.00 char
+              Label               #@SYS12056
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              Table               #SalesTable
+              DataField           #CustomerRef
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #SalesTable_SalesTaker
+              Left                #72.00 char
+              Top                 #6.00 char
+              Width               #30.00 char
+              Label               #@SYS8934
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              Table               #SalesTable
+              DataField           #SalesTaker
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #SalesTable_InvoiceAccount
+              Left                #72.00 char
+              Top                 #7.00 char
+              Width               #30.00 char
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              Table               #SalesTable
+              DataField           #InvoiceAccount
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+          STRFIELD
+            PROPERTIES
+              Name                #SalesTable_Payment
+              Left                #72.00 char
+              Top                 #8.00 char
+              Width               #30.00 char
+              LabelWidth          #21.00 char
+              LabelPosition       #Left
+              Table               #SalesTable
+              DataField           #Payment
+              Alignment           #Left
+            ENDPROPERTIES
+            
+          ENDSTRFIELD
+        ENDPAGEHEADERBLOCK
+        SORTKEY
+          PROPERTIES
+            Name                #SalesTable
+            Table               #SalesTable
+          ENDPROPERTIES
+          
+          BODYBLOCK
+            PROPERTIES
+              Name                #SalesTable_Body
+            ENDPROPERTIES
+            
+            SORTKEY
+              PROPERTIES
+                Name                #SalesLine
+                Table               #SalesLine
+              ENDPROPERTIES
+              
+              BODYBLOCK
+                PROPERTIES
+                  Name                #SalesLine_Body
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #itemName
+                    #//BP Deviation Documented
+                    #display itemName itemName()
+                    #{
+                    #    return salesLine.itemName();
+                    #}
+                  ENDSOURCE
+                  SOURCE #inventSize
+                    #//BP Deviation Documented
+                    #display InventSizeId inventSize()
+                    #{;
+                    #    return InventDim::find(salesLine.InventDimId).InventSizeId;
+                    #}
+                    #
+                  ENDSOURCE
+                  SOURCE #inventColor
+                    #//BP Deviation Documented
+                    #display InventColorId inventColor()
+                    #{;
+                    #    return InventDim::find(salesLine.InventDimId).InventColorId;
+                    #}
+                    #
+                  ENDSOURCE
+                  SOURCE #configuration
+                    #//BP Deviation Documented
+                    #display ConfigId configuration()
+                    #{;
+                    #    return InventDim::find(salesLine.InventDimId).configId;
+                    #}
+                    #
+                  ENDSOURCE
+                ENDMETHODS
+                STRFIELD
+                  PROPERTIES
+                    Name                #SalesLine_ItemId
+                    Table               #SalesLine
+                    DataField           #ItemId
+                  ENDPROPERTIES
+                  
+                ENDSTRFIELD
+                STRFIELD
+                  PROPERTIES
+                    Name                #configuration
+                    DataMethod          #configuration
+                  ENDPROPERTIES
+                  
+                ENDSTRFIELD
+                STRFIELD
+                  PROPERTIES
+                    Name                #inventSize
+                    DataMethod          #inventSize
+                  ENDPROPERTIES
+                  
+                ENDSTRFIELD
+                STRFIELD
+                  PROPERTIES
+                    Name                #inventColor
+                    DataMethod          #inventColor
+                  ENDPROPERTIES
+                  
+                ENDSTRFIELD
+                STRFIELD
+                  PROPERTIES
+                    Name                #itemName
+                    DataMethod          #itemName
+                  ENDPROPERTIES
+                  
+                ENDSTRFIELD
+                DBLFIELD
+                  PROPERTIES
+                    Name                #SalesLine_SalesQty
+                    Table               #SalesLine
+                    DataField           #SalesQty
+                    MinNoOfDecimals     #Auto
+                  ENDPROPERTIES
+                  
+                ENDDBLFIELD
+                STRFIELD
+                  PROPERTIES
+                    Name                #SalesLine_SalesUnit
+                    Table               #SalesLine
+                    DataField           #SalesUnit
+                  ENDPROPERTIES
+                  
+                ENDSTRFIELD
+                DBLFIELD
+                  PROPERTIES
+                    Name                #SalesLine_SalesPrice
+                    Table               #SalesLine
+                    DataField           #SalesPrice
+                    MinNoOfDecimals     #Auto
+                  ENDPROPERTIES
+                  
+                ENDDBLFIELD
+                DBLFIELD
+                  PROPERTIES
+                    Name                #SalesLine_LineAmount
+                    Table               #SalesLine
+                    DataField           #LineAmount
+                    SumAll              #Yes
+                    MinNoOfDecimals     #Auto
+                  ENDPROPERTIES
+                  
+                ENDDBLFIELD
+              ENDBODYBLOCK
+              SUBTOTALBLOCK
+                PROPERTIES
+                  Name                #SalesLineFooter
+                ENDPROPERTIES
+                
+              ENDSUBTOTALBLOCK
+            ENDSORTKEY
+          ENDBODYBLOCK
+          SUBTOTALBLOCK
+            PROPERTIES
+              Name                #SalesTableFooter
+              LeftMargin          #20.00 char
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #SalesTax
+                #//BP Deviation Documented
+                #display Amount SalesTax()
+                #{
+                #    TaxTrans        taxTrans;
+                #    SalesLine       salesLineLoc;
+                #    Amount          ret;
+                #    ;
+                #
+                #    While select salesLineLoc
+                #    where salesLineLoc.SalesId == salesTableLocal.SalesId
+                #    {
+                #        while select taxTrans
+                #        where taxTrans.SourceRecId      == salesLineLoc.RecId
+                #        &&    taxTrans.SourceTableId    == salesLineLoc.TableId
+                #        {
+                #            ret += TaxTrans.ECHTaxChangeDisplaySign();
+                #        }
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #executeSection
+                #public void executeSection()
+                #{
+                #    SumHeader.executeSection();
+                #    super();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+            SUMFIELD
+              PROPERTIES
+                Name                #SumAmount
+                ModelFieldName      #AmountHeader
+                Label               #@SYS83249
+                MinNoOfDecimals     #Auto
+                DataFieldName       #SalesLine_LineAmount
+                Bold                #Normal
+              ENDPROPERTIES
+              
+            ENDSUMFIELD
+            DBLFIELD
+              PROPERTIES
+                Name                #SalesTax
+                ModelFieldName      #TaxHeader
+                DataMethod          #SalesTax
+                Bold                #Normal
+                MinNoOfDecimals     #Auto
+              ENDPROPERTIES
+              
+            ENDDBLFIELD
+          ENDSUBTOTALBLOCK
+        ENDSORTKEY
+        CONTROLBLOCK
+          PROPERTIES
+            Name                #SumHeader
+            AutoDeclaration     #Yes
+            LeftMargin          #20.00 char
+          ENDPROPERTIES
+          
+          DBTXTFIELD
+            PROPERTIES
+              Name                #AmountHeader
+              Label               #@SYS83249
+              Bold                #Semibold
+              ExtendedDataType    #Amount
+            ENDPROPERTIES
+            
+          ENDDBTXTFIELD
+          DBTXTFIELD
+            PROPERTIES
+              Name                #TaxHeader
+              Label               #@SYS22916
+              Bold                #Semibold
+              ExtendedDataType    #Amount
+            ENDPROPERTIES
+            
+          ENDDBTXTFIELD
+        ENDCONTROLBLOCK
+      ENDGENERATEDDESIGN
+    ENDDESIGN
+  ENDDESIGNS
+ENDREPORT
+
+
+***Element: END

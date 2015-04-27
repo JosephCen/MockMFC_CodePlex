@@ -1,0 +1,63 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesTableForm_Return unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesTableForm_Return
+    Id 3488
+    PROPERTIES
+      Name                #SalesTableForm_Return
+      Extends             #SalesTableForm
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #returnCancel
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01488
+        #// *** Customization Date: 20 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Moved adjustment to the updateStatus method on SalesTable
+        #
+        #public void returnCancel()
+        #{
+        #    SalesTable  returnTable;
+        #    SalesId     curSalesId;
+        #    ;
+        #
+        #    returnTable = formDataSource.cursor();
+        #    curSalesId  = returnTable.SalesId;
+        #
+        #    // Cancelled return orders cannot be reopened. Are you sure you want to cancel?
+        #    if (Box::yesNo("@SYS106095", DialogButton::No, "") == DialogButton::Yes)
+        #    {
+        #        // %1 return order(s) was cancelled
+        #        info(strfmt("@SYS104942", SalesTable::ChangeReturnStatus(formDataSource, ReturnUpdateAction::Cancel)));
+        #
+        #// CS - ECH_WI_01488 - Marijn Catthoor - 20 Sep 2012
+        #
+        #        /*
+        #        // CS - ECH_E_003 - Abdessamad Almask - 20 Apr 2012
+        #        if (isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #        {
+        #            ECHUpdateAggStatus::updateStatus(curSalesId, echAggStatus::Cancelled);
+        #        }
+        #        // CE - ECH_E_003 - Abdessamad Almask - 20 Apr 2012
+        #        */
+        #
+        #// CE - ECH_WI_01488 - Marijn Catthoor - 20 Sep 2012
+        #
+        #        formDataSource.research();
+        #        formDataSource.findRecord(SalesTable::find(curSalesId));
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

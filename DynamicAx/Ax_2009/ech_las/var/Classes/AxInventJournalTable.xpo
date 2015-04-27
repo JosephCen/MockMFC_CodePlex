@@ -1,0 +1,97 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventJournalTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventJournalTable
+    Id 6340
+    PROPERTIES
+      Name                #AxInventJournalTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmHHTPRDocument
+        #public HHTPRDocument parmHHTPRDocument(HHTPRDocument _hHTPRDocument = NoYes::No)
+        #{
+        #    if (!prmisdefault(_hHTPRDocument))
+        #    {
+        #        this.setField(fieldNum(InventJournalTable, HHTPRDocument), _hHTPRDocument);
+        #    }
+        #
+        #    return inventJournalTable.HHTPRDocument;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTWorksheetId
+        #public HHTWorksheetId parmHHTWorksheetId(HHTWorksheetId _hHTWorksheetId = '')
+        #{
+        #    if (!prmisdefault(_hHTWorksheetId))
+        #    {
+        #        this.setField(fieldNum(InventJournalTable, HHTWorksheetId), _hHTWorksheetId);
+        #    }
+        #
+        #    return inventJournalTable.HHTWorksheetId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFSHReplenishmentRef
+        #protected void setFSHReplenishmentRef()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTable, FSHReplenishmentRef)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFSHReplenishmentType
+        #protected void setFSHReplenishmentType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTable, FSHReplenishmentType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTPRDocument
+        #protected void setHHTPRDocument()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTable, HHTPRDocument)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTRetailStatusType
+        #protected void setHHTRetailStatusType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTable, HHTRetailStatusType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTWorksheetId
+        #protected void setHHTWorksheetId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventJournalTable, HHTWorksheetId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

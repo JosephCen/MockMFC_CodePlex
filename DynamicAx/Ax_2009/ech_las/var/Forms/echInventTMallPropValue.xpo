@@ -1,0 +1,372 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echInventTMallPropValue
+  PROPERTIES
+    Name                #echInventTMallPropValue
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echInventTMallPropValue
+          Table               #echInventTMallPropValue
+          AllowCreate         #No
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD PropValueId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    SysTableLookup        _lookup;
+                #    Query                 _qry;
+                #    QueryBuildDataSource  _qbds;
+                #;
+                #    _lookup = SysTableLookup::newParameters(tablenum(echTMallPropertyValue), _formControl);
+                #    _lookup.addLookupfield(fieldnum(echTMallPropertyValue, PropValueId), true);
+                #    _lookup.addLookupfield(fieldnum(echTMallPropertyValue, PropValueName));
+                #
+                #    _qry = new Query();
+                #    _qbds = _qry.addDataSource(tablenum(echTMallPropertyValue));
+                #    _qbds.addRange(fieldnum(echTMallPropertyValue, Cid)).value(queryValue(echInventTMallPropValue.Cid));
+                #    _qbds.addRange(fieldnum(echTMallPropertyValue, PropId)).value(queryValue(echInventTMallPropValue.PropId));
+                #
+                #    _lookup.parmQuery(_qry);
+                #    _lookup.performFormLookup();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echTMallPropertyValue
+          Table               #echTMallPropertyValue
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #echInventTMallPropValue
+          LinkType            #OuterJoin
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD PropValueName
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #// Add ECH_WI_02329 by mengqi.cen on 20130823
+                #public boolean validate()
+                #{
+                #    boolean                ret;
+                #    echTMallPropertyValue  tmallPropVal
+                #;
+                #    if (echTMallPropertyValue.PropValueName)
+                #    {
+                #        tmallPropVal = echTMallPropertyValue::findByPropertyName(echInventTMallPropValue.Cid,
+                #                                                                 echInventTMallPropValue.PropId,
+                #                                                                 echTMallPropertyValue.PropValueName);
+                #        if (tmallPropVal)
+                #            ret = true;
+                #        else
+                #            ret = false;
+                #    }
+                #    else
+                #    {
+                #        ret = true;
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #// Add ECH_WI_02329 by mengqi.cen on 20130823
+                #public void modified()
+                #{
+                #;
+                #    super();
+                #
+                #    echInventTMallPropValue.PropValueId =
+                #        echTMallPropertyValue::findByPropertyName(echInventTMallPropValue.Cid,
+                #                                                  echInventTMallPropValue.PropId,
+                #                                                  echTMallPropertyValue.PropValueName).PropValueId;
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #// Add ECH_WI_02329 by mengqi.cen on 20130823
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #;
+                #    echTMallPropertyValue::lookupByCidPropId(_formControl,
+                #                                             echInventTMallPropValue.Cid,
+                #                                             echInventTMallPropValue.PropId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #// Add ECH_WI_02329 by mengqi.cen on 20130823
+          #public boolean validateWrite()
+          #{
+          #    boolean ret;
+          #;
+          #    // ret = super();
+          #    ret = true;
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #// Add ECH_WI_02329 by mengqi.cen on 20130823
+          #public void write()
+          #{
+          #;
+          #    // super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echTMallCategoryProperty
+          Table               #echTMallCategoryProperty
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #echInventTMallPropValue
+          LinkType            #InnerJoin
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echTMallCategory
+          Table               #echTMallCategory
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #echTMallCategoryProperty
+          LinkType            #InnerJoin
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    echTMallPropertyValue echInventTMallPropValue
+    echTMallCategoryProperty echInventTMallPropValue
+    echTMallCategory echTMallCategoryProperty
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH821
+      DataSource          #echInventTMallPropValue
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Columns             #1
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echInventTMallPropValue
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echInventTMallPropValue_ItemId
+                        DataSource          #echInventTMallPropValue
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #TMallCategoryProperty
+                        BackgroundColor     #Window background
+                        DataSource          #echTMallCategoryProperty
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echTMallCategoryProperty_PropName
+                              DataSource          #echTMallCategoryProperty
+                              DataField           #PropName
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #echInventTMallPropValue_PropValueId
+                        Visible             #No
+                        DataSource          #echInventTMallPropValue
+                        DataField           #PropValueId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #TMallPropertyValue
+                        BackgroundColor     #Window background
+                        DataSource          #echTMallPropertyValue
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echTMallPropertyValue_PropValueName
+                              DataSource          #echTMallPropertyValue
+                              DataField           #PropValueName
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Detail
+              Caption             #@SYS53422
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Category
+                  DataSource          #echTMallCategory
+                  DataGroup           #Category
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Property
+                  DataSource          #echTMallCategoryProperty
+                  DataGroup           #Property
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PropertyValue
+                  DataSource          #echTMallPropertyValue
+                  DataGroup           #PropertyValue
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

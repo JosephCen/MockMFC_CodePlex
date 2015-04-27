@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echInventStockQueue unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echInventStockQueue
+    Type: 1
+    PROPERTIES
+      Name                #echInventStockQueue
+      Label               #@ECH63
+      HelpText            #@ECH81
+      Object              #echInventStockQueue
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventInquiries
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

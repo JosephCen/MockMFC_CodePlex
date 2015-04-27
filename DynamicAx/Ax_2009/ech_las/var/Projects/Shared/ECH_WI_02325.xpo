@@ -1,0 +1,34 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02325 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02325
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02325
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 11
+      UTILOBJECTID 0
+      NODETYPE 201
+      NAME #InventOnhandItem
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      UTILOBJECTID 1710
+      NODETYPE 329
+      NAME #InventDimCtrl_Frm_OnHand
+    ENDNODE
+  ENDPROJECT
+  
+
+***Element: END

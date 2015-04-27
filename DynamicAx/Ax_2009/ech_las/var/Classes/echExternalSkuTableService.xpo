@@ -1,0 +1,66 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echExternalSkuTableService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echExternalSkuTableService
+    Id 30222
+    PROPERTIES
+      Name                #echExternalSkuTableService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echExternalSkuTableService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #create
+        #
+        #public AifEntityKeyList create(echExternalSkuTable _echExternalSkuTable)
+        #{
+        #    return this.createList(_echExternalSkuTable);
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #public echExternalSkuTable find(AifQueryCriteria _queryCriteria)
+        #{
+        #    echExternalSkuTable echExternalSkuTable = new echExternalSkuTable();
+        #    this.findList(_queryCriteria, echExternalSkuTable);
+        #    return echExternalSkuTable;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #read
+        #public echExternalSkuTable read(AifEntityKeyList _entityKeyList)
+        #{
+        #    echExternalSkuTable echExternalSkuTable = new echExternalSkuTable();
+        #    this.readList(_entityKeyList, echExternalSkuTable);
+        #    return echExternalSkuTable;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echExternalSkuTableService construct()
+        #{
+        #    return new echExternalSkuTableService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

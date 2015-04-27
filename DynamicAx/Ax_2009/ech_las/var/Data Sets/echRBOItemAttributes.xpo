@@ -1,0 +1,92 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echRBOItemAttributes
+  PROPERTIES
+    Name                #echRBOItemAttributes
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    InventTable     inventTable;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Abdessamad Almask ***
+      #// *** Customization Code: ECH_WI_00248
+      #// *** Customization Date: 02 May 2012
+      #// *** Customization Type: created
+      #// *** Description:
+      #
+      #public void init()
+      #{
+      #    if (this.args().record() && this.args().record().TableId == tablenum(InventTable))
+      #        inventTable.data(this.args().record());
+      #
+      #    super();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echItemAttributes
+          Table               #echItemAttributes
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #// *** ECHINA - Abdessamad Almask ***
+          #// *** Customization Code: ECH_WI_00248
+          #// *** Customization Date: 02 May 2012
+          #// *** Customization Type: created
+          #// *** Description:
+          #
+          #public void executeQuery()
+          #{
+          #    QueryBuildDataSource    qbds = this.query().dataSourceTable(tablenum(echItemAttributes));
+          #    QueryBuildRange         qbr;
+          #    ;
+          #
+          #
+          #    if (inventTable)
+          #    {
+          #        qbds.clearDynalinks();
+          #        qbr = SysQuery::findOrCreateRange(qbds, fieldnum(echItemAttributes, ItemId));
+          #        qbr.value(queryvalue(inventTable.ItemId));
+          #    }
+          #
+          #    super();
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

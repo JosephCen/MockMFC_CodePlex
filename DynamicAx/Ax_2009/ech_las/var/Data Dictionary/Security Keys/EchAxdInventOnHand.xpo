@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SEC
+
+; Microsoft Dynamics AX SECURITYKEY : EchAxdInventOnHand unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SECURITYKEY #EchAxdInventOnHand
+    Id 30006
+    PROPERTIES
+      Name                #EchAxdInventOnHand
+      Label               #@ECH88
+      ParentKey           #InventServices
+    ENDPROPERTIES
+    
+  ENDSECURITYKEY
+  
+
+***Element: END

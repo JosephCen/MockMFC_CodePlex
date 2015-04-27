@@ -1,0 +1,27 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echEPReturnTableCreateTunnel unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echEPReturnTableCreateTunnel
+    PROPERTIES
+      Name                #echEPReturnTableCreateTunnel
+      Label               #@SYS104102
+      HelpText            #@SYS74841
+      Object              #echEPReturnTableCreateTunnel
+      EnumTypeParameter   #SalesType
+      EnumParameter       #ReturnItem
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+      SecurityKey         #EPSalesRepTasks
+      NeededAccessLevel   #Add
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

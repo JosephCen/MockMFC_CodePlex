@@ -1,0 +1,243 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventJournalTrans unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventJournalTrans
+    Id 155
+    PROPERTIES
+      Name                #InventJournalTrans
+      Label               #@SYS22126
+      TitleField1         #JournalId
+      TitleField2         #LineNum
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      CreateRecIdIndex    #Yes
+      TableGroup          #WorksheetLine
+      PrimaryIndex        #LineIdx
+      ClusterIndex        #LineIdx
+      ModifiedDateTime    #Yes
+      DeveloperDocumentation  #@SYS123821
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #HHTInformationSubcodeId
+        Id 16029
+        STRING
+        PROPERTIES
+          Name                #HHTInformationSubcodeId
+          HelpText            #@ECH391
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #InventJournalTrans
+          ExtendedDataType    
+            ARRAY 
+              #HHTInformationSubcodeId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #HHTTransDate
+        Id 16032
+        DATE
+        PROPERTIES
+          Name                #HHTTransDate
+          HelpText            #@SYS80056
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #InventJournalTrans
+          ExtendedDataType    
+            ARRAY 
+              #HHTDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echSkuId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echSkuId
+          Table               #InventJournalTrans
+          ExtendedDataType    
+            ARRAY 
+              #echSkuId
+              #
+            ENDARRAY
+          StringSize          #80
+        ENDPROPERTIES
+        
+      FIELD #EchReasonId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #EchReasonId
+          Table               #InventJournalTrans
+          ExtendedDataType    
+            ARRAY 
+              #EchReasonId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #HHTAreaId
+          #echSkuId
+          #EchReasonId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Item
+        PROPERTIES
+          Name                #Item
+          Label               #@SYS7407
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #EchReasonId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #JournalError
+      PROPERTIES
+        Table               #JournalError
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #insert
+        #/* <RETREM>
+        #server void insert(NoYes dropEstimated = NoYes::No)
+        #</RETREM> */
+        #// <RETAIL>
+        #server void insert(NoYes dropEstimated = NoYes::No, boolean _fromHandheld = false, boolean _postingHHT = false)
+        #// </RETAIL>
+        #{
+        #    InventUpd_Estimated     estimated;
+        #    InventUpd_Estimated     estimatedTransfer;
+        #    // <RETAIL>
+        #
+        #
+        #    HHTCountingAreaTable    tCountingAreaTable;
+        #
+        #    // Begin - Avanade.11.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #    InventDim               inventDim, tmpInventDim;
+        #    InventJournalTable      inventJournalTable;
+        #    InventJournalName       inventJournalName;
+        #    // End - Avanade.11.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #
+        #
+        #    // </RETAIL>
+        #    ;
+        #    /* <RETREM>
+        #
+        #    </RETREM> */
+        #
+        #        try
+        #        {
+        #            // <RETAIL>
+        #            ttsbegin;
+        #
+        #
+        #            if (this.HHTAreaId && !_fromHandheld)
+        #            {
+        #                tCountingAreaTable = HHTCountingAreaTable::find(HHTWorksheetTable::find(InventJournalTable::find(this.JournalId).HHTWorksheetId).maskId,this.HHTAreaId,true);
+        #                tCountingAreaTable.entries = tCountingAreaTable.entries + 1;
+        #                tCountingAreaTable.update();
+        #            }
+        #
+        #
+        #            ttscommit;
+        #
+        #            // </RETAIL>
+        #            ttsBegin;
+        #
+        #        if (! this.LineNum)
+        #            this.LineNum = InventJournalTrans::lastLineNum(this.JournalId) + 1;
+        #
+        #        this.InventTransId = NumberSeq::newGetNum(InventParameters::numRefInventTransId()).num();
+        #
+        #        if (this.JournalType == InventJournalType::Transfer)
+        #        {
+        #            this.ToInventTransId = NumberSeq::newGetNum(InventParameters::numRefInventTransId()).num();
+        #        }
+        #
+        #        if (this.ProjId && ! this.ProjTransId)
+        #            this.ProjTransId    = ProjParameters::newTransId();
+        #
+        #        if (! dropEstimated)
+        #        {
+        #            // Begin - Avanade.11.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #            inventJournalTable = this.inventJournalTable();
+        #            inventDim = InventDim::find(this.InventDimId);
+        #            if (inventJournalTable.JournalType == InventJournalType::LossProfit
+        #                && this.InventDimId
+        #                && (!inventDim.InventLocationId || !inventDim.InventSiteId))
+        #            {
+        #                inventJournalName           = InventJournalName::find(inventJournalTable.JournalNameId);
+        #                inventDim.InventLocationId  = inventJournalName.EchInventLocationId;
+        #                inventDim.InventSiteId      = inventLocation::find(inventJournalName.EchInventLocationId).InventSiteId;
+        #                tmpInventDim                = InventDim::findOrCreate(inventDim);
+        #                this.InventDimId            = tmpInventDim.inventDimId;
+        #            }
+        #            // End - Avanade.11.Nov.2012.nte.Project : < ECH_WI_01594 >
+        #
+        #            estimated = InventUpd_Estimated::newInventMovement(InventMovement::construct(this));
+        #            estimated.updateNow();
+        #
+        #            if (this.JournalType == InventJournalType::Transfer)
+        #            {
+        #                estimatedTransfer = InventUpd_Estimated::newInventMovement(InventMovement::construct(this,InventMovSubType::TransferReceipt));
+        #                estimatedTransfer.updateNow();
+        #            }
+        #
+        #        }
+        #        super();
+        #
+        #        if (estimated)
+        #            estimated.updateReservation();
+        #
+        #        if (estimatedTransfer)
+        #            estimatedTransfer.updateReservation();
+        #
+        #        if (this.JournalType == InventJournalType::Count)
+        #            InventItemLocation::updateStartCounting(this.ItemId,this.inventDim(), this.JournalId);
+        #
+        #        ttscommit;
+        #    }
+        #    catch (Exception::Error)
+        #    {
+        #        this.InventTransId = '';
+        #    }
+        #}
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

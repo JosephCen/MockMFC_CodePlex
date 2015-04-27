@@ -1,0 +1,157 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : CustomerListGrid unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #CustomerListGrid
+    PROPERTIES
+      Name                #CustomerListGrid
+      HelpText            #@SYS112131
+      Filename            #CustomerListGrid.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CustomerListGrid.ascx.cs" Inherits="CustomerListGrid" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #
+      #
+      #<dynamics:AxDataSource ID="AxDataSource1" runat="server" DataSetName="CustomerMini">
+      #</dynamics:AxDataSource>
+      #<dynamics:AxGridView ID="AxGridView1" runat="server" Width="100%" Height="100%" AllowPaging="True" AutoGenerateColumns="False"
+      #    DataKeyNames="AccountNum" DataMember="CustTable" DataSourceID="AxDataSource1" ShowFilter="True" AllowSorting="true" PageSize="20">
+      #    <Columns>
+      #        <dynamics:AxHyperLinkBoundField DataSet="CustomerMini" MenuItem = "EPCustomerInfo"  SortExpression="AccountNum" 
+      #        DataSetView = "CustTable"  DataField="AccountNum"  HeaderText="<%$ axlabel:@SYS112132 %>">
+      #           <ItemStyle Width="10%" HorizontalAlign="Left" />
+      #           <HeaderStyle HorizontalAlign="Left" Width="10%" />            
+      #        </dynamics:AxHyperLinkBoundField>
+      #        <dynamics:AxBoundField DataField="Name" DataSet="CustomerMini" DataSetView="CustTable"
+      #            SortExpression="Name">
+      #            <ItemStyle Width="20%" HorizontalAlign="Left" />
+      #            <HeaderStyle HorizontalAlign="Left" Width="20%" />            
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="customerGroup**" DataSet="CustomerMini" DataSetView="CustTable" >
+      #            <ItemStyle Width="20%" HorizontalAlign="Left" />
+      #            <HeaderStyle HorizontalAlign="Left" Width="20%" />
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="Currency" DataSet="CustomerMini" DataSetView="CustTable"
+      #            SortExpression="Currency"  >
+      #            <ItemStyle Width="5%" HorizontalAlign="Left" />
+      #            <HeaderStyle HorizontalAlign="Left" Width="5%" />
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="balanceAllCurrency**" DataSet="CustomerMini" DataSetView="CustTable">
+      #            <ItemStyle Width="15%" HorizontalAlign="right" />
+      #            <HeaderStyle HorizontalAlign="Left" Width="15%" />
+      #        </dynamics:AxBoundField>
+      #        
+      #        <dynamics:AxBoundField DataField="echMsgPartnerId" DataSet="CustomerMini" 
+      #            DataSetView="CustTable" SortExpression="echMsgPartnerId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echMsgPartnerExtCode" DataSet="CustomerMini" 
+      #            DataSetView="CustTable" SortExpression="echMsgPartnerExtCode">
+      #        </dynamics:AxBoundField>
+      #        
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #CustomerListGrid_ascx_cs
+      HelpText            #
+      Filename            #CustomerListGrid.ascx.cs
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Web.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class CustomerListGrid : System.Web.UI.UserControl
+      #{
+      #    protected const string EDITCUSTOMER = "customeredit";
+      #    protected const string DELETECUSTOMER = "customeractiondeleteselected";
+      #
+      #    protected void Page_Init(object sender, EventArgs e)
+      #    {
+      #        AxBaseWebPart webpart = AxBaseWebPart.GetWebpart(this);
+      #        if (webpart != null)
+      #        {
+      #            webpart.SetMenuItemProperties += new EventHandler<SetMenuItemPropertiesEventArgs>(webpart_SetToolbarMenuItemProperties);
+      #            webpart.ActionMenuItemClicked += new EventHandler<ActionMenuItemEventArgs>(webpart_ActionMenuItemClicked);
+      #            webpart.ActionMenuItemClicking += new EventHandler<ActionMenuItemClickingEventArgs>(webpart_ActionMenuItemClicking);
+      #        }
+      #    }
+      #
+      #    void webpart_ActionMenuItemClicking(object sender, ActionMenuItemClickingEventArgs e)
+      #    {
+      #        if (e.MenuItem.MenuItemAOTName.ToLower() == DELETECUSTOMER)
+      #        {
+      #            e.RunMenuItem = false;
+      #        }
+      #    }
+      #
+      #    void webpart_ActionMenuItemClicked(object sender, ActionMenuItemEventArgs e)
+      #    {
+      #        if (e.MenuItem.MenuItemAOTName.ToLower() == DELETECUSTOMER)
+      #        {
+      #            try
+      #            {
+      #
+      #                int selectedIndex = this.AxGridView1.SelectedIndex;
+      #                if (selectedIndex != -1)
+      #                {
+      #                    this.AxGridView1.DeleteRow(selectedIndex);
+      #                }
+      #            }
+      #            catch (Exception ex)
+      #            {
+      #                AxExceptionCategory exceptionCategory;
+      #                // This returns true if the exception can be handled here
+      #                if (!AxControlExceptionHandler.TryHandleException(this, ex, out exceptionCategory))
+      #                {
+      #                    // The exception was fatal - in this case we re-throw.
+      #                    throw;
+      #                }
+      #            }
+      #        }
+      #    }
+      #
+      #    void webpart_SetToolbarMenuItemProperties(object sender, SetMenuItemPropertiesEventArgs e)
+      #    {
+      #        switch (e.MenuItem.MenuItemAOTName.ToLower())
+      #        {
+      #            case EDITCUSTOMER:
+      #                e.MenuItem.Hidden = true;
+      #                break;
+      #        }
+      #    }
+      #
+      #    #region OnPreRender
+      #
+      #    protected override void OnPreRender(EventArgs e)
+      #    {
+      #        base.OnPreRender(e);
+      #        //Add style to get 80/20 column widths for the left/right web part zones
+      #        Microsoft.Dynamics.Framework.Portal.UI.StyleRegisterHelper.SetWebPartZoneWidths(this.Page, Unit.Percentage(80), Unit.Percentage(20));
+      #    }
+      #
+      #    #endregion
+      #}
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

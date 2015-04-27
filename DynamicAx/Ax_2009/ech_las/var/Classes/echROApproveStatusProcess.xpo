@@ -1,0 +1,160 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echROApproveStatusProcess unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echROApproveStatusProcess
+    Id 57720
+    PROPERTIES
+      Name                #echROApproveStatusProcess
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #buttonEnabled
+        #void buttonEnabled()
+        #{
+        #    if(salesTableupd.ECHAggStatus == ECHAggStatus::Approved)
+        #    {
+        #        RejectButton.enabled(false);
+        #        ApproveButton.enabled(false);
+        #        //ApproveButton.text("@ECH721");
+        #    }
+        #    else if(salesTableupd.ECHAggStatus == ECHAggStatus::Rejected)
+        #    {
+        #        RejectButton.enabled(false);
+        #        ApproveButton.enabled(false);
+        #        //RejectButton.text("@ECH722");
+        #    }
+        #    else
+        #    {
+        #        //ApproveButton.text("@ECH727");
+        #        //RejectButton.text("@SYS22331");
+        #        if(salesTableupd.ECHAggStatus == ECHAggStatus::Created)
+        #        {
+        #            ApproveButton.enabled(true);
+        #            RejectButton.enabled(true);
+        #        }
+        #        else
+        #        {
+        #            ApproveButton.enabled(false);
+        #            RejectButton.enabled(false);
+        #
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02271 by mengqi.cen on 20130614
+        #//   Fix defect that Return Reason must be given when Approve a Return Order
+        #
+        #// *** ECHINA - Jason.hao.wu ***
+        #// *** Customization Code:
+        #// *** Customization Date: 19 April 2013
+        #// *** Customization Type: created
+        #class echROApproveStatusProcess
+        #{
+        #    FormButtonControl       ApproveButton;
+        #    FormButtonControl       RejectButton;
+        #    SalesTable              salesTableupd;
+        #}
+      ENDSOURCE
+      SOURCE #parmApproveButton
+        #public FormButtonControl parmApproveButton(FormControl _approveButton = approveButton)
+        #{
+        #    ;
+        #    approveButton = _approveButton;
+        #    return approveButton;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRejectButton
+        #public FormControl parmRejectButton(FormControl _rejectButton = rejectButton)
+        #{
+        #    ;
+        #    rejectButton = _rejectButton;
+        #    return rejectButton;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesTable
+        #public SalesTable parmSalesTable(SalesTable _salesTable = salesTableupd)
+        #{
+        #    ;
+        #    salesTableupd = _salesTable;
+        #    return salesTableupd;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #ROApproveStatusProcess
+        #// Update ECH_WI_02271 by mengqi.cen on 20130614
+        #//   Fix defect that Return Reason must be given when Approve a Return Order
+        #// Update ECH_WI_02083 by mengqi.cen on 20130502
+        #void ROApproveStatusProcess(boolean _isApprove)
+        #{
+        #    Dialog              dialog;
+        #    echSalesReasonId    salesReasonId;
+        #    DialogField         fieldSalesReasonId;
+        #    ReturnReasonCodeId  returnReasonId;
+        #    DialogField         fieldReturnReasonId;
+        #    ;
+        #    salesReasonId  = "";
+        #    returnReasonId = "";
+        #    dialog = new Dialog();
+        #
+        #    if(_isApprove)
+        #    {
+        #        dialog.caption("@SYS106030");
+        #        fieldReturnReasonId = dialog.addField(typeid(ReturnReasonCodeId), "@SYS106030");
+        #        dialog.run();
+        #        returnReasonId = fieldReturnReasonId.value();
+        #        if (!(dialog.closedOk() && returnReasonId))
+        #            throw error(strfmt("@SYS115249","@SYS106030"));
+        #    }
+        #    else
+        #    {
+        #        dialog.caption("@SYS116754");
+        #        fieldSalesReasonId = dialog.addField(typeid(echSalesReasonId),"@SYS116754");
+        #        dialog.run();
+        #        salesReasonId = fieldSalesReasonId.value();
+        #        if (!(dialog.closedOk() && salesReasonId))
+        #            throw error(strfmt("@SYS115249","@SYS116754"));
+        #    }
+        #    if(_isApprove || salesReasonId || returnReasonId)
+        #    {
+        #        ttsbegin;
+        #        salesTableupd.selectForUpdate(true);
+        #        if (_isApprove)
+        #        {
+        #            salesTableupd.ReturnReasonCodeId = returnReasonId;
+        #            if (salesTableupd.ECHAggStatus == ECHAggStatus::Created)
+        #                salesTableupd.ECHAggStatus = ECHAggStatus::Approved;
+        #            else
+        #                salesTableupd.ECHAggStatus = ECHAggStatus::Created;
+        #        }
+        #        else
+        #        {
+        #            salesTableupd.echSalesReasonId = salesReasonId;
+        #            if (salesTableupd.ECHAggStatus == ECHAggStatus::Created)
+        #                salesTableupd.ECHAggStatus = ECHAggStatus::Rejected;
+        #            else
+        #                salesTableupd.ECHAggStatus = ECHAggStatus::Created;
+        #        }
+        #
+        #        salesTableupd.doUpdate();
+        #        ttscommit;
+        #
+        #        echUpdateAggStatus::sendOrderToAIF(salesTableupd, AifSendMode::Sync);
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,267 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echStockAllocOverAlloc
+  PROPERTIES
+    Name                #echStockAllocOverAlloc
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #init
+      #public void init()
+      #{
+      #    date   fromDate, toDate;
+      #;
+      #    super();
+      #
+      #    toDate    = systemDateGet();
+      #    fromDate  = mkDate(dayOfMth(toDate),
+      #                       mthOfYr(toDate) - 1,
+      #                       year(toDate));
+      #
+      #    ToDateEdit.dateValue(toDate);
+      #    FromDateEdit.dateValue(fromDate);
+      #}
+    ENDSOURCE
+    SOURCE #queryOverAllocData
+      #echTmpStockAllocOverAlloc queryOverAllocData()
+      #{
+      #    InventDim                  invDimLoc, invDimBar;
+      #    InventCountJour            invCountJour;
+      #    InventItemBarcode          invItemBar;
+      #    echTmpStockAllocOverAlloc  tmpOverAllocResult;
+      #    date                       fromDate, toDate;
+      #;
+      #    fromDate = fromDateEdit.dateValue();
+      #    toDate   = toDateEdit.dateValue();
+      #
+      #    delete_from tmpOverAllocResult;
+      #
+      #    while select ItemId, CountDate, maxof(echOverAllocQty), maxof(echWMSQty)
+      #           from invCountJour
+      #          group by ItemId, CountDate
+      #           where invCountJour.echOverAllocQty > 0
+      #              && invCountJour.CountDate >= fromDate && invCountJour.CountDate <= toDate
+      #                join invDimLoc
+      #                group by configId, InventColorId, InventSizeId
+      #                 where invCountJour.InventDimId == invDimLoc.inventDimId
+      #                     join invDimBar
+      #                     group by InventDimId
+      #                     where invDimBar.configId         == invDimLoc.configId
+      #                        && invDimBar.InventColorId    == invDimLoc.InventColorId
+      #                        && invDimBar.InventSizeId     == invDimLoc.InventSizeId
+      #                        && invDimBar.InventLocationId == ''
+      #                          join invItemBar
+      #                          group by itemBarCode, echItemBarCode
+      #                          where invItemBar.itemId      == invCountJour.ItemId
+      #                             && invItemBar.inventDimId == invDimBar.inventDimId
+      #    {
+      #        tmpOverAllocResult.clear();
+      #        tmpOverAllocResult.initValue();
+      #
+      #        tmpOverAllocResult.itemId          = invCountJour.ItemId;
+      #        tmpOverAllocResult.CountDate       = invCountJour.CountDate;
+      #        tmpOverAllocResult.echOverAllocQty = invCountJour.echOverAllocQty;
+      #        tmpOverAllocResult.echWMSQty       = invCountJour.echWMSQty;
+      #        tmpOverAllocResult.inventDimId     = invDimBar.inventDimId;
+      #        tmpOverAllocResult.itemBarCode     = invItemBar.itemBarCode;
+      #        tmpOverAllocResult.echItemBarCode  = invItemBar.echItemBarCode;
+      #
+      #        tmpOverAllocResult.insert();
+      #    }
+      #
+      #    return tmpOverAllocResult;
+      #}
+    ENDSOURCE
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echTmpStockAllocOverAlloc
+          Table               #echTmpStockAllocOverAlloc
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #;
+          #    echTmpStockAllocOverAlloc.setTmpData(element.queryOverAllocData());
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH768
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GROUP
+        PROPERTIES
+          Name                #QueryCriteria
+          FrameType           #Raised 3D
+          ArrangeMethod       #Horizontal, flush right
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL DATEEDIT
+              PROPERTIES
+                Name                #FromDateEdit
+                AutoDeclaration     #Yes
+                Label               #@SYS4083
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL DATEEDIT
+              PROPERTIES
+                Name                #ToDateEdit
+                AutoDeclaration     #Yes
+                Label               #@SYS53942
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL BUTTON
+              PROPERTIES
+                Name                #QueryButton
+                Text                #@SYS25531
+              ENDPROPERTIES
+              
+              METHODS
+                Version: 3
+                SOURCE #clicked
+                  #void clicked()
+                  #{
+                  #    date   fromDate, toDate;
+                  #;
+                  #    fromDate = fromDateEdit.dateValue();
+                  #    toDate   = toDateEdit.dateValue();
+                  #
+                  #    if (fromDate > toDate)
+                  #    {
+                  #        error("@SYS120590");
+                  #    }
+                  #    else
+                  #    {
+                  #        echTmpStockAllocOverAlloc_DS.executeQuery();
+                  #    }
+                  #}
+                ENDSOURCE
+              ENDMETHODS
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #QueryResult
+          Width               #Column width
+          Height              #Column height
+          FrameType           #None
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL GRID
+              PROPERTIES
+                Name                #Grid
+                Width               #Column width
+                Height              #Column height
+                DataSource          #echTmpStockAllocOverAlloc
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL DATEEDIT
+                    PROPERTIES
+                      Name                #Grid_CountDate
+                      DataSource          #echTmpStockAllocOverAlloc
+                      DataField           #CountDate
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #Grid_itemId
+                      DataSource          #echTmpStockAllocOverAlloc
+                      DataField           #itemId
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #Grid_itemBarCode
+                      DataSource          #echTmpStockAllocOverAlloc
+                      DataField           #itemBarCode
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL REALEDIT
+                    PROPERTIES
+                      Name                #Grid_echOverAllocQty
+                      DataSource          #echTmpStockAllocOverAlloc
+                      DataField           #echOverAllocQty
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL REALEDIT
+                    PROPERTIES
+                      Name                #Grid_echWMSQty
+                      DataSource          #echTmpStockAllocOverAlloc
+                      DataField           #echWMSQty
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

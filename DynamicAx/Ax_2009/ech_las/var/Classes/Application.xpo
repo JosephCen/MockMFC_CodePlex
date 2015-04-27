@@ -1,0 +1,60 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: Application unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #Application
+    Id 61441
+    PROPERTIES
+      Name                #Application
+      Extends             #xApplication
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #eventUpdate
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 02 Jul 2012
+        #// *** Customization Type: modified
+        #// *** Description: process custom eventupdate
+        #
+        #/// <summary>
+        #///    Serves as a callback that is called by the kernel when a record in a table is updated, provided that the kernel has been set up to monitor records in that table.
+        #/// </summary>
+        #/// <param name="_recordOrig">
+        #///    The original record, prior to the update.
+        #/// </param>
+        #/// <param name="_recordUpdated">
+        #///    The updated record.
+        #/// </param>
+        #/// <param name="_changedFields">
+        #///    A container of all changed fields.
+        #/// </param>
+        #/// <remarks>
+        #///    A developer can set up the kernel to call back on updates for a given table by inserting a record into the DatabaseLog kernel table with all fields set to relevant values, which includes the field
+        #///    logType set to EventUpdate. It is possible to set up that the kernel should call back whenever a record is updated or when a specific field is updated.
+        #///    This is very similar to how <c>logUpdate</c>
+        #///    is called and set up.
+        #///    The call of this method will be within the transaction in which the record is updated.
+        #/// </remarks>
+        #public void eventUpdate(Common _recordOrig, Common _recordUpdated, container _changedFields)
+        #{
+        #    super(_recordOrig, _recordUpdated, _changedFields);
+        #
+        #    this.createEventCUD(_recordUpdated,EventLogType::Update,_changedFields,_recordOrig);
+        #
+        #// CS - ECH_WI_00798 - Anthony Christiaens - 02 Jul 2012
+        #    echEventCudManager::eventUpdate(_recordOrig, _recordUpdated, _changedFields);
+        #// CE - ECH_WI_00798 - Anthony Christiaens - 02 Jul 2012
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

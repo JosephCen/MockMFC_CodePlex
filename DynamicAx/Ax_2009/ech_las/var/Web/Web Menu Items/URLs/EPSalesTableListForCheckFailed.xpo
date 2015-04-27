@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : EPSalesTableListForCheckFailed unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #EPSalesTableListForCheckFailed
+    PROPERTIES
+      Name                #EPSalesTableListForCheckFailed
+      Label               #@ECH683
+      HelpText            #@ECH684
+      URL                 #Sales/Enterprise%20Portal/EPSalesTableListForCheckFailed.aspx
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+      SecurityKey         #EPSalesRepInfo
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

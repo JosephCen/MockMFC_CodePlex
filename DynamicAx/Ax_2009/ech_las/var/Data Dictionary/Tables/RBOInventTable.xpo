@@ -1,0 +1,186 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : RBOInventTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #RBOInventTable
+    Id 17294
+    PROPERTIES
+      Name                #RBOInventTable
+      Label               #@SYS13654
+      FormRef             #RBOInventTable
+      TitleField1         #itemId
+      TitleField2         #itemType
+      ConfigurationKey    #RetailHeadquarters
+      SecurityKey         #RBOTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Main
+      PrimaryIndex        #itemIdx
+      ClusterIndex        #itemIdx
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #POSInventItemTxt
+      PROPERTIES
+        Table               #POSInventItemTxt
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInfocodeTableSpecific
+      PROPERTIES
+        Table               #RBOInfocodeTableSpecific
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInventStyle
+      PROPERTIES
+        Table               #RBOInventStyle
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventColor
+      PROPERTIES
+        Table               #InventColor
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventSize
+      PROPERTIES
+        Table               #InventSize
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInventItemLabelSetup
+      PROPERTIES
+        Table               #RBOInventItemLabelSetup
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInventItemActivityTrans
+      PROPERTIES
+        Table               #RBOInventItemActivityTrans
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInventItemSectionLocation
+      PROPERTIES
+        Table               #RBOInventItemSectionLocation
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInventItemStoreOrderingInfo
+      PROPERTIES
+        Table               #RBOInventItemStoreOrderingInfo
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOCompetitorPriceTable
+      PROPERTIES
+        Table               #RBOCompetitorPriceTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventItemBarcode
+      PROPERTIES
+        Table               #InventItemBarcode
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOInventLinkedItem
+      PROPERTIES
+        Table               #RBOInventLinkedItem
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #RBOMixAndMatchLine
+      PROPERTIES
+        Table               #RBOMixAndMatchLine
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #validateField
+        #// Update ECH_WI_01957 by mengqi.cen on 20130109
+        #//     Remove the check for 'SeasonCode' from this method.
+        #public boolean validateField(fieldId _fieldIdToCheck)
+        #{
+        #    boolean ret;
+        #;
+        #    ret = super(_fieldIdToCheck);
+        #
+        #    switch (fieldExt2Id(_fieldIdToCheck))
+        #    {
+        #        case fieldnum(RBOInventTable, sizeGroup):
+        #        {
+        #            ret = this.validateSizeGroup();
+        #            break;
+        #        }
+        #        case fieldnum(RBOInventTable, colorGroup):
+        #        {
+        #            ret = this.validateColorGroup();
+        #            break;
+        #        }
+        #        case fieldnum(RBOInventTable, styleGroup):
+        #        {
+        #            ret = this.validateStyleGroup();
+        #            break;
+        #        }
+        #        case fieldnum(RBOInventTable, blockedOnPos):
+        #        {
+        #            ret = this.validateBlockedOnPos();
+        #            break;
+        #        }
+        #        case fieldnum(RBOInventTable, dateToBeBlocked):
+        #        {
+        #            ret = this.validateDateToBeBlocked();
+        #            break;
+        #        }
+        #        case fieldnum(RBOInventTable, scaleItem):
+        #        {
+        #            ret = this.validateScaleItem();
+        #            break;
+        #        }
+        #        case fieldnum(RBOInventTable, noDiscountAllowed):
+        #        {
+        #            ret = this.validateNoDiscountAllowed();
+        #            break;
+        #        }
+        #        case fieldnum(RBOInventTable, seasonCode):
+        #        {
+        #            // Begin - Update ECH_WI_01957 by mengqi.cen on 20130109
+        #            // ret = this.validateSeasonCode();
+        #            // End - Update ECH_WI_01957 by mengqi.cen on 20130109
+        #            break;
+        #        }
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

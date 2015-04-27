@@ -1,0 +1,101 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventSum unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventSum
+    Id 2903
+    PROPERTIES
+      Name                #AxInventSum
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmEchExtItemId
+        #// Update ECH_WI_02272 by mengqi.cen on 20130615
+        #// Create ECH_WI_01985 by mengqi.cen on 20130305
+        #public ExtCodeValue parmEchExtItemId(ExtCodeValue _extCodeValue = '')
+        #{
+        #;
+        #
+        #    return echExternalSkuId::findBarCode(
+        #                                    InventSum.inventDim().InventLocationId,
+        #                                    this.parmEchSkuId()).ExtItemId;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the external SKU ID
+        #
+        #public extCodeValue parmEchExtSkuId(extCodeValue _echExtSkuId = '')
+        #{
+        #    ;
+        #
+        #    return echExternalSkuId::GetExternalSkuId(
+        #        InventDim::find(this.parmInventDimId()).InventLocationId,
+        #        this.parmEchSkuId());
+        #}
+      ENDSOURCE
+      SOURCE #parmEchLastAvailPhysical
+        #// Add ECH_WI_02230 by mengqi.cen on 20130605
+        #public echInventQtyLastAvailPhysical parmEchLastAvailPhysical(echInventQtyLastAvailPhysical _echLastAvailPhysical = 0)
+        #{
+        #    if (!prmisdefault(_echLastAvailPhysical))
+        #    {
+        #        this.setField(fieldnum(InventSum, echLastAvailPhysical), _echLastAvailPhysical);
+        #    }
+        #
+        #    return inventSum.echLastAvailPhysical;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00103
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: different implementation
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN02_1
+        #// *** Customization Date: 26 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: return sku id
+        #
+        #public echSkuId parmEchSkuId(echSkuId _echSkuId = '')
+        #{
+        #    ;
+        #
+        #    return inventItemBarcode::findSkuId(this.parmItemId(), this.parmInventDimId());
+        #}
+      ENDSOURCE
+      SOURCE #parmEchVirtualStock
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN02_1
+        #// *** Customization Date: 26 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: return virtual stock
+        #
+        #public echVirtualStock parmEchVirtualStock(echVirtualStock _echVirtualStock = 0)
+        #{
+        #    ItemGroupId     itemGroupId = (select ItemGroupId from InventTable where InventTable.ItemId == this.parmItemId()).ItemGroupId;
+        #    int             availPhysical = this.parmAvailPhysical() DIV 1;
+        #    ;
+        #
+        #    return availPhysical + echStockAllocationRule::findRuleVirtualStock(this.parmItemId(),
+        #                                                                       itemGroupId,
+        #                                                                       InventDim::find(this.parmInventDimId()));
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

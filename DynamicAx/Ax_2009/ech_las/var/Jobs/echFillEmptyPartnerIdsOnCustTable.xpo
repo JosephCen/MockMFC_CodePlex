@@ -1,0 +1,32 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: echFillEmptyPartnerIdsOnCustTable unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #echFillEmptyPartnerIdsOnCustTable
+    #// *** ECHINA - Anthony Christiaens ***
+    #// *** Customization Code: ECH_I_CU01
+    #// *** Customization Date: 08 Mar 2012
+    #// *** Customization Type: modified
+    #// *** Description: fill in messaging partner ids on custTable where empty to comply with the unique index
+    #
+    #static void echFillEmptyPartnerIdsOnCustTable(Args _args)
+    #{
+    #    CustTable   custTable;
+    #    ;
+    #
+    #    ttsbegin;
+    #    while select forupdate custTable
+    #    {
+    #        custTable.echMsgPartnerExtCode = int642str(custTable.RecId);
+    #        custTable.update();
+    #    }
+    #    ttscommit;
+    #}
+  ENDSOURCE
+
+***Element: END

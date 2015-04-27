@@ -1,0 +1,149 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echPromotionsHeader unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echPromotionsHeader
+    PROPERTIES
+      Name                #echPromotionsHeader
+      HelpText            #
+      Filename            #echPromotionsHeader.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echPromotionsHeader.ascx.cs" Inherits="echPromotionsHeader" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="echPromotionsHeaderDS" runat="server" 
+      #    DataSetName="echSOPromotionsHeader" ProviderView="echSOPromotionsHeader">
+      #</dynamics:AxDataSource> 
+      #<dynamics:AxGridView ID="echPromotionsHeaderGrid" runat="server" 
+      #    AllowDelete="True" AllowEdit="True" DataKeyNames="RecId" 
+      #    DataMember="echSOPromotionsHeader" 
+      #    DataSourceID="echPromotionsHeaderDS" 
+      #    EnableSortingAndPagingCallbacks="True">
+      #    <Columns>
+      #        <dynamics:AxBoundField DataField="PromotionId" DataSet="echSOPromotionsHeader" 
+      #            DataSetView="echSOPromotionsHeader" SortExpression="PromotionId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="PromotionDesc" 
+      #            DataSet="echSOPromotionsHeader" DataSetView="echSOPromotionsHeader" 
+      #            SortExpression="PromotionDesc">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="Percentage" DataSet="echSOPromotionsHeader" 
+      #            DataSetView="echSOPromotionsHeader" SortExpression="Percentage">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="Amount" DataSet="echSOPromotionsHeader" 
+      #            DataSetView="echSOPromotionsHeader" SortExpression="Amount">
+      #        </dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #
+      #
+      #
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echPromotionsHeader_ascx_cs
+      HelpText            #
+      Filename            #echPromotionsHeader.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Proxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #using AppProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.Portal.UI;
+      #
+      #public partial class echPromotionsHeader : System.Web.UI.UserControl
+      #{
+      #    //Web part session
+      #    ISession AxSession
+      #    {
+      #        get
+      #        {
+      #            //get the current webpart session
+      #            return this.BaseWebpart == null ? null : this.BaseWebpart.Session;
+      #        }
+      #    }
+      #
+      #    //Web part private
+      #    AxBaseWebPart _baseWebpart = null;
+      #
+      #    //Web part 
+      #    AxBaseWebPart BaseWebpart
+      #    {
+      #        get
+      #        {
+      #            //return the basewebpart if it is not null
+      #            if (this._baseWebpart != null)
+      #                return this._baseWebpart;
+      #            //get the webpart if basewebpart is null
+      #            this._baseWebpart = AxBaseWebPart.GetWebpart(this);
+      #            return this._baseWebpart;
+      #        }
+      #    }
+      #
+      #    private AxBaseWebPart WebPart
+      #    {
+      #        get { return AxBaseWebPart.GetWebpart(this); }
+      #    }
+      #
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #        if (this.WebPart != null)
+      #        {
+      #            this.WebPart.ActionMenuItemClicked += new EventHandler<ActionMenuItemEventArgs>(WebPart_ActionMenuItemClicked);
+      #            this.WebPart.ActionMenuItemClicking += new EventHandler<ActionMenuItemClickingEventArgs>(WebPart_ActionMenuItemClicking);
+      #        }
+      #    }
+      #
+      #    void WebPart_ActionMenuItemClicked(object sender, ActionMenuItemEventArgs e)
+      #    {
+      #        switch (e.MenuItem.MenuItemAOTName.ToLower())
+      #        {
+      #            case "echnewpromotion":
+      #                this.echPromotionsHeaderDS.GetDataSet().DataSetViews[this.echPromotionsHeaderGrid.DataMember].AddNew();
+      #                break;
+      #        }
+      #    }
+      #
+      #    void WebPart_ActionMenuItemClicking(object sender, ActionMenuItemClickingEventArgs e)
+      #    {
+      #        switch (e.MenuItem.MenuItemAOTName.ToLower())
+      #        {
+      #            case "echnewpromotion":
+      #                e.RunMenuItem = false;
+      #                break;
+      #        }
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

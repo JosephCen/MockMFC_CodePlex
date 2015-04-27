@@ -1,0 +1,324 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechItemAttributes unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechItemAttributes
+    Id 30123
+    PROPERTIES
+      Name                #AxechItemAttributes
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechItemAttributes axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechItemAttributes extends AxInternalBase
+        #{
+        #    echItemAttributes echItemAttributes;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echItemAttributes currentRecord(echItemAttributes _echItemAttributes = echItemAttributes)
+        #{
+        #    if (!prmisdefault(_echItemAttributes))
+        #    {
+        #        super(_echItemAttributes);
+        #        echItemAttributes = _echItemAttributes;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echItemAttributes;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echItemAttributes
+        #public echItemAttributes echItemAttributes(echItemAttributes _echItemAttributes = echItemAttributes)
+        #{
+        #    if (!prmisdefault(_echItemAttributes))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echItemAttributes);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echItemAttributes emptyRecord()
+        #{
+        #    echItemAttributes localechItemAttributes;
+        #    ;
+        #    return localechItemAttributes;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAttributeDesc
+        #public echAttributeDesc parmAttributeDesc(echAttributeDesc _attributeDesc = '')
+        #{
+        #    if (!prmisdefault(_attributeDesc))
+        #    {
+        #        this.setField(fieldNum(echItemAttributes, AttributeDesc), _attributeDesc);
+        #    }
+        #
+        #    return echItemAttributes.AttributeDesc;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAttributeId
+        #public echAttributeId parmAttributeId(echAttributeId _attributeId = '')
+        #{
+        #    if (!prmisdefault(_attributeId))
+        #    {
+        #        this.setField(fieldNum(echItemAttributes, AttributeId), _attributeId);
+        #    }
+        #
+        #    return echItemAttributes.AttributeId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAttributeName
+        #public echAttributeName parmAttributeName(echAttributeName _attributeName = '')
+        #{
+        #    if (!prmisdefault(_attributeName))
+        #    {
+        #        this.setField(fieldNum(echItemAttributes, AttributeName), _attributeName);
+        #    }
+        #
+        #    return echItemAttributes.AttributeName;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAttributeValue
+        #public echAttributeValue parmAttributeValue(echAttributeValue _attributeValue = '')
+        #{
+        #    if (!prmisdefault(_attributeValue))
+        #    {
+        #        this.setField(fieldNum(echItemAttributes, AttributeValue), _attributeValue);
+        #    }
+        #
+        #    return echItemAttributes.AttributeValue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public ItemId parmItemId(ItemId _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(echItemAttributes),fieldnum(echItemAttributes,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(echItemAttributes, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axSalesItemId('', echItemAttributes.ItemId,InventDim::findOrCreateBlank()),1);
+        #    }
+        #    else
+        #    {
+        #        return echItemAttributes.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmMandatory
+        #public NoYes parmMandatory(NoYes _mandatory = NoYes::No)
+        #{
+        #    if (!prmisdefault(_mandatory))
+        #    {
+        #        this.setField(fieldNum(echItemAttributes, Mandatory), _mandatory);
+        #    }
+        #
+        #    return echItemAttributes.Mandatory;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmUnitID
+        #public UnitId parmUnitID(UnitId _unitID = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_unitID))
+        #    {
+        #        dictField = new DictField(tablenum(echItemAttributes),fieldnum(echItemAttributes,UnitID));
+        #        if(this.valueMappingInbound())
+        #        {
+        #            this.validateInboundString(_unitID,dictField,this.mapPolicy().xMLMapUnitId());
+        #            _unitID = this.axUnitId(_unitID);
+        #        }
+        #        else
+        #        {
+        #            this.validateInboundString(_unitID,dictField);
+        #        }
+        #        this.setField(fieldNum(echItemAttributes, UnitID), _unitID);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return this.axUnitId(echItemAttributes.UnitID);
+        #    }
+        #    else
+        #    {
+        #        return echItemAttributes.UnitID;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmVisible
+        #public NoYes parmVisible(NoYes _visible = NoYes::No)
+        #{
+        #    if (!prmisdefault(_visible))
+        #    {
+        #        this.setField(fieldNum(echItemAttributes, Visible), _visible);
+        #    }
+        #
+        #    return echItemAttributes.Visible;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAttributeDesc
+        #protected void setAttributeDesc()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, AttributeDesc)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAttributeId
+        #protected void setAttributeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, AttributeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAttributeName
+        #protected void setAttributeName()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, AttributeName)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAttributeValue
+        #protected void setAttributeValue()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, AttributeValue)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setMandatory
+        #protected void setMandatory()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, Mandatory)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setItemId();
+        #    this.setUnitID();
+        #    this.setMandatory();
+        #    this.setVisible();
+        #    this.setAttributeId();
+        #    this.setAttributeName();
+        #    this.setAttributeDesc();
+        #    this.setAttributeValue();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setUnitID
+        #protected void setUnitID()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, UnitID)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setVisible
+        #protected void setVisible()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemAttributes, Visible)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechItemAttributes construct()
+        #{
+        #    return new AxechItemAttributes();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechItemAttributes
+        #public static AxechItemAttributes newechItemAttributes(echItemAttributes _echItemAttributes)
+        #{
+        #    AxechItemAttributes AxechItemAttributes = AxechItemAttributes::construct();
+        #    ;
+        #    AxechItemAttributes.echItemAttributes(_echItemAttributes);
+        #
+        #    return AxechItemAttributes;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

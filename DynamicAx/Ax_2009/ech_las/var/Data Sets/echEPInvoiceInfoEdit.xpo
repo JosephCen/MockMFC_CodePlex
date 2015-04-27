@@ -1,0 +1,96 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echEPInvoiceInfoEdit
+  PROPERTIES
+    Name                #echEPInvoiceInfoEdit
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+    SOURCE #setInvoiceRequested
+      #void setInvoiceRequested(SalesId _salesId)
+      #{
+      #    SalesTable  salesTableIR;
+      #    ;
+      #    ttsbegin;
+      #    select forupdate salesTableIR
+      #        where salesTableIR.SalesId == _salesId;
+      #    salesTableIR.echInvoiceRequested = NOYes::Yes;
+      #    salesTableIR.update();
+      #    ttscommit;
+      #}
+    ENDSOURCE
+    SOURCE #echVATFieldEmpty
+      #void echVATFieldEmpty(SalesId _salesId)
+      #{
+      #    salesTable m_SalesTable;
+      #    ;
+      #    ttsbegin;
+      #    select forupdate m_SalesTable
+      #        where m_SalesTable.SalesId ==_salesId;
+      #        if(m_SalesTable.echInvoiceType == echInvoiceType::Normal)
+      #        {
+      #        m_SalesTable.echInvoiceTaxPayerIdNumber = "";
+      #        m_SalesTable.echInvoiceBankAccountNumber = "";
+      #        m_SalesTable.echInvoiceDepositBank = "";
+      #        m_SalesTable.echInvoiceRegisteredAddress = "";
+      #        m_SalesTable.echInvoiceRegisteredPhoneNumber = "";
+      #        }
+      #    m_SalesTable.update();
+      #    ttscommit;
+      #}
+    ENDSOURCE
+    SOURCE #modifySalesOrder
+      #Public boolean modifySalesOrder()
+      #{
+      #    ;
+      #    try
+      #    {
+      #        EP::modifySalesOrder(salesTable);
+      #
+      #    }
+      #    catch(Exception::Error)
+      #    {
+      #        return false;
+      #    }
+      #    return true;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

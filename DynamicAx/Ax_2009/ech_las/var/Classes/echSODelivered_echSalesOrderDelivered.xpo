@@ -1,0 +1,162 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSODelivered_echSalesOrderDelivered unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSODelivered_echSalesOrderDelivered
+    Id 30218
+    PROPERTIES
+      Name                #echSODelivered_echSalesOrderDelivered
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echSODelivered_echSalesOrderDelivered extends AfStronglyTypedDataContainer
+        #{
+        #    #define.echSignPerson('echSignPerson')
+        #    #define.echSignDate('echSignDate')
+        #    #define.echDeliveryNote('echDeliveryNote')
+        #    #define.SalesId('SalesId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #exists_DocumentHash
+        #public boolean exists_DocumentHash()
+        #{
+        #    return this.exists(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #existsechDeliveryNote
+        #public boolean existsechDeliveryNote()
+        #{
+        #    return this.exists(#echDeliveryNote);
+        #}
+      ENDSOURCE
+      SOURCE #existsechSignDate
+        #public boolean existsechSignDate()
+        #{
+        #    return this.exists(#echSignDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsechSignPerson
+        #public boolean existsechSignPerson()
+        #{
+        #    return this.exists(#echSignPerson);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsSalesId
+        #public boolean existsSalesId()
+        #{
+        #    return this.exists(#SalesId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echSalesOrderDelivered_echSalesOrderDelivered);
+        #}
+      ENDSOURCE
+      SOURCE #parm_DocumentHash
+        #public str parm_DocumentHash(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#_DocumentHash, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#_DocumentHash);
+        #}
+      ENDSOURCE
+      SOURCE #parmechDeliveryNote
+        #public echDeliveryNote parmechDeliveryNote(echDeliveryNote _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echDeliveryNote, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echDeliveryNote);
+        #}
+      ENDSOURCE
+      SOURCE #parmechSignDate
+        #public echSignDate parmechSignDate(echSignDate _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echSignDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echSignDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmechSignPerson
+        #public echSignPerson parmechSignPerson(echSignPerson _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echSignPerson, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echSignPerson);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesIdBase parmSalesId(SalesIdBase _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SalesId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SalesId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

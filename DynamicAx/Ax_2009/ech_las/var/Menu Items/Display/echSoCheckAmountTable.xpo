@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSoCheckAmountTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSoCheckAmountTable
+    Type: 1
+    PROPERTIES
+      Name                #echSoCheckAmountTable
+      Label               #@ECH162
+      HelpText            #@ECH163
+      Object              #echSoCheckAmountTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

@@ -1,0 +1,276 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echFindSalesOrderLines
+  PROPERTIES
+    Name                #echFindSalesOrderLines
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    Map                     selectedLines;
+      #    Map                     creditNoteReturnRemainder;
+      #    SalesPurchCopy          salesPurchCopy;
+      #    Qty                     qtyTotalInvoiced;
+      #    Qty                     lastReturnQtyChecked;
+      #    TmpFrmVirtual           tmpFrmVirtualLines;
+      #}
+    ENDSOURCE
+    SOURCE #writeTmpFrmVirtual
+      #void writeTmpFrmVirtual(TmpFrmVirtual _tmpFrmVirtual, tableId _tableId, recId _recId, Num _id, LineNum _lineNum = 0, TransDate _transDate = systemdateget(), Qty _qty = 0)
+      #{
+      #    _tmpFrmVirtual.TableNum     = _tableId;
+      #    _tmpFrmVirtual.RecordNo     = _recId;
+      #    _tmpFrmVirtual.Id           = _id;
+      #    _tmpFrmVirtual.LineNum      = _lineNum;
+      #    _tmpFrmVirtual.TransDate    = _transDate;
+      #    _tmpFrmVirtual.Qty          = _qty;
+      #
+      #    _tmpFrmVirtual.write();
+      #}
+    ENDSOURCE
+    SOURCE #findTmpFrmVirtual
+      #void findTmpFrmVirtual(TmpFrmVirtual _tmpFrmVirtual, tableId _tableId, recId _recId)
+      #{
+      #    select _tmpFrmVirtual
+      #        where _tmpFrmVirtual.TableNum   == _tableId &&
+      #              _tmpFrmVirtual.RecordNo   == _recId;
+      #}
+    ENDSOURCE
+    SOURCE #selectedLines
+      #public map selectedLines()
+      #{
+      #    if (!selectedLines)
+      #        selectedLines = new Map(Types::Int64,Types::Enum);
+      #
+      #    return selectedLines;
+      #}
+    ENDSOURCE
+    SOURCE #editQty
+      #Qty editQty(boolean         _set,
+      #            Common          _line,
+      #            Num             _id,
+      #            LineNum         _lineNum,
+      #            TransDate       _transDate,
+      #            Qty             _origQty,
+      #            Qty             _qty,
+      #            FormDataSource  _lineDataSource,
+      #            UnitID          _unitID)
+      #{
+      #    Object  lineDataSource = _lineDataSource;
+      #    Qty     qty;
+      #    ;
+      #
+      #    _qty = decround( _qty,Unit::decimals(_unitID));
+      #
+      #    element.findTmpFrmVirtual(tmpFrmVirtualLines, _line.TableId, _line.RecId);
+      #
+      #    if (tmpFrmVirtualLines)
+      #    {
+      #        qty = tmpFrmVirtualLines.Qty;
+      #    }
+      #    else
+      #    {
+      #        qty = _origQty;
+      #
+      #    }
+      #
+      #    if (_set)
+      #    {
+      #        if (!tmpFrmVirtualLines)
+      #        {
+      #            lineDataSource.copy(true, _line, true);
+      #        }
+      #
+      #        qty = _qty;
+      #
+      #        element.writeTmpFrmVirtual(tmpFrmVirtualLines,
+      #                                   _line.TableId,
+      #                                   _line.RecId,
+      #                                   _id,
+      #                                   _lineNum,
+      #                                   _transDate,
+      #                                   qty);
+      #    }
+      #
+      #    return qty;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #CustInvoiceTrans
+          Table               #CustInvoiceTrans
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateReturnQty
+          #/// <summary>
+          #/// Checks if the suggested return qunatity exceeds the total invoiced quantity for the order line in question.
+          #/// </summary>
+          #/// <param name="_totalInvoiced">
+          #/// A Qty type holding the total invoiced quantity for the order line.
+          #/// </param>
+          #/// <param name="_qtyAlreadyReturned">
+          #/// A Qty type holding the already credited quantity for the order line.
+          #/// </param>
+          #/// <param name="_qtySelectForReturn">
+          #/// A Qty type holding the quantity available for crediting for the order line.
+          #/// </param>
+          #void validateReturnQty(
+          #    Qty _totalInvoiced,
+          #    Qty _qtyAlreadyReturned,
+          #    Qty _qtySelectForReturn)
+          #{
+          #    Qty qtyLeftToReturn = _totalInvoiced - _qtyAlreadyReturned;
+          #
+          #    if (lastReturnQtyChecked != _qtySelectForReturn
+          #        && ((qtyLeftToReturn <= 0 && _qtySelectForReturn < qtyLeftToReturn)
+          #        || (qtyLeftToReturn >= 0 && _qtySelectForReturn > qtyLeftToReturn)
+          #        || (qtyLeftToReturn < 0 && _qtySelectForReturn > 0)
+          #        || (qtyLeftToReturn > 0 && _qtySelectForReturn < 0)))
+          #    {
+          #        lastReturnQtyChecked = _qtySelectForReturn;
+          #        // You are about to credit a quantity that is greater than the quantity available for crediting.
+          #         warning("@SYP2493");
+          #         //The total invoiced quantity for the order: %1.
+          #         info(strfmt("@SYP2494", _totalInvoiced));
+          #         //The quantity already credited: %1.
+          #         info(strfmt("@SYP2495", _qtyAlreadyReturned));
+          #         //The quantity available for crediting: %1."
+          #         info(strfmt("@SYP2496", qtyLeftToReturn));
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #upDateRemainderCache
+          #void upDateRemainderCache(CustInvoiceTrans _custInvoiceTrans)
+          #{
+          #    SalesQty qty;
+          #    InventTable inventTable = InventTable::find(_custInvoiceTrans.ItemId);
+          #    ;
+          #
+          #    if (!creditNoteReturnRemainder.exists(_custInvoiceTrans.RecId))
+          #    {
+          #        qty = UnitConvert::qty(SalesLine::remainReturnLotQtyAllCreditNote(_custInvoiceTrans.InventTransId, _custInvoiceTrans.ItemId),
+          #                               inventTable.inventUnitId(),
+          #                               _custInvoiceTrans.SalesUnit,
+          #                               _custInvoiceTrans.ItemId);
+          #
+          #        creditNoteReturnRemainder.insert(_custInvoiceTrans.RecId, qty);
+          #    }
+          #}
+          #
+          #
+          #
+          #
+        ENDSOURCE
+        SOURCE #salesTable
+          #SalesTable salesTable()
+          #{
+          #    ;
+          #    return salesTable::find(custInvoiceTrans.SalesId);
+          #}
+        ENDSOURCE
+        SOURCE #qty
+          #//BP Deviation documented
+          #edit SalesInvoicedQty qty(boolean _set, CustInvoiceTrans _custInvoiceTrans, SalesQty _qty)
+          #{
+          #    Qty                 qty = _custInvoiceTrans.Qty;
+          #
+          #    if (this.salesTable().returnItem() || salesPurchCopy == SalesPurchCopy::CreditNoteHeader || salesPurchCopy == SalesPurchCopy::CreditNoteLines)
+          #    {
+          #        if (_set)
+          #        {
+          #            //If a SO (with positive qty) is returned or credited, the returned/credited qty must not be zero or negative.
+          #            //And the other way arround; If a SO (with negative qty) is returned/credited the qty must zero or positive.
+          #            if ((qty >= 0 && _qty <= 0) || (qty <= 0 && _qty >= 0))
+          #            {
+          #                _set = false;
+          #
+          #                // Expected return quantity must not be zero
+          #                error("@SYS105646");
+          #            }
+          #            else // A credited/returned (positive or negative)qty; A warning is launched if the qty from original SO is to be exceeded.
+          #            {
+          #                this.upDateRemainderCache(_custInvoiceTrans);
+          #                this.validateReturnQty(qtyTotalInvoiced, creditNoteReturnRemainder.lookup(_custInvoiceTrans.RecId), _qty);
+          #            }
+          #        }
+          #    }
+          #
+          #
+          #    qty = element.editQty(_set,
+          #                          _custInvoiceTrans,
+          #                          _custInvoiceTrans.InvoiceId,
+          #                          _custInvoiceTrans.LineNum,
+          #                          _custInvoiceTrans.InvoiceDate,
+          #                          qty,
+          #                          _qty,
+          #                          custInvoiceTrans_ds,
+          #                          _custInvoiceTrans.SalesUnit);
+          #
+          #    return qty;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #checkedLine
+          #// *** ECHINA - Abdessamad Almask ***
+          #// *** Customization Code: ECH_E_007
+          #// *** Customization Date: 23 Apr 2012
+          #// *** Customization Type: creation
+          #// *** Description: edit method
+          #
+          # //BP Deviation documented
+          #edit NoYes checkedLine(boolean _set, CustInvoiceJour _line, NoYes _newValue)
+          #{
+          #    if (_set)
+          #    {
+          #        if (_newValue == NoYes::Yes && element.selectedLines().exists(_line.RecId) == false)
+          #        {
+          #                element.selectedLines().insert( _line.RecId, NoYes::Yes );
+          #        }
+          #        if (_newValue == NoYes::No && element.selectedLines().exists(_line.RecId))
+          #        {
+          #            element.selectedLines().remove( _line.RecId );
+          #        }
+          #    }
+          #    return element.selectedLines().exists( _line.RecId);
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    super();
+          #    selectedLines = null;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

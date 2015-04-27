@@ -1,0 +1,58 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echStockMovementService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echStockMovementService
+    Id 30228
+    PROPERTIES
+      Name                #echStockMovementService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchStockMovementService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #create
+        #
+        #public AifEntityKeyList create(echStockMovement _echStockMovement)
+        #{
+        #    return this.createList(_echStockMovement);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #read
+        #public echStockMovement read(AifEntityKeyList _entityKeyList)
+        #{
+        #    echStockMovement echStockMovement = new echStockMovement();
+        #    this.readList(_entityKeyList, echStockMovement);
+        #    return echStockMovement;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echStockMovementService construct()
+        #{
+        #    return new echStockMovementService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,95 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSalesFormLetter_PickingList unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSalesFormLetter_PickingList
+    Id 30012
+    PROPERTIES
+      Name                #echSalesFormLetter_PickingList
+      Extends             #SalesFormLetter_PickingList
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: extended class of salesFormLetter_PickingList
+        #
+        #class echSalesFormLetter_PickingList extends SalesFormLetter_PickingList
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #printJournal
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: print without sending electronically
+        #
+        #void  printJournal()
+        #{
+        #    Args            parameters = new Args();
+        #    MenuFunction    wmsPickingRouteMenu;
+        #    ;
+        #
+        #    if (journalList.len() > 0)
+        #    {
+        #        if (this.echSendElectronically())
+        #        {
+        #            this.sendAsXML();
+        #        }
+        #
+        #        if (printFormletter)
+        #        {
+        #            wmsPickingRouteMenu = new MenuFunction(menuitemoutputstr(WMSPickingList_OrderPick),MenuItemType::Output);
+        #            parameters.caller(this);
+        #            parameters.object(journalList);
+        #            wmsPickingRouteMenu.run(parameters);
+        #        }
+        #
+        #        if (salesParmUpdate.Proforma)
+        #        {
+        #            this.removeProforma();
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #sendAsXML
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: send electronically if checkbox is set
+        #
+        #/// <summary>
+        #///    Send the xml while printMedium is other than screen.
+        #/// </summary>
+        #protected void sendAsXML()
+        #{
+        #    boolean     newLine;
+        #    ;
+        #
+        #    if (this.echSendElectronically())
+        #    {
+        #        newLine = journalList.first(wmsPickingRoute);
+        #        while (newLine)
+        #        {
+        #            wmsPickingRoute.sendElectronically(XMLDocPurpose::Original);
+        #            newLine = journalList.next(wmsPickingRoute);
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

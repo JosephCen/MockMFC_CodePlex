@@ -1,0 +1,2353 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : Invent unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #Invent
+    PROPERTIES
+      Name                #Invent
+      Label               #@SYS25197
+      HelpText            #@SYS85506
+      SetCompany          #Yes
+      NormalResource      #3486
+    ENDPROPERTIES
+    
+    MENUITEM
+      PROPERTIES
+        Name                #Items
+        MenuItemName        #InventTableListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Inventory on hand
+        MenuItemName        #InventOnHandListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Item details
+        MenuItemName        #inventtable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Bills of materials
+        MenuItemName        #bomtable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Shipments
+        MenuItemName        #WMSShipment
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Picking routes
+        MenuItemName        #WMSPickForm
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Pallet transports
+        MenuItemName        #WMSTransportHandling
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Locations View
+        MenuItemName        #DirViewLocations
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Sales pickup
+        MenuItemName        #ShipCarrierSalesPickUp
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENU #@SYS9020
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS9020
+        HelpText            #@SYS72513
+        NormalResource      #3475
+      ENDPROPERTIES
+      
+      MENU #@SYS71639
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71639
+          HelpText            #@SYS72517
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Movement
+            MenuItemName        #InventJournalTableMovement
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Profit/Loss
+            MenuItemName        #InventJournalTableLossProfit
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transfer
+            MenuItemName        #InventJournalTableTransfer
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Bills of materials
+            MenuItemName        #InventJournalTableBOM
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS10522
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS10522
+          HelpText            #@SYS72514
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Item arrival
+            MenuItemName        #WMSJournalReception
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Production input
+            MenuItemName        #WMSJournalProduction
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS71660
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71660
+          HelpText            #@SYS72518
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Counting
+            MenuItemName        #InventJournalTableCount
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Tag counting
+            MenuItemName        #InventJournalTableCountTag
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS93008
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS93008
+          HelpText            #@SYS98205
+          ConfigurationKey    #CRSEItaly
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Fiscal LIFO Internal
+            MenuItemName        #InventFiscalLIFOJournalTableInternal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fiscal LIFO Annual municipal report
+            MenuItemName        #InventFiscalLIFOJournalTableFinal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS3850
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS3850
+        HelpText            #@SYS72526
+        NormalResource      #3474
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #On-hand
+          MenuItemName        #InventOnhandItem
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Counting history
+          MenuItemName        #InventCountJour
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Output orders
+          MenuItemName        #WMSOrder
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Carrier transaction information
+          MenuItemName        #ShipCarrierShipmentInformation
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Carrier issues
+          MenuItemName        #ShipCarrierIssues
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Inventory stock queue
+          MenuItemName        #echInventStockQueue
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Stock Allocation Over Allocated
+          MenuItemName        #echStockAllocOverAlloc
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@SYS71640
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71640
+          HelpText            #@SYS72528
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Pallet transport handling
+            MenuItemName        #WMSTransport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS53632
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS53632
+          HelpText            #@SYS72529
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Batches
+            MenuItemName        #InventBatch
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Serial numbers
+            MenuItemName        #InventSerial
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS1084
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS1084
+          HelpText            #@SYS72532
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Transactions
+            MenuItemName        #InventTransVoucher
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Standard cost transactions
+            MenuItemName        #InventCostTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Postings
+            MenuItemName        #InventTransPosting
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS13699
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS13699
+          HelpText            #@SYS72507
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Purchase forecast
+            MenuItemName        #ForecastPurchMenu
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sales forecast
+            MenuItemName        #ForecastSalesMenu
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS113616
+        PROPERTIES
+          Name                #QualityManagement
+          Label               #@SYS113616
+          HelpText            #@SYS114200
+          ConfigurationKey    #InventQualityManagement
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Certificate of analysis
+            MenuItemName        #InventTestCertOfAnalysisTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Related operation items
+            MenuItemName        #InventTestOperationItems
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Related operation misc. charges
+            MenuItemName        #InventTestOperationMiscCharges
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Related operation time sheets
+            MenuItemName        #InventTestOperationTimeSheet
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS78286
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS78286
+          HelpText            #@SYS85573
+          ConfigurationKey    #InventTransferOrders
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Picking list
+            MenuItemName        #WMSPickingRoutesJournal
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transfer order history
+            MenuItemName        #InventTransferJour
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS89295
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS89295
+          HelpText            #@SYS89642
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Tag lookup
+            MenuItemName        #RFIDTagValidator
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transactions
+            MenuItemName        #RFIDTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Exceptions
+            MenuItemName        #RFIDExceptions
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #RFID manager
+            MenuItemName        #RFIDManager
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS3076
+        PROPERTIES
+          Name                #BillsOfMaterials
+          Label               #@SYS3076
+          HelpText            #@SYS126859
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Costing sheet
+            MenuItemName        #CostSheetDesignerReadOnly
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS6845
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS6845
+        HelpText            #@SYS72554
+        NormalResource      #3477
+      ENDPROPERTIES
+      
+      MENU #@SYS9119
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS9119
+          HelpText            #@SYS72554
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Base data
+            MenuItemType        #Output
+            MenuItemName        #InventTableOverview
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quantity setup
+            MenuItemType        #Output
+            MenuItemName        #InventTableQuantity
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Picking locations
+            MenuItemType        #Output
+            MenuItemName        #WMSPickingLocations
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Account dimension validation
+            MenuItemType        #Output
+            MenuItemName        #InventSiteDimensionLinkAccountValidation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENU #@SYS117032
+          PROPERTIES
+            Name                #Costing
+            Label               #@SYS117032
+            HelpText            #@SYS117033
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Item prices
+              MenuItemType        #Output
+              MenuItemName        #InventPriceOverview
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Cost category rates
+              MenuItemType        #Output
+              MenuItemName        #RouteCostCategoryOverview
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Indirect cost rate and ratio
+              MenuItemType        #Output
+              MenuItemName        #IndirectCostOverview
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@SYS1084
+        PROPERTIES
+          Name                #@SYS57779
+          Label               #@SYS1084
+          HelpText            #@SYS72557
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory transactions
+            MenuItemType        #Output
+            MenuItemName        #InventTransList
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Adjustments
+            MenuItemType        #Output
+            MenuItemName        #InventSettlementAdjustment
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Shipment list
+            MenuItemType        #Output
+            MenuItemName        #WMSShipmentList
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory movement
+            MenuItemType        #Output
+            MenuItemName        #InventMovement_TH
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory journal
+            MenuItemType        #Output
+            MenuItemName        #InventPhysicalPerWarehouseTrans_IT
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Linked dimension validation
+            MenuItemType        #Output
+            MenuItemName        #InventSiteDimensionLinkValidation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS438
+        PROPERTIES
+          Name                #@SYS15961
+          Label               #@SYS438
+          HelpText            #@SYS72558
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #On-hand inventory
+            MenuItemType        #Output
+            MenuItemName        #InventOnhand
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Critical on-hand inventory
+            MenuItemType        #Output
+            MenuItemName        #InventSumCritical
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Ordered items
+            MenuItemType        #Output
+            MenuItemName        #InventTransOrdered
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Reservations
+            MenuItemType        #Output
+            MenuItemName        #InventTransOnOrder
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS25587
+        PROPERTIES
+          Name                #@SYS3566
+          Label               #@SYS25587
+          HelpText            #@SYS72559
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory by item group aging report
+            MenuItemType        #Output
+            MenuItemName        #InventAgeGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory by inventory dimension aging report
+            MenuItemType        #Output
+            MenuItemName        #InventAgeDim
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Items in quarantine
+            MenuItemType        #Output
+            MenuItemName        #InventQuarantineOrder
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENU #@SYS23942
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS23942
+            HelpText            #@SYS72561
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Physical inventory by item group
+              MenuItemType        #Output
+              MenuItemName        #InventGroupPhys
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Physical inventory by inventory dimension
+              MenuItemType        #Output
+              MenuItemName        #InventDimPhys
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Specification of physical quantity
+              MenuItemType        #Output
+              MenuItemName        #InventSpecPhys
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS12946
+          PROPERTIES
+            Name                #@SYS12946
+            Label               #@SYS12946
+            HelpText            #@SYS72565
+          ENDPROPERTIES
+          
+          MENU #@SYS104353
+            PROPERTIES
+              Name                #Submenu1
+              Label               #@SYS104353
+              HelpText            #@SYS120749
+            ENDPROPERTIES
+            
+            MENUITEM
+              PROPERTIES
+                Name                #Inventory value statement
+                MenuItemType        #Output
+                MenuItemName        #InventCostValue
+              ENDPROPERTIES
+              
+            ENDMENUITEM
+          ENDMENU
+          MENUITEM
+            PROPERTIES
+              Name                #Inventory value per item group
+              MenuItemType        #Output
+              MenuItemName        #InventGroupPosted
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Inventory value by inventory dimension
+              MenuItemType        #Output
+              MenuItemName        #InventDimPosted
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Specify inventory value
+              MenuItemType        #Output
+              MenuItemName        #InventSpecPosted
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Inventory value of charged items
+              MenuItemType        #Output
+              MenuItemName        #InventBalanceChargedItems
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Inventory value of posted service items
+              MenuItemType        #Output
+              MenuItemName        #InventBalanceServicePosted
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Potential conflicts - Inventory and General ledger
+              MenuItemType        #Output
+              MenuItemName        #InventLedgerConflict
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Inventory value report
+              MenuItemType        #Output
+              MenuItemName        #InventValueReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@SYS9836
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS9836
+          HelpText            #@SYS72568
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #ABC classification
+            MenuItemType        #Output
+            MenuItemName        #InventABC
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #ABC classification, locations
+            MenuItemType        #Output
+            MenuItemName        #WMSABCAnalysis
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fixed receipt price deviations
+            MenuItemType        #Output
+            MenuItemName        #InventStdCostVariance
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Date items
+            MenuItemType        #Output
+            MenuItemName        #InventBatchExpired
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Variance analysis statement
+            MenuItemType        #Output
+            MenuItemName        #InventCostVariances
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS326
+        PROPERTIES
+          Name                #@SYS326
+          Label               #@SYS326
+          HelpText            #@SYS72570
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Counting statistics
+            MenuItemType        #Output
+            MenuItemName        #InventCountStatistics
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS19789
+        PROPERTIES
+          Name                #@SYS19789
+          Label               #@SYS19789
+          HelpText            #@SYS72571
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Base price/discount setup
+            MenuItemType        #Output
+            MenuItemName        #InventTablePriceDiscount
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS3076
+        PROPERTIES
+          Name                #@SYS3076
+          Label               #@SYS3076
+          HelpText            #@SYS72580
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Lines
+            MenuItemType        #Output
+            MenuItemName        #BOMConsistOfReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Where-used
+            MenuItemType        #Output
+            MenuItemName        #BOMPartOfReport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #BOM calculation
+            MenuItemType        #Output
+            MenuItemName        #BOMCalcTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS113616
+        PROPERTIES
+          Name                #QualityManagement
+          Label               #@SYS113616
+          HelpText            #@SYS114566
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Non conformance report
+            MenuItemType        #Output
+            MenuItemName        #InventNonConformanceTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Non conformance tag
+            MenuItemType        #Output
+            MenuItemName        #InventNonConformanceTag
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Correction report
+            MenuItemType        #Output
+            MenuItemName        #InventTestCorrection
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS13322
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS13322
+          HelpText            #@SYS72572
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Location label
+            MenuItemType        #Output
+            MenuItemName        #WMSLocationLabel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Pallet label
+            MenuItemType        #Output
+            MenuItemName        #WMSPalletNumberGenerated
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Pallet label (RFID)
+            MenuItemType        #Output
+            MenuItemName        #RFIDPalletLabel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Serial number label (RFID)
+            MenuItemType        #Output
+            MenuItemName        #RFIDInventSerialLabel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS72995
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS72995
+          HelpText            #@SYS85579
+          ConfigurationKey    #InventPackaging
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Packing material weight - sales
+            MenuItemType        #Output
+            MenuItemName        #InventPackagingMaterialWeights
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Packing material weight - purchase
+            MenuItemType        #Output
+            MenuItemName        #InventPackagingMaterialWeightsPurch
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Packing material fee calculation
+            MenuItemType        #Output
+            MenuItemName        #InventPackagingMaterialFeeCalc
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Dutch packing material fee calculation
+            MenuItemType        #Output
+            MenuItemName        #InventPackagingMaterialFeeCalc_NL
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS13699
+        PROPERTIES
+          Name                #@SYS11370
+          Label               #@SYS13699
+          HelpText            #@SYS72509
+          NeededAccessLevel   #NoAccess
+        ENDPROPERTIES
+        
+        MENU #@SYS17709
+          PROPERTIES
+            Name                #@SYS17709
+            Label               #@SYS17709
+            HelpText            #@SYS72512
+            NeededAccessLevel   #NoAccess
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Purchase forecast per item
+              MenuItemType        #Output
+              MenuItemName        #ForecastPurchItem
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Forecast/Current
+              MenuItemType        #Output
+              MenuItemName        #ForecastPurchActualReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Forecast/Forecast
+              MenuItemType        #Output
+              MenuItemName        #ForecastPurchBudgetReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS15056
+          PROPERTIES
+            Name                #@SYS15056
+            Label               #@SYS15056
+            HelpText            #@SYS72516
+            NeededAccessLevel   #NoAccess
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Sales forecast per item
+              MenuItemType        #Output
+              MenuItemName        #ForecastSalesItem
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Forecast/Current
+              MenuItemType        #Output
+              MenuItemName        #ForecastSalesActualReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Forecast/Forecast
+              MenuItemType        #Output
+              MenuItemName        #ForecastSalesBudgetReport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@SYS78286
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS78286
+          HelpText            #@SYS78732
+          ConfigurationKey    #InventTransferOrders
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Transfer overview
+            MenuItemType        #Output
+            MenuItemName        #InventTransferOrderOverview
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Shipment
+            MenuItemType        #Output
+            MenuItemName        #InventTransferShip
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Receive
+            MenuItemType        #Output
+            MenuItemName        #InventTransferReceive
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS8782
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS8782
+        HelpText            #@SYS72573
+        NormalResource      #3476
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Closing and adjustment
+          MenuItemName        #InventClosing
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Arrival overview
+          MenuItemName        #WMSArrivalOverview
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Shipment staging
+          MenuItemName        #WMSShipmentStaging
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Transfer orders
+          MenuItemName        #InventTransferOrder
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Planned transfer order
+          MenuItemName        #ReqTransPoTransfer
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Physical posting
+          MenuItemName        #InventPostPhysicalTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Release sales order picking
+          MenuItemName        #SalesReleaseOrderPicking
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Release transfer order picking
+          MenuItemName        #InventTransferReleaseOrderPicking
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Picking list registration
+          MenuItemName        #WMSPickingRegistration
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #ABC classification
+          MenuItemType        #Action
+          MenuItemName        #InventABCUpdate
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Process inventory stock queue
+          MenuItemType        #Action
+          MenuItemName        #echInventStockQueueBatch
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Linked dimension update
+          MenuItemType        #Action
+          MenuItemName        #InventSiteDimensionUpdate
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Send inventory on hand
+          MenuItemType        #Action
+          MenuItemName        #echSendInventoryOnHandBatch
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Load TMall Item Sku Id
+          MenuItemType        #Action
+          MenuItemName        #echTMallItemSkuIdLoader
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@SYS120270
+        PROPERTIES
+          Name                #ShipmentUpdate
+          Label               #@SYS120270
+          HelpText            #@SYS120271
+          ConfigurationKey    #WMSAdvanced
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Shipment reservation
+            MenuItemType        #Action
+            MenuItemName        #WMSShipmentReservationBatch
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Physical shipment update
+            MenuItemType        #Action
+            MenuItemName        #WMSShipmentPhysicalUpdBatchMulti
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS94999
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS94999
+          HelpText            #@SYS93434
+          ConfigurationKey    #InventTransferOrders
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Picking list
+            MenuItemType        #Action
+            MenuItemName        #InventTransferPick
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Ship transfer order
+            MenuItemType        #Action
+            MenuItemName        #InventTransferShip
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Receive
+            MenuItemType        #Action
+            MenuItemName        #InventTransferReceive
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS3076
+        PROPERTIES
+          Name                #@SYS3076
+          Label               #@SYS3076
+          HelpText            #@SYS72574
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Change BOM item
+            MenuItemName        #BOMChangeItem
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Report as finished
+            MenuItemType        #Action
+            MenuItemName        #BOMReportFinished
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Costing versions
+            MenuItemName        #CostingVersionPeriodic
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Recalculate BOM levels
+            MenuItemType        #Action
+            MenuItemName        #BOMLevelCalc
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS113616
+        PROPERTIES
+          Name                #QualityManagement
+          Label               #@SYS113616
+          HelpText            #@SYS113873
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Quarantine orders
+            MenuItemName        #InventQuarantineOrder
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quality orders
+            MenuItemName        #InventQualityOrderTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Non conformances
+            MenuItemName        #InventNonConformanceTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Corrections
+            MenuItemName        #InventTestCorrection
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS89295
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS89295
+          HelpText            #@SYS89784
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Get transactions
+            MenuItemType        #Action
+            MenuItemName        #RFIDGetTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Validate transactions
+            MenuItemType        #Action
+            MenuItemName        #RFIDValidateTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Process transactions
+            MenuItemType        #Action
+            MenuItemName        #RFIDBusinessProcessTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS20394
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS20394
+          HelpText            #@SYS72575
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Create refill
+            MenuItemType        #Action
+            MenuItemName        #WMSPickingLocationRefillCheck
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Sort codes
+            MenuItemType        #Action
+            MenuItemName        #WMSUpdateSortCodes
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Names and check texts
+            MenuItemType        #Action
+            MenuItemName        #WMSUpdateLocationName
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS4160
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS4160
+          HelpText            #@SYS85578
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory journals clean up
+            MenuItemType        #Action
+            MenuItemName        #InventJournalCleanUp
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory settlements clean up
+            MenuItemType        #Action
+            MenuItemName        #InventCostCleanUp
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory dimensions clean up
+            MenuItemType        #Action
+            MenuItemName        #InventUnusedDimCleanUp
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS13699
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS13699
+          HelpText            #@SYS72521
+        ENDPROPERTIES
+        
+        MENU #@SYS11227
+          PROPERTIES
+            Name                #@SYS25605
+            Label               #@SYS11227
+            HelpText            #@SYS85580
+            NeededAccessLevel   #NoAccess
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Items
+              MenuItemName        #ForecastItem
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Item groups
+              MenuItemName        #ForecastItemGroup
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customers
+              MenuItemName        #ForecastCust
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Customer groups
+              MenuItemName        #ForecastCustGroup
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Vendors
+              MenuItemName        #ForecastVend
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Vendor groups
+              MenuItemName        #ForecastVendGroup
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS2934
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS2934
+            HelpText            #@SYS85581
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Purchase budget to ledger
+              MenuItemType        #Action
+              MenuItemName        #ForecastPurch2Ledger
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Sales budget to ledger
+              MenuItemType        #Action
+              MenuItemName        #ForecastSales2Ledger
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Update purchase and sales budget
+              MenuItemType        #Action
+              MenuItemName        #ForecastUpdate
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Import forecast
+              MenuItemType        #Action
+              MenuItemName        #ForecastDMPImport
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@GLS5005
+        PROPERTIES
+          Name                #Excise
+          Label               #@GLS5005
+          HelpText            #@GLS5690
+          ConfigurationKey    #CRSEIndia
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Update excise registers
+            MenuItemType        #Action
+            MenuItemName        #UpdateExciseRegistersInventory_IN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS2186
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS2186
+        HelpText            #@SYS72582
+        NormalResource      #3478
+      ENDPROPERTIES
+      
+      MENU #@ECH354
+        PROPERTIES
+          Name                #echLegacy
+          Label               #@ECH354
+          HelpText            #@ECH352
+          ConfigurationKey    #echProcesses
+          SecurityKey         #InventSetup
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Legacy system
+            MenuItemName        #echLegacySystem
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENUITEM
+        PROPERTIES
+          Name                #Item groups
+          MenuItemName        #InventItemGroup
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Company item
+          MenuItemName        #InventTableCompany
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Costing versions
+          MenuItemName        #CostingVersion
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Inventory value reports
+          MenuItemName        #InventValueReportSetup
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Parameters
+          MenuItemName        #inventparameters
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUREFERENCE
+        PROPERTIES
+          Name                #echStockAllocationRule
+        ENDPROPERTIES
+        
+      ENDMENUREFERENCE
+      MENU #@SYS5951
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS5951
+          HelpText            #@SYS72583
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Dimension groups
+            MenuItemName        #InventDimSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Number groups
+            MenuItemName        #InventNumGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENU #@SYS70071
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS70071
+            HelpText            #@SYS74030
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Configurations
+              MenuItemName        #ConfigTable
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Sizes
+              MenuItemName        #InventSizes
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Colors
+              MenuItemName        #InventColors
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Styles
+              MenuItemName        #RBOInventStyles
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Item dimension combinations
+              MenuItemName        #inventdimcombination
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@SYS19789
+        PROPERTIES
+          Name                #@SYS19789
+          Label               #@SYS19789
+          HelpText            #@SYS69420
+          ConfigurationKey    #PriceDisc
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Item discount groups
+            MenuItemName        #PriceDiscGroup_Invent
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer price/discount groups
+            MenuItemName        #PriceDiscGroup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Vendor price/discount groups
+            MenuItemName        #PriceDiscGroup_Vend
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item price tolerance groups
+            MenuItemName        #InventItemPriceToleranceGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS8371
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS8371
+          HelpText            #@SYS72584
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Item misc. charges groups
+            MenuItemName        #MarkupGroup_Invent
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Customer misc. charges groups
+            MenuItemName        #MarkupGroup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Vendor misc. charges group
+            MenuItemName        #MarkupGroup_Vend
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS58282
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS58282
+          HelpText            #@SYS72586
+          ConfigurationKey    #SuppItem
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Supplementary item - Item groups
+            MenuItemName        #SuppItemGroup_Invent
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Supplementary item - Customer groups
+            MenuItemName        #SuppItemGroup_Cust
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Supplementary item - Vendor groups
+            MenuItemName        #SuppItemGroup_Vend
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS71574
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71574
+          HelpText            #@SYS72524
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Transport
+            MenuItemName        #CustVendTransportPoint2Point
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fallback warehouse for site
+            MenuItemName        #InventFallbackWarehouse
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Activate order entry deadline combinations
+            MenuItemName        #InventOrderEntryDeadlineParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Order entry deadline groups
+            MenuItemName        #InventOrderEntryDeadlineGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Order entry deadlines
+            MenuItemName        #InventOrderEntryDeadlineTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Outbound rules
+            MenuItemName        #WMSOutboundRule
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Shipment templates
+            MenuItemName        #WMSShipmentTemplate
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Shipment reservation sequences
+            MenuItemName        #WMSReservationSequence
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Shipment reservation combinations
+            MenuItemName        #WMSReservationCombination
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS981
+        PROPERTIES
+          Name                #@SYS1177
+          Label               #@SYS981
+          HelpText            #@SYS72587
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory model groups
+            MenuItemName        #InventModelGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Buyer groups
+            MenuItemName        #InventBuyerGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Counting groups
+            MenuItemName        #InventCountGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Blocking causes
+            MenuItemName        #WMSBlockingCause
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fiscal LIFO reporting group
+            MenuItemName        #InventFiscalLIFOGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS71642
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71642
+          HelpText            #@SYS72588
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Sites
+            MenuItemName        #InventSite
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Warehouses
+            MenuItemName        #InventLocations
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Inventory aisles
+            MenuItemName        #WMSAisle
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Store areas
+            MenuItemName        #WMSStoreArea
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Store zones
+            MenuItemName        #WMSStoreZone
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Locations
+            MenuItemName        #WMSLocation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS71643
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71643
+          HelpText            #@SYS72589
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Pallets
+            MenuItemName        #WMSPallet
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Pallet types
+            MenuItemName        #WMSPalletType
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Pallet type groups
+            MenuItemName        #WMSPalletTypeGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Forklift
+            MenuItemName        #WMSForkLift
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS3076
+        PROPERTIES
+          Name                #@SYS3076
+          Label               #@SYS3076
+          HelpText            #@SYS72590
+          ConfigurationKey    #BOM
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Configuration groups
+            MenuItemName        #ConfigGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Cost groups
+            MenuItemName        #BOMCostGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Calculation groups
+            MenuItemName        #BOMCalcGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Costing sheet setup
+            MenuItemName        #CostSheetDesigner
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS89295
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS89295
+          HelpText            #@SYS89640
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #RFID Servers
+            MenuItemName        #RFIDServerTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS113704
+        PROPERTIES
+          Name                #QualityControl
+          Label               #@SYS113704
+          HelpText            #@SYS113705
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Test areas
+            MenuItemName        #InventTestArea
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Test instruments
+            MenuItemName        #InventTestInstrument
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Tests
+            MenuItemName        #InventTestTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Test variables
+            MenuItemName        #InventTestVariable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Test groups
+            MenuItemName        #InventTestGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quality associations
+            MenuItemName        #InventTestAssociationTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quality groups
+            MenuItemName        #InventTestQualityGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item quality groups
+            MenuItemName        #InventTestItemQualityGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item sampling
+            MenuItemName        #InventItemSampling
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Employees responsible for quality
+            MenuItemName        #InventTestEmplResponsible
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS113616
+        PROPERTIES
+          Name                #QualityManagement
+          Label               #@SYS113616
+          HelpText            #@SYS113694
+          ConfigurationKey    #InventQualityManagement
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Diagnostic types
+            MenuItemName        #InventTestDiagnosticType
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quality misc. charges
+            MenuItemName        #InventTestMiscCharges
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Operations
+            MenuItemName        #InventTestOperation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Problem types
+            MenuItemName        #InventProblemType
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Quarantine zones
+            MenuItemName        #InventQuarantineZone
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS9020
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS9020
+          HelpText            #@SYS72591
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Journal names, Inventory
+            MenuItemName        #InventJournalName
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Journal names, warehouse management
+            MenuItemName        #WMSJournalName
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Journal names, Fiscal LIFO
+            MenuItemName        #InventFiscalLIFOJournalName
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Profit/loss reason
+            MenuItemName        #EchInventJournalReasonTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS72995
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS72995
+          HelpText            #@SYS85572
+          ConfigurationKey    #InventPackaging
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Packing groups
+            MenuItemName        #InventPackagingGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Packing material codes
+            MenuItemName        #InventPackagingMaterialCode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Packing units
+            MenuItemName        #InventPackagingUnit
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Packing material fees
+            MenuItemName        #InventPackagingMaterialFee
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS12919
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS12919
+          HelpText            #@SYS72592
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Posting
+            MenuItemName        #InventPosting
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transaction combinations
+            MenuItemName        #InventPostingParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Dimension link
+            MenuItemName        #InventSiteDimensionLink
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS13699
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS13699
+          HelpText            #@SYS72534
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Forecast models
+            MenuItemName        #ForecastModel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Item allocation keys
+            MenuItemName        #ForecastItemAllocation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Period allocation keys
+            MenuItemName        #ForecastLedgerAllocateKey
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS116811
+        PROPERTIES
+          Name                #ShipCarrier
+          Label               #@SYS116811
+          HelpText            #@SYS116991
+          ConfigurationKey    #ShipCarrier
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Carrier interface
+            MenuItemName        #ShipCarrierInterface
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Carrier company
+            MenuItemName        #ShipCarrierCompany
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Carrier IDs
+            MenuItemName        #ShipCarrierTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@GLS61428
+        PROPERTIES
+          Name                #EXIM_IN
+          Label               #@GLS61428
+          HelpText            #@GLS61485
+          ConfigurationKey    #CRSEIndia
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Product groups
+            MenuItemName        #EximProductGroupTable_IN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #SION
+            MenuItemName        #EximSionTable_IN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+  ENDMENU
+  
+
+***Element: END

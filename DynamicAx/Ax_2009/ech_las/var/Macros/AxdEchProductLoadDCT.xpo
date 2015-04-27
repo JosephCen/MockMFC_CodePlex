@@ -1,0 +1,28 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdEchProductLoadDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdEchProductLoadDCT
+    ##define.EchProductLoad('EchProductLoad')
+    ##define.EchProductLoad_InventTable('EchProductLoad.InventTable')
+    ##define.EchProductLoad_InventItemSalesSetup('EchProductLoad.InventItemSalesSetup')
+    ##define.EchProductLoad_RBOInventTable('EchProductLoad.RBOInventTable')
+    ##define.EchProductLoad_echItemAttributes('EchProductLoad.echItemAttributes')
+    ##define.EchProductLoad_InventItemBarcode('EchProductLoad.InventItemBarcode')
+    ##define.EchProductLoad_InventDimBarcode('EchProductLoad.InventDimBarcode')
+    ##define.EchProductLoad_ConfigTable('EchProductLoad.ConfigTable')
+    ##define.EchProductLoad_InventSize('EchProductLoad.InventSize')
+    ##define.EchProductLoad_InventColor('EchProductLoad.InventColor')
+    ##define.EchProductLoad_RBOInventStyle('EchProductLoad.RBOInventStyle')
+    ##define.EchProductLoad_InventItemLocation('EchProductLoad.InventItemLocation')
+    ##define.EchProductLoad_PriceDiscTable('EchProductLoad.PriceDiscTable')
+    ##define.EchProductLoad_InventDimPrice('EchProductLoad.InventDimPrice')
+    ##define.EchProductLoad_DocuRefHeader('EchProductLoad.DocuRefHeader')
+  ENDSOURCE
+
+***Element: END

@@ -1,0 +1,209 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventSum unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventSum
+    Id 174
+    PROPERTIES
+      Name                #InventSum
+      Label               #@SYS7092
+      FormRef             #InventOnhandItem
+      TitleField1         #ItemId
+      TitleField2         #Closed
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      CacheLookup         #NotInTTS
+      TableGroup          #Transaction
+      PrimaryIndex        #ItemDimIdx
+      ClusterIndex        #ItemDimIdx
+      OccEnabled          #No
+      DeveloperDocumentation  #@SYS123836
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echLastAvailPhysical
+        Id 30001
+        REAL
+        PROPERTIES
+          Name                #echLastAvailPhysical
+          Table               #InventSum
+          ExtendedDataType    
+            ARRAY 
+              #echInventQtyLastAvailPhysical
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #PostedQty
+          #PostedValue
+          #Deducted
+          #Received
+          #ReservPhysical
+          #ReservOrdered
+          #OnOrder
+          #Ordered
+          #QuotationIssue
+          #QuotationReceipt
+          #InventDimId
+          #Closed
+          #Registered
+          #Picked
+          #AvailOrdered
+          #AvailPhysical
+          #PhysicalValue
+          #Arrived
+          #PhysicalInvent
+          #ClosedQty
+          #LastUpdDatePhysical
+          #LastUpdDateExpected
+          #echLastAvailPhysical
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echGetInventColor
+        #//add By Steven at 20130301
+        #//BP deviation documented
+        #display InventColorId echGetInventColor()
+        #{
+        #    InventDim   m_InventDim;
+        #    ;
+        #    select m_InventDim
+        #        where m_InventDim.inventDimId == this.InventDimId;
+        #
+        #    return m_InventDim.InventColorId;
+        #}
+      ENDSOURCE
+      SOURCE #echGetInventSize
+        #//add By Steven at 20130301
+        #//BP deviation documented
+        #display InventSizeId echGetInventSize()
+        #{
+        #    InventDim   m_InventDim;
+        #    ;
+        #    select m_InventDim
+        #        where m_InventDim.inventDimId == this.InventDimId;
+        #
+        #    return m_InventDim.InventSizeId;
+        #}
+      ENDSOURCE
+      SOURCE #echGetItemBarCode
+        #//BP deviation documented
+        #display ItemBarCode echGetItemBarCode()
+        #{
+        #    InventItemBarcode   m_InventTableItemBarcode;
+        #    InventTable         m_InventTable;
+        #    InventDim   inventDim;
+        #    InventDim   inventDimNo;
+        #    ;
+        #    m_InventTable = this.inventTable();
+        #    select inventDim
+        #        where inventDim.inventDimId == this.InventDimId;
+        #    inventDim.InventLocationId = '';
+        #    inventDim.inventSiteId = '';
+        #    inventDimNo = InventDim::findDim(inventDim);
+        #
+        #    select  m_InventTableItemBarcode
+        #        where m_InventTableItemBarcode.itemId == m_InventTable.ItemId
+        #            && m_InventTableItemBarcode.inventDimId == inventDimNo.InventDimId;
+        #    return m_InventTableItemBarcode.itemBarCode;
+        #}
+      ENDSOURCE
+      SOURCE #echGetRBOColorName
+        #//add By Steven at 20130322
+        #//BP deviation documented
+        #display RBOShortName echGetRBOColorName()
+        #{
+        #    InventDim   m_InventDim;
+        #    RBOColors    m_RBOColors;
+        #    ;
+        #    select m_InventDim
+        #        where m_InventDim.inventDimId == this.InventDimId;
+        #    select m_RBOColors
+        #        where m_RBOColors.color ==m_InventDim.InventColorId;
+        #
+        #    return m_RBOColors.name;
+        #}
+      ENDSOURCE
+      SOURCE #echGetRBOSizeName
+        #//add By Steven at 20130322
+        #//BP deviation documented
+        #display RBOShortName echGetRBOSizeName()
+        #{
+        #    InventDim   m_InventDim;
+        #    RBOSizes    m_RBOSizes;
+        #    ;
+        #    select m_InventDim
+        #        where m_InventDim.inventDimId == this.InventDimId;
+        #    select m_RBOSizes
+        #        where m_RBOSizes.size == m_InventDim.InventSizeId;
+        #
+        #    return m_RBOSizes.name;
+        #}
+      ENDSOURCE
+      SOURCE #echGetVirtualStock
+        #//BP deviation documented
+        #display echVirtualStock echGetVirtualStock()
+        #{
+        #//    echStockAllocationRule      m_echStockAllocationRule;
+        #//    InventTable                 m_InventTable;
+        #//    //InventSum                   m_InventSum;
+        #//    ;
+        #//    m_InventTable = this.inventTable();
+        #//
+        #//    select VirtualStock from m_echStockAllocationRule
+        #//       where m_echStockAllocationRule.ItemId == m_InventTable.ItemId
+        #//            && m_echStockAllocationRule.InventDimId == this.InventDimId;
+        #//
+        #//    return m_echStockAllocationRule.VirtualStock;
+        #    RBOInventTable rboInventTable;
+        #    InventTable     inventTable;
+        #    //InventDim      inventDim;
+        #    ;
+        #    inventTable = this.inventTable();
+        #    rboInventTable = RBOInventTable::find(inventTable.ItemId);
+        #
+        #    return echStockAllocationRule::findRuleVirtualStock(inventTable.ItemId,
+        #                                                        rboInventTable.retailGroup,
+        #                                                        this.inventDim());
+        #}
+      ENDSOURCE
+      SOURCE #echRetailGroup
+        #//BP deviation documented
+        #public static Void echRetailGroup()
+        #{
+        #    InventTable  m_InventTable;
+        #    ;
+        #    m_InventTable.echRetailGroup();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

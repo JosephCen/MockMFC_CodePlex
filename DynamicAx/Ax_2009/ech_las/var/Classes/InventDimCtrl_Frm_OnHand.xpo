@@ -1,0 +1,141 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventDimCtrl_Frm_OnHand unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventDimCtrl_Frm_OnHand
+    Id 1710
+    PROPERTIES
+      Name                #InventDimCtrl_Frm_OnHand
+      Extends             #InventDimCtrl_Frm
+      RunOn               #Client
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #modifyQuery
+        #void modifyQuery(
+        #    FormDataSource inventSum_DS,
+        #    FormDataSource inventDim_DS
+        #    )
+        #{
+        #    QueryBuildDataSource    qbsSum;
+        #    QueryBuildRange         criteriaClosed;
+        #    QueryBuildRange         criteriaClosedQty;
+        #    QueryBuildDataSource    qbsDim;
+        #    QueryBuildRange         criteriaInventDim;
+        #    int                     h,x,y;
+        #    boolean                 doHint;
+        #    InventDimParm           inventDimParmRange;
+        #    QueryBuildRange         qbr;
+        #    ProdJournalProd         prodJournalProd;
+        #    ;
+        #
+        #    qbsSum = inventSum_DS.query().dataSourceName(inventSum_DS.name());
+        #
+        #    qbsSum.sortClear();
+        #
+        #    if (callingElement.args().dataset() == tablenum(ProdJournalProd))
+        #    {
+        #        prodJournalProd = callingElement.args().record();
+        #        qbr = SysQuery::findOrCreateRange(inventSum_DS.query().dataSourceTable(tablenum(InventSum)), fieldnum(InventSum, ItemId));
+        #        qbr.value(queryValue(ProdTable::find(prodJournalProd.ProdId).ItemId));
+        #    }
+        #
+        #    doHint = InventSum::queryAddHintFromCaller(qbsSum,callingElement.args());
+        #
+        #    qbsSum.orderMode(OrderMode::GroupBy);
+        #    qbsSum.addSortField(fieldnum(InventSum,ItemId));
+        #    //add by Jason Wu 2013/7/3 begin;
+        #    qbsSum.addSortField(fieldnum(InventSum,InventDimId));
+        #    //add by Jason Wu 2013/7/3 end;
+        #
+        #    criteriaClosed = SysQuery::findOrCreateRange(qbsSum, fieldnum(InventSum,Closed));
+        #    if (dimParmVisibleGrid.ClosedFlag)
+        #        criteriaClosed.value('');
+        #    else
+        #        criteriaClosed.value(queryValue(NoYes::No));
+        #
+        #    criteriaClosedQty = SysQuery::findOrCreateRange(qbsSum, fieldnum(InventSum,ClosedQty));
+        #    if (dimParmVisibleGrid.ClosedQtyFlag)
+        #        criteriaClosedQty.value(queryValue(NoYes::No));
+        #    else
+        #        criteriaClosedQty.value('');
+        #
+        #    qbsDim = inventDim_DS.query().dataSourceName(inventDim_DS.name());
+        #
+        #    qbsDim.sortClear();
+        #
+        #    doHint = InventDim::queryAddHintFromCaller(qbsDim,callingElement.args()) && doHint;
+        #
+        #    if (this.movement() && callingElement.name() == formstr(InventOnhandMovement) && this.movement().inventdim())
+        #    {
+        #        dimParmLockedRightClick.queryAddSortFieldValue(qbsDim,this.movement().inventdim());
+        #        dimParmVisibleGrid.queryAddSortFieldValue(qbsDim,this.movement().inventdim());
+        #    }
+        #    else
+        #    {
+        #        dimParmLockedRightClick.queryAddSortField(qbsDim);
+        #        if (!dimParmVisibleGrid.queryAddSortField(qbsDim))
+        #        {
+        #            qbsDim.addSortField(fieldnum(InventDim, TableId));
+        #            qbsDim.orderMode(OrderMode::GroupBy);
+        #        }
+        #    }
+        #
+        #    if (this.movement())
+        #    {
+        #        for (h=1;h<=conlen(this.dimFields());h++)
+        #        {
+        #            y = conpeek(this.dimFields(),h);
+        #            x = InventDim::dim2dimParm(y);
+        #
+        #
+        #            if (dimParmLockedRightClick.(x) ||
+        #               (((callingElement.name() == formstr(InventOnhandMovement) && dimParmVisibleGrid.(x)) || callingElement.name() == formstr(InventSupply)) && this.movement().inventdim().(y)))
+        #            {
+        #                criteriaInventDim = qbsDim.findRange(y);
+        #                if (!criteriaInventDim)
+        #                    criteriaInventDim = qbsDim.addRange(y);
+        #                criteriaInventDim.value(queryValue(this.movement().inventdim().(y)));
+        #
+        #                inventDimParmRange.(x) = NoYes::Yes;
+        #            }
+        #            else
+        #            {
+        #                criteriaInventDim = qbsDim.findRange(y);
+        #                if (criteriaInventDim)
+        #                    criteriaInventDim.value('');
+        #            }
+        #        }
+        #    }
+        #
+        #    if (! doHint && ! inventDimParmRange.isFlagSelective() && ! dimParmVisibleGrid.ClosedFlag)
+        #    {
+        #        qbsSum.addSortIndex(indexnum(InventSum,ClosedItemDimIdx));
+        #        qbsSum.indexIsHint(true);
+        #
+        #        qbsDim.addSortIndex(indexnum(InventDim,DimIdIdx));
+        #        qbsDim.indexIsHint(true);
+        #
+        #        doHint = true;
+        #    }
+        #
+        #    if (doHint)
+        #        inventDim_DS.query().literals(2);
+        #    else
+        #    {
+        #        inventDim_DS.query().literals(0);
+        #    }
+        #}
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,220 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechSOPromotionsHeader unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechSOPromotionsHeader
+    Id 30119
+    PROPERTIES
+      Name                #AxechSOPromotionsHeader
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechSOPromotionsHeader axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechSOPromotionsHeader extends AxInternalBase
+        #{
+        #    echSOPromotionsHeader echSOPromotionsHeader;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echSOPromotionsHeader currentRecord(echSOPromotionsHeader _echSOPromotionsHeader = echSOPromotionsHeader)
+        #{
+        #    if (!prmisdefault(_echSOPromotionsHeader))
+        #    {
+        #        super(_echSOPromotionsHeader);
+        #        echSOPromotionsHeader = _echSOPromotionsHeader;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echSOPromotionsHeader;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echSOPromotionsHeader
+        #public echSOPromotionsHeader echSOPromotionsHeader(echSOPromotionsHeader _echSOPromotionsHeader = echSOPromotionsHeader)
+        #{
+        #    if (!prmisdefault(_echSOPromotionsHeader))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echSOPromotionsHeader);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echSOPromotionsHeader emptyRecord()
+        #{
+        #    echSOPromotionsHeader localechSOPromotionsHeader;
+        #    ;
+        #    return localechSOPromotionsHeader;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAmount
+        #public Amount parmAmount(Amount _amount = 0)
+        #{
+        #    if (!prmisdefault(_amount))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsHeader, Amount), _amount);
+        #    }
+        #
+        #    return echSOPromotionsHeader.Amount;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPercentage
+        #public Percent parmPercentage(Percent _percentage = 0)
+        #{
+        #    if (!prmisdefault(_percentage))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsHeader, Percentage), _percentage);
+        #    }
+        #
+        #    return echSOPromotionsHeader.Percentage;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPromotionDesc
+        #public echPromotionDesc parmPromotionDesc(echPromotionDesc _promotionDesc = '')
+        #{
+        #    if (!prmisdefault(_promotionDesc))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsHeader, PromotionDesc), _promotionDesc);
+        #    }
+        #
+        #    return echSOPromotionsHeader.PromotionDesc;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPromotionId
+        #public echPromotionId parmPromotionId(echPromotionId _promotionId = '')
+        #{
+        #    if (!prmisdefault(_promotionId))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsHeader, PromotionId), _promotionId);
+        #    }
+        #
+        #    return echSOPromotionsHeader.PromotionId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesId parmSalesId(SalesId _salesId = '')
+        #{
+        #    if (!prmisdefault(_salesId))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsHeader, SalesId), _salesId);
+        #    }
+        #
+        #    return echSOPromotionsHeader.SalesId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAmount
+        #protected void setAmount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsHeader, Amount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPercentage
+        #protected void setPercentage()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsHeader, Percentage)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPromotionDesc
+        #protected void setPromotionDesc()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsHeader, PromotionDesc)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPromotionId
+        #protected void setPromotionId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsHeader, PromotionId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSalesId
+        #protected void setSalesId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsHeader, SalesId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setSalesId();
+        #    this.setPromotionDesc();
+        #    this.setPromotionId();
+        #    this.setPercentage();
+        #    this.setAmount();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechSOPromotionsHeader construct()
+        #{
+        #    return new AxechSOPromotionsHeader();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechSOPromotionsHeader
+        #public static AxechSOPromotionsHeader newechSOPromotionsHeader(echSOPromotionsHeader _echSOPromotionsHeader)
+        #{
+        #    AxechSOPromotionsHeader AxechSOPromotionsHeader = AxechSOPromotionsHeader::construct();
+        #    ;
+        #    AxechSOPromotionsHeader.echSOPromotionsHeader(_echSOPromotionsHeader);
+        #
+        #    return AxechSOPromotionsHeader;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

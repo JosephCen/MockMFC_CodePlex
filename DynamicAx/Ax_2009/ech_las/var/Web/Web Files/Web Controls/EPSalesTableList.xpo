@@ -1,0 +1,582 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : EPSalesTableList unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #EPSalesTableList
+    PROPERTIES
+      Name                #EPSalesTableList
+      HelpText            #
+      Filename            #EPSalesTableList.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="EPSalesTableList.ascx.cs"
+      #    Inherits="EPSalesTableList" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #    Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="dsEPSalesTableList" runat="server" DataSetName="EPSalesTableList" />
+      #<%--<dynamics:AxToolBar ID="echEPSalesTableList_ToolBar" runat="server" 
+      #     OnSetMenuItemProperties="BaseWebpart_OnSetMenuItemProperties"
+      #     OnInit="echEPSalesTableList_OnInit"/>--%>
+      #<dynamics:AxGridView ID="gridEPSalesTableList" runat="server" DataKeyNames="RecId"
+      #    DataMember="SalesTable" DataSourceID="dsEPSalesTableList"
+      #    oninit="gridEPSalesTableList_Init" Caption="<%$AxLabel:@ECH640%>"> 
+      #    <Columns>
+      #        <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableList" DataSetView="SalesTable"
+      #            DataField="SalesId" SortExpression="SalesId" MenuItem="echEPSalesTableInfo" HeaderText="<%$AxLabel:@ECH507%>"/>
+      #        <%-- ECHINA steven add start 20130118 --%> 
+      #        <dynamics:AxBoundField Dataset="EPSalesTableList" DataSetView="SalesTable" DataField="echMsgPartnerExtCode"
+      #         HeaderText="<%$AxLabel:@ECH508%>" />
+      #        <dynamics:AxBoundField Dataset="EPSalesTableList" DataSetView="SalesTable" DataField="echMsgPartnerId" HeaderText="<%$AxLabel:@ECH509%>"
+      #        />
+      #        <%--<dynamics:AxBoundFieldGroup DataSet="EPSalesTableList" DataSetView="SalesTable" FieldGroup="echMsgPartner" 
+      #        />--%>
+      #        <%-- ECHINA steven add start 20130118 --%>
+      #        <dynamics:AxBoundField DataSet="EPSalesTableList" DataSetView="SalesTable" DataField="CustAccount"
+      #            SortExpression="CustAccount" visible ="false"/>
+      #        <%--ECHINA shao zhifang add start 20121231--%>
+      #        <dynamics:AxBoundField DataSet="EPSalesTableList" DataSetView="SalesTable" DataField="CustomerName**" 
+      #            HeaderText="<%$AxLabel:@ECH510%>"/>
+      #        <dynamics:AxBoundField DataSet="EPSalesTableList" DataSetView="SalesTable" DataField="echPaymentAmount" 
+      #        SortExpression="echPaymentAmount" HeaderText="<%$AxLabel:@ECH511%>"/>
+      #        <%--ECHINA shao zhifang add end 20121231--%>
+      #        <dynamics:AxBoundField DataSet="EPSalesTableList" DataSetView="SalesTable" DataField="createdDateTime"
+      #            SortExpression="createdDateTime" HeaderText="<%$AxLabel:@ECH512%>"/>
+      #        <dynamics:AxDropDownBoundField DataField="SalesType" DataSet="EPSalesTableList" DataSetView="SalesTable"
+      #            SortExpression="SalesType">
+      #        </dynamics:AxDropDownBoundField>
+      #        <dynamics:AxDropDownBoundField DataField="SalesStatus" DataSet="EPSalesTableList"
+      #            DataSetView="SalesTable" SortExpression="SalesStatus" Visible="false">
+      #        </dynamics:AxDropDownBoundField>
+      #        <dynamics:AxDropDownBoundField DataField="ReturnStatus" DataSet="EPSalesTableList"
+      #            DataSetView="SalesTable" SortExpression="ReturnStatus">
+      #        </dynamics:AxDropDownBoundField>
+      #        <dynamics:AxDropDownBoundField DataField="ECHAggStatus" 
+      #            DataSet="EPSalesTableList" DataSetView="SalesTable" 
+      #            SortExpression="ECHAggStatus" HeaderText="<%$AxLabel:@ECH513%>">
+      #        </dynamics:AxDropDownBoundField>
+      #        <dynamics:AxBoundField DataField="SalesTaker" 
+      #            DataSet="EPSalesTableList" DataSetView="SalesTable" 
+      #            SortExpression="SalesTaker">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="ProjId" DataSet="EPSalesTableList" 
+      #            DataSetView="SalesTable" SortExpression="ProjId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="ReturnItemNum" 
+      #            DataSet="EPSalesTableList" DataSetView="SalesTable" 
+      #            SortExpression="ReturnItemNum">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echDispTrackingNumber**" 
+      #            DataSet="EPSalesTableList" DataSetView="SalesTable" Visible="False">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echDispCarrierId**" 
+      #            DataSet="EPSalesTableList" DataSetView="SalesTable" Visible="False">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echDispCarrierName**" 
+      #            DataSet="EPSalesTableList" DataSetView="SalesTable" Visible="False">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echDispShipDate**" DataSet="EPSalesTableList" 
+      #            DataSetView="SalesTable" Visible="False">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echOrigSalesId**" DataSet="EPSalesTableList" 
+      #            DataSetView="SalesTable" Visible="False">
+      #        </dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #EPSalesTableList_ascx_cs
+      HelpText            #
+      Filename            #EPSalesTableList.ascx.cs
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Data;
+      #using System.Configuration;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal.UI;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Microsoft.Dynamics.Framework.Metadata.Ax;
+      #using Proxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using ApplicationProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #
+      #
+      #public partial class EPSalesTableList : System.Web.UI.UserControl
+      #{
+      #    //Show CustAccount col in Grid
+      #    bool _bCustAccount = true;
+      #
+      #    #region Properties
+      #
+      #    //Web part private
+      #    AxBaseWebPart _baseWebpart = null;
+      #
+      #    //Web part 
+      #    AxBaseWebPart BaseWebpart
+      #    {
+      #        get
+      #        {
+      #            //return the basewebpart if it is not null
+      #            if (this._baseWebpart != null)
+      #                return this._baseWebpart;
+      #            //get the webpart if basewebpart is null
+      #            this._baseWebpart = AxBaseWebPart.GetWebpart(this);
+      #            return this._baseWebpart;
+      #        }
+      #    }
+      #
+      #    //Web part managed content item for the page
+      #    Proxy.WebManagedContentItem ContentItem
+      #    {
+      #        get
+      #        {
+      #            //get the managed content item from the webpart
+      #            return this.BaseWebpart == null ? null : this.BaseWebpart.WebManagedContentItem;
+      #        }
+      #    }
+      #
+      #    //Web part session
+      #    ISession AxSession
+      #    {
+      #        get
+      #        {
+      #            //get the current webpart session
+      #            return this.BaseWebpart == null ? null : this.BaseWebpart.Session;
+      #        }
+      #    }
+      #
+      #    ApplicationProxy.SalesType SalesType
+      #    {
+      #        get
+      #        {
+      #            if (this.ContentItem.enumTypeParameter ==
+      #                 EnumMetadata.EnumNum(this.AxSession, "SalesType"))
+      #            {
+      #                return (ApplicationProxy.SalesType)this.ContentItem.enumParameter;
+      #            }
+      #
+      #            // Default mode
+      #            return ApplicationProxy.SalesType.Sales;
+      #        }
+      #    }
+      #
+      #    ApplicationProxy.echAggStatus ECHAggStatus
+      #    {
+      #        get
+      #        {
+      #            if (this.ContentItem.enumTypeParameter ==
+      #                 EnumMetadata.EnumNum(this.AxSession, "ECHAggStatus"))
+      #            {
+      #                return (ApplicationProxy.echAggStatus)this.ContentItem.enumParameter;
+      #            }
+      #
+      #            // Default mode
+      #            return ApplicationProxy.echAggStatus.Blank;
+      #        }
+      #    }
+      #
+      #    ApplicationProxy.echAggStatus GetechAggStatusEnum(string strEnumApprovedValue)
+      #    {
+      #        ApplicationProxy.echAggStatus echAggStatus = ApplicationProxy.echAggStatus.Blank;
+      #        switch (strEnumApprovedValue)
+      #        {
+      #            case "0":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Blank;
+      #                break;
+      #            case "1":
+      #                echAggStatus = ApplicationProxy.echAggStatus.PaymentConfirmed;
+      #                break;
+      #            case "2":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Cancelled;
+      #                break;
+      #            case "3":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ChecksFailed;
+      #                break;
+      #            case "4":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ChecksOK;
+      #                break;
+      #            case "5":
+      #                echAggStatus = ApplicationProxy.echAggStatus.SendToWMS;
+      #                break;
+      #            case "6":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ShippedToCustomer;
+      #                break;
+      #            case "7":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Invoiced;
+      #                break;
+      #            case "8":
+      #                echAggStatus = ApplicationProxy.echAggStatus.DeliveredAtCustomer;
+      #                break;
+      #            case "9":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Paid;
+      #                break;
+      #            case "10":
+      #                echAggStatus = ApplicationProxy.echAggStatus.WaitShipping;
+      #                break;
+      #            case "11":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Created;
+      #                break;
+      #            case "12":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ProductsReceived;
+      #                break;
+      #            case "13":
+      #                echAggStatus = ApplicationProxy.echAggStatus.RefundReplacement;
+      #                break;
+      #            case "14":
+      #                echAggStatus = ApplicationProxy.echAggStatus.ReturnToCustomer;
+      #                break;
+      #            case "15":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Refunded;
+      #                break;
+      #            case "16":
+      #                echAggStatus = ApplicationProxy.echAggStatus.StockReserved;
+      #                break;
+      #            case "17":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Approved;
+      #                break;
+      #            case "18":
+      #                echAggStatus = ApplicationProxy.echAggStatus.Rejected;
+      #                break;
+      #        }
+      #        return echAggStatus;
+      #    }
+      #
+      #    #endregion
+      #
+      #    #region  Page and Control Event
+      #
+      #    void Page_Init(object sender, EventArgs e)
+      #    {
+      #        // Setup event handler for toolbar connected via webpart connections
+      #        if (this.BaseWebpart != null)
+      #        {
+      #            //this.BaseWebpart.SetMenuItemProperties +=
+      #            //     new EventHandler<SetMenuItemPropertiesEventArgs>(BaseWebpart_SetMenuItemProperties);
+      #            _baseWebpart.ActionMenuItemClicked += new EventHandler<ActionMenuItemEventArgs>(webpart_ActionMenuItemClicked);
+      #        }
+      #
+      #
+      #    }
+      #
+      #    protected override void OnPreRender(EventArgs e)
+      #    {
+      #        // get the control visibility value
+      #        this.GetControlValuesFromDataset();
+      #
+      #        // call method SetGridSetting to set final coulmns for display
+      #        this.SetGridProperties();
+      #        base.OnPreRender(e);
+      #
+      #        //ECHINA shao zhifang add start 20130102
+      #        GetField(this.gridEPSalesTableList.Columns, "SalesType").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "SalesTaker").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "ProjId").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "echDispTrackingNumber**").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "echDispCarrierId**").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "echDispCarrierName**").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "echOrigSalesId**").Visible = false;
+      #        //ECHINA shao zhifang add end 20130102
+      #        //ECHINA steven add start 20130118
+      #        GetField(this.gridEPSalesTableList.Columns, "CustAccount").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "SalesStatus").Visible = false;
+      #        GetField(this.gridEPSalesTableList.Columns, "echDispShipDate**").Visible = false;
+      #    }
+      #
+      #
+      #    #endregion
+      #
+      #    #region Menu Event
+      #
+      #    void webpart_ActionMenuItemClicked(object sender, ActionMenuItemEventArgs e)
+      #    {
+      #        //Check for Action menu item and refresh the datasource
+      #        dsEPSalesTableList.GetDataSet().DataSetViews["SalesTable"].ExecuteQuery();
+      #    }
+      #
+      #
+      #    //void BaseWebpart_SetMenuItemProperties(object sender, SetMenuItemPropertiesEventArgs e)
+      #    //{
+      #
+      #    //    // Check the menu item is EPSalesTableCreate
+      #    //    if (String.Compare(e.MenuItem.MenuItemAOTName, "EPSalesTableCreate", true) == 0)
+      #    //    {
+      #    //        // set context to the menu item
+      #    //        int iTableId = (int)TableMetadata.TableNum(AxSession, "CustTable");
+      #
+      #    //        if (this.BaseWebpart.ExternalContext != null && (int)this.BaseWebpart.ExternalContext.TableId == iTableId)
+      #    //        {
+      #    //            ((AxUrlMenuItem)e.MenuItem).MenuItemContext = this.BaseWebpart.ExternalContext;
+      #    //        }
+      #    //        else
+      #    //        {
+      #    //            e.MenuItem.MenuItemAOTName = "EPSalesTableCreateTunnel";
+      #    //            ((AxUrlMenuItem)e.MenuItem).MenuItemContext = null;
+      #    //        }
+      #    //    }
+      #    //    else if (String.Compare(e.MenuItem.MenuItemAOTName, "EPSalesQuotationTableCreate", true) == 0)
+      #    //    {
+      #    //        if (
+      #    //                this.BaseWebpart.ExternalContext != null &&
+      #    //                (
+      #    //                    (this.BaseWebpart.ExternalContext.TableId == TableMetadata.TableNum(AxSession, "CustTable"))
+      #    //                    ||
+      #    //                    (this.BaseWebpart.ExternalContext.TableId == TableMetadata.TableNum(AxSession, "smmBusRelTable"))
+      #    //                )
+      #    //            )
+      #    //        {
+      #    //            ((AxUrlMenuItem)e.MenuItem).MenuItemContext = this.BaseWebpart.ExternalContext;
+      #    //        }
+      #    //        else
+      #    //        {
+      #    //            e.MenuItem.MenuItemAOTName = "EPSalesQuotationTableCreateTunnel";
+      #    //            ((AxUrlMenuItem)e.MenuItem).MenuItemContext = null;
+      #    //        }
+      #    //    }
+      #    //}
+      #
+      #    #endregion
+      #
+      #    #region  User Defined Functions
+      #
+      #    /// <summary>
+      #    /// Check if the logged in user is a Customer
+      #    /// </summary>
+      #    /// <returns></returns>
+      #    private Boolean IsCustomer()
+      #    {
+      #        bool isCustomerBool = false;
+      #
+      #        if (ApplicationProxy.EP.isCustomer(AxSession.AxaptaAdapter))
+      #            isCustomerBool = true;
+      #
+      #        return isCustomerBool;
+      #    }
+      #
+      #    /// <summary>
+      #    /// Returns a field given a name. Used to loop over form and grid collections
+      #    /// </summary>
+      #    /// <param name="fields"></param>
+      #    /// <param name="name"></param>
+      #    /// <returns></returns>
+      #    static AxBoundField GetField(DataControlFieldCollection fields, string name)
+      #    {
+      #        foreach (DataControlField field in fields)
+      #        {
+      #            AxBoundField boundField = field as AxBoundField;
+      #            if (boundField != null && String.Compare(boundField.DataField, name, true) == 0)
+      #            {
+      #                return boundField;
+      #            }
+      #        }
+      #        return null;
+      #    }
+      #
+      #    /// <summary>
+      #    /// This function is called on page load.
+      #    /// The grid column header is set and if logged in user
+      #    /// customer then column header is set relates to it menuitem on url is set
+      #    /// and sales type column is hidden
+      #    /// </summary>
+      #
+      #    void SetIntialGridProperties()
+      #    {
+      #        // Check the form par enum type.
+      #
+      #        if (this.SalesType == ApplicationProxy.SalesType.ReturnItem)
+      #        {
+      #            AxBoundField salesIdField = GetField(this.gridEPSalesTableList.Columns, "SalesId");
+      #            salesIdField.HeaderText = Labels.GetLabel("@SYS24700");
+      #
+      #            AxHyperLinkBoundField salesIdHLBD = (AxHyperLinkBoundField)
+      #                GetField(this.gridEPSalesTableList.Columns, "SalesId");
+      #            salesIdHLBD.MenuItem = "echEPReturnTableInfo";
+      #
+      #            AxBoundField echOrigSalesId = GetField(this.gridEPSalesTableList.Columns, "echOrigSalesId**");
+      #            echOrigSalesId.Visible = true;
+      #        }
+      #        //ECHINA - Start
+      #        else if (this.SalesType == ApplicationProxy.SalesType.Sales)
+      #        {
+      #            AxBoundField echDispTrackingNumber = GetField(this.gridEPSalesTableList.Columns, "echDispTrackingNumber**");
+      #            echDispTrackingNumber.Visible = true;
+      #            AxBoundField echDispCarrierId = GetField(this.gridEPSalesTableList.Columns, "echDispCarrierId**");
+      #            echDispCarrierId.Visible = true;
+      #            AxBoundField echDispCarrierName = GetField(this.gridEPSalesTableList.Columns, "echDispCarrierName**");
+      #            echDispCarrierName.Visible = true;
+      #            AxBoundField echDispShipDate = GetField(this.gridEPSalesTableList.Columns, "echDispShipDate**");
+      #            echDispShipDate.Visible = true;
+      #            AxBoundField echOrigSalesId = GetField(this.gridEPSalesTableList.Columns, "echOrigSalesId**");
+      #            echOrigSalesId.Visible = true;
+      #        }
+      #        //ECHINA - End
+      #        //ECHINA steven add start 20130129
+      #        //ECHINA steven add start 20130129
+      #
+      #        else if (this.IsCustomer())
+      #        {
+      #
+      #            //Get SalesId Column
+      #            AxHyperLinkBoundField salesIdHLBD = (AxHyperLinkBoundField)
+      #                GetField(this.gridEPSalesTableList.Columns, "SalesId");
+      #
+      #            //Get label text
+      #            string strSalesIdHeaderText = Labels.GetLabel("@SYS25545");
+      #
+      #            //Set header text for column
+      #            // Set menu item dynamically
+      #            if (salesIdHLBD != null)
+      #            {
+      #                salesIdHLBD.HeaderText = strSalesIdHeaderText;
+      #                if (this.SalesType == ApplicationProxy.SalesType.ReturnItem)
+      #                    salesIdHLBD.MenuItem = "echEPReturnTableInfoCSS";
+      #                else
+      #                salesIdHLBD.MenuItem = "EPSalesTableInfoCSS";
+      #            }
+      #
+      #            //Get SalesType Column
+      #            AxBoundField salesTypeField = (AxBoundField)
+      #                GetField(this.gridEPSalesTableList.Columns, "SalesType");
+      #            if (salesTypeField != null)
+      #                salesTypeField.Visible = false;
+      #
+      #        }
+      #
+      #    }
+      #
+      #
+      #    /// <summary>
+      #    /// This function is called on page pre-rendering event.
+      #    /// This function is used for hiding and showing the grid column(s)
+      #    /// basing on  sales type.
+      #    /// </summary>
+      #    void SetGridProperties()
+      #    {
+      #        bool bReturnType = false;
+      #
+      #        if (this.SalesType == ApplicationProxy.SalesType.ReturnItem)
+      #            bReturnType = true;
+      #
+      #        //Get SalesType Column
+      #        AxBoundField salesTypeField = (AxBoundField)
+      #            GetField(this.gridEPSalesTableList.Columns, "SalesType");
+      #
+      #        // Check colum is there or not and  hide/show the col
+      #        //basing on the sales type
+      #        if (salesTypeField != null)
+      #            salesTypeField.Visible = bReturnType == true ? false : true;
+      #
+      #        //Get createdDate Column
+      #        AxBoundField createdDateField = (AxBoundField)
+      #            GetField(this.gridEPSalesTableList.Columns, "createdDateTime");
+      #
+      #        // Check colum is there or not and  hide/show the col
+      #        //basing on the sales type
+      #        if (createdDateField != null)
+      #            createdDateField.Visible = bReturnType == true ? false : true;
+      #
+      #        //Get SalesStatus Column
+      #        AxBoundField salesStatusField = (AxBoundField)
+      #            GetField(this.gridEPSalesTableList.Columns, "SalesStatus");
+      #
+      #        // Check colum is there or not and  hide/show the col
+      #        //basing on the sales type
+      #        if (salesStatusField != null)
+      #            salesStatusField.Visible = bReturnType == true ? false : true;
+      #
+      #
+      #        //Get ProjId Column
+      #        AxBoundField projIdField = (AxBoundField)
+      #            GetField(this.gridEPSalesTableList.Columns, "ProjId");
+      #
+      #        // Check colum is there or not and  hide/show the col
+      #        //basing on the sales type
+      #        if (projIdField != null)
+      #            projIdField.Visible = bReturnType == true ? false : true;
+      #
+      #        //Get ReturnStatus Column
+      #        AxBoundField returnStatusField = (AxBoundField)
+      #            GetField(this.gridEPSalesTableList.Columns, "ReturnStatus");
+      #
+      #        // Check colum is there or not and  hide/show the col
+      #        //basing on the sales type
+      #        if (returnStatusField != null)
+      #            returnStatusField.Visible = bReturnType == true ? true : false;
+      #
+      #
+      #        //Get ReturnItemNum Column
+      #        AxBoundField returnItemNumField = (AxBoundField)
+      #            GetField(this.gridEPSalesTableList.Columns, "ReturnItemNum");
+      #
+      #        // Check colum is there or not and  hide/show the col
+      #        //basing on the sales type
+      #        if (returnItemNumField != null)
+      #            returnItemNumField.Visible = bReturnType == true ? true : false;
+      #
+      #
+      #
+      #        //Get CustAccount Column
+      #        AxBoundField CustAccountField = (AxBoundField)
+      #            GetField(this.gridEPSalesTableList.Columns, "CustAccount");
+      #
+      #        // Check colum is there or not and  hide/show the col
+      #        //basing on the sales type
+      #        if (CustAccountField != null)
+      #            CustAccountField.Visible = _bCustAccount;
+      #
+      #    }
+      #
+      #    /// <summary>
+      #    /// Call getControlValues method of DataSource
+      #    /// and set values and use it for hiding and showing
+      #    /// the grid columns
+      #    /// </summary>
+      #    void GetControlValuesFromDataset()
+      #    {
+      #        //call getControlValues of the dataset to get the control values
+      #        using (IAxaptaContainerAdapter values = AxSession.AxaptaAdapter.CreateAxaptaContainer(
+      #                this.dsEPSalesTableList
+      #                .GetDataSet().DataSetRun.AxaptaObjectAdapter.
+      #                Call("getControlValues")))
+      #        {
+      #            IEnumerator fieldList = values.GetEnumerator();
+      #            fieldList.MoveNext();
+      #            _bCustAccount = (bool)fieldList.Current;
+      #
+      #        }
+      #    }
+      #
+      #    protected void gridEPSalesTableList_Init(object sender, EventArgs e)
+      #    {
+      #        this.SetIntialGridProperties();
+      #    }  
+      #  
+      #    #endregion 
+      #}
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

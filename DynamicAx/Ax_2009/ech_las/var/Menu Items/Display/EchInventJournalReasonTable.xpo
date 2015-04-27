@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : EchInventJournalReasonTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #EchInventJournalReasonTable
+    Type: 1
+    PROPERTIES
+      Name                #EchInventJournalReasonTable
+      Label               #@ECH381
+      HelpText            #@ECH379
+      Object              #EchInventJournalReasonTable
+      RunOn               #Called from
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

@@ -1,0 +1,195 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : Address unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #Address
+    Id 1
+    PROPERTIES
+      Name                #Address
+      Label               #@SYS23936
+      FormRef             #Address
+      TitleField1         #Name
+      TitleField2         #type
+      SecurityKey         #BasicTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Group
+      PrimaryIndex        #RecId
+      ClusterIndex        #AddrIdx
+      DeveloperDocumentation  #@SYS125025
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ZipCode
+        Id 12
+        STRING
+        PROPERTIES
+          Name                #ZipCode
+          Table               #Address
+          ExtendedDataType    
+            ARRAY 
+              #echAddressZipCodeId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+      REFERENCE #County
+        PROPERTIES
+          Name                #County
+          Table               #AddressCounty
+          Validate            #No
+          EntityRelationshipRole  #@SYS125028
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #CountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #State
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #County
+            RelatedField        #CountyId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #State
+        PROPERTIES
+          Name                #State
+          Table               #AddressState
+          Validate            #No
+          EntityRelationshipRole  #@SYS125028
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #CountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #State
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #modifiedField
+        #// Update ECH_WI_01980 by mengqi.cen on 20130226
+        #public void modifiedField(fieldId _fieldId)
+        #{
+        #    AxAddress   axAddress;
+        #    Object      formDataSource;
+        #    SalesTable  salesTable;
+        #    SalesLine   salesLine;
+        #    DlvMode     dlvMode;
+        #
+        #    super(_fieldId);
+        #
+        #    if (this.isFormDataSource())
+        #    {
+        #        switch (_fieldId)
+        #        {
+        #            case fieldnum(Address, ZipCode):
+        #                if (AddressZipCode::zipCodeCount(this.ZipCode) > 0)
+        #                    this.AddressMap::modifiedFieldZipCode();
+        #                break;
+        #
+        #            case fieldnum(Address, DlvMode):
+        #                dlvMode = DlvMode::find(this.DlvMode);
+        #                this.ShipCarrierId  = dlvMode.ShipCarrierId;
+        #                this.ShipCarrierAccountCode = dlvMode.ShipCarrierAccountCode;
+        #                break;
+        #
+        #            case fieldnum(Address, ShipCarrierId):
+        #            case fieldnum(Address, AddrRecId):
+        #                if (this.AddrRecId      &&
+        #                    this.ShipCarrierId   &&
+        #                    this.Type == AddressType::ShipCarrierThirdPartyShipping)
+        #                {
+        #                    if (this.AddrTableId == tablenum(SalesTable))
+        #                    {
+        #                        salesTable  = SalesTable::findRecId(this.AddrRecId, true);
+        #                        salesTable.ShipCarrierId = this.ShipCarrierId;
+        #                        salesTable.update();
+        #                    }
+        #                    else
+        #                    if (this.AddrTableId == tablenum(SalesLine))
+        #                    {
+        #                        salesLine  = SalesLine::findRecId(this.AddrRecId, true);
+        #                        salesLine.ShipCarrierId = this.ShipCarrierId;
+        #                        salesLine.update();
+        #                    }
+        #                }
+        #
+        #                break;
+        #            case fieldnum(Address, Street):
+        #                this.formatAddressNL();
+        #                break;
+        #        }
+        #        // <GBR>
+        #        if (BrazilParameters::isEnabled())
+        #        {
+        #            this.AddressMap::modifiedField(_fieldId);
+        #        }
+        #        // </GBR>
+        #
+        #        if (formDataSourceHasMethod(this.dataSource(), classstr(AxAddress)))
+        #        {
+        #            formDataSource  = this.dataSource();
+        #            axAddress       = formDataSource.axAddress();
+        #        }
+        #        else
+        #        {
+        #            axAddress       = this.axAddress();
+        #        }
+        #
+        #    }
+        #    else
+        #    {
+        #        axAddress = this.axAddress();
+        #    }
+        #
+        #    if (axAddress)
+        #    {
+        #        axAddress.setFieldAsTouched(_fieldId);
+        #        axAddress.modify();
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echStockAllocOverAlloc unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echStockAllocOverAlloc
+    Type: 1
+    PROPERTIES
+      Name                #echStockAllocOverAlloc
+      Label               #@ECH768
+      HelpText            #@ECH770
+      Object              #echStockAllocOverAlloc
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventInquiries
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

@@ -1,0 +1,172 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echEventCudManager_SalesTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echEventCudManager_SalesTable
+    Id 30165
+    PROPERTIES
+      Name                #echEventCudManager_SalesTable
+      Extends             #echEventCudManager
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #canCreateEchEventCUD
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: check if can generate eventCUD record
+        #
+        #protected boolean canCreateEchEventCUD()
+        #{
+        #    ;
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: child class to generate event rules for SalesTable
+        #
+        #class echEventCudManager_SalesTable extends echEventCudManager
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #generateEventRules
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: generate event rules
+        #
+        #protected void generateEventRules()
+        #{
+        #    EventRule               eventRule;
+        #    TmpEventAlertField      tmpEventAlertField;
+        #
+        #    SysDictClass            dictClass;
+        #    Object                  eventType;
+        #    container               eventTypePacked;
+        #
+        #    Query                   filterQuery;
+        #
+        #
+        #    EventContextInformation eci;
+        #    FormRun                 formRun;
+        #    Args                    args;
+        #
+        #    List                    actions;
+        #    #Admin
+        #    ;
+        #
+        #    select firstonly recid from eventRule
+        #        where   eventRule.AlertTableId  == tablenum(salesTable)
+        #        &&      eventRule.AlertFieldId  == fieldnum(salesTable, DeliveryAddress);
+        #
+        #    if (eventRule.RecId)
+        #    {
+        #        info("@ECH296");
+        #        return;
+        #    }
+        #
+        #    // init actions list
+        #    actions = new List(Types::Integer);
+        #    actions.addEnd(classnum(EventActionAlert));
+        #
+        #    ttsbegin;
+        #
+        #    // Step 1: Create Event Rule
+        #    eventRule.clear();
+        #    eventRule.initValue();
+        #    eventRule.RuleId            = NumberSeq::newGetNum(CompanyInfo::numRefParmId()).num();
+        #    eventRule.RuleCondition     = EventRuleCondition::All;
+        #    eventRule.AlertTableId      = tablenum(SalesTable);
+        #    eventRule.UserId            = #AdminUser;
+        #
+        #                                // Field %1 in table %2 has changed
+        #    eventRule.Subject           = strfmt("@ECH289", fieldId2pname(tablenum(SalesTable), fieldnum(SalesTable, DeliveryAddress)), tableId2pname(tablenum(SalesTable)));
+        #    eventRule.TypeId            = classNum(EventTypeCUD);
+        #    eventRule.TypeTrigger       = EventTypeTrigger::FieldChanged;
+        #
+        #    eventRule.PrimTableId       = eventRule.AlertTableId;
+        #    eventRule.AlertQbdsNo       = 1;
+        #    eventRule.AlertFieldId      = fieldnum(SalesTable, DeliveryAddress);
+        #    eventRule.AlertFieldLabel   = fieldId2pname(tablenum(SalesTable), fieldnum(SalesTable, DeliveryAddress));
+        #    eventRule.FormName          = identifierstr(SalesTable);
+        #    eventRule.Enabled           = NoYes::Yes;
+        #
+        #    eventRule.Until             = EventUntil::Always;
+        #
+        #    eventRule.ActionIds         = actions.pack();
+        #
+        #    if(!eventRule.validateWrite())
+        #    {
+        #        ttscommit;
+        #        return;
+        #    }
+        #
+        #    eventRule.insert();
+        #
+        #    // Step 2: Create Event Rule Data - Value
+        #    dictClass = new DictClass(eventRule.TypeId);
+        #    if (dictClass)
+        #    {
+        #        eventType = dictClass.makeObject();
+        #        eventType.parmTypeTrigger(eventRule.TypeTrigger);
+        #        eventType.setRule(eventRule);
+        #        eventTypePacked = eventType.pack();
+        #    }
+        #
+        #    eventRule.typeValue(eventTypePacked);
+        #
+        #    // Step 3: Create Event Rule Data - Filtrer
+        #    filterQuery = new Query();
+        #    filterQuery.addDataSource(eventRule.AlertTableId);
+        #    eventRule.filterQuery(filterQuery);
+        #
+        #    // Step 4: Create Event Rule Data - Context
+        #    eci = new EventContextInformation();
+        #    eci.setEventRuleId(eventRule.RuleId);
+        #
+        #    args    = new Args();
+        #    args.name(formstr(SalesTable));
+        #    args.menuItemType(MenuItemType::Display);
+        #    args.menuItemName(menuitemdisplaystr(SalesTableDetails));
+        #    args.parmEnumType(enumnum(SalesTableFormId));
+        #    args.parmEnum(SalesTableFormId::None);
+        #
+        #    formRun = classFactory.formRunClass(args);
+        #    formRun.init();
+        #    eci.parmFormRun(formRun);
+        #    eci.parmPackedArgs(formRun.args());
+        #    eci.parmAlertFormDsName(formRun.dataSource().name());
+        #    eci.parmFormControlName('HeaderAddressDisplay_DeliveryAddress');
+        #
+        #    eventRule.contextInfo(eci.pack());
+        #
+        #    // Step 5: Create Event Rule Data - Alert field
+        #    tmpEventAlertField.clear();
+        #    tmpEventAlertField.entireTableEntry = NoYes::No;
+        #    tmpEventAlertField.RefTableId = eventRule.AlertTableId;
+        #    tmpEventAlertField.RefFieldId = fieldnum(SalesTable, DeliveryAddress);
+        #    tmpEventAlertField.insert();
+        #    eventRule.alertField([tmpEventAlertField]);
+        #
+        #    ttscommit;
+        #
+        #    info("@ECH296");
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

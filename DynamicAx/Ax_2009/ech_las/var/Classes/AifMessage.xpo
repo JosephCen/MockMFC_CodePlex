@@ -1,0 +1,48 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AifMessage unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AifMessage
+    Id 3241
+    PROPERTIES
+      Name                #AifMessage
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #getOperationContext
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Added a force parameter to the method
+        #
+        #// CS - ECH_E_013 - Marijn Catthoor - 13 Mar 2012
+        #public AifOperationContext getOperationContext(boolean _force = false)
+        #// CE - ECH_E_013 - Marijn Catthoor - 13 Mar 2012
+        #{
+        #
+        #// CS - ECH_E_013 - Marijn Catthoor - 13 Mar 2012
+        #    if (operationContext == null || _force)
+        #    {
+        #        // clear the actionId if force is true
+        #        if (_force)
+        #            actionId = '';
+        #// CE - ECH_E_013 - Marijn Catthoor - 13 Mar 2012
+        #        this.initializeOperationContext();
+        #    }
+        #
+        #    return operationContext;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

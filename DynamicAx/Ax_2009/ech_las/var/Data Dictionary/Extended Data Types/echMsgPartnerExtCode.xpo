@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echMsgPartnerExtCode unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echMsgPartnerExtCode
+  Id 30007
+  STRING
+    PROPERTIES
+      Name                #echMsgPartnerExtCode
+      Label               #@ECH13
+      HelpText            #@ECH14
+      ConfigurationKey    #echInterfaces
+      StringSize          #60
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

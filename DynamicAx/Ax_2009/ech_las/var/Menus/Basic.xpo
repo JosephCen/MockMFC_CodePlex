@@ -1,0 +1,1523 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : Basic unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #Basic
+    PROPERTIES
+      Name                #Basic
+      Label               #@SYS98430
+      HelpText            #@SYS88652
+      SetCompany          #Yes
+      NormalResource      #3466
+    ENDPROPERTIES
+    
+    MENU #@SYS31454
+      PROPERTIES
+        Name                #EmplTableListPage
+        Label               #@SYS31454
+        HelpText            #@SYS121462
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #EmplTableListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Contract Workers
+          MenuItemName        #EmplTableContractWorkersListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Past Workers
+          MenuItemName        #EmplTablePastWorkersListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS119629
+      PROPERTIES
+        Name                #HRPPartyPositionListPage
+        Label               #@SYS119629
+        HelpText            #@SYS121391
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #HRPPartyPositionListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Active Positions
+          MenuItemName        #HRPPartyPositionActiveListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS121389
+      PROPERTIES
+        Name                #HRPPartyJobListPage
+        Label               #@SYS121389
+        HelpText            #@SYS121392
+        IsDisplayedInContentArea    #Yes
+        MenuItemName        #HRPPartyJobListPage
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Active Employee Jobs
+          MenuItemName        #HRPPartyJobActiveListPage
+          IsDisplayedInContentArea    #Yes
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENUITEM
+      PROPERTIES
+        Name                #Organizations
+        MenuItemName        #HRPPartyOrganizationUnitListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Global Address Book
+        MenuItemName        #GlobalAddressBookListPage
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Employee Details
+        MenuItemName        #EmplTableDetails
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Organization Details
+        MenuItemName        #HRPPartyOrganizationUnitDetails
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Work center groups
+        MenuItemName        #WrkCtrTableGroup
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Batch job list - User
+        MenuItemName        #BatchJobUser
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Calendar
+        MenuItemName        #WorkCalendarTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Dimensions
+        MenuItemName        #Dimensions
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Process templates
+        MenuItemName        #HierarchyTemplate
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Activity Details
+        MenuItemName        #ActivitiesMainBasic
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Global Address Book Details
+        MenuItemName        #DirPartyTableMain
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Organization View
+        MenuItemName        #DirViewOrganization
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #Reporting Relationships View
+        MenuItemName        #DirViewReportingRelationships
+        IsDisplayedInContentArea    #Yes
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENUITEM
+      PROPERTIES
+        Name                #File archive
+        MenuItemName        #BankFileArchTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+    MENU #@SYS3850
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS3850
+        HelpText            #@SYS88640
+        NormalResource      #3474
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Batch job
+          MenuItemName        #BatchJob
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Batch job history
+          MenuItemName        #BatchJobHistory
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Print archive
+          MenuItemName        #SysPrintArchiveAll
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Gantt table
+          MenuItemName        #GanttTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Workflow history
+          MenuItemName        #WorkflowStatus
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Fill Utility Log
+          MenuItemName        #SysFillUtilityLog
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@SYS10369
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS10369
+          HelpText            #@SYS72540
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Capacity reservations
+            MenuItemName        #WrkCtrCapRes
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Capacity load, graphically
+            MenuItemName        #WrkCtrCapResGraph
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS110995
+        PROPERTIES
+          Name                #SynchronizationService
+          Label               #@SYS110995
+          HelpText            #@SYS110992
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Queue manager
+            MenuItemName        #SyncCompoundTrans
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENUITEM
+        PROPERTIES
+          Name                #Report Manager
+          MenuItemType        #Action
+          MenuItemName        #SRSReportManager
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Report Builder
+          MenuItemType        #Action
+          MenuItemName        #SRSReportBuilder
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+    ENDMENU
+    MENU #@SYS6845
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS6845
+        HelpText            #@SYS88641
+        NormalResource      #3477
+      ENDPROPERTIES
+      
+      MENU #@SYS9119
+        PROPERTIES
+          Name                #BaseData
+          Label               #@SYS9119
+          HelpText            #@sys72267
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Organization
+            MenuItemType        #Output
+            MenuItemName        #OrganizationUnit
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Position
+            MenuItemType        #Output
+            MenuItemName        #Position
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Job
+            MenuItemType        #Output
+            MenuItemName        #Job
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS10369
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS10369
+          HelpText            #@SYS72563
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Work centers
+            MenuItemType        #Output
+            MenuItemName        #WrkCtrGroups
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Capacity reservations
+            MenuItemType        #Output
+            MenuItemName        #WrkCtrCapRes
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS11839
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS11839
+          HelpText            #@SYS88644
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Calendar
+            MenuItemType        #Output
+            MenuItemName        #WorkCalendar
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Working time templates
+            MenuItemType        #Output
+            MenuItemName        #WorkTime
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS8782
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS8782
+        HelpText            #@SYS88642
+        NormalResource      #3476
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Calendar cleanup
+          MenuItemType        #Action
+          MenuItemName        #WorkCalendarDelete
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Consistency check
+          MenuItemType        #Action
+          MenuItemName        #SysConsistencyCheckBase
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@SYS115204
+        PROPERTIES
+          Name                #Party
+          Label               #@SYS115204
+          HelpText            #@SYS111922
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Update contacts
+            MenuItemType        #Action
+            MenuItemName        #DirUpdateContactPerson
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS90519
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS90519
+          HelpText            #@SYS93928
+          ConfigurationKey    #AIF
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Queue manager
+            MenuItemName        #AifQueueManager
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Document history
+            MenuItemName        #AifDocumentHistory
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Exceptions
+            MenuItemName        #Exceptions
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS14462
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS14462
+          HelpText            #@SYS88646
+          NeededAccessLevel   #NoAccess
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Processing
+            MenuItemType        #Action
+            MenuItemName        #BatchRun
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS27650
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS27650
+          HelpText            #@SYS72598
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Intrastat
+            MenuItemName        #Intrastat
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #EU sales list
+            MenuItemName        #EUSalesList
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #BLWI
+            MenuItemName        #TradeBLWILines
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #PRODCOM
+            MenuItemName        #InventProdComTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS87698
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS87698
+          HelpText            #@SYS88647
+          ConfigurationKey    #Event
+          SecurityKey         #BasicPeriodic
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Change based alerts
+            MenuItemType        #Action
+            MenuItemName        #EventCUD
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Due date alerts
+            MenuItemType        #Action
+            MenuItemName        #EventDueDate
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Send out events
+            MenuItemType        #Action
+            MenuItemName        #echSendEventCUDBatch
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS80075
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS80075
+          HelpText            #@SYS85467
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Synchronize
+            MenuItemName        #smmOutlookSyncrhonization
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #My contacts
+            MenuItemName        #smmOutlookMyContacts
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Migrate
+            MenuItemType        #Action
+            MenuItemName        #smmOutlookClear
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+    ENDMENU
+    MENU #@SYS2186
+      PROPERTIES
+        Name                #Submenu1
+        Label               #@SYS2186
+        HelpText            #@SYS88643
+        NormalResource      #3478
+      ENDPROPERTIES
+      
+      MENUITEM
+        PROPERTIES
+          Name                #Company information
+          MenuItemName        #CompanyInfo
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Job title
+          MenuItemName        #PersonTitles
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Job
+          MenuItemName        #HRPPArtyJob
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Position
+          MenuItemName        #HRPPartyPosition
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Limit types
+          MenuItemName        #HRPLimitType
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Transaction text
+          MenuItemName        #TransactionTexts
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Record templates
+          MenuItemName        #sysrecordTemplateTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Bar code setup
+          MenuItemName        #BarcodeSetup
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Work tasks
+          MenuItemName        #emplworkTask
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #E-mail templates
+          MenuItemName        #SysEmailTable
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Reasons
+          MenuItemName        #Reasons
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENUITEM
+        PROPERTIES
+          Name                #Settings for workflow
+          MenuItemName        #WorkflowParameters
+        ENDPROPERTIES
+        
+      ENDMENUITEM
+      MENU #@GLS54448
+        PROPERTIES
+          Name                #CopyOfChinaParameter
+          Label               #@GLS54448
+          HelpText            #@GLS61038
+          ConfigurationKey    #CRSEChina
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #China parameters
+            MenuItemName        #ChinaParameters_CN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@GLS368
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@GLS368
+          HelpText            #@GLS677
+          ConfigurationKey    #CRSEBrazil
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Brazilian parameters
+            MenuItemName        #BrazilParameters_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Type of establishment
+            MenuItemName        #Establishment_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #CFOP codes
+            MenuItemName        #CFOPTable_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #CFOP groups
+            MenuItemName        #CFOPGroup_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fiscal document types
+            MenuItemName        #TaxFiscalDocu_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fiscal classification codes
+            MenuItemName        #TaxFiscalClassification_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Product type
+            MenuItemName        #InventProductTypeTable_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Holiday calendar
+            MenuItemName        #HolidayCalendar_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Services CFPS
+            MenuItemName        #CFPSTable_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Taxation code
+            MenuItemName        #TaxationCodeTable_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Service Code
+            MenuItemName        #TaxServiceCode_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fuel code
+            MenuItemName        #FuelCodeTable_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #NF-e rejection code
+            MenuItemName        #EFDReturnCode_BR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS104174
+        PROPERTIES
+          Name                #Homepage
+          Label               #@SYS104174
+          HelpText            #@SYS106119
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Edit Cues
+            MenuItemName        #Cues
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Edit Quick Links
+            MenuItemName        #SysquickLinks
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Initialize Role Center profiles
+            MenuItemName        #ProfileImport
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS90519
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS90519
+          HelpText            #@SYS93929
+          ConfigurationKey    #LogisticsBasic
+          SecurityKey         #BasicSetup
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Global settings
+            MenuItemName        #AifGlobalSettings
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Local endpoints
+            MenuItemName        #AifLocalEndpoint
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transport adapters
+            MenuItemName        #AifAdapter
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Channels
+            MenuItemName        #AifChannel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Services
+            MenuItemName        #AifService
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Service references
+            MenuItemName        #AifServiceReferences
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Endpoints
+            MenuItemName        #AifEndpoint
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Actions
+            MenuItemName        #AifAction
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Value lookup
+            MenuItemName        #AifLookupTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Web sites
+            MenuItemName        #AifWebsites
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #XSLT repository
+            MenuItemName        #AifXsltRepository
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Messaging partners
+            MenuItemName        #echMessagingPartner
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS1052
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS1052
+          HelpText            #@SYS85449
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Global settings
+            MenuItemName        #SysImportSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Documents
+            MenuItemName        #SysImportDocument
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transformations
+            MenuItemName        #SysImportTransformation
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Formats
+            MenuItemName        #SysImportFormat
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS12649
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS12649
+          HelpText            #@SYS88648
+          NeededAccessLevel   #NoAccess
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Number sequences
+            MenuItemName        #NumberSequenceTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #References
+            MenuItemName        #NumberSequenceTableReference
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS7566
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS7566
+          HelpText            #@SYS75716
+          NeededAccessLevel   #NoAccess
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #ZIP/postal Codes
+            MenuItemName        #AddressZipCodes
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Country/region
+            MenuItemName        #AddressCountryRegion
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Address format
+            MenuItemName        #AddressFormat
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Address abbreviation
+            MenuItemName        #TaxRep347AddressAbbrev
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Contact Details
+            MenuItemName        #ContactPerson
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Job title
+            MenuItemName        #PersonTitles
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Personal title
+            MenuItemName        #smmContactTitleGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #NAF codes
+            MenuItemName        #CompanyNAFCode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #ZIP/postal Codes import log
+            MenuItemName        #AddressZipCodeImportLog_NL
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Contact person parameters
+            MenuItemName        #ContactPersonParameters_CN
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS80847
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS80847
+          HelpText            #@SYS85442
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Activity phases
+            MenuItemName        #smmActivityPhaseGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Activity plans
+            MenuItemName        #smmActivityPlanGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Activity types
+            MenuItemName        #smmActivityTypeGroup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS24035
+        PROPERTIES
+          Name                #@SYS24035
+          Label               #@SYS24035
+          HelpText            #@SYS88650
+          NeededAccessLevel   #NoAccess
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Document types
+            MenuItemName        #DocuType
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Active document tables
+            MenuItemName        #DocuTableEnabled
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Parameters
+            MenuItemName        #DocuParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS115204
+        PROPERTIES
+          Name                #Party
+          Label               #@SYS115204
+          HelpText            #@SYS111913
+          NeededAccessLevel   #NoAccess
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Suffix
+            MenuItemName        #DirPersonGenerationalSuffixTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Salutation
+            MenuItemName        #DirPersonSalutationTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Communication methods
+            MenuItemName        #DirECommunicationTypeTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Relationships
+            MenuItemName        #DirRelationshipTypeTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Parameters
+            MenuItemName        #dirParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS105168
+        PROPERTIES
+          Name                #Categories
+          Label               #@SYS105168
+          HelpText            #@SYS105170
+          SecurityKey         #BasicSetup
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Categories
+            MenuItemName        #CategoryForm
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS7867
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS7867
+          HelpText            #@SYS72599
+          NeededAccessLevel   #NoAccess
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Units
+            MenuItemName        #Unit
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Unit conversion
+            MenuItemName        #UnitConvertGenerel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Fixed units
+            MenuItemName        #UnitParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS11839
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS11839
+          HelpText            #@SYS75578
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Periods
+            MenuItemName        #ProjPeriodTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Working time templates
+            MenuItemName        #WorkTimeTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Holidays (JP)
+            MenuItemName        #HolidayCalendar_JP
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS27650
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS27650
+          HelpText            #@SYS72597
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Commodity codes
+            MenuItemName        #IntrastatItemCode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transaction codes
+            MenuItemName        #IntrastatTransactionCode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #NGP codes
+            MenuItemName        #NGPCodesTable_FR
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Transport method
+            MenuItemName        #IntrastatTransportMode
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Port
+            MenuItemName        #IntrastatPort
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Statistics procedure
+            MenuItemName        #IntrastatStatProc
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Intrastat parameters
+            MenuItemName        #IntrastatParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Intrastat service point
+            MenuItemName        #IntrastatservicePointFI
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENU #@SYS92141
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS92141
+            HelpText            #@SYS92226
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #BLWI parameters
+              MenuItemName        #TradeBLWIParameters
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #BLWI country/region groups
+              MenuItemName        #CountryRegionGroupBLWI
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #BLWI currencies
+              MenuItemName        #CurrencyBLWI
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #Payment survey codes
+              MenuItemName        #BankPaymBalanceSurvey
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+        MENU #@SYS92036
+          PROPERTIES
+            Name                #Submenu1
+            Label               #@SYS92036
+            HelpText            #@SYS92086
+          ENDPROPERTIES
+          
+          MENUITEM
+            PROPERTIES
+              Name                #Intrastat to PRODCOM conversion
+              MenuItemName        #IntrastatToProdCom
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+          MENUITEM
+            PROPERTIES
+              Name                #PRODCOM parameters
+              MenuItemName        #InventProdComParameters
+            ENDPROPERTIES
+            
+          ENDMENUITEM
+        ENDMENU
+      ENDMENU
+      MENU #@SYS116555
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS116555
+          HelpText            #@SYS116630
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Levels
+            MenuItemName        #HRCCompLevel
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Reference point setups
+            MenuItemName        #HRCCompRefPointSetup
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Compensation grids
+            MenuItemName        #HRCCompGrid
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS71045
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS71045
+          HelpText            #@SYS72321
+          SecurityKey         #BasicInquiries
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Report Builder options
+            MenuItemName        #SRSReportBuilderStartupOptions
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS75776
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS75776
+          HelpText            #@SYS74570
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Table setup
+            MenuItemName        #SysDataSearchManager
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Data Crawler
+            MenuItemName        #SysDataSearchDaemonManager
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS87698
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS87698
+          HelpText            #@SYS88779
+          ConfigurationKey    #Event
+          SecurityKey         #BasicSetup
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Manage alert rules
+            MenuItemName        #EventRuleAdmin
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Alert parameters
+            MenuItemName        #EventParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS75640
+        PROPERTIES
+          Name                #Submenu1
+          Label               #@SYS75640
+          HelpText            #@SYS86586
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Parameters
+            MenuItemName        #OutlookSyncParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Microsoft Office Outlook Setup Wizard
+            MenuItemName        #smmEmplOutlookSetupWizard
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Microsoft Dynamics to Microsoft Office Outlook mapping
+            MenuItemName        #smmAxaptaOutlookMapping
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Microsoft Office Outlook administration
+            MenuItemName        #smmOutlookAdministration
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS110995
+        PROPERTIES
+          Name                #SyncService
+          Label               #@SYS110995
+          HelpText            #@SYS110993
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Parameters
+            MenuItemName        #SyncParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYS119521
+        PROPERTIES
+          Name                #Filearchiving
+          Label               #@SYS119521
+          HelpText            #@SYS119716
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #File types
+            MenuItemName        #BankFileArchFileTypeTable
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+        MENUITEM
+          PROPERTIES
+            Name                #Parameters
+            MenuItemName        #BankFileArchParameters
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENU #@SYP3496
+        PROPERTIES
+          Name                #ElectronicInvoice
+          Label               #@SYP3496
+          HelpText            #@SYS4301
+          ConfigurationKey    #CRSEMexico
+        ENDPROPERTIES
+        
+        MENUITEM
+          PROPERTIES
+            Name                #Electronic invoice parameters
+            MenuItemName        #einvoiceparameters_MX
+          ENDPROPERTIES
+          
+        ENDMENUITEM
+      ENDMENU
+      MENUREFERENCE
+        PROPERTIES
+          Name                #SIG
+        ENDPROPERTIES
+        
+      ENDMENUREFERENCE
+    ENDMENU
+  ENDMENU
+  
+
+***Element: END

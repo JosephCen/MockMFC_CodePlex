@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: echStockMovement unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #echStockMovement
+  PROPERTIES
+    Name                #echStockMovement
+    Version             #186
+    NextUniqueId        #1007
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #InventJournalTable
+      PROPERTIES
+        Name                #InventJournalTable
+        Table               #InventJournalTable
+        UniqueId            #1002
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #JournalId
+        FIELD #JournalNameId
+        FIELD #JournalType
+        FIELD #PostedDateTime
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+        BLOCK #InventJournalTrans
+          PROPERTIES
+            Name                #InventJournalTrans
+            Table               #InventJournalTrans
+            UniqueId            #1003
+            JoinMode            #OuterJoin
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #EchReasonId
+            FIELD #echSkuId
+            FIELD #InventDimId
+            FIELD #Qty
+            FIELD #TransDate
+            FIELD #LineNum
+            FIELD #ItemId
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDim
+                Table               #InventDim
+                UniqueId            #1004
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                  Dynamic             #No
+                ENDPROPERTIES
+                
+                FIELD #InventLocationId
+                FIELD #InventSiteId
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #InventJournalTrans
+                  MASTERFIELD  #InventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #InventJournalTable
+              MASTERFIELD  #JournalId
+              DETAILSFIELD #JournalId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

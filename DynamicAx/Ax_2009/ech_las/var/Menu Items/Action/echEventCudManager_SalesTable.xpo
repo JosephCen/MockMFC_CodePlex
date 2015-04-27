@@ -1,0 +1,27 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echEventCudManager_SalesTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echEventCudManager_SalesTable
+    Type: 3
+    PROPERTIES
+      Name                #echEventCudManager_SalesTable
+      Label               #@ECH293
+      HelpText            #@ECH292
+      ObjectType          #Class
+      Object              #echEventCudManager
+      Parameters          #SalesTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustSetup
+      NeededAccessLevel   #Add
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

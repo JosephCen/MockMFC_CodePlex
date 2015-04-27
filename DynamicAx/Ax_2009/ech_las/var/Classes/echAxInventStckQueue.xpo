@@ -1,0 +1,96 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echAxInventStckQueue unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echAxInventStckQueue
+    Id 30027
+    PROPERTIES
+      Name                #echAxInventStckQueue
+      Extends             #AifDocument
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echAxInventStckQueue extends AifDocument
+        #{
+        #    #define.SenderId('SenderId')
+        #    #define.echInventStockQueue('echInventStockQueue')
+        #    #define.DocPurpose('DocPurpose')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createechInventStockQueue
+        #public AfStronglyTypedDataContainerList createechInventStockQueue()
+        #{
+        #    return this.get_NewList(#echInventStockQueue);
+        #}
+      ENDSOURCE
+      SOURCE #existsDocPurpose
+        #public boolean existsDocPurpose()
+        #{
+        #    return this.exists(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #existsechInventStockQueue
+        #public boolean existsechInventStockQueue()
+        #{
+        #    return this.exists(#echInventStockQueue);
+        #}
+      ENDSOURCE
+      SOURCE #existsSenderId
+        #public boolean existsSenderId()
+        #{
+        #    return this.exists(#SenderId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echAxInventStockQueue);
+        #}
+      ENDSOURCE
+      SOURCE #parmDocPurpose
+        #public XMLDocPurpose parmDocPurpose(XMLDocPurpose _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DocPurpose, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #parmechInventStockQueue
+        #public AfStronglyTypedDataContainerList parmechInventStockQueue(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#echInventStockQueue, _value);
+        #    }
+        #
+        #    return this.get_List(#echInventStockQueue);
+        #}
+      ENDSOURCE
+      SOURCE #parmSenderId
+        #public dataAreaId parmSenderId(dataAreaId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SenderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SenderId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

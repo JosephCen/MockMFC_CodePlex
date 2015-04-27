@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: EchShipCarrierIds unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #EchShipCarrierIds
+  Id 30070
+  STRING
+    PROPERTIES
+      Name                #EchShipCarrierIds
+      Label               #@SYS116680
+      HelpText            #@SYS116681
+      ConfigurationKey    #echProcesses
+      StringSize          #100
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

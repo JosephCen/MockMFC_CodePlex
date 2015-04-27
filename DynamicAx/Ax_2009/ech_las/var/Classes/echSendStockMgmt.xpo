@@ -1,0 +1,103 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSendStockMgmt unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSendStockMgmt
+    Id 30242
+    PROPERTIES
+      Name                #echSendStockMgmt
+      Extends             #AxdSend
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchSendStockMgmt extends axdSend
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #sendDocumentsToAif
+        #public void sendDocumentsToAif()
+        #{
+        #    AifConstraint           aifConstraint;
+        #    InventJournalTable      inventJournalTable;
+        #    ;
+        #
+        #    inventJournalTable.data(common);
+        #
+        #    aifConstraint       = new AifConstraint();
+        #    aifConstraint.parmType(AifConstraintType::NoConstraint);
+        #
+        #    aifConstraintList   = new AifConstraintList();
+        #    aifConstraintList.addConstraint(aifConstraint);
+        #
+        #    aifDocumentClassId  = classnum(echStockMovement);
+        #    serviceClassId      = classnum(echStockMovementService);
+        #    aifSendMode         = AifSendMode::Async;
+        #    axdSendContext      = null;
+        #    sendActionType      = AifSendActionType::SendByKey;
+        #    aifActionId         = this.getActionId() ;
+        #
+        #    this.retrieveEndPoints();
+        #
+        #    while select tmpAifEndPoint
+        #    {
+        #        this.parmEndPoint(tmpAifEndpoint.EndpointId);
+        #
+        #        super();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static EchSendStockMgmt construct()
+        #{
+        #    return new EchSendStockMgmt() ;
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #public static void Main(Args _args)
+        #{
+        #    #Properties
+        #    FormDataSource          inventJournalTable_ds;
+        #    InventJournalTable      inventJournalTable;
+        #    EchSendStockMgmt        echSendStockMgmt;
+        #    int                     infoStartLine;
+        #    ;
+        #
+        #    if (!_args || !_args.caller())
+        #        throw error(strfmt("@SYS53926", classstr(echSendStockMgmt)));
+        #    if (!_args.record() || _args.record().TableId != tablenum(InventJournalTable))
+        #        throw error(strfmt("@SYS113735", classstr(echSendStockMgmt), tablestr(InventJournalTable)));
+        #    if (!_args.record().dataSource())
+        #        throw error(strfmt("@SYS105865", classstr(echSendStockMgmt), #PropertyForm));
+        #
+        #    inventJournalTable_ds = _args.record().dataSource();
+        #
+        #    for (inventJournalTable = inventJournalTable_ds.getFirst(true)
+        #            ? InventJournalTable_ds.getFirst(true) : _args.record();
+        #            inventJournalTable;
+        #            inventJournalTable = InventJournalTable_ds.getNext())
+        #    {
+        #        infoStartLine = infoLog.line();
+        #
+        #        echSendStockMgmt = EchSendStockMgmt::construct();
+        #        echSendStockMgmt.setEntityKey(inventJournalTable);
+        #        echSendStockMgmt.sendDocumentsToAif();
+        #
+        #        if (infoStartLine == infoLog.line())
+        #            info(strfmt("@ECH383", inventJournalTable.JournalId));
+        #        else
+        #            error(strfmt("@ECH377", inventJournalTable.JournalId));
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

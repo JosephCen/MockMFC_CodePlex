@@ -1,0 +1,467 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechInventStockQueue unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechInventStockQueue
+    Id 30025
+    PROPERTIES
+      Name                #AxechInventStockQueue
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechInventStockQueue axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01478
+        #// *** Customization Date: 14 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Store the skuID in a classvariable
+        #
+        #class AxechInventStockQueue extends AxInternalBase
+        #{
+        #
+        #     echInventStockQueue echInventStockQueue;
+        #
+        #// CS - ECH_WI_01478 - Marijn Catthoor - 14 Sep 2012
+        #
+        #     echSkuId           skuId;
+        #
+        #// CE - ECH_WI_01478 - Marijn Catthoor - 14 Sep 2012
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echInventStockQueue currentRecord(echInventStockQueue _echInventStockQueue = echInventStockQueue)
+        #{
+        #    if (!prmisdefault(_echInventStockQueue))
+        #    {
+        #        super(_echInventStockQueue);
+        #        echInventStockQueue = _echInventStockQueue;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echInventStockQueue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echInventStockQueue
+        #public echInventStockQueue echInventStockQueue(echInventStockQueue _echInventStockQueue = echInventStockQueue)
+        #{
+        #    if (!prmisdefault(_echInventStockQueue))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echInventStockQueue);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echInventStockQueue emptyRecord()
+        #{
+        #    echInventStockQueue localechInventStockQueue;
+        #    ;
+        #    return localechInventStockQueue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #init
+        #// Add ECH_WI_02332 by mengqi.cen on 20130712
+        #protected void init()
+        #{
+        #;
+        #    super();
+        #    skuId = '';
+        #}
+      ENDSOURCE
+      SOURCE #parmAllocStartDateTime
+        #// Add ECH_WI_02332 by mengqi.cen on 20130712
+        #public StartDateTime parmAllocStartDateTime(StartDateTime _allocStartDateTime = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_allocStartDateTime))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, AllocStartDateTime), _allocStartDateTime);
+        #    }
+        #
+        #    return echInventStockQueue.AllocStartDateTime;
+        #}
+      ENDSOURCE
+      SOURCE #parmBatchStatus
+        #public BatchStatus parmBatchStatus(BatchStatus _batchStatus = BatchStatus::Hold)
+        #{
+        #    if (!prmisdefault(_batchStatus))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, BatchStatus), _batchStatus);
+        #    }
+        #
+        #    return echInventStockQueue.BatchStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmConfigId
+        #public ConfigId parmConfigId(ConfigId _configId = '')
+        #{
+        #    if (!prmisdefault(_configId))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, ConfigId), _configId);
+        #    }
+        #
+        #    return echInventStockQueue.ConfigId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #// Update ECH_WI_01978 by mengqi.cen on 20130218
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01478
+        #// *** Customization Date: 14 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Store the SKU ID in a class variable
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN01_2
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: set fields from sku
+        #
+        #public echSkuId parmEchSkuId(echSkuId _echSkuId = '')
+        #{
+        #    InventItemBarcode       inventItemBarcode = InventItemBarcode::findBySkuId(_echSkuId);
+        #    InventDim               inventDim;
+        #    ;
+        #
+        #    if (inventItemBarcode)
+        #    {
+        #        inventDim = InventDim::find(inventItemBarcode.inventDimId);
+        #
+        #        this.parmItemId         (inventItemBarcode.itemId);
+        #        this.parmConfigId       (inventDim.configId);
+        #        this.parmInventColorId  (inventDim.InventColorId);
+        #        this.parmInventSizeId   (inventDim.InventSizeId);
+        #        this.parmInventStyleId  (inventDim.InventStyleId);
+        #
+        #        this.setItemId();
+        #        this.setConfigId();
+        #        this.setInventColorId();
+        #        this.setInventSizeId();
+        #        this.setInventStyleId();
+        #    }
+        #
+        #// CS - ECH_WI_01478 - Marijn Catthoor - 14 Sep 2012
+        #
+        #    if (!prmisdefault(_echSkuId))
+        #        skuId = _echSkuId;
+        #
+        #
+        #    //return echInventStockQueue.ConfigId;
+        #    // return SKU id
+        #    return skuId;
+        #
+        #// CE - ECH_WI_01478 - Marijn Catthoor - 14 Sep 2012
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmErrorMessage
+        #public SysInfoLogStr parmErrorMessage(SysInfoLogStr _errorMessage = '')
+        #{
+        #    if (!prmisdefault(_errorMessage))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, ErrorMessage), _errorMessage);
+        #    }
+        #
+        #    return echInventStockQueue.ErrorMessage;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _inventColorId = '')
+        #{
+        #    if (!prmisdefault(_inventColorId))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, InventColorId), _inventColorId);
+        #    }
+        #
+        #    return echInventStockQueue.InventColorId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #// Add ECH_WI_02332 by mengqi.cen on 20130712
+        #public InventDimId parmInventDimId(InventDimId _inventDimId = '')
+        #{
+        #    if (!prmisdefault(_inventDimId))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, InventDimId), _inventDimId);
+        #    }
+        #
+        #    return echInventStockQueue.InventDimId;
+        #}
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _inventSiteId = '')
+        #{
+        #    if (!prmisdefault(_inventSiteId))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, InventSiteId), _inventSiteId);
+        #    }
+        #
+        #    return echInventStockQueue.InventSiteId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _inventSizeId = '')
+        #{
+        #    if (!prmisdefault(_inventSizeId))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, InventSizeId), _inventSizeId);
+        #    }
+        #
+        #    return echInventStockQueue.InventSizeId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventStyleId
+        #// Create ECH_WI_01978 by mengqi.cen on 20130218
+        #public RBOInventStyleId parmInventStyleId(RBOInventStyleId _inventStyleId = '')
+        #{
+        #    if (!prmisdefault(_inventStyleId))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, InventStyleId), _inventStyleId);
+        #    }
+        #
+        #    return echInventStockQueue.InventStyleId;
+        #}
+      ENDSOURCE
+      SOURCE #parmIsFromWMS
+        #// Add ECH_WI_02332 by mengqi.cen on 20130712
+        #public NoYes parmIsFromWMS(NoYes _isFromWMS = NoYes::No)
+        #{
+        #    if (!prmisdefault(_isFromWMS))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, IsFromWMS), _isFromWMS);
+        #    }
+        #
+        #    return echInventStockQueue.IsFromWMS;
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(echInventStockQueue),fieldnum(echInventStockQueue,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(echInventStockQueue, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axSalesItemId('', echInventStockQueue.ItemId,echInventStockQueue.inventDimCriteria()),1);
+        #    }
+        #    else
+        #    {
+        #        return echInventStockQueue.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmQty
+        #public Qty parmQty(Qty _qty = 0)
+        #{
+        #    if (!prmisdefault(_qty))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, Qty), _qty);
+        #    }
+        #
+        #    return echInventStockQueue.Qty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSeqId
+        #// Add ECH_WI_02336 by mengqi.cen on 20130723
+        #public echInventStockQueueSeqId parmSeqId(echInventStockQueueSeqId _seqId = '')
+        #{
+        #    if (!prmisdefault(_seqId))
+        #    {
+        #        this.setField(fieldNum(echInventStockQueue, SeqId), _seqId);
+        #    }
+        #
+        #    return echInventStockQueue.SeqId;
+        #}
+      ENDSOURCE
+      SOURCE #setBatchStatus
+        #protected void setBatchStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, BatchStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConfigId
+        #protected void setConfigId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, ConfigId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setErrorMessage
+        #protected void setErrorMessage()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, ErrorMessage)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventColorId
+        #protected void setInventColorId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, InventColorId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventDimId
+        #// Add ECH_WI_02332 by mengqi.cen on 20130712
+        #protected void setInventDimId()
+        #{
+        #    InventItemBarcode  inventItemBarcode;
+        #;
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, InventDimId)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    inventItemBarcode = InventItemBarcode::findBySkuId(skuId);
+        #    if (inventItemBarcode)
+        #        this.parmInventDimId(inventItemBarcode.inventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #setInventSiteId
+        #protected void setInventSiteId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, InventSiteId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventSizeId
+        #protected void setInventSizeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, InventSizeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventStyleId
+        #// Create ECH_WI_01978 by mengqi.cen on 20130218
+        #protected void setInventStyleId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, InventStyleId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setQty
+        #protected void setQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventStockQueue, Qty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #// Update ECH_WI_02332 by mengqi.cen on 20130712
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setQty();
+        #    this.setItemId();
+        #    this.setInventDimId();
+        #    this.setConfigId();
+        #    this.setInventColorId();
+        #    this.setInventSizeId();
+        #    this.setInventSiteId();
+        #    this.setBatchStatus();
+        #    this.setErrorMessage();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechInventStockQueue construct()
+        #{
+        #    return new AxechInventStockQueue();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechInventStockQueue
+        #public static AxechInventStockQueue newechInventStockQueue(echInventStockQueue _echInventStockQueue)
+        #{
+        #    AxechInventStockQueue AxechInventStockQueue = AxechInventStockQueue::construct();
+        #    ;
+        #    AxechInventStockQueue.echInventStockQueue(_echInventStockQueue);
+        #
+        #    return AxechInventStockQueue;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

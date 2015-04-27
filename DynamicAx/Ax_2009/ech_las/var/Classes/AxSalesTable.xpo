@@ -1,0 +1,1631 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxSalesTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxSalesTable
+    Id 5796
+    PROPERTIES
+      Name                #AxSalesTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Removed the echAddressChanged field, switched to a class variable
+        #
+        #class AxSalesTable extends AxInternalBase implements AxInventSiteDimensionable
+        #{
+        #    SalesTable                      salesTable;
+        #    SalesIdBlanket                  salesIdBlanket;
+        #
+        #    int                             custAccount_CustTableIdx;
+        #    int                             invoiceAccount_CustTableIdx;
+        #    int                             projTableIdx;
+        #    int                             salesParametersIdx;
+        #    int                             custParametersIdx;
+        #    int                             addressIdx;
+        #    int                             paymTermIdx;
+        #    int                             zipCodeIdx;
+        #    int                             contactPersonIdx;
+        #    int                             axAddressIdx;
+        #    str                             state;
+        #    str                             county;
+        #    int                             salesTotalsIdx;
+        #
+        #    InventSiteDimensionLink         inventSiteDimensionLink;
+        #
+        #    // <GBR>
+        #    int                             operationTypeIdx;
+        #    // </GBR>
+        #
+        #
+        #// CS - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #    NoYes                         echAddressChanged;
+        #// CE - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getAddressSource
+        #// Create ECH_WI_01984 by mengqi.cen on 20130304
+        #private echAddressSource getAddressSource()
+        #{
+        #;
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echInterfaces)))
+        #    {
+        #        switch (this.parmSalesType())
+        #        {
+        #            case SalesType::Sales :
+        #                return echAddressSource::Customer;
+        #            case SalesType::ReturnItem :
+        #                return echAddressSource::InboundXml;
+        #            default :
+        #                return echAddressSource::Default;
+        #        }
+        #    }
+        #    else
+        #    {
+        #        return echAddressSource::Default;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #parmechAddressChanged
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Removed the echAddressChanged field, switched to a class variable
+        #
+        #
+        #public NoYes parmechAddressChanged(NoYes _echAddressChanged = echAddressChanged)
+        #{
+        #    ;
+        #    echAddressChanged = _echAddressChanged;
+        #
+        #    return echAddressChanged;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechAggStatus
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public echAggStatus parmechAggStatus(echAggStatus _echAggStatus = echAggStatus::Blank)
+        #{
+        #    if (!prmisdefault(_echAggStatus))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echAggStatus), _echAggStatus);
+        #    }
+        #
+        #    return salesTable.echAggStatus;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechBuyerCellularPhone
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer phoneMobile
+        #
+        #public PhoneMobile parmechBuyerCellularPhone(PhoneMobile _phoneMobile = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().CellularPhone;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerCity
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer city
+        #
+        #public AddressCity parmEchBuyerCity(AddressCity _city = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().City;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerCountry
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer Country
+        #
+        #public AddressCountryRegionId parmEchBuyerCountry(AddressCountryRegionId _country = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().CountryRegionId;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerCounty
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer County
+        #
+        #public AddressCountyId parmEchBuyerCounty(AddressCountyId _county = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().County;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerName
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer Name
+        #
+        #public CustName parmEchBuyerName(CustName _CustName = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().Name;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerPhone
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer Phone
+        #
+        #public Phone parmEchBuyerPhone(Phone _phone = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().Phone;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerProvince
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer Province (State)
+        #
+        #public AddressStateId parmEchBuyerProvince(AddressStateId _state = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().State;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerStreet
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer Street
+        #
+        #public AddressStreet parmEchBuyerStreet(AddressStreet _AddressStreet = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().Street;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerTelefax
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer fax
+        #
+        #public Telefax parmEchBuyerTelefax(Telefax _Telefax = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().TeleFax;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerZipCode
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01214
+        #// *** Customization Date: 23 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: get customer zipCode
+        #
+        #public AddressZipCodeId parmEchBuyerZipCode(AddressZipCodeId _zipCode = "")
+        #{
+        #    ;
+        #
+        #    return salesTable.custTable_CustAccount().ZipCode;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchCancelExceptionDesc
+        #// Create ECH_WI_02043 by mengqi.cen on 20130408
+        #public echCancelExceptionName parmEchCancelExceptionDesc(echCancelExceptionName _echCancelExceptionName)
+        #{
+        #    ECHCancelException echCancelEx;
+        #;
+        #    select firstonly echCancelEx
+        #      where echCancelEx.Id == SalesTable.echCancelExceptionId;
+        #
+        #    return echCancelEx.Description;
+        #}
+      ENDSOURCE
+      SOURCE #parmechCancelExceptionId
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public echCancelExceptionId parmechCancelExceptionId(echCancelExceptionId _echCancelExceptionId = '')
+        #{
+        #    if (!prmisdefault(_echCancelExceptionId))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echCancelExceptionId), _echCancelExceptionId);
+        #    }
+        #
+        #    return salesTable.echCancelExceptionId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechDiscRoundOff
+        #public RoundOff parmechDiscRoundOff(RoundOff _roundOff = 0.00)
+        #{
+        #    if (!prmisdefault(_roundOff))
+        #    {
+        #        this.setField(fieldNum(SalesTable, echDiscRoundOff), _roundOff);
+        #    }
+        #
+        #    return salesTable.echDiscRoundOff;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExternalROId
+        #public echMsgPartnerExtCode parmEchExternalROId(echMsgPartnerExtCode _echExternalROId = '')
+        #{
+        #    if (!prmisdefault(_echExternalROId))
+        #    {
+        #        this.setField(fieldNum(SalesTable, echExternalROId), _echExternalROId);
+        #    }
+        #
+        #    return salesTable.echExternalROId;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchFrontEndCreationDate
+        #public echFrontEndCreationDate parmEchFrontEndCreationDate(echFrontEndCreationDate _echFrontEndCreationDate = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_echFrontEndCreationDate))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchFrontEndCreationDate), _echFrontEndCreationDate);
+        #    }
+        #
+        #    return salesTable.EchFrontEndCreationDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchFrontEndEndtimeDate
+        #public echFrontEndEndtimeDate parmEchFrontEndEndtimeDate(echFrontEndEndtimeDate _echFrontEndEndtimeDate = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_echFrontEndEndtimeDate))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchFrontEndEndtimeDate), _echFrontEndEndtimeDate);
+        #    }
+        #
+        #    return salesTable.EchFrontEndEndtimeDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchFrontEndModifiedDate
+        #public echFrontEndModifiedDate parmEchFrontEndModifiedDate(echFrontEndModifiedDate _echFrontEndModifiedDate = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_echFrontEndModifiedDate))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchFrontEndModifiedDate), _echFrontEndModifiedDate);
+        #    }
+        #
+        #    return salesTable.EchFrontEndModifiedDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchInvoiceBankAccountNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #public echInvoiceBankAccountNumber parmEchInvoiceBankAccountNumber(
+        #                                        echInvoiceBankAccountNumber _echInvoiceBankAccountNumber = '')
+        #{
+        #;
+        #    if(!prmisdefault(_echInvoiceBankAccountNumber))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceBankAccountNumber),
+        #                      _echInvoiceBankAccountNumber);
+        #    }
+        #
+        #    return SalesTable.echInvoiceBankAccountNumber;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceCompanyName
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #public echInvoiceCompanyName parmEchInvoiceCompanyName(
+        #                                echInvoiceCompanyName _echInvoiceCompanyName = '')
+        #{
+        #;
+        #    if(!prmisdefault(_echInvoiceCompanyName))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceCompanyName), _echInvoiceCompanyName);
+        #    }
+        #
+        #    return SalesTable.echInvoiceCompanyName;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceContent
+        #public echInvoiceContent parmEchInvoiceContent(echInvoiceContent _echInvoiceContent = '')
+        #{
+        #    if (!prmisdefault(_echInvoiceContent))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchInvoiceContent), _echInvoiceContent);
+        #    }
+        #
+        #    return salesTable.EchInvoiceContent;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechInvoiceCreated
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public echInvoiceCreated parmechInvoiceCreated(echInvoiceCreated _echInvoiceCreated = NoYes::No)
+        #{
+        #    if (!prmisdefault(_echInvoiceCreated))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceCreated), _echInvoiceCreated);
+        #    }
+        #
+        #    return salesTable.echInvoiceCreated;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchInvoiceDepositBank
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #public echInvoiceDepositBank parmEchInvoiceDepositBank(echInvoiceDepositBank _echInvoiceDepositBank = '')
+        #{
+        #;
+        #    if(!prmisdefault(_echInvoiceDepositBank))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceDepositBank), _echInvoiceDepositBank);
+        #    }
+        #
+        #    return SalesTable.echInvoiceDepositBank;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceId
+        #public echInvoiceId parmEchInvoiceId(echInvoiceId _echInvoiceId = '')
+        #{
+        #    if (!prmisdefault(_echInvoiceId))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchInvoiceId), _echInvoiceId);
+        #    }
+        #
+        #    return salesTable.EchInvoiceId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchInvoiceName
+        #public echInvoiceName parmEchInvoiceName(echInvoiceName _echInvoiceName = '')
+        #{
+        #    if (!prmisdefault(_echInvoiceName))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchInvoiceName), _echInvoiceName);
+        #    }
+        #
+        #    return salesTable.EchInvoiceName;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchInvoiceRegisteredAddress
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #public echInvoiceRegisteredAddress parmEchInvoiceRegisteredAddress(
+        #                                        echInvoiceRegisteredAddress _echInvoiceRegisteredAddress = '')
+        #{
+        #;
+        #    if(!prmisdefault(_echInvoiceRegisteredAddress))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceRegisteredAddress), _echInvoiceRegisteredAddress);
+        #    }
+        #
+        #    return SalesTable.echInvoiceRegisteredAddress;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceRegisteredPhoneNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #public echInvoiceRegisteredPhoneNumber parmEchInvoiceRegisteredPhoneNumber(
+        #                                        echInvoiceRegisteredPhoneNumber _echInvoiceRegisteredPhoneNumber = '')
+        #{
+        #;
+        #    if(!prmisdefault(_echInvoiceRegisteredPhoneNumber))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceRegisteredPhoneNumber),
+        #                      _echInvoiceRegisteredPhoneNumber);
+        #    }
+        #
+        #    return SalesTable.echInvoiceRegisteredPhoneNumber;
+        #}
+      ENDSOURCE
+      SOURCE #parmechInvoiceRequested
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public echInvoiceRequested parmechInvoiceRequested(echInvoiceRequested _echInvoiceRequested = NoYes::No)
+        #{
+        #    if (!prmisdefault(_echInvoiceRequested))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceRequested), _echInvoiceRequested);
+        #    }
+        #
+        #    return salesTable.echInvoiceRequested;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchInvoiceTaxPayerIdNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #public echInvoiceTaxPayerIdentificationNumber parmEchInvoiceTaxPayerIdNumber(
+        #                                                echInvoiceTaxPayerIdentificationNumber _echInvoiceTaxPayerIdNumber = '')
+        #{
+        #;
+        #    if(!prmisdefault(_echInvoiceTaxPayerIdNumber))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echInvoiceTaxPayerIdNumber), _echInvoiceTaxPayerIdNumber);
+        #    }
+        #
+        #    return SalesTable.echInvoiceTaxPayerIdNumber;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceTitle
+        #public echInvoiceTitle parmEchInvoiceTitle(echInvoiceTitle _echInvoiceTitle = '')
+        #{
+        #    if (!prmisdefault(_echInvoiceTitle))
+        #    {
+        #        this.setField(fieldNum(SalesTable, echInvoiceTitle), _echInvoiceTitle);
+        #    }
+        #
+        #    return salesTable.echInvoiceTitle;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchInvoiceType
+        #public echInvoiceType parmEchInvoiceType(echInvoiceType _echInvoiceType = echInvoiceType::Normal)
+        #{
+        #    if (!prmisdefault(_echInvoiceType))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchInvoiceType), _echInvoiceType);
+        #    }
+        #
+        #    return salesTable.EchInvoiceType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchIsOnlinePay
+        #// Add ECH_WI_01961 by mengqi.cen on 20130117
+        #public echIsOnlinePay parmEchIsOnlinePay(echIsOnlinePay _echIsOnlinePay = echIsOnlinePay::OnlinePay)
+        #{
+        #    ;
+        #    return this.salesTable().echIsOnlinePay();
+        #}
+      ENDSOURCE
+      SOURCE #parmEchLegacySystems
+        #// Update ECH_WI_02135 by mengqi.cen on 20130507
+        #//   Eliminate value of LegacySystem of all these 'Service' Item from SO outbound xml
+        #//
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01653
+        #// *** Customization Date: 27 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: return a list of all the legacysystems
+        #
+        #container parmEchLegacySystems(container _legacySystem = connull())
+        #{
+        #    salesLine       salesLine;
+        #    inventTable     inventTable;
+        #    Set             legacySystems = new Set(Types::String);
+        #    SetEnumerator   setEnum;
+        #    container       legacySystemContainer;
+        #    ;
+        #
+        #    while select itemId from salesline
+        #        where salesLine.SalesId == this.parmSalesId()
+        #        join echLegacySystemId from inventTable
+        #            where inventTable.ItemId   == salesLine.ItemId
+        #               && inventTable.ItemType != ItemType::Service
+        #    {
+        #        if (!legacySystems.in(inventTable.echLegacySystemId))
+        #            legacySystems.add(inventTable.echLegacySystemId);
+        #    }
+        #
+        #    setEnum = legacySystems.getEnumerator();
+        #    while (setEnum.moveNext())
+        #    {
+        #        legacySystemContainer = conins(legacySystemContainer, conlen(legacySystemContainer) + 1, setEnum.current());
+        #    }
+        #
+        #    return legacySystemContainer;
+        #
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerExtCode
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public echMsgPartnerExtCode parmechMsgPartnerExtCode(echMsgPartnerExtCode _echMsgPartnerExtCode = '')
+        #{
+        #    if (!prmisdefault(_echMsgPartnerExtCode))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echMsgPartnerExtCode), _echMsgPartnerExtCode);
+        #    }
+        #
+        #    return salesTable.echMsgPartnerExtCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _echMsgPartnerId = '')
+        #{
+        #    if (!prmisdefault(_echMsgPartnerId))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echMsgPartnerId), _echMsgPartnerId);
+        #    }
+        #
+        #    return salesTable.echMsgPartnerId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechOriginalSalesId
+        #// *** ECHINA - Nathanaël TETOUOM ***
+        #// *** Customization Code: ECH_WI_1717
+        #// *** Customization Date: 24 Oct 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public SalesId parmechOriginalSalesId()
+        #{
+        #    ;
+        #    return this.salesTable().echOriginalSalesId();
+        #}
+      ENDSOURCE
+      SOURCE #parmEchPaymentAmount
+        #public echPaymentAmount parmEchPaymentAmount(echPaymentAmount _echPaymentAmount = 0)
+        #{
+        #    if (!prmisdefault(_echPaymentAmount))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchPaymentAmount), _echPaymentAmount);
+        #    }
+        #
+        #    return salesTable.EchPaymentAmount;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchPaymentReference
+        #public echPaymentReference parmEchPaymentReference(echPaymentReference _echPaymentReference = '')
+        #{
+        #    if (!prmisdefault(_echPaymentReference))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchPaymentReference), _echPaymentReference);
+        #    }
+        #
+        #    return salesTable.EchPaymentReference;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchPaymentTime
+        #public echPaymentTime parmEchPaymentTime(echPaymentTime _echPaymentTime = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_echPaymentTime))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchPaymentTime), _echPaymentTime);
+        #    }
+        #
+        #    return salesTable.EchPaymentTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchPromotionCode
+        #public echPromotionCode parmEchPromotionCode(echPromotionCode _echPromotionCode = '')
+        #{
+        #    if (!prmisdefault(_echPromotionCode))
+        #    {
+        #        this.setField(fieldNum(SalesTable, EchPromotionCode), _echPromotionCode);
+        #    }
+        #
+        #    return salesTable.EchPromotionCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchRefundedDateTime
+        #// Update ECH_WI_02246 by mengqi.cen on 20130608
+        #// Add ECH_WI_02193 by mengqi.cen on 20130521
+        #public echReturnRefundedDateTime parmEchRefundedDateTime(
+        #                                    echReturnRefundedDateTime _echRefundedDateTime = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_echRefundedDateTime))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echRefundedDateTime), _echRefundedDateTime);
+        #    }
+        #
+        #    return salesTable.echRefundedDateTime;
+        #}
+      ENDSOURCE
+      SOURCE #parmechRetTrackingNum
+        #Public ShipCarrierTrackingNum parmechRetTrackingNum(ShipCarrierTrackingNum _echRetTrackingNum = '')
+        #{
+        #    if(!prmisdefault(_echRetTrackingNum))
+        #    {
+        #        this.setField(fieldNum(SalesTable,echRetTrackingNum),_echRetTrackingNum);
+        #    }
+        #    return SalesTable.echRetTrackingNum;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchROShipCarrierId
+        #public ShipCarrierId parmEchROShipCarrierId(ShipCarrierId _echROShipCarrierId = '')
+        #{
+        #    if (!prmisdefault(_echROShipCarrierId))
+        #    {
+        #        this.setField(fieldNum(SalesTable, echROShipCarrierId), _echROShipCarrierId);
+        #    }
+        #
+        #    return salesTable.echROShipCarrierId;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchROShipCarrierTrackingNum
+        #public ShipCarrierTrackingNum parmEchROShipCarrierTrackingNum(ShipCarrierTrackingNum _echROShipCarrierTrackingNum = '')
+        #{
+        #    if (!prmisdefault(_echROShipCarrierTrackingNum))
+        #    {
+        #        this.setField(fieldNum(SalesTable, echROShipCarrierTrackingNum), _echROShipCarrierTrackingNum);
+        #    }
+        #
+        #    return salesTable.echROShipCarrierTrackingNum;
+        #}
+      ENDSOURCE
+      SOURCE #parmechSalesReasonId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 06 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #public echSalesReasonId parmechSalesReasonId(echSalesReasonId _echSalesReasonId = '')
+        #{
+        #    if (!prmisdefault(_echSalesReasonId))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echSalesReasonId), _echSalesReasonId);
+        #    }
+        #
+        #    return salesTable.echSalesReasonId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechShipCarrierName
+        #public ShipCarrierName parmechShipCarrierName(ShipCarrierName _shipCarrierName='')
+        #{
+        #    if(!prmisdefault(_shipCarrierName))
+        #    {
+        #        this.setField(fieldNum(SalesTable,echShipCarrierName),_shipCarrierName);
+        #    }
+        #    return SalesTable.echShipCarrierName;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchShippingDateTimeConfirmed
+        #public echSalesShippingDateTime parmEchShippingDateTimeConfirmed(
+        #                                    echSalesShippingDateTime _shippingDateTimeConfirmed = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_shippingDateTimeConfirmed))
+        #    {
+        #        this.setField(fieldnum(SalesTable, echShippingDateTimeConfirmed), _shippingDateTimeConfirmed);
+        #    }
+        #
+        #    return salesTable.echShippingDateTimeConfirmed;
+        #}
+      ENDSOURCE
+      SOURCE #parmHHTPostedPRId
+        #public HHTPostedPRId parmHHTPostedPRId(HHTPostedPRId _hHTPostedPRId = '')
+        #{
+        #    if (!prmisdefault(_hHTPostedPRId))
+        #    {
+        #        this.setField(fieldNum(SalesTable, HHTPostedPRId), _hHTPostedPRId);
+        #    }
+        #
+        #    return salesTable.HHTPostedPRId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTPRDocument
+        #public HHTPRDocument parmHHTPRDocument(HHTPRDocument _hHTPRDocument = NoYes::No)
+        #{
+        #    if (!prmisdefault(_hHTPRDocument))
+        #    {
+        #        this.setField(fieldNum(SalesTable, HHTPRDocument), _hHTPRDocument);
+        #    }
+        #
+        #    return salesTable.HHTPRDocument;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmHHTRetailStatusType
+        #public HHTRetailStatusType parmHHTRetailStatusType(HHTRetailStatusType _hHTRetailStatusType = HHTRetailStatusTypeBase::None)
+        #{
+        #    if (!prmisdefault(_hHTRetailStatusType))
+        #    {
+        #        this.setField(fieldNum(SalesTable, HHTRetailStatusType), _hHTRetailStatusType);
+        #    }
+        #
+        #    return salesTable.HHTRetailStatusType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmIsRetailSale
+        #public NoYes parmIsRetailSale(NoYes _isRetailSale = NoYes::No)
+        #{
+        #    if (!prmisdefault(_isRetailSale))
+        #    {
+        #        this.setField(fieldNum(SalesTable, IsRetailSale), _isRetailSale);
+        #    }
+        #
+        #    return salesTable.IsRetailSale;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConcessionContractId
+        #protected void setConcessionContractId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, ConcessionContractId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDeliveryCity
+        #// Update ECH_WI_01984 by mengqi.cen on 20130304
+        #// Update ECH_WI_01981 by mengqi.cen on 20130227
+        #protected void setDeliveryCity()
+        #{
+        #    echAddressSource addrSrc;
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, DeliveryCity)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    addrSrc = this.getAddressSource();
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::ZipCode)
+        #    {
+        #        this.setZipCodeRecordFields();
+        #
+        #        if (this.isZipCodeRecordFieldsSet())
+        #        {
+        #           this.parmDeliveryCity(this.zipCodeRecord().City);
+        #            return;
+        #        }
+        #    }
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::Customer)
+        #    {
+        #        this.setCustAccount();
+        #
+        #        if (this.isFieldSet(fieldnum(SalesTable, CustAccount)))
+        #        {
+        #            if (this.axAddress().addressTable())
+        #            {
+        #                this.parmDeliveryCity(this.axAddress().parmCity());
+        #            }
+        #            else
+        #            {
+        #                this.parmDeliveryCity(this.custAccount_CustTableRecord().City);
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setDeliveryCountryRegionId
+        #// Update ECH_WI_01984 by mengqi.cen on 20130304
+        #// Update ECH_WI_01981 by mengqi.cen on 20130227
+        #protected void setDeliveryCountryRegionId()
+        #{
+        #    echAddressSource addrSrc;
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, DeliveryCountryRegionId)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    addrSrc = this.getAddressSource();
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::ZipCode)
+        #    {
+        #        this.setZipCodeRecordFields();
+        #
+        #        if (this.isZipCodeRecordFieldsSet())
+        #        {
+        #            this.parmDeliveryCountryRegionId(this.zipCodeRecord().CountryRegionId);
+        #            return;
+        #        }
+        #    }
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::Customer)
+        #    {
+        #        this.setCustAccount();
+        #
+        #        if (this.isFieldSet(fieldnum(SalesTable, CustAccount)))
+        #        {
+        #            if (this.axAddress().addressTable())
+        #            {
+        #                this.parmDeliveryCountryRegionId(this.axAddress().parmCountryRegionId());
+        #            }
+        #            else
+        #            {
+        #                this.parmDeliveryCountryRegionId(this.custAccount_CustTableRecord().CountryRegionId);
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setDeliveryCounty
+        #// Update ECH_WI_01984 by mengqi.cen on 20130304
+        #// Update ECH_WI_01981 by mengqi.cen on 20130227
+        #protected void setDeliveryCounty()
+        #{
+        #    echAddressSource addrSrc;
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, DeliveryCounty)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    addrSrc = this.getAddressSource();
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::ZipCode)
+        #    {
+        #        this.setZipCodeRecordFields();
+        #
+        #        if (this.isZipCodeRecordFieldsSet())
+        #        {
+        #            this.parmDeliveryCounty(this.zipCodeRecord().County);
+        #            return;
+        #        }
+        #    }
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::Customer)
+        #    {
+        #        this.setCustAccount();
+        #
+        #        if (this.isFieldSet(fieldnum(SalesTable, CustAccount)))
+        #        {
+        #            if (this.axAddress().addressTable())
+        #            {
+        #                this.parmDeliveryCounty(this.axAddress().parmCounty());
+        #            }
+        #            else
+        #            {
+        #                this.parmDeliveryCounty(this.custAccount_CustTableRecord().County);
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setDeliveryName
+        #// Update ECH_WI_01984 by mengqi.cen on 20130304
+        #protected void setDeliveryName()
+        #{
+        #    echAddressSource addrSrc;
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, DeliveryName)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    addrSrc = this.getAddressSource();
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::Customer)
+        #    {
+        #        this.setCustAccount();
+        #
+        #        if (this.isFieldSet(fieldnum(SalesTable, CustAccount)))
+        #        {
+        #            if (this.axAddress().parmName())
+        #            {
+        #                this.parmDeliveryName(this.axAddress().parmName());
+        #            }
+        #            else
+        #            {
+        #                this.parmDeliveryName(this.custAccount_CustTableRecord().Name);
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setDeliveryState
+        #// Update ECH_WI_01984 by mengqi.cen on 20130304
+        #// Update ECH_WI_01981 by mengqi.cen on 20130227
+        #protected void setDeliveryState()
+        #{
+        #    echAddressSource addrSrc;
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, DeliveryState)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    addrSrc = this.getAddressSource();
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::ZipCode)
+        #    {
+        #        this.setZipCodeRecordFields();
+        #
+        #        if (this.isZipCodeRecordFieldsSet())
+        #        {
+        #            this.parmDeliveryState(this.zipCodeRecord().State);
+        #            return;
+        #        }
+        #    }
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::Customer)
+        #    {
+        #        this.setCustAccount();
+        #
+        #        if (this.isFieldSet(fieldnum(SalesTable, CustAccount)))
+        #        {
+        #            if (this.axAddress().addressTable())
+        #            {
+        #                this.parmDeliveryState(this.axAddress().parmState());
+        #            }
+        #            else
+        #            {
+        #                this.parmDeliveryState(this.custAccount_CustTableRecord().State);
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setDeliveryStreet
+        #// Update ECH_WI_01984 by mengqi.cen on 20130304
+        #protected void setDeliveryStreet()
+        #{
+        #    echAddressSource addrSrc;
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, DeliveryStreet)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    addrSrc = this.getAddressSource();
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::Customer)
+        #    {
+        #        this.setCustAccount();
+        #
+        #        if (this.isFieldSet(fieldnum(SalesTable, CustAccount)))
+        #        {
+        #            if (this.axAddress().addressTable())
+        #            {
+        #                this.parmDeliveryStreet(this.axAddress().parmStreet());
+        #            }
+        #            else
+        #            {
+        #                this.parmDeliveryStreet(this.custAccount_CustTableRecord().Street);
+        #            }
+        #            return;
+        #        }
+        #    }
+        #
+        #    if (addrSrc == echAddressSource::Default || addrSrc == echAddressSource::ZipCode)
+        #    {
+        #        this.setZipCodeRecordFields();
+        #
+        #        if (this.isZipCodeRecordFieldsSet())
+        #        {
+        #            if (this.zipCodeRecord().StreetName)
+        #            {
+        #                this.parmDeliveryStreet(this.zipCodeRecord().StreetName);
+        #                return;
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setECHAddressChanged
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Removed the echAddressChanged field, switched to a class variable
+        #
+        #protected void setECHAddressChanged()
+        #{
+        #    return;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setECHAggStatus
+        #protected void setECHAggStatus()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, ECHAggStatus)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchCancelExceptionId
+        #protected void setEchCancelExceptionId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchCancelExceptionId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchExternalROId
+        #protected void setEchExternalROId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, echExternalROId)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchFrontEndCreationDate
+        #protected void setEchFrontEndCreationDate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchFrontEndCreationDate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchFrontEndEndtimeDate
+        #protected void setEchFrontEndEndtimeDate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchFrontEndEndtimeDate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchFrontEndModifiedDate
+        #protected void setEchFrontEndModifiedDate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchFrontEndModifiedDate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchInvoiceBankAccountNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #protected void setEchInvoiceBankAccountNumber()
+        #{
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, echInvoiceBankAccountNumber)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchInvoiceCompanyName
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #protected void setEchInvoiceCompanyName()
+        #{
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, echInvoiceCompanyName)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchInvoiceContent
+        #protected void setEchInvoiceContent()
+        #{
+        #    echInvoiceContentTable invoiceContent;
+        #;
+        #    if (this.isMethodExecuted(funcName()))
+        #    {
+        #        return;
+        #    }
+        #
+        #    select firstonly invoiceContent
+        #      where invoiceContent.echMsgPartnerId   == salesTable.echMsgPartnerId
+        #         && invoiceContent.echInvoiceContent == salesTable.echInvoiceContent;
+        #
+        #    if (!invoiceContent)
+        #    {
+        #        select firstonly invoiceContent
+        #            where invoiceContent.echMsgPartnerId     == salesTable.echMsgPartnerId
+        #               && invoiceContent.echInvoiceContentId == salesTable.echInvoiceContent;
+        #
+        #        if (invoiceContent)
+        #        {
+        #            this.clearField(fieldNum(SalesTable, echInvoiceContent), false);
+        #            this.parmEchInvoiceContent(invoiceContent.echInvoiceContent);
+        #        }
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchInvoiceCreated
+        #protected void setEchInvoiceCreated()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchInvoiceCreated)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchInvoiceDepositBank
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #protected void setEchInvoiceDepositBank()
+        #{
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, echInvoiceDepositBank)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchInvoiceId
+        #protected void setEchInvoiceId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchInvoiceId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchInvoiceName
+        #protected void setEchInvoiceName()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchInvoiceName)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchInvoiceRegisteredAddress
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #protected void setEchInvoiceRegisteredAddress()
+        #{
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, echInvoiceRegisteredAddress)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchInvoiceRegisteredPhoneNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #protected void setEchInvoiceRegisteredPhoneNumber()
+        #{
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, echInvoiceRegisteredPhoneNumber)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchInvoiceRequested
+        #protected void setEchInvoiceRequested()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchInvoiceRequested)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchInvoiceTaxPayerIdNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130102
+        #protected void setEchInvoiceTaxPayerIdNumber()
+        #{
+        #;
+        #    if (this.isMethodExecuted(funcname(), fieldnum(SalesTable, echInvoiceTaxPayerIdNumber)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchInvoiceTitle
+        #protected void setEchInvoiceTitle()
+        #{
+        #    echInvoiceTitleTable  invoiceTitle;
+        #;
+        #    if (this.isMethodExecuted(funcName()))
+        #    {
+        #        return;
+        #    }
+        #
+        #    select firstonly invoiceTitle
+        #      where invoiceTitle.echInvoiceTitle == salesTable.echInvoiceTitle;
+        #
+        #    if (!invoiceTitle)
+        #    {
+        #        select firstonly invoiceTitle
+        #          where invoiceTitle.echInvoiceTitleId == salesTable.echInvoiceTitle;
+        #
+        #        if (invoiceTitle)
+        #        {
+        #            this.clearField(fieldNum(SalesTable, echInvoiceTitle), false);
+        #            this.parmEchInvoiceTitle(invoiceTitle.echInvoiceTitle);
+        #        }
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchInvoiceType
+        #protected void setEchInvoiceType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchInvoiceType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchMsgPartnerExtCode
+        #protected void setEchMsgPartnerExtCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchMsgPartnerExtCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchMsgPartnerId
+        #protected void setEchMsgPartnerId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchMsgPartnerId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchPaymentAmount
+        #protected void setEchPaymentAmount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchPaymentAmount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchPaymentReference
+        #protected void setEchPaymentReference()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchPaymentReference)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchPaymentTime
+        #protected void setEchPaymentTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchPaymentTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchPromotionCode
+        #protected void setEchPromotionCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchPromotionCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setechRetTrackingNum
+        #Protected Void setechRetTrackingNum()
+        #{
+        #    if(this.isMethodExecuted(funcName(),fieldNum(SalesTable,echRetTrackingNum)))
+        #    {
+        #        Return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchROShipCarrierId
+        #protected void setEchROShipCarrierId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, echROShipCarrierId)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchROShipCarrierTrackingNum
+        #protected void setEchROShipCarrierTrackingNum()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, echROShipCarrierTrackingNum)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setEchSalesReasonId
+        #protected void setEchSalesReasonId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, EchSalesReasonId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setechShipCarrierName
+        #Protected Void setechShipCarrierName()
+        #{
+        #    if(this.isMethodExecuted(funcName(),fieldNum(SalesTable,echShipCarrierName)))
+        #    {
+        #        return;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setHHTPostedPRId
+        #protected void setHHTPostedPRId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, HHTPostedPRId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTPRDocument
+        #protected void setHHTPRDocument()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, HHTPRDocument)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setHHTRetailStatusType
+        #protected void setHHTRetailStatusType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, HHTRetailStatusType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setIsRetailSale
+        #protected void setIsRetailSale()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, IsRetailSale)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRBOStatementId
+        #protected void setRBOStatementId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesTable, RBOStatementId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #// Update ECH_WI_01984 by mengqi.cen on 20130304
+        #protected void setTableFields()
+        #{
+        #    SalesTableLinks     salesTableLinks;
+        #    ;
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setCashDisc();
+        #    this.setCommissionGroup();
+        #    this.setContactPersonId();
+        #    this.setCurrencyCode();
+        #    this.setCustAccount();
+        #    this.setCustGroup();
+        #    this.setDeliveryAddress();
+        #    this.setDeliveryCity();
+        #    this.setDeliveryCountryRegionId();
+        #    this.setDeliveryCounty();
+        #    this.setDeliveryName();
+        #    this.setDeliveryState();
+        #    this.setDeliveryStreet();
+        #    this.setDeliveryZipCode();
+        #    this.setDimension();
+        #    this.setDlvMode();
+        #    this.setDlvReason();
+        #    this.setDlvTerm();
+        #    this.setEmail();
+        #    this.setEndDisc();
+        #    this.setEstimate();
+        #    this.setExportReason();
+        #    this.setFreightZone();
+        #    this.setFixedDueDate();
+        #    this.setFixedExchRate();
+        #    this.setGiroType();
+        #    this.setInclTax();
+        #    this.setInterCompanyCompanyId();
+        #    this.setInterCompanyOrder();
+        #    this.setInventLocationId();
+        #    this.setInventSiteId();
+        #    this.setInvoiceAccount();
+        #    this.setLanguageId();
+        #    this.setLineDisc();
+        #    this.setListcode();
+        #    this.setMarkupGroup();
+        #    this.setMultiLineDisc();
+        #    this.setNumberSequenceGroup();
+        #    this.setOneTimeCustomer();
+        #    this.setPayment();
+        #    this.setPaymentSched();
+        #    this.setPaymMode();
+        #    this.setPaymSpec();
+        #    this.setPostingProfile();
+        #    this.setPriceGroupId();
+        #    this.setProjId();
+        #    this.setPurchId();
+        #    this.setQuotationId();
+        #    this.setReservation();
+        #    this.setReturnItemNum();
+        #    this.setReturnDeadLine();
+        #    this.setReturnReasonCodeId();
+        #    this.setReturnReplacementId();
+        #    this.setReturnStatus();
+        #    this.setSalesId();
+        #    this.setSalesGroup();
+        #    this.setSalesName();
+        #    this.setSalesPoolId();
+        #    this.setSalesResponsible();
+        #    this.setSalesType();
+        #    this.setSalesUnitId();
+        #    this.setSkipUpdate();
+        #    this.setStatProcId();
+        #    this.setsmmCampaignId();
+        #    this.setsmmSalesAmountTotal();
+        #    this.setTaxGroup();
+        #    this.setTransactionCode();
+        #    this.setTouched();
+        #    this.setURL();
+        #    this.setVATNum();
+        #    this.setItemTagging();
+        #    this.setCaseTagging();
+        #    this.setPalletTagging();
+        #    this.setAddressRefTableId();
+        #    this.setAddressRefRecId();
+        #    this.setEnterpriseNumber();
+        #    this.setInterCompanyAutoCreateOrders();
+        #    this.setInterCompanyDirectDelivery();
+        #    this.setInterCompanyDirectDeliveryOrig();
+        #    this.setShippingDateRequested();
+        #    this.setShippingDateConfirmed();
+        #    this.setReceiptDateRequested();
+        #    this.setReceiptDateConfirmed();
+        #    this.setInterCompanyAllowIndirectCreation();
+        #    this.setInterCompanyAllowIndirectCreationOrig();
+        #    this.setInterCompanyOrigin();
+        #    this.setEInvoiceLineSpecific();
+        #    this.setEInvoiceAccountCode();
+        #    this.setEchInvoiceTitle();
+        #    this.setEchInvoiceContent();
+        #
+        #    // <GBR>
+        #    if (BrazilParameters::isEnabled())
+        #    {
+        #        this.setDeliveryAddressComplement();
+        #        this.setDeliveryAddressNumber();
+        #        this.setDeliveryDistrictName();
+        #        this.setCustCFOPId();
+        #        this.setCustFinalUser();
+        #        this.setCustInvoiceType();
+        #        this.setCustRefusedNote();
+        #        this.setCustTransControl();
+        #        this.setDDEDSEId();
+        #        this.setDlvTransitDeposit();
+        #        this.setFineCode();
+        #        this.setFinInterestCode();
+        #        this.setInventControl();
+        #        this.setInvoiceRefRecId();
+        #        this.setInvoiceSeries();
+        #        this.setLedgerPost();
+        #        this.setOperationId();
+        #        this.setREDate();
+        #        this.setRENumber();
+        #        this.setSalesPurch();
+        #        this.setSuframa();
+        #        this.setSuframaNumber();
+        #        this.setSuframaPISCOFINS();
+        #        this.setTaxRemittance();
+        #        this.setTaxWithholdCalculate();
+        #        this.setCFPSId();
+        #        this.setServiceCodeOnDlvAddress();
+        #        this.setDeliveryCFOPId();
+        #        this.setDeliveryCustCategory();
+        #        this.setDeliveryCustCNPJCPFNum();
+        #        this.setDeliveryCustIENum();
+        #        this.setAuthority_BR();
+        #        this.setRefProcessNo_BR();
+        #    }
+        #    // </GBR>
+        #
+        #    this.setCashDiscPercent();
+        #    if (salesIdBlanket
+        #    && !SalesTableLinks::find(this.parmSalesId()))
+        #    {
+        #        salesTableLinks.MainSalesId = salesIdBlanket;
+        #        salesTableLinks.SubSalesId  = this.parmSalesId();
+        #        salesTableLinks.insert();
+        #    }
+        #
+        #    if (salesTable.returnJournal())
+        #    {
+        #        if (this.getAddressSource() == echAddressSource::Default)
+        #        {
+        #            salesTable.setReturnAddressFromInventLocationId(salesTable.InventLocationId);
+        #            this.parmDeliveryName(CompanyInfo::find().Name);
+        #        }
+        #    }
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

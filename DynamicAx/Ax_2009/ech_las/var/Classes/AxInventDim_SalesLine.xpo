@@ -1,0 +1,47 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventDim_SalesLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventDim_SalesLine
+    Id 6248
+    PROPERTIES
+      Name                #AxInventDim_SalesLine
+      Extends             #AxInventDim
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #newAxSalesLine
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: init extended class
+        #
+        #public static AxInventDim_SalesLine newAxSalesLine(AxSalesLine _axSalesLine)
+        #{
+        #    AxInventDim_SalesLine   axInventDim_SalesLine;
+        #    ;
+        #
+        #// CS - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echInterfaces)))
+        #        axInventDim_SalesLine = new AxEchInventDim_SalesLine();
+        #    else
+        #        axInventDim_SalesLine = new AxInventDim_SalesLine();
+        #// CE - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #
+        #    axInventDim_SalesLine.axSalesLine(_axSalesLine);
+        #
+        #    return axInventDim_SalesLine;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

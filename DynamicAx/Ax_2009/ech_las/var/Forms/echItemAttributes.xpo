@@ -1,0 +1,302 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echItemAttributes
+  PROPERTIES
+    Name                #echItemAttributes
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// *** ECHINA - Abdessamad Almask ***
+      #// *** Customization Code: ECH_WI_00248
+      #// *** Customization Date: 02 May 2012
+      #// *** Customization Type: created
+      #// *** Description:
+      #
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echItemAttributes
+          Table               #echItemAttributes
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD Mandatory
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// *** ECHINA - Abdessamad Almask ***
+                #// *** Customization Code: ECH_WI_00248
+                #// *** Customization Date: 02 May 2012
+                #// *** Customization Type: created
+                #// *** Description:
+                #
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    if (echItemAttributes_DS.validateWrite())
+                #    {
+                #        echItemAttributes_DS.write();
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #validateWrite
+          #// *** ECHINA - Abdessamad Almask ***
+          #// *** Customization Code: ECH_WI_00248
+          #// *** Customization Date: 02 May 2012
+          #// *** Customization Type: created
+          #// *** Description:
+          #
+          #public boolean validateWrite()
+          #{
+          #    boolean ret;
+          #    ;
+          #
+          #    ret = super();
+          #
+          #    if(echItemAttributes.Mandatory == NoYes::Yes && !echItemAttributes.AttributeValue)
+          #        ret = checkFailed("@ECH265");
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS31826
+      TitleDatasource     #echItemAttributes
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #OverviewTabPage
+              Caption             #@SYS34991
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #OverviewGrid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echItemAttributes
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_AttributeId
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_AttributeName
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_AttributeDesc
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeDesc
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_AttributeValue
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeValue
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #OverviewGrid_UnitID
+                        DataSource          #echItemAttributes
+                        DataField           #UnitID
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #OverviewGrid_Mandatory
+                        BackgroundColor     #Window background
+                        DataSource          #echItemAttributes
+                        DataField           #Mandatory
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #OverviewGrid_Visible
+                        BackgroundColor     #Window background
+                        DataSource          #echItemAttributes
+                        DataField           #Visible
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #GeneralTabPage
+              Caption             #@SYS19924
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GeneralGroup
+                  FrameType           #None
+                  DataSource          #echItemAttributes
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Group_AttributeId
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Group_AttributeName
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Group_AttributeDesc
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeDesc
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Group_AttributeValue
+                        DataSource          #echItemAttributes
+                        DataField           #AttributeValue
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Group_UnitID
+                        DataSource          #echItemAttributes
+                        DataField           #UnitID
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #Group_Mandatory
+                        DataSource          #echItemAttributes
+                        DataField           #Mandatory
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #Group_Visible
+                        DataSource          #echItemAttributes
+                        DataField           #Visible
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

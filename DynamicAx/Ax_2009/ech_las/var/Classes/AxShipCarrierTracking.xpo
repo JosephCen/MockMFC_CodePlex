@@ -1,0 +1,197 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxShipCarrierTracking unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxShipCarrierTracking
+    Id 30107
+    PROPERTIES
+      Name                #AxShipCarrierTracking
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxShipCarrierTracking axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxShipCarrierTracking extends AxInternalBase
+        #{
+        #    ShipCarrierTracking ShipCarrierTracking;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public ShipCarrierTracking currentRecord(ShipCarrierTracking _ShipCarrierTracking = ShipCarrierTracking)
+        #{
+        #    if (!prmisdefault(_ShipCarrierTracking))
+        #    {
+        #        super(_ShipCarrierTracking);
+        #        ShipCarrierTracking = _ShipCarrierTracking;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return ShipCarrierTracking;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected ShipCarrierTracking emptyRecord()
+        #{
+        #    ShipCarrierTracking localShipCarrierTracking;
+        #    ;
+        #    return localShipCarrierTracking;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPackingSlipId
+        #public PackingSlipId parmPackingSlipId(PackingSlipId _packingSlipId = '')
+        #{
+        #    if (!prmisdefault(_packingSlipId))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierTracking, PackingSlipId), _packingSlipId);
+        #    }
+        #
+        #    return shipCarrierTracking.PackingSlipId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesId parmSalesId(SalesId _salesId = '')
+        #{
+        #    if (!prmisdefault(_salesId))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierTracking, SalesId), _salesId);
+        #    }
+        #
+        #    return shipCarrierTracking.SalesId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTrackingNumber
+        #public ShipCarrierTrackingNum parmTrackingNumber(ShipCarrierTrackingNum _trackingNumber = '')
+        #{
+        #    if (!prmisdefault(_trackingNumber))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierTracking, TrackingNumber), _trackingNumber);
+        #    }
+        #
+        #    return shipCarrierTracking.TrackingNumber;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmURL
+        #public URL parmURL(URL _uRL = '')
+        #{
+        #    if (!prmisdefault(_uRL))
+        #    {
+        #        this.setField(fieldNum(ShipCarrierTracking, URL), _uRL);
+        #    }
+        #
+        #    return shipCarrierTracking.URL;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPackingSlipId
+        #protected void setPackingSlipId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierTracking, PackingSlipId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSalesId
+        #protected void setSalesId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierTracking, SalesId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setPackingSlipId();
+        #    this.setTrackingNumber();
+        #    this.setSalesId();
+        #    this.setURL();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTrackingNumber
+        #protected void setTrackingNumber()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierTracking, TrackingNumber)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setURL
+        #protected void setURL()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(ShipCarrierTracking, URL)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #ShipCarrierTracking
+        #public ShipCarrierTracking shipCarrierTracking(ShipCarrierTracking _shipCarrierTracking = shipCarrierTracking)
+        #{
+        #    if (!prmisdefault(_shipCarrierTracking))
+        #    {
+        #        this.setCurrentRecordFromExternal(_shipCarrierTracking);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxShipCarrierTracking construct()
+        #{
+        #    return new AxShipCarrierTracking();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newShipCarrierTracking
+        #public static AxShipCarrierTracking newShipCarrierTracking(ShipCarrierTracking _ShipCarrierTracking)
+        #{
+        #    AxShipCarrierTracking AxShipCarrierTracking = AxShipCarrierTracking::construct();
+        #    ;
+        #    AxShipCarrierTracking.ShipCarrierTracking(_ShipCarrierTracking);
+        #
+        #    return AxShipCarrierTracking;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

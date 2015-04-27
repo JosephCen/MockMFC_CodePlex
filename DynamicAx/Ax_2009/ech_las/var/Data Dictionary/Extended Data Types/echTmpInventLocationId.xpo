@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echTmpInventLocationId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echTmpInventLocationId
+  Id 30028
+  STRING
+    PROPERTIES
+      Name                #echTmpInventLocationId
+      Label               #@ECH79
+      HelpText            #@ECH78
+      ConfigurationKey    #echProcesses
+      Extends             #InventLocationId
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

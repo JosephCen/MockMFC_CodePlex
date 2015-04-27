@@ -1,0 +1,89 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: echInventDimBarcode unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #echInventDimBarcode
+  PROPERTIES
+    Name                #echInventDimBarcode
+    Version             #24
+    NextUniqueId        #1004
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #InventItemBarcode
+      PROPERTIES
+        Name                #InventItemBarcode
+        Table               #InventItemBarcode
+        UniqueId            #1002
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+        BLOCK #InventDim
+          PROPERTIES
+            Name                #InventDim
+            Table               #InventDim
+            UniqueId            #1003
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #inventDimId
+              DETAILSFIELD #inventDimId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+    DEPENDENT
+      PROPERTIES
+        Name                #echInventDimBarcodeVw
+        DependentType       #View
+      ENDPROPERTIES
+      
+      Id 30046
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

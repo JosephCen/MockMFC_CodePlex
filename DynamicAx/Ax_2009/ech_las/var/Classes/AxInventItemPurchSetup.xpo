@@ -1,0 +1,35 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventItemPurchSetup unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventItemPurchSetup
+    Id 2156
+    PROPERTIES
+      Name                #AxInventItemPurchSetup
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmLeadTime
+        #public LeadTime parmLeadTime(LeadTime _leadTime = 0)
+        #{
+        #    if (!prmisdefault(_leadTime))
+        #    {
+        #        this.setField(fieldnum(InventItemPurchSetup, LeadTime), _leadTime);
+        #    }
+        #
+        #    return inventItemPurchSetup.LeadTime;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

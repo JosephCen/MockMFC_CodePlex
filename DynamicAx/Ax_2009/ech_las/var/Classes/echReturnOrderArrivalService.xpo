@@ -1,0 +1,48 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echReturnOrderArrivalService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echReturnOrderArrivalService
+    Id 30047
+    PROPERTIES
+      Name                #echReturnOrderArrivalService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echReturnOrderArrivalService extends AifDocumentService
+        #{
+        #}
+        #
+      ENDSOURCE
+      SOURCE #create
+        #public AifEntityKeyList create(echReturnOrderArr _echReturnOrderArr)
+        #{
+        #    return this.createList(_echReturnOrderArr);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echReturnOrderArrivalService construct()
+        #{
+        #    return new echReturnOrderArrivalService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,2165 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #SalesTableListPage
+  PROPERTIES
+    Name                #SalesTableListPage
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #    SalesTableType                  salesTableType;
+      #    SysFormSplitter_YBottomBound    splitter;
+      #    SysListPagePreviewPaneHtmlGen      htmlGenerator;
+      #    FormButtonManager               formButtonManager;
+      #
+      #    Object                          tmpSalesTableTaxTransForm;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #allowEditMarkupTrans
+      #/// <summary>
+      #/// Enables Misc Charges to be edited.
+      #/// </summary>
+      #/// <returns>
+      #/// true.
+      #/// </returns>
+      #/// <remarks>
+      #/// Called from MarkupTrans form.
+      #/// </remarks>
+      #boolean allowEditMarkupTrans()
+      #{
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #allowEditSalesCopying
+      #/// <summary>
+      #/// Enables Credit note to be edited.
+      #/// </summary>
+      #/// <returns>
+      #/// true.
+      #/// </returns>
+      #/// <remarks>
+      #/// Called from SalesCopying form.
+      #/// </remarks>
+      #boolean allowEditSalesCopying()
+      #{
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #registerButtonRules
+      #/// <summary>
+      #/// Connect controls on the form with rules on formButtonManager governing the enables state of the control
+      #/// </summary>
+      #// Changed on 20 Sep 2007 at 12:27:19 by Admin
+      #void registerButtonRules()
+      #{
+      #    SalesTableListPageRuleImplementer salesTableListPageRuleImplementer = new SalesTableListPageRuleImplementer();
+      #    ;
+      #    formButtonManager = FormButtonManager::construct();
+      #    formButtonManager.parmRuleImplementer(salesTableListPageRuleImplementer);
+      #
+      #    formButtonManager.setDatasources(salesTable, purchTable_Reference);
+      #    formButtonManager.parmMultiselectDatasource(salesTable_ds);
+      #
+      #    // Buttons visible when quotationType is sales
+      #
+      #    // Disable buttons when no salesTable is present
+      #    formButtonManager.registerButtonRuleOnGroup(actionPane, methodstr(SalesTableListPageRuleImplementer, checkRuleOrderExist));
+      #    formButtonManager.unregisterButtonRule(groupNew, newSalesOrder, methodstr(SalesTableListPageRuleImplementer, checkRuleOrderExist));
+      #
+      #    // Disable actions irrelevant to Blanket orders
+      #
+      #    formButtonManager.registerButtonRule(relatedDocuments, quotationConfirmationJournal, methodstr(SalesTableListPageRuleImplementer, checkRuleIsNotBlanketOrder));
+      #
+      #    formButtonManager.registerButtonRule(groupNew, buttonCreateReleaseOrder, methodstr(SalesTableListPageRuleImplementer, checkRuleIsBlanketOrder));
+      #
+      #
+      #    // Rules gathered from SalesTableForm
+      #    formButtonManager.registerButtonRuleOnGroup(pickAndPack, methodstr(SalesTableListPageRuleImplementer, checkRuleIsNotBlanketOrder));
+      #    formButtonManager.registerButtonRuleOnGroup(issueInvoice, methodstr(SalesTableListPageRuleImplementer, checkRuleIsNotBlanketOrder));
+      #
+      #    formButtonManager.registerButtonRule(relatedDocumentsInvoice, buttonJournalInvoice, methodstr(SalesTableListPageRuleImplementer, checkRuleIsNotBlanketOrder));
+      #    formButtonManager.registerButtonRule(relatedDocumentsGeneral, salesTableLinks, methodstr(SalesTableListPageRuleImplementer, checkRuleIsBlanketOrder));
+      #
+      #    formButtonManager.registerButtonRuleOnGroup(intercompanyGeneral, methodstr(SalesTableListPageRuleImplementer, checkRuleIsNotBlanketOrder));
+      #
+      #    formButtonManager.registerButtonRuleOnGroup(process, methodstr(SalesTableListPageRuleImplementer, checkRuleMayConfirmationBeUpdated));
+      #
+      #    formButtonManager.registerButtonRule(pickAndPackProcess, buttonUpdatePickingList, methodstr(SalesTableListPageRuleImplementer, checkRuleMayPickingListBeUpdated));
+      #    formButtonManager.registerButtonRule(pickAndPackProcess, buttonProformaPickingList, methodstr(SalesTableListPageRuleImplementer, checkRuleMayPickingListBeUpdated));
+      #
+      #    formButtonManager.registerButtonRule(pickAndPackProcess, buttonUpdatePickingListRegistrate, methodstr(SalesTableListPageRuleImplementer, checkRuleMayPickingListBeRegistrated));
+      #
+      #    formButtonManager.registerButtonRule(pickAndPackProcess, buttonUpdatePackingSlip, methodstr(SalesTableListPageRuleImplementer, checkRuleMayPackingSlipBeUpdated));
+      #    formButtonManager.registerButtonRule(pickAndPackProcess, buttonProformaPackingSlip, methodstr(SalesTableListPageRuleImplementer, checkRuleMayPackingSlipBeUpdated));
+      #
+      #    // Not return item
+      #    formButtonManager.registerButtonRule(relatedDocuments, buttonJournalConfirmation, methodstr(SalesTableListPageRuleImplementer, checkRuleNotReturnItem));
+      #    formButtonManager.registerButtonRule(pickAndPackJournals, buttonJournalPickingList, methodstr(SalesTableListPageRuleImplementer, checkRuleNotReturnItem));
+      #    formButtonManager.registerButtonRule(billInvoice, buttonPaymentSchedule, methodstr(SalesTableListPageRuleImplementer, checkRuleNotReturnItem));
+      #
+      #    // Individual rules
+      #
+      #    formButtonManager.registerButtonRuleOnGroup(issueInvoice, methodstr(SalesTableListPageRuleImplementer, checkRuleMayInvoiceBeUpdated));
+      #
+      #    formButtonManager.registerButtonRule(relatedDocuments, buttonJournalConfirmation, methodstr(SalesTableListPageRuleImplementer, checkRuleConfirmationJournalExis));
+      #    formButtonManager.registerButtonRule(relatedDocuments, quotationConfirmationJournal, methodstr(SalesTableListPageRuleImplementer, checkRuleQuotationConfirmationExist));
+      #
+      #    formButtonManager.registerButtonRule(relatedDocumentsInvoice, buttonJournalInvoice, methodstr(SalesTableListPageRuleImplementer, checkRuleInvoiceJournalExis));
+      #    formButtonManager.registerButtonRule(billInvoice, buttonPaymentSchedule, methodstr(SalesTableListPageRuleImplementer, checkRulePaymentScheduleExits));
+      #
+      #    formButtonManager.registerButtonRule(intercompanyGeneral, interCompanySalesTable, methodstr(SalesTableListPageRuleImplementer, checkRuleSalesOnPurchRefExits));
+      #    formButtonManager.registerButtonRule(intercompanyGeneral, interCompanyOriginalSalesTable, methodstr(SalesTableListPageRuleImplementer, checkRuleOrigSalesOrderExist));
+      #    formButtonManager.registerButtonRule(intercompanyGeneral, purchTable, methodstr(SalesTableListPageRuleImplementer, checkRulePurchExitsThisCompany));
+      #    formButtonManager.registerButtonRule(intercompanyGeneral, interCompanyPurchTable, methodstr(SalesTableListPageRuleImplementer, checkRuleInterCompanyPurchExits));
+      #    formButtonManager.registerButtonRule(intercompanyGeneral, interCompanyPickinglist, methodstr(SalesTableListPageRuleImplementer, checkRuleInterCompanyPicking));
+      #    formButtonManager.registerButtonRule(relatedDocumentsGeneral, costControlCommittedCost, methodstr(SalesTableListPageRuleImplementer, checkIsProjectOrder));
+      #
+      #    formButtonManager.registerButtonRule(pickAndPackJournals, buttonJournalPickingList, methodstr(SalesTableListPageRuleImplementer, checkRulePickingListJournalExis));
+      #    formButtonManager.registerButtonRule(pickAndPackJournals, buttonJournalPackingSlip, methodstr(SalesTableListPageRuleImplementer, checkRulePackingSlipJournalExis));
+      #
+      #    formButtonManager.registerButtonRule(relatedDocumentsGeneral, purchTableGeneral, methodstr(SalesTableListPageRuleImplementer, checkRulePurchOrderRefExists));
+      #
+      #    formButtonManager.refresh();
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    #define.startupHeight(175);
+      #
+      #    super();
+      #
+      #    this.registerButtonRules();
+      #
+      #    splitter = new SysFormSplitter_YBottomBound(grid, ctrlSplitVertical, previewPane, this, #startupHeight);
+      #    htmlGenerator = new SysListPagePreviewPaneHtmlGen(this,previewPane);
+      #
+      #    if (!InventParameters::find().UseQualityManagement)
+      #    {
+      #        this.hideQualityManagement();
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #setButtonAccess
+      #/// <summary>
+      #/// Refreshes the enabled state of all controls.
+      #/// </summary>
+      #public void setButtonAccess()
+      #{;
+      #
+      #    this.lockWindowUpdate(true);
+      #    interCompanyPurchSalesReference_DS.executeQuery();
+      #    purchTable_Reference_DS.executeQuery();
+      #    salesLine_DS.executeQuery();
+      #    formButtonManager.refresh();
+      #    this.lockWindowUpdate(false);
+      #}
+    ENDSOURCE
+    SOURCE #automaticTotalDiscount
+      #/// <summary>
+      #/// Calculates the total discount.
+      #/// </summary>
+      #/// <param name="_salesTable">
+      #/// Order to calculate discount on.
+      #/// </param>
+      #public void automaticTotalDiscount(SalesTable  _salesTable)
+      #{
+      #    ;
+      #    if(CustParameters::find().AutomaticTotalDiscount)
+      #    {
+      #        _salesTable.updateFinalDisc();
+      #
+      #        salesTable_ds.reread();
+      #        salesTable_ds.refresh();
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #hideQualityManagement
+      #/// <summary>
+      #/// Hides controls associated with quality management
+      #/// </summary>
+      #void hideQualityManagement()
+      #{
+      #    ;
+      #
+      #    manageQuality.visible(false);
+      #    manageQualityGeneral.visible(false);
+      #    qualityOrderStatusDisplayTable.visible(false);
+      #    qualityOrderStatusDisplayLine.visible(false);
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+      Query               #SalesTableListPage
+      Version             #62
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          AllowEdit           #No
+          AllowCreate         #No
+          StartPosition       #Last
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD Payment
+            PROPERTIES
+              AllowAdd            #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CustGroup
+            PROPERTIES
+              AllowAdd            #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD ProjId
+            PROPERTIES
+              AllowAdd            #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD PaymMode
+            PROPERTIES
+              AllowAdd            #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD PurchOrderFormNum
+            PROPERTIES
+              AllowAdd            #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesResponsible
+            PROPERTIES
+              AllowAdd            #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesId
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CustAccount
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD InvoiceAccount
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CurrencyCode
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesStatus
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesType
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #markChanged
+          #/// <summary>
+          #/// Resets enabled state of all action buttons.
+          #/// </summary>
+          #/// <remarks>
+          #/// Called from the system when the selection in the list is changed.
+          #/// </remarks>
+          #public void markChanged()
+          #{
+          #;
+          #    element.setButtonAccess();
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #refresh
+          #public void refresh()
+          #{
+          #    super();
+          #    custTable_DS.refresh();
+          #    purchTable_Reference_DS.refresh();
+          #}
+        ENDSOURCE
+        SOURCE #editSales
+          #/// <summary>
+          #/// Update editable state.
+          #/// </summary>
+          #/// <remarks>
+          #/// This method must be present. Called from Invoice posting
+          #/// </remarks>
+          #void editSales()
+          #{;
+          #
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #/// <summary>
+          #/// Updates the enabled state of controls and the lines preview when a record is selected.
+          #/// </summary>
+          #/// <returns>
+          #/// The value retrieved from superclass.
+          #/// </returns>
+          #public int active()
+          #{
+          #    int ret;
+          #    SalesTotals salesTotals;
+          #    boolean allowEdit;
+          #    SalesTableType          editSalesTableType;
+          #    ;
+          #
+          #    ret = super();
+          #
+          #    editSalesTableType = salesTable.type();
+          #    element.setButtonAccess();
+          #
+          #    if (tmpSalesTableTaxTransForm && !tmpSalesTableTaxTransForm.closed())
+          #    {
+          #        salesTotals = SalesTotals::construct(salesTable);
+          #        salesTotals.calc();
+          #        tmpSalesTableTaxTransForm.pushTaxObject(salesTotals.tax());
+          #    }
+          #
+          #    allowEdit = editSalesTableType.checkDelete(false);
+          #    salesTable_ds.allowDelete(allowEdit);
+          #    modify.enabled(allowEdit);
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #reReadLines
+          #/// <summary>
+          #/// Updates lines.
+          #/// </summary>
+          #/// <remarks>
+          #/// This method must be present. Called from posting.
+          #/// </remarks>
+          #void  reReadLines()
+          #{
+          #    salesLine_ds.executeQuery();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+      LINKTYPES
+        DATASOURCE
+          PROPERTIES
+            Name                #SalesTable
+            ParentDataSource    #CustTable
+            LinkType            #None
+          ENDPROPERTIES
+          
+        DATASOURCE
+          PROPERTIES
+            Name                #SalesTable
+            ParentDataSource    #InterCompanyPurchSalesReference
+            LinkType            #None
+          ENDPROPERTIES
+          
+        DATASOURCE
+          PROPERTIES
+            Name                #SalesTable
+            ParentDataSource    #SalesLine
+            LinkType            #None
+          ENDPROPERTIES
+          
+      ENDLINKTYPES
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesLine
+          Table               #SalesLine
+          Index               #SalesLineIdx
+          CounterField        #LineNum
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #SalesTable
+          LinkType            #Active
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #/// <summary>
+          #/// Updates preview.
+          #/// </summary>
+          #public void executeQuery()
+          #{
+          #    super();
+          #    htmlGenerator.updateHTMLControl(html);
+          #
+          #}
+        ENDSOURCE
+      ENDMETHODS
+      LINKTYPES
+        DATASOURCE
+          PROPERTIES
+            Name                #SalesLine
+            ParentDataSource    #SalesTable
+            LinkType            #Delayed
+          ENDPROPERTIES
+          
+      ENDLINKTYPES
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #CustTable
+          Table               #CustTable
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #SalesTable
+          LinkType            #InnerJoin
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD Name
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD InvoiceAccount
+            PROPERTIES
+              AllowAdd            #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      LINKTYPES
+        DATASOURCE
+          PROPERTIES
+            Name                #CustTable
+            ParentDataSource    #SalesTable
+            LinkType            #None
+          ENDPROPERTIES
+          
+      ENDLINKTYPES
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InterCompanyPurchSalesReference
+          Table               #InterCompanyPurchSalesReference
+          AllowCheck          #No
+          AllowEdit           #No
+          AllowCreate         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      LINKTYPES
+        DATASOURCE
+          PROPERTIES
+            Name                #InterCompanyPurchSalesReference
+            ParentDataSource    #SalesTable
+            LinkType            #Delayed
+          ENDPROPERTIES
+          
+        DATASOURCE
+          PROPERTIES
+            Name                #InterCompanyPurchSalesReference
+            ParentDataSource    #PurchTable_reference
+            LinkType            #None
+          ENDPROPERTIES
+          
+      ENDLINKTYPES
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #PurchTable_reference
+          Table               #PurchTable
+          AllowCheck          #No
+          AllowEdit           #No
+          AllowCreate         #No
+          OnlyFetchActive     #Yes
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      LINKTYPES
+        DATASOURCE
+          PROPERTIES
+            Name                #PurchTable_reference
+            ParentDataSource    #InterCompanyPurchSalesReference
+            LinkType            #Delayed
+          ENDPROPERTIES
+          
+      ENDLINKTYPES
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    SalesLine SalesTable
+    CustTable SalesTable
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS80599
+      TitleDatasource     #SalesTable
+      WindowType          #ListPage
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/774fe909-350b-4a6c-8487-13ff24c13217.htm
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #ActionPane
+          AutoDeclaration     #Yes
+          Width               #Column width
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Sell
+                Caption             #@SYS114644
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupNew
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS2055
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #NewSalesOrder
+                          AutoDeclaration     #Yes
+                          NormalResource      #10874
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemName        #SalesTableForNew
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonCreateReleaseOrder
+                          AutoDeclaration     #Yes
+                          NormalResource      #10889
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesCreateReleaseOrder_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SMAServiceOrderWizard_Action
+                          NormalResource      #10875
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #SMAServiceOrderWizard_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #OpenSalesOrder
+                          Visible             #No
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #SalesTableForEdit
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Modify
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS71028
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #Delete
+                          Text                #@SYS21354
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10121
+                          ShowShortCut        #No
+                          MultiSelect         #Yes
+                          Big                 #Yes
+                          Primary             #Yes
+                          Command             #2832
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Process
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114631
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonUpdateConfirmation
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10510
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_Confirmation_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonProformaConfirmation
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10702
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_Proforma_Confirm_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #CustInfo
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS24704
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #CheckCreditLimit
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10492
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesCheckCreditLimit_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscActual
+                          NormalResource      #10693
+                          ShowShortCut        #No
+                          MenuItemName        #PriceDiscActual_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Apply
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS24973
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SMAAgreementWizard
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10785
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #SMAAgreementWizard_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #CreditNote
+                      Caption             #@SYS114655
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SalesCreditNote
+                          NormalResource      #10534
+                          DisabledResource    #10534
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #SalesCreditNoteHeader_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #RelatedDocuments
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS9020
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonJournalConfirmation
+                          AutoDeclaration     #Yes
+                          NormalResource      #10511
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #CustConfirmJournal_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #QuotationConfirmationJournal
+                          AutoDeclaration     #Yes
+                          NormalResource      #11044
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #CustQuotationJournalConfirm_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #PickAndPack
+                AutoDeclaration     #Yes
+                Caption             #@SYS114648
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #PickAndPackProcess
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114631
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonUpdatePickingList
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10681
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_PickingList_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonUpdatePickingListRegistrate
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10683
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemName        #WMSPickingRegistration_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonUpdatePackingSlip
+                          AutoDeclaration     #Yes
+                          NormalResource      #10665
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_PackingSlip_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonProformaPickingList
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10705
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_Proforma_Pick_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonProformaPackingSlip
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10704
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_Proforma_Pack_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #ManageQuality
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS118441
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventNonConformanceTableHeader
+                          AutoDeclaration     #Yes
+                          NormalResource      #11134
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventNonConformanceTableAction
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventQualityOrderTableHeader
+                          AutoDeclaration     #Yes
+                          NormalResource      #11135
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventQualityOrderTableAction
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #PickAndPackJournals
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS9020
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonJournalPickingList
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10682
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #WMSPickingRoutesJournal_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonJournalPackingSlip
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10667
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #CustPackingSlipJournal_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Invoice
+                Caption             #@SYS14204
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #IssueInvoice
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114631
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonUpdateInvoice
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10610
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_Invoice_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonProformaInvoice
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10703
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemType        #Action
+                          MenuItemName        #SalesFormLetter_Proforma_Invoice_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #BillInvoice
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114665
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonPaymentSchedule
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10673
+                          ShowShortCut        #No
+                          MenuItemName        #CustPaymSchedule_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #CashFlowForecast
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10474
+                          ShowShortCut        #No
+                          MenuItemName        #LedgerCoverage_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #Totals
+                          AutoDeclaration     #Yes
+                          NormalResource      #10832
+                          ShowShortCut        #No
+                          MenuItemName        #SalesTotals_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #SettleInvoice
+                      Caption             #@SYS114666
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #OpenTrans
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10793
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemName        #CustOpenTrans_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #ChargesInvoice
+                      Caption             #@SYS114608
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ButtonMarkupTransHeading
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10639
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #MarkupTrans_HeadingSales_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SalesTax
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10777
+                          ShowShortCut        #No
+                          MenuItemName        #TaxTransSource_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #void clicked()
+                            #{;
+                            #    element.automaticTotalDiscount(salesTable);
+                            #
+                            #    if (!tmpSalesTableTaxTransForm || (tmpSalesTableTaxTransForm && tmpSalesTableTaxTransForm.closed()))
+                            #    {
+                            #        tmpSalesTableTaxTransForm = SalesTotals::showTax(salesTable);
+                            #    }
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #RelatedDocumentsInvoice
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS9020
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #buttonJournalInvoice
+                          AutoDeclaration     #Yes
+                          ButtonDisplay       #Text & Image left
+                          NormalResource      #10612
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemName        #CustInvoiceJournal_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Intercompany
+                Caption             #@SYS74106
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #IntercompanyGeneral
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS121366
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #InterCompanySalesTable
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS94562
+                          ConfigurationKey    #TradeInterCompany
+                          Text                #@SYS114674
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10604
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Opens the related taskpage to edit a record.
+                            #/// </summary>
+                            #void clicked()
+                            #{
+                            #    super();
+                            #
+                            #    purchTable_Reference.reread();
+                            #    TradeInterCompany::construct(purchTable_Reference).formRun(formstr(SalesTable));
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #InterCompanyOriginalSalesTable
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS94563
+                          ConfigurationKey    #TradeInterCompany
+                          Text                #@SYS114675
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10664
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Opens the related taskpage to edit a record.
+                            #/// </summary>
+                            #void clicked()
+                            #{
+                            #    super();
+                            #
+                            #    TradeInterCompany::construct(salesTable,true).formRun(formstr(SalesTable));
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PurchTable
+                          AutoDeclaration     #Yes
+                          ConfigurationKey    #TradeInterCompany
+                          Text                #@SYS114676
+                          NormalResource      #10724
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          MenuItemName        #PurchTable_Action
+                          DataSource          #PurchTable_reference
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #InterCompanyPurchTable
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS94560
+                          ConfigurationKey    #TradeInterCompany
+                          Text                #@SYS114677
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10603
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Opens the related taskpage to edit a record.
+                            #/// </summary>
+                            #void clicked()
+                            #{
+                            #    super();
+                            #
+                            #    TradeInterCompany::construct(salesTable).formRun(formstr(PurchTable));
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #InterCompanyPickinglist
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS94424
+                          ConfigurationKey    #TradeInterCompany
+                          Text                #@SYS114678
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10602
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Opens the related taskpage to edit a record.
+                            #/// </summary>
+                            #void  clicked()
+                            #{;
+                            #    purchTable_Reference.reread();
+                            #    if (!purchTable_Reference.RecId && !purchTable_Reference.InterCompanySalesId)
+                            #        throw(error("@SYS28047"));
+                            #
+                            #    TradeInterCompany::construct(purchTable_Reference).menuFunction(classstr(SalesFormLetter_PickingList),MenuItemType::Action,this);
+                            #}
+                            #
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #General
+                Caption             #@SYS19924
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #List
+                      Caption             #@SYS6188
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #SendToExcel
+                          NormalResource      #10156
+                          ShowShortCut        #No
+                          MultiSelect         #Yes
+                          Big                 #Yes
+                          Command             #4436
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #FollowupActivities
+                      Caption             #@SYS6731
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUBUTTON
+                        PROPERTIES
+                          Name                #CreateActivity
+                          HelpText            #@SYS26027
+                          Text                #@SYS38378
+                          NormalResource      #10197
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                        ENDPROPERTIES
+                        
+                        CONTAINER
+                          CONTROL MENUITEMBUTTON
+                            PROPERTIES
+                              Name                #ServicingViewActivities
+                              AllowEdit           #No
+                              Text                #@SYS114624
+                              NormalResource      #10197
+                              ShowShortCut        #No
+                              Primary             #Yes
+                              MenuItemName        #smmActivities
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL MENUITEMBUTTON
+                            PROPERTIES
+                              Name                #Create
+                              Text                #@SYS114625
+                              NormalResource      #10430
+                              ShowShortCut        #No
+                              Primary             #Yes
+                              MenuItemName        #smmactivitiesactionNew
+                              DataSource          #SalesTable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL MENUITEMBUTTON
+                            PROPERTIES
+                              Name                #ScheduleAppointment
+                              Text                #@SYS114626
+                              NormalResource      #10433
+                              ShowShortCut        #No
+                              Primary             #Yes
+                              MenuItemName        #smmActivitiesAppointmentNew
+                              DataSource          #SalesTable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL MENUITEMBUTTON
+                            PROPERTIES
+                              Name                #RecordEvent
+                              Text                #@SYS114679
+                              NormalResource      #10432
+                              ShowShortCut        #No
+                              Primary             #Yes
+                              MenuItemName        #smmactivitieseventNew
+                              DataSource          #SalesTable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL MENUITEMBUTTON
+                            PROPERTIES
+                              Name                #CreateTask
+                              Text                #@SYS114680
+                              NormalResource      #10431
+                              ShowShortCut        #No
+                              Primary             #Yes
+                              MenuItemName        #smmActivitiesTaskNew
+                              DataSource          #SalesTable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #ManageQualityGeneral
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS118441
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventNonConformanceTableHeaderGeneral
+                          AutoDeclaration     #Yes
+                          NormalResource      #11134
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventNonConformanceTableAction
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventQualityOrderTableHeaderGeneral
+                          AutoDeclaration     #Yes
+                          NormalResource      #11135
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventQualityOrderTableAction
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #SetupGeneral
+                      Caption             #@SYS12687
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #PrintMgmt
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS68918
+                          ConfigurationKey    #LogisticsBasic
+                          SecurityKey         #CustMisc
+                          Text                #@SYS114627
+                          ButtonDisplay       #Text & Image left
+                          NormalResource      #10698
+                          ShowShortCut        #No
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Sets up the context for print management
+                            #/// </summary>
+                            #void clicked()
+                            #{
+                            #    PrintMgmtSetupContext setupContext = new PrintMgmtSetupContext();
+                            #    ;
+                            #
+                            #    if (salesTable_ds.cursor() == null)
+                            #        return;
+                            #
+                            #    super();
+                            #
+                            #    setupContext.addHierarchyContext(PrintMgmtHierarchyType::Sales, PrintMgmtNodeType::SalesTable);
+                            #    setupContext.parmCaller(element);
+                            #    setupContext.parmReferencedTableBuffer(salesTable_ds.cursor());
+                            #    PrintMgmt::launchSetup(setupContext);
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #Summary
+                          NormalResource      #10819
+                          ShowShortCut        #No
+                          MenuItemName        #SalesJournalAutoSummary_Sales_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #RelatedDocumentsGeneral
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114375
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SalesTableLinks
+                          AutoDeclaration     #Yes
+                          NormalResource      #10744
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #SalesTableLinks_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PurchTableGeneral
+                          AutoDeclaration     #Yes
+                          NormalResource      #10724
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #PurchTable_Action
+                          DataSource          #PurchTable_reference
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #CostControlCommittedCost
+                          AutoDeclaration     #Yes
+                          NormalResource      #11032
+                          ShowShortCut        #No
+                          Primary             #Yes
+                          MenuItemName        #CostControlCommittedCost_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #AttachedDocumentsGeneral
+                      Caption             #@SYS114630
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #Attachments
+                          Text                #@SYS114630
+                          ButtonDisplay       #Text & Image below
+                          NormalResource      #10442
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          Command             #2853
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #FilterPaneGroup
+          Width               #Column width
+          FrameType           #None
+          TopMargin           #2
+          BottomMargin        #2
+          LeftMargin          #4
+          RightMargin         #4
+          ArrangeMethod       #Horizontal, flush right
+        ENDPROPERTIES
+        
+          CONTAINER
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #Grid
+          AutoDeclaration     #Yes
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          DataSource          #SalesTable
+          DefaultAction       #OpenSalesOrder
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #SalesTable_SalesIdAdvanced
+                AutoDeclaration     #Yes
+                HTMLHelpFile        #HTMLHelpFileAxShared
+                HTMLHelpTopic       #html/20acb92c-851a-4c47-acc2-b742e33b10e1.htm
+                DataSource          #SalesTable
+                DataField           #SalesId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #SalesTable_CustAccountAdv
+                AutoDeclaration     #Yes
+                HTMLHelpFile        #HTMLHelpFileAxShared
+                HTMLHelpTopic       #html/996ce646-1849-4a1b-8ef5-23e87aa5b44d.htm
+                DataSource          #SalesTable
+                DataField           #CustAccount
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #CustTable_Name
+                Label               #@SYS120466
+                DataSource          #CustTable
+                DataField           #Name
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #SalesTable_InvoiceAccountAdv
+                AutoDeclaration     #Yes
+                HTMLHelpFile        #HTMLHelpFileAxShared
+                HTMLHelpTopic       #html/d9c3be94-9c71-4067-ad43-7a725c2ed6d6.htm
+                DataSource          #SalesTable
+                DataField           #InvoiceAccount
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #SalesTable_SalesType
+                AutoDeclaration     #Yes
+                HTMLHelpFile        #HTMLHelpFileAxShared
+                HTMLHelpTopic       #html/5219F2D1-95B5-40CA-A623-7C070790E8CA.htm
+                DataSource          #SalesTable
+                DataField           #SalesType
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #SalesTable_ECHAggStatus
+                DataSource          #SalesTable
+                DataField           #ECHAggStatus
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #SalesTable_SalesStatusGrid
+                HTMLHelpFile        #HTMLHelpFileAxShared
+                HTMLHelpTopic       #html/52dbd3ce-dabc-4aa7-9f2a-7ac3ffd6f3d0.htm
+                DataSource          #SalesTable
+                DataField           #SalesStatus
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #SalesTable_echCancelExceptionId
+                DataSource          #SalesTable
+                DataField           #echCancelExceptionId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #SalesIdBlanket
+                AllowEdit           #No
+                DataSource          #SalesTable
+                DataMethod          #SalesIdBlanket
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #qualityOrderStatusDisplayTable
+                AutoDeclaration     #Yes
+                AllowEdit           #No
+                DataSource          #SalesTable
+                DataMethod          #qualityOrderStatusDisplay
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #CtrlSplitVertical
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #5
+          FrameType           #Raised 3D
+          BackgroundColor     #Window background
+          TopMargin           #0
+          BottomMargin        #0
+          HideIfEmpty         #No
+          AlignChild          #No
+        ENDPROPERTIES
+        
+        METHODS
+          Version: 3
+          SOURCE #mouseUp
+            #/// <summary>
+            #/// Updates the page splitter a mousebutton is released.
+            #/// </summary>
+            #/// <param name="x">
+            #/// x position of the mouse.
+            #/// </param>
+            #/// <param name="y">
+            #/// y position of the mouse.
+            #/// </param>
+            #/// <param name="button">
+            #/// Name of mousebutton that was pressed.
+            #/// </param>
+            #/// <param name="ctrl">
+            #/// true if ctrl key was pressed, otherwise false.
+            #/// </param>
+            #/// <param name="shift">
+            #/// true if shift key was pressed, otherwise false.
+            #/// </param>
+            #/// <returns>
+            #/// Returns 1 if handled 0 otherwise.
+            #/// </returns>
+            #int mouseUp(int x, int y, int button, boolean ctrl, boolean shift)
+            #{
+            #    int ret;
+            #    ;
+            #
+            #    super(x, y, button, ctrl, shift);
+            #
+            #    ret = splitter.mouseUp(x, y, button, ctrl, shift);
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+          SOURCE #mouseMove
+            #/// <summary>
+            #/// Updates the page splitter when mouse is moved.
+            #/// </summary>
+            #/// <param name="x">
+            #/// x position of the mouse.
+            #/// </param>
+            #/// <param name="y">
+            #/// y position of the mouse.
+            #/// </param>
+            #/// <param name="button">
+            #/// Name of mousebutton that was pressed.
+            #/// </param>
+            #/// <param name="ctrl">
+            #/// true if ctrl key was pressed, otherwise false.
+            #/// </param>
+            #/// <param name="shift">
+            #/// true if shift key was pressed, otherwise false.
+            #/// </param>
+            #/// <returns>
+            #/// Returns 1 if handled 0 otherwise.
+            #/// </returns>
+            #int mouseMove(int x, int y, int button, boolean ctrl, boolean shift)
+            #{
+            #    int ret;
+            #    ;
+            #
+            #    super(x, y, button, ctrl, shift);
+            #
+            #    ret = splitter.mouseMove(x, y, button, ctrl, shift);
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+          SOURCE #mouseDown
+            #/// <summary>
+            #/// Updates the page splitter when mouse is pressed.
+            #/// </summary>
+            #/// <param name="x">
+            #/// x position of the mouse.
+            #/// </param>
+            #/// <param name="y">
+            #/// y position of the mouse.
+            #/// </param>
+            #/// <param name="button">
+            #/// Name of mousebutton that was pressed.
+            #/// </param>
+            #/// <param name="ctrl">
+            #/// true if ctrl key was pressed, otherwise false.
+            #/// </param>
+            #/// <param name="shift">
+            #/// true if shift key was pressed, otherwise false.
+            #/// </param>
+            #/// <returns>
+            #/// Returns 1 if handled 0 otherwise.
+            #/// </returns>
+            #int mouseDown(int x, int y, int button, boolean ctrl, boolean shift)
+            #{
+            #    int ret;
+            #    ;
+            #
+            #    super(x, y, button, ctrl, shift);
+            #
+            #    ret = splitter.mouseDown(x, y, button, ctrl, shift);
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+          CONTAINER
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PreviewPane
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #Column height
+          FrameType           #None
+          TopMargin           #0
+          BottomMargin        #0
+          LeftMargin          #0
+          RightMargin         #0
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL GROUP
+              PROPERTIES
+                Name                #Title
+                FrameType           #None
+                TopMargin           #0
+                BottomMargin        #0
+                LeftMargin          #5
+                RightMargin         #5
+                ArrangeMethod       #Horizontal, flush right
+              ENDPROPERTIES
+              
+                CONTAINER
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL HTML
+              PROPERTIES
+                Name                #HTML
+                Width               #Column width
+                Height              #Column height
+                Skip                #Yes
+              ENDPROPERTIES
+              
+              BINARY 0
+                
+              ENDBINARY
+              BINARY 1
+                00
+              ENDBINARY
+            ENDCONTROL 
+            
+            CONTROL GROUP
+              PROPERTIES
+                Name                #Left
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #SalesTable_SalesId
+                      Border              #None
+                      Bold                #Bold
+                      LabelBold           #Bold
+                      DataSource          #SalesTable
+                      DataField           #SalesId
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #SalesTable_CustAccount
+                      DataSource          #SalesTable
+                      DataField           #CustAccount
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #SalesTable_SalesName
+                      Label               #@SYS120466
+                      DataSource          #CustTable
+                      DataField           #Name
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL GROUP
+              PROPERTIES
+                Name                #Middle
+              ENDPROPERTIES
+              
+                CONTAINER
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL GROUP
+              PROPERTIES
+                Name                #Right
+              ENDPROPERTIES
+              
+                CONTAINER
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL GROUP
+              PROPERTIES
+                Name                #Lines
+                DataSource          #SalesLine
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #SalesLine_ItemId
+                      DataSource          #SalesLine
+                      DataField           #ItemId
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #SalesLine_Name
+                      DataSource          #SalesLine
+                      DataMethod          #ItemName
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL REALEDIT
+                    PROPERTIES
+                      Name                #SalesLine_SalesQty
+                      DataSource          #SalesLine
+                      DataField           #SalesQty
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #SalesLine_SalesUnit
+                      DataSource          #SalesLine
+                      DataField           #SalesUnit
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL REALEDIT
+                    PROPERTIES
+                      Name                #SalesLine_SalesPrice
+                      DataSource          #SalesLine
+                      DataField           #SalesPrice
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL REALEDIT
+                    PROPERTIES
+                      Name                #SalesLine_LineAmount
+                      DataSource          #SalesLine
+                      DataField           #LineAmount
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL STRINGEDIT
+                    PROPERTIES
+                      Name                #SalesLine_CurrencyCode
+                      DataSource          #SalesLine
+                      DataField           #CurrencyCode
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL COMBOBOX
+                    PROPERTIES
+                      Name                #qualityOrderStatusDisplayLine
+                      AutoDeclaration     #Yes
+                      AllowEdit           #No
+                      DataSource          #SalesLine
+                      DataMethod          #qualityOrderStatusDisplay
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

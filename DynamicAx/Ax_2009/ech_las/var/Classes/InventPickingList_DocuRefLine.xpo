@@ -1,0 +1,306 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventPickingList_DocuRefLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventPickingList_DocuRefLine
+    Id 30019
+    PROPERTIES
+      Name                #InventPickingList_DocuRefLine
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class InventPickingList_DocuRefLine extends AfStronglyTypedDataContainer
+        #{
+        #    #define.TypeId('TypeId')
+        #    #define.smmTable('smmTable')
+        #    #define.Restriction('Restriction')
+        #    #define.RefTableId('RefTableId')
+        #    #define.RefRecId('RefRecId')
+        #    #define.RefCompanyId('RefCompanyId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.PartyId('PartyId')
+        #    #define.Notes('Notes')
+        #    #define.Name('Name')
+        #    #define.EncyclopediaItemId('EncyclopediaItemId')
+        #    #define.ContactPersonId('ContactPersonId')
+        #    #define.AuthorId('AuthorId')
+        #    #define.ActualCompanyId('ActualCompanyId')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsActualCompanyId
+        #public boolean existsActualCompanyId()
+        #{
+        #    return this.exists(#ActualCompanyId);
+        #}
+      ENDSOURCE
+      SOURCE #existsAuthorId
+        #public boolean existsAuthorId()
+        #{
+        #    return this.exists(#AuthorId);
+        #}
+      ENDSOURCE
+      SOURCE #existsContactPersonId
+        #public boolean existsContactPersonId()
+        #{
+        #    return this.exists(#ContactPersonId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEncyclopediaItemId
+        #public boolean existsEncyclopediaItemId()
+        #{
+        #    return this.exists(#EncyclopediaItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsName
+        #public boolean existsName()
+        #{
+        #    return this.exists(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #existsNotes
+        #public boolean existsNotes()
+        #{
+        #    return this.exists(#Notes);
+        #}
+      ENDSOURCE
+      SOURCE #existsPartyId
+        #public boolean existsPartyId()
+        #{
+        #    return this.exists(#PartyId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsRefCompanyId
+        #public boolean existsRefCompanyId()
+        #{
+        #    return this.exists(#RefCompanyId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRefRecId
+        #public boolean existsRefRecId()
+        #{
+        #    return this.exists(#RefRecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRefTableId
+        #public boolean existsRefTableId()
+        #{
+        #    return this.exists(#RefTableId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRestriction
+        #public boolean existsRestriction()
+        #{
+        #    return this.exists(#Restriction);
+        #}
+      ENDSOURCE
+      SOURCE #existssmmTable
+        #public boolean existssmmTable()
+        #{
+        #    return this.exists(#smmTable);
+        #}
+      ENDSOURCE
+      SOURCE #existsTypeId
+        #public boolean existsTypeId()
+        #{
+        #    return this.exists(#TypeId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#PickingList_DocuRefLine);
+        #}
+      ENDSOURCE
+      SOURCE #parmActualCompanyId
+        #public selectableDataArea parmActualCompanyId(selectableDataArea _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ActualCompanyId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ActualCompanyId);
+        #}
+      ENDSOURCE
+      SOURCE #parmAuthorId
+        #public smmDocuAuthorId parmAuthorId(smmDocuAuthorId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AuthorId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AuthorId);
+        #}
+      ENDSOURCE
+      SOURCE #parmContactPersonId
+        #public ContactPersonId parmContactPersonId(ContactPersonId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ContactPersonId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ContactPersonId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEncyclopediaItemId
+        #public smmEncyclopediaItemId parmEncyclopediaItemId(smmEncyclopediaItemId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EncyclopediaItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EncyclopediaItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmName
+        #public Description parmName(Description _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Name, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Name);
+        #}
+      ENDSOURCE
+      SOURCE #parmNotes
+        #public Notes parmNotes(Notes _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Notes, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Notes);
+        #}
+      ENDSOURCE
+      SOURCE #parmPartyId
+        #public DirPartyId parmPartyId(DirPartyId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PartyId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PartyId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmRefCompanyId
+        #public selectableDataArea parmRefCompanyId(selectableDataArea _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RefCompanyId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RefCompanyId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRefRecId
+        #public recId parmRefRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RefRecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RefRecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRefTableId
+        #public tableId parmRefTableId(tableId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RefTableId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RefTableId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRestriction
+        #public DocuRestriction parmRestriction(DocuRestriction _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Restriction, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Restriction);
+        #}
+      ENDSOURCE
+      SOURCE #parmsmmTable
+        #public boolean parmsmmTable(boolean _value = false)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#smmTable, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#smmTable);
+        #}
+      ENDSOURCE
+      SOURCE #parmTypeId
+        #public DocuTypeId parmTypeId(DocuTypeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TypeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TypeId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

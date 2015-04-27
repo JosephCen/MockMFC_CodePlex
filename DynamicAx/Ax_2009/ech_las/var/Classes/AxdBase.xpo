@@ -1,0 +1,36 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdBase unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdBase
+    Id 3004
+    PROPERTIES
+      Name                #AxdBase
+      Extends             #
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #echPrepareForSerialization
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Created
+        #// *** Description: This method is call with a read action right before the AX class is being serialized
+        #//                  This method needs to be overridden in the implemented axdClass if needed
+        #
+        #public void echPrepareForSerialization(axInternalBase _axInternalBase)
+        #{
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

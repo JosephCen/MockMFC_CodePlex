@@ -1,0 +1,19 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdPickingListDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdPickingListDCT
+    ##define.PickingList('PickingList')
+    ##define.PickingList_WMSPickingRoute('PickingList.WMSPickingRoute')
+    ##define.PickingList_WMSOrderTrans('PickingList.WMSOrderTrans')
+    ##define.PickingList_InventDim('PickingList.InventDim')
+    ##define.PickingList_DocuRefHeader('PickingList.DocuRefHeader')
+    ##define.PickingList_DocuRefLine('PickingList.DocuRefLine')
+  ENDSOURCE
+
+***Element: END

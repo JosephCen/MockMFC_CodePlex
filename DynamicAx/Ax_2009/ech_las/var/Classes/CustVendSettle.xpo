@@ -1,0 +1,849 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: CustVendSettle unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #CustVendSettle
+    Id 100
+    PROPERTIES
+      Name                #CustVendSettle
+      Extends             #
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #SettleNow
+        #/// <summary>
+        #/// Settles the transactions associated with the specified parameters.
+        #/// </summary>
+        #/// <param name="_company">
+        #/// The spec company of the <c>SpecTrans</c> records to find.
+        #/// </param>
+        #/// <param name="_tableId">
+        #/// The spec table ID of the <c>SpecTrans</c> records to find.
+        #/// </param>
+        #/// <param name="_recId">
+        #/// The spec record ID of the <c>SpecTrans</c> records to find.
+        #/// </param>
+        #/// <param name="_balancePostingProfile">
+        #/// A flag indicating whether to create additional transactions when the transaction have different posting profiles.
+        #/// </param>
+        #/// <remarks>
+        #/// This method is the starting point of the settlement process.
+        #/// </remarks>
+        #/// <exception cref="Exception::Error">
+        #/// The transaction was oversettled.
+        #/// </exception>
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: update Aggregate status to 'Delivered at Customer'
+        #
+        #public void settleNow(dataAreaId _company, tableId _tableId, RecId _recId, boolean _balancePostingProfile = true)
+        #{
+        #
+        #    CurrencyExchHelper          currencyHelper;
+        #    boolean                     areDebitsDone = false;          // Are all debit (invoice) transactions read?
+        #    boolean                     areCreditsDone = false;         // Are all credit (payment) transactions read?
+        #    AmountCur                   settleAmountCurDebit;           // Amount to settle in debit transaction currency
+        #    AmountCur                   settleAmountCurCredit;          // Amount to settle in credit transaction currency
+        #    AmountMST                   settleAmountMstDebit;           // Amount to settle in MST currency for debit transaction
+        #    AmountMST                   settleAmountMstCredit;          // Amount to settle in MST currency for credit transaction
+        #    boolean                     isDebitTransFullySettled;       // Flag indicating if debit transaction is fully settled.
+        #    boolean                     isCreditTransFullySettled;      // Flag indicating if credit transaction is fully settled.
+        #    SpecTrans                   specTransToDelete;              // Table buffer to use when deleting the specTrans records.
+        #    Percent                     settledFactorDebit;             // Percent of total debit transaction that is being settled.
+        #    Percent                     settledFactorCredit;            // Percent of total credit transaction that is being settled.
+        #    AmountCur                   origRemainDebitCur;             // Original amount remaining for debit transaction
+        #    AmountMST                   realizedExchAdjAmount;          // Amount of realized exchange adjustment gain or loss
+        #    AmountMST                   unrealizedExchAdjAmountDebit;   // Amount of unrealized exchange adjustment to reverse on debit transaction.
+        #    AmountMST                   unrealizedExchAdjAmountCredit;  // Amount of unrealized exchange adjustment to reverse on credit transaction.
+        #    AmountCur                   roundedSettleAmountCurDebit;
+        #    AmountCur                   roundedSettleAmountCurCredit;
+        #    AmountMST                   roundedSettleAmountMstDebit;    // Amount to settle in MST currency for debit transaction
+        #    AmountMST                   roundedSettleAmountMstCredit;   // Amount to settle in MST currency for credit transaction
+        #    DiscAmount                  cashDiscountAmountDebit;
+        #    DiscAmount                  cashDiscountAmountCredit;
+        #    AmountMST                   cashDiscountAmountMstDebit;
+        #    AmountMST                   cashDiscountAmountMstCredit;
+        #    AmountCur                   taxOnCashDiscountAmount;
+        #    Percent                     origSettledPercentDebit;        // Settled percent on debit transaction before current processing
+        #    Percent                     origSettledPercentCredit;       // Settled percent on credit transaction before current processing
+        #    TaxWithholdAmount           debitTaxWithholdAmount;
+        #
+        #    // <GBR>
+        #    // Interest
+        #    FinInterestAmount_BR        finInterestAmountCurDebit;
+        #    FinInterestAmount_BR        finInterestAmountCurCredit;
+        #    FinInterestAmount_BR        finInterestAmountMstDebit;
+        #    FinInterestAmount_BR        finInterestAmountMstCredit;
+        #    // Fine
+        #    FineAmount_BR               fineAmountCurDebit;
+        #    FineAmount_BR               fineAmountCurCredit;
+        #    FineAmount_BR               fineAmountMstDebit;
+        #    FineAmount_BR               fineAmountMstCredit;
+        #
+        #    boolean                     brazilEnabled = BrazilParameters::isEnabled();
+        #
+        #    LedgerInterCompany                  interCompany;
+        #    CustVendSettleCompanyPostOption     finInterestPostOption = CustVendSettleCompanyPostOption::InvoiceCompany;
+        #    CustVendSettleCompanyPostOption     finePostOption        = CustVendSettleCompanyPostOption::InvoiceCompany;
+        #    AmountCur                   finInterestAndFineAmountCurDebit;
+        #    AmountCur                   finInterestAndFineAmountCurCredit;
+        #    AmountCur                   finInterestAndFineAmountMSTDebit;
+        #    AmountCur                   finInterestAndFineAmountMSTCredit;
+        #
+        #    // </GBR>
+        #
+        #    // <GIN>
+        #    LedgerJournalTrans          ledgerJournalTrans;
+        #    boolean                     isServiceTax = TaxParameters::find().ServiceTax_IN;
+        #    TaxWithholdSettleTrans_IN   taxWithholdSettleTrans;
+        #    // </GIN>
+        #
+        #    // <GTH>
+        #    AmountMST                   realizedWhtExchAdjAmount;
+        #    // </GTH>
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    this.init(_company, _tableId, _recId);
+        #
+        #    currencyHelper = CurrencyExchHelper::construct();
+        #
+        #    // <GIN>
+        #    if (TaxWithholdParameters_IN::find().tdsActivate || TaxWithholdParameters_IN::find().tcsActivate)
+        #    {
+        #        if (custVendTransDebit.TableId == tablenum(CustTrans))
+        #        {
+        #            this.settleTaxWithhold_IN(_company,_tableId, _recId);
+        #        }
+        #        else if (custVendTransDebit.TableId == tablenum(VendTrans))
+        #        {
+        #            this.settleTaxWithholdVend_IN(_company,_tableId, _recId);
+        #        }
+        #    }
+        #    // </GIN>
+        #
+        #    // loop while there are transactions to settle
+        #    while(!areDebitsDone || !areCreditsDone)
+        #    {
+        #        // Get debit (invoice) transaction
+        #        if (!areDebitsDone && (areCreditsDone || specTransDebit.Balance01 == 0))
+        #        {
+        #
+        #            areDebitsDone = ( !(this.fetchInvoice(_company, _tableId, _recId)));
+        #
+        #            if (!areDebitsDone)
+        #            {
+        #                debitTransState = #TransStateFound;
+        #                isDebitTransFullySettled = false;
+        #                specTransRecordsProcessed++;
+        #
+        #                origRemainDebitCur = custVendTransOpenDebit.AmountCur;
+        #
+        #                vendTax1099Manager.parmOrigTransOpenDebitAmountCur(-custVendTransOpenDebit.AmountCur);
+        #                vendTax1099Manager.getTax1099Amount(custVendTransDebit);
+        #            }
+        #            else
+        #            {
+        #                debitTransState = #TransStateNone;
+        #
+        #                if (!areCreditsDone && custVendTransCredit.AmountCur != 0)
+        #                {
+        #                    this.setStillOpenValues(custVendTransCredit,
+        #                        custVendTransOpenCredit.RecId,
+        #                        specTransCredit.Balance01,
+        #                        custVendTransCredit.Dimension,
+        #                        creditTransState);
+        #                }
+        #            }
+        #        }
+        #
+        #        // Get credit (payment) transaction
+        #        if (!areCreditsDone && (areDebitsDone || specTransCredit.Balance01 == 0))
+        #        {
+        #            areCreditsDone = ( !(this.fetchPayment(_company, _tableId, _recId)));
+        #
+        #            if (!areCreditsDone)
+        #            {
+        #                creditTransState = #TransStateFound;
+        #                isCreditTransFullySettled = false;
+        #                specTransRecordsProcessed++;
+        #            }
+        #            else
+        #            {
+        #                creditTransState = #TransStateNone;
+        #            }
+        #        }
+        #
+        #        // Process debit and credit records
+        #        if (!areDebitsDone && !areCreditsDone)
+        #        {
+        #            this.initForNewSettlement();
+        #
+        #            // <GTH>
+        #            if (LedgerParameters::find().TaxWithholdCalculateItem_TH
+        #                && !(isDebitTransFullySettled && isCreditTransFullySettled)
+        #                && (specTransDebit.Balance01 != custVendTransOpenDebit.AmountCur))
+        #            {
+        #                realizedWhtExchAdjAmount = this.calcWHTRealizedExchAdjAmount(custVendTransDebit);
+        #            }
+        #            // </GTH>
+        #
+        #            debitTaxWithholdAmount = this.calcInvoiceTaxWithholdAmount();
+        #
+        #            // <GIN>
+        #            if (TaxParameters::find().ServiceTax_IN &&
+        #               (_tableId == tablenum('VendTrans') ||
+        #                _tableId == tablenum('CustTrans')) &&
+        #               debitWithholdAmount)
+        #            {
+        #                debitTaxWithholdAmount = debitWithholdAmount;
+        #            }
+        #
+        #            if (TaxWithholdParameters_IN::find().TaxWithholdFBTActivate)
+        #            {
+        #                TaxWithholdSettleTrans_IN::updateFBTLedgerVoucher(custVendTransCredit.Voucher,
+        #                                                                  custVendTransDebit.Voucher);
+        #
+        #                select firstonly taxWithholdSettleTrans
+        #                    where taxWithholdSettleTrans.LedgerVoucher == custVendTransCredit.Voucher
+        #                       && taxWithholdSettleTrans.Voucher       == '';
+        #
+        #                if (taxWithholdSettleTrans)
+        #                {
+        #                    TaxWithholdSettleTrans_IN::updateFBTChallanInfo(custVendTransCredit.Voucher,
+        #                                                                    taxWithholdSettleTrans,
+        #                                                                    taxWithholdSettleTrans.CustVendAccount,
+        #                                                                    taxWithholdSettleTrans.ChallanNumber);
+        #                }
+        #            }
+        #            // </GIN>
+        #
+        #            origSettledPercentDebit = custVendTransDebit.AmountCur ? (custVendTransDebit.SettleAmountCur - debitTaxWithholdAmount) / custVendTransDebit.AmountCur : 0;
+        #            origSettledPercentCredit = custVendTransCredit.AmountCur ? custVendTransCredit.SettleAmountCur / custVendTransCredit.AmountCur : 0;
+        #
+        #            // Find exchange rate between invoice and payment
+        #            paymToInvoiceRate = this.calcCreditToDebitExchRate();
+        #
+        #            // <GBR>
+        #            // Calculate and create fine and interest trans.  Do this before cash discounts
+        #            // so that specTrans.Balance01 is not adjusted before fine/interests have been
+        #            // concidered.
+        #            if (brazilEnabled)
+        #            {
+        #                // Setting Interest
+        #                finInterestAmountCurDebit      = custVendTransOpenDebit.FinInterestAmount;
+        #                currencyHelper.parmCompany(custVendTransDebit.company());
+        #                currencyHelper.parmCurrency(custVendTransDebit.CurrencyCode);
+        #                finInterestAmountMstDebit   = currencyHelper.calculateAmountCurToMst(finInterestAmountCurDebit, true);
+        #
+        #                finInterestAmountCurCredit      = custVendTransOpenCredit.FinInterestAmount;
+        #                currencyHelper.parmCompany(custVendTransCredit.company());
+        #                currencyHelper.parmCurrency(custVendTransCredit.CurrencyCode);
+        #                finInterestAmountMstCredit   = currencyHelper.calculateAmountCurToMst(finInterestAmountCurCredit, true);
+        #
+        #                this.processFinInterest_BR(finInterestAmountCurDebit, finInterestAmountCurCredit,
+        #                                           finInterestAmountMstDebit, finInterestAmountMstCredit);
+        #
+        #                // Setting Fine
+        #                fineAmountCurDebit      = custVendTransOpenDebit.FineAmount;
+        #                currencyHelper.parmCompany(custVendTransDebit.company());
+        #                currencyHelper.parmCurrency(custVendTransDebit.CurrencyCode);
+        #                fineAmountMstDebit   = currencyHelper.calculateAmountCurToMst(fineAmountCurDebit, true);
+        #
+        #                fineAmountCurCredit      = custVendTransOpenCredit.FineAmount;
+        #                currencyHelper.parmCompany(custVendTransCredit.company());
+        #                currencyHelper.parmCurrency(custVendTransCredit.CurrencyCode);
+        #                fineAmountMstCredit   = currencyHelper.calculateAmountCurToMst(fineAmountCurCredit, true);
+        #
+        #                this.processFine_BR(fineAmountCurDebit, fineAmountCurCredit,
+        #                                    fineAmountMstDebit, fineAmountMstCredit);
+        #            }
+        #            // </GBR>
+        #
+        #            // Calculate and create the cash discount transactions
+        #            [cashDiscountAmountDebit, cashDiscountAmountCredit, cashDiscountAmountMstDebit, cashDiscountAmountMstCredit] =
+        #                this.processCashDiscount();
+        #
+        #            // Calculate settlement amount in debit and credit transaction currency
+        #            settleAmountCurDebit = this.calcSettleAmountCurForDebit(specTransRecordCount - specTransRecordsProcessed);
+        #
+        #            // if full settlement amount has been added to the cash discount amount, it must be
+        #            // subtracted from the settled amount
+        #            if(isFullSettlement &&
+        #               (specTransDebit.FullSettlement == NoYes::Yes ||
+        #                specTransCredit.FullSettlement == NoYes::Yes) &&
+        #               fullSettlementDiffAmountCur)
+        #            {
+        #                settleAmountCurDebit -= fullSettlementDiffAmountCur;
+        #                fullSettlementDiffAmountCur = 0;
+        #            }
+        #            currencyHelper.parmCompany(custVendTransDebit.company());
+        #            currencyHelper.parmCurrency(custVendTransDebit.CurrencyCode);
+        #            // <GBR>
+        #            if (brazilEnabled)
+        #            {
+        #                if (creditCompany != debitCompany )
+        #                {
+        #                    interCompany            = this.findLedgerInterCompany(creditCompany, debitCompany);
+        #                    finInterestPostOption   = interCompany.getFinInterestPostOptions_BR(this.parmModule());
+        #                    finePostOption          = interCompany.getFinePostOptions_BR(this.parmModule());
+        #                }
+        #
+        #                // Intercompnay Accounting -> Interest = Payment Company
+        #                // Removing the Interest Amount from Debit settle (Invoice Company)
+        #                if (finInterestPostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    finInterestAmountCurDebit)
+        #                {
+        #                    settleAmountCurDebit    -= abs(finInterestAmountCurDebit);
+        #                }
+        #
+        #                // Intercompnay Accounting -> Fine = Payment Company
+        #                // Removing the Fine Amount from Debit settle (Invoice Company)
+        #                if (finePostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    fineAmountCurDebit)
+        #                {
+        #                    settleAmountCurDebit    -= abs(fineAmountCurDebit);
+        #                }
+        #            }
+        #            // </GBR>
+        #            roundedSettleAmountCurDebit = currencyHelper.roundAmount(settleAmountCurDebit);
+        #
+        #            settleAmountCurCredit = this.calcSettleAmountCurForCredit(settleAmountCurDebit);
+        #            currencyHelper.parmCompany(custVendTransCredit.company());
+        #            currencyHelper.parmCurrency(custVendTransCredit.CurrencyCode);
+        #            // <GBR>
+        #            if (brazilEnabled)
+        #            {
+        #                // Intercompnay Accounting -> Interest = Payment Company
+        #                // Important to note: roundedSettleAmountCurDebit is based on settleAmountCurDebit
+        #                // Adding back the interest amount to Credit Settle (Payment Company)
+        #                if (finInterestPostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    finInterestAmountCurDebit)
+        #                {
+        #                    settleAmountCurCredit    -= abs(finInterestAmountCurDebit);
+        #                }
+        #
+        #                // Intercompnay Accounting -> Fine = Payment Company
+        #                // Adding back the fine amount to Credit Settle (Payment Company)
+        #                if (finePostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    fineAmountCurDebit)
+        #                {
+        #                    settleAmountCurCredit    -= abs(fineAmountCurDebit);
+        #                }
+        #            }
+        #            // </GBR>
+        #
+        #            roundedSettleAmountCurCredit = currencyHelper.roundAmount(settleAmountCurCredit);
+        #
+        #            if (settleAmountCurDebit != 0)
+        #            {
+        #                debitTransState = #TransStateSettled;
+        #                creditTransState = #TransStateSettled;
+        #            }
+        #
+        #            settledFactorDebit = this.calcSettledFactor(custVendTransDebit, settleAmountCurDebit);
+        #            settledFactorCredit = this.calcSettledFactor(custVendTransCredit, settleAmountCurCredit);
+        #
+        #            // Update currency fields on debit and credit transactions
+        #            // <GBR>
+        #            if (brazilEnabled)
+        #            {
+        #                // In order to correctly update the "Transactions" it is necessary to consider the Interest/Fine amounts
+        #                finInterestAndFineAmountCurDebit = 0;
+        #                finInterestAndFineAmountCurCredit = 0;
+        #
+        #                // Intercompnay Accounting -> Interest = Payment Company
+        #                if (finInterestPostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    (finInterestAmountCurDebit || finInterestAmountCurCredit))
+        #                {
+        #                    finInterestAndFineAmountCurDebit    += finInterestAmountCurDebit;
+        #                    finInterestAndFineAmountCurCredit   += finInterestAmountCurCredit;
+        #                }
+        #
+        #                // Intercompnay Accounting -> Fine = Payment Company
+        #                if (finePostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    (fineAmountCurDebit || fineAmountCurCredit))
+        #                {
+        #                    finInterestAndFineAmountCurDebit    += fineAmountCurDebit;
+        #                    finInterestAndFineAmountCurCredit   += fineAmountCurCredit;
+        #                }
+        #
+        #                // Adding the Interest and Fine Amounts
+        #                this.updateSettleCurAmountOnTrans(roundedSettleAmountCurDebit + abs(finInterestAndFineAmountCurDebit), custVendTransDebit, custVendTransOpenDebit, specTransDebit);
+        #                this.updateSettleCurAmountOnTrans(roundedSettleAmountCurCredit + abs(finInterestAndFineAmountCurCredit), custVendTransCredit, custVendTransOpenCredit, specTransCredit);
+        #            }
+        #            else
+        #            {
+        #            // </GBR>
+        #            this.updateSettleCurAmountOnTrans(roundedSettleAmountCurDebit, custVendTransDebit, custVendTransOpenDebit, specTransDebit);
+        #            this.updateSettleCurAmountOnTrans(roundedSettleAmountCurCredit, custVendTransCredit, custVendTransOpenCredit, specTransCredit);
+        #            // <GBR>
+        #            }
+        #            // </GBR>
+        #
+        #            isDebitTransFullySettled = (custVendTransDebit.AmountCur == custVendTransDebit.SettleAmountCur);
+        #            isCreditTransFullySettled = (custVendTransCredit.AmountCur == custVendTransCredit.SettleAmountCur);
+        #
+        #            // Calculate settlement amount in MST debit transaction currency and update debit transaction
+        #            settleAmountMstDebit = this.calcSettleAmountMstForDebit(settleAmountCurDebit, isDebitTransFullySettled);
+        #            currencyHelper.parmCompany(custVendTransDebit.company());
+        #            currencyHelper.parmCurrency(debitCompanyCurrency);
+        #
+        #            // <GBR>
+        #            if (brazilEnabled)
+        #            {
+        #                finInterestAndFineAmountMSTDebit = 0;
+        #
+        #                // Intercompnay Accounting -> Interest = Payment Company
+        #                if (finInterestPostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    finInterestAmountMstDebit)
+        #                {
+        #                    settleAmountMstDebit                -= abs(finInterestAmountMstDebit);
+        #                    finInterestAndFineAmountMSTDebit    += finInterestAmountMstDebit;
+        #                }
+        #
+        #                // Intercompnay Accounting - Fine = Payment Company
+        #                if (finePostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    fineAmountMstDebit)
+        #                {
+        #                    settleAmountMstDebit                -= abs(fineAmountMstDebit);
+        #                    finInterestAndFineAmountMSTDebit    += fineAmountMstDebit;
+        #                }
+        #
+        #                roundedSettleAmountMstDebit = currencyHelper.roundAmount(settleAmountMstDebit);
+        #
+        #                this.updateSettleMstAmountOnTrans(roundedSettleAmountMstDebit + abs(finInterestAndFineAmountMSTDebit), custVendTransDebit, custVendTransOpenDebit, isDebitTransFullySettled);
+        #            }
+        #            else
+        #            {
+        #            // </GBR>
+        #                roundedSettleAmountMstDebit = currencyHelper.roundAmount(settleAmountMstDebit);
+        #
+        #                this.updateSettleMstAmountOnTrans(roundedSettleAmountMstDebit, custVendTransDebit, custVendTransOpenDebit, isDebitTransFullySettled);
+        #            // <GBR>
+        #            }
+        #            // </GBR>
+        #
+        #            // Calculate settlement amount in MST credit transaction currency and update credit transaction
+        #            settleAmountMstCredit = this.calcSettleAmountMstForCredit(settleAmountCurCredit, isCreditTransFullySettled);
+        #            currencyHelper.parmCompany(custVendTransCredit.company());
+        #            currencyHelper.parmCurrency(creditCompanyCurrency);
+        #            roundedSettleAmountMstCredit = currencyHelper.roundAmount(settleAmountMstCredit);
+        #
+        #            // <GBR>
+        #            if (brazilEnabled)
+        #            {
+        #                finInterestAndFineAmountMSTCredit = 0;
+        #
+        #                if (finInterestPostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    finInterestAmountMstCredit)
+        #                {
+        #                    finInterestAndFineAmountMSTCredit    += abs(finInterestAmountMstCredit);
+        #                }
+        #
+        #                if (finePostOption == CustVendSettleCompanyPostOption::PaymentCompany &&
+        #                    fineAmountMstCredit)
+        #                {
+        #                    finInterestAndFineAmountMSTCredit    += abs(fineAmountMstCredit);
+        #                }
+        #
+        #                this.updateSettleMstAmountOnTrans(roundedSettleAmountMstCredit + abs(finInterestAndFineAmountMSTCredit), custVendTransCredit, custVendTransOpenCredit, isCreditTransFullySettled);
+        #            }
+        #            else
+        #            {
+        #            // </GBR>
+        #            this.updateSettleMstAmountOnTrans(roundedSettleAmountMstCredit, custVendTransCredit, custVendTransOpenCredit, isCreditTransFullySettled);
+        #            // <GBR>
+        #            }
+        #            // </GBR>
+        #
+        #
+        #            // Calculate the realized exchange adjustment gain or loss amount
+        #            realizedExchAdjAmount = this.calcRealizedExchAdjAmount(settleAmountCurDebit, roundedSettleAmountMstDebit, settleAmountMstCredit);
+        #            // <GTH>
+        #            if (LedgerParameters::find().TaxWithholdCalculateItem_TH
+        #                && !(isDebitTransFullySettled
+        #                && isCreditTransFullySettled))
+        #            {
+        #                realizedExchAdjAmount += realizedWhtExchAdjAmount;
+        #                custVendTransDebit.SettleAmountMST -= realizedWhtExchAdjAmount;
+        #            }
+        #            // </GTH>
+        #
+        #            // Calculate the unrealized exchange adjustment that needs to be reversed
+        #            unrealizedExchAdjAmountDebit = this.calcUnrealizedExchAdjToReverse(custVendTransDebit, settledFactorDebit, debitCompanyCurrency);
+        #            unrealizedExchAdjAmountCredit = this.calcUnrealizedExchAdjToReverse(custVendTransCredit, settledFactorCredit, creditCompanyCurrency);
+        #
+        #            this.updateExchAdjAmountOnTrans(realizedExchAdjAmount, unrealizedExchAdjAmountDebit, custVendTransDebit, custVendTransOpenDebit);
+        #            this.updateExchAdjAmountOnTrans(0, unrealizedExchAdjAmountCredit, custVendTransCredit, custVendTransOpenCredit);
+        #
+        #            // Update other fields on transactions
+        #            this.updateOtherSettlementFieldsOnTrans(isDebitTransFullySettled, isCreditTransFullySettled);
+        #
+        #            this.updateTransFor1099(custVendTransDebit.AmountCur, settleAmountCurDebit, cashDiscountAmountDebit);
+        #
+        #            this.createBankChequeTrans(custVendTransDebit, custVendTransCredit, roundedSettleAmountCurDebit, cashDiscountAmountDebit);
+        #
+        #            changecompany(custVendTransDebit.company())
+        #            {
+        #                if (isDebitTransFullySettled)
+        #                {
+        #                    this.postClosing(custVendTransDebit, transactionDate);
+        #                }
+        #
+        #                // <GBR>
+        #                if (brazilEnabled
+        #                       && finInterestPostOption == CustVendSettleCompanyPostOption::PaymentCompany)
+        #                {
+        #                // post intercompany due to and due from transaction only if needed
+        #                this.postDueToAndFrom(roundedSettleAmountMstDebit + realizedExchAdjAmount,
+        #                    -roundedSettleAmountMstDebit ,
+        #                    roundedSettleAmountCurDebit,
+        #                    -roundedSettleAmountCurDebit);
+        #
+        #                }
+        #                else
+        #                {
+        #                // </GBR>
+        #                // post intercompany due to and due from transaction only if needed
+        #                this.postDueToAndFrom(roundedSettleAmountMstDebit + realizedExchAdjAmount,
+        #                    roundedSettleAmountMstCredit,
+        #                    roundedSettleAmountCurDebit,
+        #                    roundedSettleAmountCurCredit);
+        #                // <GBR>
+        #                }
+        #                // </GBR>
+        #
+        #                // post cash discount, this includes calculating and posting tax on cash discount
+        #                taxOnCashDiscountAmount = this.taxCashDisc(custVendTransDebit, cashDiscountAmountDebit, cashDiscLedgerAccountDebit);
+        #                this.postDiscTrans(cashDiscountAmountDebit,
+        #                    cashDiscountAmountMstDebit,
+        #                    custVendTransDebit,
+        #                    custVendTransOpenDebit,
+        #                    custVendTransCredit,
+        #                    custVendTransDebit.exchRateCurToMst(),
+        #                    cashDiscLedgerAccountDebit,
+        #                    taxOnCashDiscountAmount,
+        #                    roundedSettleAmountMstDebit);
+        #                this.setDiscHistoryValues(cashDiscountAmountDebit, cashDiscountAmountMstDebit);
+        #
+        #                // <GBR>
+        #                if (brazilEnabled)
+        #                {
+        #                    // Posting Interest
+        #                    this.postFinInterestTrans_BR(finInterestAmountCurDebit,
+        #                                                 finInterestAmountMstDebit,
+        #                                                 custVendTransDebit,
+        #                                                 custVendTransOpenDebit,
+        #                                                 custVendTransCredit,
+        #                                                 custVendTransDebit.exchRateCurToMst(),
+        #                                                 this.finInterestAccount_BR(custVendTransDebit,custVendTransOpenDebit, finInterestAmountMstDebit),
+        #                                                 roundedSettleAmountMstDebit);
+        #                    // Posting Fine
+        #                    this.postFineTrans_BR(fineAmountCurDebit,
+        #                                          fineAmountMstDebit,
+        #                                          custVendTransDebit,
+        #                                          custVendTransOpenDebit,
+        #                                          custVendTransCredit,
+        #                                          custVendTransDebit.exchRateCurToMst(),
+        #                                          this.fineAccount_BR(custVendTransDebit, custVendTransOpenDebit, fineAmountCurDebit),
+        #                                          roundedSettleAmountMstDebit);
+        #                }
+        #                // </GBR>
+        #
+        #
+        #
+        #                if (_balancePostingProfile || custVendTransDebit.Prepayment || custVendTransCredit.Prepayment)
+        #                {
+        #                    // this handles the posting profile difference for the debit and credit transaction and also adjust
+        #                    // tax on prepayment transactions.
+        #                    this.settleForDifferentProfilesOrPrepayment(roundedSettleAmountMstDebit, roundedSettleAmountCurDebit, roundedSettleAmountCurCredit);
+        #                }
+        #
+        #                // Post exch adjustment
+        #                if (realizedExchAdjAmount != 0)
+        #                {
+        #                    this.postExchRateDiff(realizedExchAdjAmount, custVendTransDebit, false, custVendTransCredit.PostingProfile);
+        #                }
+        #
+        #                if (unrealizedExchAdjAmountDebit != 0)
+        #                {
+        #                    this.postExchRateDiff(unrealizedExchAdjAmountDebit, custVendTransDebit, true);
+        #                    this.createSettlementToReverseUnrealExchAdj(unrealizedExchAdjAmountDebit, custVendTransDebit, custVendTransOpenDebit);
+        #                }
+        #
+        #                this.processConditionalTax(origSettledPercentDebit, origSettledPercentCredit, cashDiscountAmountDebit, cashDiscountAmountCredit);
+        #
+        #                // <GIN>
+        #                if (isServiceTax)
+        #                {
+        #                    ledgerJournalTrans = LedgerJournalTrans::find(relatedJournalId, custVendTransCredit.Voucher , false);
+        #                    this.processServiceTax_IN(origSettledPercentDebit, origSettledPercentCredit, cashDiscountAmountDebit, cashDiscountAmountCredit, ledgerJournalTrans, _tableId);
+        #
+        #                }
+        #                // </GIN>
+        #            }
+        #
+        #            changecompany(custVendTransCredit.company())
+        #            {
+        #                if (isCreditTransFullySettled)
+        #                {
+        #                    this.postClosing(custVendTransCredit, transactionDate);
+        #                }
+        #
+        #                // post cash discount, this includes calculating and posting tax on cash discount
+        #                taxOnCashDiscountAmount = this.taxCashDisc(custVendTransCredit, cashDiscountAmountCredit, cashDiscLedgerAccountCredit);
+        #                this.postDiscTrans(cashDiscountAmountCredit,
+        #                    cashDiscountAmountMstCredit,
+        #                    custVendTransCredit,
+        #                    custVendTransOpenCredit,
+        #                    custVendTransCredit,
+        #                    custVendTransCredit.exchRateCurToMst(),
+        #                    cashDiscLedgerAccountCredit,
+        #                    taxOnCashDiscountAmount,
+        #                    roundedSettleAmountMstDebit);
+        #
+        #                if (unrealizedExchAdjAmountCredit != 0)
+        #                {
+        #                    this.postExchRateDiff(unrealizedExchAdjAmountCredit, custVendTransCredit, true);
+        #                    this.createSettlementToReverseUnrealExchAdj(unrealizedExchAdjAmountCredit, custVendTransCredit, custVendTransOpenCredit);
+        #                }
+        #            }
+        #            changecompany(custVendTransDebit.company())
+        #            {
+        #                // create settlement record for debit transaction, this is called after all settlement transaction
+        #                // are created so it will have the correct settlement voucher number
+        #                // <GBR>
+        #                if(brazilEnabled)
+        #                {
+        #                    if (finInterestPostOption == CustVendSettleCompanyPostOption::PaymentCompany)
+        #                    {
+        #                        // create settlement record for debit transaction, this is called after all settlement transaction
+        #                        // are created so it will have the correct settlement voucher number
+        #
+        #                        this.createSettlementForDebitOrCreditTrans(custVendTransDebit,
+        #                            custVendTransOpenDebit,
+        #                            roundedSettleAmountMstDebit,
+        #                            roundedSettleAmountCurDebit,
+        #                            realizedExchAdjAmount,
+        #                            cashDiscountAmountDebit,
+        #                            cashDiscountAmountMstDebit,
+        #                            NoYes::Yes,
+        #                            -vendTax1099Manager.parmSettleDebitTax1099Amount(),
+        #                            -vendTax1099Manager.parmSettleDebitTax1099StateAmount(),
+        #                            finInterestAmountCurDebit,
+        #                            finInterestAmountMstDebit,
+        #                            fineAmountCurDebit,
+        #                            fineAmountMstDebit);
+        #                    }
+        #                    else
+        #                    {
+        #                        // create settlement record for debit transaction, this is called after all settlement transaction
+        #                        // are created so it will have the correct settlement voucher number
+        #                        this.createSettlementForDebitOrCreditTrans(custVendTransDebit,
+        #                        custVendTransOpenDebit,
+        #                        roundedSettleAmountMstDebit - abs(finInterestAmountMstDebit) - abs(fineAmountMstDebit),
+        #                        roundedSettleAmountCurDebit - abs(finInterestAmountCurDebit) - abs(fineAmountCurDebit),
+        #                        realizedExchAdjAmount,
+        #                        cashDiscountAmountDebit,
+        #                        cashDiscountAmountMstDebit,
+        #                        NoYes::Yes,
+        #                        -vendTax1099Manager.parmSettleDebitTax1099Amount(),
+        #                        -vendTax1099Manager.parmSettleDebitTax1099StateAmount(),
+        #                        finInterestAmountCurDebit,
+        #                        finInterestAmountMstDebit,
+        #                        fineAmountCurDebit,
+        #                        fineAmountMstDebit);
+        #                    }
+        #                }
+        #                else
+        #                {
+        #                // </GBR>
+        #                    this.createSettlementForDebitOrCreditTrans(custVendTransDebit,
+        #                        custVendTransOpenDebit,
+        #                        roundedSettleAmountMstDebit,
+        #                        roundedSettleAmountCurDebit,
+        #                        realizedExchAdjAmount,
+        #                        cashDiscountAmountDebit,
+        #                        cashDiscountAmountMstDebit,
+        #                        NoYes::Yes,
+        #                        -vendTax1099Manager.parmSettleDebitTax1099Amount(),
+        #                        -vendTax1099Manager.parmSettleDebitTax1099StateAmount() );
+        #                // <GBR>
+        #                }
+        #                // </GBR>
+        #
+        #                this.reverseAmounts(custVendTransDebit);
+        #                this.updateTransOpen(custVendTransDebit, custVendTransOpenDebit);
+        #                custVendTransDebit.update();
+        #
+        #                // CS - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #                if (isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #                {
+        #                    echUpdateAggStatus::updateStatusFromSettlement(custVendTransDebit);
+        #                }
+        #                // CE - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #
+        #                this.reverseAmounts(custVendTransDebit);
+        #
+        #                // Update Project
+        #                this.updateTransactionProject(custVendTransDebit, origRemainDebitCur, roundedSettleAmountCurDebit);
+        #
+        #                this.updateVendSettlementTax1099();
+        #            }
+        #
+        #            changecompany(custVendTransCredit.company())
+        #            {
+        #                // <GBR>
+        #                if (brazilEnabled)
+        #                {
+        #                    // Posting Interest
+        #                    this.postFinInterestTrans_BR(finInterestAmountCurCredit,
+        #                                                 finInterestAmountMstCredit,
+        #                                                 custVendTransCredit,
+        #                                                 custVendTransOpenCredit,
+        #                                                 custVendTransCredit,
+        #                                                 custVendTransDebit.exchRateCurToMst(),
+        #                                                 this.finInterestAccount_BR(custVendTransCredit,custVendTransOpenCredit),
+        #                                                 roundedSettleAmountMstDebit);
+        #                    // Posting Fine
+        #                    this.postFineTrans_BR(fineAmountCurCredit,
+        #                                                 fineAmountMstCredit,
+        #                                                 custVendTransCredit,
+        #                                                 custVendTransOpenCredit,
+        #                                                 custVendTransCredit,
+        #                                                 custVendTransDebit.exchRateCurToMst(),
+        #                                                 this.fineAccount_BR(custVendTransCredit,custVendTransOpenCredit),
+        #                                                 roundedSettleAmountMstDebit);
+        #
+        #                }
+        #                // </GBR>
+        #
+        #                // create settlement record for credit transaction, this should be called after all settlement transaction
+        #                // are created so it will have the correct settlement voucher number
+        #                // <GBR>
+        #                if (brazilEnabled)
+        #                {
+        #                     this.createSettlementForDebitOrCreditTrans(custVendTransCredit,
+        #                        custVendTransOpenCredit,
+        #                        roundedSettleAmountMstCredit,
+        #                        roundedSettleAmountCurCredit,
+        #                        0,          // realized exch adj is always zero on credit transaction
+        #                        cashDiscountAmountCredit,
+        #                        cashDiscountAmountMstCredit,
+        #                        NoYes::Yes,
+        #                        vendTax1099Manager.parmSettleCreditTax1099Amount(),
+        #                        vendTax1099Manager.parmSettleCreditTax1099StateAmount(),
+        #                        finInterestAmountCurCredit,
+        #                        finInterestAmountMstCredit,
+        #                        fineAmountCurCredit,
+        #                        fineAmountMstCredit);
+        #                }
+        #                else
+        #                {
+        #                // </GBR>
+        #                    this.createSettlementForDebitOrCreditTrans(custVendTransCredit,
+        #                        custVendTransOpenCredit,
+        #                        roundedSettleAmountMstCredit,
+        #                        roundedSettleAmountCurCredit,
+        #                        0,          // realized exch adj is always zero on credit transaction
+        #                        cashDiscountAmountCredit,
+        #                        cashDiscountAmountMstCredit,
+        #                        NoYes::Yes,
+        #                        vendTax1099Manager.parmSettleCreditTax1099Amount(),
+        #                        vendTax1099Manager.parmSettleCreditTax1099StateAmount());
+        #                // <GBR>
+        #                }
+        #                // </GBR>
+        #
+        #                this.reverseAmounts(custVendTransCredit);
+        #                this.updateTransOpen(custVendTransCredit, custVendTransOpenCredit);
+        #                custVendTransCredit.update();
+        #                this.reverseAmounts(custVendTransCredit);
+        #            }
+        #
+        #            this.addTransToTaxSortedList(custVendTransDebit.RecId,
+        #                custVendTransDebit.Voucher,
+        #                custVendTransDebit.company(),
+        #                transactionDate,
+        #                custVendTransDebit.AmountMST,
+        #                roundedSettleAmountMstDebit,
+        #                custVendTransCredit.RecId,
+        #                custVendTransCredit.company(),
+        #                roundedSettleAmountMstCredit,
+        #                creditMstToDebitMst,
+        #                this.getVoucherNumberByCompany(custVendTransDebit.company()),
+        #                this.getVoucherNumberByCompany(custVendTransCredit.company()),
+        #                settlementGroupPlaceHolder);
+        #
+        #            custVendTransSettlementControl.ins(custVendTransDebit, true);
+        #            custVendTransSettlementControl.ins(custVendTransCredit, true);
+        #        }
+        #        else
+        #        {
+        #            // <GIN>
+        #            if (isServiceTax)
+        #            {
+        #                this.checkServiceTaxPayment_IN();
+        #            }
+        #            // </GIN>
+        #
+        #            if (!areDebitsDone && custVendTransDebit.AmountCur != 0)
+        #            {
+        #                //find the offset to the custVendTransDebet still open
+        #                select firstonly custVendTransCredit order by RecId desc
+        #                where custVendTransCredit.RecId == custVendTransDebit.OffsetRecId;
+        #
+        #                this.setStillOpenValues(custVendTransDebit,
+        #                    custVendTransOpenDebit.RecId,
+        #                    specTransDebit.Balance01,
+        #                    custVendTransCredit.Dimension,
+        #                    debitTransState);
+        #            }
+        #
+        #            if (!areCreditsDone && custVendTransCredit.AmountCur != 0)
+        #            {
+        #                this.setStillOpenValues(custVendTransCredit,
+        #                    custVendTransOpenCredit.RecId,
+        #                    specTransCredit.Balance01,
+        #                    custVendTransCredit.Dimension,
+        #                    debitTransState);
+        #            }
+        #        }
+        #    }
+        #
+        #    if (this.parmRelatedTransactionLogType() != TransactionLogType::ProjInvoice)
+        #    {
+        #        this.processStillOpenTransactions(origRemainDebitCur);
+        #    }
+        #
+        #    // check for over settlements
+        #    this.settlementControl();
+        #
+        #    // Insert the CustVendTrans and CustVendSettlement records
+        #    custVendTransSettlement.post();
+        #
+        #    // Need to be in a company within the shared service boundry
+        #    delete_from specTransToDelete
+        #        where specTransToDelete.SpecCompany == _company
+        #           && specTransToDelete.SpecTableId == _tableId
+        #           && specTransToDelete.SpecRecId == _recId;
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,99 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInvoiceTitleTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInvoiceTitleTable
+    Id 30062
+    PROPERTIES
+      Name                #echInvoiceTitleTable
+      Label               #@ECH342
+      TitleField1         #echInvoiceTitleId
+      TitleField2         #echInvoiceTitle
+      SecurityKey         #CustTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echInvoiceTitle
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echInvoiceTitle
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echInvoiceTitleTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceTitle
+              #
+            ENDARRAY
+          StringSize          #25
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceTitleId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #echInvoiceTitleId
+          Mandatory           #Yes
+          Table               #echInvoiceTitleTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceTitleId
+              #
+            ENDARRAY
+          StringSize          #255
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echInvoiceTitleId
+          #echInvoiceTitle
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echInvocieTitle
+        PROPERTIES
+          Name                #echInvocieTitle
+          Label               #@ECH342
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echInvoiceTitleId
+          #echInvoiceTitle
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #echInvoiceTitle
+      Id 30001
+      PROPERTIES
+        Name                #echInvoiceTitle
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #echInvoiceTitle
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

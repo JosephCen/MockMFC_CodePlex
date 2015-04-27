@@ -1,0 +1,112 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echCustomerListGrid unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echCustomerListGrid
+    PROPERTIES
+      Name                #echCustomerListGrid
+      HelpText            #
+      Filename            #echCustomerListGrid.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echCustomerListGrid.ascx.cs" Inherits="echCustomerListGrid" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>
+      #
+      #<%@ Register assembly="ECH.AX.EP.CustomControlLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3c4f9127f02b162c" namespace="ECH.AX.EP.CustomControlLibrary" tagprefix="AXGroupInLine" %>
+      #
+      #<style type="text/css">
+      #.AxGroupHeaderCell
+      #{
+      #      text-align: Left;
+      #      color: #5a5a5a;
+      #      width:100px;
+      #      padding: 2px 4px 2px 2px;      
+      #      white-space:nowrap;
+      #}
+      #.AxGroupDataCell
+      #{
+      #      text-align: Left;
+      #      color: #000000;
+      #      width:100px;
+      #      padding: 2px;
+      #      white-space:nowrap;
+      #}
+      #</style>
+      #
+      #<dynamics:AxDataSource ID="dsECHCustomerList" runat="server" DataSetName="ECHCustomerList">
+      #</dynamics:AxDataSource>
+      #<dynamics:AxGridView ID="gridECHCustomerListGrid" runat="server" DataKeyNames="RecId"
+      #     DataMember="CustTable" DataSourceID="dsECHCustomerList" Caption="<%$AxLabel:@ECH662 %>">
+      #     <Columns>
+      #        <dynamics:AxHyperLinkBoundField DataField="AccountNum" DataSet="ECHCustomerList" MenuItem="echCustomerInfo"
+      #            DataSetView="CustTable"  HeaderText="<%$AxLabel:@ECH524 %>">
+      #        </dynamics:AxHyperLinkBoundField>
+      #        <dynamics:AxBoundField DataField="Name" DataSet="ECHCustomerList" DataSetView="CustTable" 
+      #            HeaderText="<%$AxLabel:@ECH510 %>" >
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="CustGroup" DataSet="ECHCustomerList" DataSetView="CustTable" 
+      #            HeaderText="<%$AxLabel:@ECH611 %>" >
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="Currency" DataSet="ECHCustomerList" DataSetView="CustTable" 
+      #            HeaderText="<%$AxLabel:@ECH523 %>" >
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echGetSalesOrderAmount**" DataSet="ECHCustomerList" 
+      #            DataSetView="CustTable" HeaderText="<%$AxLabel:@ECH612 %>" >
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echMsgPartnerId" DataSet="ECHCustomerList" 
+      #            DataSetView="CustTable" HeaderText="<%$AxLabel:@ECH509 %>" >
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="echMsgPartnerExtCode" DataSet="ECHCustomerList" 
+      #            DataSetView="CustTable" HeaderText="<%$AxLabel:@ECH613 %>" >
+      #        </dynamics:AxBoundField>
+      #     </Columns>
+      #</dynamics:AxGridView>	
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echCustomerListGrid_ascx_cs
+      HelpText            #
+      Filename            #echCustomerListGrid.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echCustomerListGrid : System.Web.UI.UserControl
+      #{
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

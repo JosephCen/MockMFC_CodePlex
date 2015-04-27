@@ -1,0 +1,26 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echPostReturnOrder_PackingSlip unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echPostReturnOrder_PackingSlip
+    PROPERTIES
+      Name                #echPostReturnOrder_PackingSlip
+      Label               #@SYS75616
+      HelpText            #@SYS15786
+      Object              #echPostReturnOrder
+      EnumTypeParameter   #DocumentStatus
+      EnumParameter       #PackingSlip
+      RunOn               #Server
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

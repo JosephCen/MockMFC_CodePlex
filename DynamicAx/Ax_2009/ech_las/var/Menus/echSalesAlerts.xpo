@@ -1,0 +1,29 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MNU
+
+; Microsoft Dynamics AX Menu : echSalesAlerts unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  MENU #echSalesAlerts
+    PROPERTIES
+      Name                #echSalesAlerts
+      Label               #@SYS87698
+      HelpText            #@SYS88779
+      SetCompany          #Yes
+    ENDPROPERTIES
+    
+    MENUITEM
+      PROPERTIES
+        Name                #Generate sales order alert rules
+        MenuItemType        #Action
+        MenuItemName        #echEventCudManager_SalesTable
+      ENDPROPERTIES
+      
+    ENDMENUITEM
+  ENDMENU
+  
+
+***Element: END

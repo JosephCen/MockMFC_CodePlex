@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echEPUrlCreatePartialReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echEPUrlCreatePartialReturnOrder
+    PROPERTIES
+      Name                #echEPUrlCreatePartialReturnOrder
+      Label               #@ech761
+      HelpText            #@ech762
+      URL                 #Sales/Enterprise%20Portal/echEPCreatePartialReturnOrder.aspx
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

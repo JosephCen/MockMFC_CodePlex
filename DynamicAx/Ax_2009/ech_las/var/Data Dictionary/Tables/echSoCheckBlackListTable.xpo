@@ -1,0 +1,243 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSoCheckBlackListTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSoCheckBlackListTable
+    Id 30018
+    PROPERTIES
+      Name                #echSoCheckBlackListTable
+      Label               #@ECH178
+      TitleField1         #Name
+      TitleField2         #Phone
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      PrimaryIndex        #PrimaryIdx
+      ClusterIndex        #PrimaryIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Name
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #Name
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSoCheckBlackListTable
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Phone
+        Id 30005
+        STRING
+        PROPERTIES
+          Name                #Phone
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSoCheckBlackListTable
+          ExtendedDataType    
+            ARRAY 
+              #Phone
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #StartDate
+        Id 30009
+        DATETIME
+        PROPERTIES
+          Name                #StartDate
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSoCheckBlackListTable
+          ExtendedDataType    
+            ARRAY 
+              #StartDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #EndDate
+        Id 30010
+        DATETIME
+        PROPERTIES
+          Name                #EndDate
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echSoCheckBlackListTable
+          ExtendedDataType    
+            ARRAY 
+              #EndDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Name
+          #Phone
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Name
+          #Phone
+          #StartDate
+          #EndDate
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PrimaryIdx
+      Id 30002
+      PROPERTIES
+        Name                #PrimaryIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Name
+        #Phone
+        #StartDate
+        #EndDate
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #public static boolean exist(Name _name, Phone _phone, StartDateTime _startDate, EndDateTime _endDate)
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #{
+        #    echSoCheckBlackListTable echSoCheckBlackListTable;
+        #    ;
+        #
+        #    select firstonly RecId from echSoCheckBlackListTable
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        index hint PrimaryIdx
+        #        where   echSoCheckBlackListTable.Name       == _name
+        #        &&      echSoCheckBlackListTable.Phone      == _phone
+        #        &&      echSoCheckBlackListTable.StartDate  == _startDate
+        #        &&      echSoCheckBlackListTable.EndDate    == _endDate;
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    return echSoCheckBlackListTable.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #public static echSoCheckBlackListTable find(Name _name, Phone _phone, StartDateTime _startDate, EndDateTime _endDate, boolean _forUpdate = false)
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #{
+        #    echSoCheckBlackListTable echSoCheckBlackListTable;
+        #    ;
+        #
+        #    echSoCheckBlackListTable.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSoCheckBlackListTable
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        index hint PrimaryIdx
+        #        where   echSoCheckBlackListTable.Name       == _name
+        #        &&      echSoCheckBlackListTable.Phone      == _phone
+        #        &&      echSoCheckBlackListTable.StartDate  == _startDate
+        #        &&      echSoCheckBlackListTable.EndDate    == _endDate;
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    return echSoCheckBlackListTable;
+        #}
+      ENDSOURCE
+      SOURCE #isBlackListed
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: use select instead of while select and add control
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 16 May 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #static boolean isBlackListed(SalesId _salesId)
+        #{
+        #    SalesTable                  salesTable = SalesTable::find(_salesId);
+        #    CustTable                   custTable  = salesTable.custTable_CustAccount();
+        #    echSoCheckBlackListTable    echSoCheckBlackListTable;
+        #    boolean                     execute = true;
+        #    ;
+        #
+        #    select echSoCheckBlackListTable
+        #        where echSoCheckBlackListTable.Name      == custTable.Name
+        #        &&    echSoCheckBlackListTable.StartDate <= salesTable.echFrontEndCreationDate
+        #        &&    echSoCheckBlackListTable.EndDate   >= salesTable.echFrontEndCreationDate
+        #        &&    (echSoCheckBlackListTable.Phone    == custTable.Phone
+        #             ||echSoCheckBlackListTable.Phone    == custTable.CellularPhone);
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #    if (echSoCheckBlackListTable)
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        execute = false;
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

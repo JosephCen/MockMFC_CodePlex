@@ -1,0 +1,87 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesFormLetter_PackingSlip unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesFormLetter_PackingSlip
+    Id 532
+    PROPERTIES
+      Name                #SalesFormLetter_PackingSlip
+      Extends             #SalesFormLetter
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #insertJournal
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_000859
+        #// *** Customization Date: 17 Jul 2012
+        #// *** Customization Type: modified
+        #// *** Description: update agregate status of return order according disposition code
+        #
+        #/// <summary>
+        #/// Performs credit card pre-authorization when needed.
+        #/// </summary>
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: modification
+        #// *** Description: update Aggregate status to 'Shipped to customer'
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: update Aggregate status to 'Shipping waiting' when the previous status is 'Send to WMS'
+        #
+        #protected void  insertJournal()
+        #{
+        #    SalesLine               salesLineLocal;
+        #    ReturnDispositionCode   returnDispositionCode;
+        #    ;
+        #    if (!this.creditCardDoPreAuthorize())
+        #    {
+        #        return;
+        #    }
+        #
+        #    super();
+        #
+        #// CS - ECH_E_003 - abdessamad.almask - 20 Apr 2012
+        #// CS - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #    {
+        #        if(salesTable.SalesType != salesType::ReturnItem)
+        #            echUpdateAggStatus::updateStatus(salesTable.SalesId, echAggStatus::ShippedToCustomer);
+        #        else
+        #        {
+        #            if(salesTable.ReturnStatus == ReturnStatusHeader::Open)
+        #// CS - ECH_WI_000859 - Anthony Christiaens - 17 Jul 2012
+        #            {
+        #                select firstonly ReturnDispositionCodeId from salesLineLocal
+        #                    where   salesLineLocal.SalesId                  == salesTable.SalesId
+        #                    join DispositionAction from returnDispositionCode
+        #                        where returnDispositionCode.DispositionCodeId == salesLineLocal.ReturnDispositionCodeId;
+        #
+        #                if (returnDispositionCode.DispositionAction == DispositionAction::ReturnToCust)
+        #                    echUpdateAggStatus::updateStatus(salesTable.SalesId, echAggStatus::ReturnToCustomer);
+        #                else
+        #                    echUpdateAggStatus::updateStatus(salesTable.SalesId, echAggStatus::RefundReplacement);
+        #            }
+        #// CE - ECH_WI_000859 - Anthony Christiaens - 17 Jul 2012
+        #        }
+        #    }
+        #// CE - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #// CE - ECH_E_003 - abdessamad.almask - 20 Apr 2012
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

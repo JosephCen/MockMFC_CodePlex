@@ -1,0 +1,788 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echReturnOrderTable
+  PROPERTIES
+    Name                #echReturnOrderTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #    SysFormSplitter_Y               _formSplitterVertical;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    super();
+      #    _formSplitterVertical   = new SysFormSplitter_Y(ctrlSplitVertical, table, this);
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echReturnOrderTable
+          Table               #echReturnOrderTable
+          AllowEdit           #No
+          AllowCreate         #No
+          StartPosition       #Last
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #    ReturnOrdercreate.enabled(!echReturnOrderTable.Post);
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echReturnOrderLine
+          Table               #echReturnOrderLine
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #echReturnOrderTable
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    echReturnOrderLine echReturnOrderTable
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS104918
+      SaveSize            #Yes
+      DataSource          #echReturnOrderTable
+      ArrangeWhen         #Auto
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Table
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #Column height
+          FrameType           #None
+          DataSource          #echReturnOrderTable
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL TAB
+              PROPERTIES
+                Name                #TabHeader
+                Width               #Column width
+                Height              #Column height
+                DataSource          #echReturnOrderTable
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderOverview
+                    Width               #Column width
+                    Height              #Column height
+                    Caption             #@SYS9039
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GRID
+                      PROPERTIES
+                        Name                #Grid
+                        Width               #Column width
+                        Height              #Column height
+                        DataSource          #echReturnOrderTable
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_ReturnOrderId
+                              DataSource          #echReturnOrderTable
+                              DataField           #ReturnOrderId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_ReturnId
+                              DataSource          #echReturnOrderTable
+                              DataField           #ReturnId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_echMsgPartnerExtCode
+                              DataSource          #echReturnOrderTable
+                              DataField           #echMsgPartnerExtCode
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_echMsgPartnerId
+                              DataSource          #echReturnOrderTable
+                              DataField           #echMsgPartnerId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_OriginalOrderId
+                              DataSource          #echReturnOrderTable
+                              DataField           #OriginalOrderId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_TotalPrice
+                              DataSource          #echReturnOrderTable
+                              DataField           #TotalPrice
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_RefundReason
+                              DataSource          #echReturnOrderTable
+                              DataField           #RefundReason
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_ImageURL
+                              DataSource          #echReturnOrderTable
+                              DataField           #ImageURL
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Title
+                              DataSource          #echReturnOrderTable
+                              DataField           #Title
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_OriginalOrderStatus
+                              DataSource          #echReturnOrderTable
+                              DataField           #OriginalOrderStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL UTCDATETIMEEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_SendTime
+                              DataSource          #echReturnOrderTable
+                              DataField           #SendTime
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Consignor
+                              DataSource          #echReturnOrderTable
+                              DataField           #Consignor
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Consignee
+                              DataSource          #echReturnOrderTable
+                              DataField           #Consignee
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_ReturnType
+                              DataSource          #echReturnOrderTable
+                              DataField           #ReturnType
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Post
+                              HelpText            #@SYS4374
+                              BackgroundColor     #Window background
+                              DataSource          #echReturnOrderTable
+                              DataField           #Post
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Status
+                              DataSource          #echReturnOrderTable
+                              DataField           #Status
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_SplitTaobaoFee
+                              DataSource          #echReturnOrderTable
+                              DataField           #SplitTaobaoFee
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_SplitSellerFee
+                              DataSource          #echReturnOrderTable
+                              DataField           #SplitSellerFee
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_ShippingType
+                              DataSource          #echReturnOrderTable
+                              DataField           #ShippingType
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_SID
+                              DataSource          #echReturnOrderTable
+                              DataField           #SID
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_SellerNick
+                              DataSource          #echReturnOrderTable
+                              DataField           #SellerNick
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL UTCDATETIMEEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_TimeOut
+                              DataSource          #echReturnOrderTable
+                              DataField           #TimeOut
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL INTEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_RemindType
+                              DataSource          #echReturnOrderTable
+                              DataField           #RemindType
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #echReturnOrderTable_ExistTimeOut
+                              BackgroundColor     #Window background
+                              DataSource          #echReturnOrderTable
+                              DataField           #ExistTimeOut
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_RefundedFee
+                              DataSource          #echReturnOrderTable
+                              DataField           #RefundedFee
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Payment
+                              DataSource          #echReturnOrderTable
+                              DataField           #Payment
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL UTCDATETIMEEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Modified
+                              DataSource          #echReturnOrderTable
+                              DataField           #Modified
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #echReturnOrderTable_HasGoodsReturn
+                              BackgroundColor     #Window background
+                              DataSource          #echReturnOrderTable
+                              DataField           #HasGoodsReturn
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_GoodsStatus
+                              DataSource          #echReturnOrderTable
+                              DataField           #GoodsStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL UTCDATETIMEEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_GoodsReturnTime
+                              DataSource          #echReturnOrderTable
+                              DataField           #GoodsReturnTime
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_CSStatus
+                              DataSource          #echReturnOrderTable
+                              DataField           #CSStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL UTCDATETIMEEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_Created
+                              DataSource          #echReturnOrderTable
+                              DataField           #Created
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_CompanyName
+                              DataSource          #echReturnOrderTable
+                              DataField           #CompanyName
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_BuyerNick
+                              DataSource          #echReturnOrderTable
+                              DataField           #BuyerNick
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_AlipayNo
+                              DataSource          #echReturnOrderTable
+                              DataField           #AlipayNo
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderTable_AdvanceStatus
+                              DataSource          #echReturnOrderTable
+                              DataField           #AdvanceStatus
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabHeaderGeneral
+                    Caption             #@SYS2952
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_Address
+                        DataSource          #echReturnOrderTable
+                        DataField           #Address
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_Address2
+                        DataSource          #echReturnOrderTable
+                        DataField           #Address2
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_Province
+                        DataSource          #echReturnOrderTable
+                        DataField           #Province
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_City
+                        DataSource          #echReturnOrderTable
+                        DataField           #City
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_District
+                        DataSource          #echReturnOrderTable
+                        DataField           #District
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_PostalCode
+                        DataSource          #echReturnOrderTable
+                        DataField           #PostalCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_Phone
+                        DataSource          #echReturnOrderTable
+                        DataField           #Phone
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #echReturnOrderTable_Description
+                        DataSource          #echReturnOrderTable
+                        DataField           #Description
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+            CONTROL BUTTONGROUP
+              PROPERTIES
+                Name                #ButtonsHeader
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #ButtonHeaderFunction
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS10340
+                    Text                #@SYS10340
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL MENUITEMBUTTON
+                      PROPERTIES
+                        Name                #ReturnOrdercreate
+                        AutoDeclaration     #Yes
+                        Text                #@SYS104102
+                        MenuItemType        #Action
+                        MenuItemName        #echCreateROfromTemplateTable
+                        DataSource          #echReturnOrderTable
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #    echReturnOrderTable_ds.research(true);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #CtrlSplitVertical
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #5
+          AlignControl        #Yes
+          HTMLHelpFile        #HTMLHelpFileAxShared
+          HTMLHelpTopic       #html/92CE6038-B0D0-4473-A1CB-DD3BFA0197A1.htm
+          FrameType           #Raised 3D
+          BackgroundColor     #Window background
+          HideIfEmpty         #No
+          AlignChild          #No
+        ENDPROPERTIES
+        
+        METHODS
+          Version: 3
+          SOURCE #mouseUp
+            #int mouseUp(int x, int y, int button, boolean ctrl, boolean shift)
+            #{
+            #    int ret;
+            #
+            #    ret = super(x, y, button, ctrl, shift);
+            #
+            #    return _formSplitterVertical.mouseUp(x, y, button, ctrl, shift);
+            #}
+          ENDSOURCE
+          SOURCE #mouseMove
+            #int mouseMove(int x, int y, int button, boolean ctrl, boolean shift)
+            #{
+            #    int ret;
+            #
+            #    ret = super(x, y, button, ctrl, shift);
+            #
+            #    return _formSplitterVertical.mouseMove(x,y,button,ctrl,shift);
+            #}
+          ENDSOURCE
+          SOURCE #mouseDown
+            #int mouseDown(int x, int y, int button, boolean ctrl, boolean shift)
+            #{
+            #    int ret;
+            #
+            #    ret = super(x, y, button, ctrl, shift);
+            #
+            #    return _formSplitterVertical.mouseDown(x, y, button, ctrl, shift);
+            #}
+          ENDSOURCE
+        ENDMETHODS
+          CONTAINER
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Line
+          Width               #Column width
+          Height              #Column height
+          FrameType           #None
+          DataSource          #echReturnOrderLine
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL TAB
+              PROPERTIES
+                Name                #TabLine
+                Width               #Column width
+                Height              #Column height
+                DataSource          #echReturnOrderLine
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabLineOverview
+                    Caption             #@SYS15451
+                    DataSource          #echReturnOrderLine
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GRID
+                      PROPERTIES
+                        Name                #Grid1
+                        Width               #Column width
+                        Height              #Column height
+                        DataSource          #echReturnOrderLine
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_ReturnOrderId
+                              DataSource          #echReturnOrderLine
+                              DataField           #ReturnOrderId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_ProductId
+                              DataSource          #echReturnOrderLine
+                              DataField           #ProductId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_Qty
+                              DataSource          #echReturnOrderLine
+                              DataField           #Qty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_Price
+                              DataSource          #echReturnOrderLine
+                              DataField           #Price
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_ExtSkuId
+                              DataSource          #echReturnOrderLine
+                              DataField           #ExtSkuId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_AttachmentCode
+                              DataSource          #echReturnOrderLine
+                              DataField           #AttachmentCode
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_SkuId
+                              DataSource          #echReturnOrderLine
+                              DataField           #SkuId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #echReturnOrderLine_SkuName
+                              DataSource          #echReturnOrderLine
+                              DataField           #SkuName
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

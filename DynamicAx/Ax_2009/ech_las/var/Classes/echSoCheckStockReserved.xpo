@@ -1,0 +1,93 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckStockReserved unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckStockReserved
+    Id 30324
+    PROPERTIES
+      Name                #echSoCheckStockReserved
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Create ECH_WI_02041 by mengqi.cen on 20130405
+        #class echSoCheckStockReserved implements echISoCheck
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH708";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// Create ECH_WI_02041 by mengqi.cen on 20130408
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean     isCheckPassed;
+        #    SalesLine   salesLine;
+        #    InventTable inventTbl;
+        #    InventTrans inventTrans;
+        #    InventSum   inventSum;
+        #;
+        #    isCheckPassed = true;
+        #
+        #    select count(RecId) from salesLine
+        #      where salesLine.SalesId == _salesId;
+        #
+        #    if (salesLine.RecId == 0)
+        #        isCheckPassed = false;
+        #
+        #    if (isCheckPassed)
+        #    {
+        #        // OnOrder inventTrans should not be found for any salesLine.
+        #        select firstonly salesLine
+        #          where salesLine.SalesId == _salesId
+        #          join TableId from inventTbl
+        #            where inventTbl.ItemId == salesLine.ItemId && inventTbl.ItemType != ItemType::Service
+        #          join TableId from inventTrans
+        #            where inventTrans.InventTransId == salesLine.InventTransId
+        #               && inventTrans.StatusIssue   == StatusIssue::OnOrder;
+        #
+        #        if (salesLine)
+        #            isCheckPassed = false;
+        #    }
+        #
+        #    if (isCheckPassed)
+        #    {
+        #        // AvailPhysical of relevant sku in InventSum should be greate than or equal zero
+        #        select firstonly salesLine
+        #          where salesLine.SalesId == _salesId
+        #          join TableId from inventTbl
+        #            where inventTbl.ItemId == salesLine.ItemId && inventTbl.ItemType != ItemType::Service
+        #          join TableId from inventSum
+        #            where inventSum.ItemId        == salesLine.ItemId
+        #               && inventSum.InventDimId   == salesLine.InventDimId
+        #               && inventSum.AvailPhysical <  0;
+        #
+        #        if (salesLine)
+        #            isCheckPassed = false;
+        #    }
+        #
+        #    return isCheckPassed;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH709";
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

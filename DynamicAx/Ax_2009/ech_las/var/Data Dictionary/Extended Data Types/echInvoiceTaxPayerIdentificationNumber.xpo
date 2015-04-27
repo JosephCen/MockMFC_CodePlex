@@ -1,0 +1,30 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echInvoiceTaxPayerIdentificationNumber unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echInvoiceTaxPayerIdentificationNumber
+  Id 30063
+  STRING
+    PROPERTIES
+      Name                #echInvoiceTaxPayerIdentificationNumber
+      Label               #@ECH398
+      HelpText            #@ECH404
+      ConfigurationKey    #echInterfaces
+      StringSize          #60
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

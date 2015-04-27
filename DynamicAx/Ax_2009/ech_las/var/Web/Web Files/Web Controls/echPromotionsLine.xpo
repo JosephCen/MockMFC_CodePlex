@@ -1,0 +1,85 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echPromotionsLine unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echPromotionsLine
+    PROPERTIES
+      Name                #echPromotionsLine
+      HelpText            #
+      Filename            #echPromotionsLine.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echPromotionsLine.ascx.cs" Inherits="echPromotionsLine" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="echPromotionsLineDS" runat="server" 
+      #    DataSetName="echSOPromotionsLine" ProviderView="echSOPromotionsLine">
+      #</dynamics:AxDataSource> 
+      #<dynamics:AxGridView ID="echPromotionsLineGrid" runat="server" 
+      #    AllowDelete="True" AllowEdit="True" 
+      #    DataKeyNames="RecId" 
+      #    DataMember="echSOPromotionsLine" 
+      #    DataSourceID="echPromotionsLineDS">
+      #    <Columns>
+      #        <dynamics:AxBoundField DataField="PromotionId" DataSet="echSOPromotionsLine" 
+      #            DataSetView="echSOPromotionsLine" SortExpression="PromotionId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="PromotionDesc" DataSet="echSOPromotionsLine" 
+      #            DataSetView="echSOPromotionsLine" SortExpression="PromotionDesc">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="Percentage" DataSet="echSOPromotionsLine" 
+      #            DataSetView="echSOPromotionsLine" SortExpression="Percentage">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="Amount" DataSet="echSOPromotionsLine" 
+      #            DataSetView="echSOPromotionsLine" SortExpression="Amount">
+      #        </dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echPromotionsLine_ascx_cs
+      HelpText            #
+      Filename            #echPromotionsLine.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echPromotionsLine : System.Web.UI.UserControl
+      #{	
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #		
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

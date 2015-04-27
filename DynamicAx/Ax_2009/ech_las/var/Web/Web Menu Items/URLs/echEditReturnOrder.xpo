@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echEditReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echEditReturnOrder
+    PROPERTIES
+      Name                #echEditReturnOrder
+      Label               #@ECH226
+      HelpText            #@ECH227
+      URL                 #Sales/Enterprise%20Portal/echEPReturnTableEdit.aspx
+      ConfigurationKey    #echProcesses
+      WebConfigurationkey #EPSalesRep
+      SecurityKey         #EPSalesRepMisc
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

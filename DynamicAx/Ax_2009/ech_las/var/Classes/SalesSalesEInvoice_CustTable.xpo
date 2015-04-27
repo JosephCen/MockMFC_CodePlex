@@ -1,0 +1,258 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesSalesEInvoice_CustTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesSalesEInvoice_CustTable
+    Id 9487
+    PROPERTIES
+      Name                #SalesSalesEInvoice_CustTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class SalesSalesEInvoice_CustTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.ZipCode('ZipCode')
+        #    #define.WebSalesOrderDisplay('WebSalesOrderDisplay')
+        #    #define.VendAccount('VendAccount')
+        #    #define.VATNum('VATNum')
+        #    #define.URL('URL')
+        #    #define.Telex('Telex')
+        #    #define.TeleFax('TeleFax')
+        #    #define.TaxLicenseNum('TaxLicenseNum')
+        #    #define.TaxGroup('TaxGroup')
+        #    #define.TaxBorderNumber_FI('TaxBorderNumber_FI')
+        #    #define.SyncVersion('SyncVersion')
+        #    #define.SyncEntityId('SyncEntityId')
+        #    #define.SuppItemGroupId('SuppItemGroupId')
+        #    #define.SubsegmentId('SubsegmentId')
+        #    #define.Street('Street')
+        #    #define.StatisticsGroup('StatisticsGroup')
+        #    #define.State('State')
+        #    #define.SMS('SMS')
+        #    #define.ShipCarrierID('ShipCarrierID')
+        #    #define.ShipCarrierFuelSurcharge('ShipCarrierFuelSurcharge')
+        #    #define.ShipCarrierBlindShipment('ShipCarrierBlindShipment')
+        #    #define.ShipCarrierAccountCode('ShipCarrierAccountCode')
+        #    #define.ShipCarrierAccount('ShipCarrierAccount')
+        #    #define.SegmentId('SegmentId')
+        #    #define.SalesPoolId('SalesPoolId')
+        #    #define.SalesGroup('SalesGroup')
+        #    #define.SalesDistrictId('SalesDistrictId')
+        #    #define.SalesCalendarId('SalesCalendarId')
+        #    #define.RFIDPalletTagging('RFIDPalletTagging')
+        #    #define.RFIDItemTagging('RFIDItemTagging')
+        #    #define.RFIDCaseTagging('RFIDCaseTagging')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.ProjPriceGroup('ProjPriceGroup')
+        #    #define.PriceGroup('PriceGroup')
+        #    #define.PhoneLocal('PhoneLocal')
+        #    #define.Phone('Phone')
+        #    #define.PBACustGroupId('PBACustGroupId')
+        #    #define.PaymTermId('PaymTermId')
+        #    #define.PaymSpec('PaymSpec')
+        #    #define.PaymSched('PaymSched')
+        #    #define.PaymMode('PaymMode')
+        #    #define.PaymIdType('PaymIdType')
+        #    #define.PaymDayId('PaymDayId')
+        #    #define.PartyType('PartyType')
+        #    #define.PartyState('PartyState')
+        #    #define.PartyId('PartyId')
+        #    #define.PartyCountry('PartyCountry')
+        #    #define.Pager('Pager')
+        #    #define.PackMaterialFeeLicenseNum('PackMaterialFeeLicenseNum')
+        #    #define.OurAccountNum('OurAccountNum')
+        #    #define.OrgId('OrgId')
+        #    #define.OrderEntryDeadlineGroupId('OrderEntryDeadlineGroupId')
+        #    #define.OneTimeCustomer('OneTimeCustomer')
+        #    #define.numberSequenceGroup('numberSequenceGroup')
+        #    #define.NameAlias('NameAlias')
+        #    #define.Name('Name')
+        #    #define.MultiLineDisc('MultiLineDisc')
+        #    #define.Memo('Memo')
+        #    #define.MarkupGroup('MarkupGroup')
+        #    #define.MandatoryCreditLimit('MandatoryCreditLimit')
+        #    #define.MainContactId('MainContactId')
+        #    #define.LineOfBusinessId('LineOfBusinessId')
+        #    #define.LineDisc('LineDisc')
+        #    #define.LanguageId('LanguageId')
+        #    #define.InvoiceAddress('InvoiceAddress')
+        #    #define.InvoiceAccount('InvoiceAccount')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventLocation('InventLocation')
+        #    #define.InterCompanyDirectDelivery('InterCompanyDirectDelivery')
+        #    #define.InterCompanyAutoCreateOrders('InterCompanyAutoCreateOrders')
+        #    #define.InterCompanyAllowIndirectCreation('InterCompanyAllowIndirectCreation')
+        #    #define.InclTax('InclTax')
+        #    #define.IdentificationNumber('IdentificationNumber')
+        #    #define.GiroTypeProjInvoice('GiroTypeProjInvoice')
+        #    #define.GiroTypeInterestNote('GiroTypeInterestNote')
+        #    #define.GiroTypeFreeTextInvoice('GiroTypeFreeTextInvoice')
+        #    #define.GiroTypeCollectionletter('GiroTypeCollectionletter')
+        #    #define.GiroType('GiroType')
+        #    #define.FreightZone('FreightZone')
+        #    #define.ForecastDMPInclude('ForecastDMPInclude')
+        #    #define.FiscalCode('FiscalCode')
+        #    #define.FactoringAccount('FactoringAccount')
+        #    #define.EnterpriseNumber('EnterpriseNumber')
+        #    #define.EndDisc('EndDisc')
+        #    #define.Email('Email')
+        #    #define.EinvoiceEANNum('EinvoiceEANNum')
+        #    #define.DlvTerm('DlvTerm')
+        #    #define.DlvReason('DlvReason')
+        #    #define.DlvMode('DlvMode')
+        #    #define.Dimension('Dimension')
+        #    #define.DestinationCodeId('DestinationCodeId')
+        #    #define.CustItemGroupId('CustItemGroupId')
+        #    #define.CustGroup('CustGroup')
+        #    #define.CustClassificationId('CustClassificationId')
+        #    #define.Currency('Currency')
+        #    #define.CreditRating('CreditRating')
+        #    #define.CreditMax('CreditMax')
+        #    #define.County('County')
+        #    #define.CountryRegionId('CountryRegionId')
+        #    #define.ContactPersonId('ContactPersonId')
+        #    #define.CompanyIdSiret('CompanyIdSiret')
+        #    #define.CompanyIdNAF('CompanyIdNAF')
+        #    #define.CompanyChainId('CompanyChainId')
+        #    #define.CommissionGroup('CommissionGroup')
+        #    #define.ClearingPeriod('ClearingPeriod')
+        #    #define.City('City')
+        #    #define.CellularPhone('CellularPhone')
+        #    #define.CashDisc('CashDisc')
+        #    #define.Blocked('Blocked')
+        #    #define.BankCentralBankPurposeText('BankCentralBankPurposeText')
+        #    #define.BankCentralBankPurposeCode('BankCentralBankPurposeCode')
+        #    #define.BankAccount('BankAccount')
+        #    #define.Address('Address')
+        #    #define.AccountStatement('AccountStatement')
+        #    #define.AccountNum('AccountNum')
+        #    #define.GiroTypeAccountStatement('GiroTypeAccountStatement')
+        #    #define.ResidenceForeignCountryRegionId_IT('ResidenceForeignCountryRegionId_IT')
+        #    #define.BirthPlace_IT('BirthPlace_IT')
+        #    #define.BirthDate_IT('BirthDate_IT')
+        #    #define.BirthCountyCode_IT('BirthCountyCode_IT')
+        #
+        #    #define.CompanyType_MX('CompanyType_MX')
+        #    #define.RFC_MX('RFC_MX')
+        #    #define.CURP_MX('CURP_MX')
+        #    #define.StateInscription_MX('StateInscription_MX')
+        #    // <GIN>
+        #    #define.TDSGroup_IN('TDSGroup_IN')
+        #    #define.TCSGroup_IN('TCSGroup_IN')
+        #    #define.Range_IN('Range_IN')
+        #    #define.Division_IN('Division_IN')
+        #    #define.Commissionarate_IN('Commissionarate_IN')
+        #    #define.ECCNumber_IN('ECCNumber_IN')
+        #    #define.IECNumber_IN('IECNumber_IN')
+        #    #define.STCNumber_IN('STCNumber_IN')
+        #    #define.TIN_IN('TIN_IN')
+        #    #define.SalesTaxRegistrationNumber_IN('SalesTaxRegistrationNumber_IN')
+        #    #define.TAN_IN('TAN_IN')
+        #    #define.ForeignCustomer_IN('ForeignCustomer_IN')
+        #    #define.NatureOfAssessee_IN('NatureOfAssessee_IN')
+        #    #define.PANNumber_IN('PANNumber_IN')
+        #    #define.PANReferenceNumber_IN('PANReferenceNumber_IN')
+        #    #define.PANStatus_IN('PANStatus_IN')
+        #    #define.PreferentialCustomer_IN('PreferentialCustomer_IN')
+        #    #define.TaxWithholdCalculate_IN('TaxWithholdCalculate_IN')
+        #    // </GIN>
+        #
+        #    // <GCN>
+        #    #define.VATRegistrationNum_CN('VATRegistrationNum_CN')
+        #    // </GCN>
+        #
+        #    // <GTH>
+        #    #define.TaxWithholdGroup_TH('TaxWithholdGroup_TH')
+        #    #define.TaxWithholdCalculate_TH('TaxWithholdCalculate_TH')
+        #    // </GTH>
+        #
+        #    // <GJP>
+        #    #define.NameKana('NameKana')
+        #    #define.ConsolidationDate('ConsolidationDate')
+        #    // </GJP>
+        #
+        #    // <GBR>
+        #    #define.TributarySubstitutionRegistry('TributarySubstitutionRegistry')
+        #    #define.SuframaPISCOFINS('SuframaPISCOFINS')
+        #    #define.SuframaNumber('SuframaNumber')
+        #    #define.Suframa('Suframa')
+        #    #define.ServiceCodeOnDlvAddress('ServiceCodeOnDlvAddress')
+        #    #define.NIT_BR('NIT_BR')
+        #    #define.ISS_BR('ISS_BR')
+        #    #define.InvoiceSeries('InvoiceSeries')
+        #    #define.INSSCEI_BR('INSSCEI_BR')
+        #    #define.IENum('IENum')
+        #    #define.ICMSContributor('ICMSContributor')
+        #    #define.FinInterestCode('FinInterestCode')
+        #    #define.FineCode('FineCode')
+        #    #define.EstablishmentType('EstablishmentType')
+        #    #define.DistrictName('DistrictName')
+        #    #define.DeliveryCustIENum('DeliveryCustIENum')
+        #    #define.DeliveryCustCNPJCPFNum('DeliveryCustCNPJCPFNum')
+        #    #define.DeliveryCustCategory('DeliveryCustCategory')
+        #    #define.CustInvoiceType('CustInvoiceType')
+        #    #define.CustFinalUser('CustFinalUser')
+        #    #define.CustCategory('CustCategory')
+        #    #define.CreatedDateTime('CreatedDateTime')
+        #    #define.CNPJCPFNum('CNPJCPFNum')
+        #    #define.CNAE_BR('CNAE_BR')
+        #    #define.CCMNum('CCMNum')
+        #    #define.AddressNumber('AddressNumber')
+        #    #define.AddressComplement('AddressComplement')
+        #    // </GBR>
+        #
+        #    // echina start
+        #    #define.echMsgPartnerId('echMsgPartnerId')
+        #    #define.echMsgPartnerExtCode('echMsgPartnerExtCode')
+        #    // echine end
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerExtCode
+        #public boolean existsechMsgPartnerExtCode()
+        #{
+        #    return this.exists(#echMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerId
+        #public boolean existsechMsgPartnerId()
+        #{
+        #    return this.exists(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerExtCode
+        #public echMsgPartnerExtCode parmechMsgPartnerExtCode(echMsgPartnerExtCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerExtCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

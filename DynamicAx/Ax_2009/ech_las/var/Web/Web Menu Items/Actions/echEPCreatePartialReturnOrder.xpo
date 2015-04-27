@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echEPCreatePartialReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echEPCreatePartialReturnOrder
+    PROPERTIES
+      Name                #echEPCreatePartialReturnOrder
+      Label               #@ech761
+      HelpText            #@ech762
+      Object              #echCreatePartialReturnOrder
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

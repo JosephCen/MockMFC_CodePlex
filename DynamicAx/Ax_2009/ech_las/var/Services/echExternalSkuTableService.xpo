@@ -1,0 +1,52 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SVC
+
+; Microsoft Dynamics AX SERVICE : echExternalSkuTableService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICE #echExternalSkuTableService
+    PROPERTIES
+      Name                #echExternalSkuTableService
+      ExternalName        #echExternalSkuTableService
+      Namespace           #http://schemas.microsoft.com/dynamics/2008/01/services
+      Class               #echExternalSkuTableService
+      SecurityKey         #echExternalSkuTableService
+      Description         #
+    ENDPROPERTIES
+    
+    OPERATIONS
+      OPERATION #create
+        PROPERTIES
+          Name                #create
+          Method              #create
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #find
+        PROPERTIES
+          Name                #find
+          Method              #find
+          EnableIdempotence   #No
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #read
+        PROPERTIES
+          Name                #read
+          Method              #read
+          EnableIdempotence   #No
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+    ENDOPERATIONS
+    
+  ENDSERVICE
+  
+
+***Element: END

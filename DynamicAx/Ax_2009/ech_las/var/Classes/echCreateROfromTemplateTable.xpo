@@ -1,0 +1,327 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echCreateROfromTemplateTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echCreateROfromTemplateTable
+    Id 57722
+    PROPERTIES
+      Name                #echCreateROfromTemplateTable
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echCreateROfromTemplateTable
+        #{
+        #    Qty         minqty;
+        #    SalesLine   salesLineorig;
+        #
+        #    #define.DMW('DMW')
+        #    #define.TMALL('TMALL')
+        #}
+      ENDSOURCE
+      SOURCE #createReturnOrder
+        #void createReturnOrder(CustAccount _custAccount,
+        #                       SalesId _salesId,
+        #                       echReturnOrderTable _echReturnOrderTable)
+        #{
+        #    SalesTable          salesOrderTable;
+        #    SalesTable          _SalesTable;
+        #    SalesLine           _SalesLine;
+        #    echReturnOrderLine  echReturnOrderLine;
+        #    NumberSeq           numberSeqSalesOrder;
+        #    NumberSeq           numberSeqReturnOrder;
+        #    ;
+        #    select firstonly salesOrderTable
+        #        where salesOrderTable.SalesId == _salesId;
+        #
+        #    if (salesOrderTable)
+        #    {
+        #        if(_echReturnOrderTable.echMsgPartnerId ==#TMALL &&
+        #           (salesOrderTable.ECHAggStatus != ECHAggStatus::ShippedToCustomer     &&
+        #            salesOrderTable.ECHAggStatus != ECHAggStatus::Invoiced              &&
+        #            salesOrderTable.ECHAggStatus != ECHAggStatus::DeliveredAtCustomer   &&
+        #            salesOrderTable.ECHAggStatus != ECHAggStatus::Paid                     ))
+        #        {
+        #            echSalesOrderCancel::cancelOrder(salesOrderTable);
+        #        }
+        #        else
+        #        {
+        #            if(this.ReturnCheck(salesOrderTable,_echReturnOrderTable))
+        #            {
+        #                ttsbegin;
+        #
+        #                numberSeqSalesOrder  = NumberSeq::newGetNumFromCode(SalesParameters::numRefSalesId().NumberSequence);
+        #                numberSeqReturnOrder = NumberSeq::newGetNumFromCode(SalesParameters::numRefReturnItemNum().NumberSequence);
+        #
+        #                _SalesTable.clear();
+        #                _SalesTable.SalesId              = numberSeqSalesOrder.num();
+        #                _SalesTable.ReturnItemNum        = numberSeqReturnOrder.num();
+        #                _SalesTable.CustAccount          = _custAccount;
+        #                _SalesTable.initFromCustTable();
+        #                _SalesTable.setReturnAddressFromInventLocationId(_SalesTable.InventLocationId);
+        #                _SalesTable.ReturnStatus         = ReturnStatusHeader::Open;
+        #                _SalesTable.SalesType            = SalesType::ReturnItem;
+        #                _SalesTable.initValue();
+        #                _SalesTable.CurrencyCode         = salesOrderTable.CurrencyCode;
+        #                _SalesTable.CustGroup            = salesOrderTable.CustGroup;
+        #                _SalesTable.ShipCarrierAccount   = salesOrderTable.ShipCarrierAccount;
+        #                _SalesTable.SalesType            = SalesType::ReturnItem;
+        #                _SalesTable.echMsgPartnerExtCode = salesOrderTable.echMsgPartnerExtCode;
+        #                _SalesTable.echExternalROId      = _echReturnOrderTable.echMsgPartnerExtCode;
+        #                _SalesTable.echPaymentReference  = _echReturnOrderTable.AlipayNo;
+        #                _SalesTable.echMsgPartnerId      = _echReturnOrderTable.echMsgPartnerId;
+        #                _SalesTable.SettleVoucher        = SettlementType::None;
+        #                _SalesTable.ReturnStatus         = ReturnStatusHeader::Created;
+        #                _SalesTable.ECHAggStatus         = ECHAggStatus::Created;
+        #                if(_SalesTable.echMsgPartnerId ==#DMW)
+        #                {
+        #                    _SalesTable.ReturnReasonCodeId   = _echReturnOrderTable.RefundReason;
+        #                }
+        #                else if(_SalesTable.echMsgPartnerId ==#TMALL)
+        #                {
+        #                    _SalesTable.ReturnReasonCodeId   = this.getReasonCode(_echReturnOrderTable.RefundReason);
+        #                }
+        #                _SalesTable.insert();
+        #
+        #                while select echReturnOrderLine
+        #                    where echReturnOrderLine.ReturnOrderId == _echReturnOrderTable.ReturnOrderId
+        #                {
+        #                    this.getOrigSalesLine(salesOrderTable,echReturnOrderLine);
+        #
+        #                    _SalesLine.clear();
+        #                    _SalesLine.SalesId              = _SalesTable.SalesId;
+        #                    _SalesLine.ItemId               = salesLineorig.ItemId;
+        #                    _SalesTable.ShipCarrierAccount  = salesOrderTable.ShipCarrierAccount;
+        #                    _SalesLine.InventDimId          = salesLineorig.InventDimId;
+        #                    _SalesLine.initFromSalesTable(_SalesTable);
+        #                    _SalesLine.initFromSalesLine(salesLineorig,true,true,false,echReturnOrderLine.Qty);
+        #                    _salesLine.SalesQty             = 0;
+        #
+        #                    _SalesLine.createLine(NoYes::Yes, // Validate
+        #                                          NoYes::Yes, // initFromSalesTable
+        #                                          NoYes::Yes, // initFromInventTable
+        #                                          NoYes::Yes, // calcInventQty
+        #                                          NoYes::Yes, // searchMarkup
+        #                                          NoYes::Yes); // searchPrice
+        #
+        #                    _salesLine.selectForUpdate(true);
+        #                    _salesLine.ExpectedRetQty       = -echReturnOrderLine.Qty;
+        #                    _salesLine.SalesPrice           = salesLineorig.SalesPrice;//_salesLine.ExpectedRetQty ? (_salesLine.LineAmount /_salesLine.ExpectedRetQty) : 0;
+        #                    _salesLine.LineAmount           = -salesLineorig.LineAmount;
+        #                    /*if(_SalesTable.echMsgPartnerId ==#DMW)
+        #                    {
+        #                        _salesLine.LineAmount = -echReturnOrderLine.Price;
+        #                    }
+        #                    else if(_SalesTable.echMsgPartnerId ==#TMALL)
+        #                    {
+        #                        _salesLine.LineAmount = -_echReturnOrderTable.RefundedFee;
+        #                    }*/
+        #                    //_salesLine.LineDisc             = _salesLine.SalesPrice -(_salesLine.LineAmount * _salesLine.PriceUnit /(_salesLine.ExpectedRetQty !=0 ? _salesLine.ExpectedRetQty : 1));
+        #                    if(_SalesTable.echMsgPartnerId ==#DMW)
+        #                    {
+        #                        _salesLine.LineDisc             = _salesLine.SalesPrice -(-echReturnOrderLine.Price * _salesLine.PriceUnit /(_salesLine.ExpectedRetQty !=0 ? _salesLine.ExpectedRetQty : 1));
+        #                    }
+        #                    else if(_SalesTable.echMsgPartnerId ==#TMALL)
+        #                    {
+        #                        _salesLine.LineDisc             = _salesLine.SalesPrice -(-_echReturnOrderTable.RefundedFee * _salesLine.PriceUnit /(_salesLine.ExpectedRetQty !=0 ? _salesLine.ExpectedRetQty : 1));
+        #                    }
+        #                    _salesLine.InventTransIdReturn  = salesLineorig.InventTransId;
+        #                    _salesLine.CostPrice            = -inventTrans::findTransId(salesLineorig.InventTransId).CostAmountPhysical;
+        #                    _salesLine.doUpdate();
+        #                }
+        #
+        #                _echReturnOrderTable.selectForUpdate(true);
+        #                _echReturnOrderTable.Post = NoYes::Yes;
+        #                _echReturnOrderTable.update();
+        #
+        #                ttscommit;
+        #                Info(strfmt("@ECH733",_SalesTable.ReturnItemNum));
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #getOrigSalesLine
+        #void getOrigSalesLine(SalesTable  _salesTablecheck,
+        #                      echReturnOrderLine _echReturnOrderLine)
+        #{
+        #    echReturnOrderLine  echReturnOrderLine;
+        #    echReturnOrderTable returnorderTable;
+        #    ;
+        #
+        #    select firstonly echReturnOrderLine
+        #        where echReturnOrderLine.RecId == _echReturnOrderLine.RecId;
+        #
+        #    select firstonly returnorderTable
+        #        where returnorderTable.ReturnOrderId == _echReturnOrderLine.ReturnOrderId;
+        #
+        #
+        #    if(_salesTablecheck.echMsgPartnerId ==#DMW)
+        #    {
+        #        while select salesLineorig
+        #            where salesLineorig.SalesId == _salesTablecheck.SalesId
+        #        {
+        #            if (salesLineorig.echGetItemBarCode()== echReturnOrderLine.SkuId)
+        #            {
+        #                break;
+        #            }
+        #        }
+        #    }
+        #    else if (_salesTablecheck.echMsgPartnerId ==#TMALL)
+        #    {
+        #        select firstonly salesLineorig
+        #            where salesLineorig.SalesId == _salesTablecheck.SalesId
+        #               && salesLineorig.echLineId == returnorderTable.ReturnId;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #getReasonCode
+        #ReturnReasonCodeId getReasonCode(echReturnOrderRefundReason _refundReason)
+        #{
+        #    ReturnReasonCode    returnReasonCode;
+        #    SalesParameters     salesParameters;
+        #    #define.asterisk('*')
+        #    ;
+        #
+        #    _refundReason = _refundReason + #asterisk;
+        #    select firstonly returnReasonCode
+        #        where returnReasonCode.Description like _refundReason;
+        #    if(returnReasonCode)
+        #    {
+        #        return returnReasonCode.ReasonCodeId;
+        #    }
+        #    else
+        #    {
+        #        ttsbegin;
+        #        select firstonly salesParameters;
+        #        returnReasonCode.clear();
+        #        returnReasonCode.initValue();
+        #        returnReasonCode.ReasonCodeGroupId = salesParameters.ReturnReasonGroupId;
+        #        returnReasonCode.Description = _refundReason;
+        #        returnReasonCode.insert();
+        #        ttscommit;
+        #        return returnReasonCode.ReasonCodeId;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #getSalesTable
+        #SalesTable getSalesTable(echMsgPartnerExtCode _echMsgPartnerExtCode)
+        #{
+        #    SalesTable  salesTablelocal;
+        #    ;
+        #    if(_echMsgPartnerExtCode)
+        #    {
+        #        select firstonly salesTablelocal
+        #            where salesTablelocal.SalesType             == SalesType::Sales
+        #               && salesTableLocal.echMsgPartnerExtCode  == _echMsgPartnerExtCode;
+        #    }
+        #    return salesTablelocal;
+        #}
+      ENDSOURCE
+      SOURCE #ReturnCheck
+        #boolean ReturnCheck(SalesTable  _salesTablecheck,
+        #                    echReturnOrderTable _echReturnOrderTableCheck)
+        #{
+        #    SalesLine           salesLinecheck;
+        #    SalesLine           salesLinelocal;
+        #    SalesTable          salesTablecheck;
+        #    echReturnOrderLine  echReturnOrderLine;
+        #    echReturnOrderTable returnorderTable;
+        #    qty                 returnQty;
+        #    qty                 salesQty;
+        #    boolean             checkflag = true;
+        #    ;
+        #    minqty = 0;
+        #    while select returnorderTable
+        #        where returnOrderTable.ReturnOrderId == _echReturnOrderTableCheck.ReturnOrderId
+        #    join echReturnOrderLine
+        #        where echReturnOrderLine.ReturnOrderId == returnorderTable.ReturnOrderId
+        #    {
+        #        returnQty = 0;
+        #        if(_echReturnOrderTableCheck.echMsgPartnerId == #DMW)
+        #        {
+        #            //ItemBarCode = echExternalSkuId::GetInternalSkuId(_salesTablecheck.InventLocationId,echReturnOrderLine.ExtSkuId);
+        #            while select salesTablecheck
+        #                where salesTablecheck.echMsgPartnerExtCode == _salesTablecheck.echMsgPartnerExtCode
+        #                   && salesTablecheck.SalesType            == SalesType::ReturnItem
+        #                   && salesTablecheck.ECHAggStatus         != ECHAggStatus::Rejected
+        #            join salesLinecheck
+        #                where salesLinecheck.SalesId == salesTablecheck.SalesId
+        #            {
+        #                if (salesLinecheck.echGetItemBarCode() == echReturnOrderLine.SkuId )
+        #                {
+        #                    returnQty += salesLinecheck.SalesQty ? salesLinecheck.SalesQty : salesLinecheck.ExpectedRetQty;
+        #                }
+        #            }
+        #            while select salesLinelocal
+        #                where salesLinelocal.SalesId == _salesTablecheck.SalesId
+        #            {
+        #                if (salesLinelocal.echGetItemBarCode()== echReturnOrderLine.SkuId)
+        #                {
+        #                    salesQty = salesLinelocal.SalesQty;
+        #                }
+        #            }
+        #        }
+        #        else if (_echReturnOrderTableCheck.echMsgPartnerId == #TMALL)
+        #        {
+        #            while select salesTablecheck
+        #                where salesTablecheck.echMsgPartnerExtCode == _salesTablecheck.echMsgPartnerExtCode
+        #                   && salesTablecheck.SalesType            == SalesType::ReturnItem
+        #                   && salesTablecheck.ECHAggStatus         != ECHAggStatus::Rejected
+        #            join salesLinecheck
+        #                where salesLinecheck.SalesId == salesTablecheck.SalesId
+        #                   && salesLinecheck.echLineId == returnorderTable.ReturnId
+        #            {
+        #                returnQty += salesLinecheck.SalesQty ? salesLinecheck.SalesQty : salesLinecheck.ExpectedRetQty;
+        #            }
+        #            while select salesLinelocal
+        #                where salesLinelocal.SalesId == _salesTablecheck.SalesId
+        #                   && salesLinelocal.echLineId == returnorderTable.ReturnId
+        #            {
+        #                salesQty = salesLinelocal.SalesQty;
+        #            }
+        #        }
+        #
+        #        if((abs(returnQty) + echReturnOrderLine.Qty) > salesQty)
+        #        {
+        #            checkflag = false;
+        #            //info(strfmt("the %1 return Qty %2 is more than the original order qty %3.",ItemBarCode,abs(returnQty),salesQty));
+        #        }
+        #
+        #    }
+        #
+        #    return checkflag;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #static echCreateROfromTemplateTable construct()
+        #{
+        #    ;
+        #    return new echCreateROfromTemplateTable();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #static void main(Args _args)
+        #{
+        #    echReturnOrderTable             m_echReturnOrderTable;
+        #    SalesTable                      m_SalesTable;
+        #    echCreateROfromTemplateTable    m_echCreateROfromTemplateTable;
+        #    ;
+        #    m_echCreateROfromTemplateTable = echCreateROfromTemplateTable::construct();
+        #    m_echReturnOrderTable = _args.record();
+        #    m_SalesTable = m_echCreateROfromTemplateTable.getSalesTable(m_echReturnOrderTable.OriginalOrderId);
+        #    m_echCreateROfromTemplateTable.createReturnOrder(m_SalesTable.CustAccount,m_SalesTable.SalesId,m_echReturnOrderTable);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

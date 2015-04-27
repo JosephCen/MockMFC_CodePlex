@@ -1,0 +1,52 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AfDataItemMetadata unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AfDataItemMetadata
+    Id 618
+    PROPERTIES
+      Name                #AfDataItemMetadata
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #//-------------------------------------------------------------------------------------------------------
+        #//
+        #//  Class:          AfDataItemMetadata
+        #//
+        #//  Extends:        AfStronglyTypedDataContainer
+        #//
+        #//  Description:    This class implements a strongly typed version of DataItemMetadata
+        #//                  data container.
+        #//
+        #//-------------------------------------------------------------------------------------------------------
+        #class AfDataItemMetadata extends AfStronglyTypedDataContainer
+        #{
+        #    #DataItemMetadataNames
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #//-------------------------------------------------------------------------------------------------------
+        #//
+        #//  Class:          AfDataItemMetadata
+        #//
+        #//  Description:    This is the class constructor.
+        #//
+        #//-------------------------------------------------------------------------------------------------------
+        #void new()
+        #{
+        #    super(#DataItemMetadata);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

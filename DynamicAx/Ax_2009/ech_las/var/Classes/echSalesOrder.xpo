@@ -1,0 +1,365 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSalesOrder unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSalesOrder
+    Id 30009
+    PROPERTIES
+      Name                #echSalesOrder
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: customer handler
+        #
+        #class echSalesOrder
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #updateAggStatus
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01284
+        #// *** Customization Date: 29 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Method to set the correct aggregate status on a salesTable record based on the reservation status
+        #//      of the lines
+        #
+        #protected void updateAggStatus(SalesId    _salesId)
+        #{
+        #    SalesTable      salesTable = SalesTable::find(_salesId);
+        #    SalesLine       salesLine;
+        #    inventTable     inventTable;
+        #    ;
+        #
+        #    select count(RecId)
+        #        from salesLine
+        #            where   salesLine.SalesId               == _salesId                         &&
+        #                    salesLine.echReservationStatus  != echReservationStatus::Reserved
+        #        join inventTable
+        #            where inventTable.ItemId                == salesLine.ItemId                 &&
+        #                  inventTable.ItemType              != ItemType::Service;
+        #
+        #    if (salesLine.RecId == 0)
+        #    {
+        #        if (SalesTable.ECHAggStatus == echAggStatus::PaymentConfirmed                   ||
+        #            salesTable.ECHAggStatus == echAggStatus::Blank)
+        #            echUpdateAggStatus::updateStatus(SalesTable.SalesId, echAggStatus::StockReserved);
+        #    }
+        #    else
+        #    {
+        #        if (SalesTable.ECHAggStatus == echAggStatus::StockReserved)
+        #            // move to payment confirmed as this should only be possible in that status. Although this action isn't blocked in other statusses!!
+        #            echUpdateAggStatus::updateStatus(SalesTable.SalesId, echAggStatus::PaymentConfirmed);
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #allowAddressEdit
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01482
+        #// *** Customization Date: 19 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Only allow editing the address fields in certain statusses
+        #
+        #public static boolean allowAddressEdit(salesTable _salesTable)
+        #{
+        #    ;
+        #    switch (_salesTable.ECHAggStatus)
+        #    {
+        #        case echAggStatus::Blank:
+        #        case echAggStatus::PaymentConfirmed:
+        #        case echAggStatus::Cancelled:
+        #        case echAggStatus::ChecksFailed:
+        #        case echAggStatus::ChecksOK:
+        #        case echAggStatus::SendToWMS:
+        #        case echAggStatus::StockReserved:
+        #        case echAggStatus::WaitShipping://add by Jason Wu 2013/5/6;
+        #            return true;
+        #        default:
+        #            return false;
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #initAddressFromZipCode
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01641
+        #// *** Customization Date: 25 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Check and update the zipcode on the salesorder
+        #
+        #protected static void initAddressFromZipCode(axSalesTable    _axSalesTable)
+        #{
+        #    AddressZipCode  zipcodeTable;
+        #    ;
+        #
+        #    // check if the zipcode exists
+        #    zipcodeTable = AddressZipcode::find(_axSalesTable.parmDeliveryZipCode());
+        #    if (!zipcodeTable)
+        #    {
+        #        select firstonly zipcodeTable
+        #            where   zipcodeTable.City       == _axSalesTable.parmDeliveryCity()     &&
+        #                    zipcodeTable.County     == _axSalesTable.parmDeliveryCounty()   &&
+        #                    zipcodeTable.State      == _axSalesTable.parmDeliveryState();
+        #
+        #        // update the zipcode if found
+        #        if (zipcodeTable)
+        #            _axSalesTable.parmDeliveryZipCode(zipcodeTable.ZipCode);
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #initFieldAccessOverrides
+        #// Update ECH_WI_02045 by mengqi.cen on 20130409
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Added extra fields from salesTable
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 20 Mar 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Added extra fields from salesTable
+        #
+        # // *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set customs fields mandatory
+        #
+        #public static Map initFieldAccessOverrides()
+        #{
+        #    Map fields          = new Map(Types::Integer, Types::Enum);
+        #    Map accessOverRide  = new Map(Types::Integer, Types::Class);
+        #    ;
+        #
+        #    // insert table fiels into map that will be override
+        #    fields.insert(fieldnum(SalesTable, echMsgPartnerExtCode), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesTable, echMsgPartnerId)     , NoYes::Yes);
+        #
+        #// CS - ECH_I_OR01 - Marijn Catthoor - 20 Mar 2012
+        #
+        #    fields.insert(fieldnum(SalesTable, echPaymentReference), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesTable, echPaymentTime), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesTable, echPaymentAmount), NoYes::Yes);
+        #
+        #    fields.insert(fieldnum(SalesTable, echPromotionCode), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesTable, echInvoiceRequested), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesTable, echInvoiceCreated), NoYes::Yes);
+        #
+        #    fields.insert(fieldnum(SalesTable, echFrontEndCreationDate), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesTable, echFrontEndEndtimeDate), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesTable, echFrontEndModifiedDate), NoYes::Yes);
+        #
+        #    fields.insert(fieldnum(SalesLine, echCouponCode), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesLine, echPromotionCode), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesLine, echAdjustFee), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesLine, echDiscountFee), NoYes::Yes);
+        #    fields.insert(fieldnum(SalesLine, echFrontEndLineAmount), NoYes::Yes);
+        #
+        #// CE - ECH_I_OR01 - Marijn Catthoor - 20 Mar 2012
+        #
+        #// Begin - Update ECH_WI_02045 by mengqi.cen on 20130409
+        #    fields.insert(fieldnum(SalesLine, LineAmount), NoYes::No);
+        #    fields.insert(fieldnum(SalesLine, LineDisc), NoYes::No);
+        #    fields.insert(fieldnum(SalesLine, LinePercent), NoYes::No);
+        #    fields.insert(fieldnum(SalesTable, echDiscRoundOff), NoYes::No);
+        #// End - Update ECH_WI_02045 by mengqi.cen on 20130409
+        #
+        #// CS - ECH_I_O03 - abdessamad.almask - 03 Apr 2012
+        #    fields.insert(fieldnum(SalesTable, echAggStatus), NoYes::Yes);
+        #// CE - ECH_E_O03 - abdessamad.almask - 03 Apr 2012
+        #
+        #    // insert table fields their properties into map that will be set
+        #    accessOverRide.insert(AxdFieldAccess::AllowEditOnCreate, fields);
+        #    accessOverRide.insert(AxdFieldAccess::AllowEdit, fields);
+        #
+        #    return accessOverRide;
+        #}
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsExemptionList
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set itemid not mandatory
+        #
+        #public static void initMandatoryFieldsExemptionList(AxSalesLine     _axSalesLine)
+        #{
+        #    ;
+        #
+        #    if (!isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #        return;
+        #
+        #    _axSalesLine.setParmMethodAsNotMandatory(methodstr(AxSalesLine,parmItemId)) ;
+        #}
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Mark the Sku ID as not mandatory
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set itemid not mandatory
+        #
+        #public static void initMandatoryFieldsMap(AxdSalesOrder _axdSalesOrder)
+        #{
+        #    ;
+        #
+        #    if (!isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #        return;
+        #
+        #// CS - ECH_WI_00837 - Marijn Catthoor - 17 Aug 2012
+        #    // not mandatory anymore as the external sku id could be filled in
+        #    //_axdSalesOrder.setParmMethodAsMandatory(classnum(AxSalesLine), methodstr(AxSalesLine, parmEchSkuId));
+        #// CE - ECH_WI_00837 - Marijn Catthoor - 17 Aug 2012
+        #
+        #
+        #    _axdSalesOrder.setParmMethodAsMandatory(classnum(AxSalesTable), methodstr(AxSalesTable, parmEchMsgPartnerId));
+        #    _axdSalesOrder.setParmMethodAsMandatory(classnum(AxSalesTable), methodstr(AxSalesTable, parmEchMsgPartnerExtCode));
+        #}
+      ENDSOURCE
+      SOURCE #initSalesTableFields
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 04 Jul 2012
+        #// *** Customization Type: modified
+        #// *** Description: init carrier information
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: init field
+        #
+        #public static void initSalesTableFields(AxdRecordAction _action, axSalesTable    _axSalesTable)
+        #{
+        #    DlvMode     dlvMode;
+        #    ;
+        #
+        #    if (_action == AxdRecordAction::Create)
+        #    {
+        #        _axSalesTable.parmechAggStatus(echAggStatus::PaymentConfirmed);
+        #    }
+        #
+        #    dlvMode = DlvMode::find(_axSalesTable.parmDlvMode());
+        #    _axSalesTable.parmShipCarrierId(dlvMode.ShipCarrierId);
+        #    _axSalesTable.parmShipCarrierAccountCode(dlvMode.ShipCarrierAccountCode);
+        #    _axSalesTable.parmShipCarrierDlvType(dlvMode.ShipCarrierDlvType);
+        #}
+      ENDSOURCE
+      SOURCE #setSaleslineReservationStatus
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01284
+        #// *** Customization Date: 29 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Method to set the correct reservation status on a salesLine record
+        #
+        #public static void setSaleslineReservationStatus(SalesLine _salesLine)
+        #{
+        #    SalesLine       salesLine;
+        #    echSalesOrder   echSalesOrder = new echSalesOrder();
+        #    ;
+        #
+        #    if (!isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #        return;
+        #
+        #    if (_salesLine.inventTable().ItemType       != itemType::Service)
+        #    {
+        #        try
+        #        {
+        #            ttsbegin;
+        #
+        #            select firstonly forupdate salesLine
+        #                where salesLine.RecId == _salesLine.RecId;
+        #
+        #            if (salesLine.onOrderInSalesUnit())
+        #            {
+        #                salesLine.echReservationStatus = echReservationStatus::InsufficientStock;
+        #            }
+        #            else
+        #            {
+        #                salesLine.echReservationStatus = echReservationStatus::Reserved;
+        #            }
+        #
+        #            salesLine.doUpdate();
+        #
+        #
+        #            // update the SalesTable aggregate status if needed
+        #            echSalesOrder.updateAggStatus(salesLine.SalesId);
+        #
+        #            ttscommit;
+        #        }
+        #        catch
+        #        {
+        #            ttsabort;
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #validateSalesOrderDocument
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01641
+        #// *** Customization Date: 25 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Check and validate the zipcode on the salesorder
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_RO01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: custom validate
+        #
+        #public static boolean validateSalesOrderDocument(axSalesTable    _axSalesTable)
+        #{
+        #    SalesTable      salesTable;
+        #    boolean         ret = true;
+        #    ;
+        #
+        #    if (!isConfigurationkeyEnabled(configurationkeynum(echInterfaces)))
+        #        return true;
+        #
+        #    select firstonly recid from salesTable
+        #        where   salesTable.echMsgPartnerId      == _axSalesTable.parmechMsgPartnerId()
+        #        &&      salesTable.echMsgPartnerExtCode == _axSalesTable.parmechMsgPartnerExtCode();
+        #
+        #    if (salesTable.RecId)
+        #        ret = checkfailed(strfmt("@ECH34", _axSalesTable.parmechMsgPartnerId(), _axSalesTable.parmechMsgPartnerExtCode()));
+        #
+        #
+        #// CS - ECH_WI_01641 - Marijn Catthoor - 25 Sep 2012
+        #
+        #    if (ret)
+        #    {
+        #        echSalesOrder::initAddressFromZipCode(_axSalesTable);
+        #    }
+        #
+        #// CE - ECH_WI_01641 - Marijn Catthoor - 25 Sep 2012
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

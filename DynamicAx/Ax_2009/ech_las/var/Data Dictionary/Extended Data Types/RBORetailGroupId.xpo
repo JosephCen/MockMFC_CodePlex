@@ -1,0 +1,36 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: RBORetailGroupId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #RBORetailGroupId
+  Id 17300
+  STRING
+    PROPERTIES
+      Name                #RBORetailGroupId
+      Label               #@RBO1450
+      AnalysisUsage       #Auto
+      AnalysisDefaultTotal #Auto
+      StringSize          #30
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+      TYPEREFERENCETYPE DATASET
+      PROPERTIES
+        Table               #RBOInventItemRetailGroup
+        RelatedField        #groupId
+      ENDPROPERTIES
+      
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

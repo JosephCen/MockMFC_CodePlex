@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : echEPInvoiceInfoEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #echEPInvoiceInfoEdit
+    PROPERTIES
+      Name                #echEPInvoiceInfoEdit
+      Label               #@ECH716
+      HelpText            #@ech717
+      Object              #echEPInvoiceInfoEdit
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

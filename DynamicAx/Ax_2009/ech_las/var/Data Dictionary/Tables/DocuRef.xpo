@@ -1,0 +1,90 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : DocuRef unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #DocuRef
+    Id 97
+    PROPERTIES
+      Name                #DocuRef
+      Label               #@SYS22565
+      FormRef             #DocuView
+      SearchLinkRefName   #EPSendDocument
+      TitleField1         #TypeId
+      TitleField2         #Name
+      SecurityKey         #BasicTables
+      CreateRecIdIndex    #Yes
+      SaveDataPerCompany  #No
+      TableGroup          #WorksheetLine
+      PrimaryIndex        #RecIdx
+      ClusterIndex        #RefIdx
+      ModifiedDateTime    #Yes
+      DEL_modifiedTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      DEL_createdTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS125153
+      EntityRelationshipType  #Relationship
+    ENDPROPERTIES
+    
+    FIELDS
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #DocuOpenFile
+      PROPERTIES
+        Table               #DocuOpenFile
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #update
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #void update(recId _interCompanyFromRecId = 0)
+        #{
+        #    InventTable  inventTable;
+        #;
+        #    ttsbegin;
+        #
+        #    // Set smmTable field
+        #    this.setSmmTable();
+        #
+        #    super();
+        #
+        #    InterCompanyDocu::synchronize(this,_interCompanyFromRecId);
+        #
+        #    smmTransLog::initTrans(this, smmLogAction::update);
+        #
+        #// Begin - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #    if (this.RefTableId == tablenum(InventTable))
+        #    {
+        #        select ItemId from inventTable
+        #          where inventTable.RecId == this.RefRecId;
+        #        echSendProductCatalogLog::AddSendItemId(inventTable.ItemId);
+        #    }
+        #// End - Update ECH_WI_02211 by mengqi.cen on 20130527
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

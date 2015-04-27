@@ -1,0 +1,73 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventTableModule unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventTableModule
+    Id 6278
+    PROPERTIES
+      Name                #AxInventTableModule
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #setMaxPriceInclVAT
+        #protected void setMaxPriceInclVAT()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTableModule, MaxPriceInclVAT)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setMinPriceInclVAT
+        #protected void setMinPriceInclVAT()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTableModule, MinPriceInclVAT)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPriceInclVAT
+        #protected void setPriceInclVAT()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTableModule, PriceInclVAT)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTaxWithholdCalculate_TH
+        #protected void setTaxWithholdCalculate_TH()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTableModule, TaxWithholdCalculate_TH)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTaxWithholdItemGroup_TH
+        #protected void setTaxWithholdItemGroup_TH()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTableModule, TaxWithholdItemGroup_TH)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

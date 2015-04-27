@@ -1,0 +1,72 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: echEventCUDBatch unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #echEventCUDBatch
+  PROPERTIES
+    Name                #echEventCUDBatch
+    Version             #20
+    NextUniqueId        #1001
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #echEventCUD
+      PROPERTIES
+        Name                #echEventCUD
+        Table               #echEventCUD
+        UniqueId            #1000
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+        LINE #Status
+        PROPERTIES
+          Name                #Status
+          Table               #echEventCUD
+          Field               #Status
+          Value               #Ready
+        ENDPROPERTIES
+        
+      ENDLINES
+      BLOCKS
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+        FIELD
+          PROPERTIES
+            DataSource          #echEventCUD
+            Field               #createdDateTime
+            Direction           #Descending
+          ENDPROPERTIES
+          
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

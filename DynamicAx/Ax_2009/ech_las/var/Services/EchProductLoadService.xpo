@@ -1,0 +1,51 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SVC
+
+; Microsoft Dynamics AX SERVICE : EchProductLoadService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICE #EchProductLoadService
+    PROPERTIES
+      Name                #EchProductLoadService
+      ExternalName        #EchProductLoadService
+      Namespace           #http://schemas.microsoft.com/dynamics/2008/01/services
+      Class               #EchProductLoadService
+      SecurityKey         #echProductLoad
+      Description         #
+    ENDPROPERTIES
+    
+    OPERATIONS
+      OPERATION #create
+        PROPERTIES
+          Name                #create
+          Method              #create
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #read
+        PROPERTIES
+          Name                #read
+          Method              #read
+          EnableIdempotence   #No
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #update
+        PROPERTIES
+          Name                #update
+          Method              #update
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+    ENDOPERATIONS
+    
+  ENDSERVICE
+  
+
+***Element: END

@@ -1,0 +1,32 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTR
+
+; Microsoft Dynamics AX Real: SalesEndDiscPct unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #SalesEndDiscPct
+  Id 1146
+  REAL
+    PROPERTIES
+      Name                #SalesEndDiscPct
+      Label               #@SYS22434
+      HelpText            #@SYS28114
+      ConfigurationKey    #PriceDisc
+      Extends             #DiscPct
+      AllowNegative       #Yes
+      NoOfDecimals        #8
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

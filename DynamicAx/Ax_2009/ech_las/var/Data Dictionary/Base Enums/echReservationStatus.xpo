@@ -1,0 +1,45 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echReservationStatus unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echReservationStatus
+    Id 30008
+    PROPERTIES
+      Name                #echReservationStatus
+      Label               #@ECH278
+      Help                #@ECH279
+      ConfigurationKey    #echProcesses
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #Blank
+      PROPERTIES
+        Name                #Blank
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #Reserved
+      PROPERTIES
+        Name                #Reserved
+        Label               #@SYS7623
+        EnumValue           #1
+      ENDPROPERTIES
+      
+      #InsufficientStock
+      PROPERTIES
+        Name                #InsufficientStock
+        Label               #@ECH280
+        EnumValue           #2
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

@@ -1,0 +1,246 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echItemBarcodeTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echItemBarcodeTMallPropValue
+    Id 30068
+    PROPERTIES
+      Name                #echItemBarcodeTMallPropValue
+      Label               #@ECH822
+      TitleField1         #ItemId
+      TitleField2         #PropValueId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          AllowEdit           #No
+          Table               #echItemBarcodeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #InventDimId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #InventDimId
+          AllowEdit           #No
+          Table               #echItemBarcodeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #Cid
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #Cid
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echItemBarcodeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropId
+        Id 30004
+        INT
+        PROPERTIES
+          Name                #PropId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echItemBarcodeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropValueId
+        Id 30005
+        INT
+        PROPERTIES
+          Name                #PropValueId
+          Table               #echItemBarcodeTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyValueId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventDimId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ItemDimIdx
+      Id 30001
+      PROPERTIES
+        Name                #ItemDimIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ItemId
+        #InventDimId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #echTMallCategoryProperty
+        PROPERTIES
+          Name                #echTMallCategoryProperty
+          Table               #echTMallCategoryProperty
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Cid
+            RelatedField        #Cid
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PropId
+            RelatedField        #PropId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #echTMallPropertyValue
+        PROPERTIES
+          Name                #echTMallPropertyValue
+          Table               #echTMallPropertyValue
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Cid
+            RelatedField        #Cid
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PropId
+            RelatedField        #PropId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PropValueId
+            RelatedField        #PropValueId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #InventItemBarcode
+        PROPERTIES
+          Name                #InventItemBarcode
+          Table               #InventItemBarcode
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #ItemId
+            RelatedField        #itemId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #InventDimId
+            RelatedField        #inventDimId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #getItemBarcode
+        #// Add ECH_WI_02329 by mengqi.cen on 20130903
+        #// BP deviation documented
+        #display ItemBarCode getItemBarcode()
+        #{
+        #;
+        #    return this.echInventItemBarcodeMap::inventItemBarcode().itemBarCode;
+        #}
+      ENDSOURCE
+      SOURCE #inventDim
+        #// Add ECH_WI_02329 by mengqi.cen on 20130903
+        #public InventDim inventDim()
+        #{
+        #;
+        #    return InventDim::find(this.InventDimId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

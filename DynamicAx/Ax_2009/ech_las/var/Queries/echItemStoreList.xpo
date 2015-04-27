@@ -1,0 +1,121 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: echItemStoreList unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #echItemStoreList
+  PROPERTIES
+    Name                #echItemStoreList
+    Version             #16
+    NextUniqueId        #1003
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #RBOAssortmentItemList
+      PROPERTIES
+        Name                #RBOAssortmentItemList
+        Table               #RBOAssortmentItemList
+        UniqueId            #1000
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+        BLOCK #RBOAssortmentStoreList
+          PROPERTIES
+            Name                #RBOAssortmentStoreList
+            Table               #RBOAssortmentStoreList
+            UniqueId            #1001
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #RBOStoreTable
+              PROPERTIES
+                Name                #RBOStoreTable
+                Table               #RBOStoreTable
+                UniqueId            #1002
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #RBOAssortmentStoreList
+                  MASTERFIELD  #Relation
+                  DETAILSFIELD #storeId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #RBOAssortmentItemList
+              MASTERFIELD  #relation
+              DETAILSFIELD #AssortmentID
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+    DEPENDENT
+      PROPERTIES
+        Name                #echItemStoreList
+        DependentType       #View
+      ENDPROPERTIES
+      
+      Id 30045
+    DEPENDENT
+      PROPERTIES
+        Name                #echItemStoreListVw
+        DependentType       #View
+      ENDPROPERTIES
+      
+      Id 30045
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echItemArrivalJournal unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echItemArrivalJournal
+    PROPERTIES
+      Name                #echItemArrivalJournal
+      Label               #@SYS73327
+      HelpText            #@SYS85215
+      URL                 #Sales/Enterprise%20Portal/echItemArrivalJournal.aspx
+      ConfigurationKey    #echProcesses
+      WebConfigurationkey #EP
+      SecurityKey         #InventMisc
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

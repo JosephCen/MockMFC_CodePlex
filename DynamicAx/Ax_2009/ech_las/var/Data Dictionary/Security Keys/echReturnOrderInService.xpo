@@ -1,0 +1,20 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SEC
+
+; Microsoft Dynamics AX SECURITYKEY : echReturnOrderInService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SECURITYKEY #echReturnOrderInService
+    Id 30015
+    PROPERTIES
+      Name                #echReturnOrderInService
+      Label               #@ECH750
+    ENDPROPERTIES
+    
+  ENDSECURITYKEY
+  
+
+***Element: END

@@ -1,0 +1,68 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdPickingList unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdPickingList
+    Id 2992
+    PROPERTIES
+      Name                #AxdPickingList
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #initQuery
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECh_I_OR03
+        #// *** Customization Date: 16 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: init Query
+        #
+        #protected void initQuery()
+        #{
+        #    CustFormletterDocument  custFormletterDocument;
+        #    QueryBuildDataSource    qd;
+        #
+        #    void disableDocuRef(tableId _tableId)
+        #    {
+        #        QueryBuildDataSource    qbds = query.dataSourceTable(_tableId);
+        #        int                     i;
+        #        for (i = 1; i <= qbds.childDataSourceCount(); i++)
+        #        {
+        #            if (qbds.childDataSourceNo(i).table() == tablenum(DocuRef))
+        #                qbds.childDataSourceNo(i).enabled(false);
+        #        }
+        #    }
+        #    ;
+        #
+        #    custFormletterDocument = CustFormletterDocument::find();
+        #
+        #    switch (custFormletterDocument.DocuOnPickingList)
+        #    {
+        #        case DocuOnFormular::Head:
+        #            disableDocuRef(tablenum(WMSOrderTrans));
+        #            break;
+        #        case DocuOnFormular::Line:
+        #            disableDocuRef(tablenum(WMSPickingRoute));
+        #            break;
+        #        case DocuOnFormular::None:
+        #            disableDocuRef(tablenum(WMSPickingRoute));
+        #            disableDocuRef(tablenum(WMSOrderTrans));
+        #    }
+        #
+        #    qd = query.dataSourceNo(1);
+        #
+        #    query.dataSourceTable(tablenum(DocuRef),1).findRange(fieldnum(DocuRef,TypeId)).value(custFormletterDocument.DocuTypePickingList);
+        #    query.dataSourceTable(tablenum(DocuRef),2).findRange(fieldnum(DocuRef,TypeId)).value(custFormletterDocument.DocuTypePickingList);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

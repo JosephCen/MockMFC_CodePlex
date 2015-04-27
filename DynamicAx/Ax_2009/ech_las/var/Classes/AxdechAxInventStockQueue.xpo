@@ -1,0 +1,223 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdechAxInventStockQueue unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdechAxInventStockQueue
+    Id 30026
+    PROPERTIES
+      Name                #AxdechAxInventStockQueue
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class AxdechAxInventStockQueue extends AxdBase
+        #{
+        #    echInventStockQueueSeqId  inventStockQueueSeqId;
+        #    echInventStockQueueSeq    inventStockQueueSeq;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findList
+        #public AifDocumentXml findList(AifQueryCriteria            _queryCriteria,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel(strfmt('%1 ', "@SYS52744"));
+        #    aifActionInfo.parmDescription("@ECH87");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #    echInventStockQueue    echInventStockQueue;
+        #    ;
+        #    if (_curRec.TableId != tablenum(echInventStockQueue))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    echInventStockQueue = _curRec ;
+        #    aifConstraint.parmType(AIFConstraintType::Vendor);
+        #    //aifConstraint.parmId(echInventStockQueue.IdType);
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getInventStockQueueSeqId
+        #private echInventStockQueueSeqId getInventStockQueueSeqId()
+        #{
+        #;
+        #    if (!inventStockQueueSeqId)
+        #    {
+        #        inventStockQueueSeqId =
+        #            NumberSeq::newGetNum(
+        #                NumberSequenceReference::find(typeId2ExtendedTypeId(typeid(echInventStockQueueSeqId)))).num();
+        #    }
+        #
+        #    return inventStockQueueSeqId;
+        #}
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getQueryName
+        #public QueryName getQueryName()
+        #{
+        #    return querystr(echAxInventStockQueue);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// Update ECH_WI_02166 by mengqi.cen on 20130516
+        #//   Set Qty as a mandatory field.
+        #//
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_IN01_2
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: set echSkuId mandatory
+        #
+        #protected void initMandatoryFieldsMap()
+        #{
+        #    ;
+        #
+        #    super();
+        #
+        #    this.setParmMethodAsMandatory(classnum(AxechInventStockQueue), methodstr(AxechInventStockQueue, parmEchSkuId));
+        #    this.setTableFieldAsMandatory(tablenum(echInventStockQueue), fieldstr(echInventStockQueue, Qty));
+        #}
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// Update ECH_WI_02336 by mengqi.cen on 20130724
+        #//   Record Stock Allocation history in Ax table
+        #// Update ECH_WI_02332 by mengqi.cen on 20130712
+        #//
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01478
+        #// *** Customization Date: 14 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Set the record status and errorMessage if no itemId was found
+        #
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    AxechInventStockQueue    AxechInventStockQueue;
+        #    ;
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxechInventStockQueue) :
+        #            AxechInventStockQueue = _axdStack.top();
+        #
+        #            AxechInventStockQueue.parmSeqId(this.getInventStockQueueSeqId());
+        #            AxechInventStockQueue.parmIsFromWMS(NoYes::Yes);
+        #// CS - ECH_WI_01478 - Marijn Catthoor - 14 Sep 2012
+        #
+        #            if (!axEchInventStockQueue.parmItemId())
+        #            {
+        #                axEchInventStockQueue.parmBatchStatus(BatchStatus::Error);
+        #                axEchInventStockQueue.parmErrorMessage(strfmt("@ECH346", axEchInventStockQueue.parmEchSkuId()));
+        #
+        #            }
+        #
+        #// CE - ECH_WI_01478 - Marijn Catthoor - 14 Sep 2012
+        #            return true;
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #readList
+        #public AifDocumentXml readList(AifEntityKeyList            _aifEntityKeyList,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateList
+        #public AifEntityKey updateList(AifEntityKeyList            _entityKeyList,
+        #                               AifDocumentXML              _xml,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListcollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateNow
+        #// Add ECH_WI_02336 by mengqi.cen on 20130724
+        #//   Record Stock Allocation history in Ax table
+        #public void updateNow()
+        #{
+        #;
+        #    if (!inventStockQueueSeq)
+        #    {
+        #        inventStockQueueSeq.initValue();
+        #        inventStockQueueSeq.SeqId = this.getInventStockQueueSeqId();
+        #
+        #        inventStockQueueSeq.insert();
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

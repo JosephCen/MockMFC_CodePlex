@@ -1,0 +1,189 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echExternalItemSkuIdLoader unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echExternalItemSkuIdLoader
+    Id 30314
+    PROPERTIES
+      Name                #echExternalItemSkuIdLoader
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echExternalItemSkuIdLoader 
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #LoadTMallData
+        #// Create ECH_WI_02031 by mengqi.cen on 20130326
+        #public static void LoadTMallData(str _xmlSearchPattern)
+        #{
+        #    container _xmlCon;
+        #    int       _xmlConIdx;
+        #;
+        #    _xmlCon = echFindFiles(_xmlSearchPattern, false);
+        #    for (_xmlConIdx = 1; _xmlConIdx <= conlen(_xmlCon); ++_xmlConIdx)
+        #    {
+        #        if (echExternalItemSkuIdLoader::LoadTMallSingleFile(conpeek(_xmlCon, _xmlConIdx)))
+        #            WinAPI::deleteFile(conpeek(_xmlCon, _xmlConIdx));
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #LoadTMallSingleFile
+        #// Update ECH_WI_02272 by mengqi.cen on 20130615
+        #// Create ECH_WI_02031 by mengqi.cen on 20130326
+        #
+        #// <summary>
+        #// Load tmall api 'items_custom_get' response xml into table echExternalItemId, echExternalSkuId.
+        #// The file name of given xml should be itemid of associated item.
+        #//
+        #// Xml Structure
+        #//   <items_custom_get_response>
+        #//     <items list="true">
+        #//       <item>
+        #//         <item_imgs list="true">
+        #//           <!-- ... -->
+        #//         </item_imgs>
+        #//         <num_iid>23251524084</num_iid>
+        #//         <prop_imgs list="true">
+        #//           <!-- ... -->
+        #//         </prop_imgs>
+        #//         <skus list="true">
+        #//           <sku>
+        #//             <!-- ... -->
+        #//             <outer_id>AF1014XAMXSG1</outer_id>
+        #//             <!-- ... -->
+        #//             <sku_id>30592783137</sku_id>
+        #//           </sku>
+        #//           <sku>
+        #//             <!-- ... -->
+        #//             <outer_id>AF1014XAM0SG1</outer_id>
+        #//             <!-- ... -->
+        #//             <sku_id>30592783138</sku_id>
+        #//           </sku>
+        #//           <!-- ... -->
+        #//         </skus>
+        #//       </item>
+        #//     </items>
+        #//   </items_custom_get_response>
+        #//
+        #// </summary>
+        #public static boolean LoadTMallSingleFile(str _xmlFileName)
+        #{
+        #    str         _xPathItem    = '/items_custom_get_response/items/item';
+        #    str         _xPathNumIId  = './num_iid';
+        #    str         _xPathSku     = './skus/sku';
+        #    str         _xPathOuterId = './outer_id';
+        #    str         _xPathSkuId   = './sku_id';
+        #
+        #    XmlDocument _xmlDoc;
+        #    XmlNodeList _xmlNodeListItem, _xmlNodeListSku;
+        #    XmlElement  _xmlElemItem, _xmlElemExtItemId, _xmlElemSku, _xmlElemItemBarCode, _xmlElemExtItemBarCode;
+        #
+        #    set         _itemBarCodeSet;
+        #
+        #    ItemBarCode       _itemBarCode;
+        #    InventLocationId  _inventLoc;
+        #    ExtCodeValue      _extItemId, _extItemBarCode;
+        #
+        #    echExternalSkuId  _extSkuIdTbl;
+        #    boolean           _status;
+        #;
+        #    _status = true;
+        #    _inventLoc = 'TMALL';
+        #    _itemBarCodeSet = new set(Types::String);
+        #
+        #    TTSBegin;
+        #    // BP Deviation Documented
+        #    _xmlDoc = XmlDocument::newFile(_xmlFileName);
+        #
+        #    _xmlNodeListItem = _xmlDoc.selectNodes(_xPathItem);
+        #    _xmlElemItem = _xmlNodeListItem.nextNode();
+        #    while (_status && _xmlElemItem)
+        #    {
+        #        // Load external item id
+        #        _xmlElemExtItemId = _xmlElemItem.selectSingleNode(_xPathNumIId);
+        #        if (_xmlElemExtItemId)
+        #        {
+        #            _extItemId = _xmlElemExtItemId.text();
+        #            if (strLen(_extItemId) == 0)
+        #            {
+        #                _status = false;
+        #                warning(strFmt("@ECH670", _xPathNumIId, _xPathItem));
+        #            }
+        #        }
+        #        else
+        #        {
+        #            _status = false;
+        #            warning(strFmt("@ECH672", _xPathNumIId, _xPathItem));
+        #        }
+        #
+        #        // Load external sku id
+        #        _xmlNodeListSku = _xmlElemItem.selectNodes(_xPathSku);
+        #        _xmlElemSku = _xmlNodeListSku.nextNode();
+        #        while (_status && _xmlElemSku)
+        #        {
+        #            _xmlElemItemBarCode = _xmlElemSku.selectSingleNode(_xPathOuterId);
+        #            _xmlElemExtItemBarCode = _xmlElemSku.selectSingleNode(_xPathSkuId);
+        #            if (_xmlElemItemBarCode && _xmlElemExtItemBarCode)
+        #            {
+        #                _itemBarCode = _xmlElemItemBarCode.text();
+        #                _extItemBarCode = _xmlElemExtItemBarCode.text();
+        #                if (strlen(_itemBarCode) > 0 && !_itemBarCodeSet.in(_itemBarCode) && strlen(_extItemBarCode) > 0)
+        #                {
+        #                    _extSkuIdTbl = echExternalSkuId::findOrCreate(_itemBarCode, _inventLoc, _extItemBarCode, _extItemId);
+        #                    _itemBarCodeSet.add(_itemBarCode);
+        #                    if (!_extSkuIdTbl)
+        #                    {
+        #                        _status = false;
+        #                        warning(strFmt("@ECH668",
+        #                                       fieldid2name(tablenum(echExternalSkuId), fieldnum(echExternalSkuId, ItemBarCode)),
+        #                                       _itemBarCode));
+        #                    }
+        #                }
+        #                else
+        #                {
+        #                    _status = false;
+        #                    if (strLen(_itemBarCode) == 0)
+        #                        warning(strFmt("@ECH670", _xPathOuterId, _xPathSku));
+        #                    if (strLen(_extItemBarCode) == 0)
+        #                        warning(strFmt("@ECH670", _xPathSkuId, _xPathSku));
+        #                    if (_itemBarCodeSet.in(_itemBarCode))
+        #                        warning(strFmt("@ECH800", _itemBarCode));
+        #                }
+        #            }
+        #            else
+        #            {
+        #                _status = false;
+        #                if (!_xmlElemItemBarCode)
+        #                    warning(strFmt("@ECH672", _xPathOuterId, _xPathSku));
+        #                if (!_xmlElemExtItemBarCode)
+        #                    warning(strFmt("@ECH672", _xPathSkuId, _xPathSku));
+        #            }
+        #
+        #            _xmlElemSku = _xmlNodeListSku.nextNode();
+        #        }
+        #
+        #        _xmlElemItem = _xmlNodeListItem.nextNode();
+        #    }
+        #
+        #    if (_status)
+        #        TTSCommit;
+        #    else
+        #        TTSAbort;
+        #
+        #    return _status;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

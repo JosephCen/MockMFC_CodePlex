@@ -1,0 +1,417 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: FormLetter unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #FormLetter
+    Id 131
+    PROPERTIES
+      Name                #FormLetter
+      Extends             #RunBaseBatch
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #checkAOSPrintersPrintManagement
+        #/// <summary>
+        #/// Verifies if selected printers in print management, for printing original and copy of reports are AOS configured printers.
+        #/// </summary>
+        #/// <returns>
+        #/// false.
+        #/// </returns>
+        #/// <remarks>
+        #/// The method is used for finding the default printer setup in print management for the specific document. The method always returns false so user can be warned when printing in batch.
+        #/// </remarks>
+        #protected boolean checkAOSPrintersPrintManagement()
+        #{
+        #    PrintMgmtDocInstance    printMgmtDocInstance;
+        #    PrintMgmtSettings       printMgmtSettings;
+        #    boolean                 ret = true;
+        #    ;
+        #    printerSetupErrorText = '';
+        #    while select PrintJobSettings from printMgmtSettings
+        #        where
+        #            printMgmtSettings.Description == ''
+        #        join PrintType from printMgmtDocInstance
+        #        where printMgmtDocInstance.RecId             == printMgmtSettings.ParentId
+        #           && printMgmtDocInstance.ReferencedRecId   == 0
+        #           && printMgmtDocInstance.ReferencedTableId == 0
+        #           && printMgmtDocInstance.DocumentType      == this.printMgmtDocumentType()
+        #           && printMgmtDocInstance.NodeType          == this.printMgmtNodeType()
+        #    {
+        #        if (!FormLetter::isAOSPrinter(printMgmtSettings.PrintJobSettings))
+        #        {
+        #            printerSetupErrorText = printerSetupErrorText + strfmt("@SYS118704"+'\n',printMgmtDocInstance.PrintType);
+        #            ret = false;
+        #        }
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #checkPrinterSettingsMultiThread
+        #/// <summary>
+        #/// Verifies if selected printers for printing journals are AOS configured printers.
+        #/// </summary>
+        #/// <returns>
+        #/// true if the selected printers are AOS configured printer; otherwise, false.
+        #/// </returns>
+        #public boolean checkPrinterSettingsMultiThread()
+        #{
+        #    ;
+        #    if (printFormletter && this.batchInfo().parmBatchExecute())
+        #    {
+        #        if (usePrintManagement)
+        #        {
+        #            this.checkAOSPrintersPrintManagement();
+        #            if (printerSetupError)
+        #            {
+        #                checkFailed("@SYS118708");
+        #                return checkFailed("@SYS21533");
+        #            }
+        #            else
+        #            {
+        #                if (Box::yesNo(strFmtLB(printerSetupErrorText+"@SYS118736"), DialogButton::No) == DialogButton::No)
+        #                {
+        #                    return checkFailed("@SYS21533");
+        #                }
+        #            }
+        #        }
+        #        else
+        #        {
+        #            if(!this.checkAOSPrinters())
+        #            {
+        #                checkFailed("@SYS118708");
+        #                return checkFailed("@SYS21533");
+        #            }
+        #        }
+        #    }
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: send electronically variable
+        #
+        #abstract class  FormLetter
+        #extends         RunBaseBatch
+        #{
+        #    Counter                 progressTotal;
+        #    Counter                 progressCounter;
+        #
+        #    boolean                 multiForm;
+        #    NoYes                   editing;
+        #
+        #    CurrencyCode            currency;
+        #    CustVendAC              orderAccount;
+        #    CustVendAC              invoiceAccount;
+        #    Dimension               dimension;
+        #
+        #    Addressing              lineDeliveryAddress;
+        #    Name                    lineDeliveryName;
+        #    AddressZipCodeId        lineDeliveryZipCode;
+        #    AddressCountryRegionId  lineDeliveryCountryRegionId;
+        #    AddressStateId          lineDeliveryState;
+        #    AddressCountyId         lineDeliveryCounty;
+        #    AddressStreet           lineDeliveryStreet;
+        #    AddressCity             lineDeliveryCity;
+        #    CustDlvModeId           lineDlvMode;
+        #
+        #    // <GBR>
+        #    AddressComplement_BR    lineDeliveryAddressComplement;
+        #    AddressNumber_BR        lineDeliveryAddressNumber;
+        #    DistrictName_BR         lineDeliveryDistrictName;
+        #    NoYes                   blockPrintManagementOverride_BR;
+        #    // </GBR>
+        #
+        #    FormDataSource          callerFormDataSource;
+        #
+        #    Printout                printout;
+        #    RecordSortedList        journalList;
+        #
+        #    RecordSortedList        journalTransList;
+        #
+        #    TransDate               transDate;
+        #    NoYes                   queryCriteria;
+        #    str                     reportParm;
+        #
+        #    ParmId                  parmId;
+        #    ParmId                  parmIdSynched;
+        #
+        #    NumberSeq               numberSeq;
+        #    Num                     number;
+        #    Voucher                 voucher;
+        #    Counter                 numberOfRecords;
+        #
+        #    SysQueryRun             chooseLines;
+        #    boolean                 showQueryForm;
+        #    boolean                 showDialog;
+        #    boolean                 allowEmptyTable;
+        #    boolean                 initAllowEmptyTable;
+        #    boolean                 allowCreateParmTable;
+        #    container               printerSettingsFormletter;
+        #    container               printerSettingsFormletterCopy;
+        #
+        #    NoYes                   printFormletter;
+        #    NoYes                   usePrintManagement;
+        #    // <GMX>
+        #    NoYes                   sendByMail_MX;
+        #    // </GMX>
+        #// CS - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #    NoYes                   sendElectronically;
+        #// CE - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #
+        #    boolean                 emptyParmTableAllowed;
+        #    boolean                 createFromLines;
+        #    boolean                 createFromProject;
+        #
+        #    boolean                 reArrangeNow;
+        #    boolean                 validateAll;
+        #
+        #    AmountCur               totalAmount;
+        #    NoYes                   backorder;
+        #
+        #    Row                     lineNum;
+        #    AmountCur               lineValue;
+        #    AmountCur               lineValueInclTax;
+        #    AmountCur               statLineValue;
+        #
+        #    InventQty               updateNowInvent;
+        #
+        #    Tax                     tax;
+        #    TmpTaxWorkTrans         journalTmpTaxWorkTrans;
+        #
+        #    ParmId                  interCompanyParmId;
+        #    dataAreaId              interCompanyCompanyId;
+        #    Map                     interCompanyMap;
+        #    FormLetter              interCompanyCalledFromFormLetter;
+        #    FormLetter              interCompanyCreatedFormLetter;
+        #    boolean                 interCompanySelectFromJournal;
+        #
+        #    RecordSortedList        recordListInventReportDimHistory;
+        #
+        #    InterCompanyPosted      interCompanyPosted;
+        #    BatchHeader             batchHeader;
+        #    Common                  parmTable2Update;
+        #    boolean                 printerSetupError;
+        #    str                     printerSetupErrorText;
+        #
+        #    // <GJP>
+        #    ConsolidationDate_JP    consolidationDate;
+        #    // </GJP>
+        #    #localmacro.LinePrefix
+        #        setPrefix(#PreFixField(%1, ItemId)  + ' '
+        #                + %2 );
+        #    #endmacro
+        #}
+      ENDSOURCE
+      SOURCE #createFromLines
+        #boolean createFromLines(boolean _createFromLines = createFromLines)
+        #{
+        #    createFromLines = _createFromLines;
+        #    return createFromLines;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echSendElectronically
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ecH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: send electronically
+        #
+        #public boolean echSendElectronically(Boolean _sendElectronically = sendElectronically)
+        #{
+        #    ;
+        #
+        #    sendElectronically = _sendElectronically;
+        #    return sendElectronically;
+        #}
+      ENDSOURCE
+      SOURCE #initRecordListInventReportDimHistory
+        #void initRecordListInventReportDimHistory()
+        #{
+        #    ;
+        #    recordListInventReportDimHistory = new RecordSortedList(tablenum(InventReportDimHistory));
+        #
+        #    recordListInventReportDimHistory.sortOrder(fieldnum(InventReportDimHistory, TransactionLogType),
+        #                                               fieldnum(InventReportDimHistory, TransRefId),
+        #                                               fieldnum(InventReportDimHistory, InventTransId),
+        #                                               fieldnum(InventReportDimHistory, InventDimId));
+        #}
+      ENDSOURCE
+      SOURCE #interCompanyCalledFromFormletter
+        #FormLetter interCompanyCalledFromFormletter(FormLetter _formLetter = interCompanyCalledFromFormLetter)
+        #{;
+        #    interCompanyCalledFromFormLetter = _formLetter;
+        #
+        #    return interCompanyCalledFromFormLetter;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #interCompanyCompanyId
+        #dataAreaId  interCompanyCompanyId(dataAreaId _interCompanyCompanyId = interCompanyCompanyId)
+        #{;
+        #    interCompanyCompanyId = _interCompanyCompanyId;
+        #    return interCompanyCompanyId;
+        #}
+        #
+        #
+      ENDSOURCE
+      SOURCE #interCompanyCreatedFormletter
+        #FormLetter interCompanyCreatedFormletter(FormLetter _formLetter = interCompanyCreatedFormLetter)
+        #{;
+        #    interCompanyCreatedFormLetter = _formLetter;
+        #
+        #    return interCompanyCreatedFormLetter;
+        #}
+      ENDSOURCE
+      SOURCE #interCompanyMap
+        #Map interCompanyMap(Map _map = interCompanyMap)
+        #{;
+        #    interCompanyMap = _map;
+        #    return interCompanyMap;
+        #}
+      ENDSOURCE
+      SOURCE #interCompanyParmId
+        #ParmId  interCompanyParmId(ParmId _interCompanyParmId = interCompanyParmId)
+        #{;
+        #    interCompanyParmId = _interCompanyParmId;
+        #    return interCompanyParmId;
+        #}
+      ENDSOURCE
+      SOURCE #interCompanyParmSelectFromJournal
+        #public boolean interCompanyParmSelectFromJournal(boolean _selectFromJournal = interCompanySelectFromJournal)
+        #{;
+        #    interCompanySelectFromJournal = _selectFromJournal;
+        #
+        #    return interCompanySelectFromJournal;
+        #}
+      ENDSOURCE
+      SOURCE #interCompanyPosted
+        #public InterCompanyPosted interCompanyPosted(InterCompanyPosted _interCompanyPosted = interCompanyPosted)
+        #{;
+        #    interCompanyPosted = _interCompanyPosted;
+        #
+        #    return interCompanyPosted;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #void  new(boolean  getParmId = true)
+        #{
+        #    super();
+        #
+        #    showQueryForm           = false;
+        #    showDialog              = true;
+        #    initAllowEmptyTable     = false;
+        #    allowEmptyTable         = initAllowEmptyTable;
+        #    allowCreateParmTable    = allowEmptyTable;
+        #    numberOfRecords         = 0;
+        #    validateAll             = true;
+        #
+        #    if (getParmId)
+        #        this.parmId(NumberSeq::newGetNum(CompanyInfo::numRefParmId()).num());
+        #}
+      ENDSOURCE
+      SOURCE #parmConsolidationDate_JP
+        #// <GJP>
+        #ConsolidationDate_JP parmConsolidationDate_JP(ConsolidationDate_JP _consolidationDate = consolidationDate)
+        #{
+        #    ;
+        #    consolidationDate = _consolidationDate;
+        #
+        #    return consolidationDate;
+        #}
+        #// </GJP>
+      ENDSOURCE
+      SOURCE #parmTable2Update
+        #public Common parmTable2Update(Common _parmTable2Update = parmTable2Update)
+        #{
+        #    ;
+        #    parmTable2Update = _parmTable2Update;
+        #    return parmTable2Update;
+        #}
+      ENDSOURCE
+      SOURCE #reArrangeNow
+        #boolean  reArrangeNow(boolean  _reArrangeNow = reArrangeNow)
+        #{
+        #    reArrangeNow = _reArrangeNow;
+        #    return reArrangeNow;
+        #}
+      ENDSOURCE
+      SOURCE #tax
+        #Tax tax(Tax _tax = tax)
+        #{;
+        #    tax = _tax;
+        #    return tax;
+        #}
+      ENDSOURCE
+      SOURCE #tmpTaxWorkTrans
+        #TmpTaxWorkTrans tmpTaxWorkTrans(recId headingRecId)
+        #{
+        #    TmpTaxWorkTrans tmpTaxWorkTrans;
+        #
+        #    ttsbegin;
+        #
+        #    while select journalTmpTaxWorkTrans
+        #          where journalTmpTaxWorkTrans.HeadingRecId == headingRecId
+        #    {
+        #        tmpTaxWorkTrans.clear();
+        #        tmpTaxWorkTrans.data(journalTmpTaxWorkTrans);
+        #        tmpTaxWorkTrans.insert();
+        #    }
+        #
+        #    ttscommit;
+        #
+        #    return tmpTaxWorkTrans;
+        #}
+      ENDSOURCE
+      SOURCE #validateAll
+        #boolean  validateAll(boolean  _validateAll = validateAll)
+        #{
+        #    validateAll = _validateAll;
+        #    return validateAll;
+        #}
+      ENDSOURCE
+      SOURCE #writeRecordListInventReportDimHistory
+        #void writeRecordListInventReportDimHistory()
+        #{
+        #    ;
+        #    recordListInventReportDimHistory.insertDatabase();
+        #}
+      ENDSOURCE
+      SOURCE #writeTmpTaxWorkTrans
+        #void writeTmpTaxWorkTrans(recId headingRecId)
+        #{
+        #    TmpTaxWorkTrans tmpTaxWorkTrans;
+        #
+        #    if (this.tax())
+        #    {
+        #        tmpTaxWorkTrans = this.tax().tmpTaxWorkTrans();
+        #
+        #        ttsbegin;
+        #
+        #        while select tmpTaxWorkTrans
+        #        {
+        #            journalTmpTaxWorkTrans.clear();
+        #            journalTmpTaxWorkTrans.data(tmpTaxWorkTrans);
+        #            journalTmpTaxWorkTrans.HeadingRecId = headingRecId;
+        #            journalTmpTaxWorkTrans.insert();
+        #        }
+        #
+        #        ttscommit;
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

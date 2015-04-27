@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSolCheckQuantityParamTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSolCheckQuantityParamTable
+    Type: 1
+    PROPERTIES
+      Name                #echSolCheckQuantityParamTable
+      Label               #@ECH128
+      HelpText            #@ECH173
+      Object              #echSolCheckQuantityParamTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

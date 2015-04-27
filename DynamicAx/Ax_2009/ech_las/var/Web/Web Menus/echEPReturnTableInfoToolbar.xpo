@@ -1,0 +1,91 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WME
+
+; Microsoft Dynamics AX Web Menu : echEPReturnTableInfoToolbar unloaded
+; --------------------------------------------------------------------------------
+  MNUVERSION 4
+  
+  WEBMENU #echEPReturnTableInfoToolbar
+    PROPERTIES
+      Name                #echEPReturnTableInfoToolbar
+    ENDPROPERTIES
+    
+    WEBMENU #@SYS40422
+      PROPERTIES
+        Name                #Actions
+        Label               #@SYS40422
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Find sales order
+          MenuItemName        #echEPSalesTableFind
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Edit sales order
+          MenuItemName        #EPSalesTableEdit
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Cancel Order
+          MenuItemType        #Action
+          MenuItemName        #echCancelReturnOrder
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Posting packing slip
+          MenuItemType        #Action
+          MenuItemName        #echPostReturnOrder_PackingSlip
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Posting invoice
+          MenuItemType        #Action
+          MenuItemName        #echPostReturnOrder_Invoice
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+    WEBMENU #@SYS111665
+      PROPERTIES
+        Name                #RelatedInformation
+        Label               #@SYS111665
+      ENDPROPERTIES
+      
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Show invoice
+          MenuItemName        #EPCustInvoiceList
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #Documents
+          MenuItemName        #EPDocuListFromInfo
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+      WEBMENUITEM
+        PROPERTIES
+          Name                #View totals
+          MenuItemName        #EPSalesTotalsAll
+        ENDPROPERTIES
+        
+      ENDWEBMENUITEM
+    ENDWEBMENU
+  ENDWEBMENU
+  
+
+***Element: END

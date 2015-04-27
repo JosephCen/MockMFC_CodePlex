@@ -1,0 +1,17 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdEchInventOnHandDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdEchInventOnHandDCT
+    ##define.EchInventOnHand('EchInventOnHand')
+    ##define.EchInventOnHand_InventLocation('EchInventOnHand.InventLocation')
+    ##define.EchInventOnHand_InventDim('EchInventOnHand.InventDim')
+    ##define.EchInventOnHand_InventSum('EchInventOnHand.InventSum')
+  ENDSOURCE
+
+***Element: END

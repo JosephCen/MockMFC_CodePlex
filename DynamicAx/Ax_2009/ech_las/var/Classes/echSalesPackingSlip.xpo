@@ -1,0 +1,233 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSalesPackingSlip unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSalesPackingSlip
+    Id 30049
+    PROPERTIES
+      Name                #echSalesPackingSlip
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: AxdSalesPackingSlip helper
+        #
+        #class echSalesPackingSlip
+        #{
+        #    AxSalesParmTable        axSalesParmTable;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: set class variable
+        #
+        #void new(AxSalesParmTable _axSalesParmTable)
+        #{
+        #    ;
+        #
+        #    axSalesParmTable = _axSalesParmTable;
+        #}
+      ENDSOURCE
+      SOURCE #postPickingListRegistration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: post picking list registration
+        #
+        #protected void postPickingListRegistration()
+        #{
+        #    WMSPickingRoute     wmsPickingRoute;
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    select forupdate firstonly wmsPickingRoute
+        #        where   wmsPickingRoute.transType           == InventTransType::Sales
+        #        &&      wmsPickingRoute.transRefId          == axSalesParmTable.parmSalesId()
+        #        &&      wmsPickingRoute.expeditionStatus    == WMSExpeditionStatus::Activated;
+        #
+        #    if (wmsPickingRoute)
+        #        wmsPickingRoute.finish();
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #postUpdateNow
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Update the Invoice Information
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: AxdSalesPackingSlip postUpdateNow functionality
+        #
+        #
+        #public void postUpdateNow(CustPackingSlipJour   _custPackingSlipJour)
+        #{
+        #    ;
+        #
+        #    if (!isConfigurationkeyEnabled(configurationKeyNum(echInterfaces)))
+        #        return;
+        #
+        #    this.setCarrierPackage      (_custPackingSlipJour);
+        #    this.setShipCarrierTracking (_custPackingSlipJour);
+        #
+        #
+        #// CS - ECH_WI_00905 - Marijn Catthoor - 13 Aug 2012
+        #    this.setInvoiceInformation();
+        #// CE - ECH_WI_00905 - Marijn Catthoor - 13 Aug 2012
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #setCarrierPackage
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Update the new fields
+        #
+        # // *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: set package
+        #
+        #protected void setCarrierPackage(CustPackingSlipJour _custPackingSlipJour)
+        #{
+        #    ShipCarrierTable        shipCarrierTable;
+        #    ShipCarrierPackage      shipCarrierPackage;
+        #    ;
+        #
+        #    shipCarrierTable    = ShipCarrierTable::find(axSalesParmTable.parmCarrierId());
+        #
+        #    shipCarrierPackage.initValue();
+        #    shipCarrierPackage.SalesId          = axSalesParmTable.parmSalesId();
+        #    shipCarrierPackage.CarrierId        = axSalesParmTable.parmCarrierId();
+        #    shipCarrierPackage.CarrierName      = shipCarrierTable.CarrierName;
+        #    shipCarrierPackage.ShipDate         = axSalesParmTable.parmShipDate();
+        #    shipCarrierPackage.ShipTime         = axSalesParmTable.parmShipTime();
+        #    shipCarrierPackage.CurrencyCode     = axSalesParmTable.parmCurrencyCode();
+        #    shipCarrierPackage.PackingSlipId    = _custPackingSlipJour.PackingSlipId;
+        #
+        #
+        #// CS - ECH_WI_00905 - Marijn Catthoor - 13 Aug 2012
+        #    shipCarrierPackage.echActualShippingFee = axSalesparmTable.parmechActualShippingFee();
+        #
+        #// CE - ECH_WI_00905 - Marijn Catthoor - 13 Aug 2012
+        #
+        #    if (shipCarrierPackage.validateWrite())
+        #        shipCarrierPackage.insert();
+        #}
+      ENDSOURCE
+      SOURCE #setInvoiceInformation
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Update the invoice information on the sales order
+        #
+        #protected void setInvoiceInformation()
+        #{
+        #    salesTable  salesTable;
+        #    ;
+        #
+        #    try
+        #    {
+        #        ttsbegin;
+        #
+        #        select firstonly forupdate salesTable
+        #            where salesTable.salesId == axSalesparmTable.parmSalesId();
+        #
+        #        if (salesTable)
+        #        {
+        #            salesTable.echInvoiceCreated    = axSalesParmTable.parmechInvoiceCreated();
+        #            salesTable.echInvoiceId         = axSalesParmTable.parmechInvoiceId();
+        #
+        #            salesTable.update();
+        #        }
+        #
+        #        ttscommit;
+        #    }
+        #    catch
+        #    {
+        #        ttsabort;
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #setShipCarrierTracking
+        #// Update ECH_WI_01973 by mengqi.cen on 20130220
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: set tracking
+        #
+        #protected void setShipCarrierTracking(CustPackingSlipJour   _custPackingSlipJour)
+        #{
+        #    ShipCarrierTable        shipCarrierTable;
+        #    ShipCarrierTracking     shipCarrierTracking;
+        #    ShipCarrierStaging      shipCarrierStaging;
+        #    ;
+        #
+        #    shipCarrierTable    = ShipCarrierTable::find(axSalesParmTable.parmCarrierId());
+        #
+        #    shipCarrierTracking.initValue();
+        #    shipCarrierTracking.SalesId         = axSalesParmTable.parmSalesId();
+        #    shipCarrierTracking.TrackingNumber  = axSalesParmTable.parmTrackingNumber();
+        #    shipCarrierTracking.PackingSlipId   = _custPackingSlipJour.PackingSlipId;
+        #
+        #    if (shipCarrierTracking.validateWrite())
+        #        shipCarrierTracking.insert();
+        #
+        #    shipCarrierStaging.initValue();
+        #    shipCarrierStaging.SalesId         = axSalesParmTable.parmSalesId();
+        #    shipCarrierStaging.TrackingNumber  = axSalesParmTable.parmTrackingNumber();
+        #    shipCarrierStaging.PackingSlipId   = _custPackingSlipJour.PackingSlipId;
+        #
+        #    if (shipCarrierStaging.validateWrite())
+        #        shipCarrierStaging.insert();
+        #}
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: set sku id mandatory
+        #
+        #public static void initMandatoryFieldsMap(AxdSalesPackingSlip _axdSalesPackingSlip)
+        #{
+        #    ;
+        #
+        #    if (!isConfigurationKeyEnabled(configurationKeyNum(echInterfaces)))
+        #        return;
+        #
+        #    _axdSalesPackingSlip.setParmMethodAsMandatory(classnum(AxSalesParmLine),methodstr(AxSalesParmLine,parmEchSkuId));
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

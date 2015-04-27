@@ -1,0 +1,23 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echCustomerInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echCustomerInfo
+    PROPERTIES
+      Name                #echCustomerInfo
+      Label               #@ECH687
+      HelpText            #@ECH688
+      URL                 #Sales/Enterprise%20Portal/echCustomerInfo.aspx
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

@@ -1,0 +1,119 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInventStockQueueSeq unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInventStockQueueSeq
+    Id 30071
+    PROPERTIES
+      Name                #echInventStockQueueSeq
+      Label               #@ECH834
+      TitleField1         #SeqId
+      TitleField2         #BatchStatus
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      OccEnabled          #No
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #SeqId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #SeqId
+          Mandatory           #Yes
+          Table               #echInventStockQueueSeq
+          ExtendedDataType    
+            ARRAY 
+              #echInventStockQueueSeqId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #BatchStatus
+        Id 30002
+        ENUM
+        PROPERTIES
+          Name                #BatchStatus
+          Table               #echInventStockQueueSeq
+          EnumType            #BatchStatus
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SeqId
+          #BatchStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SeqId
+          #BatchStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SeqId
+          #BatchStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #RecIdIdx
+      Id 30001
+      PROPERTIES
+        Name                #RecIdIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #RecId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #initValue
+        #// Add ECH_WI_02336 by mengqi.cen on 20130724
+        #//   Record Stock Allocation history in Ax table
+        #public void initValue()
+        #{
+        #;
+        #    super();
+        #
+        #    this.BatchStatus = BatchStatus::Waiting;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

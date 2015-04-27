@@ -1,0 +1,77 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPInventTableList unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPInventTableList
+    PROPERTIES
+      Name                #echEPInventTableList
+      HelpText            #
+      Filename            #echEPInventTableList.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPInventTableList.ascx.cs" Inherits="echEPInventTableList" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #	
+      #<dynamics:AxDataSource ID="dsECHEPInventTableList" runat="server" DataSetName="EPInventTableList" 
+      #    ProviderView="InventTable" />
+      #<dynamics:AxGridView ID="gridECHEPInventTableList" runat="server" DataKeyNames="RecId"
+      #    DataMember="InventTable" DataSourceID="dsECHEPInventTableList" Caption="<%$ AxLabel:ECH654 %>">
+      #    <Columns>
+      #        <dynamics:AxHyperLinkBoundField DataSet="EPInventTableList" DataSetView="InventTable"
+      #            DataField="ItemId" SortExpression="ItemId" MenuItem="echEPInventTableInfo" HeaderText="<%$AxLabel:@ECH548 %>" />
+      #        <dynamics:AxBoundField DataField="ItemName" DataSet="EPInventTableList" DataSetView="InventTable"
+      #            SortExpression="ItemName" HeaderText="<%$AxLabel:@ECH549 %>">
+      #        </dynamics:AxBoundField>        
+      #        <dynamics:AxBoundField DataField="echGetRetailGroupLevelOne**" DataSet="EPInventTableList" 
+      #			DataSetView="InventTable" HeaderText="<%$AxLabel:@ECH592 %>">
+      #		</dynamics:AxBoundField>
+      #		<dynamics:AxBoundField DataField="ItemType" DataSet="EPInventTableList" DataSetView="InventTable" HeaderText="<%$AxLabel:@ECH586 %>">
+      #		</dynamics:AxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPInventTableList_ascx_cs
+      HelpText            #
+      Filename            #echEPInventTableList.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echEPInventTableList : System.Web.UI.UserControl
+      #{	
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #	
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

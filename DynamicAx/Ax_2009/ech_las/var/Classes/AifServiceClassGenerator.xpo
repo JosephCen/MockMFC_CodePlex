@@ -1,0 +1,90 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AifServiceClassGenerator unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AifServiceClassGenerator
+    Id 3084
+    PROPERTIES
+      Name                #AifServiceClassGenerator
+      Extends             #AifClassGeneratorBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #checkUpdateMethod
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 20 Mar 2012
+        #// *** Customization Type: Modified
+        #// *** Description: The return value for update has been changed to EntityKey
+        #
+        #private static boolean checkUpdateMethod(SysDictClass _serviceDictClass, AxdWizardParameters _axdWizardParameters)
+        #{
+        #    SysDictClass  documentDictClass;
+        #    SysDictMethod operationDictMethod;
+        #
+        #
+        #    // Check update method
+        #    if (_serviceDictClass.hasObjectMethod(#UpdateServiceOperationMethodName))
+        #    {
+        #        // Update method exists, check its signature
+        #        operationDictMethod = new SysDictMethod(UtilElementType::ClassInstanceMethod, _serviceDictClass.id(), #UpdateServiceOperationMethodName);
+        #        if (operationDictMethod.compiledOk()                                &&
+        #
+        #// CS - ECH_I_OR01 - Marijn Catthoor - 20 Mar 2012
+        #
+        #            //operationDictMethod.returnType() == Types::void                 &&
+        #            (operationDictMethod.returnType() == Types::Class                ||
+        #            operationDictMethod.returnType() == Types::void)                 &&
+        #
+        #// CE - ECH_I_OR01 - Marijn Catthoor - 20 Mar 2012
+        #
+        #            operationDictMethod.parameterCnt() == 2                         &&
+        #            !operationDictMethod.parameterOptional(1)                       &&
+        #            operationDictMethod.parameterType(1) == Types::Class            &&
+        #            operationDictMethod.parameterId(1)== classnum(AifEntityKeyList) &&
+        #            !operationDictMethod.parameterOptional(2)                       &&
+        #            operationDictMethod.parameterType(2) == Types::Class)
+        #
+        #        {
+        #            documentDictClass = new SysDictClass(operationDictMethod.parameterId(2));
+        #            if (_axdWizardParameters.parmAifEntityClassName() == '')
+        #            {
+        #                // The document class id has not been determined yet, do it now.
+        #                if (documentDictClass == null || documentDictClass.extend() != classnum(AifDocument))
+        #                {
+        #                    // The parameter is not a document class
+        #                    return false;
+        #                }
+        #
+        #                _axdWizardParameters.parmAifEntityClassName(documentDictClass.name());
+        #            }
+        #            else if (_axdWizardParameters.parmAifEntityClassName() != documentDictClass.name())
+        #            {
+        #                // The parameter type is not the previously determined document class
+        #                return false;
+        #            }
+        #
+        #            // The update method exists and has the expected signature
+        #            _axdWizardParameters.parmUpdateList(NoYes::Yes);
+        #        }
+        #        else
+        #        {
+        #            // The update method exists but does not have the expected signature
+        #            return false;
+        #        }
+        #    }
+        #
+        #    return true;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

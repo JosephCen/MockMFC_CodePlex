@@ -1,0 +1,81 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventJournalTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventJournalTable
+    Id 154
+    PROPERTIES
+      Name                #InventJournalTable
+      Label               #@SYS22111
+      FormRef             #InventJournalTable
+      TitleField1         #JournalId
+      TitleField2         #Description
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      CacheLookup         #NotInTTS
+      TableGroup          #WorksheetHeader
+      PrimaryIndex        #JournalIdx
+      ClusterIndex        #JournalIdx
+      DeveloperDocumentation  #@SYS123819
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #HHTPRDocument
+        Id 16024
+        ENUM
+        PROPERTIES
+          Name                #HHTPRDocument
+          HelpText            #@ECH373
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #InventJournalTable
+          ExtendedDataType    
+            ARRAY 
+              #HHTPRDocument
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #InventJournalTrans_Tag
+      PROPERTIES
+        Table               #InventJournalTrans_Tag
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventJournalTrans
+      PROPERTIES
+        Table               #InventJournalTrans
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #JournalError
+      PROPERTIES
+        Table               #JournalError
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,212 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echEventCudManager unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echEventCudManager
+    Id 30164
+    PROPERTIES
+      Name                #echEventCudManager
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #canCreateEchEventCUD
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: check if can create eventCUD record for current instance
+        #
+        #protected boolean canCreateEchEventCUD()
+        #{
+        #    ;
+        #    return false;
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: eventCUD manager to generate automatically rules and insert eventCUD records
+        #
+        #class echEventCudManager
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #createEchEventCUD
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: create eventCUD record
+        #
+        #private void createEchEventCUD(
+        #    Common          bufferCur,
+        #    EventLogType    logType,
+        #    container       changedFields   = connull(),
+        #    Common          bufferOrig      = null
+        #    )
+        #{
+        #    EchEventCUD         eventCUD;
+        #    List                list;
+        #    SysDictTable        dictTable;
+        #    DataArea            dataArea;
+        #    VirtualDataAreaList virtualDataAreaList;
+        #
+        #;
+        #
+        #    dictTable = new SysDictTable(bufferCur.TableId);
+        #
+        #    if (dictTable.dataPrCompany() && bufferCur.DataAreaId == curext() &&
+        #        !EventCompanyRule::hasCompanyRules(curext()))
+        #        return;
+        #
+        #    ttsbegin;
+        #
+        #    //construct the cud record
+        #    eventCUD.CudTableId = bufferCur.TableId;
+        #    eventCUD.CudRecId   = bufferCur.RecId;
+        #    eventCUD.Event      = logType;
+        #    eventCUD.Status     = BatchStatus::Hold;
+        #
+        #    if (conlen(changedFields) > 0)
+        #    {
+        #        eventCUD.LogMap::setData(bufferCur, bufferOrig, changedFields);
+        #    }
+        #    else if (logType == EventLogType::Insert)
+        #    {
+        #        eventCUD.LogMap::setData(bufferCur);
+        #    }
+        #
+        #    list                = SysDictTable::getUniqueIndexFields(bufferCur.TableId);
+        #    if (list)
+        #    {
+        #        eventCUD.KeyFieldList   = list.pack();
+        #        eventCUD.KeyFieldData   = SysDictTable::mapFieldIds2Values(list,bufferCur).pack();
+        #    }
+        #    if (bufferOrig)
+        #    {
+        #        eventCUD.PreviousRecord = [bufferOrig];
+        #    }
+        #
+        #    //if it's a shared table, create a CUD record for each company
+        #    if (!dictTable.dataPrCompany())
+        #    {
+        #        while select Id from dataArea
+        #            where dataArea.IsVirtual == false
+        #        {
+        #            if (EventCompanyRule::hasCompanyRules(dataArea.Id))
+        #            {
+        #                eventCUD.CompanyId = dataArea.Id;
+        #                eventCUD.insert();
+        #            }
+        #        }
+        #    }
+        #    else
+        #    {
+        #        if (bufferCur.DataAreaId == curext())
+        #        {
+        #             eventCUD.CompanyId = curext();
+        #             eventCUD.insert();
+        #        }
+        #        else
+        #        {
+        #            // for each company being part of the virtual company generate a CUD record
+        #            while select Id from virtualDataAreaList
+        #                where virtualDataAreaList.VirtualDataArea == bufferCur.DataAreaId
+        #            {
+        #                if (EventCompanyRule::hasCompanyRules(virtualDataAreaList.Id))
+        #                {
+        #                    eventCUD.CompanyId = virtualDataAreaList.Id;
+        #                    eventCUD.insert();
+        #                }
+        #            }
+        #        }
+        #    }
+        #
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #generateEventRules
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: generate eventRules for current instance
+        #
+        #protected void generateEventRules()
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #public static echEventCudManager construct(TableId  _tableId)
+        #{
+        #    echEventCudManager      echEventCudManager;
+        #    ;
+        #
+        #    switch (_tableId)
+        #    {
+        #        case tablenum(SalesTable):
+        #            echEventCudManager = new echEventCudManager_SalesTable();
+        #            break;
+        #        default:
+        #            echEventCudManager = new echEventCudManager();
+        #    }
+        #
+        #    return echEventCudManager;
+        #}
+      ENDSOURCE
+      SOURCE #eventUpdate
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: hook eventUpdate method
+        #
+        #public static void eventUpdate(Common _recordOrig, Common _recordUpdated, container _changedFields)
+        #{
+        #    echEventCudManager      echEventCudManager = echEventCudManager::construct(_recordOrig.TableId);
+        #    ;
+        #
+        #    if (echEventCudManager.canCreateEchEventCUD())
+        #        echEventCudManager.createEchEventCUD(_recordUpdated, EventLogType::Update, _changedFields, _recordOrig);
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: generate eventRules
+        #
+        #public static void Main(Args _args)
+        #{
+        #    echEventCudManager          echEventCudManager;
+        #    ;
+        #
+        #    if (!_args || !_args.parm() || !tablename2id(_args.parm()))
+        #        throw error("@SYS80586");
+        #
+        #    echEventCudManager = echEventCudManager::construct(tablename2id(_args.parm()));
+        #    echEventCudManager.generateEventRules();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

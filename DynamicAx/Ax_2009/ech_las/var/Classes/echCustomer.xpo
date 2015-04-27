@@ -1,0 +1,102 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echCustomer unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echCustomer
+    Id 30008
+    PROPERTIES
+      Name                #echCustomer
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: customer handler
+        #
+        #class echCustomer
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #initFieldAccessOverrides
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set customs fields mandatory
+        #
+        #static Map initFieldAccessOverrides()
+        #{
+        #    Map fields          = new Map(Types::Integer, Types::Enum);
+        #    Map accessOverRide  = new Map(Types::Integer, Types::Class);
+        #    ;
+        #
+        #    // insert table fiels into map that will be override
+        #    fields.insert(fieldnum(CustTable, echMsgPartnerExtCode), NoYes::Yes);
+        #    fields.insert(fieldnum(CustTable, echMsgPartnerId),      NoYes::Yes);
+        #
+        #    // insert table fields their properties into map that will be set
+        #    accessOverRide.insert(AxdFieldAccess::AllowEditOnCreate, fields);
+        #    accessOverRide.insert(AxdFieldAccess::AllowEdit, fields);
+        #
+        #    return accessOverRide;
+        #}
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: set customs fields mandatory
+        #
+        #public static void initMandatoryFieldsMap(AxdCustomer _axdCustomer)
+        #{
+        #    ;
+        #
+        #    if (!isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #        return;
+        #
+        #    _axdCustomer.setParmMethodAsMandatory(classnum(AxCustTable), methodstr(AxCustTable, parmEchMsgPartnerID));
+        #    _axdCustomer.setParmMethodAsMandatory(classnum(AxCustTable), methodstr(AxCustTable, parmEchMsgPartnerExtCode));
+        #}
+      ENDSOURCE
+      SOURCE #validateCustomerDocument
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: validate document
+        #
+        #static boolean validateCustomerDocument(axCustTable _custTable)
+        #{
+        #    boolean     ret = true;
+        #    CustTable   custTable;
+        #    ;
+        #
+        #    if (!isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #        return true;
+        #
+        #    select firstonly recid from custTable
+        #        where   custTable.echMsgPartnerId       == _custTable.parmechMsgPartnerId()
+        #        &&      custTable.echMsgPartnerExtCode  == _custTable.parmechMsgPartnerExtCode();
+        #
+        #    if (custTable.RecId && custTable.RecId != _custTable.custTable().RecId)
+        #        ret = checkfailed(strFmt("@ECH34", _custTable.parmechMsgPartnerId(), _custTable.parmechMsgPartnerExtCode()));
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

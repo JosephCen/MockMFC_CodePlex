@@ -1,0 +1,1880 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventTableListPage
+  PROPERTIES
+    Name                #InventTableListPage
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #    QueryBuildRange             criteriaPurch;
+      #    QueryBuildRange             criteriaInvent;
+      #    QueryBuildRange             criteriaSalesOrder;
+      #
+      #    FormButtonManager           formButtonManager;
+      #    InventTableButtonManager    inventTableButtonManager;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_E_001
+      #// *** Customization Date: 19 Mar 2012
+      #// *** Customization Type: modified
+      #// *** Description: set visibility button
+      #
+      #public void init()
+      #{
+      #    super();
+      #
+      #     // create the formbutton manager and rule implementer
+      #    inventTableButtonManager = InventTableButtonManager::construct();
+      #    inventTableButtonManager.setDatasources(inventTable);
+      #    formButtonManager = FormButtonManager::construct();
+      #    formButtonManager.parmRuleImplementer(inventTableButtonManager);
+      #
+      #    //bind controls and rules
+      #    formButtonManager.registerButtonRule(configuration, configTableAction   , methodstr(InventTableButtonManager,checkItemConfigEnabled), ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(configuration, inventSizesAction   , methodstr(InventTableButtonManager,checkItemSizeEnabled), ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(configuration, inventColorsAction  , methodstr(InventTableButtonManager,checkItemColorEnabled), ButtonRuleEffectType::Enabled);
+      #
+      #    // <RETAIL>
+      #    formButtonManager.registerButtonRule(configuration, rboInventStylesAction  , methodstr(InventTableButtonManager,checkItemStyleEnabled), ButtonRuleEffectType::Enabled);
+      #
+      #    // </RETAIL>
+      #
+      #    formButtonManager.registerButtonRule(bom, bomConsistOfAction    , methodstr(InventTableButtonManager,checkBOMConsistOfEnabled), ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(bom, bomDesignerAction     , methodstr(InventTableButtonManager,checkBOMDesignerEnabled), ButtonRuleEffectType::Enabled);
+      #
+      #    formButtonManager.registerButtonRule(route,routeInventProdAction, methodstr(InventTableButtonManager,checkBOMRouteEnabled), ButtonRuleEffectType::Enabled);
+      #
+      #    formButtonManager.registerButtonRule(configuration,bomConfigRouteAction, methodstr(InventTableButtonManager,checkBOMConfigRouteEnabled), ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(configuration,configHierarchyAction, methodstr(InventTableButtonManager,checkBOMConfigHierarchyEnabled), ButtonRuleEffectType::Enabled);
+      #
+      #    formButtonManager.registerButtonRule(bomReport,bomReportFinishedAction, methodstr(InventTableButtonManager,checkBOMReportFinishedEnabled), ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(bomReport,bomReportFinishMaxAction, methodstr(InventTableButtonManager,checkBOMReportFinishMaxEnabled), ButtonRuleEffectType::Enabled);
+      #
+      #// CS - ECH_E_001 - Anthony Christiaens - 19 Mar 2012
+      #    if (isconfigurationkeyenabled(configurationkeynum(echProcesses)))
+      #        echAllocationSetting.visible(true);
+      #// CE - ECH_E_001 - Anthony Christiaens - 19 Mar 2012
+      #
+      #    this.setButtonAccess();
+      #}
+    ENDSOURCE
+    SOURCE #setButtonAccess
+      #/// <summary>
+      #/// Refreshes the enabled state of all controls.
+      #/// </summary>
+      #public void setButtonAccess()
+      #{;
+      #
+      #    this.lockWindowUpdate(true);
+      #    formButtonManager.refresh();
+      #    this.lockWindowUpdate(false);
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+      Version             #7
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventTable
+          Table               #InventTable
+          AllowEdit           #No
+          AllowCreate         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    element.setButtonAccess();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #markChanged
+          #/// <summary>
+          #/// Resets enabled state of all action buttons.
+          #/// </summary>
+          #/// <remarks>
+          #/// Called from the system when the selection in the list is changed.
+          #/// </remarks>
+          #public void markChanged()
+          #{
+          #;
+          #    element.setButtonAccess();
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #Purch
+          Table               #InventTableModule
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #void init()
+          #{
+          #    #DEFINE.PURCHDATASOURCENO(2)
+          #    super();
+          #
+          #    criteriaPurch = this.query().dataSourceNo(#PURCHDATASOURCENO).addRange(fieldnum(InventTableModule,ModuleType));
+          #    criteriaPurch.value(queryValue(ModuleInventPurchSales::Purch));
+          #    criteriaPurch.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceNo(#PURCHDATASOURCENO).addSortIndex(indexnum(InventTableModule,ItemModuleIdx));
+          #    this.query().dataSourceNo(#PURCHDATASOURCENO).indexIsHint(true);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #Invent
+          Table               #InventTableModule
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #void init()
+          #{
+          #    #DEFINE.INVENTDATASOURCENO(3)
+          #    super();
+          #
+          #    criteriaInvent= this.query().dataSourceNo(#INVENTDATASOURCENO).addRange(fieldnum(InventTableModule,ModuleType));
+          #    criteriaInvent.value(queryValue(ModuleInventPurchSales::Invent));
+          #    criteriaInvent.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceNo(#INVENTDATASOURCENO).addSortIndex(indexnum(InventTableModule,ItemModuleIdx));
+          #    this.query().dataSourceNo(#INVENTDATASOURCENO).indexIsHint(true);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #Sales
+          Table               #InventTableModule
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #void init()
+          #{
+          #    #DEFINE.SALESDATASOURCENO(4)
+          #    super();
+          #
+          #    criteriaSalesOrder= this.query().dataSourceNo(#SALESDATASOURCENO).addRange(fieldnum(InventTableModule,ModuleType));
+          #    criteriaSalesOrder.value(queryValue(ModuleInventPurchSales::Sales));
+          #    criteriaSalesOrder.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceNo(#SALESDATASOURCENO).addSortIndex(indexnum(InventTableModule,ItemModuleIdx));
+          #    this.query().dataSourceNo(#SALESDATASOURCENO).indexIsHint(true);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventItemLocation
+          Table               #InventItemLocation
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #void init()
+          #{
+          #    QueryBuildRange queryBuildRange;
+          #
+          #    ;
+          #
+          #    super();
+          #
+          #    queryBuildRange = this.query().dataSourceTable(tablenum(InventItemLocation)).addRange(fieldnum(InventItemLocation,InventDimId));
+          #    queryBuildRange.value(queryValue(InventDim::inventDimIdBlank()));
+          #    queryBuildRange.status(RangeStatus::Hidden);
+          #
+          #    this.query().dataSourceTable(tablenum(InventItemLocation)).addSortIndex(indexnum(InventItemLocation,ItemDimIdx));
+          #    this.query().dataSourceTable(tablenum(InventItemLocation)).indexIsHint(true);
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #RBOInventTable
+          Table               #RBOInventTable
+          AllowEdit           #No
+          AllowCreate         #No
+          JoinSource          #InventTable
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    Purch InventTable
+    Invent InventTable
+    Sales InventTable
+    InventItemLocation InventTable
+    RBOInventTable InventTable
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS15649
+      TitleDatasource     #InventTable
+      WindowType          #ListPage
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/774fe909-350b-4a6c-8487-13ff24c13217.htm
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #ActionPane
+          Width               #Column width
+          VerticalSpacing     #0
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #ManageInventory
+                Caption             #@SYS118394
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #New
+                      Caption             #@SYS118361
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventTableNew
+                          NormalResource      #10245
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventTableNew
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #View
+                      Caption             #@SYS118396
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventTransAction
+                          NormalResource      #10836
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventTransAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventOnhandItem
+                          NormalResource      #10654
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventOnhandItem
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventTableEdit
+                          Visible             #No
+                          ShowShortCut        #No
+                          MenuItemName        #InventTableEdit
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #combinations
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS118397
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventDimCombinationAction
+                          NormalResource      #10500
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventDimCombinationAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ConfigTableAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10506
+                          ShowShortCut        #No
+                          MenuItemName        #ConfigTableAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventSizesAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10801
+                          ShowShortCut        #No
+                          MenuItemName        #InventSizesAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventColorsAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10499
+                          ShowShortCut        #No
+                          MenuItemName        #InventColorsAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInventStylesAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10975
+                          ShowShortCut        #No
+                          MenuItemName        #RBOInventStylesAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #orderSettings
+                      Caption             #@SYS118398
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupAction
+                          NormalResource      #10547
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupDimAction
+                          NormalResource      #10800
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupDimAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Warehouse
+                      Caption             #@SYS6437
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemLocationAction
+                          NormalResource      #10652
+                          ShowShortCut        #No
+                          MenuItemName        #InventItemLocationAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemBarcodeAction
+                          NormalResource      #10452
+                          ShowShortCut        #No
+                          MenuItemName        #InventItemBarcodeAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemGTINAction
+                          NormalResource      #10590
+                          ShowShortCut        #No
+                          MenuItemName        #InventItemGTINAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Language
+                      Caption             #@SYS66040
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventTxtAction
+                          NormalResource      #10619
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventTxtAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Purchase
+                Caption             #@SYS28381
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #purchPriceDiscount
+                      Caption             #@SYS118399
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_PricePurchAction
+                          NormalResource      #10726
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_PricePurchAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_LineDiscPurchAction
+                          NormalResource      #10630
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_LineDiscPurchAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_MultiLineDiscPurchAction
+                          NormalResource      #10647
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_MultiLineDiscPurchAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_EndDiscPurchAction
+                          NormalResource      #10831
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_EndDiscPurchAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #PurchOrderSettings
+                      Caption             #@SYS118398
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupActionPurch
+                          NormalResource      #10547
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupDimActionPurch
+                          NormalResource      #10800
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupDimAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #PurchRelatedInformation
+                      Caption             #@SYS111665
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #VendExternalItemAction
+                          NormalResource      #10851
+                          ShowShortCut        #No
+                          MenuItemName        #VendExternalItemAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SuppItemTable_PurchAction
+                          NormalResource      #10821
+                          ShowShortCut        #No
+                          MenuItemName        #SuppItemTable_PurchAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #SalesTab
+                Caption             #@SYS114644
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #SalesPriceDiscount
+                      Caption             #@SYS118399
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_PriceSalesAction
+                          NormalResource      #10769
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_PriceSalesAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_LineDiscSalesAction
+                          NormalResource      #10630
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_LineDiscSalesAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_MultiLineDiscSalesAction
+                          NormalResource      #10647
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_MultiLineDiscSalesAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PriceDiscTable_EndDiscSalesAction
+                          NormalResource      #10831
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #PriceDiscTable_EndDiscSalesAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #SalesOrderSettings
+                      Caption             #@SYS118398
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupActionSales
+                          NormalResource      #10547
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupDimActionSales
+                          NormalResource      #10800
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupDimAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #echAllocationSetting
+                      AutoDeclaration     #Yes
+                      Caption             #@ECH60
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #echStockAllocationRule
+                          NormalResource      #10800
+                          Big                 #Yes
+                          MenuItemName        #echStockAllocationRule
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #SalesRelatedInformation
+                      Caption             #@SYS111665
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #CustExternalItemAction
+                          NormalResource      #10541
+                          ShowShortCut        #No
+                          MenuItemName        #CustExternalItemAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SuppItemTable_SalesAction
+                          NormalResource      #10822
+                          ShowShortCut        #No
+                          MenuItemName        #SuppItemTable_SalesAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Engineer
+                Caption             #@SYS118401
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #New_Engineer
+                      Caption             #@SYS2055
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventTableNewEngineer
+                          AutoDeclaration     #Yes
+                          NormalResource      #10245
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventTableNew
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #BOM
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS7916
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #BOMConsistOfAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10632
+                          ShowShortCut        #No
+                          MenuItemName        #BOMConsistOfAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #BOMDesignerAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10551
+                          ShowShortCut        #No
+                          MenuItemName        #BOMDesignerAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #BOMPartOfAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10862
+                          ShowShortCut        #No
+                          MenuItemName        #BOMPartOfAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Route
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS4190
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RouteInventProdAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10762
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #RouteInventProdAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Configuration
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS53395
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #BOMConfigRouteAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10507
+                          ShowShortCut        #No
+                          MenuItemName        #BOMConfigRouteAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ConfigHierarchyAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10508
+                          ShowShortCut        #No
+                          MenuItemName        #ConfigHierarchyAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #BOMReport
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS16399
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #BOMReportFinishedAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10746
+                          ShowShortCut        #No
+                          MenuItemType        #Action
+                          MenuItemName        #BOMReportFinishedAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #BOMReportFinishMaxAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10643
+                          ShowShortCut        #No
+                          MenuItemName        #BOMReportFinishMaxAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #BOMorderSettings
+                      Caption             #@SYS118398
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupActionBOM
+                          AutoDeclaration     #Yes
+                          NormalResource      #10547
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupDimActionBOM
+                          AutoDeclaration     #Yes
+                          NormalResource      #10800
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupDimAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #BOMPrice
+                      Caption             #@SYS11865
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemPrice
+                          AutoDeclaration     #Yes
+                          NormalResource      #10693
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemPrice
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Plan
+                Caption             #@SYS14433
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Forecast
+                      Caption             #@SYS102639
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ForecastSalesItemAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10766
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ForecastSalesItemAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ForecastInventAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10857
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ForecastInventAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Coverage
+                      Caption             #@SYS26726
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReqItemTableAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10618
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ReqItemTableAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #PlanOrderSettings
+                      Caption             #@SYS118398
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupActionPlan
+                          AutoDeclaration     #Yes
+                          NormalResource      #10547
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventItemOrderSetupDimActionPlan
+                          AutoDeclaration     #Yes
+                          NormalResource      #10800
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #InventItemOrderSetupDimAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Requirement
+                      Caption             #@SYS11856
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReqTransNetAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10648
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ReqTransNetAction_blankParameter
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReqTransGrossAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10588
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ReqTransGrossAction
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #ManageProjects
+                Caption             #@SYS114879
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Project
+                      Caption             #@SYS105983
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ProjStatisticAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10717
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ProjStatisticAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ProjCostControlAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10524
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ProjCostControlAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #projInvoiceControlAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #11056
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #projInvoiceControlAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ProjCashFlowAction
+                          AutoDeclaration     #Yes
+                          NormalResource      #10473
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ProjCashFlowAction
+                          DataSource          #InventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #General
+                Caption             #@SYS19924
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #List
+                      Caption             #@SYS6188
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #SendToExcel
+                          NormalResource      #10156
+                          ShowShortCut        #No
+                          MultiSelect         #Yes
+                          Big                 #Yes
+                          Command             #4436
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #AttachedDocumentsGeneral
+                      Caption             #@SYS114630
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #Attachments
+                          Text                #@SYS114630
+                          NormalResource      #10442
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Command             #2853
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #Delete
+                      Caption             #@SYS117476
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #CommandButton
+                          Text                #@SYS14425
+                          NormalResource      #10121
+                          ShowShortCut        #No
+                          MultiSelect         #Yes
+                          Big                 #Yes
+                          Command             #2832
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Retail
+                Caption             #@RBO92
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #RBOSetup
+                      Caption             #@RBO288
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUBUTTON
+                        PROPERTIES
+                          Name                #RBOLabelsSetup
+                          Text                #@RBO857
+                          NormalResource      #10769
+                          ShowShortCut        #No
+                        ENDPROPERTIES
+                        
+                        CONTAINER
+                          CONTROL MENUITEMBUTTON
+                            PROPERTIES
+                              Name                #RBOInventItemLabelSetup_Item
+                              NormalResource      #10769
+                              ShowShortCut        #No
+                              MenuItemName        #RBOInventItemLabelSetup_Item
+                              DataSource          #RBOInventTable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL MENUITEMBUTTON
+                            PROPERTIES
+                              Name                #RBOInventItemLabelSetup_Shelf
+                              NormalResource      #10769
+                              ShowShortCut        #No
+                              MenuItemName        #RBOInventItemLabelSetup_Shelf
+                              DataSource          #RBOInventTable
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInventItemStoreOrderingInfo
+                          Visible             #No
+                          NormalResource      #10624
+                          ShowShortCut        #No
+                          MenuItemName        #RBOInventItemStoreOrderingInfo
+                          DataSource          #RBOInventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInventItemImage
+                          NormalResource      #11065
+                          ShowShortCut        #No
+                          MenuItemName        #RBOInventItemImage
+                          DataSource          #RBOInventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInfocodeTableSpecific_Item
+                          NormalResource      #11070
+                          ShowShortCut        #No
+                          MenuItemName        #RBOInfocodeTableSpecific_Item
+                          DataSource          #RBOInventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInventLinkedItem
+                          NormalResource      #10708
+                          ShowShortCut        #No
+                          MenuItemName        #RBOInventLinkedItem
+                          DataSource          #RBOInventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInventWhereLinkedItem
+                          NormalResource      #10746
+                          ShowShortCut        #No
+                          MenuItemName        #RBOInventWhereLinkedItem
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInventItemSectionLocation
+                          NormalResource      #10938
+                          ShowShortCut        #No
+                          MenuItemName        #RBOInventItemSectionLocation
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOAssortmentItemList
+                          Text                #@RBO3394
+                          NormalResource      #10690
+                          ShowShortCut        #No
+                          MenuItemName        #RBOAssortmentItemList
+                          DataSource          #RBOInventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #DRMDistributionList
+                          NormalResource      #10662
+                          ShowShortCut        #No
+                          MenuItemName        #DRMDistributionList
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #RBOView
+                      Caption             #@RBO1868
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOCompetitorPriceTable
+                          NormalResource      #7731
+                          ShowShortCut        #No
+                          MenuItemName        #RBOCompetitorPriceTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOTransactionSalesTrans
+                          NormalResource      #10836
+                          ShowShortCut        #No
+                          MenuItemName        #RBOTransactionSalesTrans
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOInventItemActivityTrans
+                          Visible             #No
+                          NormalResource      #11015
+                          MenuItemName        #RBOInventItemActivityTrans
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #RBODiscountPriorityOverlap
+                          Text                #@RBO1867
+                          NormalResource      #10632
+                          ShowShortCut        #No
+                          Big                 #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #void clicked()
+                            #{
+                            #    ;
+                            #    RBODiscountPriorityControl::checkOverLap(RBODiscountOfferTypeBase::DiscountOffer,rboInventTable.ItemId,true);
+                            #    super();
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #RBOFunctions
+                      Caption             #@RBO1369
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUBUTTON
+                        PROPERTIES
+                          Name                #RBOPrintLabels
+                          Text                #@RBO1869
+                          NormalResource      #10772
+                          ShowShortCut        #No
+                        ENDPROPERTIES
+                        
+                        CONTAINER
+                          CONTROL BUTTON
+                            PROPERTIES
+                              Name                #RBOPrintSpecificItemLabel
+                              Text                #@RBO2402
+                              NormalResource      #10772
+                              ShowShortCut        #No
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #clicked
+                                #void clicked()
+                                #{
+                                #    Args args = new Args();
+                                #    MenuFunction    createItemLabelByItemMen = new MenuFunction(menuitemactionstr(RBOCreateSpecificItemLabel), MenuItemType::Action);
+                                #
+                                #    super();
+                                #
+                                #    args.caller(element);
+                                #    args.record(inventTable);
+                                #    args.parm(inventTable.ItemId);
+                                #
+                                #    createItemLabelByItemMen.run(args);
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL BUTTON
+                            PROPERTIES
+                              Name                #RBOPrintSpecificShelfLabel
+                              Text                #@RBO2403
+                              NormalResource      #10772
+                              ShowShortCut        #No
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #clicked
+                                #void clicked()
+                                #{
+                                #    Args args = new Args();
+                                #    MenuFunction    createItemLabelByItemMen = new MenuFunction(menuitemactionstr(RBOCreateSpecificShelfLabel), MenuItemType::Action);
+                                #
+                                #    super();
+                                #
+                                #    args.caller(element);
+                                #    args.record(inventTable);
+                                #    args.parm(inventTable.ItemId);
+                                #
+                                #    createItemLabelByItemMen.run(args);
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOMandatoryCheck
+                          NormalResource      #10698
+                          ShowShortCut        #No
+                          MenuItemName        #RBOMandatoryCheck
+                          DataSource          #RBOInventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOMandatoryCheckManagement
+                          NormalResource      #8003
+                          ShowShortCut        #No
+                          MenuItemType        #Action
+                          MenuItemName        #RBOMandatoryCheckManagement
+                          DataSource          #RBOInventTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #FSHBuyersPush
+                          NormalResource      #10608
+                          ShowShortCut        #No
+                          MenuItemName        #FSHBuyersPush
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #FSHImportJournalTable
+                          Visible             #No
+                          NormalResource      #3475
+                          ShowShortCut        #No
+                          MenuItemName        #FSHImportJournalTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #RBORelatedInformation
+                      Caption             #@SYS111665
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOCustVendExternalItem_Cust
+                          NormalResource      #10541
+                          MenuItemName        #RBOCustVendExternalItem_Cust
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #RBOCustVendExternalItem_Vend
+                          NormalResource      #10851
+                          MenuItemName        #RBOCustVendExternalItem_Vend
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #InventTableGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          VerticalSpacing     #0
+          DataSource          #InventTable
+          DefaultAction       #InventTableEdit
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_ItemId
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #ItemId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_ItemName
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #ItemName
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #InventTable_1_ItemType
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #ItemType
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #RBOInventTable_retailGroup
+                DataSource          #RBOInventTable
+                DataField           #retailGroup
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_ModelGroupId
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #ModelGroupId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_DimGroupId
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #DimGroupId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_PrimaryVendorId
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #PrimaryVendorId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_ItemGroupId
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #ItemGroupId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_ItemBuyerGroupId
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #ItemBuyerGroupId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #InventTable_1_ReqGroupId
+                VerticalSpacing     #0
+                DataSource          #InventTable
+                DataField           #ReqGroupId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

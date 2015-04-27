@@ -1,0 +1,149 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchSendSalesUpdate unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchSendSalesUpdate
+    Id 30190
+    PROPERTIES
+      Name                #AxdEchSendSalesUpdate
+      Extends             #AxdSend
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 07 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: sends sales order electronically
+        #
+        #class AxdEchSendSalesUpdate extends axdSend
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #packSendContext
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Add an extra value to the Property bag
+        #
+        #protected container packSendContext()
+        #{
+        #    container ret;
+        #
+        #    ret = super();
+        #
+        #    // by adding true, the axdSalesOrder class know the Shipping address has been changed on the sales order
+        #    return [ret, true];
+        #}
+      ENDSOURCE
+      SOURCE #sendDocumentsToAif
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 05 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Send the regular AxdSalesOrder message, but add a value to the property bag
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 07 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: send document to aif
+        #
+        #public void sendDocumentsToAif()
+        #{
+        #    AifConstraint           aifConstraint;
+        #    ;
+        #
+        #    aifConstraint       = new AifConstraint();
+        #    aifConstraint.parmType(AifConstraintType::NoConstraint);
+        #
+        #    aifConstraintList   = new AifConstraintList();
+        #    aifConstraintList.addConstraint(aifConstraint);
+        #
+        #// CS - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #
+        #    //aifDocumentClassId  = classnum(echSalesUpdate);
+        #    //    serviceClassId      = classnum(echSalesUpdateService);
+        #    aifDocumentClassId  = classnum(SalesSalesOrder);
+        #    serviceClassId      = classnum(SalesSalesOrderService);
+        #
+        #// CE - ECH_WI_00801 - Marijn Catthoor - 05 Jul 2012
+        #
+        #    aifSendMode         = AifSendMode::Async;
+        #
+        #
+        #    axdSendContext      = null;
+        #    sendActionType      = AifSendActionType::SendByKey;
+        #    aifActionId         = this.getActionId() ;
+        #
+        #    this.retrieveEndPoints();
+        #
+        #    while select tmpAifEndPoint
+        #    {
+        #        this.parmEndPoint(tmpAifEndpoint.EndpointId);
+        #
+        #        super();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 07 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: construct method
+        #
+        #public static axdEchSendSalesUpdate construct()
+        #{
+        #    return new axdEchSendSalesUpdate() ;
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 07 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: main method
+        #
+        #public static void Main(Args _args)
+        #{
+        #    #Properties
+        #    axdEchSendSalesUpdate    axdEchSendSalesUpdate;
+        #    FormDataSource          salesTable_ds;
+        #    SalesTable              salesTable;
+        #    ;
+        #
+        #    if (!_args || !_args.caller())
+        #        throw error(strfmt("@SYS53926", classstr(axdEchSendSalesUpdate)));
+        #    if (!_args.record() || _args.record().TableId != tablenum(SalesTable))
+        #        throw error(strfmt("@SYS113735", classstr(axdEchSendSalesUpdate), tablestr(SalesTable)));
+        #    if (!_args.record().dataSource())
+        #        throw error(strfmt("@SYS105865", classstr(axdEchSendSalesUpdate), #PropertyForm));
+        #
+        #    salesTable_ds = _args.record().dataSource();
+        #
+        #    for (salesTable = salesTable_ds.getFirst(1) ? salesTable_ds.getFirst(1) : _args.record();
+        #         salesTable;
+        #         salesTable = salesTable_ds.getNext())
+        #    {
+        #        axdEchSendSalesUpdate = axdEchSendSalesUpdate::construct();
+        #        axdEchSendSalesUpdate.setEntityKey(salesTable);
+        #        axdEchSendSalesUpdate.sendDocumentsToAif();
+        #
+        #        info(strfmt("@ECH24", salesTable.SalesId));
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

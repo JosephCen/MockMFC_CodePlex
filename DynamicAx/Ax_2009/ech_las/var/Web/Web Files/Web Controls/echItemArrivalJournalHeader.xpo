@@ -1,0 +1,99 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echItemArrivalJournalHeader unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echItemArrivalJournalHeader
+    PROPERTIES
+      Name                #echItemArrivalJournalHeader
+      HelpText            #
+      Filename            #echItemArrivalJournalHeader.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echItemArrivalJournalHeader.ascx.cs" Inherits="echItemArrivalJournalHeader" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxToolBar ID="AxToolBar1" runat="server" 
+      #    DataSourceID="echItemArrivalJournalHeaderDS" 
+      #    WebMenuName="echItemArrivalJournalToolbar" 
+      #    DataMember="WMSJournalTable_Current"  
+      #    onactionmenuitemclicked="AxToolBar1_ActionMenuItemClicked" />
+      #<dynamics:AxGridView ID="grdWMSJournalTable" runat="server" DataKeyNames="journalId" 
+      #    DataMember="WMSJournalTable" DataSourceID="echItemArrivalJournalHeaderDS">
+      #    <Columns>
+      #        <dynamics:AxBoundField DataField="journalNameId" 
+      #            DataSet="echItemArrivalJournalHeader" DataSetView="WMSJournalTable" 
+      #            SortExpression="journalNameId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="journalId" DataSet="echItemArrivalJournalHeader" 
+      #            DataSetView="WMSJournalTable" ReadOnly="True" SortExpression="journalId">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="description" DataSet="echItemArrivalJournalHeader" 
+      #            DataSetView="WMSJournalTable" SortExpression="description">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxBoundField DataField="numOfLines" DataSet="echItemArrivalJournalHeader" 
+      #            DataSetView="WMSJournalTable" SortExpression="numOfLines">
+      #        </dynamics:AxBoundField>
+      #        <dynamics:AxCheckBoxBoundField DataField="posted" 
+      #            DataSet="echItemArrivalJournalHeader" DataSetView="WMSJournalTable" 
+      #            SortExpression="posted">
+      #        </dynamics:AxCheckBoxBoundField>
+      #    </Columns>
+      #</dynamics:AxGridView>
+      #<dynamics:AxDataSource ID="echItemArrivalJournalHeaderDS" runat="server" 
+      #    ProviderView="WMSJournalTable" DataSetName="echItemArrivalJournalHeader">
+      #</dynamics:AxDataSource>
+      #
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echItemArrivalJournalHeader_ascx_cs
+      HelpText            #
+      Filename            #echItemArrivalJournalHeader.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echItemArrivalJournalHeader : System.Web.UI.UserControl
+      #{	
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #    }
+      #    protected void AxToolBar1_ActionMenuItemClicked(object sender, ActionMenuItemEventArgs e)
+      #    {
+      #        //Check for Action menu item and refresh the datasource
+      #        if (e.MenuItem.MenuItemAOTName == "echWMSJournalPost")
+      #            echItemArrivalJournalHeaderDS.GetDataSet().DataSetViews["WMSJournalTable"].ExecuteQuery();
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

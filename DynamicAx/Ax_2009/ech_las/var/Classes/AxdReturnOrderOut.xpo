@@ -1,0 +1,34 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdReturnOrderOut unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdReturnOrderOut
+    Id 10163
+    PROPERTIES
+      Name                #AxdReturnOrderOut
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #initMandatoryFieldsMap
+        #// Create ECH_WI_02083 by mengqi.cen on 20130507
+        #//   Set field 'SalesTable.echExternalROId' as a mandatory field in outbound xml.
+        #protected void initMandatoryFieldsMap()
+        #{
+        #;
+        #    super();
+        #
+        #    this.setTableFieldAsMandatory(tablenum(SalesTable), fieldstr(SalesTable, echExternalROId));
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

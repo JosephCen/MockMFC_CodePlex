@@ -1,0 +1,92 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: VIE
+
+; Microsoft Dynamics AX View : echSalesOrderDelivered unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  VIEW #echSalesOrderDelivered
+    Id 30052
+    PROPERTIES
+      Name                #echSalesOrderDelivered
+      Label               #@ECH327
+      TitleField1         #SalesId
+      TitleField2         #
+      SecurityKey         #CustTables
+      SaveDataPerCompany  #Yes
+    ENDPROPERTIES
+    
+    QUERY #Metadata
+      PROPERTIES
+        Name                #Metadata
+        Version             #3
+        NextUniqueId        #1001
+      ENDPROPERTIES
+      
+      BLOCKS
+        BLOCK #SalesTable
+          PROPERTIES
+            Name                #SalesTable
+            Table               #SalesTable
+            UniqueId            #1000
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          GROUPBY
+          ENDGROUPBY
+          ORDERBY
+          ENDORDERBY
+        ENDBLOCK
+      ENDBLOCKS
+    ENDQUERY
+    
+    FIELDS
+      VIEWFIELD #SalesId
+        Id 30001
+        PROPERTIES
+          Name                #SalesId
+          Table               #echSalesOrderDelivered
+          ExtendedDataType    #SalesIdBase
+          StringSize          #20
+          DataSource          #SalesTable
+          DataField           #SalesId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+  ENDVIEW
+  
+
+***Element: END

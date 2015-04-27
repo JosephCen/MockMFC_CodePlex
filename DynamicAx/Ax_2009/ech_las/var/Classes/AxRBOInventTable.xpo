@@ -1,0 +1,1096 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxRBOInventTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxRBOInventTable
+    Id 30135
+    PROPERTIES
+      Name                #AxRBOInventTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxRBOInventTable axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxRBOInventTable extends AxInternalBase
+        #{
+        #    RBOInventTable RBOInventTable;
+        #
+        #    str             item;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public RBOInventTable currentRecord(RBOInventTable _RBOInventTable = RBOInventTable)
+        #{
+        #    if (!prmisdefault(_RBOInventTable))
+        #    {
+        #        super(_RBOInventTable);
+        #        RBOInventTable = _RBOInventTable;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return RBOInventTable;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected RBOInventTable emptyRecord()
+        #{
+        #    RBOInventTable localRBOInventTable;
+        #    ;
+        #    return localRBOInventTable;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #init
+        #protected void init()
+        #{
+        #    ;
+        #    super();
+        #
+        #    item    = '';
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsExemptionList
+        #protected void initMandatoryFieldsExemptionList()
+        #{
+        #    ;
+        #    super();
+        #
+        #    // Begin - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #    if (isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #    {
+        #        this.setParmMethodAsNotMandatory(methodstr(axRBOInventTable, parmItemId));
+        #    }
+        #    // End - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #}
+      ENDSOURCE
+      SOURCE #parmBarcodeSetupId
+        #public BarcodeSetupId parmBarcodeSetupId(BarcodeSetupId _barcodeSetupId = '')
+        #{
+        #    if (!prmisdefault(_barcodeSetupId))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, BarcodeSetupId), _barcodeSetupId);
+        #    }
+        #
+        #    return rBOInventTable.BarcodeSetupId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmBaseComparisonUnitCode
+        #public str parmBaseComparisonUnitCode(str _baseComparisonUnitCode = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_baseComparisonUnitCode))
+        #    {
+        #        dictField = new DictField(tablenum(RBOInventTable),fieldnum(RBOInventTable,BaseComparisonUnitCode));
+        #        if(this.valueMappingInbound())
+        #        {
+        #            this.validateInboundString(_baseComparisonUnitCode,dictField,this.mapPolicy().xMLMapUnitId());
+        #            _baseComparisonUnitCode = this.axUnitId(_baseComparisonUnitCode);
+        #        }
+        #        else
+        #        {
+        #            this.validateInboundString(_baseComparisonUnitCode,dictField);
+        #        }
+        #        this.setField(fieldNum(RBOInventTable, BaseComparisonUnitCode), _baseComparisonUnitCode);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return this.axUnitId(rBOInventTable.BaseComparisonUnitCode);
+        #    }
+        #    else
+        #    {
+        #        return rBOInventTable.BaseComparisonUnitCode;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmBlockedOnPOS
+        #public RBOBlocked parmBlockedOnPOS(RBOBlocked _blockedOnPOS = NoYes::No)
+        #{
+        #    if (!prmisdefault(_blockedOnPOS))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, BlockedOnPOS), _blockedOnPOS);
+        #    }
+        #
+        #    return rBOInventTable.BlockedOnPOS;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmBusinessGroup
+        #public FSHBusinessGroupId parmBusinessGroup(FSHBusinessGroupId _businessGroup = '')
+        #{
+        #    if (!prmisdefault(_businessGroup))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, BusinessGroup), _businessGroup);
+        #    }
+        #
+        #    return rBOInventTable.BusinessGroup;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmColorGroup
+        #public RBOColorGroupId parmColorGroup(RBOColorGroupId _colorGroup = '')
+        #{
+        #    if (!prmisdefault(_colorGroup))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, ColorGroup), _colorGroup);
+        #    }
+        #
+        #    return rBOInventTable.ColorGroup;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmConcessionContractItem
+        #public NoYesId parmConcessionContractItem(NoYesId _concessionContractItem = NoYes::No)
+        #{
+        #    if (!prmisdefault(_concessionContractItem))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, ConcessionContractItem), _concessionContractItem);
+        #    }
+        #
+        #    return rBOInventTable.ConcessionContractItem;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmConcessionVendAccount
+        #public str parmConcessionVendAccount(str _concessionVendAccount = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_concessionVendAccount))
+        #    {
+        #        dictField = new DictField(tablenum(RBOInventTable),fieldnum(RBOInventTable,ConcessionVendAccount));
+        #        if(this.valueMappingInbound())
+        #        {
+        #            this.validateInboundString(_concessionVendAccount,dictField,this.mapPolicy().xMLMapVendAccount());
+        #            _concessionVendAccount = this.axVendAccount(_concessionVendAccount);
+        #        }
+        #        else
+        #        {
+        #            this.validateInboundString(_concessionVendAccount,dictField);
+        #        }
+        #        this.setField(fieldNum(RBOInventTable, ConcessionVendAccount), _concessionVendAccount);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return this.axVendAccount(rBOInventTable.ConcessionVendAccount);
+        #    }
+        #    else
+        #    {
+        #        return rBOInventTable.ConcessionVendAccount;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCostCalculationOnPOS
+        #public RBOCostCalculationOnPOS parmCostCalculationOnPOS(RBOCostCalculationOnPOS _costCalculationOnPOS = RBOItemGroupDepartment::ItemBased)
+        #{
+        #    if (!prmisdefault(_costCalculationOnPOS))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, CostCalculationOnPOS), _costCalculationOnPOS);
+        #    }
+        #
+        #    return rBOInventTable.CostCalculationOnPOS;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDateBlocked
+        #public RBODateBlocked parmDateBlocked(RBODateBlocked _dateBlocked = dateNull())
+        #{
+        #    if (!prmisdefault(_dateBlocked))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DateBlocked), _dateBlocked);
+        #    }
+        #
+        #    return rBOInventTable.DateBlocked;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDateToActivateItem
+        #public RBODateToActivateItem parmDateToActivateItem(RBODateToActivateItem _dateToActivateItem = dateNull())
+        #{
+        #    if (!prmisdefault(_dateToActivateItem))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DateToActivateItem), _dateToActivateItem);
+        #    }
+        #
+        #    return rBOInventTable.DateToActivateItem;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDateToBeBlocked
+        #public RBODateToBeBlocked parmDateToBeBlocked(RBODateToBeBlocked _dateToBeBlocked = dateNull())
+        #{
+        #    if (!prmisdefault(_dateToBeBlocked))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DateToBeBlocked), _dateToBeBlocked);
+        #    }
+        #
+        #    return rBOInventTable.DateToBeBlocked;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDEL_itemFamily
+        #public RBOItemFamilyId parmDEL_itemFamily(RBOItemFamilyId _DEL_itemFamily = '')
+        #{
+        #    if (!prmisdefault(_DEL_itemFamily))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DEL_itemFamily), _DEL_itemFamily);
+        #    }
+        #
+        #    return rBOInventTable.DEL_itemFamily;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDEL_validSalesPrice
+        #public RBOValidPOSSalesPrice parmDEL_validSalesPrice(RBOValidPOSSalesPrice _DEL_validSalesPrice = 0)
+        #{
+        #    if (!prmisdefault(_DEL_validSalesPrice))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DEL_validSalesPrice), _DEL_validSalesPrice);
+        #    }
+        #
+        #    return rBOInventTable.DEL_validSalesPrice;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDispensePrinterGroupId
+        #public POSDispensePrinterGroupId parmDispensePrinterGroupId(POSDispensePrinterGroupId _dispensePrinterGroupId = '')
+        #{
+        #    if (!prmisdefault(_dispensePrinterGroupId))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DispensePrinterGroupId), _dispensePrinterGroupId);
+        #    }
+        #
+        #    return rBOInventTable.DispensePrinterGroupId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDispensePrintingDisabled
+        #public RBODispensePrintingDisabled parmDispensePrintingDisabled(RBODispensePrintingDisabled _dispensePrintingDisabled = NoYes::No)
+        #{
+        #    if (!prmisdefault(_dispensePrintingDisabled))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DispensePrintingDisabled), _dispensePrintingDisabled);
+        #    }
+        #
+        #    return rBOInventTable.DispensePrintingDisabled;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDivisionGroup
+        #public FSHDivisionGroupId parmDivisionGroup(FSHDivisionGroupId _divisionGroup = '')
+        #{
+        #    if (!prmisdefault(_divisionGroup))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, DivisionGroup), _divisionGroup);
+        #    }
+        #
+        #    return rBOInventTable.DivisionGroup;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmFabricComposition
+        #public FSHFabricComposition parmFabricComposition(FSHFabricComposition _fabricComposition = '')
+        #{
+        #    if (!prmisdefault(_fabricComposition))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, FabricComposition), _fabricComposition);
+        #    }
+        #
+        #    return rBOInventTable.FabricComposition;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventoryOnPrePack
+        #public RBOInventoryOnPrePack parmInventoryOnPrePack(RBOInventoryOnPrePack _inventoryOnPrePack = 0)
+        #{
+        #    if (!prmisdefault(_inventoryOnPrePack))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, InventoryOnPrePack), _inventoryOnPrePack);
+        #    }
+        #
+        #    return rBOInventTable.InventoryOnPrePack;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemDepartment
+        #public RBOItemDepartmentId parmItemDepartment(RBOItemDepartmentId _itemDepartment = '')
+        #{
+        #    if (!prmisdefault(_itemDepartment))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, ItemDepartment), _itemDepartment);
+        #    }
+        #
+        #    return rBOInventTable.ItemDepartment;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(RBOInventTable),fieldnum(RBOInventTable,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            item = _itemId;
+        #        }
+        #
+        #        this.setField(fieldNum(RBOInventTable, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axPurchItemId(rBOInventTable.concessionVendAccount,rBOInventTable.ItemId,InventDim::findOrCreateBlank()),1);
+        #    }
+        #    else
+        #    {
+        #        return rBOInventTable.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemType
+        #public RBOItemType parmItemType(RBOItemType _itemType = RBOStandardRetailDepartmentGroup::Standard)
+        #{
+        #    if (!prmisdefault(_itemType))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, ItemType), _itemType);
+        #    }
+        #
+        #    return rBOInventTable.ItemType;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmKeyingInPrice
+        #public RBOKeyingInPrice parmKeyingInPrice(RBOKeyingInPrice _keyingInPrice = RBOPriceKeyingRequirement::NotMandatory)
+        #{
+        #    if (!prmisdefault(_keyingInPrice))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, KeyingInPrice), _keyingInPrice);
+        #    }
+        #
+        #    return rBOInventTable.KeyingInPrice;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmKeyingInQty
+        #public RBOKeyingInQty parmKeyingInQty(RBOKeyingInQty _keyingInQty = RBOQtyKeyingRequirement::NotMandatory)
+        #{
+        #    if (!prmisdefault(_keyingInQty))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, KeyingInQty), _keyingInQty);
+        #    }
+        #
+        #    return rBOInventTable.KeyingInQty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmLifeFrom
+        #public FSHLifeFrom parmLifeFrom(FSHLifeFrom _lifeFrom = dateNull())
+        #{
+        #    if (!prmisdefault(_lifeFrom))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, LifeFrom), _lifeFrom);
+        #    }
+        #
+        #    return rBOInventTable.LifeFrom;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmLifeTo
+        #public FSHLifeTo parmLifeTo(FSHLifeTo _lifeTo = dateNull())
+        #{
+        #    if (!prmisdefault(_lifeTo))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, LifeTo), _lifeTo);
+        #    }
+        #
+        #    return rBOInventTable.LifeTo;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmMustKeyInComment
+        #public PosIsMustKeyInComment parmMustKeyInComment(PosIsMustKeyInComment _mustKeyInComment = NoYes::No)
+        #{
+        #    if (!prmisdefault(_mustKeyInComment))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, MustKeyInComment), _mustKeyInComment);
+        #    }
+        #
+        #    return rBOInventTable.MustKeyInComment;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmNoDiscountAllowed
+        #public RBONoDiscountAllowed parmNoDiscountAllowed(RBONoDiscountAllowed _noDiscountAllowed = NoYes::No)
+        #{
+        #    if (!prmisdefault(_noDiscountAllowed))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, NoDiscountAllowed), _noDiscountAllowed);
+        #    }
+        #
+        #    return rBOInventTable.NoDiscountAllowed;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmNoInventPosting
+        #public RBONoInventPosting parmNoInventPosting(RBONoInventPosting _noInventPosting = NoYes::No)
+        #{
+        #    if (!prmisdefault(_noInventPosting))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, NoInventPosting), _noInventPosting);
+        #    }
+        #
+        #    return rBOInventTable.NoInventPosting;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPrintVariantsShelfLabels
+        #public RBOPrintVariantsShelfLabels parmPrintVariantsShelfLabels(RBOPrintVariantsShelfLabels _printVariantsShelfLabels = NoYes::No)
+        #{
+        #    if (!prmisdefault(_printVariantsShelfLabels))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, PrintVariantsShelfLabels), _printVariantsShelfLabels);
+        #    }
+        #
+        #    return rBOInventTable.PrintVariantsShelfLabels;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmQtyBecomesNegative
+        #public RBOQtyBecomesNegative parmQtyBecomesNegative(RBOQtyBecomesNegative _qtyBecomesNegative = NoYes::No)
+        #{
+        #    if (!prmisdefault(_qtyBecomesNegative))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, QtyBecomesNegative), _qtyBecomesNegative);
+        #    }
+        #
+        #    return rBOInventTable.QtyBecomesNegative;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRetailGroup
+        #public RBORetailGroupId parmRetailGroup(RBORetailGroupId _retailGroup = '')
+        #{
+        #    if (!prmisdefault(_retailGroup))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, RetailGroup), _retailGroup);
+        #    }
+        #
+        #    return rBOInventTable.RetailGroup;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmScaleItem
+        #public RBOScaleItem parmScaleItem(RBOScaleItem _scaleItem = NoYes::No)
+        #{
+        #    if (!prmisdefault(_scaleItem))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, ScaleItem), _scaleItem);
+        #    }
+        #
+        #    return rBOInventTable.ScaleItem;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSeasonCode
+        #public FSHSeasonCode parmSeasonCode(FSHSeasonCode _seasonCode = '')
+        #{
+        #    if (!prmisdefault(_seasonCode))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, SeasonCode), _seasonCode);
+        #    }
+        #
+        #    return rBOInventTable.SeasonCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSizeGroup
+        #public RBOSizeGroupId parmSizeGroup(RBOSizeGroupId _sizeGroup = '')
+        #{
+        #    if (!prmisdefault(_sizeGroup))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, SizeGroup), _sizeGroup);
+        #    }
+        #
+        #    return rBOInventTable.SizeGroup;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmStyleGroup
+        #public RBOStyleGroupId parmStyleGroup(RBOStyleGroupId _styleGroup = '')
+        #{
+        #    if (!prmisdefault(_styleGroup))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, StyleGroup), _styleGroup);
+        #    }
+        #
+        #    return rBOInventTable.StyleGroup;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTempControl
+        #public RBOTempControl parmTempControl(RBOTempControl _tempControl = NoYes::No)
+        #{
+        #    if (!prmisdefault(_tempControl))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, TempControl), _tempControl);
+        #    }
+        #
+        #    return rBOInventTable.TempControl;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTempGroupId
+        #public RBOTempGroupId parmTempGroupId(RBOTempGroupId _tempGroupId = '')
+        #{
+        #    if (!prmisdefault(_tempGroupId))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, TempGroupId), _tempGroupId);
+        #    }
+        #
+        #    return rBOInventTable.TempGroupId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmUnitPriceIncludingTax
+        #public RBOUnitPriceIncludingTax parmUnitPriceIncludingTax(RBOUnitPriceIncludingTax _unitPriceIncludingTax = 0)
+        #{
+        #    if (!prmisdefault(_unitPriceIncludingTax))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, UnitPriceIncludingTax), _unitPriceIncludingTax);
+        #    }
+        #
+        #    return rBOInventTable.UnitPriceIncludingTax;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmUseEanStandardBarcode
+        #public RBOUseEanStandardBarcode parmUseEanStandardBarcode(RBOUseEanStandardBarcode _useEanStandardBarcode = NoYes::No)
+        #{
+        #    if (!prmisdefault(_useEanStandardBarcode))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, UseEanStandardBarcode), _useEanStandardBarcode);
+        #    }
+        #
+        #    return rBOInventTable.UseEanStandardBarcode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmZeroPriceValid
+        #public RBOZeroPriceValid parmZeroPriceValid(RBOZeroPriceValid _zeroPriceValid = NoYes::No)
+        #{
+        #    if (!prmisdefault(_zeroPriceValid))
+        #    {
+        #        this.setField(fieldNum(RBOInventTable, ZeroPriceValid), _zeroPriceValid);
+        #    }
+        #
+        #    return rBOInventTable.ZeroPriceValid;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #RBOInventTable
+        #public RBOInventTable rBOInventTable(RBOInventTable _rBOInventTable = rBOInventTable)
+        #{
+        #    if (!prmisdefault(_rBOInventTable))
+        #    {
+        #        this.setCurrentRecordFromExternal(_rBOInventTable);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBarcodeSetupId
+        #protected void setBarcodeSetupId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, BarcodeSetupId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBaseComparisonUnitCode
+        #protected void setBaseComparisonUnitCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, BaseComparisonUnitCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBlockedOnPOS
+        #protected void setBlockedOnPOS()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, BlockedOnPOS)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBusinessGroup
+        #protected void setBusinessGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, BusinessGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setColorGroup
+        #protected void setColorGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ColorGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConcessionContractItem
+        #protected void setConcessionContractItem()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ConcessionContractItem)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConcessionVendAccount
+        #protected void setConcessionVendAccount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ConcessionVendAccount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCostCalculationOnPOS
+        #protected void setCostCalculationOnPOS()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, CostCalculationOnPOS)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDateBlocked
+        #protected void setDateBlocked()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, DateBlocked)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDateToActivateItem
+        #protected void setDateToActivateItem()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, DateToActivateItem)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDateToBeBlocked
+        #protected void setDateToBeBlocked()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, DateToBeBlocked)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDispensePrinterGroupId
+        #protected void setDispensePrinterGroupId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, DispensePrinterGroupId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDispensePrintingDisabled
+        #protected void setDispensePrintingDisabled()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, DispensePrintingDisabled)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDivisionGroup
+        #protected void setDivisionGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, DivisionGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFabricComposition
+        #protected void setFabricComposition()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, FabricComposition)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventoryOnPrePack
+        #protected void setInventoryOnPrePack()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, InventoryOnPrePack)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemDepartment
+        #protected void setItemDepartment()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ItemDepartment)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemType
+        #protected void setItemType()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ItemType)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setKeyingInPrice
+        #protected void setKeyingInPrice()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, KeyingInPrice)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setKeyingInQty
+        #protected void setKeyingInQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, KeyingInQty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setLifeFrom
+        #protected void setLifeFrom()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, LifeFrom)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setLifeTo
+        #protected void setLifeTo()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, LifeTo)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setMustKeyInComment
+        #protected void setMustKeyInComment()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, MustKeyInComment)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setNoDiscountAllowed
+        #protected void setNoDiscountAllowed()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, NoDiscountAllowed)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setNoInventPosting
+        #protected void setNoInventPosting()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, NoInventPosting)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPrintVariantsShelfLabels
+        #protected void setPrintVariantsShelfLabels()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, PrintVariantsShelfLabels)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setQtyBecomesNegative
+        #protected void setQtyBecomesNegative()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, QtyBecomesNegative)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRetailGroup
+        #protected void setRetailGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, RetailGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setScaleItem
+        #protected void setScaleItem()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ScaleItem)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSeasonCode
+        #protected void setSeasonCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, SeasonCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSizeGroup
+        #protected void setSizeGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, SizeGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setStyleGroup
+        #protected void setStyleGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, StyleGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setItemId();
+        #    this.setItemType();
+        #    this.setRetailGroup();
+        #    this.setItemDepartment();
+        #    this.setUnitPriceIncludingTax();
+        #    this.setCostCalculationOnPOS();
+        #    this.setNoInventPosting();
+        #    this.setZeroPriceValid();
+        #    this.setQtyBecomesNegative();
+        #    this.setNoDiscountAllowed();
+        #    this.setKeyingInPrice();
+        #    this.setScaleItem();
+        #    this.setKeyingInQty();
+        #    this.setDateBlocked();
+        #    this.setDateToBeBlocked();
+        #    this.setBlockedOnPOS();
+        #    this.setDispensePrintingDisabled();
+        #    this.setDispensePrinterGroupId();
+        #    this.setBaseComparisonUnitCode();
+        #    this.setBarcodeSetupId();
+        #    this.setPrintVariantsShelfLabels();
+        #    this.setColorGroup();
+        #    this.setSizeGroup();
+        #    this.setUseEanStandardBarcode();
+        #    this.setStyleGroup();
+        #    this.setBusinessGroup();
+        #    this.setDivisionGroup();
+        #    this.setConcessionVendAccount();
+        #    this.setFabricComposition();
+        #    this.setSeasonCode();
+        #    this.setLifeFrom();
+        #    this.setLifeTo();
+        #    this.setInventoryOnPrePack();
+        #    this.setConcessionContractItem();
+        #    this.setMustKeyInComment();
+        #    this.setTempGroupId();
+        #    this.setTempControl();
+        #    this.setDateToActivateItem();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTempControl
+        #protected void setTempControl()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, TempControl)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTempGroupId
+        #protected void setTempGroupId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, TempGroupId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setUnitPriceIncludingTax
+        #protected void setUnitPriceIncludingTax()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, UnitPriceIncludingTax)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setUseEanStandardBarcode
+        #protected void setUseEanStandardBarcode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, UseEanStandardBarcode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setZeroPriceValid
+        #protected void setZeroPriceValid()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventTable, ZeroPriceValid)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #valueMapDependingFields
+        #protected void valueMapDependingFields()
+        #{
+        #    if (this.valueMappingInbound())
+        #    {
+        #        if (RBOInventTable.concessionVendAccount && item)
+        #        {
+        #            this.parmitemId(conpeek(this.axPurchItemId(RBOInventTable.concessionVendAccount,item),1));
+        #        }
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxRBOInventTable construct()
+        #{
+        #    return new AxRBOInventTable();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newRBOInventTable
+        #public static AxRBOInventTable newRBOInventTable(RBOInventTable _RBOInventTable)
+        #{
+        #    AxRBOInventTable AxRBOInventTable = AxRBOInventTable::construct();
+        #    ;
+        #    AxRBOInventTable.RBOInventTable(_RBOInventTable);
+        #
+        #    return AxRBOInventTable;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

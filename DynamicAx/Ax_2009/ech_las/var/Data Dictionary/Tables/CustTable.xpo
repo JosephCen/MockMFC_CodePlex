@@ -1,0 +1,415 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : CustTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #CustTable
+    Id 77
+    PROPERTIES
+      Name                #CustTable
+      Label               #@SYS11307
+      SearchLinkRefName   #EPCustTableInfo
+      TitleField1         #AccountNum
+      TitleField2         #Name
+      ConfigurationKey    #LedgerBasic
+      SecurityKey         #CustTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Main
+      PrimaryIndex        #AccountIdx
+      ClusterIndex        #AccountIdx
+      AnalysisVisibility  #High
+      ModifiedDateTime    #Yes
+      CreatedDateTime     #Yes
+      DeveloperDocumentation  #@SYS125115
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ZipCode
+        Id 32
+        STRING
+        PROPERTIES
+          Name                #ZipCode
+          Table               #CustTable
+          ExtendedDataType    
+            ARRAY 
+              #echAddressZipCodeId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echMsgPartnerId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #CustTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #echMsgPartnerExtCode
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerExtCode
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #CustTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerExtCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echCompanyName
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #echCompanyName
+          Table               #CustTable
+          ExtendedDataType    
+            ARRAY 
+              #echCompanyName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #ContactInfo
+        PROPERTIES
+          Name                #ContactInfo
+          Label               #@SYS21663
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Phone
+          #PhoneLocal
+          #CellularPhone
+          #Pager
+          #TeleFax
+          #Email
+          #SMS
+          #URL
+          #Telex
+          #ContactPersonId
+          #editContactPersonName
+          #echCompanyName
+          #LineOfBusinessId
+          #CompanyIdSiret
+          #CompanyIdNAF
+          #ResidenceForeignCountryRegionId_IT
+          #BirthDate_IT
+          #BirthPlace_IT
+          #BirthCountyCode_IT
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echMsgPartner
+        PROPERTIES
+          Name                #echMsgPartner
+          Label               #@ECH19
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echMsgPartnerId
+          #echMsgPartnerExtCode
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+      REFERENCE #County
+        PROPERTIES
+          Name                #County
+          Table               #AddressCounty
+          Validate            #No
+          EntityRelationshipRole  #@SYS123587
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #CountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #State
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #County
+            RelatedField        #CountyId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #State
+        PROPERTIES
+          Name                #State
+          Table               #AddressState
+          Validate            #No
+          EntityRelationshipRole  #@SYS123582
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #CountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #State
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #RBOCustTable
+      PROPERTIES
+        Table               #RBOCustTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #PrintMgmtDocInstance
+      PROPERTIES
+        Table               #PrintMgmtDocInstance
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #SalesQuotationTable
+      PROPERTIES
+        Table               #SalesQuotationTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #smmResponsibilitiesEmplTable
+      PROPERTIES
+        Table               #smmResponsibilitiesEmplTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventTestAssociationTable
+      PROPERTIES
+        Table               #InventTestAssociationTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #ExtCodeValueTable
+      PROPERTIES
+        Table               #ExtCodeValueTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #SysCompanyUserInfo
+      PROPERTIES
+        Table               #SysCompanyUserInfo
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #ProjInvoiceTable
+      PROPERTIES
+        Table               #ProjInvoiceTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #CustInvoiceTable
+      PROPERTIES
+        Table               #CustInvoiceTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #smmBusRelTable
+      PROPERTIES
+        Table               #smmBusRelTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustTrans
+      PROPERTIES
+        Table               #CustTrans
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #SalesTable
+      PROPERTIES
+        Table               #SalesTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #ForecastSales
+      PROPERTIES
+        Table               #ForecastSales
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #ProjTable
+      PROPERTIES
+        Table               #ProjTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #ECPParameters
+      PROPERTIES
+        Table               #ECPParameters
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #WMSBillOfLading
+      PROPERTIES
+        Table               #WMSBillOfLading
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #CustVendExternalItem
+      PROPERTIES
+        Table               #CustVendExternalItem
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #SuppItemTable
+      PROPERTIES
+        Table               #SuppItemTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #SalesBasket
+      PROPERTIES
+        Table               #SalesBasket
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #PriceDiscAdmTrans
+      PROPERTIES
+        Table               #PriceDiscAdmTrans
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #MarkupAutoTable
+      PROPERTIES
+        Table               #MarkupAutoTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #ContactPerson
+      PROPERTIES
+        Table               #ContactPerson
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #BusinessStatisticsData
+      PROPERTIES
+        Table               #BusinessStatisticsData
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #PriceDiscTable
+      PROPERTIES
+        Table               #PriceDiscTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CommissionCalc
+      PROPERTIES
+        Table               #CommissionCalc
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustLedgerAccounts
+      PROPERTIES
+        Table               #CustLedgerAccounts
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #Address
+      PROPERTIES
+        Table               #Address
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustBankAccount
+      PROPERTIES
+        Table               #CustBankAccount
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #DocuRef
+      PROPERTIES
+        Table               #DocuRef
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #SalesJournalAutoSummary
+      PROPERTIES
+        Table               #SalesJournalAutoSummary
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echGetSalesOrderAmount
+        #//BP deviation documented
+        #display SalesLineAmount echGetSalesOrderAmount()
+        #{
+        #    SalesTable  m_SalesTable;
+        #    SalesLineAmount m_SalesLineAmount;
+        #    ;
+        #    m_SalesLineAmount = m_SalesTable.echGetSalesOrderAmountCust(this.AccountNum);
+        #
+        #    Return m_SalesLineAmount;
+        #}
+      ENDSOURCE
+      SOURCE #echValidateAifWrite
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: EHC_I_CU01
+        #// *** Customization Date: 12 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: validate Aif
+        #
+        #public boolean echValidateAifWrite()
+        #{
+        #    CustTable       custTable;
+        #    Boolean         ret = true;
+        #    ;
+        #
+        #    select firstonly recid from custTable
+        #        where   custTable.echMsgPartnerExtCode  == this.echMsgPartnerExtCode
+        #        &&      custTable.echMsgPartnerId       == this.echMsgPartnerId;
+        #
+        #    if (custTable.RecId)
+        #        ret = checkfailed(strfmt("@ECH34", this.echMsgPartnerId, this.echMsgPartnerExtCode));
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

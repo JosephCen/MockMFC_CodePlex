@@ -1,0 +1,79 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AfDataContainer unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AfDataContainer
+    Id 3614
+    PROPERTIES
+      Name                #AfDataContainer
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #//-------------------------------------------------------------------------------------------------------
+        #//
+        #//  Class:          AfDataContainer
+        #//
+        #//  Implements:     SysPackable
+        #//
+        #//  Extends:        none
+        #//
+        #//  Description:    This class implements generic weakly typed data container.
+        #//
+        #//                  Using data container you can:
+        #//                      get data item values
+        #//                      set data item values
+        #//                      remove data items
+        #//                      clear container (remove all data items)
+        #//                      determine if data containe rhas a data item
+        #//                      enumerate data items present in data container
+        #//                      get the data container descriptor
+        #//                      access the strongly typed interface
+        #//
+        #//                  Weakly vs. strongly typed data containers.
+        #//                  Data container can support two kinds of data access - weakly and strongly typed.
+        #//                  All data contaiers support weakly typed data access implemented by AfDataContainer
+        #//                  class. Some data containers support strongly typed data access implemented by
+        #//                  a class inherited from the AfStronglyTypedDataContainer class. Both weakly
+        #//                  and strongly typed interfaces provide methods to obtain objects that implement
+        #//                  the other interface (see AfDataContainer.st() and AfStronglyTypedDataContainer.wt()
+        #//                  methods).
+        #//
+        #//                  Do not instantiate this class directly. Data container instances must only be created
+        #//                  by the data container factory (see AfDataContainerFactory class).
+        #//
+        #//                  For more information see:
+        #//                      AfStronglyTypedDataContainer class
+        #//                      AfDataContainerFactory class
+        #//                      AfDataContainerDescriptors class
+        #//                      DataContainerTypes macro
+        #//
+        #//-------------------------------------------------------------------------------------------------------
+        #class AfDataContainer implements SysPackable
+        #{
+        #    // Struct object used as underlying data storage.
+        #    Struct dataContainerStruct;
+        #
+        #    // Descriptor defining the type of this data container instance.
+        #    AfDataContainerDescriptor descriptor;
+        #
+        #    // Object providing strongly typed access to data stored in this weakly typed data container.
+        #    // May be null if this type of data container does not support strongly typed data access.
+        #    AfStronglyTypedDataContainer stronglyTypedDataContainer;
+        #
+        #    // Macro defining data container type constants.
+        #    #DataContainerTypes
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

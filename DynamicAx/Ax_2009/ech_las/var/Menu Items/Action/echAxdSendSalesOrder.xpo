@@ -1,0 +1,26 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echAxdSendSalesOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echAxdSendSalesOrder
+    Type: 3
+    PROPERTIES
+      Name                #echAxdSendSalesOrder
+      Label               #@SYS88739
+      HelpText            #@ECH23
+      ObjectType          #Class
+      Object              #axdechSendSalesOrder
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #CustMisc
+      MultiSelect         #Yes
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

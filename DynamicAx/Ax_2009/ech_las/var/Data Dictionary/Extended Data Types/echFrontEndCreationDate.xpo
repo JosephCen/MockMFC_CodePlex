@@ -1,0 +1,29 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTZ
+
+; Microsoft Dynamics AX UtcDateTime: echFrontEndCreationDate unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echFrontEndCreationDate
+  Id 30012
+  DATETIME
+    PROPERTIES
+      Name                #echFrontEndCreationDate
+      Label               #@ECH39
+      HelpText            #@ECH40
+      ConfigurationKey    #echInterfaces
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

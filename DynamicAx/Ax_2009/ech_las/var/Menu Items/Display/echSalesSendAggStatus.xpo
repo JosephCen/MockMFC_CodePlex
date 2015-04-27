@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSalesSendAggStatus unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSalesSendAggStatus
+    Type: 1
+    PROPERTIES
+      Name                #echSalesSendAggStatus
+      Label               #@ECH301
+      HelpText            #@ECH302
+      Object              #echSalesSendAggStatus
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #CustSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

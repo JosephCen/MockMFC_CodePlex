@@ -1,0 +1,87 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echReturnOrderCancel unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echReturnOrderCancel
+    Id 30225
+    PROPERTIES
+      Name                #echReturnOrderCancel
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #cancelReturnOrder
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01488
+        #// *** Customization Date: 20 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Cancel the given return order
+        #
+        #protected void cancelReturnOrder()
+        #{
+        #    ;
+        #
+        #    // cancel the return order
+        #    SalesTable::ChangeReturnStatus(returnorder.dataSource(), ReturnUpdateAction::Cancel);
+        #    // show an info log
+        #    info(strfmt("@ECH349", returnOrder.SalesId));
+        #
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01488
+        #// *** Customization Date: 20 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Class to cancel return orders
+        #
+        #class echReturnOrderCancel
+        #{
+        #    salesTable  returnOrder;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01488
+        #// *** Customization Date: 20 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Constructor
+        #
+        #void new(SalesTable _returnOrder)
+        #{
+        #    ;
+        #    if (_returnOrder.SalesType != SalesType::ReturnItem)
+        #        throw error (strfmt("@ECH348", enum2str(SalesType::ReturnItem)));
+        #    returnOrder = _returnOrder;
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01488
+        #// *** Customization Date: 20 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Main method to run the class
+        #
+        #public static void Main(Args _args)
+        #{
+        #    echReturnOrderCancel cancelReturnOrder;
+        #    ;
+        #
+        #    if (!_args || !_args.record() || _args.record().TableId != tablenum(SalesTable))
+        #        throw error(strfmt("@SYS118115", staticmethodstr(echReturnOrderCancel, Main)));
+        #
+        #    cancelReturnOrder = new echReturnOrderCancel(_args.record());
+        #    cancelReturnOrder.cancelReturnOrder();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSalesOrderCancelRemain unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSalesOrderCancelRemain
+    Type: 3
+    PROPERTIES
+      Name                #echSalesOrderCancelRemain
+      Label               #@ECH98
+      HelpText            #@ECH97
+      ObjectType          #Class
+      Object              #echSalesOrderCancelRemain
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

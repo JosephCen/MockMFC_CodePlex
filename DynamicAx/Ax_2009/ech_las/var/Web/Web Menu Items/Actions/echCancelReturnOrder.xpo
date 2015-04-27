@@ -1,0 +1,22 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echCancelReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echCancelReturnOrder
+    PROPERTIES
+      Name                #echCancelReturnOrder
+      Label               #@SYS117673
+      HelpText            #@SYS104951
+      Object              #echreturnOrderCancel
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

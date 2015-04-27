@@ -1,0 +1,109 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echLegacySystem unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echLegacySystem
+    Id 30054
+    PROPERTIES
+      Name                #echLegacySystem
+      Label               #@ECH352
+      TitleField1         #Id
+      TitleField2         #Name
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+      PrimaryIndex        #Idx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Id
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #Id
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echLegacySystem
+          ExtendedDataType    
+            ARRAY 
+              #echLegacySystemId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Name
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #Name
+          Table               #echLegacySystem
+          ExtendedDataType    
+            ARRAY 
+              #echLegacySystemName
+              #
+            ENDARRAY
+          StringSize          #25
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #allFields
+        PROPERTIES
+          Name                #allFields
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Id
+          #Name
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #Idx
+      Id 30001
+      PROPERTIES
+        Name                #Idx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Id
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

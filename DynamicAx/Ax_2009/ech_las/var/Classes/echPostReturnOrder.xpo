@@ -1,0 +1,185 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echPostReturnOrder unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echPostReturnOrder
+    Id 30224
+    PROPERTIES
+      Name                #echPostReturnOrder
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: This class will handle the posting of a return order from the EP
+        #
+        #class echPostReturnOrder
+        #{
+        #    SalesTable  returnOrder;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Constructor (only allow sales order of type return order)
+        #
+        #void new(SalesTable _salesTable)
+        #{
+        #    ;
+        #    if (_salesTable.SalesType != SalesType::ReturnItem)
+        #        throw error(strfmt("@SYS118115", methodstr(echPostReturnOrder, new)));
+        #
+        #    returnOrder = _salesTable;
+        #}
+      ENDSOURCE
+      SOURCE #postDocument
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01633
+        #// *** Customization Date: 19 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: show an info message when the posting succeeded
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Post the return order to the given status
+        #
+        #
+        #protected void postDocument(DocumentStatus _documentStatus)
+        #{
+        #    SalesFormLetter salesFormLetter;
+        #    SalesParmTable  salesParmTable;
+        #    SalesParmLine   salesParmLine;
+        #    SalesLine       salesLine;
+        #    ParmId          parmId;
+        #    ;
+        #
+        #    // create an instance of the salesFormLetter class for packing slip posting
+        #    salesFormLetter = salesFormLetter::construct(_documentStatus);
+        #
+        #    // get the ParmId
+        #    parmId = salesFormLetter.parmId();
+        #
+        #    salesFormLetter.getLast();
+        #
+        #    // update the new parmId
+        #    salesFormLetter.parmId(parmId);
+        #
+        #    // Create the parm update record
+        #    salesFormLetter.createParmUpdate();
+        #
+        #    salesFormLetter.setParmSalesUpdate(SalesUpdate::All);
+        #
+        #    // clean the parmTable
+        #    salesParmTable::deleteWithoutUpdate(parmId);
+        #
+        #    // clear the parm table record
+        #    salesParmTable.clear();
+        #
+        #    salesParmTable.TableRefId = FormLetter::getTableRef();
+        #
+        #    salesFormLetter.suspendRecIds();
+        #
+        #    // select the salesLines and add them
+        #    while select SalesLine
+        #        where   salesLine.SalesId                   == returnOrder.salesid              &&
+        #                (   _documentStatus                 != DocumentStatus::PackingSlip      ||
+        #                    salesLine.RemainSalesPhysical   != 0)
+        #    {
+        #
+        #        salesParmLine.ParmId     = ParmId;
+        #        salesParmLine.initFromSalesLine(salesLine);
+        #        salesParmline.DeliverNow    = salesLine.QtyOrdered;
+        #        SalesParmLine.setQty(_documentStatus, false, true);
+        #        salesParmLine.setLineAmount(salesLine);
+        #        salesParmLine.calcPackingUnitQty();
+        #        salesParmLine.TableRefId = salesParmTable.TableRefId;
+        #
+        #        //RecId is needed if salesParmSubLines is going to be created.
+        #        salesParmLine.RecId  = salesFormLetter.echGetRecId();
+        #
+        #        // insert the record
+        #        salesParmLine.insert();
+        #    }
+        #    //create the parm table record
+        #    salesFormLetter.createParmTable(salesParmTable, returnOrder);
+        #
+        #    if (!salesParmTable::findSalesId(returnOrder.SalesId, salesParmTable.ParmId))
+        #        // Insert the salesParm table record
+        #        salesParmTable.insert();
+        #
+        #    SalesParmSubTable::createFromSalesParmTable(salesParmTable, false);
+        #
+        #    // call the SalesFormLetter class
+        #    salesFormLetter.reArrangeNow();
+        #
+        #    // set the print settings
+        #    salesFormLetter.initPrinterSettingsFormletter();
+        #    salesFormLetter.printFormLetter(NoYes::No);
+        #
+        #    // don't show the dialog
+        #    salesFormLetter.parmSkipPrompt(true);
+        #
+        #    if (salesFormLetter.prompt())
+        #    {
+        #        salesFormLetter.run();
+        #
+        #// CS - ECH_WI_01633 - Marijn Catthoor - 19 Sep 2012
+        #        info(strfmt("@ECH347", enum2str(_documentStatus), returnOrder.SalesId));
+        #// CE - ECH_WI_01633 - Marijn Catthoor - 19 Sep 2012
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Execute the posting
+        #
+        #static void  main(Args  _args)
+        #{
+        #    echPostReturnOrder  postReturnOrder;
+        #    ;
+        #
+        #    // validate the parameters
+        #    if (!_args || !_args.record() || _args.record().TableId != tablenum(SalesTable))
+        #        throw error(strfmt("@SYS118115", staticmethodstr(echPostReturnOrder, Main)));
+        #
+        #    // create a new instance of the postReturnOrder class
+        #    postReturnOrder = new echPostReturnOrder(_args.record());
+        #
+        #    // switch statement to only execute Packingslip and invoice updates. All the other statusses are ignored
+        #    switch (_args.parmEnum())
+        #    {
+        #        case DocumentStatus::PackingSlip:
+        #            postReturnOrder.postDocument(DocumentStatus::PackingSlip);
+        #            break;
+        #        case DocumentStatus::Invoice:
+        #            postReturnOrder.postDocument(DocumentStatus::Invoice);
+        #            break;
+        #        default:
+        #            throw error(strfmt("@SYS118115", staticmethodstr(echPostReturnOrder, Main)));
+        #
+        #
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

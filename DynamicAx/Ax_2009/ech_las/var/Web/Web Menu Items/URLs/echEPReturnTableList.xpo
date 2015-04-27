@@ -1,0 +1,23 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echEPReturnTableList unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echEPReturnTableList
+    PROPERTIES
+      Name                #echEPReturnTableList
+      Label               #@ECH650
+      HelpText            #@ECH694
+      URL                 #Sales/Enterprise%20Portal/echEPReturnTableList.aspx
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

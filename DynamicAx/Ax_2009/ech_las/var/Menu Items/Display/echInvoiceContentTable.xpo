@@ -1,0 +1,23 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echInvoiceContentTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echInvoiceContentTable
+    Type: 1
+    PROPERTIES
+      Name                #echInvoiceContentTable
+      Label               #@ECH312
+      HelpText            #@ECH311
+      Object              #echInvoiceContentTable
+      SecurityKey         #CustPeriodic
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

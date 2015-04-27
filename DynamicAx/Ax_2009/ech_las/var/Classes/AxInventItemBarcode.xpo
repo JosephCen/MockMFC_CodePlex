@@ -1,0 +1,443 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventItemBarcode unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventItemBarcode
+    Id 30093
+    PROPERTIES
+      Name                #AxInventItemBarcode
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxInventItemBarcode axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxInventItemBarcode extends AxInternalBase
+        #{
+        #    InventItemBarcode InventItemBarcode;
+        #
+        #    AxInventDim     axInventDim;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public InventItemBarcode currentRecord(InventItemBarcode _InventItemBarcode = InventItemBarcode)
+        #{
+        #    if (!prmisdefault(_InventItemBarcode))
+        #    {
+        #        super(_InventItemBarcode);
+        #        InventItemBarcode = _InventItemBarcode;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return InventItemBarcode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected InventItemBarcode emptyRecord()
+        #{
+        #    InventItemBarcode localInventItemBarcode;
+        #    ;
+        #    return localInventItemBarcode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #InventItemBarcode
+        #public InventItemBarcode inventItemBarcode(InventItemBarcode _inventItemBarcode = inventItemBarcode)
+        #{
+        #    if (!prmisdefault(_inventItemBarcode))
+        #    {
+        #        this.setCurrentRecordFromExternal(_inventItemBarcode);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmBarcodeSetupId
+        #public BarcodeSetupId parmBarcodeSetupId(BarcodeSetupId _barcodeSetupId = '')
+        #{
+        #    if (!prmisdefault(_barcodeSetupId))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, BarcodeSetupId), _barcodeSetupId);
+        #    }
+        #
+        #    return inventItemBarcode.BarcodeSetupId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmBlocked
+        #public Blocked parmBlocked(Blocked _blocked = NoYes::No)
+        #{
+        #    if (!prmisdefault(_blocked))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, Blocked), _blocked);
+        #    }
+        #
+        #    return inventItemBarcode.Blocked;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDescription
+        #public Description parmDescription(Description _description = '')
+        #{
+        #    if (!prmisdefault(_description))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, Description), _description);
+        #    }
+        #
+        #    return inventItemBarcode.Description;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchItemBarCode
+        #// Create ECH_WI_01939 by mengqi.cen on 20121224
+        #//     Create a new 'parm-' method for new table field InventItemBarcode.echItemBarCode
+        #public EchItemBarCode parmEchItemBarCode(EchItemBarCode _echItemBarCode = '')
+        #{
+        #    if (!prmisdefault(_echItemBarCode))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, echItemBarCode), _echItemBarCode);
+        #    }
+        #
+        #    return inventItemBarcode.echItemBarCode;
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #public InventDimId parmInventDimId(InventDimId _inventDimId = '')
+        #{
+        #    if (!prmisdefault(_inventDimId))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, InventDimId), _inventDimId);
+        #    }
+        #
+        #    return inventItemBarcode.InventDimId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemBarCode
+        #public ItemBarCode parmItemBarCode(ItemBarCode _itemBarCode = '')
+        #{
+        #    if (!prmisdefault(_itemBarCode))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, ItemBarCode), _itemBarCode);
+        #    }
+        #
+        #    return inventItemBarcode.ItemBarCode;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(InventItemBarcode),fieldnum(InventItemBarcode,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(InventItemBarcode, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axSalesItemId('', inventItemBarcode.ItemId,inventItemBarcode.inventDim()),1);
+        #    }
+        #    else
+        #    {
+        #        return inventItemBarcode.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmQty
+        #public InventQty parmQty(InventQty _qty = 0)
+        #{
+        #    if (!prmisdefault(_qty))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, Qty), _qty);
+        #    }
+        #
+        #    return inventItemBarcode.Qty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRBOShowForItem
+        #public RBOShowForItem parmRBOShowForItem(RBOShowForItem _rBOShowForItem = NoYes::No)
+        #{
+        #    if (!prmisdefault(_rBOShowForItem))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, RBOShowForItem), _rBOShowForItem);
+        #    }
+        #
+        #    return inventItemBarcode.RBOShowForItem;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmRBOVariantId
+        #public RBOVariantId parmRBOVariantId(RBOVariantId _rBOVariantId = '')
+        #{
+        #    if (!prmisdefault(_rBOVariantId))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, RBOVariantId), _rBOVariantId);
+        #    }
+        #
+        #    return inventItemBarcode.RBOVariantId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmUnitID
+        #public str parmUnitID(str _unitID = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_unitID))
+        #    {
+        #        dictField = new DictField(tablenum(InventItemBarcode),fieldnum(InventItemBarcode,UnitID));
+        #        if(this.valueMappingInbound())
+        #        {
+        #            this.validateInboundString(_unitID,dictField,this.mapPolicy().xMLMapUnitId());
+        #            _unitID = this.axUnitId(_unitID);
+        #        }
+        #        else
+        #        {
+        #            this.validateInboundString(_unitID,dictField);
+        #        }
+        #        this.setField(fieldNum(InventItemBarcode, UnitID), _unitID);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return this.axUnitId(inventItemBarcode.UnitID);
+        #    }
+        #    else
+        #    {
+        #        return inventItemBarcode.UnitID;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmUseForInput
+        #public UseForInput parmUseForInput(UseForInput _useForInput = NoYes::No)
+        #{
+        #    if (!prmisdefault(_useForInput))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, UseForInput), _useForInput);
+        #    }
+        #
+        #    return inventItemBarcode.UseForInput;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmUseForPrinting
+        #public UseForPrinting parmUseForPrinting(UseForPrinting _useForPrinting = NoYes::No)
+        #{
+        #    if (!prmisdefault(_useForPrinting))
+        #    {
+        #        this.setField(fieldNum(InventItemBarcode, UseForPrinting), _useForPrinting);
+        #    }
+        #
+        #    return inventItemBarcode.UseForPrinting;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBarcodeSetupId
+        #protected void setBarcodeSetupId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, BarcodeSetupId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setBlocked
+        #protected void setBlocked()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, Blocked)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDescription
+        #protected void setDescription()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, Description)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setEchItemBarCode
+        #// Create ECH_WI_01939 by mengqi.cen on 20121224
+        #//     Create a new 'set-' method for new table field InventItemBarcode.echItemBarCode
+        #protected void setEchItemBarCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, echItemBarCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventDimId
+        #protected void setinventDimId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, inventDimId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemBarCode
+        #protected void setItemBarCode()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, ItemBarCode)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setQty
+        #protected void setQty()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, Qty)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRBOShowForItem
+        #protected void setRBOShowForItem()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, RBOShowForItem)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setRBOVariantId
+        #protected void setRBOVariantId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, RBOVariantId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setItemBarCode();
+        #    this.setItemId();
+        #    this.setInventDimId();
+        #    this.setBarcodeSetupId();
+        #    this.setUseForPrinting();
+        #    this.setUseForInput();
+        #    this.setDescription();
+        #    this.setQty();
+        #    this.setUnitID();
+        #    this.setRBOVariantId();
+        #    this.setRBOShowForItem();
+        #    this.setBlocked();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setUnitID
+        #protected void setUnitID()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, UnitID)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setUseForInput
+        #protected void setUseForInput()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, UseForInput)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setUseForPrinting
+        #protected void setUseForPrinting()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventItemBarcode, UseForPrinting)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxInventItemBarcode construct()
+        #{
+        #    return new AxInventItemBarcode();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newInventItemBarcode
+        #public static AxInventItemBarcode newInventItemBarcode(InventItemBarcode _InventItemBarcode)
+        #{
+        #    AxInventItemBarcode AxInventItemBarcode = AxInventItemBarcode::construct();
+        #    ;
+        #    AxInventItemBarcode.InventItemBarcode(_InventItemBarcode);
+        #
+        #    return AxInventItemBarcode;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

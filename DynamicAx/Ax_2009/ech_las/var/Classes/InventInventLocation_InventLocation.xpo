@@ -1,0 +1,101 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventInventLocation_InventLocation unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventInventLocation_InventLocation
+    Id 14090
+    PROPERTIES
+      Name                #InventInventLocation_InventLocation
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class InventInventLocation_InventLocation extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchIsTemp('EchIsTemp')
+        #    #define.echMsgPartnerId('echMsgPartnerId')
+        #    // <GBR>
+        #    #define.InventCountingGroup('InventCountingGroup')
+        #    #define.CustAccount('CustAccount')
+        #    // </GBR>
+        #    #define.WMSRackNameActive('WMSRackNameActive')
+        #    #define.WMSRackFormat('WMSRackFormat')
+        #    #define.WMSPositionNameActive('WMSPositionNameActive')
+        #    #define.WMSPositionFormat('WMSPositionFormat')
+        #    #define.WMSLocationIdDefaultReceipt('WMSLocationIdDefaultReceipt')
+        #    #define.WMSlocationIdDefaultIssue('WMSlocationIdDefaultIssue')
+        #    #define.WMSLevelNameActive('WMSLevelNameActive')
+        #    #define.WMSLevelFormat('WMSLevelFormat')
+        #    #define.WMSAisleNameActive('WMSAisleNameActive')
+        #    #define.VendAccount('VendAccount')
+        #    #define.UseWMSOrders('UseWMSOrders')
+        #    #define.ReqRefill('ReqRefill')
+        #    #define.ReqCalendarId('ReqCalendarId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.PickingLineTime('PickingLineTime')
+        #    #define.Name('Name')
+        #    #define.MaxPickingRouteVolume('MaxPickingRouteVolume')
+        #    #define.MaxPickingRouteTime('MaxPickingRouteTime')
+        #    #define.Manual('Manual')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventLocationType('InventLocationType')
+        #    #define.InventLocationLevel('InventLocationLevel')
+        #    #define.InventLocationIdTransit('InventLocationIdTransit')
+        #    #define.InventLocationIdReqMain('InventLocationIdReqMain')
+        #    #define.InventLocationIdQuarantine('InventLocationIdQuarantine')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.InventAddress('InventAddress')
+        #    #define.EmptyPalletLocation('EmptyPalletLocation')
+        #    #define.BranchNumber('BranchNumber')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsEchIsTemp
+        #public boolean existsEchIsTemp()
+        #{
+        #    return this.exists(#EchIsTemp);
+        #}
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerId
+        #public boolean existsechMsgPartnerId()
+        #{
+        #    return this.exists(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchIsTemp
+        #public echTmpInventLocation parmEchIsTemp(echTmpInventLocation _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchIsTemp, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchIsTemp);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,71 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echEPSalesOrderCancel unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echEPSalesOrderCancel
+    Id 57726
+    PROPERTIES
+      Name                #echEPSalesOrderCancel
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echEPSalesOrderCancel
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #SalesOrderCancel
+        #// *** ECHINA - steven ***
+        #// *** Customization Code: ECH_WI_02093
+        #// *** Customization Date: 6 May 2013
+        #// *** Customization Type: created
+        #// *** Description: Cancel Sales Order
+        #
+        #public void SalesOrderCancel(SalesTable _salesTable)
+        #{
+        #    ;
+        #    echSalesOrderCancel::cancelOrder(_salesTable);
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - steven ***
+        #// *** Customization Code: ECH_WI_02093
+        #// *** Customization Date: 6 May 2013
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #static echEPSalesOrderCancel construct()
+        #{
+        #    return new echEPSalesOrderCancel();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - steven ***
+        #// *** Customization Code: ECH_WI_02093
+        #// *** Customization Date: 6 May 2013
+        #// *** Customization Type: created
+        #// *** Description: main
+        #
+        #static void main(Args args)
+        #{
+        #    echEPSalesOrderCancel   m_echEPSalesOrderCancel;
+        #    SalesTable              m_SalesTable;
+        #    ;
+        #    m_echEPSalesOrderCancel = echEPSalesOrderCancel::construct();
+        #    m_SalesTable = args.record();
+        #    m_echEPSalesOrderCancel.SalesOrderCancel(m_SalesTable);
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

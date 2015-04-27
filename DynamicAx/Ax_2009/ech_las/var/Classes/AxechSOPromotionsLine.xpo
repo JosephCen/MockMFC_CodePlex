@@ -1,0 +1,243 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechSOPromotionsLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechSOPromotionsLine
+    Id 30117
+    PROPERTIES
+      Name                #AxechSOPromotionsLine
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechSOPromotionsLine axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechSOPromotionsLine extends AxInternalBase
+        #{
+        #    echSOPromotionsLine echSOPromotionsLine;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echSOPromotionsLine currentRecord(echSOPromotionsLine _echSOPromotionsLine = echSOPromotionsLine)
+        #{
+        #    if (!prmisdefault(_echSOPromotionsLine))
+        #    {
+        #        super(_echSOPromotionsLine);
+        #        echSOPromotionsLine = _echSOPromotionsLine;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echSOPromotionsLine;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echSOPromotionsLine
+        #public echSOPromotionsLine echSOPromotionsLine(echSOPromotionsLine _echSOPromotionsLine = echSOPromotionsLine)
+        #{
+        #    if (!prmisdefault(_echSOPromotionsLine))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echSOPromotionsLine);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echSOPromotionsLine emptyRecord()
+        #{
+        #    echSOPromotionsLine localechSOPromotionsLine;
+        #    ;
+        #    return localechSOPromotionsLine;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmAmount
+        #public Amount parmAmount(Amount _amount = 0)
+        #{
+        #    if (!prmisdefault(_amount))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsLine, Amount), _amount);
+        #    }
+        #
+        #    return echSOPromotionsLine.Amount;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPercentage
+        #public Percent parmPercentage(Percent _percentage = 0)
+        #{
+        #    if (!prmisdefault(_percentage))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsLine, Percentage), _percentage);
+        #    }
+        #
+        #    return echSOPromotionsLine.Percentage;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPromotionDesc
+        #public echPromotionDesc parmPromotionDesc(echPromotionDesc _promotionDesc = '')
+        #{
+        #    if (!prmisdefault(_promotionDesc))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsLine, PromotionDesc), _promotionDesc);
+        #    }
+        #
+        #    return echSOPromotionsLine.PromotionDesc;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPromotionId
+        #public echPromotionId parmPromotionId(echPromotionId _promotionId = '')
+        #{
+        #    if (!prmisdefault(_promotionId))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsLine, PromotionId), _promotionId);
+        #    }
+        #
+        #    return echSOPromotionsLine.PromotionId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesId parmSalesId(SalesId _salesId = '')
+        #{
+        #    if (!prmisdefault(_salesId))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsLine, SalesId), _salesId);
+        #    }
+        #
+        #    return echSOPromotionsLine.SalesId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesLineNum
+        #public LineNum parmSalesLineNum(LineNum _salesLineNum = 0)
+        #{
+        #    if (!prmisdefault(_salesLineNum))
+        #    {
+        #        this.setField(fieldNum(echSOPromotionsLine, SalesLineNum), _salesLineNum);
+        #    }
+        #
+        #    return echSOPromotionsLine.SalesLineNum;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAmount
+        #protected void setAmount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsLine, Amount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPercentage
+        #protected void setPercentage()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsLine, Percentage)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPromotionDesc
+        #protected void setPromotionDesc()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsLine, PromotionDesc)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPromotionId
+        #protected void setPromotionId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsLine, PromotionId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSalesId
+        #protected void setSalesId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsLine, SalesId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSalesLineNum
+        #protected void setSalesLineNum()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSOPromotionsLine, SalesLineNum)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setPromotionDesc();
+        #    this.setPromotionId();
+        #    this.setSalesId();
+        #    this.setPercentage();
+        #    this.setAmount();
+        #    this.setSalesLineNum();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechSOPromotionsLine construct()
+        #{
+        #    return new AxechSOPromotionsLine();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechSOPromotionsLine
+        #public static AxechSOPromotionsLine newechSOPromotionsLine(echSOPromotionsLine _echSOPromotionsLine)
+        #{
+        #    AxechSOPromotionsLine AxechSOPromotionsLine = AxechSOPromotionsLine::construct();
+        #    ;
+        #    AxechSOPromotionsLine.echSOPromotionsLine(_echSOPromotionsLine);
+        #
+        #    return AxechSOPromotionsLine;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,4582 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #SalesEditLines
+  PROPERTIES
+    Name                #SalesEditLines
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #class       FormRun
+      #extends     ObjectRun
+      #{
+      #    #resAppl
+      #
+      #    #localMacro.maxControl 10 #endMacro
+      #
+      #    SalesFormLetter         salesFormLetter;
+      #    SalesEditLinesForm      salesEditLinesForm;
+      #    SalesTotals             salesTotals;
+      #    SalesTable              salesTable;
+      #
+      #    Counter                 queryDatasourceGroups;
+      #
+      #    Counter                 numOfAccounts;
+      #    Counter                 numOfCurrency;
+      #
+      #    NoYes                   printCODLabelChoice;
+      #    NoYes                   printCallTagChoice;
+      #    NoYes                   printShippingLabelChoice;
+      #
+      #    InventDimCtrl_Frm_Mov   inventDimFormSetup;
+      #
+      #    boolean                 shippingEnabled;
+      #    boolean                 custAccountInQuery;
+      #    boolean                 invoiceAccountInQuery;
+      #    boolean                 reArrangeNow;
+      #    boolean                 editLinesChanged;
+      #
+      #    SalesId                 initSumSalesId;
+      #
+      #    DocumentStatus          documentStatus;
+      #
+      #    boolean                 boxFormOnceIsActive;
+      #
+      #    // <GCN>
+      #    boolean                 taxIntegrationSystem_CN;
+      #    // </GCN>
+      #}
+    ENDSOURCE
+    SOURCE #echUpdateOtherOptionsGroup
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_I_OR03
+      #// *** Customization Date: 13 Mar 2012
+      #// *** Customization Type: created
+      #// *** Description: update Other options group
+      #
+      #void echUpdateOtherOptionsGroup()
+      #{
+      #    ;
+      #
+      #
+      #    if (updateNow.value())
+      #    {
+      #        echSendElectronically.enabled (true);
+      #        echSendElectronically.value   (salesFormLetter.echSendElectronically());
+      #    }
+      #    else
+      #    {
+      #        echSendElectronically.enabled (false);
+      #        echSendElectronically.value   (false);
+      #    }
+      #
+      #    echSendElectronically.visible (salesEditLinesForm.echSendElectronically());
+      #
+      #    echOptionsGroup.visible(echSendElectronically.visible()
+      #                            //&& {childControlName}.visible()
+      #                           );
+      #}
+    ENDSOURCE
+    SOURCE #setReturnItemInvoiceVisibility_BR
+      #/// <summary>
+      #/// It defines if the field is visible or not.
+      #/// </summary>
+      #/// <param name="_currentSalesParmTable">
+      #/// Current SalesParmTable
+      #/// </param>
+      #// <GBR>
+      #public void setReturnItemInvoiceVisibility_BR(SalesParmTable _currentSalesParmTable)
+      #{
+      #    RefusedInvoice.visible(salesEditLinesForm.showReturnItemFields_BR(_currentSalesParmTable.salesTable()));
+      #}
+      #// </GBR>
+    ENDSOURCE
+    SOURCE #enabledDisabledEinvoiceFields_MX
+      #// <GMX>
+      #public void enabledDisabledEinvoiceFields_MX()
+      #{
+      #    if (EInvoiceParameters_MX::isElectronicInvoiceEnabled())
+      #    {
+      #        sendByMail_MX.enabled(true);
+      #    }
+      #    else
+      #    {
+      #        sendByMail_MX.value(NoYes::No);
+      #        sendByMail_MX.enabled(false);
+      #    }
+      #}
+      #// </GMX>
+    ENDSOURCE
+    SOURCE #enableEximFieldsActive_IN
+      #// <GIN>
+      #public void enableEximFieldsActive_IN()
+      #{
+      #    EximParameters_IN eximParameters;
+      #    boolean           isDEPBAllowedEdit;
+      #    boolean           isDBKAllowedEdit;
+      #    ;
+      #
+      #    eximParameters    = EximParameters_IN::find();
+      #    isDEPBAllowedEdit = eximParameters.ActivateDEPB && eximSalesParmLine_IN.ApplyDEPB;
+      #    isDBKAllowedEdit  = eximParameters.ActivateDutyDrawback && eximSalesParmLine_IN && eximSalesParmLine_IN.dbkCenvatStatus != EximDBKCenvatStatus_IN::None;
+      #
+      #    if (TaxParameters::find().EximIncentiveSchemes_IN
+      #        && documentStatus == DocumentStatus::ShippingBill_IN)
+      #    {
+      #        lineIncentiveScheme.visible(true);
+      #        salesParmTable_EximExportDateTime_IN.visible(true);
+      #
+      #        depb.visible(eximParameters.ActivateDEPB);
+      #        depb_MarketValue.allowEdit(isDEPBAllowedEdit);
+      #        depb_MarketValuePct.allowEdit(isDEPBAllowedEdit);
+      #        depb_AllowedMarketValue.allowEdit(isDEPBAllowedEdit);
+      #
+      #        dutyDrawback.visible(eximParameters.ActivateDutyDrawback);
+      #        dbkCustoms_TariffCode.allowEdit(isDBKAllowedEdit);
+      #        dutyDrawback_DBKRateType.allowEdit(isDBKAllowedEdit);
+      #        dutyDrawback_DBKPercent.allowEdit(isDBKAllowedEdit);
+      #    }
+      #}
+      #// </GIN>
+    ENDSOURCE
+    SOURCE #enableDeliverySlipButton_BR
+      #// <GBR>
+      #private void enableDeliverySlipButton_BR()
+      #{
+      #    if (BrazilParameters::isEnabled()
+      #        && salesParmUpdate.DeliverySlipBasedPost_BR)
+      #    {
+      #        buttonSelectJournal.text("@GLS50838");
+      #        buttonSelectJournal.helpText("@GLS50984");
+      #    }
+      #}
+      #// </GBR>
+    ENDSOURCE
+    SOURCE #designShippingBillForm_IN
+      #// <GIN>
+      #public void designShippingBillForm_IN()
+      #{
+      #    salesParmTable_Ordering.helpText("@GLS5716");
+      #    salesParmTable_SalesId.helpText("@GLS5708");
+      #    salesParmTable_SalesName.helpText("@GLS5719");
+      #    salesParmTable_Transdate.helpText("@GLS5709");
+      #    // Lines tab help
+      #    salesParmLine_OrigSalesId.helpText("@GLS5706");
+      #    salesParmLine_ItemId.helpText("@SYS27686");
+      #    salesParmLine_DeliverNow.helpText("@GLS5768");
+      #    salesParmLine_LineAmount.helpText("@GLS5662");
+      #    salesParmLine_AssessableValue_IN.helpText("@GLS5663");
+      #    //Details button on Lines tab of SalesEditLines is visible/enabled for ShippingBill only
+      #    customsShippingBillDetails_IN.visible(true);
+      #    customsShippingBillDetails_IN.enabled(true);
+      #    //Hides the upper 3 tabs
+      #    tabPageOther.visible(false);
+      #    tabPageLateSelection.visible(false);
+      #    //Hides the lower 2 tabs
+      #    lineDetails.visible(false);
+      #    tabSalesParmSubTable.visible(false);
+      #    //As part of 5.o upgradeHides 5.o new Tab
+      #    tabSalesParmSubLine.visible(false);
+      #    //As part of 5.o upgrade
+      #
+      #    //Hides the print group tabs
+      #    printGroup.visible(false);
+      #    //Hides fields under parametrs group
+      #    specQty.visible(false);
+      #    updateNow.visible(false);
+      #    lateSelection.visible(false);
+      #    //Makes the customs specific fields on SalesParmUpdate (Parameters tab) visible. They are by default invisible
+      #    salesParmUpdate_CustomsShippingBill_IN.visible(true);
+      #    salesParmUpdate_CustomsShippingBillNumber_IN.visible(true);
+      #    //Makes the customs specific fields on SalesParmLine (Lines tab) visible. They are by default invisible
+      #    //Hides & renames buttons
+      #    buttonReArrange.visible(false);
+      #    printerSettings.visible(false);
+      #    //As part of 5.o upgrade
+      #    buttonSelectJournal.visible(false);
+      #    //As part of 5.o upgrade
+      #    taxTransSource.text("@SYS28668");
+      #    //Makes the customs specific buttons added visible. They are by default invisible
+      #    customsShippingBillNumber_IN.visible(true);
+      #    customsExportAssessableValue_IN.visible(true);
+      #    //Hides lower Overview tab contents
+      #    salesParmTable_CurrencyCode.visible(false);
+      #    salesParmTable_CustomsExportInvoiceId_IN.visible(true);
+      #    salesParmTable_CustomsShippingBillNumber_IN.visible(true);
+      #    //Hides lower Lines tab contents
+      #    salesParmTable_DocumentDate.visible(false);
+      #    bankManagement.visible(false);
+      #    salesParmLine_closed.visible(false);
+      #    salesParmLine_Scrap.visible(false);
+      #    qtyToPickInSalesUnit.visible(false);
+      #    buttonGroupSetup.visible(false);
+      #    //As part of 5.o upgrade
+      #    salesParmLine_packingSlipId.visible(false);
+      #    salesParmLine_DeliveryDate.visible(false);
+      #    salesParmTable_InventSiteId.visible(false);
+      #    salesParmTable_PackingSlipId.visible(false);
+      #    salesParmTable_ReturnPackingSlipId.visible(false);
+      #    //As part of 5.o upgrade
+      #
+      #    //Hide the inventory button in the lower tab - Lines
+      #    buttonLineInventory.visible(false);
+      #    //Hides the lower tab "Sales orders"
+      #    tabSalesParmSubTable.visible(false);
+      #    if(salesParmUpdate.CustomsShippingBill_IN == NoYes::No)
+      #    {
+      #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsShippingBillNumber_IN)).enabled(true);
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, CustomsShippingBillNumber_IN)).enabled(false);
+      #        salesParmUpdate.CustomsShippingBillNumber_IN = '';
+      #    }
+      #    else
+      #    {
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, CustomsShippingBillNumber_IN)).enabled(true);
+      #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsShippingBillNumber_IN)).enabled(false);
+      #        salesParmTable.CustomsShippingBillNumber_IN = '';
+      #    }
+      #    element.enableEximFieldsActive_IN();
+      #}
+      #// </GIN>
+    ENDSOURCE
+    SOURCE #setFieldAccess_QtyNow
+      #void setFieldAccess_QtyNow(boolean _allowEdit = true)
+      #{
+      #    salesParmLine_ds.object(fieldnum(SalesParmLine, InventNow)).allowEdit(_allowEdit);
+      #    salesParmLine_ds.object(fieldnum(SalesParmLine, DeliverNow)).allowEdit(_allowEdit);
+      #}
+    ENDSOURCE
+    SOURCE #SpecQtyChanged
+      #void  specQtyChanged()
+      #{
+      #    element.lock();
+      #
+      #    buttonSelectJournal.enabled         (salesParmUpdate.SpecQty == SalesUpdate::PackingSlip && salesEditLinesForm.selectJournalButton());
+      #    salesParmTable_PackingSlipId.visible(salesParmUpdate.SpecQty == SalesUpdate::PackingSlip && salesFormLetter.documentStatus() == DocumentStatus::Invoice);
+      #    salesParmLine_PackingSlipId.visible (salesParmUpdate.SpecQty == SalesUpdate::PackingSlip && salesFormLetter.documentStatus() == DocumentStatus::Invoice);
+      #    salesParmLine_DeliveryDate.visible  (salesParmUpdate.SpecQty == SalesUpdate::PackingSlip && salesFormLetter.documentStatus() == DocumentStatus::Invoice);
+      #    tabSalesParmSubLine.visible         (salesParmUpdate.SpecQty == SalesUpdate::PackingSlip && salesEditLinesForm.subLine());
+      #
+      #    element.setFieldAccess_QtyNow       (!(salesParmUpdate.SpecQty == SalesUpdate::PackingSlip && salesFormLetter.documentStatus() == DocumentStatus::Invoice));
+      #
+      #    if (salesParmUpdate.SumBy == AccountOrder::Journal)
+      #    {
+      #        salesParmUpdate.SumBy = AccountOrder::None;
+      #        sumBy.selection(salesEditLinesForm.sumByIndex2Selection(AccountOrder::None));
+      #        salesFormLetter.reArrange(false);
+      #    }
+      #    salesEditLinesForm.setupSumByControl(sumBy, salesParmUpdate.SpecQty, salesParmUpdate.SumBy);
+      #    element.unLock();
+      #}
+      #
+    ENDSOURCE
+    SOURCE #task
+      #public int task(int _taskId)
+      #{
+      #    #task
+      #    int ret;
+      #
+      #    if (_taskId == #taskEsc)
+      #    {
+      #        _taskId = #taskCtrlQ;
+      #    }
+      #
+      #    ret = super(_taskId);
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #removeQueryRange
+      #void removeQueryRange()
+      #{
+      #    FormGroupControl    formGroup;
+      #
+      #    int                 currentControl  = 1;
+      #    int                 controlCount    = 0;
+      #    ;
+      #
+      #    controlCount = tabPageLateSelection.controlCount();
+      #
+      #    while (currentControl <= #maxControl && currentControl <= controlCount)
+      #    {
+      #        formGroup = tabPageLateSelection.controlNum(currentControl);
+      #        formGroup.visible(false);
+      #
+      #        currentControl++;
+      #    }
+      #
+      #    pleaseMakeSelection.visible(true);
+      #}
+    ENDSOURCE
+    SOURCE #addQueryRange
+      #void  addQueryRange(QueryBuildDataSource    queryBuildDataSource)
+      #{
+      #    FormGroupControl    formGroup;
+      #    FormStringControl   formField;
+      #
+      #    int                 fieldCount      = 1;
+      #    int                 currentRange    = 1;
+      #    int                 rangeCount      = 0;
+      #    QueryBuildRange     queryBuildRange;
+      #
+      #    SysDictTable        sysDictTable;
+      #    SysDictField        sysDictField;
+      #    ;
+      #
+      #    fieldCount      = 1;
+      #    currentRange    = 1;
+      #
+      #    sysDictTable = new DictTable(queryBuildDataSource.table());
+      #
+      #    formGroup = tabPageLateSelection.addControl(FormControlType::Group, strfmt('group%1', sysDictTable.name()));
+      #    formGroup.caption(sysDictTable.label());
+      #    formGroup.columns(1);
+      #    formGroup.visible(true);
+      #
+      #    rangeCount = queryBuildDataSource.rangeCount();
+      #
+      #    while (fieldCount <= #maxControl && currentRange <= rangeCount)
+      #    {
+      #        queryBuildRange = queryBuildDataSource.range(currentRange);
+      #
+      #        if (queryBuildRange.value())
+      #        {
+      #            sysDictField    = new SysDictField(queryBuildRange.table(), queryBuildRange.field());
+      #            formField       = formGroup.addControl(FormControlType::String, strfmt('field%1', currentRange));
+      #
+      #            formField.extendedDataType  (sysDictField.extendedTypeId());
+      #            formField.label             (sysDictField.label());
+      #            formField.text              (queryBuildRange.value());
+      #            formField.visible           (true);
+      #            formField.allowEdit         (false);
+      #
+      #            fieldCount ++;
+      #        }
+      #
+      #        currentRange ++;
+      #    }
+      #
+      #    pleaseMakeSelection.visible(false);
+      #}
+    ENDSOURCE
+    SOURCE #initQuery
+      #void  initQuery()
+      #{
+      #    Query                   query;
+      #    QueryBuildDataSource    queryBuildDataSource;
+      #    Counter                 curDataSource;
+      #    ;
+      #
+      #    element.lock();
+      #
+      #    if (! salesFormLetter.queryChooseLines())
+      #        return;
+      #
+      #    query = salesFormLetter.queryChooseLines().query();
+      #
+      #    if (! query.dataSourceCount())
+      #        return;
+      #
+      #    element.removeQueryRange();
+      #
+      #    for (curDataSource=1; curDataSource <= query.dataSourceCount(); curDataSource++)
+      #    {
+      #        queryBuildDataSource = query.dataSourceNo(curDataSource);
+      #        element.addQueryRange(queryBuildDataSource);
+      #    }
+      #
+      #    salesFormLetter.queryChooseLines().query(query);
+      #    tabPageLateSelection.visible(true);
+      #
+      #    element.arrange();
+      #    element.unLock();
+      #}
+    ENDSOURCE
+    SOURCE #reArrange
+      #boolean  reArrange()
+      #{
+      #    boolean  ok = true;
+      #    ;
+      #
+      #    salesParmUpdate_ds.write();
+      #
+      #    salesFormLetter.initParameters(salesParmUpdate.data(),
+      #                                   print_Combo.selection(),
+      #                                   printFormletter.value(),
+      #                                   printCODLabelChoice,
+      #                                   printCallTagChoice,
+      #                                   printShippingLabelChoice,
+      #                                   usePrintManagement.value(),
+      #                                   true);
+      #
+      #    // <GMX>
+      #    if (EInvoiceParameters_MX::isElectronicInvoiceEnabled())
+      #    {
+      #        salesFormLetter.initEInvoiceFields_MX(sendByMail_MX.value());
+      #    }
+      #    // </GMX>
+      #
+      #    salesFormLetter.editLinesChanged(editLinesChanged);
+      #    salesFormLetter.reArrangeNow(reArrangeNow);
+      #
+      #    salesFormLetter.validateAll(false);
+      #    ok = salesFormLetter.reArrange();
+      #    salesFormLetter.validateAll(true);
+      #
+      #    salesParmTable_ds.executeQuery();
+      #
+      #    reArrangeNow = !ok;
+      #    buttonReArrange.enabled(reArrangeNow);
+      #
+      #    element.setFieldAccess();
+      #
+      #    return ok;
+      #}
+    ENDSOURCE
+    SOURCE #reArrangeNow
+      #void  reArrangeNow()
+      #{;
+      #    reArrangeNow = true;
+      #    buttonReArrange.enabled(reArrangeNow);
+      #}
+    ENDSOURCE
+    SOURCE #sumByChanged
+      #void  sumByChanged(boolean _init)
+      #{
+      #    element.lock();
+      #
+      #    if (salesParmUpdate.SumBy == AccountOrder::Order)
+      #    {
+      #        salesParmUpdate.SumSalesId = initSumSalesId;
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, SumSalesId)).visible(true);
+      #    }
+      #    else
+      #    {
+      #        salesParmUpdate.SumSalesId = '';
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, SumSalesId)).visible(false);
+      #    }
+      #
+      #    if (_init && salesParmUpdate.SumBy == AccountOrder::None)
+      #        reArrangeNow = false;
+      #    else
+      #        reArrangeNow = true;
+      #
+      #    buttonReArrange.enabled(reArrangeNow);
+      #
+      #    element.unLock();
+      #}
+      #
+    ENDSOURCE
+    SOURCE #canClose
+      #boolean  canClose()
+      #{
+      #    boolean ret = super();
+      #    ;
+      #
+      #    if (ret)
+      #    {
+      #        if(boxFormOnceIsActive)
+      #            return false;
+      #
+      #        if (!this.closedOk())
+      #        {
+      #            if (editLinesChanged)
+      #            {
+      #                if (Box::yesNo("@SYS26912",DialogButton::Yes)!=DialogButton::Yes)
+      #                    return false;
+      #            }
+      #        }
+      #        else
+      #        {
+      #            if (!salesFormLetter.checkCloseDialog())
+      #            {
+      #                salesParmUpdate_ds.executeQuery();
+      #                return false;
+      #            }
+      #        }
+      #    }
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #checkGiroSettings
+      #void checkGiroSettings()
+      #{
+      #}
+    ENDSOURCE
+    SOURCE #run
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_I_OR03
+      #// *** Customization Date: 13 Mar 2012
+      #// *** Customization Type: modified
+      #// *** Description: update other options group
+      #
+      #void  run()
+      #{
+      #    SalesUpdate recommendedQty;
+      #    SysDictEnum salesUpdateEnum    = new SysDictEnum(enumnum(SalesUpdate));
+      #    BoxFormOnce box;
+      #    ;
+      #
+      #    super();
+      #    salesEditLinesForm.setupSumByControl(sumBy, salesParmUpdate.SpecQty, salesParmUpdate.SumBy);
+      #
+      #    if (salesParmUpdate.ParmId)
+      #    {
+      #        element.lock();
+      #
+      #        if (salesParmUpdate.LateSelection)
+      #        {
+      #            if (salesParmUpdate.LateSelectionQuery)
+      #                salesFormLetter.queryChooseLines(new QueryRun(salesParmUpdate.LateSelectionQuery));
+      #
+      #            element.initQuery();
+      #        }
+      #
+      #        salesFormLetter.setSalesEditLinesDataSource(salesParmTable_ds);
+      #
+      #        print_Combo.selection         (salesFormLetter.printout());
+      #        printFormletter.value         (salesFormLetter.printFormLetter());
+      #        printCODLabelChoice         = (salesFormLetter.printCODLabel());
+      #        printCallTagChoice          = (salesFormLetter.printFreightSlip());
+      #        printShippingLabelChoice    = (salesFormLetter.printShippingLabel());
+      #        usePrintManagement.value      (salesFormLetter.usePrintManagement());
+      #        // <GMX>
+      #        if (EInvoiceParameters_MX::isElectronicInvoiceEnabled())
+      #        {
+      #            SendByMail_MX.value(salesFormLetter.sendByMail_MX());
+      #        }
+      #        // </GMX>
+      #// CS - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+      #        this.echUpdateOtherOptionsGroup();
+      #// CE - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+      #
+      #        this.setFieldAccess();
+      #
+      #        reArrangeNow                = (salesFormLetter.reArrangeNow());
+      #        editLinesChanged            = (salesFormLetter.editLinesChanged());
+      #        custAccountInQuery          = (salesFormLetter.custAccountInQuery());
+      #        invoiceAccountInQuery       = (salesFormLetter.invoiceAccountInQuery());
+      #
+      #        element.sumByChanged(true);
+      #
+      #        if (documentStatus == DocumentStatus::Invoice)
+      #        {
+      #            if (salesFormLetter.salesTable())
+      #            {
+      #                if (salesFormLetter.defaultGiroType())
+      #                    salesParmUpdate.GiroType = PaymentStubInclAll::All;
+      #                else
+      #                    salesParmUpdate.GiroType = salesFormLetter.giroType() + 0;
+      #            }
+      #            else
+      #            {
+      #                salesParmUpdate.GiroType = CustFormletterParameters::find().GiroOnInvoice + 0;
+      #            }
+      #
+      #            salesFormLetter.giroType        (salesParmUpdate.GiroType + 0);
+      #            salesFormLetter.defaultGiroType (salesParmUpdate.GiroType == PaymentStubInclAll::All);
+      #
+      #            salesParmUpdate_ds.refresh();
+      #        }
+      #
+      #        element.design().caption            (salesEditLinesForm.editingCaption());
+      #
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, RespiteDate)).visible(salesEditLinesForm.respiteDate());
+      #        salesParmTable_TransDate.label      (salesEditLinesForm.transDateCaption());
+      #        printFormletter.label               (salesEditLinesForm.formLetterCaption());
+      #        buttonPrintFormletter.text          (salesEditLinesForm.formLetterButtonCaption());
+      #        buttonPrintFormletterCopy.text      (salesEditLinesForm.formLetterButtonCaptionCopy());
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, Storno)).visible(salesEditLinesForm.correct());
+      #        warehouseManagement.visible         (salesEditLinesForm.wmsOrder());
+      #
+      #        salesParmTable_ds.object(fieldnum(SalesParmTable, FixedDueDate)).visible (salesEditLinesForm.fixedDueDate());
+      #
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, Reserve)).visible   (salesEditLinesForm.reserve());
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, Reserve)).allowEdit (salesEditLinesForm.editReserve());
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, Reserve)).skip      (!salesEditLinesForm.editReserve());
+      #        salesParmLine_ds.object(fieldnum(SalesParmLine, Closed)).visible        (salesEditLinesForm.close());
+      #
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, CreditRemaining)).visible(salesEditLinesForm.creditRemaining());
+      #        salesParmLine_ds.object(fieldnum(SalesParmLine, RemainAfter)).allowEdit (salesEditLinesForm.editRemainAfter());
+      #        salesParmLine_ds.object(fieldnum(SalesParmLine, RemainAfter)).skip      (!salesEditLinesForm.editRemainAfter());
+      #
+      #        buttonPaymentSched.visible          (salesEditLinesForm.paymentSched());
+      #        buttonPaymentSched.enabled          (salesFormLetter.salesTable().PaymentSched != '');
+      #        buttonSelectJournal.visible         (salesEditLinesForm.selectJournalButton());
+      #        buttonSelectJournal.enabled         (salesParmUpdate.SpecQty == SalesUpdate::PackingSlip);
+      #
+      #        updateNow.enabled                   (salesFormLetter.enableUpdateNowField());
+      #        print_Combo.enabled                 (!salesFormLetter.proforma());
+      #
+      #        salesParmTable_inventSiteId.visible (salesParmUpdate.SplitSite == NoYes::Yes);
+      #
+      #        choose.visible                      (salesEditLinesForm.choose());
+      #        sumBy.visible                       (salesEditLinesForm.sumBy());
+      #        creditMax.visible                   (salesEditLinesForm.creditMax());
+      #        buttonSalesTotals.visible           (salesEditLinesForm.salesTotals());
+      #        salesParmTable_ds.allowCreate       (salesEditLinesForm.allowCreate_ParmTable() && !salesParmUpdate.LateSelection);
+      #        salesParmLine_ds.allowCreate        (salesEditLinesForm.allowCreate_ParmLine()  && !salesParmUpdate.LateSelection);
+      #        salesParmTable_ds.object(fieldnum(SalesParmTable, ProjId)).visible              (salesEditLinesForm.projId());
+      #
+      #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustBankAccountId)).visible   (salesEditLinesForm.custBankAccountId());
+      #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustBankAccountId)).allowEdit (salesEditLinesForm.custBankAccountIdAllowEdit());
+      #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustBankAccountId)).skip      (!salesEditLinesForm.custBankAccountIdAllowEdit());
+      #
+      #        qtyToPickInSalesUnit.visible        (salesEditLinesForm.qtyToPickInSalesUnit());
+      #
+      #        switch (documentStatus)
+      #        {
+      #            case DocumentStatus::PackingSlip :
+      #                groupShipments.visible(salesFormLetter.useShippingStat());
+      #                break;
+      #
+      #            case DocumentStatus::Invoice     :
+      #                groupShipments.visible(salesFormLetter.useShippingStat());
+      #                // <GBR>
+      #                this.enableDeliverySlipButton_BR();
+      #                // </GBR>
+      #                break;
+      #
+      #            default                          :
+      #                groupShipments.visible(false);
+      #                buttonSalesShippingLine.visible(false);
+      #        }
+      #
+      #        shippingEnabled = buttonSalesShippingLine.visible();
+      #
+      #        if (salesFormLetter.showQueryForm() && !salesFormLetter.createFromHistory())
+      #            buttonSalesShippingLine.enabled(false);
+      #
+      #        tabSalesParmSubLine.visible(salesEditLinesForm.subLine());
+      #
+      #
+      #        element.unLock();
+      #
+      #        if (SalesParameters::find().PromptQty && !salesFormLetter.lockSalesUpdateField())
+      #        {
+      #            recommendedQty = salesFormLetter.recommendedSpecQty();
+      #            if(recommendedQty!=specQty.selection())
+      #            {
+      #                boxFormOnceIsActive = true;
+      #
+      #                box = BoxFormOnce::construct();
+      #                box.parmDialogBoxType(DialogBoxType::YesNoBox);
+      #                box.parmDialogButton(DialogButton::Yes);
+      #                box.parmTitle("@SYS59372");
+      #                box.parmText(strfmt("@SYS102340", salesUpdateEnum.index2Name(specQty.selection()), salesUpdateEnum.index2Name(recommendedQty)));
+      #                box.parmOwner(new SysDictClass(classidget(salesEditLinesForm)).name());
+      #                if(box.prompt() == DialogButton::Yes)
+      #                {
+      #                    specQty.selection(recommendedQty);
+      #                    specQty.selectionChange();
+      #                }
+      #
+      #                boxFormOnceIsActive = false;
+      #            }
+      #        }
+      #
+      #        // <GBR>
+      #        salesParmUpdate.DlvNoOfCarrier = '';
+      #        salesParmUpdate.DlvPackingName = '';
+      #        salesParmUpdate.DlvStateRegistered = '';
+      #        salesParmUpdate.DlvTransportBrand = '';
+      #        // </GBR>
+      #    }
+      #
+      #    // <GBR>
+      #    fiscalReference_BR.visible(salesEditLinesForm.showFiscalReference_BR());
+      #    // </GBR>
+      #
+      #    element.setFieldAccess();
+      #    element.specQtyChanged();
+      #
+      #    editLinesChanged = false;
+      #}
+      #
+    ENDSOURCE
+    SOURCE #init
+      #void  init()
+      #{
+      #    ParmId  parmId;
+      #    // <GIN>
+      #    boolean isTaxesMarked  = TaxParameters::checkTaxParameters_IN();
+      #    boolean isCustomMarked = TaxParameters::find().Customs_IN;
+      #    // </GIN>
+      #    ;
+      #
+      #    // <GCN>
+      #    taxIntegrationSystem_CN = CustParameters::find().TaxIntegrationSystem_CN;
+      #    // </GCN>
+      #
+      #    super();
+      #
+      #    if (! element.args().caller())
+      #        throw error("@SYS22539");
+      #
+      #    salesFormLetter         = element.args().caller();
+      #    documentStatus          = salesFormLetter.documentStatus();
+      #    parmId                  = salesFormLetter.parmId();
+      #
+      #    salesEditLinesForm      = SalesEditLinesForm::construct(documentStatus, salesFormLetter.createFromLines());
+      #
+      #    // <GIN>
+      #    element.design().control(control::SalesParmLine_AssessableValue_IN).visible(isTaxesMarked);
+      #    element.design().control(control::Price_IN).visible(isTaxesMarked);
+      #    salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, CustomsExportOrderType_IN)).visible(isCustomMarked);
+      #
+      #    if (isCustomMarked && documentStatus == DocumentStatus::ShippingBill_IN)
+      #    {
+      #        element.designShippingBillForm_IN();
+      #        salesParmTable_ds.refresh();
+      #    }
+      #    // </GIN>
+      #    if (salesEditLinesForm.giro())
+      #    {
+      #        giro.visible(true);
+      #    }
+      #    else
+      #    {
+      #        giro.visible(false);
+      #    }
+      #    // <GJP>
+      #    if (CustParameters::find().ConsolidatedInvoice_JP
+      #        && documentStatus == DocumentStatus::Invoice)
+      #    {
+      #        consolidationDate_JP.visible(true);
+      #        shipDate.visible(true);
+      #        salesFormLetter.parmConsolidationDate_JP(consolidationDate_JP.value());
+      #        salesFormLetter.parmShipDate_JP(shipDate.valueStr());
+      #    }
+      #    else
+      #    {
+      #        consolidationDate_JP.visible(false);
+      #        shipDate.visible(false);
+      #    }
+      #    // </GJP>
+      #
+      #    salesParmUpdate_ReduceOnHand.visible(salesEditLinesForm.reduceOnHand());
+      #
+      #    tabPageBillOfLading.visible(salesEditLinesForm.billOfLading());
+      #    tabPageTransportationDocument.visible(SalesParameters::find().TransportationDocumentOnPackingSlip);
+      #
+      #    element.updateDesign(InventDimFormDesignUpdate::Init);
+      #
+      #    salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, SumSalesId)).visible(false);
+      #
+      #    salesParmUpdate_ds.query().dataSourceTable(tablenum(SalesParmUpdate)).addRange(fieldnum(SalesParmUpdate, ParmId)).value(queryValue(parmId));
+      #    salesParmTable_ds.query().dataSourceTable(tablenum(SalesParmTable)).addRange(fieldnum(SalesParmTable, ParmId)).value(queryValue(parmId));
+      #
+      #    if (salesFormLetter.lockSalesUpdateField())
+      #    {
+      #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate,SpecQty)).enabled(false);
+      #    }
+      #    else
+      #    {
+      #        specQty.items(salesEditLinesForm.specQtyItems());
+      #    }
+      #
+      #    // <GMX>
+      #    EInvoice_MX.visible(salesEditLinesForm.sendByMail_MX());
+      #    // </GMX>
+      #    // <GCN>
+      #    salesTax_CN.visible(taxIntegrationSystem_CN);
+      #    // </GCN>
+      #
+      #    this.batch(false);
+      #}
+    ENDSOURCE
+    SOURCE #CloseOk
+      #void  closeOk()
+      #{;
+      #
+      #    if ((salesParmUpdate.GiroType == PaymentStubInclAll::FIK751 || salesParmUpdate.GiroType == PaymentStubInclAll::FIK752)
+      #        && strlen(CompanyInfo::find().fiCreditorID_DK) == 0)
+      #    {
+      #        throw error("@SYP2557");
+      #    }
+      #
+      #    if (salesParmUpdate.GiroType == PaymentStubInclAll::FIK751)
+      #    {
+      #        throw error("@SYP2572");
+      #    }
+      #
+      #    if (salesParmUpdate)
+      #        salesParmUpdate_ds.write();
+      #
+      #    if (salesParmTable.RecId)
+      #        salesParmTable_ds.write();
+      #
+      #    if (salesParmSubTable)
+      #        salesParmSubTable_ds.write();
+      #
+      #    if (salesParmLine)
+      #        salesParmLine_ds.write();
+      #
+      #    if (salesEditLinesForm.giro())
+      #        element.checkGiroSettings();
+      #
+      #
+      #    salesFormLetter.initParameters(salesParmUpdate.data(),
+      #                                   print_Combo.selection(),
+      #                                   printFormletter.value(),
+      #                                   printCODLabelChoice,
+      #                                   printCallTagChoice,
+      #                                   printShippingLabelChoice,
+      #                                   usePrintManagement.value(),
+      #                                   true);
+      #    // <GMX>
+      #    if (EInvoiceParameters_MX::isElectronicInvoiceEnabled())
+      #    {
+      #        salesFormLetter.initEInvoiceFields_MX(sendByMail_MX.value());
+      #    }
+      #    // </GMX>
+      #
+      #    salesFormLetter.editLinesChanged(editLinesChanged);
+      #    salesFormLetter.reArrangeNow(reArrangeNow);
+      #
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #Object inventDimSetupObject()
+      #{
+      #    return inventDimFormSetup;
+      #}
+      #
+    ENDSOURCE
+    SOURCE #updateDesign
+      #void updateDesign(InventDimFormDesignUpdate mode)
+      #{
+      #    InventMovement movement = InventMovement::construct(salesParmLine);
+      #
+      #    switch (mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init :
+      #            if (!inventDimFormSetup)
+      #            {
+      #                inventDimFormSetup  = InventDimCtrl_Frm_Mov::newFromFormMovement(element, movement);
+      #            }
+      #
+      #        case InventDimFormDesignUpdate::Active      :
+      #            inventDimFormSetup.formActiveSetup(movement.inventTable().DimGroupId,movement);
+      #            inventDimFormSetup.formSetControls(true);
+      #            break;
+      #
+      #        case InventDimFormDesignUpdate::FieldChange :
+      #            inventDimFormSetup.formActiveSetup(movement.inventTable().DimGroupId,movement);
+      #            inventDimFormSetup.formSetControls(false);
+      #            break;
+      #
+      #        default : throw error(strfmt("@SYS54195",funcname()));
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #checkParmTable
+      #void  checkParmTable()
+      #{;
+      #    [numOfAccounts, numOfCurrency] = SalesFormLetter::checkParmTable(salesParmUpdate.ParmId,
+      #                                                                     custAccountInQuery,
+      #                                                                     invoiceAccountInQuery);
+      #
+      #    if (shippingEnabled)
+      #    {
+      #        buttonSalesShippingLine.enabled(numOfAccounts != 0);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #RunBase
+      #RunBase runBase()
+      #{
+      #    return salesFormLetter;
+      #}
+    ENDSOURCE
+    SOURCE #Batch
+      #void batch(boolean batchable)
+      #{
+      #    buttonBatch.visible(batchable);
+      #}
+      #
+    ENDSOURCE
+    SOURCE #ChooseTable
+      #void  chooseTable(boolean _checkForReArrange = false)
+      #{
+      #    // <GBR>
+      #    QueryBuildRange         queryBuildRange1;
+      #    QueryBuildDataSource    queryBuildDs;
+      #    QueryBuildDataSource    queryBuildDs1;
+      #    // </GBR>
+      #    ;
+      #
+      #    // <GBR>
+      #    if(BrazilParameters::isEnabled())
+      #    {
+      #        queryBuildDs = salesParmTable_ds.query().dataSourceTable(tablenum(SalesParmTable));
+      #
+      #        if (!salesParmTable_ds.query().dataSourceTable(tablenum(SalesTable)))
+      #        {
+      #            queryBuildDs1 = queryBuildDs.addDataSource(tablenum(SalesTable));
+      #            queryBuildDs1.addLink(fieldnum(SalesParmTable, SalesId), fieldnum(SalesTable, SalesId));
+      #            queryBuildRange1 = queryBuildDs1.addRange(fieldnum(SalesTable, DeliveryCFOPId));
+      #            if(documentStatus == DocumentStatus::PackingSlip)
+      #            {
+      #                queryBuildRange1.value(strfmt('(%1 == "%2")', fieldstr(SalesTable,DeliveryCFOPId), SysQuery::valueUnlimited()));
+      #            }
+      #            else if(documentStatus == DocumentStatus::DeliverySlip)
+      #            {
+      #                queryBuildRange1.value(strfmt('(%1 != "%2")', fieldstr(SalesTable,DeliveryCFOPId), SysQuery::valueUnlimited()));
+      #            }
+      #        }
+      #    }
+      #    // </GBR>
+      #
+      #    editLinesChanged = true;
+      #
+      #    salesParmTable_ds.executeQuery();
+      #    element.checkParmTable();
+      #    if (_checkForReArrange &&
+      #        salesparmUpdate.SumBy != AccountOrder::None &&
+      #        salesParmTable.RecId)
+      #        element.reArrangeNow();
+      #}
+      #
+    ENDSOURCE
+    SOURCE #ChooseTrans
+      #void  chooseTrans()
+      #{
+      #    salesParmLine_ds.executeQuery();
+      #}
+    ENDSOURCE
+    SOURCE #setFieldAccess
+      #void setFieldAccess()
+      #{
+      #    ;
+      #
+      #    // <GBR>
+      #    if (!BrazilParameters::isEnabled()
+      #        || !salesFormLetter.parmBlockPrintManagementOverride_BR())
+      #    {
+      #    // </GBR>
+      #        usePrintManagement.enabled(printFormLetter.value());
+      #
+      #        if (!usePrintManagement.enabled())
+      #        {
+      #            usePrintManagement.value(enum2int(NoYes::No));
+      #        }
+      #    // <GBR>
+      #    }
+      #    else
+      #    {
+      #        usePrintManagement.enabled(false);
+      #
+      #        usePrintManagement.value( printFormLetter.value() ?
+      #                                    salesFormLetter.usePrintManagement() :
+      #                                    false );
+      #    }
+      #    // </GBR>
+      #    // <GMX>
+      #    this.enabledDisabledEinvoiceFields_MX();
+      #    // </GMX>
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesParmUpdate
+          Table               #SalesParmUpdate
+          AllowCreate         #No
+          AllowDelete         #No
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD DocumentStatus
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{;
+                #    super();
+                #
+                #    salesFormLetter.reSelect(salesParmUpdate.SpecQty, salesParmUpdate.CreditRemaining);
+                #    element.chooseTable();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Proforma
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{;
+                #    super();
+                #
+                #    salesFormLetter.reSelect(salesParmUpdate.SpecQty, salesParmUpdate.CreditRemaining);
+                #    element.chooseTable();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD SpecQty
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #    element.specQtyChanged();
+                #    salesFormLetter.reSelect(salesParmUpdate.SpecQty, salesParmUpdate.CreditRemaining);
+                #    element.chooseTable();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD GiroType
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesFormLetter.giroType(giroType.selection());
+                #    salesFormLetter.defaultGiroType(giroType.selection()==PaymentStubInclAll::All);
+                #    salesFormLetter.deleteGiroAndInitQuery();
+                #    element.chooseTable();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD SumBy
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #}
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD lateSelection
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesParmTable_ds.allowCreate(salesEditLinesForm.allowCreate_ParmTable() && !salesParmUpdate.LateSelection);
+                #    salesParmLine_ds.allowCreate (salesEditLinesForm.allowCreate_ParmLine()  && !salesParmUpdate.LateSelection);
+                #
+                #    salesFormLetter.salesParmUpdate(salesParmUpdate);
+                #
+                #    if (salesFormLetter.lateSelectionRemoveLines())
+                #    {
+                #        salesParmTable_ds.executeQuery();
+                #
+                #        element.lock();
+                #
+                #        tabPageLateSelection.visible(salesParmUpdate.LateSelection);
+                #
+                #        element.redraw();
+                #        element.arrange();
+                #
+                #        element.unLock();
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD SumSalesId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{;
+                #    SalesParmTable::lookupParmId(_formControl, salesParmTable.ParmId);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CreditRemaining
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    ;
+                #    salesFormLetter.reSelect(salesParmUpdate.SpecQty, salesParmUpdate.CreditRemaining);
+                #    element.chooseTable();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD ReduceOnHand
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    if (documentStatus == DocumentStatus::PickingList)
+                #    {
+                #        salesParmUpdate.Reserve = salesParmUpdate.ReduceOnHand;
+                #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, Reserve)).allowEdit(!salesParmUpdate.ReduceOnHand);
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CustomsExportOrderType_IN
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    super();
+                #    salesFormLetter.initLinesQuery_IN(salesParmUpdate.CustomsExportOrderType_IN);
+                #    salesParmTable_ds.research();
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CustomsShippingBillNumber_IN
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    super();
+                #    if (salesParmUpdate.CustomsShippingBillNumber_IN)
+                #    {
+                #        salesParmTable.Transdate = CustomsShippingBillNumberTable_IN::find(salesParmUpdate.CustomsShippingBillNumber_IN).ShippingBillDate;
+                #        salesParmTable.EximExportDateTime_IN = DateTimeUtil::newDateTime(salesParmTable.Transdate, 0, DateTimeUtil::getUserPreferredTimeZone());
+                #    }
+                #}
+                #// </GIN>
+              ENDSOURCE
+              SOURCE #lookup
+                #// <GIN>
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #
+                #    CustomsShippingBillNumberTable_IN::lookupShippingBillNumber(_formControl);
+                #}
+                #// </GIN>
+                #
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CustomsShippingBill_IN
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    ;
+                #
+                #    super();
+                #    if(salesParmUpdate.CustomsShippingBill_IN == NoYes::No)
+                #    {
+                #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsShippingBillNumber_IN)).enabled(true);
+                #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, CustomsShippingBillNumber_IN)).enabled(false);
+                #        salesParmUpdate.CustomsShippingBillNumber_IN = '';
+                #    }
+                #    else
+                #    {
+                #        salesParmUpdate_ds.object(fieldnum(SalesParmUpdate, CustomsShippingBillNumber_IN)).enabled(true);
+                #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsShippingBillNumber_IN)).enabled(false);
+                #    }
+                #    SalesParmUpdate::clearShippingBillNumber_IN(salesParmUpdate);
+                #    salesParmTable_ds.refresh();
+                #    salesParmLine_ds.refresh();
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    sumBy.selection(salesEditLinesForm.sumByIndex2Selection(salesParmUpdate.SumBy));
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesParmTable
+          Table               #SalesParmTable
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD SalesId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #boolean validate()
+                #{
+                #    boolean     ret;
+                #    SalesTable  localSalesTable;
+                #    ;
+                #
+                #    ret = super();
+                #
+                #    localSalesTable = salesParmTable.salesTable();
+                #
+                #    if (!(salesFormLetter.mayJournalBePosted(localSalesTable)))
+                #        ret = checkFailed(strfmt("@SYS62423", localSalesTable.SalesType, localSalesTable.SalesId));
+                #
+                #    return ret;
+                #}
+                #
+              ENDSOURCE
+              SOURCE #Modified
+                #void  modified()
+                #{
+                #    super();
+                #
+                #    salesParmTable.Ordering = documentStatus;
+                #    salesTable = salesParmTable.salesTable();
+                #    // <GIN>
+                #    if (TaxParameters::find().Customs_IN)
+                #    {
+                #        salesParmTable.CustomsExportInvoiceId_IN = '';
+                #    }
+                #    // </GIN>
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #// <GIN>
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    if (TaxParameters::find().Customs_IN && documentStatus == DocumentStatus::ShippingBill_IN)
+                #    {
+                #        CustomsExportOrderTable_IN::lookupSalesId(_formControl);
+                #    }
+                #    else // STD AX lookup
+                #    {
+                #        super(_formControl, _filterStr);
+                #    }
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Ordering
+            PROPERTIES
+              AllowEdit           #No
+              Skip                #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesName
+            PROPERTIES
+              AllowEdit           #No
+              Skip                #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CurrencyCode
+            PROPERTIES
+              AllowEdit           #No
+              Skip                #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CustomsShippingBillNumber_IN
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #// <GIN>
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #
+                #    CustomsShippingBillNumberTable_IN::lookupShippingBillNumber(_formControl);
+                #}
+                #// </GIN>
+                #
+                #
+              ENDSOURCE
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    ;
+                #
+                #    super();
+                #
+                #    if (salesParmTable.CustomsShippingBillNumber_IN)
+                #    {
+                #        salesParmTable.Transdate = CustomsShippingBillNumberTable_IN::find(salesParmTable.CustomsShippingBillNumber_IN).ShippingBillDate;
+                #        salesParmTable.EximExportDateTime_IN = DateTimeUtil::newDateTime(salesParmTable.Transdate, 0, DateTimeUtil::getUserPreferredTimeZone());
+                #    }
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD CustomsExportInvoiceId_IN
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #//Populates the lines tab entries of Shippping bill, when user creates manual entries
+                #//in the Shipping bill [purchEditLines] form
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    if (salesParmTable.CustomsExportInvoiceId_IN)
+                #    {
+                #        //Deletes the previously inserted entries, during the multiple selection of the Invoice Id field.
+                #        //Otherwise there will be more parmlines which are not needed in Lines Tab of Shipping bill.
+                #        SalesParmLine::deleteFromSalesParmLine_IN(salesParmTable.ParmId, salesParmTable.TableRefId);
+                #    }
+                #    if(!SalesParmTable::checkDuplicateInvoiceId_IN(salesParmTable.CustomsExportInvoiceId_IN, salesParmTable.SalesId, salesParmTable.ParmId))
+                #    {
+                #        //salesParmTable is blank for Manual creation of parm lines in SalesEditLines.
+                #        salesFormLetter.insertParmLines_IN(salesParmTable);
+                #    }
+                #    salesParmTable_ds.refresh();
+                #    salesParmLine_ds.refresh();
+                #}
+                #// </GIN>
+              ENDSOURCE
+              SOURCE #lookup
+                #// <GIN>
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #    CustInvoiceJour::lookupCustomsInvoiceID_IN(_formControl, salesParmTable.SalesId);
+                #}
+                #// </GIN>
+              ENDSOURCE
+              SOURCE #jumpRef
+                #// <GIN>
+                #public void jumpRef()
+                #{
+                #    ;
+                #
+                #    SalesParmTable::jumpRefForInvoiceId_IN();
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Transdate
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    super();
+                #    if (salesParmTable.CustomsShippingBillNumber_IN
+                #        || salesParmUpdate.CustomsShippingBillNumber_IN)
+                #    {
+                #        salesParmTable.EximExportDateTime_IN = DateTimeUtil::newDateTime(salesParmTable.Transdate, 0, DateTimeUtil::getUserPreferredTimeZone());
+                #    }
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    super();
+          #
+          #    salesParmTable.TableRefId = FormLetter::getTableRef();
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #    salesParmTable_ds.cacheAddMethod(tablemethodstr(SalesParmTable, checkIfLines));
+          #    salesParmTable_ds.cacheAddMethod(tablemethodstr(SalesParmTable, packingSlipId));
+          #
+          #    // <GCN>
+          #    if (taxIntegrationSystem_CN)
+          #    {
+          #        salesParmTable_ds.cacheAddMethod(tablemethodstr(SalesParmTable, getVATRegistrationNum_CN));
+          #    }
+          #    // </GCN>
+          #}
+        ENDSOURCE
+        SOURCE #WRITE
+          #void  write()
+          #{
+          #    SalesParmSubId  emptyId;
+          #    // <GIN>
+          #    if (TaxParameters::find().Customs_IN && salesFormLetter.documentStatus() == DocumentStatus::ShippingBill_IN)
+          #    {
+          #        if (salesParmTable.CustomsExportInvoiceId_IN && !salesParmTable.RecId  &&  salesTable)
+          #        {
+          #            salesTable = salesParmTable.salesTable();
+          #            salesFormLetter.createParmTable(salesParmTable, salesTable);
+          #
+          #            super();
+          #
+          #            salesFormLetter.allowEmptyTable(true);
+          #            salesFormLetter.salesTable(salesTable);
+          #            salesFormLetter.updateQueryBuild();
+          #            salesFormLetter.chooseLines(salesParmTable);
+          #
+          #            element.chooseTrans();
+          #            element.checkParmtable();
+          #
+          #            salesFormLetter.allowEmptyTable(salesFormLetter.initAllowEmptyTable());
+          #            salesFormLetter.createSalesShippingStat(SalesParmSubTable::find(salesParmTable.ParmId, salesParmTable.TableRefId, salesParmTable.SalesId, emptyId));
+          #            salesParmTable_ds.cacheCalculateMethod(tablemethodstr(SalesParmTable, checkIfLines));
+          #        }
+          #        else
+          #        {
+          #            super();
+          #        }
+          #    }
+          #    else
+          #    {
+          #    // </GIN>
+          #        if (!salesParmTable.RecId  &&  salesTable)
+          #        {
+          #            salesTable = salesParmTable.salesTable();
+          #            salesFormLetter.createParmTable(salesParmTable, salesTable);
+          #
+          #            super();
+          #
+          #            salesFormLetter.allowEmptyTable(true);
+          #            salesFormLetter.salesTable(salesTable);
+          #            salesFormLetter.updateQueryAndChooseLines(salesParmTable);
+          #
+          #            if (salesParmUpdate.SpecQty == SalesUpdate::PackingSlip &&
+          #                salesFormLetter.documentStatus() == DocumentStatus::Invoice)
+          #            {
+          #                element.chooseTable();
+          #            }
+          #            else
+          #            {
+          #                element.chooseTrans();
+          #                element.checkParmtable();
+          #            }
+          #
+          #            salesFormLetter.allowEmptyTable(salesFormLetter.initAllowEmptyTable());
+          #            salesFormLetter.createSalesShippingStat(SalesParmSubTable::find(salesParmTable.ParmId, salesParmTable.TableRefId, salesParmTable.SalesId, emptyId));
+          #
+          #            salesParmTable_ds.cacheCalculateMethod(tablemethodstr(SalesParmTable, checkIfLines));
+          #        }
+          #        else
+          #        {
+          #            super();
+          #        }
+          #    // <GIN>
+          #    }
+          #    // </GIN>
+          #    editLinesChanged = true;
+          #}
+          #
+        ENDSOURCE
+        SOURCE #delete
+          #void  delete()
+          #{
+          #    super();
+          #
+          #    element.reArrangeNow();
+          #    element.checkParmTable();
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean append = false)
+          #{
+          #    append = true;
+          #
+          #    super(append);
+          #    // <GIN>
+          #    if (TaxParameters::checkTaxParameters_IN())
+          #    {
+          #        salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsExportInvoiceId_IN)).allowEdit(true);
+          #        salesParmTable_ds.object(fieldnum(SalesParmTable, SalesId)).allowEdit(true);
+          #    }
+          #    // </GIN>
+          #
+          #    element.reArrangeNow();
+          #}
+        ENDSOURCE
+        SOURCE #Active
+          #int  active()
+          #{
+          #    int ret;
+          #    SalesTable localSalesTable;
+          #    // <GIN>
+          #    SalesParmLine salesParmLineLoc;
+          #    // </GIN>
+          #
+          #    ret = super();
+          #
+          #    localSalesTable = salesParmTable.salesTable();
+          #
+          #    salesEditLinesForm.setSalesTable(localSalesTable);
+          #
+          #    if (salesEditLinesForm.printCODLabel())
+          #    {
+          #        printCODLabel.allowEdit(true);
+          #        printCODLabel.skip(false);
+          #        printCODLabel.value(printCODLabelChoice);
+          #    }
+          #    else
+          #    {
+          #        printCODLabel.allowEdit(false);
+          #        printCODLabel.skip(true);
+          #        printCODLabel.value(false);
+          #    }
+          #
+          #    if (salesEditLinesForm.printFreightSlip())
+          #    {
+          #        printCallTag.allowEdit(true);
+          #        printCallTag.skip(false);
+          #        printCallTag.value(printCallTagChoice);
+          #    }
+          #    else
+          #    {
+          #        printCallTag.allowEdit(false);
+          #        printCallTag.skip(true);
+          #        printCallTag.value(false);
+          #    }
+          #
+          #    if (salesEditLinesForm.printShippingLabel())
+          #    {
+          #        printShippingLabel.allowEdit(true);
+          #        printShippingLabel.skip(false);
+          #        printShippingLabel.value(printShippingLabelChoice);
+          #    }
+          #    else
+          #    {
+          #        printShippingLabel.allowEdit(false);
+          #        printShippingLabel.skip(true);
+          #        printShippingLabel.value(false);
+          #        printShippingLabelChoice = false;
+          #    }
+          #    // <GIN>
+          #    if (TaxParameters::checkTaxParameters_IN())
+          #    {
+          #        if (salesParmTable.CustomsExportInvoiceId_IN)
+          #        {
+          #            salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsExportInvoiceId_IN)).allowEdit(false);
+          #        }
+          #        else
+          #        {
+          #            salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsExportInvoiceId_IN)).allowEdit(true);
+          #        }
+          #        salesParmLineLoc = SalesParmLine::findTableRefId_IN(salesParmTable.ParmId, salesParmTable.TableRefId);
+          #        if (salesParmLineLoc.RecId)
+          #        {
+          #            customsShippingBillDetails_IN.enabled(true);
+          #        }
+          #        else
+          #        {
+          #            customsShippingBillDetails_IN.enabled(false);
+          #        }
+          #        if (salesParmUpdate.CustomsShippingBill_IN == NoYes::Yes)
+          #        {
+          #            salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsShippingBillNumber_IN)).allowEdit(false);
+          #        }
+          #        else
+          #        {
+          #            salesParmTable_ds.object(fieldnum(SalesParmTable, CustomsShippingBillNumber_IN)).allowEdit(true);
+          #        }
+          #        salesParmLine_ds.object(fieldnum(SalesParmLine, MaximumRetailPrice_IN)).allowEdit(localSalesTable.CustomsExportOrder_IN == NoYes::No);
+          #    }
+          #    // </GIN>
+          #
+          #    buttonPaymentSched.enabled(localSalesTable.PaymentSched != '');
+          #
+          #    salesParmTable_ds.object(fieldnum(SalesParmTable, FixedDueDate)).allowEdit(localSalesTable.PaymentSched == '');
+          #    salesParmTable_ds.object(fieldnum(SalesParmTable, FixedDueDate)).skip(!(localSalesTable.PaymentSched == ''));
+          #
+          #    salesParmTable_ReturnPackingSlipId.allowEdit(localSalesTable.returnJournal());
+          #    salesParmUpdate_ReduceOnHand.enabled(!localSalesTable.returnJournal());
+          #    trans.allowEdit(!localSalesTable.returnJournal());
+          #    lineDetails.allowEdit(!localSalesTable.returnJournal());
+          #    billOfLading.enabled(!localSalesTable.returnJournal());
+          #
+          #    // <GBR>
+          #    element.setReturnItemInvoiceVisibility_BR(salesParmTable);
+          #
+          #    if (BrazilParameters::isEnabled())
+          #    {
+          #        if (BrazilParameters::find().ChronologicalInvoiceNumbering)
+          #        {
+          #             salesParmTable_TransDate.enabled(false);
+          #        }
+          #        else
+          #        {
+          #             salesParmTable_TransDate.enabled(true);
+          #        }
+          #    }
+          #    // </GBR>
+          #
+          #    return ret;
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesParmSubTable
+          Table               #SalesParmSubTable
+          AllowCreate         #No
+          JoinSource          #SalesParmTable
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #delete
+          #public void delete()
+          #{
+          #    super();
+          #    element.reArrangeNow();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesParmLine
+          Table               #SalesParmLine
+          AllowCreate         #No
+          JoinSource          #SalesParmTable
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD LineAmount
+            PROPERTIES
+              AllowEdit           #No
+              Skip                #Yes
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD ItemId
+            PROPERTIES
+              AllowEdit           #No
+              Skip                #Yes
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    element.updateDesign(InventDimFormDesignUpdate::FieldChange);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryAddress
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryName
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD DlvMode
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.cacheAddMethod(tablemethodstr(SalesParmLine, deliveryDate));
+          #    this.cacheAddMethod(tablemethodstr(SalesParmLine, packingSlipId));
+          #}
+        ENDSOURCE
+        SOURCE #delete
+          #public void delete()
+          #{
+          #    SalesId salesId;
+          #    ParmId  parmId;
+          #    ;
+          #    parmId  = salesParmLine.ParmId;
+          #    salesId = salesParmLine.OrigSalesId;
+          #
+          #    super();
+          #
+          #    SalesParmSubTable::deleteIfNoParmLines(salesId,parmId);
+          #    salesParmTable_ds.cacheCalculateMethod(tablemethodstr(SalesParmTable, checkIfLines));
+          #
+          #    salesParmSubTable_ds.research();
+          #}
+        ENDSOURCE
+        SOURCE #Write
+          #void  write()
+          #{
+          #    boolean deliverNowChanged = salesParmLine.DeliverNow != salesParmLine.orig().DeliverNow;
+          #    ;
+          #
+          #    super();
+          #
+          #    editLinesChanged = true;
+          #
+          #    if (deliverNowChanged)
+          #    {
+          #        salesFormLetter.createSalesShippingStat(salesParmLine.salesParmSubTable());
+          #
+          #        salesShippingStat_ds.research();
+          #    }
+          #
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #int active()
+          #{
+          #    int  ok;
+          #    ;
+          #
+          #    salesParmLine_ds.allowEdit(true);
+          #
+          #    ok = super();
+          #
+          #    element.updateDesign(InventDimFormDesignUpdate::Active);
+          #
+          #    salesParmLine_ds.object(fieldnum(SalesParmLine, Scrap)).allowEdit(salesParmLine.DeliverNow < 0 && documentStatus != DocumentStatus::PackingSlip);
+          #    salesParmLine_ds.object(fieldnum(SalesParmLine, Scrap)).skip(!(salesParmLine.DeliverNow < 0 && documentStatus != DocumentStatus::PackingSlip));
+          #
+          #    return ok;
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          AllowEdit           #No
+          JoinSource          #SalesParmLine
+          LinkType            #InnerJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesShippingStat
+          Table               #SalesShippingStat
+          AllowCheck          #No
+          JoinSource          #SalesParmTable
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD UnitWeight
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    if (salesFormLetter.useShippingStat())
+                #    {
+                #        salesFormLetter.calcShippingStat(salesShippingStat,salesShippingStat.orig());
+                #        salesShippingStat.update();
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    super();
+          #    salesShippingStat.SalesId = salesParmTable.SalesId;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesParmSubLine
+          Table               #SalesParmSubLine
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #SalesParmLine
+          LinkType            #Active
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #EximSalesParmLine_IN
+          Table               #EximSalesParmLine_IN
+          Index               #SalesParmLineRecIdx
+          AllowCheck          #No
+          JoinSource          #SalesParmLine
+          LinkType            #Active
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD ApplyDEPB
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    depb_MarketValue.allowEdit(eximSalesParmLine_IN.ApplyDEPB);
+                #    depb_MarketValuePct.allowEdit(eximSalesParmLine_IN.ApplyDEPB);
+                #    depb_AllowedMarketValue.allowEdit(eximSalesParmLine_IN.ApplyDEPB);
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD MarketValue
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    ;
+                #
+                #    super();
+                #    eximSalesParmLine_IN_ds.calcAllowedMarketValue();
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD MarketValuePct
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    ;
+                #
+                #    super();
+                #    eximSalesParmLine_IN_ds.calcAllowedMarketValue();
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD TariffCode
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #lookup
+                #// <GIN>
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    ;
+                #
+                #    CustomsTariffCodeTable_IN::lookupDirectionImportExport(_formControl, enum2str(Direction_IN::Export));
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DBKCenvatStatus
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #// <GIN>
+                #public void modified()
+                #{
+                #    boolean isDBKAllowedEdit;
+                #    ;
+                #
+                #    super();
+                #
+                #    isDBKAllowedEdit = eximSalesParmLine_IN.dbkCenvatStatus != EximDBKCenvatStatus_IN::None;
+                #
+                #    dbkCustoms_TariffCode.allowEdit(isDBKAllowedEdit);
+                #    dutyDrawback_DBKRateType.allowEdit(isDBKAllowedEdit);
+                #    dutyDrawback_DBKPercent.allowEdit(isDBKAllowedEdit);
+                #}
+                #// </GIN>
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #calcAllowedMarketValue
+          #// <GIN>
+          #public void calcAllowedMarketValue()
+          #{
+          #    ;
+          #    eximSalesParmLine_IN.AllowedMarketValue = (eximSalesParmLine_IN.MarketValue * eximSalesParmLine_IN.MarketValuePct) / 100;
+          #}
+          #// </GIN>
+        ENDSOURCE
+        SOURCE #active
+          #// <GIN>
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    if (ret)
+          #    {
+          #        eximSalesParmLine_IN_ds.calcAllowedMarketValue();
+          #
+          #        element.enableEximFieldsActive_IN();
+          #    }
+          #
+          #    return ret;
+          #}
+          #// </GIN>
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    SalesParmSubTable SalesParmTable
+    SalesParmLine SalesParmTable
+    InventDim SalesParmLine
+    SalesShippingStat SalesParmTable
+    SalesParmSubLine SalesParmLine
+    EximSalesParmLine_IN SalesParmLine
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS12919
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/0DA55F44-C077-4D25-A89C-CBDAEF0F02AF.htm
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL GROUP
+        PROPERTIES
+          Name                #groupParameters
+          Width               #Column width
+          HTMLHelpFile        #HTMLHelpFileAxShared
+          HTMLHelpTopic       #html/4BB79D3E-7C7F-4E22-A1D6-E8A01C46456B.htm
+          FrameType           #None
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL TAB
+              PROPERTIES
+                Name                #tabParameters
+                Width               #Column width
+                Tabs                #5
+                DataSource          #SalesParmUpdate
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #tabPageParameters
+                    Caption             #@SYS7764
+                    DataSource          #SalesParmUpdate
+                    Columns             #3
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                        #0
+                      ENDARRAY
+                    TabAutoChange       #Yes
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #groupUpdate
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/D522E896-D17E-41F6-BEA4-B895A37A251B.htm
+                        Caption             #@SYS7755
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #specQty
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesParmUpdate
+                              DataField           #SpecQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #updateNow
+                              AutoDeclaration     #Yes
+                              HelpText            #@SYS25649
+                              Label               #@SYS78937
+                              DataSource          #SalesParmUpdate
+                              DataMethod          #updateNow
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #modified
+                                #// *** ECHINA - Anthony Christiaens ***
+                                #// *** Customization Code: ECH_I_OR03
+                                #// *** Customization Date: 13 Mar 2012
+                                #// *** Customization Type: modified
+                                #// *** Description: update other options group
+                                #
+                                #public boolean modified()
+                                #{
+                                #    boolean ret;
+                                #
+                                #    ret = super();
+                                #    if (ret)
+                                #    {
+                                #// CS - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+                                #        element.echUpdateOtherOptionsGroup();
+                                #// CE - ECH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+                                #
+                                #        print_Combo.enabled(updateNow.value());
+                                #        if (updateNow.value())
+                                #        {
+                                #            print_Combo.selection(salesFormLetter.printout());
+                                #        }
+                                #        else
+                                #        {
+                                #            print_Combo.selection(Printout::Current);
+                                #        }
+                                #    }
+                                #
+                                #    return ret;
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #lateSelection
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesParmUpdate
+                              DataField           #lateSelection
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #SalesParmUpdate_ReduceOnHand
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesParmUpdate
+                              DataField           #ReduceOnHand
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #SalesParmUpdate_CustomsShippingBill_IN
+                              AutoDeclaration     #Yes
+                              Visible             #No
+                              DataSource          #SalesParmUpdate
+                              DataField           #CustomsShippingBill_IN
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #SalesParmUpdate_CustomsShippingBillNumber_IN
+                              AutoDeclaration     #Yes
+                              Visible             #No
+                              DataSource          #SalesParmUpdate
+                              DataField           #CustomsShippingBillNumber_IN
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Giro
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/A5FF1D0F-F14D-4174-981C-D40BD4A5A07C.htm
+                        ConfigurationKey    #CustGiro
+                        Caption             #@SYS2723
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #giroType
+                              AutoDeclaration     #Yes
+                              HelpText            #@SYS85428
+                              DataSource          #SalesParmUpdate
+                              DataField           #GiroType
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #PrintGroup
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/505985A4-7C92-42E5-BBF1-0DA57B9F3074.htm
+                        Caption             #@SYS70732
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #Print_Combo
+                              AutoDeclaration     #Yes
+                              HelpText            #@SYS12608
+                              Label               #@SYS920
+                              EnumType            #Printout
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL GROUP
+                            PROPERTIES
+                              Name                #PrintCheckboxGroup
+                              HTMLHelpFile        #HTMLHelpFileAxShared
+                              HTMLHelpTopic       #html/C062C6F8-A996-4F1E-ACA2-52E061001C25.htm
+                              FrameType           #None
+                            ENDPROPERTIES
+                            
+                              CONTAINER
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #PrintFormLetter
+                                    AutoDeclaration     #Yes
+                                    HelpText            #@SYS17200
+                                    Label               #@SYS12608
+                                  ENDPROPERTIES
+                                  
+                                  METHODS
+                                    Version: 3
+                                    SOURCE #clicked
+                                      #public void clicked()
+                                      #{;
+                                      #    super();
+                                      #
+                                      #    element.setFieldAccess();
+                                      #}
+                                      #
+                                    ENDSOURCE
+                                  ENDMETHODS
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #UsePrintManagement
+                                    AutoDeclaration     #Yes
+                                    HelpText            #@SYS93923
+                                    Label               #@SYS93922
+                                  ENDPROPERTIES
+                                  
+                                  METHODS
+                                    Version: 3
+                                    SOURCE #clicked
+                                      #public void clicked()
+                                      #{;
+                                      #    super();
+                                      #
+                                      #    element.setFieldAccess();
+                                      #}
+                                    ENDSOURCE
+                                  ENDMETHODS
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #PrintCallTag
+                                    AutoDeclaration     #Yes
+                                    AllowEdit           #No
+                                    Skip                #Yes
+                                    HelpText            #@SYS68909
+                                    Label               #@SYS68908
+                                  ENDPROPERTIES
+                                  
+                                  METHODS
+                                    Version: 3
+                                    SOURCE #Modified
+                                      #boolean modified()
+                                      #{
+                                      #    boolean ret;
+                                      #    ;
+                                      #
+                                      #    ret = super();
+                                      #
+                                      #    printCallTagChoice = printCallTag.value();
+                                      #
+                                      #    return ret;
+                                      #}
+                                    ENDSOURCE
+                                  ENDMETHODS
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #PrintCODLabel
+                                    AutoDeclaration     #Yes
+                                    AllowEdit           #No
+                                    Skip                #Yes
+                                    HelpText            #@SYS17200
+                                    Label               #@SYS26071
+                                  ENDPROPERTIES
+                                  
+                                  METHODS
+                                    Version: 3
+                                    SOURCE #Modified
+                                      #boolean modified()
+                                      #{
+                                      #    boolean ret;
+                                      #    ;
+                                      #
+                                      #    ret = super();
+                                      #
+                                      #    printCODLabelChoice = printCODLabel.value();
+                                      #
+                                      #    return ret;
+                                      #}
+                                    ENDSOURCE
+                                  ENDMETHODS
+                                ENDCONTROL 
+                                
+                                CONTROL CHECKBOX
+                                  PROPERTIES
+                                    Name                #PrintShippingLabel
+                                    AutoDeclaration     #Yes
+                                    AllowEdit           #No
+                                    Skip                #Yes
+                                    HelpText            #@SYS17200
+                                    ConfigurationKey    #SalesShipments
+                                    Label               #@SYS54103
+                                  ENDPROPERTIES
+                                  
+                                  METHODS
+                                    Version: 3
+                                    SOURCE #Modified
+                                      #boolean modified()
+                                      #{
+                                      #    boolean ret;
+                                      #    ;
+                                      #
+                                      #    ret = super();
+                                      #
+                                      #    printShippingLabelChoice = printShippingLabel.value();
+                                      #
+                                      #    return ret;
+                                      #}
+                                    ENDSOURCE
+                                  ENDMETHODS
+                                ENDCONTROL 
+                                
+                              ENDCONTAINER
+                              
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #EInvoice_MX
+                        AutoDeclaration     #Yes
+                        ConfigurationKey    #CRSEMexico
+                        Caption             #@SYP4250
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #SendByMail_MX
+                              AutoDeclaration     #Yes
+                              HelpText            #@SYS84424
+                              Label               #@SYS94049
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #echOptionsGroup
+                        AutoDeclaration     #Yes
+                        Caption             #@ECH45
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #echSendElectronically
+                              AutoDeclaration     #Yes
+                              HelpText            #@ECH46
+                              Label               #@SYS88739
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #modified
+                                #// *** ECHINA - Anthony Christiaens ***
+                                #// *** Customization Code: ECH_I_OR03
+                                #// *** Customization Date: 13 Mar 2012
+                                #// *** Customization Type: create
+                                #// *** Description: set propery on class
+                                #
+                                #public boolean modified()
+                                #{
+                                #    boolean ret;
+                                #
+                                #    ret = super();
+                                #
+                                #    if (ret)
+                                #    {
+                                #        salesFormLetter.echSendElectronically(echSendElectronically.value());
+                                #    }
+                                #
+                                #    return ret;
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #tabPageOther
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS1284
+                    DataSource          #SalesParmUpdate
+                    Columns             #2
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #groupSetup
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/BB937C51-D0EC-4F0C-9AEB-6C0F52AB445F.htm
+                        Caption             #@SYS2186
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #CreditMax
+                              AutoDeclaration     #Yes
+                              DataSource          #SalesParmUpdate
+                              DataField           #CheckCreditMax
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL DATEEDIT
+                            PROPERTIES
+                              Name                #RespiteDate
+                              LookupButton        #Always
+                              DataSource          #SalesParmUpdate
+                              DataField           #RespiteDate
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #Storno
+                              DataSource          #SalesParmUpdate
+                              DataField           #Storno
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #CreditRemaining
+                              DataSource          #SalesParmUpdate
+                              DataField           #CreditRemaining
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #Reserve
+                              DataSource          #SalesParmUpdate
+                              DataField           #Reserve
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #groupSumSalesGroup
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/EDC2EFA5-6A3F-44CF-A07A-807E11E92377.htm
+                        Caption             #@SYS24079
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #SalesParmUpdate_CustomsExportOrderType_IN
+                              DataSource          #SalesParmUpdate
+                              DataField           #CustomsExportOrderType_IN
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #SumBy
+                              AutoDeclaration     #Yes
+                              HelpText            #@SYS24079
+                              Selection           #1
+                              Label               #@SYS25665
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #modified
+                                #public boolean modified()
+                                #{
+                                #    boolean ret;
+                                #
+                                #    ret = super();
+                                #
+                                #    salesParmUpdate.SumBy = salesEditLinesForm.sumBySelection2Index(sumBy.selection());
+                                #    element.sumByChanged(false);
+                                #
+                                #    return ret;
+                                #}
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #sumSalesId
+                              HelpText            #@SYS24079
+                              DataSource          #SalesParmUpdate
+                              DataField           #SumSalesId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL INTEDIT
+                            PROPERTIES
+                              Name                #ConsolidationDate_JP
+                              AutoDeclaration     #Yes
+                              ExtendedDataType    
+                                ARRAY 
+                                  #ConsolidationDate_JP
+                                  #
+                                ENDARRAY
+                            ENDPROPERTIES
+                            
+                            METHODS
+                              Version: 3
+                              SOURCE #modified
+                                #// <GJP>
+                                #public boolean modified()
+                                #{
+                                #    boolean ret;
+                                #
+                                #    #define.MinConsolidationDate(0)
+                                #    #define.MaxConsolidationDate(31)
+                                #    ;
+                                #
+                                #    ret = super();
+                                #
+                                #    if (ret
+                                #        && ! CustTable::isConsolidationDateValid_JP(consolidationDate_JP.value()))
+                                #    {
+                                #        ret = checkFailed(strfmt("@SYS87701", #MinConsolidationDate, #MaxConsolidationDate));
+                                #    }
+                                #
+                                #    if (ret)
+                                #    {
+                                #        shipDate.text(SalesFormLetter::shipDateRange_JP(consolidationDate_JP.value()));
+                                #        SalesFormLetter::updateSalesOrders_JP(int2str(consolidationDate_JP.value()));
+                                #    }
+                                #    else
+                                #    {
+                                #        consolidationDate_JP.value(0);
+                                #        shipDate.text('');
+                                #    }
+                                #
+                                #    salesFormLetter.parmConsolidationDate_JP(consolidationDate_JP.value());
+                                #    salesFormLetter.parmShipDate_JP(shipDate.valueStr());
+                                #
+                                #    return ret;
+                                #}
+                                #// </GJP>
+                              ENDSOURCE
+                            ENDMETHODS
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #ShipDate
+                              AutoDeclaration     #Yes
+                              AllowEdit           #No
+                              ConfigurationKey    #CRSEJapan
+                              Label               #@SYS10178
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #TabPageBillOfLading
+                    AutoDeclaration     #Yes
+                    Caption             #@SYS50700
+                    DataSource          #SalesParmUpdate
+                    Columns             #2
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #BillOfLading
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2AB177A9-5874-4A1E-BDCA-536102669023.htm
+                        DataSource          #SalesParmUpdate
+                        DataGroup           #BillOfLading
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #VehicleInformation
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmUpdate
+                        DataGroup           #VehicleInformation
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #tabPageLateSelection
+                    AutoDeclaration     #Yes
+                    Visible             #No
+                    Caption             #@SYS59973
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL STATICTEXT
+                      PROPERTIES
+                        Name                #pleaseMakeSelection
+                        AutoDeclaration     #Yes
+                        Text                #@SYS72782
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL TABPAGE
+                  PROPERTIES
+                    Name                #tabPageTransportationDocument
+                    AutoDeclaration     #Yes
+                    Caption             #@SYP2967
+                    Columns             #2
+                    ArrangeGuide        
+                      ARRAY INDEX Columns 
+                        #0
+                        #0
+                      ENDARRAY
+                  ENDPROPERTIES
+                  
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Compiler
+                        DataSource          #SalesParmUpdate
+                        DataGroup           #Compiler
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #TDDParty
+                        DataSource          #SalesParmUpdate
+                        Columns             #3
+                        ArrangeGuide        
+                          ARRAY INDEX Columns 
+                            #0
+                            #0
+                            #0
+                          ENDARRAY
+                        DataGroup           #TDDParty
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #TDDText
+                        DataSource          #SalesParmUpdate
+                        DataGroup           #TDDText
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #TDDText_AdditionalDeclarations
+                              MultiLine           #Yes
+                              DataSource          #SalesParmUpdate
+                              DataField           #AdditionalDeclarations
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #TDDText_AdditionalNotes
+                              MultiLine           #Yes
+                              DataSource          #SalesParmUpdate
+                              DataField           #AdditionalNotes
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #TDDText_AdditionalInstructions
+                              MultiLine           #Yes
+                              DataSource          #SalesParmUpdate
+                              DataField           #AdditionalInstructions
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+            CONTROL BUTTONGROUP
+              PROPERTIES
+                Name                #GroupParametersButtonGroup
+              ENDPROPERTIES
+              
+              CONTAINER
+                CONTROL BUTTON
+                  PROPERTIES
+                    Name                #Choose
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS85423
+                    Text                #@SYS2245
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #Clicked
+                      #void  clicked()
+                      #{;
+                      #    super();
+                      #
+                      #    if (!salesFormLetter.lateSelectionRemoveLines())
+                      #        return;
+                      #
+                      #    salesFormLetter.initParameters(salesParmUpdate.data(),
+                      #                                   print_Combo.selection(),
+                      #                                   printFormletter.value(),
+                      #                                   printCODLabelChoice,
+                      #                                   printCallTagChoice,
+                      #                                   printShippingLabelChoice,
+                      #                                   usePrintManagement.value(),
+                      #                                   true);
+                      #    // <GMX>
+                      #    if (EInvoiceParameters_MX::isElectronicInvoiceEnabled())
+                      #    {
+                      #        salesFormLetter.initEInvoiceFields_MX(sendByMail_MX.value());
+                      #    }
+                      #    // </GMX>
+                      #
+                      #    salesFormLetter.editLinesChanged(editLinesChanged);
+                      #    salesFormLetter.reArrangeNow(reArrangeNow);
+                      #    salesFormLetter.showQueryForm(true);
+                      #
+                      #    salesFormLetter.initLinesQuery();
+                      #
+                      #    if (salesParmUpdate.LateSelection)
+                      #    {
+                      #        salesParmUpdate.LateSelectionQuery = salesFormLetter.queryChooseLines().query().pack();
+                      #
+                      #        element.initQuery();
+                      #    }
+                      #    else
+                      #    {
+                      #        salesParmUpdate.LateSelection = false;
+                      #    }
+                      #
+                      #    element.chooseTable(true);
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL MENUITEMBUTTON
+                  PROPERTIES
+                    Name                #buttonSelectJournal
+                    AutoDeclaration     #Yes
+                    MenuItemName        #SalesJournalSelect_PackingSlip
+                    DataSource          #SalesParmUpdate
+                  ENDPROPERTIES
+                  
+                ENDCONTROL 
+                
+                CONTROL BUTTON
+                  PROPERTIES
+                    Name                #buttonReArrange
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS85420
+                    Text                #@SYS27118
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void  clicked()
+                      #{
+                      #    super();
+                      #    element.reArrange();
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL MENUITEMBUTTON
+                  PROPERTIES
+                    Name                #ButtonSalesTotals
+                    AutoDeclaration     #Yes
+                    MenuItemName        #SalesTotals
+                    DataSource          #SalesParmTable
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void  clicked()
+                      #{
+                      #    Args        args        = new Args();
+                      #    boolean     reArrangeOk = true;
+                      #    ;
+                      #
+                      #    if (reArrangeNow  &&  salesParmUpdate.numberOfTables() > 1)
+                      #    {
+                      #        if (Box::yesNo("@SYS71216", DialogButton::Yes))
+                      #            reArrangeOk = element.reArrange();
+                      #    }
+                      #
+                      #    if (reArrangeOk)
+                      #    {
+                      #        args.caller(element);
+                      #
+                      #        args.parmEnumType(enumnum(SalesUpdate));
+                      #        args.parmEnum(salesParmUpdate.SpecQty);
+                      #
+                      #        args.record(salesParmTable);
+                      #
+                      #        this.menufunction().run(args);
+                      #    }
+                      #}
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL MENUITEMBUTTON
+                  PROPERTIES
+                    Name                #TaxTransSource
+                    AutoDeclaration     #Yes
+                    MenuItemName        #TaxTransSource
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #void clicked()
+                      #{
+                      #    boolean  reArrangeOk = true;
+                      #    ;
+                      #    if (reArrangeNow  &&  salesParmUpdate.numberOfTables() > 1)
+                      #    {
+                      #        if (Box::yesNo("@SYS75237", DialogButton::Yes))
+                      #        {
+                      #            reArrangeOk = element.reArrange();
+                      #        }
+                      #    }
+                      #
+                      #    if (reArrangeOk)
+                      #    {
+                      #        SalesTotals_ParmTrans::showTax(salesParmTable,salesParmUpdate.SpecQty);
+                      #    }
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL MENUITEMBUTTON
+                  PROPERTIES
+                    Name                #ButtonPaymentSched
+                    AutoDeclaration     #Yes
+                    SaveRecord          #No
+                    MenuItemName        #CustPaymSchedule
+                    DataSource          #SalesParmTable
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #Clicked
+                      #void clicked()
+                      #{
+                      #    CustVendPaymSched  custVendPaymSched;
+                      #
+                      #    if (! CustPaymSched::exist(salesParmTable.TableId,salesParmTable.RecId))
+                      #    {
+                      #        custVendPaymSched = CustVendPaymSched::construct(SysModule::Cust,salesParmTable);
+                      #
+                      #        if (specQty.selection() == SalesUpdate::All && CustPaymSched::exist(salesParmTable.salesTable().TableId, salesParmTable.salesTable().RecId))
+                      #        {
+                      #            custVendPaymSched.copyCustVendPaymSched(CustPaymSched::find(salesParmTable.salesTable().TableId, salesParmTable.salesTable().RecId));
+                      #        }
+                      #        else
+                      #        {
+                      #            custVendPaymSched.copyPaymSched(PaymSched::find(salesParmTable.salesTable().PaymentSched));
+                      #            salesParmTable.createPaymentSched();
+                      #        }
+                      #    }
+                      #
+                      #    super();
+                      #}
+                      #
+                      #
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL MENUBUTTON
+                  PROPERTIES
+                    Name                #PrinterSettings
+                    AutoDeclaration     #Yes
+                    HelpText            #@SYS26485
+                    Text                #@SYS25740
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #Clicked
+                      #void clicked()
+                      #{
+                      #    buttonPrintFormletter.enabled    (printFormletter.value());
+                      #    buttonPrintFormletterCopy.enabled(printFormletter.value());
+                      #    buttonPrintCODLabel.enabled      (printCODLabelChoice);
+                      #    buttonPrintCallTag.enabled       (printCallTagChoice);
+                      #    buttonShippingStat.enabled       (printShippingLabelChoice);
+                      #
+                      #    super();
+                      #}
+                    ENDSOURCE
+                  ENDMETHODS
+                  CONTAINER
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonPrintFormletter
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS78469
+                        Text                #@SYS5864
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #Clicked
+                          #void clicked()
+                          #{;
+                          #    super();
+                          #
+                          #    SalesFormLetter::callPrinterSettingsFormletter(salesFormLetter,PrintSetupOriginalCopy::Original);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonPrintFormletterCopy
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS93925
+                        Text                #@SYS93921
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #Clicked
+                          #void clicked()
+                          #{;
+                          #    super();
+                          #
+                          #    SalesFormLetter::callPrinterSettingsFormletter(salesFormLetter,PrintSetupOriginalCopy::Copy);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonPrintCallTag
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS26005
+                        Text                #@SYS26005
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #Clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #    SalesFormLetter::callPrinterSettingsFreightSlip(salesFormLetter);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonPrintCODLabel
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS55144
+                        Text                #@SYS24545
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #Clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #    SalesFormLetter::callPrinterSettingsCODLabel(salesFormLetter);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #ButtonShippingStat
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS54104
+                        ConfigurationKey    #SalesShipments
+                        Text                #@SYS54104
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #Clicked
+                          #void clicked()
+                          #{
+                          #    super();
+                          #    SalesFormLetter::callPrinterSettingsShippingLabel(salesFormLetter);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUITEMBUTTON
+                  PROPERTIES
+                    Name                #ButtonSalesShippingLine
+                    AutoDeclaration     #Yes
+                    MenuItemName        #SalesShippingLine
+                    DataSource          #SalesParmTable
+                  ENDPROPERTIES
+                  
+                ENDCONTROL 
+                
+                CONTROL MENUITEMBUTTON
+                  PROPERTIES
+                    Name                #CustomsShippingBillNumber_IN
+                    AutoDeclaration     #Yes
+                    Visible             #No
+                    Text                #@GLS5778
+                    MenuItemName        #CustomsShippingBillNumberTable_IN
+                  ENDPROPERTIES
+                  
+                  METHODS
+                    Version: 3
+                    SOURCE #clicked
+                      #// <GIN>
+                      #void clicked()
+                      #{
+                      #    Args args;
+                      #    ;
+                      #
+                      #    args = new Args();
+                      #    args.caller(element);
+                      #
+                      #    new MenuFunction(menuitemdisplaystr(CustomsShippingBillNumberTable_IN), MenuItemType::Display).run(args);
+                      #    //super();
+                      #}
+                      #// </GIN>
+                    ENDSOURCE
+                  ENDMETHODS
+                ENDCONTROL 
+                
+                CONTROL MENUITEMBUTTON
+                  PROPERTIES
+                    Name                #CustomsExportAssessableValue_IN
+                    AutoDeclaration     #Yes
+                    Visible             #No
+                    MenuItemName        #CustomsExportAssessableValue_IN
+                    DataSource          #SalesParmTable
+                  ENDPROPERTIES
+                  
+                ENDCONTROL 
+                
+              ENDCONTAINER
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #SalesParmTable
+          Width               #Column width
+          Height              #Column height
+          Tabs                #7
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Caption             #@SYS9039
+              DataSource          #SalesParmTable
+              TabAutoChange       #Yes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Heading
+                  Width               #Column width
+                  Height              #Column height
+                  VisibleRows         #8
+                  DataSource          #SalesParmTable
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #Check
+                    #//BP Deviation documented
+                    #display NoYes check(SalesParmTable _salesParmTable)
+                    #{
+                    #    if (SalesParmLine::existTableRefId(_salesParmTable.ParmId, _salesParmTable.TableRefId))
+                    #    {
+                    #        return NoYes::Yes;
+                    #    }
+                    #
+                    #    return NoYes::No;
+                    #}
+                    #
+                  ENDSOURCE
+                ENDMETHODS
+                  CONTAINER
+                    CONTROL WINDOW
+                      PROPERTIES
+                        Name                #Lines
+                        AllowEdit           #No
+                        Width               #14
+                        Height              #14
+                        Skip                #Yes
+                        AlignControl        #No
+                        Imagemode           #Size to fit
+                        BackStyle           #Transparent
+                        ShowLabel           #No
+                        DataSource          #SalesParmTable
+                        DataMethod          #CheckIfLines
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #SalesParmTable_Ordering
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8dfafaaa-4eeb-42dd-bd53-7501ef03ffdc.htm
+                        Selection           #255
+                        DisplayLength       #15
+                        DataSource          #SalesParmTable
+                        DataField           #Ordering
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_ProjId
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/819ee018-e44f-4420-a68d-b8d6987faca0.htm
+                        DataSource          #SalesParmTable
+                        DataField           #ProjId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_SalesId
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/667593a2-a7e5-46db-ba15-1927955a9aca.htm
+                        DataSource          #SalesParmTable
+                        DataField           #SalesId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_CustomsExportInvoiceId_IN
+                        AutoDeclaration     #Yes
+                        Visible             #No
+                        DataSource          #SalesParmTable
+                        DataField           #CustomsExportInvoiceId_IN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_InventSiteId
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        DataSource          #SalesParmTable
+                        DataField           #InventSiteId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_PackingSlipId
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmTable
+                        DataMethod          #PAckingSlipId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_SalesName
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/7b35da58-df06-4f8e-b6e1-a18026d31f7c.htm
+                        DataSource          #SalesParmTable
+                        DataField           #SalesName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_CurrencyCode
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/25b968a0-ddb1-400d-a862-6dc68b458a13.htm
+                        DataSource          #SalesParmTable
+                        DataField           #CurrencyCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_CustomsShippingBillNumber_IN
+                        AutoDeclaration     #Yes
+                        Visible             #No
+                        DataSource          #SalesParmTable
+                        DataField           #CustomsShippingBillNumber_IN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_ReturnPackingSlipId
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmTable
+                        DataField           #ReturnPackingSlipId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Setup
+              Caption             #@sys2186
+              DataSource          #SalesParmTable
+              TabAutoChange       #Yes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GroupDates
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/93889FCF-5F09-42E8-A1BC-47B8F006D562.htm
+                  FrameType           #None
+                  Columns             #2
+                  ArrangeGuide        
+                    ARRAY INDEX Columns 
+                      #0
+                      #0
+                    ENDARRAY
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_Transdate
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmTable
+                        DataField           #Transdate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL UTCDATETIMEEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_EximExportDateTime_IN
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmTable
+                        DataField           #EximExportDateTime_IN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_FixedDueDate
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmTable
+                        DataField           #FixedDueDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #SalesParmTable_DocumentDate
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmTable
+                        DataField           #DocumentDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GroupShipments
+                  AutoDeclaration     #Yes
+                  Width               #Column width
+                  Height              #Column height
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/212F0CE0-5141-41EF-BFEA-6904A5475F72.htm
+                  ConfigurationKey    #SalesShipments
+                  Caption             #@SYS50395
+                  DataSource          #SalesShippingStat
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GRID
+                      PROPERTIES
+                        Name                #Shipping
+                        Width               #Column width
+                        Height              #Column height
+                        VisibleRows         #5
+                        DataSource          #SalesShippingStat
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #Volume
+                              DataSource          #SalesShippingStat
+                              DataField           #Volume
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #NetWeight
+                              DataSource          #SalesShippingStat
+                              DataField           #NetWeight
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #GrossWeight
+                              DataSource          #SalesShippingStat
+                              DataField           #GrossWeight
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #UnitWeight
+                              DataSource          #SalesShippingStat
+                              DataField           #UnitWeight
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #CartonsQty
+                              DataSource          #SalesShippingStat
+                              DataField           #CartonsQty
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #FreightZone
+                              DataSource          #SalesShippingStat
+                              DataField           #FreightZone
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #Quantity
+                              DataSource          #SalesShippingStat
+                              DataField           #Quantity
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL INTEDIT
+                            PROPERTIES
+                              Name                #Nolabels
+                              DataSource          #SalesShippingStat
+                              DataField           #Nolabels
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #VolumeType_BR
+                              DataSource          #SalesShippingStat
+                              DataField           #VolumeType_BR
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #VolumeQty_BR
+                              DataSource          #SalesShippingStat
+                              DataField           #VolumeQty_BR
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #BankManagement
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/F948ACFC-4E72-47B1-9E8D-A1B04EB7C281.htm
+                  FrameType           #None
+                  DataSource          #SalesParmTable
+                  DataGroup           #BankManagement
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #RefusedInvoice
+                  AutoDeclaration     #Yes
+                  DataSource          #SalesParmTable
+                  DataGroup           #RefusedInvoice
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #SalesTax_CN
+                  AutoDeclaration     #Yes
+                  ConfigurationKey    #CRSEChina
+                  Caption             #@SYS5878
+                  DataSource          #SalesParmTable
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesTax_CN_VATInvoiceDescriptionId_CN
+                        DataSource          #SalesParmTable
+                        DataField           #VATInvoiceDescriptionId_CN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesTax_M_getVATRegistrationNum_CN
+                        AllowEdit           #No
+                        DataSource          #SalesParmTable
+                        DataMethod          #getVATRegistrationNum_CN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ProcessReference_BR
+                  ConfigurationKey    #CRSEBrazil
+                  DataSource          #SalesParmTable
+                  Columns             #2
+                  ArrangeGuide        
+                    ARRAY INDEX Columns 
+                      #0
+                      #0
+                    ENDARRAY
+                  DataGroup           #ProcessReference_BR
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL BUTTONGROUP
+                PROPERTIES
+                  Name                #ButtonGroupSetup
+                  AutoDeclaration     #Yes
+                ENDPROPERTIES
+                
+                CONTAINER
+                  CONTROL MENUBUTTON
+                    PROPERTIES
+                      Name                #MenuButtonFunction
+                      HelpText            #@SYS69438
+                      Text                #@SYS10340
+                    ENDPROPERTIES
+                    
+                    METHODS
+                      Version: 3
+                      SOURCE #clicked
+                        #void clicked()
+                        #{
+                        #    buttonSetupPaymFormat.enabled(CustPaymModeTable::find(salesParmTable.salesTable().PaymMode).ExportOnInvoice);
+                        #
+                        #    super();
+                        #}
+                      ENDSOURCE
+                    ENDMETHODS
+                    CONTAINER
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #ButtonSetupPaymFormat
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS83557
+                          Text                #@sys79393
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #void clicked()
+                            #{
+                            #    super();
+                            #
+                            #    CustVendPaymInvoiceWithJournal::promptOutPaym(ModuleCustVend::Cust, salesParmTable.salesTable().PaymMode);
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #FiscalReference_BR
+                      AutoDeclaration     #Yes
+                      Visible             #No
+                      MenuItemName        #FiscalReference_BR
+                      DataSource          #SalesParmTable
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #tabSalesParmLines
+              Caption             #@SYS15451
+              DataSource          #SalesParmLine
+              TabAutoChange       #Yes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Trans
+                  AutoDeclaration     #Yes
+                  Width               #Column width
+                  Height              #Column height
+                  VisibleRows         #8
+                  DataSource          #SalesParmLine
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_OrigSalesId
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/0f5b689b-b5c2-49f4-8244-39483e0f9233.htm
+                        DataSource          #SalesParmLine
+                        DataField           #OrigSalesId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_packingSlipId
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmLine
+                        DataMethod          #packingSlipId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_DeliveryDate
+                        AutoDeclaration     #Yes
+                        DataSource          #SalesParmLine
+                        DataMethod          #deliveryDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_ItemId
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/31dc56a5-a1b6-4d34-a664-ff0fb6d1d684.htm
+                        DataSource          #SalesParmLine
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensions
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/25C1246D-4B41-44E9-B132-9995A83D7976.htm
+                        BackgroundColor     #Window background
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_DeliverNow
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/c99006c1-c2dc-42e2-9a82-de82d8ae4008.htm
+                        DataSource          #SalesParmLine
+                        DataField           #DeliverNow
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_LineAmount
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/60b3ed0c-d4eb-476b-a8f4-f989d53fda5a.htm
+                        DataSource          #SalesParmLine
+                        DataField           #LineAmount
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_AssessableValue_IN
+                        AutoDeclaration     #Yes
+                        Visible             #No
+                        DataSource          #SalesParmLine
+                        DataField           #AssessableValue_IN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #SalesParmLine_Closed
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/86d479f3-6c78-40a1-b200-9dd2f180cff7.htm
+                        BackgroundColor     #Window background
+                        Label               #@SYS18742
+                        DataSource          #SalesParmLine
+                        DataField           #closed
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #SalesParmLine_Scrap
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/c218826d-9ed2-4497-bc99-7ebf8d528196.htm
+                        BackgroundColor     #Window background
+                        DataSource          #SalesParmLine
+                        DataField           #Scrap
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #QtyToPickInSalesUnit
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        Skip                #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B3FFD064-1A7F-4A9E-9C97-2235D001FBD0.htm
+                        Label               #@SYS5014
+                        DataSource          #SalesParmLine
+                        DataMethod          #QtyToPickInSalesUnit
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL MENUBUTTON
+                PROPERTIES
+                  Name                #ButtonLineInventory
+                  AutoDeclaration     #Yes
+                  Left                #Right edge
+                  HelpText            #@SYS69645
+                  Text                #@SYS981
+                  SaveRecord          #No
+                ENDPROPERTIES
+                
+                CONTAINER
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #InventTrans
+                      MenuItemName        #InventTrans
+                      DataSource          #SalesParmLine
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #InventOnhand
+                      MenuItemName        #InventOnhand
+                      DataSource          #SalesParmLine
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #InventLot
+                      MenuItemName        #InventLot
+                      DataSource          #SalesParmLine
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL SEPARATOR
+                    PROPERTIES
+                      Name                #Separator
+                      Height              #100
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #InventReserve
+                      MenuItemName        #InventReserve
+                      DataSource          #SalesParmLine
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #InventTransRegister
+                      MenuItemName        #InventTransRegister
+                      DataSource          #SalesParmLine
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #InventTransPick
+                      MenuItemName        #InventTransPick
+                      DataSource          #SalesParmLine
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL SEPARATOR
+                    PROPERTIES
+                      Name                #Separator1
+                      Height              #100
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #WMSOrderAllowCreate
+                      MenuItemName        #WMSOrderAllowCreate
+                      DataSource          #SalesParmLine
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL SEPARATOR
+                    PROPERTIES
+                      Name                #Separator2
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #InventDimParmFixed
+                      Left                #Right edge
+                      MenuItemName        #InventDimParmFixed
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #CustomsShippingBillDetails_IN
+                  AutoDeclaration     #Yes
+                  Visible             #No
+                  Left                #Right edge
+                  Enabled             #No
+                  MenuItemName        #CustomsShippingBillDetails_IN
+                  DataSource          #SalesParmLine
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #LineDetails
+              AutoDeclaration     #Yes
+              Caption             #@SYS23823
+              DataSource          #SalesParmLine
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+              TabAutoChange       #Yes
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PackingSlip
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/7D0875AB-9A8D-42B9-92C6-BA017E14FFCD.htm
+                  DataSource          #SalesParmLine
+                  DataGroup           #PackingSlip
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Invent
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/6B16BBEF-7868-426E-A457-AC24D8772C9B.htm
+                  Caption             #@SYS981
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_InventNow
+                        DataSource          #SalesParmLine
+                        DataField           #InventNow
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #SalesParmLine_RemainAfterInvent
+                        DataSource          #SalesParmLine
+                        DataField           #RemainAfterInvent
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #WarehouseManagement
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/36B0E01C-7FAC-4676-B20E-6934395CEBCA.htm
+                  DataSource          #SalesParmLine
+                  DataGroup           #WarehouseManagement
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Packagingmaterial
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/E5E537C4-79A5-4DEA-9082-ECD39908FF07.htm
+                  ConfigurationKey    #InventPackaging
+                  DataSource          #SalesParmLine
+                  DataGroup           #PackagingMaterial
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Price_IN
+                  Visible             #No
+                  DataSource          #SalesParmLine
+                  DataGroup           #Price_IN
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #Price_IN_MaximumRetailPrice_IN
+                        DataSource          #SalesParmLine
+                        DataField           #MaximumRetailPrice_IN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Delivery
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/7236E032-BF01-4791-95CD-90AE866AC115.htm
+                  DataSource          #SalesParmLine
+                  DataGroup           #Delivery
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #TabSalesParmSubLine
+              AutoDeclaration     #Yes
+              Caption             #@SYS11549
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #SalesParmSubLinesGrid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #SalesParmSubLine
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmSubLine_DocumentId
+                        DataSource          #SalesParmSubLine
+                        DataField           #DocumentId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #SalesParmSubLine_ReceiveNow
+                        DataSource          #SalesParmSubLine
+                        DataField           #DeliverNow
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #SalesParmSubLine_InventNow
+                        DataSource          #SalesParmSubLine
+                        DataField           #InventNow
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #tabSalesParmSubTable
+              AutoDeclaration     #Yes
+              Caption             #@SYS4363
+              DataSource          #SalesParmSubTable
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #gridSalesParmSubTable
+                  Height              #Column height
+                  DataSource          #SalesParmSubTable
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmSubTable_OrigSalesId
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/883e9f7d-db46-4074-8a29-817fb7e80c7e.htm
+                        DataSource          #SalesParmSubTable
+                        DataField           #OrigSalesId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #SalesParmSubTable_SalesName
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2a664345-6ff2-4ff4-8fa8-c79d9b7b4fec.htm
+                        DataSource          #SalesParmSubTable
+                        DataField           #SalesName
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #LineIncentiveScheme
+              AutoDeclaration     #Yes
+              Visible             #No
+              Caption             #@GLS62041
+              DataSource          #EximSalesParmLine_IN
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #DBKCustoms
+                  DataSource          #EximSalesParmLine_IN
+                  DataGroup           #Customs
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #DBKCustoms_TariffCode
+                        AutoDeclaration     #Yes
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #TariffCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #DEPB
+                  AutoDeclaration     #Yes
+                  DataSource          #EximSalesParmLine_IN
+                  DataGroup           #DEPB
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #DEPB_ApplyDEPB
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #ApplyDEPB
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #DEPB_MarketValue
+                        AutoDeclaration     #Yes
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #MarketValue
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #DEPB_MarketValuePct
+                        AutoDeclaration     #Yes
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #MarketValuePct
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #DEPB_AllowedMarketValue
+                        AutoDeclaration     #Yes
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #AllowedMarketValue
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #DutyDrawback
+                  AutoDeclaration     #Yes
+                  DataSource          #EximSalesParmLine_IN
+                  DataGroup           #DutyDrawback
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #DutyDrawback_DBKCenvatStatus
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #DBKCenvatStatus
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #DutyDrawback_DBKRateType
+                        AutoDeclaration     #Yes
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #DBKRateType
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #DutyDrawback_DBKPercent
+                        AutoDeclaration     #Yes
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #DBKPercent
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #EximIncentiveScheme
+                  AutoDeclaration     #Yes
+                  Caption             #@GLS61737
+                  DataSource          #EximSalesParmLine_IN
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #EximSalesParmLine_IN_PortId
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #PortId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #EximSalesParmLine_IN_ProductGroup
+                        DataSource          #EximSalesParmLine_IN
+                        DataField           #ProductGroup
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+          Left                #Auto (right)
+          Top                 #Bottom edge
+          ArrangeMethod       #Horizontal, flush right
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL COMMANDBUTTON
+            PROPERTIES
+              Name                #OK
+              Command             #263
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL COMMANDBUTTON
+            PROPERTIES
+              Name                #Cancel
+              Command             #264
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #ButtonBatch
+              AutoDeclaration     #Yes
+              MenuItemType        #Action
+              MenuItemName        #BatchDialog
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

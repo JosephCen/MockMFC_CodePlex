@@ -1,0 +1,138 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: AxdEchReturnOrderIn unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #AxdEchReturnOrderIn
+  PROPERTIES
+    Name                #AxdEchReturnOrderIn
+    Version             #19
+    NextUniqueId        #1002
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #echReturnOrderTable
+      PROPERTIES
+        Name                #echReturnOrderTable
+        Table               #echReturnOrderTable
+        UniqueId            #1000
+        Update              #Yes
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+          Dynamic             #No
+        ENDPROPERTIES
+        
+        FIELD #Address
+        FIELD #Address2
+        FIELD #AdvanceStatus
+        FIELD #AlipayNo
+        FIELD #BuyerNick
+        FIELD #City
+        FIELD #CompanyName
+        FIELD #Consignee
+        FIELD #Consignor
+        FIELD #Created
+        FIELD #CSStatus
+        FIELD #Description
+        FIELD #District
+        FIELD #echMsgPartnerExtCode
+        FIELD #echMsgPartnerId
+        FIELD #ExistTimeOut
+        FIELD #GoodsReturnTime
+        FIELD #GoodsStatus
+        FIELD #HasGoodsReturn
+        FIELD #ImageURL
+        FIELD #Modified
+        FIELD #OriginalOrderId
+        FIELD #OriginalOrderStatus
+        FIELD #Payment
+        FIELD #Phone
+        FIELD #PostalCode
+        FIELD #Province
+        FIELD #RefundedFee
+        FIELD #RefundReason
+        FIELD #RemindType
+        FIELD #ReturnId
+        FIELD #ReturnOrderId
+        FIELD #ReturnType
+        FIELD #SellerNick
+        FIELD #SendTime
+        FIELD #ShippingType
+        FIELD #SID
+        FIELD #SplitSellerFee
+        FIELD #SplitTaobaoFee
+        FIELD #Status
+        FIELD #TimeOut
+        FIELD #Title
+        FIELD #TotalPrice
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+        BLOCK #echReturnOrderLine
+          PROPERTIES
+            Name                #echReturnOrderLine
+            Table               #echReturnOrderLine
+            UniqueId            #1001
+            JoinMode            #OuterJoin
+            Update              #Yes
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #AttachmentCode
+            FIELD #ExtSkuId
+            FIELD #Price
+            FIELD #ProductId
+            FIELD #Qty
+            FIELD #ReturnOrderId
+            FIELD #SkuId
+            FIELD #SkuName
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ReturnOrderId
+              DETAILSFIELD #ReturnOrderId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

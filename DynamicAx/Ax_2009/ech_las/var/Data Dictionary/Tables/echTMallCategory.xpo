@@ -1,0 +1,160 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echTMallCategory unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echTMallCategory
+    Id 30073
+    PROPERTIES
+      Name                #echTMallCategory
+      Label               #@ECH841
+      TitleField1         #CategoryLvl01
+      TitleField2         #CategoryLvl02
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #CategoryLvl01
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #CategoryLvl01
+          Label               #@ECH842
+          HelpText            #@ECH843
+          Mandatory           #Yes
+          Table               #echTMallCategory
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #CategoryLvl02
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #CategoryLvl02
+          Label               #@ECH844
+          HelpText            #@ECH845
+          Mandatory           #Yes
+          Table               #echTMallCategory
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Cid
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #Cid
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echTMallCategory
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #CategoryLvl01
+          #CategoryLvl02
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #CategoryLvl01
+          #CategoryLvl02
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #CategoryLvl01
+          #CategoryLvl02
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Category
+        PROPERTIES
+          Name                #Category
+          Label               #@ECH841
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Cid
+          #CategoryLvl01
+          #CategoryLvl02
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echTMallCategoryProperty
+      PROPERTIES
+        Table               #echTMallCategoryProperty
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #find
+        #static echTMallCategory find(echTMallCategoryName  categoryNameLvl01,
+        #                             echTMallCategoryName  categoryNameLvl02,
+        #                             boolean               update = false)
+        #{
+        #    echTMallCategory  tmallCategory;
+        #;
+        #    tmallCategory.selectForUpdate(update);
+        #
+        #    if (categoryNameLvl01 && categoryNameLvl02)
+        #    {
+        #        select firstonly tmallCategory
+        #          where tmallCategory.CategoryLvl01 == categoryNameLvl01
+        #             && tmallCategory.CategoryLvl02 == categoryNameLvl02;
+        #    }
+        #
+        #    return tmallCategory;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

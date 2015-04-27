@@ -1,0 +1,1527 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : SalesTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #SalesTable
+    Id 366
+    PROPERTIES
+      Name                #SalesTable
+      Label               #@SYS25193
+      SearchLinkRefName   #EPSalesTableInfo
+      TitleField1         #SalesId
+      TitleField2         #SalesName
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #CustTables
+      CacheLookup         #NotInTTS
+      CreateRecIdIndex    #Yes
+      TableGroup          #WorksheetHeader
+      PrimaryIndex        #SalesIdx
+      ClusterIndex        #SalesIdx
+      AnalysisVisibility  #High
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS124484
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #SalesName
+        Id 2
+        STRING
+        PROPERTIES
+          Name                #SalesName
+          Label               #@SYS27874
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #SalesName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #DeliveryAddress
+        Id 7
+        STRING
+        PROPERTIES
+          Name                #DeliveryAddress
+          Label               #@SYS7924
+          HelpText            #@SYS27762
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #Addressing
+              #
+            ENDARRAY
+          StringSize          #250
+        ENDPROPERTIES
+        
+      FIELD #DeliveryZipCode
+        Id 42
+        STRING
+        PROPERTIES
+          Name                #DeliveryZipCode
+          HelpText            #@SYS17884
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echAddressZipCodeId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echSalesReasonId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echSalesReasonId
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echSalesReasonId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echMsgPartnerId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #echMsgPartnerExtCode
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerExtCode
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerExtCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceRequested
+        Id 30004
+        ENUM
+        PROPERTIES
+          Name                #echInvoiceRequested
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceRequested
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceCreated
+        Id 30005
+        ENUM
+        PROPERTIES
+          Name                #echInvoiceCreated
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceCreated
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #echPaymentReference
+        Id 30006
+        STRING
+        PROPERTIES
+          Name                #echPaymentReference
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echPaymentReference
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echFrontEndCreationDate
+        Id 30007
+        DATETIME
+        PROPERTIES
+          Name                #echFrontEndCreationDate
+          AllowEditOnCreate   #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echFrontEndCreationDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echFrontEndEndtimeDate
+        Id 30008
+        DATETIME
+        PROPERTIES
+          Name                #echFrontEndEndtimeDate
+          AllowEditOnCreate   #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echFrontEndEndtimeDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echFrontEndModifiedDate
+        Id 30009
+        DATETIME
+        PROPERTIES
+          Name                #echFrontEndModifiedDate
+          AllowEditOnCreate   #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echFrontEndModifiedDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echPaymentTime
+        Id 30010
+        DATETIME
+        PROPERTIES
+          Name                #echPaymentTime
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echPaymentTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echPaymentAmount
+        Id 30011
+        REAL
+        PROPERTIES
+          Name                #echPaymentAmount
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echPaymentAmount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echPromotionCode
+        Id 30012
+        STRING
+        PROPERTIES
+          Name                #echPromotionCode
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echPromotionCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echCancelExceptionId
+        Id 30013
+        STRING
+        PROPERTIES
+          Name                #echCancelExceptionId
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echCancelExceptionId
+              #
+            ENDARRAY
+          StringSize          #8
+        ENDPROPERTIES
+        
+      FIELD #ECHAggStatus
+        Id 30014
+        ENUM
+        PROPERTIES
+          Name                #ECHAggStatus
+          AllowEdit           #No
+          Table               #SalesTable
+          EnumType            #ECHAggStatus
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceType
+        Id 30017
+        ENUM
+        PROPERTIES
+          Name                #echInvoiceType
+          Table               #SalesTable
+          EnumType            #echInvoiceType
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceName
+        Id 30018
+        STRING
+        PROPERTIES
+          Name                #echInvoiceName
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceName
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceId
+        Id 30019
+        STRING
+        PROPERTIES
+          Name                #echInvoiceId
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceContent
+        Id 30020
+        STRING
+        PROPERTIES
+          Name                #echInvoiceContent
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceContent
+              #
+            ENDARRAY
+          StringSize          #255
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceTitle
+        Id 30021
+        STRING
+        PROPERTIES
+          Name                #echInvoiceTitle
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceTitle
+              #
+            ENDARRAY
+          StringSize          #25
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceCompanyName
+        Id 30029
+        STRING
+        PROPERTIES
+          Name                #echInvoiceCompanyName
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceCompanyName
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceTaxPayerIdNumber
+        Id 30030
+        STRING
+        PROPERTIES
+          Name                #echInvoiceTaxPayerIdNumber
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceTaxPayerIdentificationNumber
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceRegisteredAddress
+        Id 30031
+        STRING
+        PROPERTIES
+          Name                #echInvoiceRegisteredAddress
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceRegisteredAddress
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceRegisteredPhoneNumber
+        Id 30032
+        STRING
+        PROPERTIES
+          Name                #echInvoiceRegisteredPhoneNumber
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceRegisteredPhoneNumber
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceDepositBank
+        Id 30033
+        STRING
+        PROPERTIES
+          Name                #echInvoiceDepositBank
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceDepositBank
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceBankAccountNumber
+        Id 30034
+        STRING
+        PROPERTIES
+          Name                #echInvoiceBankAccountNumber
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceBankAccountNumber
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echDiscRoundOff
+        Id 30035
+        REAL
+        PROPERTIES
+          Name                #echDiscRoundOff
+          Label               #@ECH738
+          HelpText            #@ECH739
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #RoundOff
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echROShipCarrierId
+        Id 30039
+        STRING
+        PROPERTIES
+          Name                #echROShipCarrierId
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #ShipCarrierId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echROShipCarrierTrackingNum
+        Id 30040
+        STRING
+        PROPERTIES
+          Name                #echROShipCarrierTrackingNum
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #ShipCarrierTrackingNum
+              #
+            ENDARRAY
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #echExternalROId
+        Id 30041
+        STRING
+        PROPERTIES
+          Name                #echExternalROId
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerExtCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echRefundedDateTime
+        Id 30043
+        DATETIME
+        PROPERTIES
+          Name                #echRefundedDateTime
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnRefundedDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echShippingDateTimeConfirmed
+        Id 30044
+        DATETIME
+        PROPERTIES
+          Name                #echShippingDateTimeConfirmed
+          Label               #@SYS88228
+          HelpText            #@SYS88229
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #echSalesShippingDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echRetTrackingNum
+        Id 50002
+        STRING
+        PROPERTIES
+          Name                #echRetTrackingNum
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #ShipCarrierTrackingNum
+              #
+            ENDARRAY
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #echShipCarrierName
+        Id 50003
+        STRING
+        PROPERTIES
+          Name                #echShipCarrierName
+          Table               #SalesTable
+          ExtendedDataType    
+            ARRAY 
+              #ShipCarrierName
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #Delivery
+        PROPERTIES
+          Name                #Delivery
+          Label               #@SYS4508
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReceiptDateRequested
+          #ShippingDateRequested
+          #echShippingDateTimeConfirmed
+          #ReceiptDateConfirmed
+          #ShippingDateConfirmed
+          #DeliveryDateControlType
+          #DlvMode
+          #DlvTerm
+          #DlvReason
+          #ExportReason
+          #ShipCarrierBlindShipment
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echAddressChanged
+        PROPERTIES
+          Name                #echAddressChanged
+          Label               #@ECH254
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echAggStatus
+        PROPERTIES
+          Name                #echAggStatus
+          Label               #@ECH116
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ECHAggStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echCancelExceptionId
+        PROPERTIES
+          Name                #echCancelExceptionId
+          Label               #@ECH101
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echCancelExceptionId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #EchCarrierInfo
+        PROPERTIES
+          Name                #EchCarrierInfo
+          Label               #@ECH424
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #getCarrierIds
+          #getTrackingNums
+          #echInvoiceId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echDiscount
+        PROPERTIES
+          Name                #echDiscount
+          Label               #@SYS11829
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echDiscRoundOff
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echFrontEndDates
+        PROPERTIES
+          Name                #echFrontEndDates
+          Label               #@ECH43
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echFrontEndCreationDate
+          #echFrontEndEndtimeDate
+          #echFrontEndModifiedDate
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echInvoice
+        PROPERTIES
+          Name                #echInvoice
+          Label               #@SYS14204
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echInvoiceId
+          #echInvoiceName
+          #echInvoiceCompanyName
+          #echInvoiceTitle
+          #echInvoiceType
+          #echInvoiceContent
+          #echInvoiceTaxPayerIdNumber
+          #echInvoiceBankAccountNumber
+          #echInvoiceDepositBank
+          #echInvoiceRegisteredPhoneNumber
+          #echInvoiceRegisteredAddress
+          #echInvoiceCreated
+          #echInvoiceRequested
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echMsgPartner
+        PROPERTIES
+          Name                #echMsgPartner
+          Label               #@ECH19
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echMsgPartnerId
+          #echMsgPartnerExtCode
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echPayment
+        PROPERTIES
+          Name                #echPayment
+          Label               #@ECH44
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echPaymentReference
+          #echPaymentTime
+          #echPaymentAmount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echPromotion
+        PROPERTIES
+          Name                #echPromotion
+          Label               #@SYS118706
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echPromotionCode
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echROechTrackingInformation
+        PROPERTIES
+          Name                #echROechTrackingInformation
+          Label               #@ECH283
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echROShipCarrierId
+          #echROShipCarrierTrackingNum
+          #echExternalROId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echRORefundInformation
+        PROPERTIES
+          Name                #echRORefundInformation
+          Label               #@ECH652
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echRefundedDateTime
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echSalesReason
+        PROPERTIES
+          Name                #echSalesReason
+          Label               #@ECH6
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echSalesReasonId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echTrackingInformation
+        PROPERTIES
+          Name                #echTrackingInformation
+          Label               #@ECH283
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echDispShipDate
+          #echDispCarrierId
+          #echDispCarrierName
+          #echDispTrackingNumber
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echVATInvioce
+        PROPERTIES
+          Name                #echVATInvioce
+          Label               #@ECH310
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echInvoiceTaxPayerIdNumber
+          #echInvoiceCompanyName
+          #echInvoiceRegisteredAddress
+          #echInvoiceRegisteredPhoneNumber
+          #echInvoiceDepositBank
+          #echInvoiceBankAccountNumber
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ReturnInfo
+        PROPERTIES
+          Name                #ReturnInfo
+          Label               #@ech693
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echRetTrackingNum
+          #echShipCarrierName
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ReturnListPage
+        PROPERTIES
+          Name                #ReturnListPage
+          Label               #@SYS9039
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReturnItemNum
+          #CustAccount
+          #InvoiceAccount
+          #ReturnReasonCodeId
+          #ReturnDeadline
+          #ECHAggStatus
+          #ReturnStatus
+          #echCancelExceptionId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Status
+        PROPERTIES
+          Name                #Status
+          Label               #@SYS25587
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesStatus
+          #DocumentStatus
+          #Deadline
+          #echSalesReasonId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+      REFERENCE #AddressCounty
+        PROPERTIES
+          Name                #AddressCounty
+          Table               #AddressCounty
+          Validate            #No
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryCountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryState
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryCounty
+            RelatedField        #CountyId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #AddressState
+        PROPERTIES
+          Name                #AddressState
+          Table               #AddressState
+          Validate            #No
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryCountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryState
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echSOPromotionsHeader
+      PROPERTIES
+        Table               #echSOPromotionsHeader
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #RBOPrePaymentTable
+      PROPERTIES
+        Table               #RBOPrePaymentTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #CustSalesLegalTxt_BR
+      PROPERTIES
+        Table               #CustSalesLegalTxt_BR
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #PrintMgmtDocInstance
+      PROPERTIES
+        Table               #PrintMgmtDocInstance
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #TaxWorkRegulation
+      PROPERTIES
+        Table               #TaxWorkRegulation
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustPaymSched
+      PROPERTIES
+        Table               #CustPaymSched
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #DocuRef
+      PROPERTIES
+        Table               #DocuRef
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InterCompanyPurchSalesReference
+      PROPERTIES
+        Table               #InterCompanyPurchSalesReference
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventQualityOrderTable
+      PROPERTIES
+        Table               #InventQualityOrderTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #LedgerCov
+      PROPERTIES
+        Table               #LedgerCov
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #MarkupTrans
+      PROPERTIES
+        Table               #MarkupTrans
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #SalesJournalAutoSummary
+      PROPERTIES
+        Table               #SalesJournalAutoSummary
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustVendCreditInvoicingTable
+      PROPERTIES
+        Table               #CustVendCreditInvoicingTable
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #clearVatInvoice
+        #public void clearVatInvoice()
+        #{
+        #    ;
+        #    this.echInvoiceTaxPayerIdNumber = '';
+        #    this.echInvoiceCompanyName = '';
+        #    this.echInvoiceBankAccountNumber = '';
+        #    this.echInvoiceRegisteredPhoneNumber = '';
+        #    this.echInvoiceRegisteredAddress = '';
+        #    this.echInvoiceDepositBank = '';
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #echAllocPromotion
+        #// Update ECH_WI_02045 by mengqi.cen on 20130416
+        #//   Refine the logical of SO header promotion allocation.
+        #// Create ECH_WI_02045 by mengqi.cen on 20130409
+        #public void echAllocPromotion()
+        #{
+        #    // Table
+        #    InventTable            inventTbl;
+        #    SalesLine              salesLine;
+        #    echSOPromotionsHeader  promotionsHeader;
+        #    // Variable
+        #    SalesLineDisc          lineDisc;
+        #    SalesLineAmount        totalItemAmt;
+        #    SalesLineAmount        totalItemDiscAmt; // Total line amount substracted discount
+        #    Amount                 totalDiscAmt;
+        #    RoundOff               discRoundOff;
+        #;
+        #    TTSBegin;
+        #
+        #    if (!this.selectForUpdate())
+        #    {
+        #        throw error("@ECH740");
+        #    }
+        #
+        #    // Allocate line promotion
+        #    discRoundOff = 0.00;
+        #    while select forupdate salesLine
+        #            where salesLine.SalesId == this.SalesId
+        #    {
+        #        discRoundOff += salesLine.echAllocPromotion();
+        #    }
+        #
+        #    // Allocate header promotion
+        #    select sum(Amount) from promotionsHeader
+        #      where promotionsHeader.SalesId == this.SalesId;
+        #    totalDiscAmt = promotionsHeader.Amount;
+        #
+        #    if (totalDiscAmt > 0.00)
+        #    {
+        #        select sum(LineAmount) from salesLine
+        #          where salesLine.SalesId == this.SalesId
+        #          exists join inventTbl
+        #            where inventTbl.ItemId == salesLine.ItemId && inventTbl.ItemType != ItemType::Service;
+        #        totalItemAmt = salesLine.LineAmount;
+        #
+        #        if (totalDiscAmt > totalItemAmt)
+        #        {
+        #            throw error("@ECH715");
+        #        }
+        #
+        #        totalItemDiscAmt = 0.00;
+        #        while select forupdate salesLine
+        #                order by salesLine.SalesQty asc
+        #                where salesLine.SalesId    == this.SalesId
+        #                   && salesLine.LineAmount != 0.00
+        #                exists join inventTbl
+        #                  where inventTbl.ItemId == salesLine.ItemId
+        #                     && inventTbl.ItemType != ItemType::Service
+        #        {
+        #            lineDisc = totalDiscAmt * salesLine.LineAmount / totalItemAmt / salesLine.SalesQty;
+        #
+        #            salesLine.LineDisc += Currency::price(lineDisc, salesLine.CurrencyCode);
+        #            salesLine.LineAmount = salesLine.calcLineAmountForced();
+        #            salesLine.update();
+        #
+        #            totalItemDiscAmt += salesLine.LineAmount;
+        #        }
+        #        discRoundOff += (totalItemAmt - totalItemDiscAmt) - totalDiscAmt;
+        #
+        #        if (discRoundOff != 0.00)
+        #        {
+        #            this.echDiscRoundOff = discRoundOff;
+        #            this.update();
+        #        }
+        #    }
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+      SOURCE #echAmountCustRet
+        #//BP deviation documented
+        #display AmountCur echAmountCustRet()
+        #{
+        #    SalesLine   m_SalesLine;
+        #    ;
+        #    return m_SalesLine.echAmountCustRet(this.SalesType,this.CustAccount);
+        #}
+      ENDSOURCE
+      SOURCE #echAmountLine
+        #//BP deviation documented
+        #Display SalesLineAmount echAmountLine()
+        #{
+        #    SalesLine   m_SalesLine;
+        #    ;
+        #    select sum(LineAmount) from m_SalesLine
+        #        where m_SalesLine.SalesId == this.SalesId;
+        #
+        #    return m_SalesLine.LineAmount;
+        #}
+      ENDSOURCE
+      SOURCE #echCustomerMobilePhone
+        #//BP deviation documented
+        #display PhoneMobile echCustomerMobilePhone()
+        #{
+        #    return this.custTable_CustAccount().CellularPhone;
+        #}
+      ENDSOURCE
+      SOURCE #echDispCarrierId
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_006
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: display the carrier id
+        #
+        #//BP Deviation documented
+        #display ShipCarrierId echDispCarrierId(SalesTable _salesTable)
+        #{
+        #    ;
+        #    return this.echShipCarrierPackage().CarrierId;
+        #}
+      ENDSOURCE
+      SOURCE #echDispCarrierName
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_006
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: display the carrier name
+        #
+        #//BP Deviation documented
+        #display ShipCarrierName echDispCarrierName(SalesTable _salesTable)
+        #{
+        #    ;
+        #    return this.echShipCarrierPackage().CarrierName;
+        #}
+      ENDSOURCE
+      SOURCE #echDispShipDate
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_006
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: display the confirmed shipping date
+        #
+        #//BP Deviation documented
+        #display SalesShippingDateConfirmed echDispShipDate(SalesTable _salesTable)
+        #{
+        #    ;
+        #
+        #    return this.echShipCarrierPackage().ShipDate;
+        #}
+      ENDSOURCE
+      SOURCE #echDispTrackingNumber
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_006
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: display tracking number
+        #
+        #//BP Deviation documented
+        #display ShipCarrierTrackingNum echDispTrackingNumber(SalesTable _salesTable)
+        #{
+        #    ;
+        #    return this.echShipCarrierTracking().TrackingNumber;
+        #}
+      ENDSOURCE
+      SOURCE #echGetPromotionDesc
+        #//BP deviation documented
+        #display echPromotionDesc echGetPromotionDesc()
+        #{
+        #    echSOPromotionsHeader   m_echSOPromotionsHeader;
+        #    ;
+        #    select m_echSOPromotionsHeader
+        #        where m_echSOPromotionsHeader.SalesId == this.SalesId;
+        #    return m_echSOPromotionsHeader.PromotionDesc;
+        #}
+      ENDSOURCE
+      SOURCE #echGetPromotionId
+        #//BP deviation documented
+        #display echPromotionId echGetPromotionId()
+        #{
+        #    echSOPromotionsHeader   m_echSOPromotionsHeader;
+        #    ;
+        #    select m_echSOPromotionsHeader
+        #        where m_echSOPromotionsHeader.SalesId == this.SalesId;
+        #    return m_echSOPromotionsHeader.PromotionId;
+        #}
+      ENDSOURCE
+      SOURCE #echGetReturnOrderOFMSId
+        #//BP deviation documented
+        #Display SalesId echGetReturnOrderOFMSId()
+        #{
+        #    SalesTable  m_SalesTable;
+        #    CustTable   m_CustTable;
+        #    ;
+        #    m_CustTable = this.custTable_CustAccount();
+        #    select m_SalesTable
+        #        where m_SalesTable.SalesType == SalesType::ReturnItem
+        #            && m_SalesTable.CustAccount == m_CustTable.AccountNum;
+        #
+        #    return m_SalesTable.SalesId;
+        #}
+      ENDSOURCE
+      SOURCE #echGetSalesOrderAmountCust
+        #//BP deviation documented
+        #public SalesLineAmount echGetSalesOrderAmountCust(CustAccount _custAccount)
+        #{
+        #    SalesLine   m_SalesLine;
+        #    ;
+        #    select sum(LineAmount) from m_SalesLine
+        #        where m_SalesLine.CustAccount == _custAccount
+        #            && m_SalesLine.SalesType==SalesType::Sales;
+        #
+        #    return m_SalesLine.LineAmount;
+        #}
+      ENDSOURCE
+      SOURCE #echIsOnlinePay
+        #// Add ECH_WI_01961 by mengqi.cen on 20130117
+        #public echIsOnlinePay echIsOnlinePay()
+        #{
+        #    CustPaymModeTable custPaymMode;
+        #;
+        #    select firstonly custPaymMode
+        #      where custPaymMode.PaymMode == this.PaymMode;
+        #
+        #    return custPaymMode.echIsOnlinePay;
+        #}
+      ENDSOURCE
+      SOURCE #echOriginalSalesId
+        #// *** ECHINA - Nathanaël TETOUOM ***
+        #// *** Customization Code: ECH_WI_1717
+        #// *** Customization Date: 24 Oct 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #// BP Deviation documented
+        #display SalesIdBase echOriginalSalesId()
+        #{
+        #    SalesTable  salesTableLocal;
+        #    ;
+        #
+        #    if (this.SalesType == SalesType::ReturnItem &&
+        #        this.echMsgPartnerExtCode)
+        #    {
+        #       select firstOnly SalesId
+        #       from salesTableLocal
+        #            where salesTableLocal.SalesType             == SalesType::Sales &&
+        #                  salesTableLocal.echMsgPartnerExtCode  == this.echMsgPartnerExtCode;
+        #    }
+        #
+        #    return salesTableLocal.SalesId;
+        #}
+      ENDSOURCE
+      SOURCE #echRetCustMobilePhone
+        #// *** ECHINA - Steven ***
+        #// *** Customization Code:
+        #// *** Customization Date: 20 Feb 2013
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #//BP deviation documented
+        #display PhoneMobile echRetCustMobilePhone()
+        #{
+        #    SalesTable  m_SalesTable;
+        #    CustTable   m_CustTable;
+        #    ;
+        #
+        #    if (this.SalesType == SalesType::ReturnItem &&
+        #        this.echMsgPartnerExtCode)
+        #    {
+        #       select firstOnly CustAccount
+        #       from m_SalesTable
+        #            where m_SalesTable.SalesType             == SalesType::Sales &&
+        #                  m_SalesTable.echMsgPartnerExtCode  == this.echMsgPartnerExtCode;
+        #       select CellularPhone from m_CustTable
+        #            where m_CustTable.AccountNum == m_SalesTable.CustAccount;
+        #    }
+        #
+        #    return m_CustTable.CellularPhone;
+        #}
+      ENDSOURCE
+      SOURCE #echRetCustName
+        #// *** ECHINA - Steven ***
+        #// *** Customization Code:
+        #// *** Customization Date: 20 Feb 2013
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #//BP deviation documented
+        #display CustName echRetCustName()
+        #{
+        #    SalesTable  m_SalesTable;
+        #    CustTable   m_CustTable;
+        #    ;
+        #
+        #    if (this.SalesType == SalesType::ReturnItem &&
+        #        this.echMsgPartnerExtCode)
+        #    {
+        #       select firstOnly CustAccount
+        #       from m_SalesTable
+        #            where m_SalesTable.SalesType             == SalesType::Sales &&
+        #                  m_SalesTable.echMsgPartnerExtCode  == this.echMsgPartnerExtCode;
+        #       select Name from m_CustTable
+        #            where m_CustTable.AccountNum == m_SalesTable.CustAccount;
+        #    }
+        #
+        #    return m_CustTable.Name;
+        #}
+      ENDSOURCE
+      SOURCE #echRetCustPhone
+        #// *** ECHINA - Steven ***
+        #// *** Customization Code:
+        #// *** Customization Date: 20 Feb 2013
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #//BP deviation documented
+        #display Phone echRetCustPhone()
+        #{
+        #    SalesTable  m_SalesTable;
+        #    CustTable   m_CustTable;
+        #    ;
+        #
+        #    if (this.SalesType == SalesType::ReturnItem &&
+        #        this.echMsgPartnerExtCode)
+        #    {
+        #       select firstOnly CustAccount
+        #       from m_SalesTable
+        #            where m_SalesTable.SalesType             == SalesType::Sales &&
+        #                  m_SalesTable.echMsgPartnerExtCode  == this.echMsgPartnerExtCode;
+        #       select CellularPhone from m_CustTable
+        #            where m_CustTable.AccountNum == m_SalesTable.CustAccount;
+        #    }
+        #
+        #    return m_CustTable.Phone;
+        #}
+      ENDSOURCE
+      SOURCE #echRetDeliveryAddress
+        #// *** ECHINA - Steven ***
+        #// *** Customization Code:
+        #// *** Customization Date: 20 Feb 2013
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #//BP deviation documented
+        #display Addressing echRetDeliveryAddress()
+        #{
+        #    SalesTable  m_SalesTable;
+        #    ;
+        #
+        #    if (this.SalesType == SalesType::ReturnItem &&
+        #        this.echMsgPartnerExtCode)
+        #    {
+        #       select DeliveryAddress
+        #       from m_SalesTable
+        #            where m_SalesTable.SalesType             == SalesType::Sales &&
+        #                  m_SalesTable.echMsgPartnerExtCode  == this.echMsgPartnerExtCode;
+        #    }
+        #
+        #    return m_SalesTable.DeliveryAddress;
+        #}
+      ENDSOURCE
+      SOURCE #echReturnReasonDescription
+        #//BP deviation documented
+        #display Description echReturnReasonDescription()
+        #{
+        #    ReturnReasonCode    m_ReturnReasonCode;
+        #    ;
+        #    select Description from m_ReturnReasonCode
+        #        where m_ReturnReasonCode.ReasonCodeId == this.ReturnReasonCodeId;
+        #
+        #    return m_ReturnReasonCode.Description;
+        #}
+      ENDSOURCE
+      SOURCE #echShipCarrierPackage
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_006
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: recover ShipCarrierPackage by the SalesId
+        #
+        #ShipCarrierPackage echShipCarrierPackage(boolean _forUpdate = false)
+        #{
+        #    ShipCarrierPackage     carrierPackage;
+        #    ;
+        #
+        #    carrierPackage.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly carrierPackage
+        #    order by RecId desc
+        #        where carrierPackage.SalesId == this.SalesId;
+        #
+        #    return carrierPackage;
+        #}
+      ENDSOURCE
+      SOURCE #echShipCarrierTracking
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_006
+        #// *** Customization Date: 12 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: recover ShipCarrierTracking by the SalesId
+        #
+        #ShipCarrierTracking echShipCarrierTracking(boolean _forUpdate = false)
+        #{
+        #    ShipCarrierTracking     carrierTracking;
+        #    ;
+        #
+        #    carrierTracking.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly carrierTracking
+        #    order by RecId desc
+        #        where carrierTracking.SalesId == this.SalesId;
+        #
+        #    return carrierTracking;
+        #}
+      ENDSOURCE
+      SOURCE #echTotalDisc
+        #//BP deviation documented
+        #display DiscAmount echTotalDisc()
+        #{
+        #
+        #    SalesLine       m_Salesline;
+        #    DiscAmount      totalDisc;
+        #    DiscAmount      disc;
+        #    ;
+        #    totalDisc   = 0;
+        #    disc        = 0;
+        #    while select m_Salesline
+        #        where m_Salesline.SalesId == this.SalesId
+        #        {
+        #            disc        = m_Salesline.LineDisc * m_Salesline.SalesQty;
+        #            totalDisc   = totalDisc + disc;
+        #        }
+        #    return totalDisc;
+        #}
+      ENDSOURCE
+      SOURCE #getCarrierIds
+        #// Create ECH_WI_01991 by mengqi.cen on 20130314
+        #// BP deviation documented
+        #display echShipCarrierIds getCarrierIds()
+        #{
+        #    CustPackingSlipJour  slipJour;
+        #    ShipCarrierTracking  slipTrac;
+        #    ShipCarrierPackage   slipPack;
+        #    container            carrierIdCon;
+        #;
+        #    carrierIdCon = connull();
+        #
+        #    while select CarrierId from slipPack
+        #            exists join TableId from slipTrac
+        #              where slipPack.SalesId       == slipTrac.SalesId
+        #                 && slipPack.PackingSlipId == slipTrac.PackingSlipId
+        #            join TableId from slipJour
+        #              where slipPack.SalesId       == slipJour.SalesId
+        #                 && slipPack.PackingSlipId == slipJour.PackingSlipId
+        #                 && slipJour.SalesId       == this.SalesId
+        #    {
+        #        carrierIdCon += slipPack.CarrierId;
+        #    }
+        #
+        #    return con2Str(carrierIdCon);
+        #}
+      ENDSOURCE
+      SOURCE #getTrackingNums
+        #// Update ECH_WI_02233 by mengqi.cen on 20130601
+        #//   Avoid Duplicated Tracking Number in form 'SalesTable'
+        #// Create ECH_WI_01991 by mengqi.cen on 20130314
+        #// BP deviation documented
+        #display echShipCarrierTrackingNums getTrackingNums()
+        #{
+        #    CustPackingSlipJour         slipJour;
+        #    ShipCarrierTracking         slipTrac;
+        #    set                         tracNumSet;
+        #    SetEnumerator               tracNumSetE;
+        #    echShipCarrierTrackingNums  trackkingNums;
+        #;
+        #    tracNumSet = new set(Types::String);
+        #
+        #    while select TrackingNumber from slipTrac
+        #            join TableId from slipJour
+        #              where slipTrac.SalesId       == slipJour.SalesId
+        #                 && slipTrac.PackingSlipId == slipJour.PackingSlipId
+        #                 && slipJour.SalesId       == this.SalesId
+        #    {
+        #        tracNumSet.add(slipTrac.TrackingNumber);
+        #    }
+        #
+        #    // Traverse the set, create a string Element1[,Element2]
+        #    tracNumSetE = tracNumSet.getEnumerator();
+        #    while (tracNumSetE.moveNext())
+        #        trackkingNums += (strlen(trackkingNums) > 0 ? ',' : '') + tracNumSetE.current();
+        #
+        #    return trackkingNums;
+        #}
+      ENDSOURCE
+      SOURCE #ChangeReturnStatus
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01488
+        #// *** Customization Date: 20 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description:   Update the echAggStatus field for the cancelled return orders
+        #
+        #public static Counter changeReturnStatus(FormDataSource _datasource, ReturnUpdateAction _updateAction)
+        #{
+        #    SalesTable      returnTable;
+        #    SalesLine       returnLine;
+        #    SalesTable      returnTableUpdate;
+        #    Counter         numberOfRecords;
+        #    SalesTable      salesTable;
+        #    PurchTable      purchTable;
+        #    PurchLine       purchLine;
+        #    ;
+        #
+        #
+        #    ttsbegin;
+        #
+        #    for (returnTable = _datasource.getFirst(true) ? _datasource.getFirst(true) : _datasource.cursor(); returnTable; returnTable = _datasource.getNext())
+        #    {
+        #        if (returnTable.ReturnStatus == ReturnStatusHeader::Created && !returnTable.existRegisteredReceivedInvoicedLines() && !returnTable.type().interCompanyIsDerivedOrder())
+        #        {
+        #            if (_updateAction == ReturnUpdateAction::Cancel)
+        #            {
+        #                while select forupdate returnLine
+        #                      where returnLine.SalesId == returnTable.SalesId
+        #                      &&    returnLine.InventTransId
+        #                {
+        #                    if (returnLine.interCompanySalesLineExist())
+        #                    {
+        #                        purchLine            = PurchLine::findInventTransId(returnLine.InventRefTransId,true);
+        #                        purchTable           = PurchTable::find(purchLine.PurchId);
+        #
+        #                        purchLine.SkipUpdate = InterCompanySkipUpdate::Internal;
+        #                        purchLine.delete(false);
+        #
+        #                        if (!purchTable.existPurchLine())
+        #                        {
+        #                            if (purchTable.InterCompanyCompanyId
+        #                            &&  purchTable.InterCompanySalesId)
+        #                            {
+        #                                changecompany(purchTable.InterCompanyCompanyId)
+        #                                {
+        #                                    salesTable = null;
+        #                                    salesTable = SalesTable::find(purchTable.InterCompanySalesId,true);
+        #                                    if (salesTable)
+        #                                        salesTable.delete();
+        #                                }
+        #                            }
+        #                        }
+        #                    }
+        #
+        #                    returnLine.SalesQty     = 0;
+        #                    returnLine.salesQtyModified();
+        #                    returnLine.DeliveryType = TradeLineDlvType::None;
+        #                    returnLine.SkipUpdate   = InterCompanySkipUpdate::Internal;
+        #                    returnLine.update();
+        #                }
+        #
+        #                returnLine.skipDataMethods(true);
+        #                update_recordset returnLine
+        #                setting          ReturnStatus         = ReturnStatusLine::Canceled,
+        #                                 CostPrice            = 0,
+        #                                 InventTransIdReturn  = '',
+        #                                 SalesStatus          = SalesStatus::Canceled,
+        #                                 ReturnClosedDate     = systemdateget()
+        #                where returnLine.SalesId == returnTable.SalesId;
+        #
+        #                SpecTransManager::construct(returnTable).deleteAll();
+        #
+        #                returnTableUpdate = SalesTable::find(returnTable.SalesId, true);
+        #                returnTableUpdate.ReturnStatus               = ReturnStatusHeader::Canceled;
+        #                returnTableUpdate.SalesStatus                = SalesStatus::Canceled;
+        #                returnTableUpdate.InterCompanyDirectDelivery = false;
+        #                returnTableUpdate.update();
+        #// CS - ECH_WI_01488 - Marijn Catthoor - 20 Sep 2012
+        #
+        #                 ECHUpdateAggStatus::updateStatus(returnTableUpdate.SalesId, echAggStatus::Cancelled);
+        #
+        #// CE - ECH_WI_01488 - Marijn Catthoor - 20 Sep 2012
+        #            }
+        #
+        #            numberOfRecords++;
+        #        }
+        #    }
+        #
+        #    ttscommit;
+        #
+        #    return numberOfRecords;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,82 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSalesTableType unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSalesTableType
+    Id 30163
+    PROPERTIES
+      Name                #echSalesTableType
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description: hook class of SalesTableType
+        #
+        #class echSalesTableType
+        #{
+        #    SalesTableType      salesTableType;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #void new(SalesTableType _salesTableType)
+        #{
+        #    ;
+        #    salesTableType = _salesTableType;
+        #}
+      ENDSOURCE
+      SOURCE #salesTableType
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description:
+        #
+        #SalesTableType salesTableType()
+        #{
+        #    ;
+        #    return salesTableType;
+        #}
+      ENDSOURCE
+      SOURCE #updateBackStatus
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00665
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: created
+        #// *** Description: set aggregate status
+        #
+        #void updateBackStatus()
+        #{
+        #    ;
+        #    if (!isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #        return;
+        #
+        #    switch (SalesLine::lowestSalesStatus(salesTableType.salesTable().SalesId))
+        #    {
+        #        case SalesStatus::Canceled:
+        #            echUpdateAggStatus::updateStatus(salesTableType.salesTable().SalesId, echAggStatus::Cancelled);
+        #            break;
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

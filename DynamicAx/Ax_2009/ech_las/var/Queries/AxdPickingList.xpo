@@ -1,0 +1,218 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: AxdPickingList unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #AxdPickingList
+  PROPERTIES
+    Name                #AxdPickingList
+    Title               #PickingList
+    Version             #72
+    NextUniqueId        #1006
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #WMSPickingRoute
+      PROPERTIES
+        Name                #WMSPickingRoute
+        Table               #WMSPickingRoute
+        UniqueId            #1000
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+        BLOCK #WMSOrderTrans
+          PROPERTIES
+            Name                #WMSOrderTrans
+            Table               #WMSOrderTrans
+            UniqueId            #1002
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #orderType
+            PROPERTIES
+              Name                #orderType
+              Table               #WMSOrderTrans
+              Field               #orderType
+              Value               #OrderPick
+              Status              #Lock
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDim
+                Table               #InventDim
+                UniqueId            #1003
+                FetchMode           #1:1
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #WMSOrderTrans
+                  MASTERFIELD  #inventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+            BLOCK #DocuRef
+              PROPERTIES
+                Name                #DocuRefLine
+                Table               #DocuRef
+                UniqueId            #1005
+                JoinMode            #OuterJoin
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+                LINE #Restriction
+                PROPERTIES
+                  Name                #Restriction
+                  Table               #DocuRef
+                  Field               #Restriction
+                  Value               #External
+                  Status              #Lock
+                ENDPROPERTIES
+                
+                LINE #TypeId
+                PROPERTIES
+                  Name                #TypeId
+                  Table               #DocuRef
+                  Field               #TypeId
+                ENDPROPERTIES
+                
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #WMSOrderTrans
+                  MASTERFIELD  #dataAreaId
+                  DETAILSFIELD #RefCompanyId
+                ASSOCIATION
+                  JOINDATASOURCE #WMSOrderTrans
+                  MASTERFIELD  #TableId
+                  DETAILSFIELD #RefTableId
+                ASSOCIATION
+                  JOINDATASOURCE #WMSOrderTrans
+                  MASTERFIELD  #RecId
+                  DETAILSFIELD #RefRecId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #WMSPickingRoute
+              MASTERFIELD  #pickingRouteID
+              DETAILSFIELD #routeId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #DocuRef
+          PROPERTIES
+            Name                #DocuRefHeader
+            Table               #DocuRef
+            UniqueId            #1004
+            JoinMode            #OuterJoin
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #Restriction
+            PROPERTIES
+              Name                #Restriction
+              Table               #DocuRef
+              Field               #Restriction
+              Value               #External
+              Status              #Lock
+            ENDPROPERTIES
+            
+            LINE #TypeId
+            PROPERTIES
+              Name                #TypeId
+              Table               #DocuRef
+              Field               #TypeId
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              JOINDATASOURCE #WMSPickingRoute
+              MASTERFIELD  #RecId
+              DETAILSFIELD #RefRecId
+            ASSOCIATION
+              JOINDATASOURCE #WMSPickingRoute
+              MASTERFIELD  #dataAreaId
+              DETAILSFIELD #RefCompanyId
+            ASSOCIATION
+              JOINDATASOURCE #WMSPickingRoute
+              MASTERFIELD  #TableId
+              DETAILSFIELD #RefTableId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

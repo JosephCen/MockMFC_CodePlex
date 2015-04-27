@@ -1,0 +1,27 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: echAifCUPipeline unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #echAifCUPipeline
+    ##define.nsPrefixMessage('ns0')
+    ##define.nsPrefixQuery('ns1')
+    ##define.nsPrefixBody('ns2')
+    #//#define.QueryCriteriaXpath('/*[local-name()="QueryCriteria"]')
+    ##define.QueryCriteriaXpath('/ns0:MessageParts/ns1:QueryCriteria')
+    #
+    #
+    ##define.MergeMessage('MergeMessage')
+    ##define.CreateMessage('CreateMessage')
+    ##define.FindMessage('FindMessage')
+    ##define.EntityKeyMessage('EntityKeyMessage')
+    #
+    #//#define.DocumentHashXpath('//*[local-name()="_DocumentHash"]')
+    #
+  ENDSOURCE
+
+***Element: END

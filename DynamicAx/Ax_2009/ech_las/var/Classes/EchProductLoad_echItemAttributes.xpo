@@ -1,0 +1,182 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad_echItemAttributes unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad_echItemAttributes
+    Id 30287
+    PROPERTIES
+      Name                #EchProductLoad_echItemAttributes
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad_echItemAttributes extends AfStronglyTypedDataContainer
+        #{
+        #    #define.Visible('Visible')
+        #    #define.UnitID('UnitID')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Mandatory('Mandatory')
+        #    #define.ItemId('ItemId')
+        #    #define.AttributeValue('AttributeValue')
+        #    #define.AttributeName('AttributeName')
+        #    #define.AttributeId('AttributeId')
+        #    #define.AttributeDesc('AttributeDesc')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsAttributeDesc
+        #public boolean existsAttributeDesc()
+        #{
+        #    return this.exists(#AttributeDesc);
+        #}
+      ENDSOURCE
+      SOURCE #existsAttributeId
+        #public boolean existsAttributeId()
+        #{
+        #    return this.exists(#AttributeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsAttributeName
+        #public boolean existsAttributeName()
+        #{
+        #    return this.exists(#AttributeName);
+        #}
+      ENDSOURCE
+      SOURCE #existsAttributeValue
+        #public boolean existsAttributeValue()
+        #{
+        #    return this.exists(#AttributeValue);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsMandatory
+        #public boolean existsMandatory()
+        #{
+        #    return this.exists(#Mandatory);
+        #}
+      ENDSOURCE
+      SOURCE #existsUnitID
+        #public boolean existsUnitID()
+        #{
+        #    return this.exists(#UnitID);
+        #}
+      ENDSOURCE
+      SOURCE #existsVisible
+        #public boolean existsVisible()
+        #{
+        #    return this.exists(#Visible);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad_echItemAttributes);
+        #}
+      ENDSOURCE
+      SOURCE #parmAttributeDesc
+        #public echAttributeDesc parmAttributeDesc(echAttributeDesc _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AttributeDesc, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AttributeDesc);
+        #}
+      ENDSOURCE
+      SOURCE #parmAttributeId
+        #public echAttributeId parmAttributeId(echAttributeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AttributeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AttributeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmAttributeName
+        #public echAttributeName parmAttributeName(echAttributeName _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AttributeName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AttributeName);
+        #}
+      ENDSOURCE
+      SOURCE #parmAttributeValue
+        #public echAttributeValue parmAttributeValue(echAttributeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AttributeValue, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AttributeValue);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public ItemId parmItemId(ItemId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmMandatory
+        #public NoYes parmMandatory(NoYes _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Mandatory, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Mandatory);
+        #}
+      ENDSOURCE
+      SOURCE #parmUnitID
+        #public UnitID parmUnitID(UnitID _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#UnitID, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#UnitID);
+        #}
+      ENDSOURCE
+      SOURCE #parmVisible
+        #public NoYes parmVisible(NoYes _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Visible, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Visible);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,131 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: echInventDimPriceDisc unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #echInventDimPriceDisc
+  PROPERTIES
+    Name                #echInventDimPriceDisc
+    Version             #34
+    NextUniqueId        #1006
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #PriceDiscTable
+      PROPERTIES
+        Name                #PriceDiscTable
+        Table               #PriceDiscTable
+        UniqueId            #1003
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDFIELDLIST
+      SORTING
+      ENDSORTING
+      LINES
+      ENDLINES
+      BLOCKS
+        BLOCK #InventDim
+          PROPERTIES
+            Name                #InventDim
+            Table               #InventDim
+            UniqueId            #1004
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #InventDimId
+              DETAILSFIELD #inventDimId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #echLatestPriceDiscTable
+          PROPERTIES
+            Name                #echLatestPriceDiscTable
+            Table               #echLatestPriceDiscTable
+            UniqueId            #1005
+            FetchMode           #1:1
+            JoinMode            #ExistsJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #dataAreaId
+            FIELD #InventDimId
+            FIELD #ItemRelation
+            FIELD #PriceDiscTableRefRecId
+            FIELD #QuantityAmount
+            FIELD #RecId
+            FIELD #recVersion
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #RecId
+              DETAILSFIELD #PriceDiscTableRefRecId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+    DEPENDENT
+      PROPERTIES
+        Name                #echInventDimPriceDiscView
+        DependentType       #View
+      ENDPROPERTIES
+      
+      Id 30044
+    DEPENDENT
+      PROPERTIES
+        Name                #echInventDimPriceDiscVw
+        DependentType       #View
+      ENDPROPERTIES
+      
+      Id 30044
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

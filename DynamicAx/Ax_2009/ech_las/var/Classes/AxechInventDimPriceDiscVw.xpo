@@ -1,0 +1,330 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechInventDimPriceDiscVw unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechInventDimPriceDiscVw
+    Id 30143
+    PROPERTIES
+      Name                #AxechInventDimPriceDiscVw
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechInventDimPriceDiscVw axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechInventDimPriceDiscVw extends AxInternalBase
+        #{
+        #    echInventDimPriceDiscVw echInventDimPriceDiscVw;
+        #    RecId                   curRecordId;
+        #    echExternalSkuId        echExternalSkuId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echInventDimPriceDiscVw currentRecord(echInventDimPriceDiscVw _echInventDimPriceDiscVw = echInventDimPriceDiscVw)
+        #{
+        #    if (!prmisdefault(_echInventDimPriceDiscVw))
+        #    {
+        #        super(_echInventDimPriceDiscVw);
+        #        echInventDimPriceDiscVw = _echInventDimPriceDiscVw;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echInventDimPriceDiscVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echInventDimPriceDiscVw
+        #public echInventDimPriceDiscVw echInventDimPriceDiscVw(echInventDimPriceDiscVw _echInventDimPriceDiscVw = echInventDimPriceDiscVw)
+        #{
+        #    if (!prmisdefault(_echInventDimPriceDiscVw))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echInventDimPriceDiscVw);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echInventDimPriceDiscVw emptyRecord()
+        #{
+        #    echInventDimPriceDiscVw localechInventDimPriceDiscVw;
+        #    ;
+        #    return localechInventDimPriceDiscVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEchExternalSkuId_Rec
+        #// Add ECH_WI_02282 by mengqi.cen on 20130619
+        #private void findEchExternalSkuId_Rec()
+        #{
+        #    InventItemBarcode _itemBarcode;
+        #;
+        #    if (curRecordId != echInventDimPriceDiscVw.RecId)
+        #    {
+        #        _itemBarcode = echInventDimPriceDiscVw.echInventItemBarcodeMap::inventItemBarcode();
+        #        if (_itemBarCode)
+        #        {
+        #            echExternalSkuId =
+        #                echExternalSkuId::findBarCode(echInventDimPriceDiscVw.InventLocationId,
+        #                                            _itemBarcode.itemBarCode);
+        #        }
+        #        curRecordId = echInventDimPriceDiscVw.RecId;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #parmAmount
+        #public AmountCur parmAmount(AmountCur _amount = 0)
+        #{
+        #    if (!prmisdefault(_amount))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, Amount), _amount);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.Amount;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmConfigId
+        #public ConfigId parmConfigId(ConfigId _configId = '')
+        #{
+        #    if (!prmisdefault(_configId))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, ConfigId), _configId);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.ConfigId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchExtItemId
+        #// Add ECH_WI_02282 by mengqi.cen on 20130619
+        #public ExtCodeValue parmEchExtItemId(ExtCodeValue _extCodeValue = '')
+        #{
+        #;
+        #    this.findEchExternalSkuId_Rec();
+        #
+        #    return echExternalSkuId.ExtItemId;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #// Add ECH_WI_02282 by mengqi.cen on 20130619
+        #public extCodeValue parmEchExtSkuId(extCodeValue _echExtSkuId = '')
+        #{
+        #;
+        #    this.findEchExternalSkuId_Rec();
+        #
+        #    return echExternalSkuId.ExtCodeValue;
+        #}
+      ENDSOURCE
+      SOURCE #parmInventColorId
+        #public InventColorId parmInventColorId(InventColorId _inventColorId = '')
+        #{
+        #    if (!prmisdefault(_inventColorId))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, InventColorId), _inventColorId);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.InventColorId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #public InventLocationId parmInventLocationId(InventLocationId _inventLocationId = '')
+        #{
+        #    if (!prmisdefault(_inventLocationId))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, InventLocationId), _inventLocationId);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.InventLocationId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventSiteId
+        #public InventSiteId parmInventSiteId(InventSiteId _inventSiteId = '')
+        #{
+        #    if (!prmisdefault(_inventSiteId))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, InventSiteId), _inventSiteId);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.InventSiteId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventSizeId
+        #public InventSizeId parmInventSizeId(InventSizeId _inventSizeId = '')
+        #{
+        #    if (!prmisdefault(_inventSizeId))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, InventSizeId), _inventSizeId);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.InventSizeId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemRelation
+        #public PriceDiscItemRelation parmItemRelation(PriceDiscItemRelation _itemRelation = '')
+        #{
+        #    if (!prmisdefault(_itemRelation))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, ItemRelation), _itemRelation);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.ItemRelation;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmQuantityAmount
+        #public AmountQty parmQuantityAmount(AmountQty _quantityAmount = 0)
+        #{
+        #    if (!prmisdefault(_quantityAmount))
+        #    {
+        #        this.setField(fieldNum(echInventDimPriceDiscVw, QuantityAmount), _quantityAmount);
+        #    }
+        #
+        #    return echInventDimPriceDiscVw.QuantityAmount;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setAmount
+        #protected void setAmount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, Amount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setConfigId
+        #protected void setConfigId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, ConfigId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventColorId
+        #protected void setInventColorId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, InventColorId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventLocationId
+        #protected void setInventLocationId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, InventLocationId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventSiteId
+        #protected void setInventSiteId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, InventSiteId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventSizeId
+        #protected void setInventSizeId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, InventSizeId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemRelation
+        #protected void setItemRelation()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, ItemRelation)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setQuantityAmount
+        #protected void setQuantityAmount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echInventDimPriceDiscVw, QuantityAmount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setConfigId();
+        #    this.setInventColorId();
+        #    this.setInventSizeId();
+        #    this.setInventSiteId();
+        #    this.setInventLocationId();
+        #    this.setAmount();
+        #    this.setItemRelation();
+        #    this.setQuantityAmount();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechInventDimPriceDiscVw construct()
+        #{
+        #    return new AxechInventDimPriceDiscVw();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechInventDimPriceDiscVw
+        #public static AxechInventDimPriceDiscVw newechInventDimPriceDiscVw(echInventDimPriceDiscVw _echInventDimPriceDiscVw)
+        #{
+        #    AxechInventDimPriceDiscVw AxechInventDimPriceDiscVw = AxechInventDimPriceDiscVw::construct();
+        #    ;
+        #    AxechInventDimPriceDiscVw.echInventDimPriceDiscVw(_echInventDimPriceDiscVw);
+        #
+        #    return AxechInventDimPriceDiscVw;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echEPInvoiceInfoEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echEPInvoiceInfoEdit
+    PROPERTIES
+      Name                #echEPInvoiceInfoEdit
+      Label               #@ECH716
+      HelpText            #@ECH717
+      URL                 #Sales/Enterprise%20Portal/echEPInvoiceInfoEdit.aspx
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

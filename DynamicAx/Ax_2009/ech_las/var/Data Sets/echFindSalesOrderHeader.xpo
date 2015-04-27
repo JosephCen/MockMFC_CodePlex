@@ -1,0 +1,110 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echFindSalesOrderHeader
+  PROPERTIES
+    Name                #echFindSalesOrderHeader
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    Map     selectedHeaders;
+      #}
+    ENDSOURCE
+    SOURCE #selectedHeaders
+      #public map selectedHeaders()
+      #{
+      #    if (!selectedHeaders)
+      #        selectedHeaders = new Map(Types::Int64,Types::Enum);
+      #
+      #    return selectedHeaders;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #CustInvoiceJour
+          Table               #CustInvoiceJour
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    super();
+          #    selectedHeaders = null;
+          #}
+        ENDSOURCE
+        SOURCE #checked
+          #// *** ECHINA - Abdessamad Almask ***
+          #// *** Customization Code: ECH_E_007
+          #// *** Customization Date: 23 Apr 2012
+          #// *** Customization Type: creation
+          #// *** Description: edit method
+          #
+          # //BP Deviation documented
+          #edit NoYes checked(boolean _set, CustInvoiceJour _line, NoYes _newValue)
+          #{
+          #    if (_set)
+          #    {
+          #        if (_newValue == NoYes::Yes && element.selectedHeaders().exists(_line.RecId) == false)
+          #        {
+          #                element.selectedHeaders().insert( _line.RecId, NoYes::Yes );
+          #        }
+          #        if (_newValue == NoYes::No && element.selectedHeaders().exists(_line.RecId))
+          #        {
+          #            element.selectedHeaders().remove( _line.RecId );
+          #        }
+          #    }
+          #    return element.selectedHeaders().exists( _line.RecId);
+          #}
+        ENDSOURCE
+        SOURCE #itemLookup
+          #void itemLookup(SysDataSetLookup sysDataSetLookup)
+          #{
+          #    List list = new List(Types::String);
+          #    Query query = new Query();
+          #    #define.itemId('ItemId')
+          #    ;
+          #
+          #    query.addDataSource(tableNum(InventTable));
+          #
+          #    list.addEnd(fieldStr(InventTable, ItemId));
+          #    list.addEnd(fieldStr(InventTable, ItemName));
+          #
+          #    sysDataSetLookup.parmLookupFields(list);
+          #    sysDataSetLookup.parmSelectField(#itemId);
+          #
+          #    sysDataSetLookup.parmQuery(query);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

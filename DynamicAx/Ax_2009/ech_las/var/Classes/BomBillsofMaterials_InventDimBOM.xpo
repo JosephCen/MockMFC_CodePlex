@@ -1,0 +1,59 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: BomBillsofMaterials_InventDimBOM unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #BomBillsofMaterials_InventDimBOM
+    Id 12598
+    PROPERTIES
+      Name                #BomBillsofMaterials_InventDimBOM
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class BomBillsofMaterials_InventDimBOM extends AfStronglyTypedDataContainer
+        #{
+        #    #define.wMSPalletId('wMSPalletId')
+        #    #define.wMSLocationId('wMSLocationId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.InventSizeId('InventSizeId')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.inventSerialId('inventSerialId')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.inventDimId('inventDimId')
+        #    #define.InventColorId('InventColorId')
+        #    #define.InventBatchId('InventBatchId')
+        #    #define.configId('configId')
+        #    #define.InventStyleId('InventStyleId')
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsInventStyleId
+        #public boolean existsInventStyleId()
+        #{
+        #    return this.exists(#InventStyleId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventStyleId
+        #public RBOInventStyleId parmInventStyleId(RBOInventStyleId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventStyleId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventStyleId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

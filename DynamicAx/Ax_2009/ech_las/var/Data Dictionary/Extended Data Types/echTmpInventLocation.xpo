@@ -1,0 +1,31 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTE
+
+; Microsoft Dynamics AX Enum: echTmpInventLocation unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echTmpInventLocation
+  Id 30033
+  ENUM
+    PROPERTIES
+      Name                #echTmpInventLocation
+      Label               #@ECH79
+      HelpText            #@ECH117
+      ConfigurationKey    #echProcesses
+      Extends             #NoYesId
+      EnumType            #NoYes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

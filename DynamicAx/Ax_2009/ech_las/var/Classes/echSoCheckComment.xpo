@@ -1,0 +1,78 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckComment unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckComment
+    Id 30313
+    PROPERTIES
+      Name                #echSoCheckComment
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Create ECH_WI_02011 by mengqi.cen on 20130319
+        #class echSoCheckComment implements echISoCheck
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH505";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// Create ECH_WI_02011 by mengqi.cen on 20130319
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean     isCheckPassed;
+        #    SalesTable  salesTable;
+        #    SalesLine   salesLine;
+        #    DocuRef     docuRef;
+        #;
+        #    isCheckPassed = true;
+        #
+        #    select firstonly tableId from salesTable
+        #      where salesTable.SalesId == _salesId
+        #      exists join docuRef
+        #        where docuRef.RefCompanyId == salesTable.dataAreaId
+        #           && docuRef.RefTableId   == salesTable.TableId
+        #           && docuRef.RefRecId     == salesTable.RecId;
+        #
+        #    if (salesTable)
+        #        isCheckPassed = false;
+        #
+        #    if (isCheckPassed)
+        #    {
+        #        select firstonly tableId from salesLine
+        #          where salesLine.SalesId == _salesId
+        #          exists join docuRef
+        #            where docuRef.RefCompanyId == salesLine.dataAreaId
+        #               && docuRef.RefTableId   == salesLine.TableId
+        #               && docuRef.RefRecId     == salesLine.RecId;
+        #
+        #        if (salesLine)
+        #            isCheckPassed = false;
+        #    }
+        #
+        #    return isCheckPassed;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH506";
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

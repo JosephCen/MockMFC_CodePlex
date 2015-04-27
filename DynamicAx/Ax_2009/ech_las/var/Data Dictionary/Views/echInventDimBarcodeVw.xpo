@@ -1,0 +1,161 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: VIE
+
+; Microsoft Dynamics AX View : echInventDimBarcodeVw unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  VIEW #echInventDimBarcodeVw
+    Id 30046
+    PROPERTIES
+      Name                #echInventDimBarcodeVw
+      Label               #@SYS63146
+      TitleField1         #itemId
+      TitleField2         #itemBarCode
+      ConfigurationKey    #echInterfaces
+      SaveDataPerCompany  #Yes
+      Query               #echInventDimBarcode
+    ENDPROPERTIES
+    
+    QUERY #Metadata
+      PROPERTIES
+        Name                #Metadata
+        Version             #1
+      ENDPROPERTIES
+      
+      BLOCKS
+      ENDBLOCKS
+      QUERY #echInventDimBarcode
+      ENDQUERY
+      
+    ENDQUERY
+    
+    FIELDS
+      VIEWFIELD #configId
+        Id 30001
+        PROPERTIES
+          Name                #configId
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #ConfigId
+          StringSize          #50
+          DataSource          #InventDim
+          DataField           #configId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #InventColorId
+        Id 30002
+        PROPERTIES
+          Name                #InventColorId
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #InventColorId
+          StringSize          #50
+          DataSource          #InventDim
+          DataField           #InventColorId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #InventSizeId
+        Id 30003
+        PROPERTIES
+          Name                #InventSizeId
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #InventSizeId
+          StringSize          #50
+          DataSource          #InventDim
+          DataField           #InventSizeId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #itemId
+        Id 30004
+        PROPERTIES
+          Name                #itemId
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #ItemId
+          StringSize          #20
+          DataSource          #InventItemBarcode
+          DataField           #itemId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #itemBarCode
+        Id 30005
+        PROPERTIES
+          Name                #itemBarCode
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #ItemBarCode
+          StringSize          #80
+          DataSource          #InventItemBarcode
+          DataField           #itemBarCode
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #barcodeSetupId
+        Id 30006
+        PROPERTIES
+          Name                #barcodeSetupId
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #BarcodeSetupId
+          StringSize          #50
+          DataSource          #InventItemBarcode
+          DataField           #barcodeSetupId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #echItemBarCode
+        Id 30008
+        PROPERTIES
+          Name                #echItemBarCode
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #EchItemBarCode
+          StringSize          #80
+          DataSource          #InventItemBarcode
+          DataField           #echItemBarCode
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #inventDimId
+        Id 30009
+        PROPERTIES
+          Name                #inventDimId
+          Table               #echInventDimBarcodeVw
+          ExtendedDataType    #InventDimId
+          StringSize          #20
+          DataSource          #InventItemBarcode
+          DataField           #inventDimId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #configId
+          #InventColorId
+          #InventSizeId
+          #itemId
+          #itemBarCode
+          #barcodeSetupId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+  ENDVIEW
+  
+
+***Element: END

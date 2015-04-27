@@ -1,0 +1,36 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echCancelExceptionId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echCancelExceptionId
+  Id 30031
+  STRING
+    PROPERTIES
+      Name                #echCancelExceptionId
+      Label               #@ECH104
+      HelpText            #@ECH101
+      ConfigurationKey    #echProcesses
+      StringSize          #8
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+      TYPEREFERENCETYPE DATASET
+      PROPERTIES
+        Table               #ECHCancelException
+        RelatedField        #Id
+      ENDPROPERTIES
+      
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

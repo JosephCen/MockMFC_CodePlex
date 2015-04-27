@@ -1,0 +1,142 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: NumberSeqReference unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #NumberSeqReference
+    Id 1444
+    PROPERTIES
+      Name                #NumberSeqReference
+      Extends             #
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 09 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: return derived class
+        #
+        #public static NumberSeqReference construct(NumberSeqModule _module)
+        #{
+        #    switch (_module)
+        #    {
+        #        case (NumberSeqReference_Ledger::numberSeqModule())         : return new NumberSeqReference_Ledger(_module);
+        #        case (NumberSeqReference_Tax::numberSeqModule())            : return new NumberSeqReference_Tax(_module);
+        #        case (NumberSeqReference_Bank::numberSeqModule())           : return new NumberSeqReference_Bank(_module);
+        #        case (NumberSeqReference_SalesOrder::numberSeqModule())     : return new NumberSeqReference_SalesOrder(_module);
+        #        case (NumberSeqReference_ForeignTrade::numberSeqModule())   : return new NumberSeqReference_ForeignTrade(_module);
+        #        case (NumberSeqReference_Customer::numberSeqModule())       : return new NumberSeqReference_Customer(_module);
+        #        case (NumberSeqReference_PurchaseOrder::numberSeqModule())  : return new NumberSeqReference_PurchaseOrder(_module);
+        #        case (NumberSeqReference_Vendor::numberSeqModule())         : return new NumberSeqReference_Vendor(_module);
+        #        case (NumberSeqReference_Inventory::numberSeqModule())      :
+        #// CS - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #            if (isConfigurationKeyEnabled(ConfigurationKeyNum(echFramework)))
+        #                return new echNumberSeqReference_Inventory(_module);
+        #            else
+        #                return new NumberSeqReference_Inventory(_module);
+        #// CE - ECH_I_OR01 - Anthony Christiaens - 09 Mar 2012
+        #        case (NumberSeqReference_BOM::numberSeqModule())            : return new NumberSeqReference_BOM(_module);
+        #        case (NumberSeqReference_Route::numberSeqModule())          : return new NumberSeqReference_Route(_module);
+        #        case (NumberSeqReference_Production::numberSeqModule())     : return new NumberSeqReference_Production(_module);
+        #        case (NumberSeqReference_MasterPlanning::numberSeqModule()) : return new NumberSeqReference_MasterPlanning(_module);
+        #        case (NumberSeqReference_Project::numberSeqModule())        : return new NumberSeqReference_Project(_module);
+        #        case (NumberSeqReference_Location::numberSeqModule())       : return new NumberSeqReference_Location(_module);
+        #        case (NumberSeqReference_Document::numberSeqModule())       : return new NumberSeqReference_Document(_module);
+        #        case (NumberSeqReference_General::numberSeqModule())        : return new NumberSeqReference_General(_module);
+        #        case (NumberSeqReference_Internet::numberSeqModule())       : return new NumberSeqReference_Internet(_module);
+        #        case (NumberSeqReference_Asset::numberSeqModule())          : return new NumberSeqReference_Asset(_module);
+        #        case (NumberSeqReference_RFID::numberSeqModule())           : return new NumberSeqReference_RFID(_module);
+        #
+        #        // CC begin
+        #        case (NumberSeqReference_HRM::numberSeqModule())                 : return new NumberSeqReference_HRM(_module);
+        #        case (NumberSeqReference_VirtualNetwork::numberSeqModule())      : return new NumberSeqReference_VirtualNetwork(_module);
+        #        case (NumberSeqReference_KnowledgeCollector::numberSeqModule())  : return new NumberSeqReference_KnowledgeCollector(_module);
+        #        case (NumberSeqReference_KMBSC::numberSeqModule())               : return new NumberSeqReference_KMBSC(_module);
+        #        // CC end
+        #
+        #        // Shop Floor Control begin
+        #        case (NumberSeqReference_JobManager::numberSeqModule())          : return new NumberSeqReference_JobManager(_module);
+        #        // Shop Floor Control end
+        #
+        #        case (NumberSeqReference_SMA::numberSeqModule())            : return new NumberSeqReference_SMA(_module);
+        #        case (NumberSeqReference_CRM::numberSeqModule())                  : return new NumberSeqReference_CRM(_module);
+        #
+        #        // Product Builder addition begin
+        #        case (NumberSeqReference_PBA::numberSeqModule())                 : return new NumberSeqReference_PBA(_module);
+        #        // Product Builder addition end
+        #
+        #        // <GBR>
+        #        case (NumberSeqReference_ACO_BR::numberSeqModule()):
+        #            if (BrazilParameters::isEnabled())
+        #            {
+        #                return new NumberSeqReference_ACO_BR(_module);
+        #            }
+        #            break;
+        #        // </GBR>
+        #
+        #        //  Cost accounting
+        #        case (COSNumberSeqReference_COS::numberSeqModule())         : return new COSNumberSeqReference_COS(_module);
+        #
+        #        // Dutch electronic tax declaration
+        #        case (NumberSeqReference_Tax_NL::numberSeqModule())         : return new NumberSeqReference_Tax_NL(_module);
+        #        // <RETAIL>
+        #        // RBOParameters begin
+        #        case (NumberSeqReference_RBOParameters::numberSeqModule())       : return new NumberSeqReference_RBOParameters(_module);
+        #        // RBOParameters end
+        #        // </RETAIL>
+        #
+        #        // <RETAIL>
+        #        // RBOStore begin
+        #        case (NumberSeqReference_RBOStore::numberSeqModule())            : return new NumberSeqReference_RBOStore(_module);
+        #        // RBOStore end
+        #
+        #        // Fashion module (FSH) begin
+        #        case (NumberSeqReference_FSH::numberSeqModule())                 : return new NumberSeqReference_FSH(_module);
+        #        // Fashion module (FSH) end
+        #        // </RETAIL>
+        #
+        #        //Expense management
+        #        case (NumberSeqReference_Expense::numberSeqModule())        : return new NumberSeqReference_Expense(_module);
+        #        // <RETAIL>
+        #
+        #
+        #        case (NumberSeqReference_HHTParameters::numberSeqModule())       : return new NumberSeqReference_HHTParameters(_module);
+        #        // </RETAIL>
+        #
+        #        //Directory
+        #        case (NumberSeqReference_Dir::numberSeqModule())            : return new NumberSeqReference_Dir(_module);
+        #        // <RETAIL>
+        #
+        #
+        #        case (NumberSeqReference_RBOTerminal::numberSeqModule())         : return new NumberSeqReference_RBOTerminal(_module);
+        #        // </RETAIL>
+        #
+        #        // Workflow
+        #        case (NumberSeqReference_Workflow::numberSeqModule())         : return new NumberSeqReference_Workflow(_module);
+        #
+        #        // Belgian IBS
+        #        case (NumberSeqReference_BankIBS::numberSeqModule())         : return new NumberSeqReference_BankIBS(_module);
+        #
+        #        case (NumberSeqReference_ForeignTradeProdCom::numberSeqModule()) : return new NumberSeqReference_ForeignTradeProdCom(_module);
+        #
+        #        // <GIN>
+        #        case (NumberSeqReference_Exim_IN::numberSeqModule()): return new NumberSeqReference_Exim_IN(_module);
+        #        // </GIN>
+        #    }
+        #
+        #    throw error(strfmt("@SYS53742"));
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

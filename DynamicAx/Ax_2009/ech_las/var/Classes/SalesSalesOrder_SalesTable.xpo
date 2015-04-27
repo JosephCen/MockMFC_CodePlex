@@ -1,0 +1,1225 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesSalesOrder_SalesTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesSalesOrder_SalesTable
+    Id 14018
+    PROPERTIES
+      Name                #SalesSalesOrder_SalesTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02043 by mengqi.cen on 20130408
+        #// Update ECH_WI_01964 by mengqi.cen on 20130122
+        #//   Remove 'TotalDiscount' from AxBC class 'AxSalesTable'
+        #// Update ECH_WI_01961 by mengqi.cen on 20130117
+        #// Update ECH_WI_01945 by mengqi.cen on 20120103
+        #class SalesSalesOrder_SalesTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchLegacySystems('EchLegacySystems')
+        #    #define.EchInvoiceTitle('EchInvoiceTitle')
+        #    #define.EchBuyerZipCode('EchBuyerZipCode')
+        #    #define.EchBuyerTelefax('EchBuyerTelefax')
+        #    #define.EchBuyerStreet('EchBuyerStreet')
+        #    #define.EchBuyerProvince('EchBuyerProvince')
+        #    #define.EchBuyerPhone('EchBuyerPhone')
+        #    #define.EchBuyerName('EchBuyerName')
+        #    #define.EchBuyerCounty('EchBuyerCounty')
+        #    #define.EchBuyerCountry('EchBuyerCountry')
+        #    #define.EchBuyerCity('EchBuyerCity')
+        #    #define.echBuyerCellularPhone('echBuyerCellularPhone')
+        #    #define.EchInvoiceType('EchInvoiceType')
+        #    #define.EchInvoiceName('EchInvoiceName')
+        #    #define.EchInvoiceId('EchInvoiceId')
+        #    #define.EchInvoiceContent('EchInvoiceContent')
+        #    #define.ShipCarrierStaging('ShipCarrierStaging')
+        #    #define.echSOPromotionsHeader('echSOPromotionsHeader')
+        #    #define.ShipCarrierTracking('ShipCarrierTracking')
+        #    #define.echAddressChanged('echAddressChanged')
+        #    #define.HHTRetailStatusType('HHTRetailStatusType')
+        #    #define.HHTPRDocument('HHTPRDocument')
+        #    #define.HHTPostedPRId('HHTPostedPRId')
+        #    #define.EchPromotionCode('EchPromotionCode')
+        #    #define.EchPaymentTime('EchPaymentTime')
+        #    #define.EchPaymentReference('EchPaymentReference')
+        #    #define.EchPaymentAmount('EchPaymentAmount')
+        #    #define.echSalesReasonId('echSalesReasonId')
+        #    #define.echMsgPartnerId('echMsgPartnerId')
+        #    #define.echMsgPartnerExtCode('echMsgPartnerExtCode')
+        #    #define.echInvoiceRequested('echInvoiceRequested')
+        #    #define.echInvoiceCreated('echInvoiceCreated')
+        #
+        #    #define.echFrontEndModifiedDate('echFrontEndModifiedDate')
+        #    #define.echFrontEndEndtimeDate('echFrontEndEndtimeDate')
+        #    #define.echFrontEndCreationDate('echFrontEndCreationDate')
+        #    #define.echAlipayReference('echAlipayReference')
+        #
+        #    #define.echCancelExceptionId('echCancelExceptionId')
+        #    #define.echAggStatus('echAggStatus')
+        #
+        #    // <GBR>
+        #    #define.TaxWithholdCalculate('TaxWithholdCalculate')
+        #    #define.TaxRemittance('TaxRemittance')
+        #    #define.SuframaPISCOFINS('SuframaPISCOFINS')
+        #    #define.Suframa('Suframa')
+        #    #define.ServiceCodeOnDlvAddress('ServiceCodeOnDlvAddress')
+        #    #define.RENumber('RENumber')
+        #    #define.REDate('REDate')
+        #    #define.OperationId('OperationId')
+        #    #define.LedgerPost('LedgerPost')
+        #    #define.InvoiceSeries('InvoiceSeries')
+        #    #define.InventControl('InventControl')
+        #    #define.FinInterestCode('FinInterestCode')
+        #    #define.FineCode('FineCode')
+        #    #define.DlvTransitDeposit('DlvTransitDeposit')
+        #    #define.DeliveryDistrictName('DeliveryDistrictName')
+        #    #define.DeliveryCustIENum('DeliveryCustIENum')
+        #    #define.DeliveryCustCNPJCPFNum('DeliveryCustCNPJCPFNum')
+        #    #define.DeliveryCustCategory('DeliveryCustCategory')
+        #    #define.DeliveryCFOPId('DeliveryCFOPId')
+        #    #define.DeliveryAddressNumber('DeliveryAddressNumber')
+        #    #define.DeliveryAddressComplement('DeliveryAddressComplement')
+        #    #define.DDEDSEId('DDEDSEId')
+        #    #define.CustTransControl('CustTransControl')
+        #    #define.CustRefusedNote('CustRefusedNote')
+        #    #define.CustInvoiceType('CustInvoiceType')
+        #    #define.CustFinalUser('CustFinalUser')
+        #    #define.CustCFOPId('CustCFOPId')
+        #    #define.CFPSId('CFPSId')
+        #    #define.Authority_BR('Authority_BR')
+        #    #define.RefProcessNo_BR('RefProcessNo_BR')
+        #    // </GBR>
+        #
+        #    // <GJP>
+        #    #define.TargetOfConsolidation_JP('TargetOfConsolidation_JP')
+        #    #define.ConsolidationDate('ConsolidationDate')
+        #    // </GJP>
+        #
+        #    #define.VATNum('VATNum')
+        #    #define.URL('URL')
+        #    #define.Transport('Transport')
+        #    #define.TransactionCode('TransactionCode')
+        #    #define.TotalSalesTax('TotalSalesTax')
+        #    #define.TotalMiscCharges('TotalMiscCharges')
+        #    #define.TotalInvoice('TotalInvoice')
+        #    #define.TotalCashDiscount('TotalCashDiscount')
+        #    #define.totalBalance('totalBalance')
+        #    #define.TaxGroup('TaxGroup')
+        #    #define.StatProcId('StatProcId')
+        #    #define.smmSalesAmountTotal('smmSalesAmountTotal')
+        #    #define.smmCampaignId('smmCampaignId')
+        #    #define.ShippingDateRequested('ShippingDateRequested')
+        #    #define.ShippingDateConfirmed('ShippingDateConfirmed')
+        #    #define.ShipCarrierResidential('ShipCarrierResidential')
+        #    #define.ShipCarrierBlindShipment('ShipCarrierBlindShipment')
+        #    #define.ShipCarrierId('ShipCarrierId')
+        #    #define.ShipCarrierFuelSurcharge('ShipCarrierFuelSurcharge')
+        #    #define.ShipCarrierExpeditedShipment('ShipCarrierExpeditedShipment')
+        #    #define.ShipCarrierDlvType('ShipCarrierDlvType')
+        #    #define.ShipCarrierDeliveryContact('ShipCarrierDeliveryContact')
+        #    #define.ShipCarrierAccountCode('ShipCarrierAccountCode')
+        #    #define.ShipCarrierAccount('ShipCarrierAccount')
+        #    #define.SettleVoucher('SettleVoucher')
+        #    #define.SalesUnitId('SalesUnitId')
+        #    #define.SalesType('SalesType')
+        #    #define.SalesTaker('SalesTaker')
+        #    #define.SalesStatus('SalesStatus')
+        #    #define.SalesResponsible('SalesResponsible')
+        #    #define.SalesPoolId('SalesPoolId')
+        #    #define.SalesOriginId('SalesOriginId')
+        #    #define.SalesName('SalesName')
+        #    #define.SalesLine('SalesLine')
+        #    #define.SalesId('SalesId')
+        #    #define.SalesGroup('SalesGroup')
+        #    #define.ReturnStatus('ReturnStatus')
+        #    #define.ReturnReplacementId('ReturnReplacementId')
+        #    #define.ReturnReplacementCreated('ReturnReplacementCreated')
+        #    #define.ReturnReasonCodeId('ReturnReasonCodeId')
+        #    #define.ReturnItemNum('ReturnItemNum')
+        #    #define.ReturnDeadline('ReturnDeadline')
+        #    #define.Reservation('Reservation')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.ReceiptDateRequested('ReceiptDateRequested')
+        #    #define.ReceiptDateConfirmed('ReceiptDateConfirmed')
+        #    #define.QuotationId('QuotationId')
+        #    #define.PurchOrderFormNum('PurchOrderFormNum')
+        #    #define.PurchId('PurchId')
+        #    #define.ProjId('ProjId')
+        #    #define.PriceGroupId('PriceGroupId')
+        #    #define.PostingProfile('PostingProfile')
+        #    #define.Port('Port')
+        #    #define.PaymSpec('PaymSpec')
+        #    #define.PaymMode('PaymMode')
+        #    #define.PaymentSched('PaymentSched')
+        #    #define.Payment('Payment')
+        #    #define.PalletTagging('PalletTagging')
+        #    #define.OneTimeCustomer('OneTimeCustomer')
+        #    #define.NumberSequenceGroup('NumberSequenceGroup')
+        #    #define.MultiLineDisc('MultiLineDisc')
+        #    #define.MarkupTransHeader('MarkupTransHeader')
+        #    #define.MarkupGroup('MarkupGroup')
+        #    #define.Listcode('Listcode')
+        #    #define.LineDisc('LineDisc')
+        #    #define.LanguageId('LanguageId')
+        #    #define.ItemTagging('ItemTagging')
+        #    #define.InvoiceAccount('InvoiceAccount')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.InventLocationId('InventLocationId')
+        #    #define.InterCompanyPurchId('InterCompanyPurchId')
+        #    #define.InterCompanyOriginalSalesId('InterCompanyOriginalSalesId')
+        #    #define.InterCompanyOriginalCustAccount('InterCompanyOriginalCustAccount')
+        #    #define.InterCompanyOrder('InterCompanyOrder')
+        #    #define.InterCompanyDirectDeliveryOrig('InterCompanyDirectDeliveryOrig')
+        #    #define.InterCompanyDirectDelivery('InterCompanyDirectDelivery')
+        #    #define.InterCompanyCompanyId('InterCompanyCompanyId')
+        #    #define.InterCompanyAutoCreateOrders('InterCompanyAutoCreateOrders')
+        #    #define.InterCompanyAllowIndirectCreation('InterCompanyAllowIndirectCreation')
+        #    #define.InclTax('InclTax')
+        #    #define.GiroType('GiroType')
+        #    #define.FreightZone('FreightZone')
+        #    #define.FreightSlipType('FreightSlipType')
+        #    #define.FixedExchRate('FixedExchRate')
+        #    #define.FixedDueDate('FixedDueDate')
+        #    #define.ExportReason('ExportReason')
+        #    #define.Estimate('Estimate')
+        #    #define.EnterpriseNumber('EnterpriseNumber')
+        #    #define.EndDisc('EndDisc')
+        #    #define.Email('Email')
+        #    #define.EInvoiceLineSpec('EInvoiceLineSpec')
+        #    #define.EInvoiceAccountCode('EInvoiceAccountCode')
+        #    #define.DocuRefHeader('DocuRefHeader')
+        #    #define.DocumentStatus('DocumentStatus')
+        #    #define.DlvTerm('DlvTerm')
+        #    #define.DlvReason('DlvReason')
+        #    #define.DlvMode('DlvMode')
+        #    #define.DiscPercent('DiscPercent')
+        #    #define.Dimension('Dimension')
+        #    #define.DeliveryZipCode('DeliveryZipCode')
+        #    #define.DeliveryStreet('DeliveryStreet')
+        #    #define.DeliveryState('DeliveryState')
+        #    #define.DeliveryName('DeliveryName')
+        #    #define.DeliveryDateControlType('DeliveryDateControlType')
+        #    #define.DeliveryDate('DeliveryDate')
+        #    #define.DeliveryCounty('DeliveryCounty')
+        #    #define.DeliveryCountryRegionId('DeliveryCountryRegionId')
+        #    #define.DeliveryCity('DeliveryCity')
+        #    #define.DeliveryAddress('DeliveryAddress')
+        #    #define.Deadline('Deadline')
+        #    #define.CustomerRef('CustomerRef')
+        #    #define.CustInvoiceId('CustInvoiceId')
+        #    #define.CustGroup('CustGroup')
+        #    #define.CustAccount('CustAccount')
+        #    #define.CurrencyCode('CurrencyCode')
+        #    #define.CreditCardCustRefId('CreditCardCustRefId')
+        #    #define.CreditCardProcessorTransactionId('CreditCardProcessorTransactionId')
+        #    #define.CreditCardAuthorization('CreditCardAuthorization')
+        #    #define.CreditCardAuthorizationError('CreditCardAuthorizationError')
+        #    #define.CreditCardApprovalAmount('CreditCardApprovalAmount')
+        #    #define.CovStatus('CovStatus')
+        #    #define.CountyOrigDest('CountyOrigDest')
+        #    #define.ContactPersonId('ContactPersonId')
+        #    #define.CommissionGroup('CommissionGroup')
+        #    #define.CashDiscPercent('CashDiscPercent')
+        #    #define.CashDisc('CashDisc')
+        #    #define.CaseTagging('CaseTagging')
+        #    #define.BankCentralBankPurposeText('BankCentralBankPurposeText')
+        #    #define.BankCentralBankPurposeCode('BankCentralBankPurposeCode')
+        #    #define.ATPTimeFence('ATPTimeFence')
+        #    #define.ATPInclPlannedOrders('ATPInclPlannedOrders')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #    // <GIN>
+        #    #define.TDSGroup_IN('TDSGroup_IN')
+        #    #define.TCSGroup_IN('TCSGroup_IN')
+        #    #define.NatureOfAssessee_IN('NatureOfAssessee_IN')
+        #    #define.CustomsShippingBill_IN('CustomsShippingBill_IN')
+        #    #define.CustomsExportOrder_IN('CustomsExportOrder_IN')
+        #    // </GIN>
+        #
+        #    // CS - ECH_E_003 - abdessamad.almask - 04 Apr 2012
+        #    #define.echCancelExceptionId('echCancelExceptionId')
+        #    #define.echAggStatus('echAggStatus')
+        #    // CE - ECH_E_003 - abdessamad.almask - 04 Apr 2012
+        #    // CS - ECH_E_003 - Abdessamad Almask - 24 Apr 2012
+        #    #define.RBOStatementId('RBOStatementId')
+        #    #define.ConcessionContractId('RBOStatementId')
+        #    // CE - ECH_E_003 - Abdessamad Almask - 24 Apr 2012
+        #
+        #    #define.echInvoiceName('echInvoiceName')
+        #    #define.echInvoiceContent('echInvoiceContent')
+        #    #define.echInvoiceType('echInvoiceType')
+        #    #define.echInvoiceId('echInvoiceId')
+        #
+        #    // Begin - Update ECH_WI_01945 by mengqi.cen on 20120103
+        #    #define.EchInvoiceBankAccountNumber('echInvoiceBankAccountNumber')
+        #    #define.EchInvoiceDepositBank('echInvoiceDepositBank')
+        #    #define.EchInvoiceRegisteredPhoneNumber('echInvoiceRegisteredPhoneNumber')
+        #    #define.EchInvoiceRegisteredAddress('echInvoiceRegisteredAddress')
+        #    #define.EchInvoiceTaxPayerIdNumber('echInvoiceTaxPayerIdNumber')
+        #    #define.EchInvoiceCompanyName('echInvoiceCompanyName')
+        #
+        #    #define.EchOriginalSalesId('echOriginalSalesId')
+        #    // End - Update ECH_WI_01945 by mengqi.cen on 20120103
+        #
+        #    #define.EchIsOnlinePay('EchIsOnlinePay')
+        #
+        #    // Begin - Update ECH_WI_02043 by mengqi.cen on 20130408
+        #    #define.EchCancelExceptionDesc('EchCancelExceptionDesc')
+        #    // End - Update ECH_WI_02043 by mengqi.cen on 20130408
+        #
+        #    #define.EchShippingDateTimeConfirmed('EchShippingDateTimeConfirmed')
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createechSOPromotionsHeader
+        #public AfStronglyTypedDataContainerList createechSOPromotionsHeader()
+        #{
+        #    return this.get_NewList(#echSOPromotionsHeader);
+        #}
+      ENDSOURCE
+      SOURCE #createShipCarrierStaging
+        #public AfStronglyTypedDataContainerList createShipCarrierStaging()
+        #{
+        #    return this.get_NewList(#ShipCarrierStaging);
+        #}
+      ENDSOURCE
+      SOURCE #createShipCarrierTracking
+        #public AfStronglyTypedDataContainerList createShipCarrierTracking()
+        #{
+        #    return this.get_NewList(#ShipCarrierTracking);
+        #}
+      ENDSOURCE
+      SOURCE #existsConcessionContractId
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: exists method for finxing BP error
+        #
+        #public boolean existsConcessionContractId()
+        #{
+        #    return this.exists(#ConcessionContractId);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsechAddressChanged
+        #public boolean existsechAddressChanged()
+        #{
+        #    return this.exists(#echAddressChanged);
+        #}
+      ENDSOURCE
+      SOURCE #existsechAggStatus
+        #public boolean existsechAggStatus()
+        #{
+        #    return this.exists(#echAggStatus);
+        #}
+      ENDSOURCE
+      SOURCE #existsechBuyerCellularPhone
+        #public boolean existsechBuyerCellularPhone()
+        #{
+        #    return this.exists(#echBuyerCellularPhone);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerCity
+        #public boolean existsEchBuyerCity()
+        #{
+        #    return this.exists(#EchBuyerCity);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerCountry
+        #public boolean existsEchBuyerCountry()
+        #{
+        #    return this.exists(#EchBuyerCountry);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerCounty
+        #public boolean existsEchBuyerCounty()
+        #{
+        #    return this.exists(#EchBuyerCounty);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerName
+        #public boolean existsEchBuyerName()
+        #{
+        #    return this.exists(#EchBuyerName);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerPhone
+        #public boolean existsEchBuyerPhone()
+        #{
+        #    return this.exists(#EchBuyerPhone);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerProvince
+        #public boolean existsEchBuyerProvince()
+        #{
+        #    return this.exists(#EchBuyerProvince);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerStreet
+        #public boolean existsEchBuyerStreet()
+        #{
+        #    return this.exists(#EchBuyerStreet);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerTelefax
+        #public boolean existsEchBuyerTelefax()
+        #{
+        #    return this.exists(#EchBuyerTelefax);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBuyerZipCode
+        #public boolean existsEchBuyerZipCode()
+        #{
+        #    return this.exists(#EchBuyerZipCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchCancelExceptionDesc
+        #// Create ECH_WI_02043 by mengqi.cen on 20130408
+        #public boolean existsEchCancelExceptionDesc()
+        #{
+        #;
+        #    return this.exists(#EchCancelExceptionDesc);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsechCancelExceptionId
+        #public boolean existsechCancelExceptionId()
+        #{
+        #    return this.exists(#echCancelExceptionId);
+        #}
+      ENDSOURCE
+      SOURCE #existsechFrontEndCreationDate
+        #public boolean existsechFrontEndCreationDate()
+        #{
+        #    return this.exists(#echFrontEndCreationDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsechFrontEndEndtimeDate
+        #public boolean existsechFrontEndEndtimeDate()
+        #{
+        #    return this.exists(#echFrontEndEndtimeDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsechFrontEndModifiedDate
+        #public boolean existsechFrontEndModifiedDate()
+        #{
+        #    return this.exists(#echFrontEndModifiedDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceBankAccountNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public boolean existsEchInvoiceBankAccountNumber()
+        #{
+        #    return this.exists(#EchInvoiceBankAccountNumber);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceCompanyName
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public boolean existsEchInvoiceCompanyName()
+        #{
+        #    return this.exists(#EchInvoiceCompanyName);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceContent
+        #public boolean existsEchInvoiceContent()
+        #{
+        #    return this.exists(#EchInvoiceContent);
+        #}
+      ENDSOURCE
+      SOURCE #existsechInvoiceCreated
+        #public boolean existsechInvoiceCreated()
+        #{
+        #    return this.exists(#echInvoiceCreated);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceDepositBank
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public boolean existsEchInvoiceDepositBank()
+        #{
+        #    return this.exists(#EchInvoiceDepositBank);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceId
+        #public boolean existsEchInvoiceId()
+        #{
+        #    return this.exists(#EchInvoiceId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceName
+        #public boolean existsEchInvoiceName()
+        #{
+        #    return this.exists(#EchInvoiceName);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceRegisteredAddress
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public boolean existsEchInvoiceRegisteredAddress()
+        #{
+        #    return this.exists(#EchInvoiceRegisteredAddress);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceRegisteredPhoneNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public boolean existsEchInvoiceRegisteredPhoneNumber()
+        #{
+        #    return this.exists(#EchInvoiceRegisteredPhoneNumber);
+        #}
+      ENDSOURCE
+      SOURCE #existsechInvoiceRequested
+        #public boolean existsechInvoiceRequested()
+        #{
+        #    return this.exists(#echInvoiceRequested);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceTaxPayerIdNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public boolean existsEchInvoiceTaxPayerIdNumber()
+        #{
+        #    return this.exists(#EchInvoiceTaxPayerIdNumber);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceTitle
+        #public boolean existsEchInvoiceTitle()
+        #{
+        #    return this.exists(#EchInvoiceTitle);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchInvoiceType
+        #public boolean existsEchInvoiceType()
+        #{
+        #    return this.exists(#EchInvoiceType);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchIsOnlinePay
+        #// Add ECH_WI_01961 by mengqi.cen on 20130118
+        #public boolean existsEchIsOnlinePay()
+        #{
+        #;
+        #    return this.exists(#EchIsOnlinePay);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchLegacySystems
+        #public boolean existsEchLegacySystems()
+        #{
+        #    return this.exists(#EchLegacySystems);
+        #}
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerExtCode
+        #public boolean existsechMsgPartnerExtCode()
+        #{
+        #    return this.exists(#echMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsechMsgPartnerId
+        #public boolean existsechMsgPartnerId()
+        #{
+        #    return this.exists(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchOriginalSalesId
+        #public boolean existsEchOriginalSalesId()
+        #{
+        #    return this.exists(#EchOriginalSalesId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchPaymentAmount
+        #public boolean existsEchPaymentAmount()
+        #{
+        #    return this.exists(#EchPaymentAmount);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchPaymentReference
+        #public boolean existsEchPaymentReference()
+        #{
+        #    return this.exists(#EchPaymentReference);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchPaymentTime
+        #public boolean existsEchPaymentTime()
+        #{
+        #    return this.exists(#EchPaymentTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchPromotionCode
+        #public boolean existsEchPromotionCode()
+        #{
+        #    return this.exists(#EchPromotionCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsechSalesReasonId
+        #public boolean existsechSalesReasonId()
+        #{
+        #    return this.exists(#echSalesReasonId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchShippingDateTimeConfirmed
+        #public boolean existsEchShippingDateTimeConfirmed()
+        #{
+        #    return this.exists(#EchShippingDateTimeConfirmed);
+        #}
+      ENDSOURCE
+      SOURCE #existsechSOPromotionsHeader
+        #public boolean existsechSOPromotionsHeader()
+        #{
+        #    return this.exists(#echSOPromotionsHeader);
+        #}
+      ENDSOURCE
+      SOURCE #existsHHTPostedPRId
+        #public boolean existsHHTPostedPRId()
+        #{
+        #    return this.exists(#HHTPostedPRId);
+        #}
+      ENDSOURCE
+      SOURCE #existsHHTPRDocument
+        #public boolean existsHHTPRDocument()
+        #{
+        #    return this.exists(#HHTPRDocument);
+        #}
+      ENDSOURCE
+      SOURCE #existsHHTRetailStatusType
+        #public boolean existsHHTRetailStatusType()
+        #{
+        #    return this.exists(#HHTRetailStatusType);
+        #}
+      ENDSOURCE
+      SOURCE #existsRBOStatementId
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: exists method for finxing BP error
+        #
+        #public boolean existsRBOStatementId()
+        #{
+        #    return this.exists(#RBOStatementId);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsShipCarrierStaging
+        #public boolean existsShipCarrierStaging()
+        #{
+        #    return this.exists(#ShipCarrierStaging);
+        #}
+      ENDSOURCE
+      SOURCE #existsShipCarrierTracking
+        #public boolean existsShipCarrierTracking()
+        #{
+        #    return this.exists(#ShipCarrierTracking);
+        #}
+      ENDSOURCE
+      SOURCE #parmConcessionContractId
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: parm method for finxing BP error
+        #
+        #public FSHConcessionContractId parmConcessionContractId(FSHConcessionContractId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ConcessionContractId, _value);
+        #    }
+        #    return this.get_Attribute(#ConcessionContractId);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechAddressChanged
+        #public NoYes parmechAddressChanged(NoYes _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echAddressChanged, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echAddressChanged);
+        #}
+      ENDSOURCE
+      SOURCE #parmechAggStatus
+        #/// <summary>
+        #///    Gets or sets the <c>ECHAggStatus</c> parameter.
+        #/// </summary>
+        #/// <param name="_value">
+        #///    The value to set.
+        #/// </param>
+        #/// <returns>
+        #///    The value of the <c>ECHAggStatus</c> parameter.
+        #/// </returns>
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 04 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: parm method
+        #
+        #public ECHAggStatus parmechAggStatus(ECHAggStatus _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ECHAggStatus, _value);
+        #    }
+        #    return this.get_Attribute(#ECHAggStatus);
+        #}
+        #
+        #
+      ENDSOURCE
+      SOURCE #parmechBuyerCellularPhone
+        #public PhoneMobile parmechBuyerCellularPhone(PhoneMobile _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echBuyerCellularPhone, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echBuyerCellularPhone);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerCity
+        #public AddressCity parmEchBuyerCity(AddressCity _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerCity, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerCity);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerCountry
+        #public AddressCountryRegionId parmEchBuyerCountry(AddressCountryRegionId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerCountry, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerCountry);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerCounty
+        #public AddressCountyId parmEchBuyerCounty(AddressCountyId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerCounty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerCounty);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerName
+        #public CustName parmEchBuyerName(CustName _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerName);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerPhone
+        #public Phone parmEchBuyerPhone(Phone _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerPhone, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerPhone);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerProvince
+        #public AddressStateId parmEchBuyerProvince(AddressStateId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerProvince, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerProvince);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerStreet
+        #public AddressStreet parmEchBuyerStreet(AddressStreet _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerStreet, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerStreet);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerTelefax
+        #public TeleFax parmEchBuyerTelefax(TeleFax _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerTelefax, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerTelefax);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBuyerZipCode
+        #public AddressZipCodeId parmEchBuyerZipCode(AddressZipCodeId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBuyerZipCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBuyerZipCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchCancelExceptionDesc
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #public EchSignPerson parmEchCancelExceptionDesc(echCancelExceptionName _value = '')
+        #{
+        #;
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchCancelExceptionDesc, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchCancelExceptionDesc);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechCancelExceptionId
+        #/// <summary>
+        #///    Gets or sets the <c>echCancelExceptionId</c> parameter.
+        #/// </summary>
+        #/// <param name="_value">
+        #///    The value to set.
+        #/// </param>
+        #/// <returns>
+        #///    The value of the <c>echCancelExceptionId</c> parameter.
+        #/// </returns>
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 04 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: parm method
+        #
+        #public echCancelExceptionId parmechCancelExceptionId(ECHAggStatus _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echCancelExceptionId, _value);
+        #    }
+        #    return this.get_Attribute(#echCancelExceptionId);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechFrontEndCreationDate
+        #public echFrontEndCreationDate parmechFrontEndCreationDate(echFrontEndCreationDate _value = utcdatetimenull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echFrontEndCreationDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echFrontEndCreationDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmechFrontEndEndtimeDate
+        #public echFrontEndEndtimeDate parmechFrontEndEndtimeDate(echFrontEndEndtimeDate _value = utcdatetimenull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echFrontEndEndtimeDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echFrontEndEndtimeDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmechFrontEndModifiedDate
+        #public echFrontEndModifiedDate parmechFrontEndModifiedDate(echFrontEndModifiedDate _value = utcdatetimenull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echFrontEndModifiedDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echFrontEndModifiedDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceBankAccountNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public echInvoiceBankAccountNumber parmEchInvoiceBankAccountNumber(
+        #                                        echInvoiceBankAccountNumber _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceBankAccountNumber, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceBankAccountNumber);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceCompanyName
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public echInvoiceCompanyName parmEchInvoiceCompanyName(echInvoiceCompanyName _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceCompanyName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceCompanyName);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceContent
+        #public echInvoiceContent parmEchInvoiceContent(echInvoiceContent _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceContent, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceContent);
+        #}
+      ENDSOURCE
+      SOURCE #parmechInvoiceCreated
+        #public echInvoiceCreated parmechInvoiceCreated(echInvoiceCreated _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echInvoiceCreated, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echInvoiceCreated);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceDepositBank
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public echInvoiceDepositBank parmEchInvoiceDepositBank(echInvoiceDepositBank _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceDepositBank, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceDepositBank);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceId
+        #public echInvoiceId parmEchInvoiceId(echInvoiceId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceName
+        #public echInvoiceName parmEchInvoiceName(echInvoiceName _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceName);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceRegisteredAddress
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public echInvoiceRegisteredAddress parmEchInvoiceRegisteredAddress(
+        #                                        echInvoiceRegisteredAddress _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceRegisteredAddress, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceRegisteredAddress);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceRegisteredPhoneNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public echInvoiceRegisteredPhoneNumber parmEchInvoiceRegisteredPhoneNumber(
+        #                                            echInvoiceRegisteredPhoneNumber _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceRegisteredPhoneNumber, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceRegisteredPhoneNumber);
+        #}
+      ENDSOURCE
+      SOURCE #parmechInvoiceRequested
+        #public echInvoiceRequested parmechInvoiceRequested(echInvoiceRequested _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echInvoiceRequested, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echInvoiceRequested);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceTaxPayerIdNumber
+        #// Create ECH_WI_01945 by mengqi.cen on 20130103
+        #public echInvoiceTaxPayerIdentificationNumber parmEchInvoiceTaxPayerIdNumber(
+        #                                                echInvoiceTaxPayerIdentificationNumber _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceTaxPayerIdNumber, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceTaxPayerIdNumber);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceTitle
+        #public echInvoiceTitle parmEchInvoiceTitle(echInvoiceTitle _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceTitle, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceTitle);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchInvoiceType
+        #public echInvoiceType parmEchInvoiceType(echInvoiceType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchInvoiceType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchInvoiceType);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchIsOnlinePay
+        #// Add ECH_WI_01961 by mengqi.cen on 20130118
+        #public echIsOnlinePay parmEchIsOnlinePay(echIsOnlinePay _value = echIsOnlinePay::OnlinePay)
+        #{
+        #;
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchIsOnlinePay, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchIsOnlinePay);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchLegacySystems
+        #public container parmEchLegacySystems(container _value = connull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchLegacySystems, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchLegacySystems);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerExtCode
+        #public echMsgPartnerExtCode parmechMsgPartnerExtCode(echMsgPartnerExtCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerExtCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerExtCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmechMsgPartnerId
+        #public echMsgPartnerId parmechMsgPartnerId(echMsgPartnerId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echMsgPartnerId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echMsgPartnerId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchOriginalSalesId
+        #public SalesId parmEchOriginalSalesId(SalesId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchOriginalSalesId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchOriginalSalesId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchPaymentAmount
+        #public echPaymentAmount parmEchPaymentAmount(echPaymentAmount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchPaymentAmount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchPaymentAmount);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchPaymentReference
+        #public echPaymentReference parmEchPaymentReference(echPaymentReference _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchPaymentReference, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchPaymentReference);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchPaymentTime
+        #public echPaymentTime parmEchPaymentTime(echPaymentTime _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchPaymentTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchPaymentTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchPromotionCode
+        #public echPromotionCode parmEchPromotionCode(echPromotionCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchPromotionCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchPromotionCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmechSalesReasonId
+        #public echSalesReasonId parmechSalesReasonId(echSalesReasonId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echSalesReasonId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echSalesReasonId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchShippingDateTimeConfirmed
+        #public echSalesShippingDateTime parmEchShippingDateTimeConfirmed(
+        #                                    echSalesShippingDateTime _value = utcDateTimeNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchShippingDateTimeConfirmed, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchShippingDateTimeConfirmed);
+        #}
+      ENDSOURCE
+      SOURCE #parmechSOPromotionsHeader
+        #public AfStronglyTypedDataContainerList parmechSOPromotionsHeader(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#echSOPromotionsHeader, _value);
+        #    }
+        #
+        #    return this.get_List(#echSOPromotionsHeader);
+        #}
+      ENDSOURCE
+      SOURCE #parmHHTPostedPRId
+        #public HHTPostedPRId parmHHTPostedPRId(HHTPostedPRId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HHTPostedPRId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HHTPostedPRId);
+        #}
+      ENDSOURCE
+      SOURCE #parmHHTPRDocument
+        #public HHTPRDocument parmHHTPRDocument(HHTPRDocument _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HHTPRDocument, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HHTPRDocument);
+        #}
+      ENDSOURCE
+      SOURCE #parmHHTRetailStatusType
+        #public HHTRetailStatusType parmHHTRetailStatusType(HHTRetailStatusType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HHTRetailStatusType, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HHTRetailStatusType);
+        #}
+      ENDSOURCE
+      SOURCE #parmRBOStatementId
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: parm method for finxing BP error
+        #
+        #public RBOStatementId parmRBOStatementId(RBOStatementId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RBOStatementId, _value);
+        #    }
+        #    return this.get_Attribute(#RBOStatementId);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmShipCarrierStaging
+        #public AfStronglyTypedDataContainerList parmShipCarrierStaging(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#ShipCarrierStaging, _value);
+        #    }
+        #
+        #    return this.get_List(#ShipCarrierStaging);
+        #}
+      ENDSOURCE
+      SOURCE #parmShipCarrierTracking
+        #public AfStronglyTypedDataContainerList parmShipCarrierTracking(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#ShipCarrierTracking, _value);
+        #    }
+        #
+        #    return this.get_List(#ShipCarrierTracking);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SEC
+
+; Microsoft Dynamics AX SECURITYKEY : echStockMovementService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SECURITYKEY #echStockMovementService
+    Id 30013
+    PROPERTIES
+      Name                #echStockMovementService
+      Label               #@ECH361
+      ParentKey           #InventServices
+    ENDPROPERTIES
+    
+  ENDSECURITYKEY
+  
+
+***Element: END

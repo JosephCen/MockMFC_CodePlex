@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SEC
+
+; Microsoft Dynamics AX SECURITYKEY : echPickingListRegService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SECURITYKEY #echPickingListRegService
+    Id 30008
+    PROPERTIES
+      Name                #echPickingListRegService
+      Label               #@ECH224
+      ParentKey           #CustServices
+    ENDPROPERTIES
+    
+  ENDSECURITYKEY
+  
+
+***Element: END

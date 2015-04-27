@@ -1,0 +1,18 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: echLoadTMallItemSkuId unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #echLoadTMallItemSkuId
+    #static void echLoadTMallItemSkuId(Args _args)
+    #{
+    #;
+    #    echExternalItemSkuIdLoader::LoadTMallData(@'C:\eChina_SH_Users\Joseph_Cen\*.xml');
+    #}
+  ENDSOURCE
+
+***Element: END

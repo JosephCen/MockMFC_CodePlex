@@ -1,0 +1,677 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : EPReturnTableEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #EPReturnTableEdit
+    PROPERTIES
+      Name                #EPReturnTableEdit
+      HelpText            #
+      Filename            #EPReturnTableEdit.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="EPReturnTableEdit.ascx.cs"
+      #    Inherits="EPSalesTableEdit" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #    Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>
+      #     
+      #   
+      #<dynamics:AxDataSource ID="dsEPSalesTableEdit" runat="server" DataSetName="EPSalesTableEdit" />
+      #<dynamics:AxMultiSection runat="server" ID="MS_WebTab1">
+      #    <dynamics:AxSection ID="TabSalesOrdre" runat="server" Caption="<%$ AxLabel:@SYS9694 %>">
+      #        <dynamics:AxForm runat="server" ID="formEPSalesTableEdit" DataKeyNames="RecId" DataMember="SalesTable_Current"
+      #            DataSourceID="dsEPSalesTableEdit" DefaultMode="Edit" UpdateOnPostBack="true">
+      #            <dynamics:AxGroup ID="grpBaseInfo" runat="server" Caption="<%$ AxLabel:@SYS9694 %>">
+      #                <Fields>
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="SalesId" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="SalesName"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="ContactPersonName**"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="CustAccount"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="InvoiceAccount" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="CustomerRef" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="InventSiteId" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="InventLocationId" 
+      #                        OnLookup="LocationId_Lookup" LookupButtonDisplaySettings="Always" AutoPostBack="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="CurrencyCode"
+      #                        ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" DataField="SalesType"
+      #                        ReadOnly="true" />
+      #                </Fields>
+      #            </dynamics:AxGroup>
+      #            <dynamics:AxGroup ID="grpStatus" runat="server">
+      #                <Fields>
+      #                    <dynamics:AxBoundFieldGroup DataSet="EPSalesTableEdit" DataSetView="SalesTable" FieldGroup="Status" />
+      #                </Fields>
+      #            </dynamics:AxGroup>
+      #             <dynamics:AxGroup ID="grpDeliveryAddress" runat="server" Caption="<%$ AxLabel:@SYS7924 %>">
+      #                <Fields>
+      #                    <dynamics:AxBoundFieldGroup DataSet="EPSalesTableEdit" DataSetView="SalesTable" FieldGroup="DeliveryAddress" />
+      #                </Fields>
+      #            </dynamics:AxGroup>
+      #        </dynamics:AxForm>
+      #    </dynamics:AxSection>
+      #    <dynamics:AxSection ID="TabLines" runat="server" Caption="<%$ AxLabel:@SYS15451 %>">
+      #        <dynamics:AxGridView ID="gridEPSalesLineEdit" runat="server" DataKeyNames="RecId,InventDim!inventDimId"
+      #            DataMember="SalesLine" DataSourceID="dsEPSalesTableEdit" AllowPaging="true"
+      #            ShowFilter="true" OnSelectedIndexChanged="gridEPSalesLineEdit_SelectedIndexChanged" UpdateOnPostBack="true">
+      #            <Columns>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="ItemId"
+      #                    SortExpression="ItemId" ReadOnly="true" />
+      #                <dynamics:AxBoundFieldGroup DataSet="EPSalesTableEdit" DataSetView="SalesLine" FieldGroup="InventDim!InventoryDimensions"  AutoPostBack="true"/>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="SalesQty"
+      #                    SortExpression="SalesQty" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="SalesUnit"
+      #                    SortExpression="SalesUnit" ReadOnly="true" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="SalesPrice"
+      #                    SortExpression="SalesPrice" ReadOnly="true" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="LineDisc"
+      #                    SortExpression="LineDisc" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="LinePercent"
+      #                    SortExpression="LinePercent" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesLine" DataField="LineAmount"
+      #                    SortExpression="LineAmount" ReadOnly="true" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #    <dynamics:AxSection ID="sectionReleaseOrders" runat="server" Visible="false" Caption="<%$ AxLabel:@SYS59614 %>">
+      #        <dynamics:AxGridView ID="gridEPSalesTableLinksEdit" runat="server" DataKeyNames="SubSalesId" UpdateOnPostBack="true"
+      #            DataMember="SalesTableLinks" DataSourceID="dsEPSalesTableEdit" AllowPaging="True"
+      #            Visible="true" ShowFilter="true">
+      #            <Columns>
+      #                <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!CustAccount" SortExpression="CustAccount" MenuItem="EPCustTableInfo"
+      #                    ImageUrl="" />
+      #                <dynamics:AxHyperLinkBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks"
+      #                    DataField="BlanketSalesTable!SalesId" SortExpression="SalesId" MenuItem="EPSalesTableInfo"
+      #                    ImageUrl="" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!createdDateTime"
+      #                    SortExpression="createdDateTime" />
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!DeliveryDate"
+      #                    SortExpression="DeliveryDate" />
+      #                <dynamics:AxDropDownBoundField DataField="BlanketSalesTable!SalesStatus" DataSet="EPSalesTableEdit"
+      #                    DataSetView="SalesTableLinks" SortExpression="BlanketSalesTable!SalesStatus">
+      #                </dynamics:AxDropDownBoundField>
+      #                <dynamics:AxDropDownBoundField DataField="BlanketSalesTable!SalesType" DataSet="EPSalesTableEdit"
+      #                    DataSetView="SalesTableLinks" SortExpression="BlanketSalesTable!SalesType">
+      #                </dynamics:AxDropDownBoundField>
+      #                <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTableLinks" DataField="BlanketSalesTable!SalesTaker"
+      #                    SortExpression="SalesTaker" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #<asp:Button runat="server" ID="ButtonChange" Text="<%$ AxLabel:@SYS70959 %>" OnClick="ButtonChange_Click" />
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #EPReturnTableEdit_ascx_cs
+      HelpText            #
+      Filename            #EPReturnTableEdit.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      ##region using
+      #using System;
+      #using System.Data;
+      #using System.Configuration;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #using Microsoft.Dynamics.Framework.Metadata.Ax;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Proxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using ApplicationProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #using Microsoft.Dynamics.Framework.Portal.UI;
+      ##endregion
+      #
+      #public partial class EPSalesTableEdit : AxBaseUserControl
+      #{
+      #    #region Page level variables
+      #
+      #    //Base Webpart private
+      #    private AxBaseWebPart _baseWebpart = null;
+      #
+      #    // InventDim Framework
+      #    ApplicationProxy.InventDimCtrl_Frm_Mov inventDimFormSetup;
+      #
+      #    //Base Webpart value
+      #    AxBaseWebPart BaseWebpart
+      #    {
+      #        get
+      #        {
+      #            //Check if basewebpart is null
+      #            if (this._baseWebpart == null)
+      #                this._baseWebpart = AxBaseWebPart.GetWebpart(this);
+      #            return this._baseWebpart;
+      #        }
+      #    }
+      #
+      #    //Datasource view (Dynamics datasource) of the Axform
+      #    AxDataSourceView DataSourceViewSalesTable
+      #    {
+      #        get
+      #        {
+      #            //get the datasource view from the current form
+      #            return this.dsEPSalesTableEdit.GetDataSourceView(this.formEPSalesTableEdit.DataMember);
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Gets the Current row from the gridEPSalesLineEdit AxGrid.
+      #    /// </summary>
+      #    DataSetViewRow EPSalesTableLineCurrent
+      #    {
+      #        get
+      #        {
+      #            return this.dsEPSalesTableEdit.GetDataSourceView(gridEPSalesLineEdit.DataMember).DataSetView.GetCurrent();
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Gets the Current row from the gridEPSalesTableLinksEdit AxGrid.
+      #    /// </summary>
+      #    DataSetViewRow EPSalesTableLinkCurrent
+      #    {
+      #        get
+      #        {
+      #            return this.dsEPSalesTableEdit.GetDataSourceView(gridEPSalesTableLinksEdit.DataMember).DataSetView.GetCurrent();
+      #        }
+      #    }
+      #
+      #    protected override bool RequiresExternalContext
+      #    {
+      #        get { return true; }
+      #    }
+      #    #endregion
+      #
+      #    #region events
+      #    protected void ButtonChange_Click(object sender, EventArgs e)
+      #    {
+      #        try
+      #        {
+      #            // Save the last unsaved line if any
+      #            if (gridEPSalesLineEdit.EditIndex != -1)
+      #            {
+      #                this.gridEPSalesLineEdit.UpdateRow(gridEPSalesLineEdit.EditIndex, true);
+      #            }
+      #
+      #            //Calling method of X++ to save the sales Table details
+      #            bool result = (bool)this.dsEPSalesTableEdit.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("modifySalesOrder");
+      #
+      #            if (result)
+      #            {
+      #                //Redirecting to list page
+      #                AxUrlMenuItem urlMenuItem = new AxUrlMenuItem("EPSalesTableList");
+      #                Response.Redirect(urlMenuItem.Url.OriginalString, false);
+      #            }
+      #        }
+      #        catch (System.Exception ex)
+      #        {
+      #            AxExceptionCategory exceptionCategory;
+      #            // This returns true if the exception can be handled here
+      #            if (!AxControlExceptionHandler.TryHandleException(this, ex, out exceptionCategory))
+      #            {
+      #                // The exception is system fatal - in this case we re-throw.                                    
+      #                throw;
+      #            }
+      #        }
+      #    }
+      #
+      #    //Page init method - attaching events to controls
+      #    void Page_Init(object sender, EventArgs e)
+      #    {
+      #        gridEPSalesLineEdit.RowCancelingEdit += new GridViewCancelEditEventHandler(gridEPSalesLineEdit_RowCancelingEdit);
+      #    }
+      #
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #        //InventDim Framework
+      #        this.UpdateDesign(ApplicationProxy.InventDimFormDesignUpdate.Init);
+      #
+      #        // Set the InventDim Lookup.
+      #        WireInventDimLookups();
+      #
+      #        //get the current record
+      #        DataSetViewRow currentRow = this.DataSourceViewSalesTable.DataSetView.GetCurrent();
+      #        ApplicationProxy.SalesType salesType = (ApplicationProxy.SalesType)currentRow.GetFieldValue("SalesType");
+      #        if (salesType == ApplicationProxy.SalesType.Blanket)
+      #        {
+      #            sectionReleaseOrders.Visible = true;
+      #        }
+      #
+      #        ApplicationProxy.SalesStatus salesStatus = (ApplicationProxy.SalesStatus)currentRow.GetFieldValue("SalesStatus");
+      #        if (salesStatus <= ApplicationProxy.SalesStatus.Backorder)
+      #        {
+      #            this.gridEPSalesLineEdit.AllowEdit = true;
+      #        }
+      #        else
+      #        {
+      #            this.gridEPSalesLineEdit.AllowEdit = false;
+      #        }
+      #
+      #    }
+      #
+      #    protected void InventDim_InventLocationId_Lookup(object sender, AxLookupEventArgs e)
+      #    {
+      #        DataSetViewRow dsvrSalesLine = dsEPSalesTableEdit.GetDataSourceView("SalesLine").DataSetView.GetCurrent();
+      #        string InventSiteId = string.Empty;
+      #        if (dsvrSalesLine != null)
+      #        {
+      #            InventSiteId = (string)dsvrSalesLine.GetFieldValue("InventDim!InventSiteId");
+      #        }
+      #        this.InventLocationId_Lookup((AxBoundField)sender, e.LookupControl, InventSiteId);
+      #    }
+      #
+      #    /// <summary>
+      #    /// Location Id Look up.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void LocationId_Lookup(object sender, AxLookupEventArgs e)
+      #    {
+      #        DataSetViewRow dsvrSalesTable = dsEPSalesTableEdit.GetDataSourceView("SalesTable").DataSetView.GetCurrent();
+      #        string InventSiteId = string.Empty;
+      #        if (dsvrSalesTable != null)
+      #        {
+      #            InventSiteId = (string)dsvrSalesTable.GetFieldValue("InventSiteId");
+      #        }
+      #        this.InventLocationId_Lookup((AxBoundField)sender, e.LookupControl, InventSiteId);
+      #    }
+      #
+      #    //Grid cancel event for the current record
+      #    void gridEPSalesLineEdit_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+      #    {
+      #        // call CancelEdit operation
+      #        DataSetViewRow salesTableLineCurrentRow = this.EPSalesTableLineCurrent;
+      #
+      #        if (salesTableLineCurrentRow != null)
+      #            salesTableLineCurrentRow.CancelEdit();
+      #    }
+      #
+      #    //page Unload - dispose variables
+      #    protected void Page_Unload(object sender, EventArgs e)
+      #    {
+      #        if (inventDimFormSetup != null)
+      #            inventDimFormSetup.Dispose();
+      #    }
+      #    #endregion
+      #
+      #    #region methods
+      #    private void WireInventDimLookups()
+      #    {
+      #        foreach (DataControlField column in gridEPSalesLineEdit.Columns)
+      #        {
+      #            AxBoundField field = (AxBoundField)column;
+      #            if (field.DataField == "InventDim!configId")
+      #            {
+      #                //set the event handler for the onlookup event of the "InventDim!configId" bound field
+      #                field.Lookup += new EventHandler<AxLookupEventArgs>(lookupInventConfigId_Lookup);
+      #                field.AutoPostBack = true;
+      #                field.LookupButtonDisplaySettings = LookupButtonDisplaySettings.Always;
+      #            }
+      #            else if (field.DataField == "InventDim!InventSizeId")
+      #            {
+      #                //set the event handler for the onlookup event of the "InventDim!InventSizeId" bound field
+      #                field.Lookup += new EventHandler<AxLookupEventArgs>(lookupInventSize_Lookup);
+      #                field.AutoPostBack = true;
+      #                field.LookupButtonDisplaySettings = LookupButtonDisplaySettings.Always;
+      #            }
+      #            else if (field.DataField == "InventDim!InventColorId")
+      #            {
+      #                //set the event handler for the onlookup event of the "InventDim!InventColorId" bound field
+      #                field.Lookup += new EventHandler<AxLookupEventArgs>(lookupInventColor_Lookup);
+      #                field.AutoPostBack = true;
+      #                field.LookupButtonDisplaySettings = LookupButtonDisplaySettings.Always;
+      #            }
+      #            else if (field.DataField == "InventDim!InventLocationId")
+      #            {
+      #                //set the event handler for the onlookup event of the "InventDim!InventColorId" bound field
+      #                field.Lookup += new EventHandler<AxLookupEventArgs>(InventDim_InventLocationId_Lookup);
+      #                field.AutoPostBack = true;
+      #                field.LookupButtonDisplaySettings = LookupButtonDisplaySettings.Always;
+      #            }
+      #        }
+      #    }
+      #    #endregion
+      #
+      #    #region inventDim
+      #    /// <summary>
+      #    /// InventDim Framework update design
+      #    /// </summary>
+      #    /// <param name="mode"></param>
+      #    void UpdateDesign(ApplicationProxy.InventDimFormDesignUpdate mode)
+      #    {
+      #        ApplicationProxy.InventMovement movement = null;
+      #        ApplicationProxy.InventDimParm inventDimParmVisible = null;
+      #        IAxaptaRecordAdapter salesLine = null;
+      #        IAxaptaRecordAdapter inventTable = null;
+      #        ApplicationProxy.DataSetRun dataSetRun = null;
+      #        IAxaptaRecordAdapter parmDimParmVisibleGrid = null;
+      #        IAxaptaRecordAdapter parmDimParmEnabled = null;
+      #
+      #        try
+      #        {
+      #            DataSetViewRow salesLineRow = this.dsEPSalesTableEdit.GetDataSourceView("SalesLine").DataSetView.GetCurrent();
+      #            if (salesLineRow != null)
+      #            {
+      #                salesLine = salesLineRow.GetRecord();
+      #                movement = ApplicationProxy.InventMovement.construct(this.AxSession.AxaptaAdapter, salesLine);
+      #
+      #                dataSetRun = new ApplicationProxy.DataSetRun(
+      #                                  AxSession.AxaptaAdapter,
+      #                                  this.dsEPSalesTableEdit.GetDataSet().DataSetRun.AxaptaObjectAdapter);
+      #                inventDimParmVisible = new ApplicationProxy.InventDimParm(
+      #                            AxSession.AxaptaAdapter);
+      #                switch (mode)
+      #                {
+      #                    case ApplicationProxy.InventDimFormDesignUpdate.Init:
+      #
+      #                        if (this.inventDimFormSetup == null)
+      #                        {
+      #                            this.inventDimFormSetup = ApplicationProxy.InventDimCtrl_Frm_Mov.newFromASPWebFormMovement(
+      #                                AxSession.AxaptaAdapter,
+      #                                this.UniqueID,
+      #                                this.dsEPSalesTableEdit.ID,
+      #                                dataSetRun,
+      #                                movement);
+      #                        }
+      #                        goto case ApplicationProxy.InventDimFormDesignUpdate.Active;
+      #
+      #                    case ApplicationProxy.InventDimFormDesignUpdate.Active:
+      #                        inventTable = movement.inventTable();
+      #                        inventDimFormSetup.formActiveSetup((string)inventTable.GetField("DimGroupId"), movement);
+      #                        inventDimParmVisible.initItemDimAllGrp();
+      #
+      #                        using (ApplicationProxy.ClassFactory classFactory = new ApplicationProxy.ClassFactory(
+      #                             this.AxSession.AxaptaAdapter))
+      #                        {
+      #                            if (classFactory.InventDimGlobal().inventSiteActiveWithoutItem())
+      #                            {
+      #                                if (inventDimParmVisible != null)
+      #                                {
+      #                                    inventDimParmVisible.AxaptaRecordAdapter.SetField("InventSiteIdFlag", 1);
+      #                                }
+      #                            }
+      #                        }
+      #                        inventDimParmVisible.AxaptaRecordAdapter.SetField("InventLocationIdFlag", 1);
+      #                        inventDimFormSetup.parmDimParmVisibleGrid(inventDimParmVisible.AxaptaRecordAdapter, true);
+      #                        inventDimFormSetup.formSetControls(false);
+      #                        break;
+      #
+      #                    default:
+      #                        throw new ArgumentException();
+      #                }
+      #            }
+      #        }
+      #        finally
+      #        {
+      #            if (movement != null)
+      #                movement.Dispose();
+      #
+      #            if (inventDimParmVisible != null)
+      #                inventDimParmVisible.Dispose();
+      #
+      #            if (salesLine != null)
+      #                salesLine.Dispose();
+      #
+      #            if (inventTable != null)
+      #                inventTable.Dispose();
+      #
+      #            if (parmDimParmEnabled != null)
+      #                parmDimParmEnabled.Dispose();
+      #
+      #            if (parmDimParmVisibleGrid != null)
+      #                parmDimParmVisibleGrid.Dispose();
+      #        }
+      #
+      #    }
+      #
+      #    //InventDim Framework 
+      #    protected void gridEPSalesLineEdit_SelectedIndexChanged(object sender, EventArgs e)
+      #    {
+      #        this.UpdateDesign(ApplicationProxy.InventDimFormDesignUpdate.Active);
+      #    }
+      #    #endregion
+      #
+      #    #region  LookUp
+      #
+      #    /// <summary>
+      #    /// Look for ConfigId field
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void lookupInventConfigId_Lookup(object sender, AxLookupEventArgs e)
+      #    {
+      #        AxLookup lookup = e.LookupControl;
+      #
+      #        // Create the lookup dataset - we will do a lookup in the Config table
+      #        using (Proxy.SysDataSetBuilder sysDataSetBuilder = Proxy.SysDataSetBuilder.constructLookupDataSet(
+      #            this.AxSession.AxaptaAdapter, TableMetadata.TableNum(this.AxSession, "ConfigTable")))
+      #        {
+      #            // Set the run time generated data set as the lookup data set
+      #            lookup.LookupDataSet = new Microsoft.Dynamics.Framework.Data.Ax.DataSet(this.AxSession,
+      #                sysDataSetBuilder.toDataSet());
+      #        }
+      #
+      #        // DataSet has to be init'ed before accessing the data sources
+      #        lookup.LookupDataSet.Init();
+      #
+      #        DataSetViewRow dsSalesTableRow = this.dsEPSalesTableEdit.GetDataSourceView("SalesLine").
+      #            DataSetView.GetCurrent();
+      #
+      #        if (dsSalesTableRow != null)
+      #        {
+      #            using (IAxaptaRecordAdapter record = dsSalesTableRow.GetRecord())
+      #            {
+      #                if (record != null)
+      #                {
+      #                    // Filter the lookup 
+      #                    using (Proxy.Query query = lookup.LookupDataSet.DataSetViews[0].MasterDataSource.query())
+      #                    {
+      #                        using (Proxy.QueryBuildDataSource dataSource = query.dataSourceNo(1))
+      #                        {
+      #                            using (Proxy.QueryBuildRange range = dataSource.addRange(
+      #                                TableDataFieldMetadata.FieldNum(AxSession, "ConfigTable", "ItemId")))
+      #                            {
+      #                                if (range != null)
+      #                                {
+      #                                    range.status = (int)Proxy.RangeStatus.Hidden;
+      #                                    range.value = (string)record.GetField("ItemId");
+      #                                }
+      #                            }
+      #                        }
+      #                    }
+      #                }
+      #            }
+      #        }
+      #
+      #        // Specify the lookup fields used
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession,
+      #            lookup.LookupDataSetViewMetadata.ViewFields["ConfigId"]));
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession,
+      #            lookup.LookupDataSetViewMetadata.ViewFields["Name"]));
+      #
+      #        // Specify the select field
+      #        lookup.SelectField = "ConfigId";
+      #    }
+      #
+      #    /// <summary>
+      #    /// Lookup for InventSizeId field
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void lookupInventSize_Lookup(object sender, AxLookupEventArgs e)
+      #    {
+      #        AxLookup lookup = e.LookupControl;
+      #
+      #        // Create the lookup dataset - we will do a lookup in the Inventsize table
+      #        using (Proxy.SysDataSetBuilder sysDataSetBuilder = Proxy.SysDataSetBuilder.constructLookupDataSet(
+      #            this.AxSession.AxaptaAdapter, TableMetadata.TableNum(this.AxSession, "InventSize")))
+      #        {
+      #            // Set the run time generated data set as the lookup data set
+      #            lookup.LookupDataSet = new Microsoft.Dynamics.Framework.Data.Ax.DataSet(this.AxSession,
+      #                sysDataSetBuilder.toDataSet());
+      #        }
+      #
+      #        // DataSet has to be init'ed before accessing the data sources
+      #        lookup.LookupDataSet.Init();
+      #
+      #        DataSetViewRow dsSalesTableRow = this.dsEPSalesTableEdit.GetDataSourceView("SalesLine").
+      #                    DataSetView.GetCurrent();
+      #
+      #        if (dsSalesTableRow != null)
+      #        {
+      #            using (IAxaptaRecordAdapter record = dsSalesTableRow.GetRecord())
+      #            {
+      #                if (record != null)
+      #                {
+      #                    // Filter the lookup 
+      #                    using (Proxy.Query query = lookup.LookupDataSet.DataSetViews[0].MasterDataSource.query())
+      #                    {
+      #                        using (Proxy.QueryBuildDataSource dataSource = query.dataSourceNo(1))
+      #                        {
+      #                            using (Proxy.QueryBuildRange range = dataSource.addRange(
+      #                                TableDataFieldMetadata.FieldNum(AxSession, "InventSize", "ItemId")))
+      #                            {
+      #                                if (range != null)
+      #                                {
+      #                                    range.status = (int)Proxy.RangeStatus.Hidden;
+      #                                    range.value = (string)record.GetField("ItemId");
+      #                                }
+      #                            }
+      #                        }
+      #                    }
+      #                }
+      #            }
+      #        }
+      #
+      #        // Specify the lookup fields used
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.
+      #                        ViewFields["InventSizeId"]));
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.
+      #                    ViewFields["Name"]));
+      #
+      #        // Specify the select field
+      #        lookup.SelectField = "InventSizeId";
+      #    }
+      #
+      #    /// <summary>
+      #    /// Lookup for InventColorId field
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void lookupInventColor_Lookup(object sender, AxLookupEventArgs e)
+      #    {
+      #        AxLookup lookup = e.LookupControl;
+      #
+      #        // Create the lookup dataset - we will do a lookup in the InventColor Table
+      #        using (Proxy.SysDataSetBuilder sysDataSetBuilder = Proxy.SysDataSetBuilder.constructLookupDataSet(
+      #            this.AxSession.AxaptaAdapter, TableMetadata.TableNum(this.AxSession, "InventColor")))
+      #        {
+      #            // Set the run time generated data set as the lookup data set
+      #            lookup.LookupDataSet = new Microsoft.Dynamics.Framework.Data.Ax.DataSet(this.AxSession,
+      #                                    sysDataSetBuilder.toDataSet());
+      #        }
+      #
+      #        // DataSet has to be init'ed before accessing the data sources
+      #        lookup.LookupDataSet.Init();
+      #
+      #        DataSetViewRow dsSalesTableRow = this.dsEPSalesTableEdit.GetDataSourceView("SalesLine").DataSetView.
+      #                            GetCurrent();
+      #
+      #        if (dsSalesTableRow != null)
+      #        {
+      #            using (IAxaptaRecordAdapter record = dsSalesTableRow.GetRecord())
+      #            {
+      #                if (record != null)
+      #                {
+      #                    // Filter the lookup 
+      #                    using (Proxy.Query query = lookup.LookupDataSet.DataSetViews[0].MasterDataSource.query())
+      #                    {
+      #                        using (Proxy.QueryBuildDataSource dataSource = query.dataSourceNo(1))
+      #                        {
+      #                            using (Proxy.QueryBuildRange range = dataSource.addRange(
+      #                            TableDataFieldMetadata.FieldNum(AxSession, "InventColor", "ItemId")))
+      #                            {
+      #                                if (range != null)
+      #                                {
+      #                                    range.status = (int)Proxy.RangeStatus.Hidden;
+      #                                    range.value = (string)record.GetField("ItemId");
+      #                                }
+      #                            }
+      #                        }
+      #                    }
+      #                }
+      #            }
+      #        }
+      #
+      #        // Specify the lookup fields used
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.
+      #                            ViewFields["InventColorId"]));
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.
+      #                            ViewFields["Name"]));
+      #        // Specify the select field
+      #        lookup.SelectField = "InventColorId";
+      #    }
+      #
+      #    protected void InventLocationId_Lookup(AxBoundField boundField, AxLookup lookup, string inventSiteId)
+      #    {
+      #        using (Proxy.SysDataSetBuilder sysDataSetBuilder = Proxy.SysDataSetBuilder.constructLookupDataSet(this.AxSession.AxaptaAdapter, TableMetadata.TableNum(this.AxSession, "InventLocation")))
+      #        {
+      #            lookup.LookupDataSet = new Microsoft.Dynamics.Framework.Data.Ax.DataSet(this.AxSession, sysDataSetBuilder.toDataSet());
+      #            // DataSet has to be init'ed before accessing the data sources
+      #            lookup.LookupDataSet.Init();
+      #
+      #            ApplicationProxy.Query appQuery = ApplicationProxy.InventLocation.webLookupBySiteIdQuery(this.AxSession.AxaptaAdapter, inventSiteId);
+      #            lookup.LookupDataSet.DataSetViews[0].MasterDataSource.query(new Proxy.Query(this.AxSession.AxaptaAdapter, appQuery.AxaptaObjectAdapter));
+      #
+      #            Proxy.List fieldNameList = Proxy.List.create(this.AxSession.AxaptaAdapter, ApplicationProxy.InventLocation.webLookupFields(this.AxSession.AxaptaAdapter));
+      #            Proxy.ListEnumerator fieldNameEnumerator = fieldNameList.getEnumerator();
+      #
+      #            string fieldName;
+      #            while (fieldNameEnumerator.moveNext())
+      #            {//First field will be the selecte field.
+      #                fieldName = (string)fieldNameEnumerator.current();
+      #
+      #                lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.ViewFields[fieldName]));
+      #                if (lookup.SelectField == "")
+      #                {
+      #                    // Specify the select field
+      #                    lookup.SelectField = fieldName;
+      #                }
+      #            }
+      #        }
+      #    }
+      #
+      #    #endregion
+      #
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

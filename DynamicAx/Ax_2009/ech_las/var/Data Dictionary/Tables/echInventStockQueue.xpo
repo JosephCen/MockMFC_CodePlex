@@ -1,0 +1,495 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInventStockQueue unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInventStockQueue
+    Id 30006
+    PROPERTIES
+      Name                #echInventStockQueue
+      Label               #@ECH63
+      TitleField1         #ItemId
+      TitleField2         #Qty
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      CreatedDateTime     #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #Qty
+        Id 30001
+        REAL
+        PROPERTIES
+          Name                #Qty
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #ItemId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #configId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #configId
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #ConfigId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #InventColorId
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #InventColorId
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #InventColorId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #InventSizeId
+        Id 30005
+        STRING
+        PROPERTIES
+          Name                #InventSizeId
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #InventSizeId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #InventSiteId
+        Id 30006
+        STRING
+        PROPERTIES
+          Name                #InventSiteId
+          Mandatory           #Yes
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #InventSiteId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #BatchStatus
+        Id 30009
+        ENUM
+        PROPERTIES
+          Name                #BatchStatus
+          Table               #echInventStockQueue
+          EnumType            #BatchStatus
+        ENDPROPERTIES
+        
+      FIELD #ErrorMessage
+        Id 30010
+        STRING
+        PROPERTIES
+          Name                #ErrorMessage
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #SysInfoLogStr
+              #
+            ENDARRAY
+          StringSize          #(Memo)
+        ENDPROPERTIES
+        
+      FIELD #InventStyleId
+        Id 30011
+        STRING
+        PROPERTIES
+          Name                #InventStyleId
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #RBOInventStyleId
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #inventDimId
+        Id 30012
+        STRING
+        PROPERTIES
+          Name                #inventDimId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #IsFromWMS
+        Id 30013
+        ENUM
+        PROPERTIES
+          Name                #IsFromWMS
+          Label               #@ECH823
+          HelpText            #@ECH824
+          Table               #echInventStockQueue
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #AllocStartDateTime
+        Id 30014
+        DATETIME
+        PROPERTIES
+          Name                #AllocStartDateTime
+          Label               #@ECH825
+          HelpText            #@ECH826
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #StartDateTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #SeqId
+        Id 30015
+        STRING
+        PROPERTIES
+          Name                #SeqId
+          Table               #echInventStockQueue
+          ExtendedDataType    
+            ARRAY 
+              #echInventStockQueueSeqId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #InventSiteId
+          #InventSizeId
+          #InventColorId
+          #InventStyleId
+          #configId
+          #Qty
+          #ItemId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ErrorMessage
+        PROPERTIES
+          Name                #ErrorMessage
+          Label               #@SYS84736
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ErrorMessage
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Information
+        PROPERTIES
+          Name                #Information
+          Label               #@SYS60385
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SeqId
+          #IsFromWMS
+          #BatchStatus
+          #ItemId
+          #echGetItemBarCode
+          #Qty
+          #createdDateTime
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #InventoryDimensions
+        PROPERTIES
+          Name                #InventoryDimensions
+          Label               #@SYS53627
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #configId
+          #InventSizeId
+          #InventColorId
+          #InventSiteId
+          #InventStyleId
+          #inventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SeqId
+          #BatchStatus
+          #ItemId
+          #echGetItemBarCode
+          #Qty
+          #configId
+          #InventColorId
+          #InventSizeId
+          #InventStyleId
+          #InventSiteId
+          #IsFromWMS
+          #createdDateTime
+          #AllocStartDateTime
+          #ErrorMessage
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PrimaryIdx
+      Id 30001
+      PROPERTIES
+        Name                #PrimaryIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ItemId
+        #configId
+        #InventColorId
+        #InventSizeId
+        #InventSiteId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #echGetItemBarCode
+        #// Add ECH_WI_02332 by mengqi.cen on 20130715
+        #// BP deviation documented
+        #display ItemBarCode echGetItemBarCode()
+        #{
+        #;
+        #    return this.echInventItemBarcodeMap::inventItemBarcode().itemBarCode;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 19 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: exist method
+        #
+        #public boolean exist(RecId _recId)
+        #{
+        #    echInventStockQueue       echInventStockQueue;
+        #    ;
+        #
+        #    select firstonly recId from echInventStockQueue
+        #        where   echInventStockQueue.RecId == _recId;
+        #
+        #    return (echInventStockQueue.RecId ? true : false);
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 19 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: find method
+        #
+        #public echInventStockQueue find(RecId _recId, boolean _forUpdate = false)
+        #{
+        #    echInventStockQueue       echInventStockQueue;
+        #    ;
+        #
+        #    echInventStockQueue.selectForUpdate(_forUpdate);
+        #
+        #    select echInventStockQueue
+        #        where   echInventStockQueue.RecId == _recId;
+        #
+        #    return echInventStockQueue;
+        #}
+      ENDSOURCE
+      SOURCE #initValue
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 19 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: init value
+        #
+        #public void initValue()
+        #{
+        #    ;
+        #
+        #    super();
+        #
+        #    this.BatchStatus = BatchStatus::Waiting;
+        #}
+      ENDSOURCE
+      SOURCE #inventDimCriteria
+        #// Update ECH_WI_01978 by mengqi.cen on 20130218
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: return inventdim criteria of fields
+        #
+        #InventDim inventDimCriteria()
+        #{
+        #    InventDim   inventDim;
+        #    ;
+        #
+        #    inventDim.configId      = this.configId;
+        #    inventDim.InventSizeId  = this.InventSizeId;
+        #    inventDim.InventColorId = this.InventColorId;
+        #    inventDim.InventSiteId  = this.InventSiteId;
+        #    inventDim.InventStyleId = this.InventStyleId;
+        #
+        #    return inventDim;
+        #}
+      ENDSOURCE
+      SOURCE #setExecuting
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: set status
+        #
+        #public echInventStockQueue setExecuting()
+        #{
+        #    echInventStockQueue     echInventStockQueue;
+        #    ;
+        #
+        #    try
+        #    {
+        #        ttsbegin;
+        #
+        #        select forupdate echInventStockQueue
+        #            where   echInventStockQueue.RecId       == this.RecId
+        #            &&      echInventStockQueue.BatchStatus == BatchStatus::Waiting;
+        #
+        #        if (echInventStockQueue)
+        #        {
+        #            echInventStockQueue.BatchStatus      = BatchStatus::Executing;
+        #            echInventStockQueue.update();
+        #        }
+        #
+        #        ttscommit;
+        #    }
+        #    catch
+        #    {
+        #        ttsabort;
+        #    }
+        #
+        #    return echInventStockQueue;
+        #}
+      ENDSOURCE
+      SOURCE #setStatus
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: set status
+        #
+        #public echInventStockQueue setStatus(BatchStatus _status, SysInfoLogStr _errorMessage = '')
+        #{
+        #    ;
+        #
+        #    try
+        #    {
+        #        ttsbegin;
+        #
+        #        if (this.RecId)
+        #        {
+        #            this.selectForUpdate(true);
+        #
+        #            this.BatchStatus      = _status;
+        #            if (_errorMessage)
+        #                this.ErrorMessage = _errorMessage;
+        #            this.update();
+        #        }
+        #
+        #        ttscommit;
+        #    }
+        #    catch
+        #    {
+        #        ttsabort;
+        #    }
+        #
+        #    return this;
+        #}
+      ENDSOURCE
+      SOURCE #deleteProcessedLine
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 21 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: delete line
+        #
+        #public static void deleteProcessedLine(echInventStockQueue    _echInventStockQueue)
+        #{
+        #    echInventStockQueue     echInventStockQueue = _echInventStockQueue;
+        #    ;
+        #
+        #    try
+        #    {
+        #        ttsbegin;
+        #
+        #        echInventStockQueue.selectForUpdate(true);
+        #        echInventStockQueue.delete();
+        #
+        #        ttscommit;
+        #    }
+        #    catch
+        #    {
+        #        ttsabort;
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

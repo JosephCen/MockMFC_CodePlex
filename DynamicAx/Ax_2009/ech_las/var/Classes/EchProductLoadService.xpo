@@ -1,0 +1,67 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoadService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoadService
+    Id 30283
+    PROPERTIES
+      Name                #EchProductLoadService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoadService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #create
+        #// Update ECH_WI_02008 by mengqi.cen on 20130319
+        #//   Remove the delete operation against table 'priceDiscTable'.
+        #public AifEntityKeyList create(EchProductLoad _echProductLoad)
+        #{
+        #;
+        #
+        #    return this.createList(_echProductLoad);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #read
+        #public EchProductLoad read(AifEntityKeyList _entityKeyList)
+        #{
+        #    EchProductLoad echProductLoad = new EchProductLoad();
+        #    this.readList(_entityKeyList, echProductLoad);
+        #    return echProductLoad;
+        #}
+      ENDSOURCE
+      SOURCE #update
+        #public void update(AifEntityKeyList _entityKeyList, EchProductLoad _echProductLoad)
+        #{
+        #    this.updateList(_entityKeyList, _echProductLoad);
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static EchProductLoadService construct()
+        #{
+        #    return new EchProductLoadService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

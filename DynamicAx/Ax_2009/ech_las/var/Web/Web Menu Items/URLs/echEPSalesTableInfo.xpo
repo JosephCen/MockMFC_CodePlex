@@ -1,0 +1,22 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echEPSalesTableInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echEPSalesTableInfo
+    PROPERTIES
+      Name                #echEPSalesTableInfo
+      Label               #@ECH681
+      HelpText            #@ECH682
+      URL                 #Sales/Enterprise%20Portal/ECHEPSalesTableInfo.aspx
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

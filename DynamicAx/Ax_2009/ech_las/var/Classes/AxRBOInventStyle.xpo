@@ -1,0 +1,253 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxRBOInventStyle unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxRBOInventStyle
+    Id 30280
+    PROPERTIES
+      Name                #AxRBOInventStyle
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxRBOInventStyle axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxRBOInventStyle extends AxInternalBase
+        #{
+        #    RBOInventStyle RBOInventStyle;
+        #
+        #    int             cacheRecordIdx;
+        #    int             cacheObjectIdx;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public RBOInventStyle currentRecord(RBOInventStyle _RBOInventStyle = RBOInventStyle)
+        #{
+        #    if (!prmisdefault(_RBOInventStyle))
+        #    {
+        #        super(_RBOInventStyle);
+        #        RBOInventStyle = _RBOInventStyle;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return RBOInventStyle;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected RBOInventStyle emptyRecord()
+        #{
+        #    RBOInventStyle localRBOInventStyle;
+        #    ;
+        #    return localRBOInventStyle;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsExemptionList
+        #protected void initMandatoryFieldsExemptionList()
+        #{
+        #    ;
+        #    super();
+        #
+        #    // Begin - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #    if (isconfigurationkeyenabled(configurationkeynum(echInterfaces)))
+        #    {
+        #        this.setParmMethodAsNotMandatory(methodstr(axRBOInventStyle, parmItemId));
+        #    }
+        #    // End - Avanade.28.Nov.2012.nte.Project : < ECH_WI_01500 >
+        #}
+      ENDSOURCE
+      SOURCE #parmDescription
+        #public RBOInventStyleTxt parmDescription(RBOInventStyleTxt _description = '')
+        #{
+        #    if (!prmisdefault(_description))
+        #    {
+        #        this.setField(fieldNum(RBOInventStyle, Description), _description);
+        #    }
+        #
+        #    return rBOInventStyle.Description;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventStyleId
+        #public RBOStyleId parmInventStyleId(RBOStyleId _inventStyleId = '')
+        #{
+        #    if (!prmisdefault(_inventStyleId))
+        #    {
+        #        this.setField(fieldNum(RBOInventStyle, InventStyleId), _inventStyleId);
+        #    }
+        #
+        #    return rBOInventStyle.InventStyleId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(RBOInventStyle),fieldnum(RBOInventStyle,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(RBOInventStyle, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return '';
+        #    }
+        #    else
+        #    {
+        #        return rBOInventStyle.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmName
+        #public Name parmName(Name _name = '')
+        #{
+        #    if (!prmisdefault(_name))
+        #    {
+        #        this.setField(fieldNum(RBOInventStyle, Name), _name);
+        #    }
+        #
+        #    return rBOInventStyle.Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public RBOWeight parmWeight(RBOWeight _weight = 0)
+        #{
+        #    if (!prmisdefault(_weight))
+        #    {
+        #        this.setField(fieldNum(RBOInventStyle, Weight), _weight);
+        #    }
+        #
+        #    return rBOInventStyle.Weight;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #RBOInventStyle
+        #public RBOInventStyle rBOInventStyle(RBOInventStyle _rBOInventStyle = rBOInventStyle)
+        #{
+        #    if (!prmisdefault(_rBOInventStyle))
+        #    {
+        #        this.setCurrentRecordFromExternal(_rBOInventStyle);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setDescription
+        #protected void setDescription()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventStyle, Description)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventStyleId
+        #protected void setInventStyleId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventStyle, InventStyleId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventStyle, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setName
+        #protected void setName()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventStyle, Name)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setInventStyleId();
+        #    this.setItemId();
+        #    this.setDescription();
+        #    this.setName();
+        #    this.setWeight();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setWeight
+        #protected void setWeight()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(RBOInventStyle, Weight)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxRBOInventStyle construct()
+        #{
+        #    return new AxRBOInventStyle();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newRBOInventStyle
+        #public static AxRBOInventStyle newRBOInventStyle(RBOInventStyle _RBOInventStyle)
+        #{
+        #    AxRBOInventStyle AxRBOInventStyle = AxRBOInventStyle::construct();
+        #    ;
+        #    AxRBOInventStyle.RBOInventStyle(_RBOInventStyle);
+        #
+        #    return AxRBOInventStyle;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

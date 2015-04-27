@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSOPromotionsLineForm unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSOPromotionsLineForm
+    Type: 1
+    PROPERTIES
+      Name                #echSOPromotionsLineForm
+      Label               #@SYS115268
+      HelpText            #@ECH251
+      Object              #echSOPromotionsLineForm
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

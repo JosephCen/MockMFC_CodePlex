@@ -1,0 +1,224 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echLatestPriceDiscTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echLatestPriceDiscTable
+    Id 30061
+    PROPERTIES
+      Name                #echLatestPriceDiscTable
+      Label               #@ECH749
+      TitleField1         #ItemRelation
+      TitleField2         #InventDimId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemRelation
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemRelation
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echLatestPriceDiscTable
+          ExtendedDataType    
+            ARRAY 
+              #PriceDiscItemRelation
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #InventDimId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #InventDimId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echLatestPriceDiscTable
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #QuantityAmount
+        Id 30003
+        REAL
+        PROPERTIES
+          Name                #QuantityAmount
+          Label               #@SYS3065
+          HelpText            #@ECH748
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echLatestPriceDiscTable
+          ExtendedDataType    
+            ARRAY 
+              #AmountQty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PriceDiscTableRefRecId
+        Id 30004
+        INT64
+        PROPERTIES
+          Name                #PriceDiscTableRefRecId
+          Table               #echLatestPriceDiscTable
+          ExtendedDataType    
+            ARRAY 
+              #PriceDiscTableRefRecId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemRelation
+          #InventDimId
+          #QuantityAmount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemRelation
+          #InventDimId
+          #QuantityAmount
+          #PriceDiscTableRefRecId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PriceDiscIdx
+      Id 30001
+      PROPERTIES
+        Name                #PriceDiscIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ItemRelation
+        #InventDimId
+        #QuantityAmount
+      ENDINDEXFIELDS
+      
+      #PriceDiscRefIdx
+      Id 30002
+      PROPERTIES
+        Name                #PriceDiscRefIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #PriceDiscTableRefRecId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #PriceDiscTable
+        PROPERTIES
+          Name                #PriceDiscTable
+          Table               #PriceDiscTable
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PriceDiscTableRefRecId
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #delinkPriceDiscTable
+        #// Add ECH_WI_02049 by mengqi.cen on 20130523
+        #public static void delinkPriceDiscTable(PriceDiscTable linkPriceRec)
+        #{
+        #    echLatestPriceDiscTable  linkRecord;
+        #;
+        #    if (linkPriceRec)
+        #    {
+        #        if (linkPriceRec.relation == PriceType::PriceSales)
+        #        {
+        #            ttsbegin;
+        #
+        #            delete_from linkRecord
+        #              where linkRecord.PriceDiscTableRefRecId == linkPriceRec.RecId;
+        #
+        #            ttscommit;
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #linkPriceDiscTable
+        #// Update ECH_WI_02049 by mengqi.cen on 20130522
+        #public static void linkPriceDiscTable(PriceDiscTable linkPriceRec)
+        #{
+        #    echLatestPriceDiscTable  linkRecord;
+        #    PriceDiscTable           priceTable;
+        #;
+        #    if (linkPriceRec)
+        #    {
+        #        if (linkPriceRec.relation == PriceType::PriceSales)
+        #        {
+        #            ttsbegin;
+        #
+        #            delete_from linkRecord
+        #              where linkRecord.PriceDiscTableRefRecId != linkPriceRec.RecId
+        #              exists join priceTable
+        #                      where linkRecord.PriceDiscTableRefRecId == priceTable.RecId
+        #                         && priceTable.ItemRelation           == linkPriceRec.ItemRelation
+        #                         && priceTable.InventDimId            == linkPriceRec.InventDimId
+        #                         && priceTable.QuantityAmount         == linkPriceRec.QuantityAmount;
+        #
+        #            select forupdate linkRecord
+        #              exists join priceTable
+        #                      where linkRecord.PriceDiscTableRefRecId == priceTable.RecId
+        #                         && priceTable.ItemRelation           == linkPriceRec.ItemRelation
+        #                         && priceTable.InventDimId            == linkPriceRec.InventDimId
+        #                         && priceTable.QuantityAmount         == linkPriceRec.QuantityAmount;
+        #
+        #            linkRecord.ItemRelation           = linkPriceRec.ItemRelation;
+        #            linkRecord.InventDimId            = linkPriceRec.InventDimId;
+        #            linkRecord.QuantityAmount         = linkPriceRec.QuantityAmount;
+        #            linkRecord.PriceDiscTableRefRecId = linkPriceRec.RecId;
+        #
+        #            linkRecord.write();
+        #
+        #            ttscommit;
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

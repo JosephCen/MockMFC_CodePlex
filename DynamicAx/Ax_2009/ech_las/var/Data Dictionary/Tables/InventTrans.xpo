@@ -1,0 +1,89 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventTrans unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventTrans
+    Id 177
+    PROPERTIES
+      Name                #InventTrans
+      Label               #@SYS1286
+      FormRef             #InventTrans
+      TitleField1         #TransType
+      TitleField2         #TransRefId
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      CreateRecIdIndex    #Yes
+      TableGroup          #Transaction
+      PrimaryIndex        #TransIdIdx
+      ClusterIndex        #TransIdIdx
+      AnalysisVisibility  #High
+      DeveloperDocumentation  #@SYS123850
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #EchReasonId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #EchReasonId
+          Table               #InventTrans
+          ExtendedDataType    
+            ARRAY 
+              #EchReasonId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventTransId
+          #TransType
+          #TransRefId
+          #DatePhysical
+          #DateFinancial
+          #StatusReceipt
+          #StatusIssue
+          #Qty
+          #CostAmountPosted
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #EchInventJournal
+        PROPERTIES
+          Name                #EchInventJournal
+          Label               #@SYS113372
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #EchReasonId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

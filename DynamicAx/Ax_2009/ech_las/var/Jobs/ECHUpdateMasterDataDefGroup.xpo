@@ -1,0 +1,98 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: ECHUpdateMasterDataDefGroup unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #ECHUpdateMasterDataDefGroup
+    #// *** ECHINA - Anthony Christiaens ***
+    #// *** Customization Code: ECH_UpdateDefinitionGroup_MDT
+    #// *** Customization Date: 05 Mar 2012
+    #// *** Customization Type: created
+    #// *** Description: add tables from csv to definition group
+    #
+    #static void ECHUpdateMasterDataDefGroup(Args _args)
+    #{
+    #    #File
+    #    #define.TableIDCol(1)
+    #    #define.IncludeCol(7)
+    #    #define.FromRow(2)
+    #    #define.Delimiter(';')
+    #    #define.Yes('y')
+    #
+    #    SysExpImpTable      sysExpImpTable;
+    #    SysExpImpGroupId    definitionGroup = 'MDT';
+    #    FilePath            csvFile         = 'C:\\Data\\Master Data\\Tables\\MDT.csv';
+    #    CommaIO             commaIO;
+    #    FileIOPermission    fileIOPermission;
+    #    container           csvRow;
+    #    int                 row;
+    #    str                 include;
+    #    ;
+    #
+    #    // throw error if the file does not exist
+    #    if (!WinApi::fileExists(csvFile))
+    #        throw error(strfmt('%1 does not exist', csvFile));
+    #
+    #    // assert permission to the file
+    #    fileIOPermission    = new fileIOPermission(csvFile, #io_read);
+    #    fileIOPermission.assert();
+    #
+    #    // define cvs reader
+    #    commaIO = new CommaIO(csvFile, #io_read);
+    #    commaIO.inFieldDelimiter(#Delimiter);
+    #
+    #    // delete all tables for definition group
+    #    delete_from sysExpImpTable
+    #        where sysExpImpTable.GroupId == definitionGroup;
+    #
+    #    row = 1;
+    #
+    #    // loop the csv file
+    #    while (commaIO.status() == io_status::Ok)
+    #    {
+    #        // read a row
+    #        csvRow = commaIO.read();
+    #
+    #        // if rows starts after defined row and is not empty
+    #        if (row >= #FromRow &&
+    #            csvRow != connull() &&
+    #            conLen(csvRow) >= #IncludeCol)
+    #        {
+    #            include = conPeek(csvRow, #IncludeCol);
+    #            if (include && strlwr(include) == #Yes)
+    #            {
+    #                // insert a references  in the definition group to the table found in the csv
+    #                sysExpImpTable.clear();
+    #                sysExpImpTable.initValue();
+    #
+    #                sysExpImpTable.GroupId      = definitionGroup;
+    #                sysExpImpTable.ConvTableId  = conPeek(csvRow, #TableIDCol);
+    #
+    #                if (sysExpImpTable.validateWrite())
+    #                {
+    #                    sysExpImpTable.insert();
+    #                }
+    #                else
+    #                {
+    #                    warning(strfmt('Failed row: %1', row));
+    #                }
+    #            }
+    #        }
+    #
+    #        row++;
+    #    }
+    #
+    #    // count the records that have been inserted
+    #    select count(recid) from sysExpImpTable
+    #        where sysExpImpTable.GroupId == definitionGroup;
+    #
+    #    // log end
+    #    info(strfmt('Definition group %1 has been updated, %2 of %3 tables have been included', definitionGroup, sysExpImpTable.RecId, row));
+    #}
+  ENDSOURCE
+
+***Element: END

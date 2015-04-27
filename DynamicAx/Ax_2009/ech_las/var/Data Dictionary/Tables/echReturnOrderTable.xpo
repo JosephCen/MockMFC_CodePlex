@@ -1,0 +1,847 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echReturnOrderTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echReturnOrderTable
+    Id 30059
+    PROPERTIES
+      Name                #echReturnOrderTable
+      Label               #@SYS105841
+      TitleField1         #echMsgPartnerId
+      TitleField2         #echMsgPartnerExtCode
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ReturnOrderId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ReturnOrderId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #ReturnId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #ReturnId
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #echMsgPartnerExtCode
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerExtCode
+          AllowEdit           #No
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerExtCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echMsgPartnerId
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerId
+          AllowEdit           #No
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #OriginalOrderId
+        Id 30005
+        STRING
+        PROPERTIES
+          Name                #OriginalOrderId
+          Label               #@ECH449
+          HelpText            #@ECH450
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerExtCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #TotalPrice
+        Id 30006
+        REAL
+        PROPERTIES
+          Name                #TotalPrice
+          Label               #@ECH451
+          HelpText            #@ECH493
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Price
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #RefundReason
+        Id 30007
+        STRING
+        PROPERTIES
+          Name                #RefundReason
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderRefundReason
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #ImageURL
+        Id 30008
+        STRING
+        PROPERTIES
+          Name                #ImageURL
+          Label               #@ECH452
+          HelpText            #@ECH453
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #URL
+              #
+            ENDARRAY
+          StringSize          #255
+        ENDPROPERTIES
+        
+      FIELD #OriginalOrderStatus
+        Id 30009
+        STRING
+        PROPERTIES
+          Name                #OriginalOrderStatus
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderSoStatus
+              #
+            ENDARRAY
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #Title
+        Id 30010
+        STRING
+        PROPERTIES
+          Name                #Title
+          Label               #@ECH454
+          HelpText            #@ECH455
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Address
+        Id 30011
+        STRING
+        PROPERTIES
+          Name                #Address
+          HelpText            #@ECH456
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Addressing
+              #
+            ENDARRAY
+          StringSize          #250
+        ENDPROPERTIES
+        
+      FIELD #Address2
+        Id 30012
+        STRING
+        PROPERTIES
+          Name                #Address2
+          Label               #@ECH457
+          HelpText            #@ECH456
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Addressing
+              #
+            ENDARRAY
+          StringSize          #250
+        ENDPROPERTIES
+        
+      FIELD #Province
+        Id 30013
+        STRING
+        PROPERTIES
+          Name                #Province
+          Label               #@SYP4348
+          HelpText            #@ECH458
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #AddressStateId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #City
+        Id 30014
+        STRING
+        PROPERTIES
+          Name                #City
+          HelpText            #@ECH459
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #AddressCity
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #District
+        Id 30015
+        STRING
+        PROPERTIES
+          Name                #District
+          Label               #@SYS80116
+          HelpText            #@GLS2204
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #AddressCountyId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PostalCode
+        Id 30016
+        STRING
+        PROPERTIES
+          Name                #PostalCode
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echAddressZipCodeId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #AdvanceStatus
+        Id 30017
+        STRING
+        PROPERTIES
+          Name                #AdvanceStatus
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderAdvanceStatus
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #AlipayNo
+        Id 30018
+        STRING
+        PROPERTIES
+          Name                #AlipayNo
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echAlipayNo
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #BuyerNick
+        Id 30019
+        STRING
+        PROPERTIES
+          Name                #BuyerNick
+          Label               #@ECH461
+          HelpText            #@ECH462
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #CompanyName
+        Id 30020
+        STRING
+        PROPERTIES
+          Name                #CompanyName
+          Label               #@ECH463
+          HelpText            #@SYS15581
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Created
+        Id 30021
+        DATETIME
+        PROPERTIES
+          Name                #Created
+          Label               #@ECH464
+          HelpText            #@ECH465
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echFrontEndCreationDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #CSStatus
+        Id 30022
+        STRING
+        PROPERTIES
+          Name                #CSStatus
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderCSStatus
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #GoodsReturnTime
+        Id 30023
+        DATETIME
+        PROPERTIES
+          Name                #GoodsReturnTime
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderGoodsReturnTime
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #GoodsStatus
+        Id 30024
+        STRING
+        PROPERTIES
+          Name                #GoodsStatus
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnGoodsStatus
+              #
+            ENDARRAY
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #HasGoodsReturn
+        Id 30025
+        ENUM
+        PROPERTIES
+          Name                #HasGoodsReturn
+          Label               #@ECH470
+          HelpText            #@ECH469
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #NoYesId
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #Modified
+        Id 30026
+        DATETIME
+        PROPERTIES
+          Name                #Modified
+          Label               #@ECH471
+          HelpText            #@ECH472
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echFrontEndModifiedDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Payment
+        Id 30027
+        REAL
+        PROPERTIES
+          Name                #Payment
+          Label               #@SYS828
+          HelpText            #@ECH473
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Amount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #RefundedFee
+        Id 30028
+        REAL
+        PROPERTIES
+          Name                #RefundedFee
+          Label               #@ECH474
+          HelpText            #@ECH475
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Amount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #ExistTimeOut
+        Id 30029
+        ENUM
+        PROPERTIES
+          Name                #ExistTimeOut
+          Label               #@ECH476
+          HelpText            #@ECH477
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #NoYesId
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #RemindType
+        Id 30030
+        INT
+        PROPERTIES
+          Name                #RemindType
+          Label               #@ECH478
+          HelpText            #@ECH479
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Integer
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #TimeOut
+        Id 30031
+        DATETIME
+        PROPERTIES
+          Name                #TimeOut
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderTimeOut
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #SellerNick
+        Id 30032
+        STRING
+        PROPERTIES
+          Name                #SellerNick
+          Label               #@ECH480
+          HelpText            #@ECH481
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #SID
+        Id 30033
+        STRING
+        PROPERTIES
+          Name                #SID
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #ShipCarrierTrackingNum
+              #
+            ENDARRAY
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #ShippingType
+        Id 30034
+        STRING
+        PROPERTIES
+          Name                #ShippingType
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnShippingType
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #SplitSellerFee
+        Id 30035
+        REAL
+        PROPERTIES
+          Name                #SplitSellerFee
+          Label               #@ECH482
+          HelpText            #@ECH473
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Amount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #SplitTaobaoFee
+        Id 30036
+        REAL
+        PROPERTIES
+          Name                #SplitTaobaoFee
+          Label               #@ECH484
+          HelpText            #@ECH483
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Amount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Status
+        Id 30037
+        STRING
+        PROPERTIES
+          Name                #Status
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnOrderRefundStatus
+              #
+            ENDARRAY
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #ReturnType
+        Id 30038
+        STRING
+        PROPERTIES
+          Name                #ReturnType
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echReturnType
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #Consignee
+        Id 30039
+        STRING
+        PROPERTIES
+          Name                #Consignee
+          Label               #@ECH485
+          HelpText            #@ECH486
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Consignor
+        Id 30040
+        STRING
+        PROPERTIES
+          Name                #Consignor
+          Label               #@ECH487
+          HelpText            #@ECH488
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Name
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #SendTime
+        Id 30041
+        DATETIME
+        PROPERTIES
+          Name                #SendTime
+          Label               #@ECH489
+          HelpText            #@ECH490
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #echFrontEndCreationDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Phone
+        Id 30042
+        STRING
+        PROPERTIES
+          Name                #Phone
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Phone
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #Description
+        Id 30043
+        STRING
+        PROPERTIES
+          Name                #Description
+          HelpText            #@ECH466
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #Description
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #Post
+        Id 30044
+        ENUM
+        PROPERTIES
+          Name                #Post
+          Label               #@SYS22361
+          Table               #echReturnOrderTable
+          ExtendedDataType    
+            ARRAY 
+              #NoYesId
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReturnOrderId
+          #ReturnId
+          #echMsgPartnerExtCode
+          #echMsgPartnerId
+          #OriginalOrderId
+          #TotalPrice
+          #RefundReason
+          #ImageURL
+          #OriginalOrderStatus
+          #Title
+          #Address
+          #Address2
+          #Province
+          #City
+          #District
+          #PostalCode
+          #AdvanceStatus
+          #AlipayNo
+          #BuyerNick
+          #CompanyName
+          #Created
+          #CSStatus
+          #Description
+          #GoodsReturnTime
+          #GoodsStatus
+          #HasGoodsReturn
+          #Modified
+          #Payment
+          #RefundedFee
+          #ExistTimeOut
+          #RemindType
+          #TimeOut
+          #SellerNick
+          #ShippingType
+          #SID
+          #SplitSellerFee
+          #SplitTaobaoFee
+          #Status
+          #ReturnType
+          #Phone
+          #Consignee
+          #Consignor
+          #SendTime
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AllFields
+        PROPERTIES
+          Name                #AllFields
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReturnOrderId
+          #ReturnId
+          #echMsgPartnerExtCode
+          #echMsgPartnerId
+          #OriginalOrderId
+          #TotalPrice
+          #RefundReason
+          #ImageURL
+          #OriginalOrderStatus
+          #Title
+          #Address
+          #Address2
+          #Province
+          #City
+          #District
+          #PostalCode
+          #AdvanceStatus
+          #AlipayNo
+          #BuyerNick
+          #CompanyName
+          #Created
+          #CSStatus
+          #GoodsReturnTime
+          #GoodsStatus
+          #HasGoodsReturn
+          #Modified
+          #Payment
+          #RefundedFee
+          #ExistTimeOut
+          #RemindType
+          #TimeOut
+          #SellerNick
+          #ShippingType
+          #SID
+          #SplitSellerFee
+          #SplitTaobaoFee
+          #Status
+          #ReturnType
+          #Phone
+          #Consignee
+          #Consignor
+          #SendTime
+          #Description
+          #Post
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS9039
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ReturnOrderId
+          #ReturnId
+          #Title
+          #TotalPrice
+          #RefundReason
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ReturnOrderIdIdx
+      Id 30001
+      PROPERTIES
+        Name                #ReturnOrderIdIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ReturnOrderId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echReturnOrderLine
+      PROPERTIES
+        Table               #echReturnOrderLine
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #initValue
+        #// Create ECH_WI_02004 by mengqi.cen on 20130328
+        #public void initValue()
+        #{
+        #;
+        #    super();
+        #    this.ReturnOrderId = echReturnOrderTable::getNextReturnOrderId();
+        #}
+      ENDSOURCE
+      SOURCE #getNextReturnOrderId
+        #// Create ECH_WI_02004 by mengqi.cen on 20130328
+        #public static server echReturnOrderId getNextReturnOrderId()
+        #{
+        #;
+        #    return NumberSeq::newGetNum(NumberSequenceReference::find(
+        #        typeId2ExtendedTypeId(typeid(echReturnOrderId)))).num();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

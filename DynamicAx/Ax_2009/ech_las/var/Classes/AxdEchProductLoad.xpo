@@ -1,0 +1,956 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdEchProductLoad unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdEchProductLoad
+    Id 30281
+    PROPERTIES
+      Name                #AxdEchProductLoad
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #// Update ECH_WI_02008 by mengqi.cen on 20130319
+        #// Update ECH_WI_01986 by mengqi.cen on 20130308
+        #class AxdEchProductLoad extends AxdBase
+        #{
+        #    InventDim       inventDim;
+        #    ItemId          itemId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventItemLocation
+        #void createInventItemLocation(ItemId    _itemId)
+        #{
+        #    InventItemLocation      inventItemLocation;
+        #    ;
+        #
+        #    select firstonly RecId from inventItemLocation
+        #        where inventItemLocation.ItemId         == _itemId
+        #           && inventItemLocation.inventDimId    == InventDim::inventDimIdBlank();
+        #    if (!inventItemLocation.RecId)
+        #    {
+        #        inventItemLocation.initValue();
+        #        inventItemLocation.ItemId       = _itemId;
+        #        inventItemLocation.inventDimId  = InventDim::inventDimIdBlank();
+        #        inventItemLocation.insert();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #CreateInventTableModule
+        #void createInventTableModule(ItemId     _itemId)
+        #{
+        #    InventTableModule           inventTableModule;
+        #    ;
+        #
+        #    select firstonly inventTableModule
+        #        where inventTableModule.ItemId      == _itemId
+        #           && inventTableModule.ModuleType  == ModuleInventPurchSales::Invent;
+        #    if (!inventTableModule.RecId)
+        #    {
+        #        inventTableModule.initValue();
+        #        inventTableModule.ItemId            = _itemId;
+        #        inventTableModule.ModuleType        = ModuleInventPurchSales::Invent;
+        #        inventTableModule.UnitId            = 'Pcs';
+        #        inventTableModule.PriceUnit         = 1;
+        #        inventTableModule.insert();
+        #    }
+        #
+        #    inventTableModule.clear();
+        #    select firstonly inventTableModule
+        #        where inventTableModule.ItemId      == _itemId
+        #           && inventTableModule.ModuleType  == ModuleInventPurchSales::Sales;
+        #    if(!inventTableModule.RecId)
+        #    {
+        #        inventTableModule.clear();
+        #        inventTableModule.initValue();
+        #        inventTableModule.ItemId            = _itemId;
+        #        inventTableModule.ModuleType        = ModuleInventPurchSales::Sales;
+        #        inventTableModule.UnitId            = 'Pcs';
+        #        inventTableModule.PriceUnit         = 1;
+        #        inventTableModule.TaxItemGroupId    = 'VAT17';
+        #        inventTableModule.insert();
+        #    }
+        #
+        #    inventTableModule.clear();
+        #    select firstonly inventTableModule
+        #        where inventTableModule.ItemId      == _itemId
+        #           && inventTableModule.ModuleType  == ModuleInventPurchSales::Purch;
+        #    if(!inventTableModule.RecId)
+        #    {
+        #        inventTableModule.clear();
+        #        inventTableModule.initValue();
+        #        inventTableModule.ItemId            = _itemId;
+        #        inventTableModule.ModuleType        = ModuleInventPurchSales::Purch;
+        #        inventTableModule.UnitId            = 'Pcs';
+        #        inventTableModule.PriceUnit         = 1;
+        #        inventTableModule.EndDisc           = NoYes::Yes;
+        #        inventTableModule.insert();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #createInventTableSetup
+        #void createInventTableSetup(ItemId  _itemId)
+        #{
+        #    InventItemPurchSetup    inventItemPurchSetup;
+        #    InventItemInventSetup   inventItemInventSetup;
+        #    InventItemSalesSetup    inventItemSalesSetup;
+        #    ;
+        #
+        #    select firstonly RecId from inventItemPurchSetup
+        #        where inventItemPurchSetup.ItemId       == _itemId
+        #           && inventItemPurchSetup.InventDimId  == InventDim::inventDimIdBlank();
+        #    if (!inventItemPurchSetup.RecId)
+        #    {
+        #        inventItemPurchSetup.initValue();
+        #        inventItemPurchSetup.ItemId             = _itemId;
+        #        inventItemPurchSetup.InventDimId        = InventDim::inventDimIdBlank();
+        #        inventItemPurchSetup.InventDimIdDefault = InventDim::inventDimIdBlank();
+        #        inventItemPurchSetup.insert();
+        #    }
+        #
+        #    select firstonly RecId from inventItemInventSetup
+        #        where inventItemInventSetup.ItemId       == _itemId
+        #           && inventItemInventSetup.InventDimId  == InventDim::inventDimIdBlank();
+        #    if (!inventItemInventSetup.RecId)
+        #    {
+        #        inventItemInventSetup.initValue();
+        #        inventItemInventSetup.ItemId             = _itemId;
+        #        inventItemInventSetup.InventDimId        = InventDim::inventDimIdBlank();
+        #        inventItemInventSetup.InventDimIdDefault = InventDim::inventDimIdBlank();
+        #        inventItemInventSetup.insert();
+        #    }
+        #
+        #    select firstonly RecId from inventItemSalesSetup
+        #        where inventItemSalesSetup.ItemId       == _itemId
+        #           && inventItemSalesSetup.InventDimId  == InventDim::inventDimIdBlank();
+        #    if (!inventItemSalesSetup.RecId)
+        #    {
+        #        inventItemSalesSetup.initValue();
+        #        inventItemSalesSetup.ItemId             = _itemId;
+        #        inventItemSalesSetup.InventDimId        = InventDim::inventDimIdBlank();
+        #        inventItemSalesSetup.InventDimIdDefault = InventDim::inventDimIdBlank();
+        #        inventItemSalesSetup.insert();
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #CreateOrUpdateBarcode
+        #// Update ECH_WI_01939 by mengqi.cen on 20121224
+        #//     1- Add logical for new field InventItemBarcode.echItemBarCode
+        #//     2- Set InventItemBarcode.RBOVariantId when it is empty str.
+        #//        Refer:\Forms\InventItemBarcode InventDim.InventSizeId:modified
+        #void CreateOrUpdateBarcode(AxInventItemBarcode  _axInventItemBarcode)
+        #{
+        #    InventItemBarcode       inventItemBarcode;
+        #    // Begin - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #    InventDimCombination    comb;
+        #    // End - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #    boolean                 ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #    select firstonly forupdate inventItemBarcode
+        #        where inventItemBarcode.itemId          == _axInventItemBarcode.parmItemId()
+        #           && inventItemBarcode.itemBarCode     == _axInventItemBarcode.parmItemBarCode();
+        #    if (!inventItemBarcode.RecId)
+        #    {
+        #        ret = ret && echInsertField(inventItemBarcode,
+        #                                    fieldnum(InventItemBarcode,ItemId),
+        #                                    _axInventItemBarcode.parmItemId());
+        #
+        #        ret = ret && echInsertField(inventItemBarcode,
+        #                                    fieldnum(InventItemBarcode,ItemBarCode),
+        #                                    _axInventItemBarcode.parmItemBarCode());
+        #    }
+        #
+        #    // Begin - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #    if (_axInventItemBarcode.parmEchItemBarCode())
+        #        ret = ret && echInsertField(inventItemBarcode,
+        #                                    fieldnum(InventItemBarcode,echItemBarCode),
+        #                                    _axInventItemBarcode.parmEchItemBarCode());
+        #    // End - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #    if (_axInventItemBarcode.parmBarcodeSetupId())
+        #        ret = ret && echInsertField(inventItemBarcode,
+        #                                    fieldnum(InventItemBarcode,BarcodeSetupId),
+        #                                    _axInventItemBarcode.parmBarcodeSetupId());
+        #    if (_axInventItemBarcode.parmDescription())
+        #        ret = ret && echInsertField(inventItemBarcode,
+        #                                    fieldnum(InventItemBarcode,Description),
+        #                                    _axInventItemBarcode.parmDescription());
+        #    if (_axInventItemBarcode.parmUnitID())
+        #        ret = ret && echInsertField(inventItemBarcode,
+        #                                    fieldnum(InventItemBarcode,UnitID),
+        #                                    _axInventItemBarcode.parmUnitID());
+        #    if (_axInventItemBarcode.parmInventDimId())
+        #        ret = ret && echInsertField(inventItemBarcode,
+        #                                    fieldnum(InventItemBarcode,InventDimId),
+        #                                    _axInventItemBarcode.parmInventDimId());
+        #
+        #    // Begin - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #    if (!_axInventItemBarcode.isFieldModified(fieldnum(InventItemBarcode,RBOVariantId)))
+        #    {
+        #        comb = InventDimCombination::Find(inventItemBarcode.itemId, inventItemBarcode.inventDim());
+        #        if (comb)
+        #        {
+        #            inventItemBarcode.RBOVariantId = comb.RBOVariantId;
+        #            if (!_axInventItemBarcode.parmDescription())
+        #                inventItemBarcode.description = comb.Name;
+        #        }
+        #    }
+        #    // End - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #
+        #    if (ret && inventItemBarcode.validateWrite())
+        #        inventItemBarcode.write();
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #CreateOrUpdateDocuRef
+        #// Update ECH_WI_02008 by mengqi.cen on 20130319
+        #//     Update logical for table DocuRef. Take away the logical for delete original DocuRef.
+        #// Create ECH_WI_01986 by mengqi.cen on 20130308
+        #void CreateOrUpdateDocuRef(AxDocuRef _axDocuRef)
+        #{
+        #    AxInventTable  _axInventTable;
+        #    InventTable    _inventTable;
+        #;
+        #    _axInventTable = _axDocuRef.parentAxBC();
+        #    _inventTable   = InventTable::find(_axInventTable.parmItemId());
+        #
+        #    ttsbegin;
+        #
+        #    _axDocuRef.parmRefTableId(_inventTable.TableId);
+        #    _axDocuRef.parmRefCompanyId(_inventTable.dataAreaId);
+        #    _axDocuRef.parmRefRecId(_inventTable.RecId);
+        #
+        #    _axDocuRef.doSave();
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #createOrUpdateInventColor
+        #void createOrUpdateInventColor(AxInventColor  _axInventColor)
+        #{
+        #    InventColor inventColor;
+        #    Boolean     ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #    select firstonly forupdate inventColor
+        #        where inventColor.ItemId         == _axInventColor.parmItemId()
+        #           && inventColor.InventColorId   == _axInventColor.parmInventColorId();
+        #    if (!inventColor.RecId)
+        #    {
+        #        ret = ret && echInsertField(inventColor,
+        #                                    fieldnum(InventColor, ItemId),
+        #                                    _axInventColor.parmItemId());
+        #        ret = ret && echInsertField(inventColor,
+        #                                    fieldnum(InventColor, InventColorId),
+        #                                    _axInventColor.parmInventColorId());
+        #    }
+        #
+        #    if (_axInventColor.parmName())
+        #        ret = ret && echInsertField(inventColor,
+        #                                    fieldnum(InventColor, Name),
+        #                                    _axInventColor.parmName());
+        #    if (_axInventColor.parmDescription())
+        #        ret = ret && echInsertField(inventColor,
+        #                                    fieldnum(InventColor, Description),
+        #                                    _axInventColor.parmDescription());
+        #    if (ret && inventColor.validateWrite())
+        #        inventColor.write();
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #createOrUpdateInventSize
+        #void createOrUpdateInventSize(AxInventSize  _axInventSize)
+        #{
+        #    InventSize  inventSize;
+        #    Boolean     ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #    select firstonly forupdate inventSize
+        #        where inventSize.ItemId         == _axInventSize.parmItemId()
+        #           && inventSize.InventSizeId   == _axInventSize.parmInventSizeId();
+        #    if (!inventSize.RecId)
+        #    {
+        #        ret = ret && echInsertField(inventSize,
+        #                                    fieldnum(InventSize, ItemId),
+        #                                    _axInventSize.parmItemId());
+        #        ret = ret && echInsertField(inventSize,
+        #                                    fieldnum(InventSize, InventSizeId),
+        #                                    _axInventSize.parmInventSizeId());
+        #    }
+        #
+        #    if (_axInventSize.parmName())
+        #        ret = ret && echInsertField(inventSize,
+        #                                    fieldnum(InventSize, Name),
+        #                                    _axInventSize.parmName());
+        #    if (_axInventSize.parmDescription())
+        #        ret = ret && echInsertField(inventSize,
+        #                                    fieldnum(InventSize, Description),
+        #                                    _axInventSize.parmDescription());
+        #    if (ret && inventSize.validateWrite())
+        #        inventSize.write();
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #createOrUpdateInventStyle
+        #void createOrUpdateInventStyle(AxRBOInventStyle  _axRBOInventStyle)
+        #{
+        #    RBOInventStyle  inventStyle;
+        #    Boolean         ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #    select firstonly forupdate inventStyle
+        #        where inventStyle.ItemId         == _axRBOInventStyle.parmItemId()
+        #           && inventStyle.InventStyleId  == _axRBOInventStyle.parmInventStyleId();
+        #    if (!inventStyle.RecId)
+        #    {
+        #        ret = ret && echInsertField(inventStyle,
+        #                                    fieldnum(RBOInventStyle, ItemId),
+        #                                    _axRBOInventStyle.parmItemId());
+        #        ret = ret && echInsertField(inventStyle,
+        #                                    fieldnum(RBOInventStyle, InventStyleId),
+        #                                    _axRBOInventStyle.parmInventStyleId());
+        #    }
+        #
+        #    if (_axRBOInventStyle.parmName())
+        #        ret = ret && echInsertField(inventStyle,
+        #                                    fieldnum(RBOInventStyle, Name),
+        #                                    _axRBOInventStyle.parmName());
+        #    if (_axRBOInventStyle.parmDescription())
+        #        ret = ret && echInsertField(inventStyle,
+        #                                    fieldnum(RBOInventStyle, Description),
+        #                                    _axRBOInventStyle.parmDescription());
+        #    if (ret && inventStyle.validateWrite())
+        #        inventStyle.write();
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #createOrUpdateItem
+        #// Update ECH_WI_02008 by mengqi.cen on 20130319
+        #//   Value of InventTable.NameAlias need be got from Inbound Xml.
+        #void createOrUpdateItem(AxInventTable   _axInventTable)
+        #{
+        #    InventTable                 inventTable;
+        #    boolean                     ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    select firstonly forupdate inventTable
+        #        where inventTable.ItemId    == _axInventTable.parmItemId();
+        #
+        #    if (!inventTable.RecId)
+        #    {
+        #        inventTable.initValue();
+        #        ret = ret && echInsertField(inventTable,
+        #                                fieldnum(InventTable, ItemId),
+        #                                _axInventTable.parmItemId());
+        #    }
+        #
+        #    if (_axInventTable.parmBOMUnitId())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, BOMUnitId),
+        #                                    _axInventTable.parmBOMUnitId());
+        #    if (_axInventTable.parmDimGroupId())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, DimGroupId),
+        #                                    _axInventTable.parmDimGroupId());
+        #    if (_axInventTable.parmEchLegacySystemId())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, EchLegacySystemId),
+        #                                    _axInventTable.parmEchLegacySystemId());
+        #    if (_axInventTable.parmgrossHeight())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, grossHeight),
+        #                                    _axInventTable.parmgrossHeight());
+        #    if (_axInventTable.parmgrossWidth())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, grossWidth),
+        #                                    _axInventTable.parmgrossWidth());
+        #    if (_axInventTable.parmItemGroupId())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, ItemGroupId),
+        #                                    _axInventTable.parmItemGroupId());
+        #    if (_axInventTable.parmItemName())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, ItemName),
+        #                                    _axInventTable.parmItemName());
+        #    if (_axInventTable.parmNameAlias())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, NameAlias),
+        #                                    _axInventTable.parmNameAlias());
+        #    if (_axInventTable.parmItemType())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, ItemType),
+        #                                    _axInventTable.parmItemType());
+        #    if (_axInventTable.parmModelGroupId())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, ModelGroupId),
+        #                                    _axInventTable.parmModelGroupId());
+        #    if (_axInventTable.parmItemGroupId())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, ItemGroupId),
+        #                                    _axInventTable.parmItemGroupId());
+        #    if (_axInventTable.parmNetWeight())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, NetWeight),
+        #                                    _axInventTable.parmNetWeight());
+        #    if (_axInventTable.parmPrimaryVendorId())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, PrimaryVendorId),
+        #                                    _axInventTable.parmPrimaryVendorId());
+        #    if (_axInventTable.parmTaraWeight())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, TaraWeight),
+        #                                    _axInventTable.parmTaraWeight());
+        #    if (_axInventTable.parmUnitVolume())
+        #        ret = ret && echInsertField(inventTable,
+        #                                    fieldnum(InventTable, UnitVolume),
+        #                                    _axInventTable.parmUnitVolume());
+        #
+        #    if (ret && inventTable.validateWrite())
+        #    {
+        #        inventTable.write();
+        #
+        #        this.CreateInventTableModule(inventTable.ItemId);
+        #        this.createInventTableSetup(inventTable.ItemId);
+        #        this.createRBOItem(inventTable.ItemId);
+        #        this.createInventItemLocation(inventTable.ItemId);
+        #    }
+        #    ttscommit;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #CreateOrUpdateItemAttributes
+        #void createOrUpdateItemAttributes(AxechItemAttributes _axechItemAttributes)
+        #{
+        #    EchItemAttributes   echItemAttributes;
+        #    boolean             ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    select firstonly forupdate echItemAttributes
+        #        where echItemAttributes.ItemId              == _axechItemAttributes.parmItemId()
+        #           && echItemAttributes.AttributeId         == _axechItemAttributes.parmAttributeId()
+        #           && echItemAttributes.AttributeName       == _axechItemAttributes.parmAttributeName();
+        #    if (!echItemAttributes.RecId)
+        #    {
+        #        echItemAttributes.initValue();
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                    fieldnum(EchItemAttributes, ItemId),
+        #                                    _axechItemAttributes.parmItemId());
+        #
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                    fieldnum(EchItemAttributes, AttributeId),
+        #                                    _axechItemAttributes.parmAttributeId());
+        #
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                    fieldnum(EchItemAttributes, AttributeName),
+        #                                    _axechItemAttributes.parmAttributeName());
+        #    }
+        #
+        #    if (_axechItemAttributes.parmAttributeName())
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                        fieldnum(EchItemAttributes, AttributeName),
+        #                                        _axechItemAttributes.parmAttributeName());
+        #    if (_axechItemAttributes.parmAttributeValue())
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                        fieldnum(EchItemAttributes, AttributeValue),
+        #                                        _axechItemAttributes.parmAttributeValue());
+        #    if (_axechItemAttributes.parmAttributeDesc())
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                        fieldnum(EchItemAttributes, AttributeDesc),
+        #                                        _axechItemAttributes.parmAttributeDesc());
+        #    if (_axechItemAttributes.parmMandatory())
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                        fieldnum(EchItemAttributes, Mandatory),
+        #                                        _axechItemAttributes.parmMandatory());
+        #    if (_axechItemAttributes.parmUnitID())
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                        fieldnum(EchItemAttributes, UnitID),
+        #                                        _axechItemAttributes.parmUnitID());
+        #    if (_axechItemAttributes.parmVisible())
+        #        ret = ret && echInsertField(echItemAttributes,
+        #                                        fieldnum(EchItemAttributes, Visible),
+        #                                        _axechItemAttributes.parmVisible());
+        #
+        #    if (ret && echItemAttributes.validateWrite())
+        #        echItemAttributes.write();
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #createOrUpdatePriceDisc
+        #// Update ECH_WI_02049 by mengqi.cen on 20130422
+        #// Update ECH_WI_01963 by mengqi.cen on 20121225
+        #void createOrUpdatePriceDisc(AxPriceDiscTable   _axPriceDiscTable)
+        #{
+        #    Boolean         ret = true;
+        #
+        #    void createOrUpdateRec(AxPriceDiscTable _axRec, AmountQty _qty)
+        #    {
+        #        PriceDiscTable  priceDiscTable;
+        #    ;
+        #        priceDiscTable.initValue();
+        #        priceDiscTable.ItemRelation     = _axRec.parmItemRelation();
+        #        priceDiscTable.Relation =
+        #            (_axRec.isFieldModified(fieldnum(PriceDiscTable, Relation)) ? _axRec.parmRelation() : PriceType::PriceSales);
+        #        priceDiscTable.Module   =
+        #            (_axRec.isFieldModified(fieldnum(PriceDiscTable, Module))   ? _axRec.parmModule()   : ModuleInventCustVend::Cust);
+        #        priceDiscTable.AccountCode      = _axRec.parmAccountCode();
+        #        priceDiscTable.Amount           = _axRec.parmAmount();
+        #        priceDiscTable.Currency         = _axRec.parmCurrency();
+        #        priceDiscTable.FromDate         = _axRec.parmFromDate();
+        #        priceDiscTable.ItemCode         = _axRec.parmItemCode();
+        #        priceDiscTable.PriceInclVAT     = _axRec.parmPriceInclVAT();
+        #        priceDiscTable.QuantityAmount   = _qty;
+        #        priceDiscTable.ToDate           = _axRec.parmToDate();
+        #        priceDiscTable.UnitId           = _axRec.parmUnitId();
+        #        priceDiscTable.InventDimId      = _axRec.parmInventDimId();
+        #        priceDiscTable.insert();
+        #    }
+        #
+        #;
+        #    if (_axPriceDiscTable.isFieldModified(fieldnum(PriceDiscTable, QuantityAmount)))
+        #    {
+        #        // If value 'QuantityAmount' is specified in inbound xml, relevant value will be written into table directly.
+        #        createOrUpdateRec(_axPriceDiscTable, _axPriceDiscTable.parmQuantityAmount());
+        #    }
+        #    else
+        #    {
+        #        // If value 'QuantityAmount' is NOT specified in inbound xml,
+        #        // current will be written into table for twice.
+        #        // One for normal price    (QuantityAmount = 0)
+        #        // One for promotion price (QuantiryAmount = 1)
+        #        createOrUpdateRec(_axPriceDiscTable, 0); // Normal Price
+        #        createOrUpdateRec(_axPriceDiscTable, 1); // Promotion Price
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #createOrUpdatePriceDiscDim
+        #// Create ECH_WI_02049 by mengqi.cen on 20130422
+        #void createOrUpdatePriceDiscDim(AxPriceDiscTable   _axPriceDiscTable, AxInventDim   _axInventDim)
+        #{
+        #    RBOStoreTable  _storeTable;
+        #    InventDimId    _inventDimId;
+        #
+        #    InventDimId createOrUpdateRec(AxInventDim   _axRec, InventLocationId _locId)
+        #    {
+        #        InventDim  _inventDim;
+        #    ;
+        #        _inventDim.clear();
+        #        _inventDim.InventSizeId      = _axRec.parmInventSizeId();
+        #        _inventDim.InventColorId     = _axRec.parmInventColorId();
+        #        _inventDim.InventStyleId     = _axRec.parmInventStyleId();
+        #        _inventDim.InventLocationId  = _locId;
+        #        _inventDim.InventSiteId      = _axRec.parmInventSiteId();
+        #        _inventDim                   = InventDim::findOrCreate(_inventDim);
+        #
+        #        return _inventDim.inventDimId;
+        #    }
+        #
+        #;
+        #    if (_axInventDim.isFieldModified(fieldnum(InventDim, InventLocationId))
+        #        && strlen(_axInventDim.parmInventLocationId()) > 0)
+        #    {
+        #        _inventDimId = createOrUpdateRec(_axInventDim, _axInventDim.parmInventLocationId());
+        #        _axPriceDiscTable.parmInventDimId(_inventDimId);
+        #
+        #        this.createOrUpdatePriceDisc(_axPriceDiscTable);
+        #    }
+        #    else
+        #    {
+        #        while select _storeTable
+        #                where _storeTable.inventLocation != ''
+        #        {
+        #            _inventDimId = createOrUpdateRec(_axInventDim, _storeTable.inventLocation);
+        #            _axPriceDiscTable.parmInventDimId(_inventDimId);
+        #
+        #            this.createOrUpdatePriceDisc(_axPriceDiscTable);
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #createRBOItem
+        #void createRBOItem(ItemId   _itemId)
+        #{
+        #    RBOInventTable      rboInventTable;
+        #    Boolean             ret = true;
+        #    ;
+        #
+        #    select firstonly RecId from rboInventTable
+        #        where rboInventTable.itemId     == _itemId;
+        #    if (!rboInventTable.RecId)
+        #    {
+        #        rboInventTable.initValue();
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                    fieldnum(RBOInventTable, ItemId),
+        #                                    _itemId);
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                    fieldnum(RBOInventTable, ItemType),
+        #                                    RBOStandardRetailDepartmentGroup::Retail);
+        #
+        #        if (ret && rboInventTable.validateWrite())
+        #            rboInventTable.insert();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #deleteList
+        #public AifResult deleteList(AifEntityKeyList            _aifEntityKeyList,
+        #                            AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                            AifConstraintListCollection _constraintListCollection)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findEntityKeyList
+        #public AifEntityKeyList findEntityKeyList(AifQueryCriteria            _queryCriteria,
+        #                                          AifEndpointActionPolicyInfo _actionPolicyInfo)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #findList
+        #public AifDocumentXml findList(AifQueryCriteria            _queryCriteria,
+        #                               AifSchemaInfo               _xsdInfo,
+        #                               AifEndpointActionPolicyInfo _actionPolicyInfo,
+        #                               AifConstraintListCollection _constraintListCollection,
+        #                               AifPropertyBag              _aifPropertyBag)
+        #{
+        #    throw error(strfmt("@SYS94920"));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getActionList
+        #public AifActionInfoList getActionList()
+        #{
+        #    AifActionInfoList   Actions = new AifActionInfoList();
+        #    AifActionInfo       aifActionInfo;
+        #    ;
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, readList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::SendDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, readList));
+        #    aifActionInfo.parmLabel("@ECH389");
+        #    aifActionInfo.parmDescription("@ECH388");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, createList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ReceiveDocumentList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, createList));
+        #    aifActionInfo.parmLabel("@ECH387");
+        #    aifActionInfo.parmDescription("@ECH386");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    aifActionInfo = new AifActionInfo();
+        #    aifActionInfo.parmActionId(strfmt('%1%2', methodstr(AxdBase, updateList), this.getName()));
+        #    aifActionInfo.parmActionType(AifActionType::ProcessEntityList);
+        #    aifActionInfo.parmExternalName(aifActionInfo.parmActionId());
+        #    aifActionInfo.parmMethodName(methodstr(AxdBase, updateList));
+        #    aifActionInfo.parmLabel("@ECH385");
+        #    aifActionInfo.parmDescription("@ECH384");
+        #    aifActionInfo.parmDisplayMenuItemName(menuitemdisplaystr(AifDocConfiguration));
+        #
+        #    actions.add(aifActionInfo);
+        #
+        #    return actions;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getConstraintList
+        #public void getConstraintList(Common _curRec, AifConstraintList _constraintList)
+        #{
+        #    AifConstraint  aifConstraint = new AifConstraint();
+        #    InventTable    InventTable;
+        #    ;
+        #    if (_curRec.TableId != tablenum(InventTable))
+        #    {
+        #         throw error(strfmt("@SYS23396",funcname()));
+        #    }
+        #    InventTable = _curRec ;
+        #    aifConstraint.parmType(AIFConstraintType::Vendor);
+        #    _constraintList.addConstraint(aifConstraint) ;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #GetLabel
+        #public LabelDescription getLabel()
+        #{
+        #    return "@ECH390";
+        #}
+        #
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// Update ECH_WI_02211 by mengqi.cen on 20130527
+        #// Update ECH_WI_02049 by mengqi.cen on 20130422
+        #//     Provide default for InventDimPrice.InventLocationId and PriceDiscTable.QuantityAmount
+        #//     If these value is not specified in Inbound xml.
+        #// Update ECH_WI_02008 by mengqi.cen on 20130319
+        #//     Update logical for table DocuRef. Take away the logical for delete original DocuRef.
+        #// Update ECH_WI_01986 by mengqi.cen on 20130308
+        #//     Add logical for table DocuRef
+        #// Update ECH_WI_01963 by mengqi.cen on 20121225
+        #//     Set the default value of field PriceDiscTable.AccountCode to 'TableGroupAll::All'
+        #// Update ECH_WI_01939 by mengqi.cen on 20121225
+        #//     Comment out relevant logical for removement of 'RBOAssortmentItemList' section.
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    AxInventTable               AxInventTable;
+        #    AxInventItemSalesSetup      AxInventItemSalesSetup;
+        #    AxRBOInventTable            AxRBOInventTable;
+        #    // Begin - Update ECH_WI_01939 by mengqi.cen on 20121225
+        #    //AxRBOAssortmentItemList     AxRBOAssortmentItemList;
+        #    // End - Update ECH_WI_01939 by mengqi.cen on 20121225
+        #    AxechItemAttributes         AxechItemAttributes;
+        #    AxInventItemBarcode         AxInventItemBarcode;
+        #    AxInventSize                AxInventSize;
+        #    AxInventColor               AxInventColor;
+        #    AxRBOInventStyle            AxRBOInventStyle;
+        #    AxInventDim                 AxInventDimBarcode;
+        #    AxInventDim                 AxInventDimPrice;
+        #    AxPriceDiscTable            AxPriceDiscTable;
+        #    InventDimCombinationCreate  inventDimCombinationCreate;
+        #    ;
+        #
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxInventTable) :
+        #            AxInventTable = _axdStack.top();
+        #            this.createOrUpdateItem(AxInventTable);
+        #            itemId = AxInventTable.parmItemId();
+        #            return false;
+        #
+        #        case classnum(AxInventItemSalesSetup) :
+        #            AxInventItemSalesSetup = _axdStack.top();
+        #            AxInventTable = AxInventItemSalesSetup.parentAxBC();
+        #
+        #            AxInventItemSalesSetup.parmItemId(AxInventTable.parmItemId());
+        #            AxInventItemSalesSetup.parmInventDimId(InventDim::inventDimIdBlank());
+        #            if (InventTable::exist(AxInventItemSalesSetup.parmItemId()))
+        #            this.updateItemSalesSetup(AxInventItemSalesSetup);
+        #            return false;
+        #
+        #        case classnum(AxRBOInventTable) :
+        #            AxRBOInventTable = _axdStack.top();
+        #            AxInventTable = AxRBOInventTable.parentAxBC();
+        #            AxRBOInventTable.parmitemId(AxInventTable.parmItemId());
+        #            this.updateRBOItem(AxRBOInventTable);
+        #            return false;
+        #
+        #        // Begin - Update ECH_WI_01939 by mengqi.cen on 20121225
+        #        // case classnum(AxRBOAssortmentItemList) :
+        #        //     AxRBOAssortmentItemList = _axdStack.top();
+        #        //     AxInventTable = AxRBOAssortmentItemList.parentAxBC();
+        #        //     this.createOrUpdateAssortment(AxRBOAssortmentItemList);
+        #        //     return false;
+        #        // End - Update ECH_WI_01939 by mengqi.cen on 20121225
+        #
+        #        case classnum(AxechItemAttributes) :
+        #            AxechItemAttributes = _axdStack.top();
+        #            AxInventTable = AxechItemAttributes.parentAxBC();
+        #            AxechItemAttributes.parmItemId(AxInventTable.parmItemId());
+        #            this.createOrUpdateItemAttributes(AxechItemAttributes);
+        #            return false;
+        #
+        #        case classnum(AxInventSize) :
+        #            AxInventSize = _axdStack.top();
+        #            AxInventTable = AxInventSize.parentAxBC();
+        #            AxInventSize.parmItemId(AxInventTable.parmItemId());
+        #            this.createOrUpdateInventSize(AxInventSize);
+        #            return false;
+        #
+        #        case classnum(AxInventColor) :
+        #            AxInventColor = _axdStack.top();
+        #            AxInventTable = AxInventColor.parentAxBC();
+        #            AxInventColor.parmItemId(AxInventTable.parmItemId());
+        #            this.createOrUpdateInventColor(AxInventColor);
+        #            return false;
+        #
+        #        case classnum(AxRBOInventStyle) :
+        #            AxRBOInventStyle = _axdStack.top();
+        #            AxInventTable = AxRBOInventStyle.parentAxBC();
+        #            AxRBOInventStyle.parmItemId(AxInventTable.parmItemId());
+        #            this.createOrUpdateInventStyle(AxRBOInventStyle);
+        #            return false;
+        #
+        #        case classnum(AxInventDim)  :
+        #            inventDim.clear();
+        #
+        #            if (classidget(_axdStack.top().parentAxBC()) == classnum(AxInventItemBarcode))
+        #            {
+        #                AxInventDimBarcode      = _axdStack.top();
+        #                inventDim.InventSizeId      = AxInventDimBarcode.parmInventSizeId();
+        #                inventDim.InventColorId     = AxInventDimBarcode.parmInventColorId();
+        #                inventDim.InventStyleId     = AxInventDimBarcode.parmInventStyleId();
+        #                inventDim                   = InventDim::findOrCreate(inventDim);
+        #
+        #                AxInventItemBarcode         = AxInventDimBarcode.parentAxBC();
+        #                AxInventItemBarcode.parmInventDimId(inventDim.inventDimId);
+        #
+        #                AxInventTable = AxInventItemBarcode.parentAxBC();
+        #                AxInventItemBarcode.parmitemId(AxInventTable.parmItemId());
+        #
+        #                inventDimCombinationCreate  = inventDimCombinationCreate::construct();
+        #                inventDimCombinationCreate.parmDirectInsertDB(true);
+        #                inventDimCombinationCreate.parmItemId(AxInventItemBarcode.parmItemId());
+        #                inventDimCombinationCreate.buildCombinations('', inventDim.InventSizeId, inventDim.InventColorId, inventDim.InventStyleId);
+        #
+        #                this.CreateOrUpdateBarcode(AxInventItemBarcode);
+        #            }
+        #
+        #            if (classidget(_axdStack.top().parentAxBC()) == classnum(AxPriceDiscTable))
+        #            {
+        #                AxInventDimPrice      = _axdStack.top();
+        #                AxPriceDiscTable      = AxInventDimPrice.parentAxBC();
+        #                AxInventTable         = AxPriceDiscTable.parentAxBC();
+        #
+        #                AxPriceDiscTable.parmItemRelation(AxInventTable.parmItemId());
+        #                if (!AxPriceDiscTable.isFieldModified(fieldnum(PriceDiscTable, AccountCode)))
+        #                    AxPriceDiscTable.parmAccountCode(TableGroupAll::All);
+        #
+        #                this.createOrUpdatePriceDiscDim(AxPriceDiscTable, AxInventDimPrice);
+        #            }
+        #            return false;
+        #
+        #        case classnum(AxInventItemBarcode) :
+        #        case classnum(AxPriceDiscTable) :
+        #            return false;
+        #
+        #        case classnum(AxDocuRef) :
+        #            this.CreateOrUpdateDocuRef(_axdStack.top());
+        #            return false;
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #UpdateItemSalesSetup
+        #void updateItemSalesSetup(AxInventItemSalesSetup _axInventItemSalesSetup)
+        #{
+        #    InventItemSalesSetup    inventItemSalesSetup;
+        #    boolean                 ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    select firstonly forupdate inventItemSalesSetup
+        #        where inventItemSalesSetup.ItemId       == _axInventItemSalesSetup.parmItemId()
+        #           && inventItemSalesSetup.InventDimId  == InventDim::inventDimIdBlank();
+        #
+        #    if (inventItemSalesSetup.RecId)
+        #    {
+        #        if (_axInventItemSalesSetup.parmHighestQty())
+        #            ret = ret && echInsertField(inventItemSalesSetup,
+        #                                            fieldnum(InventItemSalesSetup, HighestQty),
+        #                                            _axInventItemSalesSetup.parmHighestQty());
+        #        if (_axInventItemSalesSetup.parmLowestQty())
+        #            ret = ret && echInsertField(inventItemSalesSetup,
+        #                                            fieldnum(InventItemSalesSetup, LowestQty),
+        #                                            _axInventItemSalesSetup.parmLowestQty());
+        #        if (_axInventItemSalesSetup.parmMultipleQty())
+        #            ret = ret && echInsertField(inventItemSalesSetup,
+        #                                            fieldnum(InventItemSalesSetup, MultipleQty),
+        #                                            _axInventItemSalesSetup.parmMultipleQty());
+        #        if (_axInventItemSalesSetup.parmStopped())
+        #            ret = ret && echInsertField(inventItemSalesSetup,
+        #                                            fieldnum(InventItemSalesSetup, Stopped),
+        #                                            _axInventItemSalesSetup.parmStopped());
+        #
+        #        if (ret && inventItemSalesSetup.validateWrite())
+        #            inventItemSalesSetup.write();
+        #    }
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #updateNow
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #public void updateNow()
+        #{
+        #;
+        #    if (strLen(itemId) > 0)
+        #        echSendProductCatalogLog::AddSendItemId(itemId);
+        #}
+      ENDSOURCE
+      SOURCE #updateRBOItem
+        #void updateRBOItem(AxRBOInventTable _axRBOInventTable)
+        #{
+        #    RBOInventTable      rboInventTable;
+        #    boolean             ret = true;
+        #    ;
+        #
+        #    ttsbegin;
+        #
+        #    select firstonly forupdate rboInventTable
+        #        where rboInventTable.itemId == _axRBOInventTable.parmItemId();
+        #
+        #    if (!rboInventTable.RecId)
+        #    {
+        #        rboInventTable.initValue();
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                fieldnum(RBOInventTable, ItemId),
+        #                                _axRBOInventTable.parmItemId());
+        #    }
+        #
+        #    if (_axRBOInventTable.parmFabricComposition())
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                    fieldnum(RBOInventTable, FabricComposition),
+        #                                    _axRBOInventTable.parmFabricComposition());
+        #    if (_axRBOInventTable.parmLifeFrom())
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                    fieldnum(RBOInventTable, LifeFrom),
+        #                                    _axRBOInventTable.parmLifeFrom());
+        #    if (_axRBOInventTable.parmLifeTo())
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                    fieldnum(RBOInventTable, LifeTo),
+        #                                    _axRBOInventTable.parmLifeTo());
+        #    if (_axRBOInventTable.parmRetailGroup())
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                    fieldnum(RBOInventTable, RetailGroup),
+        #                                    _axRBOInventTable.parmRetailGroup());
+        #    if (_axRBOInventTable.parmSeasonCode())
+        #        ret = ret && echInsertField(rboInventTable,
+        #                                    fieldnum(RBOInventTable, SeasonCode),
+        #                                    _axRBOInventTable.parmSeasonCode());
+        #
+        #    if (ret && rboInventTable.validateWrite())
+        #    {
+        #        rboInventTable.write();
+        #    }
+        #    ttscommit;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

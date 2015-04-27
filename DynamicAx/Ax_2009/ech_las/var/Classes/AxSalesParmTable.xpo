@@ -1,0 +1,245 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxSalesParmTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxSalesParmTable
+    Id 2044
+    PROPERTIES
+      Name                #AxSalesParmTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Added extra fields to be updated in SalesTable
+        #
+        # // *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ech_I_OR04_3
+        #// *** Customization Date: 30 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: additional vars
+        #
+        #class AxSalesParmTable extends AxInternalBase
+        #{
+        #    SalesParmTable salesParmTable;
+        #
+        #    int             salesTableIdx;
+        #
+        #// CS - ech_I_OR04_3 - Anthony Christiaens - 30 Mar 2012
+        #    ShipCarrierTrackingNum      trackingNumber;
+        #    ShipCarrierId               carrierId;
+        #    SalesShippingDateConfirmed  shipDate;
+        #    SchedTime                   shipTime;
+        #// CE - ech_I_OR04_3 - Anthony Christiaens - 30 Mar 2012
+        #
+        #
+        #// CS - ECH_WI_00905 - Marijn Catthoor - 13 Aug 2012
+        #    echInvoiceCreated           echInvoiceCreated;
+        #    echInvoiceId                echInvoiceId;
+        #    echActualShippingFee        echActualShippingFee;
+        #// CE - ECH_WI_00905 - Marijn Catthoor - 13 Aug 2012
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #init
+        #// Update ECH_WI_02246 by mengqi.cen on  20130613
+        #protected void init()
+        #{
+        #;
+        #    super();
+        #    shipDate = num2Date(0);
+        #    shipTime = str2Time('00:00:00');
+        #}
+      ENDSOURCE
+      SOURCE #parmCarrierId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ech_I_OR04_3
+        #// *** Customization Date: 30 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method for carrier id
+        #
+        #public ShipCarrierId parmCarrierId(ShipCarrierId _carrierId = carrierId)
+        #{
+        #    if (_carrierId)
+        #    {
+        #        carrierId = _carrierId;
+        #    }
+        #
+        #    return carrierId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechActualShippingFee
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the actual shipping fee field
+        #
+        #public echActualShippingFee parmechActualShippingFee(echActualShippingFee _echActualShippingFee = echActualShippingFee)
+        #{
+        #    if (_echActualShippingFee)
+        #    {
+        #        echActualShippingFee = _echActualShippingFee;
+        #    }
+        #
+        #    return echActualShippingFee;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechInvoiceCreated
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the Invoice Created field on SalesTable
+        #
+        #public echInvoiceCreated parmechInvoiceCreated(echInvoiceCreated _echInvoiceCreated = echInvoiceCreated)
+        #{
+        #    if (_echInvoiceCreated)
+        #    {
+        #        echInvoiceCreated = _echInvoiceCreated;
+        #    }
+        #
+        #    return echInvoiceCreated;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechInvoiceId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the Invoice Id field on SalesTable
+        #
+        #public echInvoiceId parmechInvoiceId(echInvoiceId _echInvoiceId = echInvoiceId)
+        #{
+        #    if (_echInvoiceId)
+        #    {
+        #        echInvoiceId = _echInvoiceId;
+        #    }
+        #
+        #    return echInvoiceId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmShipDate
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ech_I_OR04_3
+        #// *** Customization Date: 30 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method for tracking number
+        #
+        #public SalesShippingDateConfirmed parmShipDate(SalesShippingDateConfirmed _shipDate = shipDate)
+        #{
+        #    if (_shipDate)
+        #    {
+        #        shipDate = _shipDate;
+        #    }
+        #
+        #    return shipDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmShipTime
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ech_I_OR04_3
+        #// *** Customization Date: 30 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method for tracking number
+        #
+        #public SchedTime parmShipTime(SchedTime _shipTime = shipTime)
+        #{
+        #    if (_shipTime)
+        #    {
+        #        shipTime = _shipTime;
+        #    }
+        #
+        #    return shipTime;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTrackingNumber
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ech_I_OR04_3
+        #// *** Customization Date: 30 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method for tracking number
+        #
+        #public ShipCarrierTrackingNum parmTrackingNumber(ShipCarrierTrackingNum _trackingNumber = trackingNumber)
+        #{
+        #    if (_trackingNumber)
+        #    {
+        #        trackingNumber = _trackingNumber;
+        #    }
+        #
+        #    return trackingNumber;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setNFSpecie_BR
+        #protected void setNFSpecie_BR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesParmTable, NFSpecie_BR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setReturnPackingSlipId
+        #protected void setReturnPackingSlipId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesParmTable, ReturnPackingSlipId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShipCarrierAccount
+        #protected void setShipCarrierAccount()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesParmTable, ShipCarrierAccount)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShipCarrierAddress
+        #protected void setShipCarrierAddress()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesParmTable, ShipCarrierAddress)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShipCarrierId
+        #protected void setShipCarrierId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SalesParmTable, ShipCarrierId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echRptLineType unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echRptLineType
+    Id 30014
+    PROPERTIES
+      Name                #echRptLineType
+      Label               #@SYS9844
+      Help                #@ECH835
+      ConfigurationKey    #echProcesses
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #Data
+      PROPERTIES
+        Name                #Data
+        Label               #@SYS7403
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #Separator
+      PROPERTIES
+        Name                #Separator
+        Label               #@SYS23213
+        EnumValue           #1
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

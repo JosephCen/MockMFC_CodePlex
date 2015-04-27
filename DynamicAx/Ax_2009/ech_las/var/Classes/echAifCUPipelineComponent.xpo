@@ -1,0 +1,436 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echAifCUPipelineComponent unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echAifCUPipelineComponent
+    Id 30016
+    PROPERTIES
+      Name                #echAifCUPipelineComponent
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: AIF pipeline component that handles the complete logic needed for AIF to be able to do a full update
+        #
+        #class echAifCUPipelineComponent
+        #    implements AifPipelineComponentInterface
+        #{
+        #    AifAction                   inputAction;
+        #    XmlDocument                 inputDoc;
+        #    XmlNameSpaceManager         nsMngr;
+        #    XmlNode                     queryCriteriaNode;
+        #
+        #    AifDocumentXml              findResponseXml;
+        #    AifDocumentXml              entityKeyXml;
+        #    echCUPipelineParameters     parameters;
+        #
+        #
+        #    #echAifCUPipeline
+        #}
+      ENDSOURCE
+      SOURCE #entityExists
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Check if the given entity key already exists in the database
+        #
+        #protected boolean entityExists()
+        #{
+        #    AxdBase             axdBase;
+        #    AifQueryCriteria    queryCriteria;
+        #    XmlDocument         findDocument;
+        #    XmlDocument         ekDoc;
+        #    XmlNode             recIdNode;
+        #    XmlNode             ekListNode;
+        #    SysDictTable        dt;
+        #    Common              common;
+        #    AifEntityKey                entityKey;
+        #    AifEntityKeyList            ekList;
+        #
+        #    #AIF
+        #    ;
+        #
+        #    // Create the QueryCriteria object
+        #    queryCriteria = AifQueryCriteria::construct();
+        #    queryCriteria.deserialize(this.getQueryCriteria().outerXml());
+        #
+        #    // init the axdBase class (specified in the parameters)
+        #    axdBase = AxdBase::newClassId(parameters.axdClassId);
+        #
+        #    // perform the find
+        #    findResponseXml = axdBase.findList(queryCriteria,
+        #        null,
+        #        new AifEndpointActionPolicyInfo(),
+        #        new AifConstraintListCollection(),
+        #        connull());
+        #
+        #    // create the xmlDocument for the find result
+        #    findDocument = XmlDocument::newXml(findResponseXml);
+        #
+        #    // search for the DocumentHash node, if it isn't found, we didn't find the record
+        #    if (findDocument.selectSingleNode('//*[local-name()="_DocumentHash"]'))
+        #    {
+        #        // create an entity key object
+        #        entityKey = AifEntityKey::construct();
+        #        entityKey.parmTableId(parameters.entityKeyTableId);
+        #
+        #        // let's get the first recId occurence in the message
+        #        recIdNode = findDocument.selectSingleNode('//*[local-name()="RecId"]');
+        #
+        #        // something went wrong, let us create the record
+        #        if (!recIdNode)
+        #            return false;
+        #
+        #        // set the recId
+        #        entityKey.parmRecId(str2int64(recIdNode.innerText()));
+        #
+        #        // select the record and put the KeyData in the EntityKey object
+        #        dt = new SysDictTable(parameters.entityKeyTableId);
+        #        common = dt.makeRecord();
+        #        select firstonly common
+        #            where common.recId == entityKey.parmRecId();
+        #        entityKey.parmKeyDataMap(SysDictTable::getKeyData(common));
+        #
+        #        // create an EntityKeyList and store the xml
+        #        ekList = AifEntityKeyList::construct();
+        #        ekList.addEntityKey(entityKey);
+        #
+        #        ekDoc = XmlDocument::newXml(ekList.serialize());
+        #        ekListNode = ekDoc.selectSingleNode(strfmt('//*[local-name()="%1"]', #EntityKeyListRoot));
+        #
+        #        entityKeyXml = ekListNode.outerXml();
+        #
+        #        return true;
+        #    }
+        #    else
+        #        return false;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Execute the pipeline component
+        #
+        #public void execute(AifPipelineComponentRecId componentRecId, AifMessage message, AifPipelineParms parms)
+        #{
+        #    ;
+        #
+        #    try
+        #    {
+        #        // Initialize this class
+        #        this.init(message, componentRecId);
+        #
+        #        // validate the message, if not valid, just return and do nothing
+        #        if (!this.validate(message))
+        #            return;
+        #
+        #        // execute the find to check if we are trying to update an existing record
+        #        if (this.entityExists())
+        #        {
+        #            // the record exists, let's modify the message to an update message
+        #            this.handleUpdateMessage(message);
+        #        }
+        #        else
+        #        {
+        #            // the record doesn't exist, let's modify the message to a create message
+        #            this.handleCreateMessage(message);
+        #        }
+        #    }
+        #    catch
+        #    {
+        #        parms.cancelProcess(true);
+        #    }
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getQueryCriteria
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Get the Query Criteria node out of the input xml message
+        #
+        #protected XmlNode getQueryCriteria(boolean _force = false)
+        #{
+        #    ;
+        #    if (!queryCriteriaNode || _force)
+        #        // search for the QueryCriteria element
+        #        queryCriteriaNode = inputDoc.selectSingleNode(#queryCriteriaXpath, nsMngr);
+        #
+        #    return queryCriteriaNode;
+        #}
+      ENDSOURCE
+      SOURCE #handleCreateMessage
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Update the message in case of a create operation
+        #
+        #protected void handleCreateMessage(AifMessage _message)
+        #{
+        #    XmlNode         mpNode;
+        #    ;
+        #    // remove the QueryCriteria part out of the message
+        #    mpNode = inputDoc.selectSingleNode('//*[local-name()="MessageParts"]');
+        #    mpNode.removeChild(this.getQueryCriteria());
+        #
+        #    _message.setXml(inputDoc.outerXml());
+        #    _message.getMessageParts();
+        #}
+      ENDSOURCE
+      SOURCE #handleUpdateMessage
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Update the message in case of an update operation
+        #
+        #protected void handleUpdateMessage(AifMessage _message)
+        #{
+        #    AifGatewayQueue     queue;
+        #    AifDocumentXml      updateMsgXml, xsltInputXml;
+        #    ;
+        #
+        #    // prepare the xml to give to the xslt
+        #    xsltInputXml = this.prepareTransformXml();
+        #
+        #    // execute the transformation
+        #    updateMsgXml = this.transformXml(xsltInputXml);
+        #
+        #    // update the xml in the Message object
+        #    _message.setXml(updateMsgXml);
+        #    // reset the message parts
+        #    _message.getMessageParts();
+        #    // change the action from Create to Update
+        #    _message.externalAction(this.transformExternalAction(_message.externalAction()));
+        #    _message.getOperationContext(true);
+        #
+        #    // update the value in the GatewayQueue
+        #    select firstonly forupdate queue
+        #        where queue.MessageId == _message.messageId();
+        #
+        #    if (queue)
+        #        queue.ActionId = _message.externalAction();
+        #
+        #    queue.update();
+        #}
+      ENDSOURCE
+      SOURCE #init
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Initialize some variables
+        #
+        #protected void init(AifMessage _message, AifPipelineComponentRecId _componentRecId)
+        #{
+        #    #AIF
+        #    ;
+        #
+        #    // Create an XML Dom object to parse the xml document
+        #    inputDoc = XmlDocument::newXml(_message.getXml());
+        #
+        #    // Create the namespace manager
+        #    nsMngr  = new XmlNameSpaceManager(inputDoc.nameTable());
+        #    nsMngr.addNamespace(#nsPrefixMessage, #MessageNameSpace);
+        #    nsMngr.addNamespace(#nsPrefixQuery, #QueryCriteriaNamespace);
+        #
+        #    // get the action record
+        #    inputAction = AifAction::find(_message.actionId());
+        #
+        #    // Read the Configuration info from the table
+        #    select firstonly parameters
+        #        where parameters.AifPipelineComponentRecId == _componentRecId;
+        #}
+      ENDSOURCE
+      SOURCE #parmConfigMenuItemName
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method to return the form to config the parameters
+        #
+        #MenuItemNameDisplay parmConfigMenuItemName()
+        #{
+        #    ;
+        #    return menuitemdisplaystr(echCUPipelineParameters);
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmDescription
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Description for this class
+        #
+        #AifComponentDescription parmDescription()
+        #{
+        #    ;
+        #    return '@ECH50';
+        #}
+        #
+      ENDSOURCE
+      SOURCE #prepareTransformXml
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Prepare the xml that will be send to the transformation XSLT
+        #
+        #protected AifXml prepareTransformXml()
+        #{
+        #    XmlDocument newDoc = new XmlDocument();
+        #    XmlNode rootNode, createNode, findNode, ekNode;
+        #    XmlReader   xmlReader;
+        #    ;
+        #
+        #    rootNode = newDoc.createElement(#MergeMessage);
+        #    newDoc.appendChild(rootNode);
+        #
+        #    // add the EntityKeyMessage
+        #    ekNode = newDoc.createElement(#EntityKeyMessage);
+        #    rootNode.appendChild(ekNode);
+        #    ekNode.innerXml(entityKeyXml);
+        #
+        #    // add the CreateMessage
+        #    createNode = newDoc.createElement(#CreateMessage);
+        #    rootNode.appendChild(createNode);
+        #    createNode.innerXml(inputDoc.outerXml());
+        #
+        #    // add the FindMessage
+        #    findNode = newDoc.createElement(#findMessage);
+        #    rootNode.appendChild(findNode);
+        #    xmlReader = XmlReader::newXml(findResponseXml);
+        #    xmlReader.moveToContent();
+        #    findNode.innerXml(xmlReader.readOuterXml());
+        #
+        #    // return the input xml for the transform XSLT
+        #    return newDoc.outerXml();
+        #}
+      ENDSOURCE
+      SOURCE #transformExternalAction
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Modify the external action
+        #
+        #protected AifActionBase transformExternalAction(AifActionBase _externalAction)
+        #{
+        #    AifActionBase   s;
+        #    ;
+        #
+        #    s = strreplace(_externalAction, 'create', 'update');
+        #    return s;
+        #}
+      ENDSOURCE
+      SOURCE #transformXml
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Execute the transformation XSLT
+        #
+        #protected AifXml transformXml(AifXml _xmlToTransform)
+        #{
+        #    XmlReader       xslReader;
+        #    XmlReader       xmlReader;
+        #    XmlResolver     resolver;
+        #
+        #    AifXml          xml;
+        #
+        #    AifXsltRepository   xsltRep;
+        #    XmlDocument         transformedXml;
+        #    ;
+        #
+        #    // get the XSLT out of the repository
+        #    select firstonly xsltRep
+        #        where xsltRep.XsltId == parameters.xsltId;
+        #
+        #    // Assert the permission
+        #    new InteropPermission(InteropKind::ClrInterop).assert();
+        #
+        #    // create the necessary reader objects
+        #    xslReader = XmlReader::newXml(AifSchemaStore::find(xsltRep.SchemaStoreRecId).SchemaXml);
+        #    xmlReader = XmlReader::newXml(_xmlToTransform);
+        #
+        #    resolver = new XmlResolver();
+        #    // BP Deviation Documented
+        #    resolver.allowFileAccess(true);
+        #    // BP Deviation Documented
+        #    resolver.allowWebAccess(true);
+        #
+        #    // BP Deviation documented
+        #    xml = XmlTransform::execute(xslReader, xmlReader, true, resolver);
+        #
+        #    transformedXml = XmlDocument::newXml(xml);
+        #
+        #    /*ekDoc = XmlDocument::newXml(entityKeyXml);
+        #
+        #    ekNode = transformedXml.importNode(ekDoc.root(), true);
+        #    transformedXml.documentElement().prependChild(ekNOde);
+        #    */
+        #    // Revert the permission
+        #    CodeAccessPermission::revertAssert();
+        #
+        #    return transformedXml.outerXml();
+        #}
+      ENDSOURCE
+      SOURCE #validate
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Check if all the parameters are filled in.
+        #
+        #protected boolean validate(AifMessage _message)
+        #{
+        #    ;
+        #
+        #    // the message is valid if it is a create action
+        #    if (_message.getOperationContext().getOperationName() != methodstr(AxdBase, create))
+        #        return false;
+        #
+        #    // check the parameters
+        #    if (!parameters)
+        #        throw error ("@ECH51");
+        #
+        #    if (!parameters.xsltId)
+        #        throw error(strfmt("@SYS93168", fieldstr(echCuPipelineParameters, xsltId)));
+        #
+        #    if (!parameters.axdClassId)
+        #        throw error(strfmt("@SYS93168", fieldstr(echCuPipelineParameters, axdClassId)));
+        #
+        #    if (!parameters.entityKeyTableId)
+        #        throw error(strfmt("@SYS93168", fieldstr(echCuPipelineParameters, entityKeyTableId)));
+        #
+        #    // search for the QueryCriteria element
+        #    if (!this.getQueryCriteria(true))
+        #        return false;
+        #
+        #    return true;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

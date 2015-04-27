@@ -1,0 +1,250 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSOPromotionsLine unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSOPromotionsLine
+    Id 30036
+    PROPERTIES
+      Name                #echSOPromotionsLine
+      Label               #@SYS115268
+      TitleField1         #PromotionId
+      TitleField2         #PromotionDesc
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      ClusterIndex        #PromotionIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #PromotionDesc
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #PromotionDesc
+          Table               #echSOPromotionsLine
+          ExtendedDataType    
+            ARRAY 
+              #echPromotionDesc
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #PromotionId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #PromotionId
+          Mandatory           #Yes
+          Table               #echSOPromotionsLine
+          ExtendedDataType    
+            ARRAY 
+              #echPromotionId
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #SalesId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #SalesId
+          Table               #echSOPromotionsLine
+          ExtendedDataType    
+            ARRAY 
+              #SalesId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #Percentage
+        Id 30004
+        REAL
+        PROPERTIES
+          Name                #Percentage
+          Table               #echSOPromotionsLine
+          ExtendedDataType    
+            ARRAY 
+              #Percent
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Amount
+        Id 30005
+        REAL
+        PROPERTIES
+          Name                #Amount
+          Table               #echSOPromotionsLine
+          ExtendedDataType    
+            ARRAY 
+              #Amount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #SalesLineNum
+        Id 30007
+        REAL
+        PROPERTIES
+          Name                #SalesLineNum
+          HelpText            #@ECH250
+          Table               #echSOPromotionsLine
+          ExtendedDataType    
+            ARRAY 
+              #LineNum
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PromotionId
+          #PromotionDesc
+          #Percentage
+          #Amount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PromotionId
+          #PromotionDesc
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesId
+          #SalesLineNum
+          #PromotionId
+          #PromotionDesc
+          #Percentage
+          #Amount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PromotionId
+          #PromotionDesc
+          #Percentage
+          #Amount
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #PromotionIdx
+      Id 30001
+      PROPERTIES
+        Name                #PromotionIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #SalesId
+        #SalesLineNum
+        #PromotionId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #salesLine
+        PROPERTIES
+          Name                #salesLine
+          Table               #SalesLine
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #SalesLineNum
+            RelatedField        #LineNum
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #SalesId
+            RelatedField        #SalesId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_WI_0244
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: exist method
+        #
+        #public static boolean exist(echPromotionId _id)
+        #{
+        #    echSOPromotionsLine echSOPromotionsLine;
+        #    ;
+        #
+        #    select firstonly RecId from echSOPromotionsLine
+        #        index hint PromotionIdx
+        #        where echSOPromotionsLine.PromotionId == _id;
+        #
+        #    return echSOPromotionsLine.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_WI_0244
+        #// *** Customization Date: 24 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: find method
+        #
+        #public static echSOPromotionsLine find(echPromotionId _id, boolean _forUpdate = false)
+        #{
+        #    ECHSOPromotionsLine echSOPromotionsLine;
+        #    ;
+        #
+        #    echSOPromotionsLine.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echSOPromotionsLine
+        #        index hint PromotionIdx
+        #        where echSOPromotionsLine.PromotionId == _id;
+        #
+        #    return echSOPromotionsLine;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

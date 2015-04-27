@@ -1,0 +1,186 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echProdCatalog_echItemStoreListVw unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echProdCatalog_echItemStoreListVw
+    Id 30152
+    PROPERTIES
+      Name                #echProdCatalog_echItemStoreListVw
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echProdCatalog_echItemStoreListVw extends AfStronglyTypedDataContainer
+        #{
+        #    #define.MultipleQty('MultipleQty')
+        #    #define.LowestQty('LowestQty')
+        #    #define.echInventDimPriceDiscVw('echInventDimPriceDiscVw')
+        #    #define.StoreId('StoreId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.ItemRelation('ItemRelation')
+        #    #define.InventLocation('InventLocation')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createechInventDimPriceDiscVw
+        #public AfStronglyTypedDataContainerList createechInventDimPriceDiscVw()
+        #{
+        #    return this.get_NewList(#echInventDimPriceDiscVw);
+        #}
+      ENDSOURCE
+      SOURCE #existsechInventDimPriceDiscVw
+        #public boolean existsechInventDimPriceDiscVw()
+        #{
+        #    return this.exists(#echInventDimPriceDiscVw);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventLocation
+        #public boolean existsInventLocation()
+        #{
+        #    return this.exists(#InventLocation);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemRelation
+        #public boolean existsItemRelation()
+        #{
+        #    return this.exists(#ItemRelation);
+        #}
+      ENDSOURCE
+      SOURCE #existsLowestQty
+        #public boolean existsLowestQty()
+        #{
+        #    return this.exists(#LowestQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsMultipleQty
+        #public boolean existsMultipleQty()
+        #{
+        #    return this.exists(#MultipleQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsStoreId
+        #public boolean existsStoreId()
+        #{
+        #    return this.exists(#StoreId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#echProdCatalog_echItemStoreListVw);
+        #}
+      ENDSOURCE
+      SOURCE #parmechInventDimPriceDiscVw
+        #public AfStronglyTypedDataContainerList parmechInventDimPriceDiscVw(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#echInventDimPriceDiscVw, _value);
+        #    }
+        #
+        #    return this.get_List(#echInventDimPriceDiscVw);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocation
+        #public InventLocationId parmInventLocation(InventLocationId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventLocation, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventLocation);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemRelation
+        #public RBOItemRelation parmItemRelation(RBOItemRelation _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemRelation, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemRelation);
+        #}
+      ENDSOURCE
+      SOURCE #parmLowestQty
+        #public Qty parmLowestQty(Qty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LowestQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LowestQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmMultipleQty
+        #public Qty parmMultipleQty(Qty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#MultipleQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#MultipleQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmStoreId
+        #public RBOStoreId parmStoreId(RBOStoreId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#StoreId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#StoreId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

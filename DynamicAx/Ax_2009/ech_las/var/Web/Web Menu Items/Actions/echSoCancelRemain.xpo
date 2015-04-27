@@ -1,0 +1,26 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echSoCancelRemain unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echSoCancelRemain
+    PROPERTIES
+      Name                #echSoCancelRemain
+      Label               #@SYS117673
+      HelpText            #@ECH97
+      Object              #echSalesOrderCancelRemain
+      EnumTypeParameter   #NoYes
+      EnumParameter       #Yes
+      RunOn               #Called from
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

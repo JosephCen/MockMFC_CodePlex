@@ -1,0 +1,52 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: echCreateLayerProject unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #echCreateLayerProject
+    #static void echCreateLayerProject(Args _args)
+    #{
+    #    sysprojectfilterrunbase upgradeproject;
+    #    utilelements            theelements;
+    #    ;
+    #
+    #    upgradeproject = new sysprojectfilterrunbase();
+    #    upgradeproject.parmProjectNode(systreenode::createProject('varLayer'));
+    #    upgradeproject.grouping(sysprojectgrouping::AOT);
+    #
+    #
+    #    while select name, utilLevel, RecordType, ParentId from theelements
+    #    where theelements.utilLevel == UtilEntryLevel::var
+    #    {
+    #        try
+    #        {
+    #
+    #            theelements.reread();
+    #
+    #            upgradeproject.doUtilElements(theelements);
+    #
+    #        }
+    #
+    #        catch (exception::Error)
+    #
+    #        {
+    #
+    #            throw error('error');
+    #
+    #        }
+    #
+    #    }
+    #
+    #    upgradeproject.write();
+    #
+    #    info('finish');
+    #
+    #}
+    #
+  ENDSOURCE
+
+***Element: END

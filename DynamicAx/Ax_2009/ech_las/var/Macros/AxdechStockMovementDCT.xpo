@@ -1,0 +1,17 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdechStockMovementDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdechStockMovementDCT
+    ##define.echStockMovement('echStockMovement')
+    ##define.echStockMovement_InventJournalTable('echStockMovement.InventJournalTable')
+    ##define.echStockMovement_InventJournalTrans('echStockMovement.InventJournalTrans')
+    ##define.echStockMovement_InventDim('echStockMovement.InventDim')
+  ENDSOURCE
+
+***Element: END

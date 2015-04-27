@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echItemBarcodeTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echItemBarcodeTMallPropValue
+    Type: 1
+    PROPERTIES
+      Name                #echItemBarcodeTMallPropValue
+      Label               #@ECH822
+      HelpText            #@ECH862
+      Object              #echItemBarcodeTMallPropValue
+      RunOn               #Called from
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

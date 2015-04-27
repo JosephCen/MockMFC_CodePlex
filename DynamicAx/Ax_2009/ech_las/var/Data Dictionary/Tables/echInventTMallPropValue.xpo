@@ -1,0 +1,204 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInventTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInventTMallPropValue
+    Id 30067
+    PROPERTIES
+      Name                #echInventTMallPropValue
+      Label               #@ECH821
+      TitleField1         #ItemId
+      TitleField2         #PropValueId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echInventTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #Cid
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #Cid
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echInventTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropId
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #PropId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echInventTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropValueId
+        Id 30004
+        INT
+        PROPERTIES
+          Name                #PropValueId
+          Table               #echInventTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyValueId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ItemIdx
+      Id 30001
+      PROPERTIES
+        Name                #ItemIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ItemId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #echTMallCategoryProperty
+        PROPERTIES
+          Name                #echTMallCategoryProperty
+          Table               #echTMallCategoryProperty
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Cid
+            RelatedField        #Cid
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PropId
+            RelatedField        #PropId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #echTMallPropertyValue
+        PROPERTIES
+          Name                #echTMallPropertyValue
+          Table               #echTMallPropertyValue
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Cid
+            RelatedField        #Cid
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PropId
+            RelatedField        #PropId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PropValueId
+            RelatedField        #PropValueId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #InventTable
+        PROPERTIES
+          Name                #InventTable
+          Table               #InventTable
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #ItemId
+            RelatedField        #ItemId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

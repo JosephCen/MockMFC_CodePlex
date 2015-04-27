@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echCreateReturnOrderForm unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echCreateReturnOrderForm
+    Type: 3
+    PROPERTIES
+      Name                #echCreateReturnOrderForm
+      Label               #@SYS104102
+      HelpText            #@SYS98886
+      ObjectType          #Class
+      Object              #echCreateReturnOrderForm
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

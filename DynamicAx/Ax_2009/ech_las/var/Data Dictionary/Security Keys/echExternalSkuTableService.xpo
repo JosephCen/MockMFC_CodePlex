@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SEC
+
+; Microsoft Dynamics AX SECURITYKEY : echExternalSkuTableService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SECURITYKEY #echExternalSkuTableService
+    Id 30012
+    PROPERTIES
+      Name                #echExternalSkuTableService
+      Label               #@ECH341
+      ParentKey           #InventServices
+    ENDPROPERTIES
+    
+  ENDSECURITYKEY
+  
+
+***Element: END

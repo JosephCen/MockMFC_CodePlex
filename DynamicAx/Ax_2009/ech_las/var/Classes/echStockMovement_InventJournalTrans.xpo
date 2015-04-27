@@ -1,0 +1,206 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echStockMovement_InventJournalTrans unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echStockMovement_InventJournalTrans
+    Id 30230
+    PROPERTIES
+      Name                #echStockMovement_InventJournalTrans
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchStockMovement_InventJournalTrans extends AfStronglyTypedDataContainer
+        #{
+        #    #define.TransDate('TransDate')
+        #    #define.Qty('Qty')
+        #    #define.InventDimId('InventDimId')
+        #    #define.InventDim('InventDim')
+        #    #define.LineNum('LineNum')
+        #    #define.EchReasonId('EchReasonId')
+        #    #define.EchSkuId('EchSkuId')
+        #    #define.EchBarcodeId('EchBarcodeId')
+        #    #define.ItemId('ItemId')
+        #    #define.EchStockMovement_InventJournalTrans('EchStockMovement.InventJournalTrans')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventDim
+        #public AfStronglyTypedDataContainerList createInventDim()
+        #{
+        #    return this.get_NewList(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchBarcodeId
+        #public boolean existsEchBarcodeId()
+        #{
+        #    return this.exists(#EchBarcodeId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchReasonId
+        #public boolean existsEchReasonId()
+        #{
+        #    return this.exists(#EchReasonId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchSkuId
+        #public boolean existsEchSkuId()
+        #{
+        #    return this.exists(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDim
+        #public boolean existsInventDim()
+        #{
+        #    return this.exists(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimId
+        #public boolean existsInventDimId()
+        #{
+        #    return this.exists(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsLineNum
+        #public boolean existsLineNum()
+        #{
+        #    return this.exists(#LineNum);
+        #}
+      ENDSOURCE
+      SOURCE #existsQty
+        #public boolean existsQty()
+        #{
+        #    return this.exists(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #existsTransDate
+        #public boolean existsTransDate()
+        #{
+        #    return this.exists(#TransDate);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchStockMovement_InventJournalTrans);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchBarcodeId
+        #// Update ECH_WI_01951 by mengqi.cen on 20130111
+        #public EchItemBarCode parmEchBarcodeId(EchItemBarCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchBarcodeId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchBarcodeId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchReasonId
+        #public EchReasonId parmEchReasonId(echReasonId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchReasonId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchReasonId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #public echSkuId parmEchSkuId(echSkuId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDim
+        #public AfStronglyTypedDataContainerList parmInventDim(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventDim, _value);
+        #    }
+        #
+        #    return this.get_List(#InventDim);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #public InventDimId parmInventDimId(InventDimId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventDimId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public ItemId parmItemId(ItemId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmLineNum
+        #public LineNum parmLineNum(LineNum _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LineNum, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LineNum);
+        #}
+      ENDSOURCE
+      SOURCE #parmQty
+        #public InventQtyJournal parmQty(InventQtyJournal _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Qty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #parmTransDate
+        #public JournalTransDate parmTransDate(JournalTransDate _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TransDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TransDate);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

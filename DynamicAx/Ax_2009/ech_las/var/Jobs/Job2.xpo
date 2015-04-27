@@ -1,0 +1,53 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: Job2 unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #Job2
+    #static void Job2(Args _args)
+    #{
+    #    AifEntityKey entityKey;
+    #    CustTable   ct;
+    #    AifMessage  aifMessage;
+    #    AxdBase                 axdBase = axdBase::newClassId(classnum(axdCustomer));
+    #    AifDocumentXml xml;
+    #    ;
+    #
+    #    // select an example record
+    #    select firstonly ct;
+    #
+    #    entityKey = AifEntityKey::construct();
+    #    entityKey.parmRecId(ct.RecId);
+    #    entityKey.parmTableId(ct.TableId);
+    #    entityKey.parmKeyDataMap(SysDictTable::getKeyData(ct));
+    #
+    #    aifMessage = new AifMessage(AifGatewayMessage::getEmptyMessageId(), curuserid(), curuserid());
+    #    xml = AxdBase.read(entityKey, null, new AifEndpointActionPolicyInfo(), new AifConstraintList(), connull());
+    #
+    #//    aifMessage.setXml(
+    #    info(xml);
+    #
+    #
+    #
+    #
+    #    // find the customer
+    #/*        // Construct AifEntityKey
+    #        aifEntityKey = AifEntityKey::construct();
+    #        aifEntityKey.parmRecId(record.RecId);
+    #        aifEntityKey.parmTableId(record.TableId);
+    #        aifEntityKey.parmKeyDataMap(SysDictTable::getKeyData(record));
+    #
+    #        aifMessage = new AifMEssage(AifGatewayMessage::getEmptyMessageId(), curUserId(), curUserId());
+    #        aifMessage.setXml(axdBase.read(aifEntityKey, null, new AifEndpointActionPolicyInfo(), new AifConstraintList(), connull()));*/
+    #
+    #
+    #
+    #
+    #}
+  ENDSOURCE
+
+***Element: END

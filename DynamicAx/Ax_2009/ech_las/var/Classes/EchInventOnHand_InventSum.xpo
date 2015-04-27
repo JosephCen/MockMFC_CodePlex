@@ -1,0 +1,561 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchInventOnHand_InventSum unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchInventOnHand_InventSum
+    Id 30040
+    PROPERTIES
+      Name                #EchInventOnHand_InventSum
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// Update ECH_WI_01984 by mengqi.cen on 20130305
+        #class EchInventOnHand_InventSum extends AfStronglyTypedDataContainer
+        #{
+        #    #define.EchExtSkuId('EchExtSkuId')
+        #    #define.ReservPhysical('ReservPhysical')
+        #    #define.ReservOrdered('ReservOrdered')
+        #    #define.Registered('Registered')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.Received('Received')
+        #    #define.QuotationReceipt('QuotationReceipt')
+        #    #define.QuotationIssue('QuotationIssue')
+        #    #define.PostedValue('PostedValue')
+        #    #define.PostedQty('PostedQty')
+        #    #define.Picked('Picked')
+        #    #define.PhysicalValue('PhysicalValue')
+        #    #define.PhysicalInvent('PhysicalInvent')
+        #    #define.Ordered('Ordered')
+        #    #define.OnOrder('OnOrder')
+        #    #define.LastUpdDatePhysical('LastUpdDatePhysical')
+        #    #define.LastUpdDateExpected('LastUpdDateExpected')
+        #    #define.ItemId('ItemId')
+        #    #define.InventDimId('InventDimId')
+        #    #define.EchVirtualStock('EchVirtualStock')
+        #    #define.EchSkuId('EchSkuId')
+        #    #define.Deducted('Deducted')
+        #    #define.ClosedQty('ClosedQty')
+        #    #define.Closed('Closed')
+        #    #define.AvailPhysical('AvailPhysical')
+        #    #define.AvailOrdered('AvailOrdered')
+        #    #define.Arrived('Arrived')
+        #    #define.EchExtItemId('EchExtItemId')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsArrived
+        #public boolean existsArrived()
+        #{
+        #    return this.exists(#Arrived);
+        #}
+      ENDSOURCE
+      SOURCE #existsAvailOrdered
+        #public boolean existsAvailOrdered()
+        #{
+        #    return this.exists(#AvailOrdered);
+        #}
+      ENDSOURCE
+      SOURCE #existsAvailPhysical
+        #public boolean existsAvailPhysical()
+        #{
+        #    return this.exists(#AvailPhysical);
+        #}
+      ENDSOURCE
+      SOURCE #existsClosed
+        #public boolean existsClosed()
+        #{
+        #    return this.exists(#Closed);
+        #}
+      ENDSOURCE
+      SOURCE #existsClosedQty
+        #public boolean existsClosedQty()
+        #{
+        #    return this.exists(#ClosedQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeducted
+        #public boolean existsDeducted()
+        #{
+        #    return this.exists(#Deducted);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchExtItemId
+        #// Create ECH_WI_01985 by mengqi.cen on 20130305
+        #public boolean existsEchExtItemId()
+        #{
+        #    return this.exists(#EchExtItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchExtSkuId
+        #public boolean existsEchExtSkuId()
+        #{
+        #    return this.exists(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchSkuId
+        #public boolean existsEchSkuId()
+        #{
+        #    return this.exists(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchVirtualStock
+        #public boolean existsEchVirtualStock()
+        #{
+        #    return this.exists(#EchVirtualStock);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimId
+        #public boolean existsInventDimId()
+        #{
+        #    return this.exists(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemId
+        #public boolean existsItemId()
+        #{
+        #    return this.exists(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #existsLastUpdDateExpected
+        #public boolean existsLastUpdDateExpected()
+        #{
+        #    return this.exists(#LastUpdDateExpected);
+        #}
+      ENDSOURCE
+      SOURCE #existsLastUpdDatePhysical
+        #public boolean existsLastUpdDatePhysical()
+        #{
+        #    return this.exists(#LastUpdDatePhysical);
+        #}
+      ENDSOURCE
+      SOURCE #existsOnOrder
+        #public boolean existsOnOrder()
+        #{
+        #    return this.exists(#OnOrder);
+        #}
+      ENDSOURCE
+      SOURCE #existsOrdered
+        #public boolean existsOrdered()
+        #{
+        #    return this.exists(#Ordered);
+        #}
+      ENDSOURCE
+      SOURCE #existsPhysicalInvent
+        #public boolean existsPhysicalInvent()
+        #{
+        #    return this.exists(#PhysicalInvent);
+        #}
+      ENDSOURCE
+      SOURCE #existsPhysicalValue
+        #public boolean existsPhysicalValue()
+        #{
+        #    return this.exists(#PhysicalValue);
+        #}
+      ENDSOURCE
+      SOURCE #existsPicked
+        #public boolean existsPicked()
+        #{
+        #    return this.exists(#Picked);
+        #}
+      ENDSOURCE
+      SOURCE #existsPostedQty
+        #public boolean existsPostedQty()
+        #{
+        #    return this.exists(#PostedQty);
+        #}
+      ENDSOURCE
+      SOURCE #existsPostedValue
+        #public boolean existsPostedValue()
+        #{
+        #    return this.exists(#PostedValue);
+        #}
+      ENDSOURCE
+      SOURCE #existsQuotationIssue
+        #public boolean existsQuotationIssue()
+        #{
+        #    return this.exists(#QuotationIssue);
+        #}
+      ENDSOURCE
+      SOURCE #existsQuotationReceipt
+        #public boolean existsQuotationReceipt()
+        #{
+        #    return this.exists(#QuotationReceipt);
+        #}
+      ENDSOURCE
+      SOURCE #existsReceived
+        #public boolean existsReceived()
+        #{
+        #    return this.exists(#Received);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsRegistered
+        #public boolean existsRegistered()
+        #{
+        #    return this.exists(#Registered);
+        #}
+      ENDSOURCE
+      SOURCE #existsReservOrdered
+        #public boolean existsReservOrdered()
+        #{
+        #    return this.exists(#ReservOrdered);
+        #}
+      ENDSOURCE
+      SOURCE #existsReservPhysical
+        #public boolean existsReservPhysical()
+        #{
+        #    return this.exists(#ReservPhysical);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchInventOnHand_InventSum);
+        #}
+      ENDSOURCE
+      SOURCE #parmArrived
+        #public InventQtyArrived parmArrived(InventQtyArrived _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Arrived, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Arrived);
+        #}
+      ENDSOURCE
+      SOURCE #parmAvailOrdered
+        #public InventQtyAvailOrdered parmAvailOrdered(InventQtyAvailOrdered _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AvailOrdered, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AvailOrdered);
+        #}
+      ENDSOURCE
+      SOURCE #parmAvailPhysical
+        #public InventQtyAvailPhysical parmAvailPhysical(InventQtyAvailPhysical _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AvailPhysical, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AvailPhysical);
+        #}
+      ENDSOURCE
+      SOURCE #parmClosed
+        #public InventSumClosed parmClosed(InventSumClosed _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Closed, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Closed);
+        #}
+      ENDSOURCE
+      SOURCE #parmClosedQty
+        #public InventSumClosed parmClosedQty(InventSumClosed _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ClosedQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ClosedQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeducted
+        #public InventQtyDeducted parmDeducted(InventQtyDeducted _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Deducted, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Deducted);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtItemId
+        #// Create ECH_WI_01985 by mengqi.cen on 20130305
+        #public ExtCodeValue parmEchExtItemId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchExtItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchExtItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchExtSkuId
+        #public ExtCodeValue parmEchExtSkuId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchExtSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSkuId
+        #public echSkuId parmEchSkuId(echSkuId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchVirtualStock
+        #public echVirtualStock parmEchVirtualStock(echVirtualStock _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchVirtualStock, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchVirtualStock);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #public InventDimId parmInventDimId(InventDimId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#InventDimId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#InventDimId);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #parmLastUpdDateExpected
+        #public DateExpected parmLastUpdDateExpected(DateExpected _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LastUpdDateExpected, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LastUpdDateExpected);
+        #}
+      ENDSOURCE
+      SOURCE #parmLastUpdDatePhysical
+        #public DatePhysical parmLastUpdDatePhysical(DatePhysical _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#LastUpdDatePhysical, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#LastUpdDatePhysical);
+        #}
+      ENDSOURCE
+      SOURCE #parmOnOrder
+        #public InventQtyOnOrder parmOnOrder(InventQtyOnOrder _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OnOrder, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OnOrder);
+        #}
+      ENDSOURCE
+      SOURCE #parmOrdered
+        #public InventQtyOrdered parmOrdered(InventQtyOrdered _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Ordered, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Ordered);
+        #}
+      ENDSOURCE
+      SOURCE #parmPhysicalInvent
+        #public InventQtyPhysicalOnhand parmPhysicalInvent(InventQtyPhysicalOnhand _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PhysicalInvent, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PhysicalInvent);
+        #}
+      ENDSOURCE
+      SOURCE #parmPhysicalValue
+        #public CostAmountPhysical parmPhysicalValue(CostAmountPhysical _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PhysicalValue, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PhysicalValue);
+        #}
+      ENDSOURCE
+      SOURCE #parmPicked
+        #public InventQtyPicked parmPicked(InventQtyPicked _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Picked, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Picked);
+        #}
+      ENDSOURCE
+      SOURCE #parmPostedQty
+        #public InventQtyPosted parmPostedQty(InventQtyPosted _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PostedQty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PostedQty);
+        #}
+      ENDSOURCE
+      SOURCE #parmPostedValue
+        #public CostAmountPosted parmPostedValue(CostAmountPosted _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PostedValue, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PostedValue);
+        #}
+      ENDSOURCE
+      SOURCE #parmQuotationIssue
+        #public InventQtyQuotationIssue parmQuotationIssue(InventQtyQuotationIssue _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#QuotationIssue, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#QuotationIssue);
+        #}
+      ENDSOURCE
+      SOURCE #parmQuotationReceipt
+        #public InventQtyQuotationReceipt parmQuotationReceipt(InventQtyQuotationReceipt _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#QuotationReceipt, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#QuotationReceipt);
+        #}
+      ENDSOURCE
+      SOURCE #parmReceived
+        #public InventQtyReceived parmReceived(InventQtyReceived _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Received, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Received);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmRegistered
+        #public InventQtyRegistered parmRegistered(InventQtyRegistered _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Registered, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Registered);
+        #}
+      ENDSOURCE
+      SOURCE #parmReservOrdered
+        #public InventQtyReservOrdered parmReservOrdered(InventQtyReservOrdered _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReservOrdered, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReservOrdered);
+        #}
+      ENDSOURCE
+      SOURCE #parmReservPhysical
+        #public InventQtyReservPhysical parmReservPhysical(InventQtyReservPhysical _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReservPhysical, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReservPhysical);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,70 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echEPRedirectToReturnReasonCode unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echEPRedirectToReturnReasonCode
+    Id 57727
+    PROPERTIES
+      Name                #echEPRedirectToReturnReasonCode
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echEPRedirectToReturnReasonCode
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #echRedirectToReturnReasonCode
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 7 May 2013
+        #// *** Customization Type: created
+        #// *** Description: Redirect to Return Reason Code Page
+        #public void echRedirectToReturnReasonCode(SalesTable _salesTable)
+        #{
+        #    SalesTable  m_SalesTable;
+        #    Weblink     link;
+        #    ;
+        #    m_SalesTable = _salesTable;
+        #    if(m_SalesTable)
+        #    {
+        #        link = new Weblink();
+        #        link.record(m_SalesTable);
+        #        link.menufunction(new WebUrlMenuFunction(weburlitemstr(echEPReturnReasonCodeDialog)));
+        #        webSession().redirect(link);
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 7 May 2013
+        #// *** Customization Type: created
+        #// *** Description: main
+        #static void main(Args args)
+        #{
+        #    SalesTable  m_SalesTable;
+        #    Weblink     link;
+        #    ;
+        #    if(args.dataset() == tablenum(SalesTable))
+        #    {
+        #        m_SalesTable = args.record();
+        #        link = new Weblink();
+        #        link.record(m_SalesTable);
+        #        link.menufunction(new WebUrlMenuFunction(weburlitemstr(echEPReturnReasonCodeDialog)));
+        #        webSession().redirect(link);
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

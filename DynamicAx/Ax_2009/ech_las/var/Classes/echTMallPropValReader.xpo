@@ -1,0 +1,320 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echTMallPropValReader unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echTMallPropValReader
+    Id 30336
+    PROPERTIES
+      Name                #echTMallPropValReader
+      Extends             #RunBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echTMallPropValReader extends RunBase
+        #{
+        #    DialogField  m_FieldImpFileName;
+        #    FileName     m_ImpFileName;
+        #
+        #    #define.CurrentVersion(1)
+        #    #localmacro.CurrentList
+        #        m_ImpFileName
+        #    #endmacro
+        #
+        #    #define.TitleRowIdx(3)
+        #}
+      ENDSOURCE
+      SOURCE #dialog
+        #protected Object dialog(DialogRunbase dialog, boolean forceOnClient)
+        #{
+        #    dialog  _dlg;
+        #;
+        #    _dlg = super(dialog, forceOnClient);
+        #    _dlg.caption("@ECH854");
+        #    m_FieldImpFileName = _dlg.addFieldValue(typeId(FilenameOpen), m_ImpFileName);
+        #
+        #    return _dlg;
+        #}
+      ENDSOURCE
+      SOURCE #fullItemBarcodeProp
+        #private void fullItemBarcodeProp(InventTable       _invTable,
+        #                                 echTMallCategory  _tmallCat)
+        #{
+        #    InventItemBarcode             _itemBarcode;
+        #    echTMallCategoryProperty      _tmallCatProp;
+        #    echItemBarcodeTMallPropValue  _barTMallPropVal;
+        #    echTMallPropValMapper         _tmallPropValMapper;
+        #;
+        #    _tmallPropValMapper = echTMallPropValMapper::construct();
+        #
+        #    TTSBegin;
+        #
+        #    delete_from _barTMallPropVal
+        #      where _barTMallPropVal.itemId == _invTable.ItemId;
+        #
+        #    while select _itemBarcode
+        #            where _itemBarcode.itemId == _invTable.ItemId
+        #               && _itemBarcode.barcodeSetupId == InventParameters::find().echSkuBarcodeSetup
+        #            join _tmallCatProp
+        #              where _tmallCatProp.Cid         == _tmallCat.Cid
+        #                 && _tmallCatProp.IsSalesProp == NoYes::Yes
+        #    {
+        #        _barTMallPropVal.clear();
+        #
+        #        _barTMallPropVal.itemId      = _itemBarcode.itemId;
+        #        _barTMallPropVal.inventDimId = _itemBarcode.inventDimId;
+        #        _barTMallPropVal.Cid         = _tmallCat.Cid;
+        #        _barTMallPropVal.PropId      = _tmallCatProp.PropId;
+        #
+        #        if (!_tmallPropValMapper.mapRecord(_barTMallPropVal))
+        #            warning(strFmt("@ECH865", _tmallCatProp.PropName, _itemBarcode.itemBarCode));
+        #
+        #        _barTMallPropVal.insert();
+        #    }
+        #
+        #    TTSCommit;
+        #}
+      ENDSOURCE
+      SOURCE #getFromDialog
+        #public boolean getFromDialog()
+        #{
+        #    boolean _ret;
+        #;
+        #    _ret = super();
+        #    m_ImpFileName = m_FieldImpFileName.value();
+        #
+        #    return _ret;
+        #}
+      ENDSOURCE
+      SOURCE #pack
+        #public container pack()
+        #{
+        #;
+        #
+        #    return [#CurrentVersion, #CurrentList];
+        #}
+      ENDSOURCE
+      SOURCE #readAllSheet
+        #private void readAllSheet(echExcelReader _excelR)
+        #{
+        #    int        _conIdx;
+        #    container  _sheetNameCon;
+        #    boolean    _status;
+        #;
+        #    _status = true;
+        #    _sheetNameCon = _excelR.getSheetNames();
+        #
+        #    TTSBegin;
+        #    for (_conIdx = 1; _conIdx <= conlen(_sheetNameCon); ++_conIdx)
+        #    {
+        #        if (!this.readSingleSheet(_excelR, conpeek(_sheetNameCon, _conIdx)))
+        #            _status = false;
+        #    }
+        #    if (_status)
+        #        TTSCommit;
+        #    else
+        #        TTSAbort;
+        #}
+      ENDSOURCE
+      SOURCE #readImpFile
+        #private void readImpFile()
+        #{
+        #    echExcelReader _excelR;
+        #;
+        #    _excelR = echExcelReader::construct();
+        #    _excelR.open(m_ImpFileName, false);
+        #    this.readAllSheet(_excelR);
+        #    _excelR.close();
+        #}
+      ENDSOURCE
+      SOURCE #readSingleRow
+        #private boolean readSingleRow(Map _rowData)
+        #{
+        #    boolean                    _status;
+        #    int                        _conIdx;
+        #    container                  _mustTitleCon;
+        #    echTMallCategoryName       _catLvl01, _catLvl02;
+        #    echTMallPropertyValueName  _propValName;
+        #    ItemId                     _itemId;
+        #    InventTable                _invTable;
+        #    echTMallCategory           _tmallCat;
+        #    echTMallCategoryProperty   _tmallCatProp;
+        #    echTMallPropertyValue      _tmallPropVal;
+        #    echInventTMallPropValue    _invTMallPropVal;
+        #
+        #    #define.ItemIdTitle('ItemId')
+        #    #define.CategoryLvl01('CategoryLvl01')
+        #    #define.CategoryLvl02('CategoryLvl02')
+        #;
+        #    _status = true;
+        #    _mustTitleCon = [#ItemIdTitle, #CategoryLvl01, #CategoryLvl02];
+        #
+        #    for (_conIdx = 1; _conIdx <= conlen(_mustTitleCon); ++_conIdx)
+        #    {
+        #        if (!_rowData.exists(conpeek(_mustTitleCon, _conIdx)))
+        #        {
+        #            _status = false;
+        #            error(strFmt("@ECH855", conpeek(_mustTitleCon, _conIdx)));
+        #
+        #            return _status;
+        #        }
+        #    }
+        #
+        #    _itemId   = _rowData.lookup(#ItemIdTitle);
+        #    _catLvl01 = _rowData.lookup(#CategoryLvl01);
+        #    _catLvl02 = _rowData.lookup(#CategoryLvl02);
+        #
+        #    TTSBegin;
+        #
+        #    _invTable = InventTable::find(_itemId);
+        #    if (!_invTable)
+        #    {
+        #        error(strFmt("@ECH856", _itemId, tablestr(InventTable)));
+        #        _status = false;
+        #    }
+        #
+        #    _tmallCat = echTMallCategory::find(_catLvl01, _catLvl02);
+        #    if (!_tmallCat)
+        #    {
+        #        error(strFmt("@ECH856", _catLvl02, tablestr(echTMallCategory)));
+        #        _status = false;
+        #    }
+        #
+        #    if (_status)
+        #    {
+        #        delete_from _invTMallPropVal
+        #          where _invTMallPropVal.ItemId == _invTable.ItemId;
+        #
+        #        while select _tmallCatProp
+        #                where _tmallCatProp.Cid == _tmallCat.Cid && _tmallCatProp.IsSalesProp == NoYes::No
+        #        {
+        #            _propValName = '';
+        #            _invTMallPropVal.clear();
+        #
+        #            if (_rowData.exists(_tmallCatProp.PropName))
+        #                _propValName = _rowData.lookup(_tmallCatProp.PropName);
+        #            _tmallPropVal = echTMallPropertyValue::findByPropertyName(_tmallCat.Cid, _tmallCatProp.PropId, _propValName);
+        #
+        #            if (!_tmallPropVal && _propValName)
+        #                warning(strFmt("@ECH864", _propValName, _tmallCatProp.PropName, _invTable.ItemId));
+        #
+        #            _invTMallPropVal.ItemId      = _invTable.ItemId;
+        #            _invTMallPropVal.Cid         = _tmallCat.Cid;
+        #            _invTMallPropVal.PropId      = _tmallCatProp.PropId;
+        #            _invTMallPropVal.PropValueId = _tmallPropVal.PropValueId;
+        #
+        #            _invTMallPropVal.insert();
+        #        }
+        #
+        #        if (_status)
+        #            this.fullItemBarcodeProp(_invTable, _tmallCat);
+        #    }
+        #
+        #    TTSCommit;
+        #
+        #    return _status;
+        #}
+      ENDSOURCE
+      SOURCE #readSingleSheet
+        #private boolean readSingleSheet(echExcelReader _excelR, str _sheetName)
+        #{
+        #    boolean _status;
+        #    Map     _rowData;
+        #;
+        #    _status = true;
+        #
+        #    _excelR.selectSheet(_sheetName);
+        #    if (!_excelR.readTitleRow(#TitleRowIdx))
+        #    {
+        #        _status = false;
+        #        error(strFmt("@ECH857", _sheetName));
+        #    }
+        #
+        #    if (_status)
+        #    {
+        #        // Begin to read all data row
+        #        _rowData = _excelR.readRowWithTitle();
+        #
+        #        while (_rowData)
+        #        {
+        #            if (!this.readSingleRow(_rowData))
+        #                _status = false;
+        #
+        #            _rowData = _excelR.readRowWithTitle();
+        #        }
+        #    }
+        #
+        #    return _status;
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #void run()
+        #{
+        #;
+        #    this.readImpFile();
+        #}
+      ENDSOURCE
+      SOURCE #unpack
+        #public boolean unpack(container _packedClass)
+        #{
+        #    int     _version;
+        #    boolean _retVal;
+        #;
+        #    _version = RunBase::getVersion(_packedClass);
+        #    switch (_version)
+        #    {
+        #        case #CurrentVersion :
+        #            [_version, #CurrentList] = _packedClass;
+        #            _retVal = true;
+        #            break;
+        #        default :
+        #            _retVal = false;
+        #            break;
+        #    }
+        #
+        #    return _retVal;
+        #}
+      ENDSOURCE
+      SOURCE #validate
+        #public boolean validate(Object _calledFrom)
+        #{
+        #    boolean _ret;
+        #;
+        #    _ret = super(_calledFrom);
+        #    if (_ret)
+        #    {
+        #        _ret = WinAPI::fileExists(m_ImpFileName, false);
+        #    }
+        #
+        #    return _ret;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echTMallPropValReader construct()
+        #{
+        #;
+        #
+        #    return new echTMallPropValReader();
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #public static void Main(Args _args)
+        #{
+        #    echTMallPropValReader  echTMallPropValReader;
+        #;
+        #    echTMallPropValReader = echTMallPropValReader::construct();
+        #    if (echTMallPropValReader.prompt())
+        #        echTMallPropValReader.run();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

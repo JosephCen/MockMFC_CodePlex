@@ -1,0 +1,59 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesTableType_ReturnItem unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesTableType_ReturnItem
+    Id 543
+    PROPERTIES
+      Name                #SalesTableType_ReturnItem
+      Extends             #SalesTableType
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #mayPickingListBeRegistrated
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00874
+        #// *** Customization Date: 25 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Allow the picking list registration to be posted
+        #
+        #boolean mayPickingListBeRegistrated()
+        #{
+        #// CS - ECH_WI_00874 - Marijn Catthoor - 25 Sep 2012
+        #    ;
+        #    //return false;
+        #    return true;
+        #
+        #// CE - ECH_WI_00874 - Marijn Catthoor - 25 Sep 2012
+        #}
+      ENDSOURCE
+      SOURCE #mayPickingListBeUpdated
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00874
+        #// *** Customization Date: 25 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Allow the picking list to be posted
+        #
+        #boolean mayPickingListBeUpdated()
+        #{
+        #
+        #// CS - ECH_WI_00874 - Marijn Catthoor - 25 Sep 2012
+        #    ;
+        #    //return false;
+        #    return true;
+        #
+        #// CE - ECH_WI_00874 - Marijn Catthoor - 25 Sep 2012
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

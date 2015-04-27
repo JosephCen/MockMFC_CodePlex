@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echSoCancelRemain unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echSoCancelRemain
+    PROPERTIES
+      Name                #echSoCancelRemain
+      Label               #@SYS117673
+      HelpText            #@ECH97
+      URL                 #Sales/Enterprise%20Portal/
+      ConfigurationKey    #echProcesses
+      WebConfigurationkey #EP
+      SecurityKey         #EPSalesRepTasks
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

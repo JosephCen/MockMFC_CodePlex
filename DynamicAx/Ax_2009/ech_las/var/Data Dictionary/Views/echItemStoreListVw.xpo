@@ -1,0 +1,93 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: VIE
+
+; Microsoft Dynamics AX View : echItemStoreListVw unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  VIEW #echItemStoreListVw
+    Id 30045
+    PROPERTIES
+      Name                #echItemStoreListVw
+      Label               #@RBO3394
+      TitleField1         #itemRelation
+      TitleField2         #storeId
+      ConfigurationKey    #echInterfaces
+      SaveDataPerCompany  #Yes
+      Query               #echItemStoreList
+    ENDPROPERTIES
+    
+    QUERY #Metadata
+      PROPERTIES
+        Name                #Metadata
+        Version             #1
+      ENDPROPERTIES
+      
+      BLOCKS
+      ENDBLOCKS
+      QUERY #echItemStoreList
+      ENDQUERY
+      
+    ENDQUERY
+    
+    FIELDS
+      VIEWFIELD #itemRelation
+        Id 30001
+        PROPERTIES
+          Name                #itemRelation
+          Table               #echItemStoreListVw
+          ExtendedDataType    #RBOItemRelation
+          StringSize          #80
+          DataSource          #RBOAssortmentItemList
+          DataField           #itemRelation
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #storeId
+        Id 30002
+        PROPERTIES
+          Name                #storeId
+          Table               #echItemStoreListVw
+          ExtendedDataType    #RBOStoreId
+          StringSize          #10
+          DataSource          #RBOStoreTable
+          DataField           #storeId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #inventLocation
+        Id 30003
+        PROPERTIES
+          Name                #inventLocation
+          Table               #echItemStoreListVw
+          ExtendedDataType    #InventLocationId
+          StringSize          #10
+          DataSource          #RBOStoreTable
+          DataField           #inventLocation
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #itemRelation
+          #storeId
+          #inventLocation
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+  ENDVIEW
+  
+
+***Element: END

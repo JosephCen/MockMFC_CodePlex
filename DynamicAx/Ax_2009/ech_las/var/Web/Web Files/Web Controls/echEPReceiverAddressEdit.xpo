@@ -1,0 +1,156 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPReceiverAddressEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPReceiverAddressEdit
+    PROPERTIES
+      Name                #echEPReceiverAddressEdit
+      HelpText            #
+      Filename            #echEPReceiverAddressEdit.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPReceiverAddressEdit.ascx.cs" Inherits="echEPReceiverAddressEdit" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<dynamics:AxDataSource ID="dsEPSalesTableEdit" runat="server" 
+      #    DataSetName="EPSalesTableEdit" ProviderView="SalesTable">
+      #</dynamics:AxDataSource>
+      #<dynamics:AxForm ID="formechEPReceiverAddressEdit" runat="server" 
+      #    CancelText="Cancel" DataSourceID="dsEPSalesTableEdit" EditText="Edit" 
+      #    InsertText="OK" NewText="Create" UpdateText="OK" 
+      #    DataMember="SalesTable_Current" AutoGenerateEditButton="True" 
+      #    DataKeyNames="SalesId" DefaultMode="Edit">
+      #    <dynamics:AxGroup ID="grpechEPReceiverAddressEdit" runat="server">
+      #        <Fields>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableEdit" DataSetView="SalesTable" 
+      #                DataField="SalesId" SortExpression="SalesId"  ReadOnly="true" HeaderText="<%$AxLabel:@ECH507%>"/>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="DeliveryName" ReadOnly="true" HeaderText="<%$AxLabel:@ECH527 %>" />
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="DeliveryState" ReadOnly="true" HeaderText="<%$AxLabel:@ECH628 %>"/>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="DeliveryCity" ReadOnly="true" HeaderText="<%$AxLabel:@ECH629 %>"/>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="DeliveryCounty" ReadOnly="true" HeaderText="<%$AxLabel:@ECH630 %>"/>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="DeliveryAddress" HeaderText="<%$AxLabel:@ECH531 %>"/>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="DeliveryZipCode" ReadOnly="true" HeaderText="<%$AxLabel:@ECH530 %>"/>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="echCustomerMobilePhone**" ReadOnly="true" HeaderText="<%$AxLabel:@ECH528 %>"/>
+      #            <dynamics:AxBoundField DataSet="EPSalesTableInfo" DataSetView="SalesTable" 
+      #                DataField="CustomerPhone**" ReadOnly="true" HeaderText="<%$AxLabel:@ECH529 %>"/>
+      #        </Fields>
+      #    </dynamics:AxGroup>
+      #</dynamics:AxForm>
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPReceiverAddressEdit_ascx_cs
+      HelpText            #
+      Filename            #echEPReceiverAddressEdit.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #
+      #public partial class echEPReceiverAddressEdit : System.Web.UI.UserControl
+      #{
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #
+      #    }
+      #    void Page_Init(object sender, EventArgs e)
+      #    {
+      #        this.formechEPReceiverAddressEdit.ItemCommand += new DetailsViewCommandEventHandler(AddressForm_ItemCommand);
+      #        this.formechEPReceiverAddressEdit.ItemUpdated += new DetailsViewUpdatedEventHandler(AddressForm_ItemUpdate);
+      #    }
+      #
+      #    AxDataSourceView DataSourceViewSalesTable
+      #    {
+      #        get
+      #        {
+      #            //Get the datasource view form the current form
+      #            return this.dsEPSalesTableEdit.GetDataSourceView(this.formechEPReceiverAddressEdit.DataMember);
+      #        }
+      #    }
+      #
+      #    private DataSetViewRow GetCurrentDataSetViewRow()
+      #    {
+      #        DataSetViewRow row = null;
+      #        if (this.dsEPSalesTableEdit.GetDataSourceView("SalesTable") != null)
+      #        {
+      #            row = this.dsEPSalesTableEdit.GetDataSourceView("SalesTable").DataSetView.GetCurrent();
+      #        }
+      #        return row;
+      #    }
+      #
+      #    private void RedirectToPreviousPage()
+      #    {
+      #        if (!string.IsNullOrEmpty(AxWebSession.GetPreviousURL(this.Page)))
+      #        {
+      #            if (AxWebSession.GetPreviousURL(this.Page).ToLower().Contains("minientity"))
+      #            {
+      #                string script = "<script language='javascript'>window.history.back();<script>";
+      #                System.Web.UI.ScriptManager.RegisterStartupScript(formechEPReceiverAddressEdit,
+      #                typeof(AxForm), "previous-url", script, false);
+      #            }
+      #            else
+      #            {
+      #                Response.Redirect(AxWebSession.GetPreviousURL(this.Page));
+      #            }
+      #        }
+      #        else
+      #        {
+      #            //AxUrlMenuItem listpage = new AxUrlMenuItem("EPSalesTableList");
+      #            //Response.Redirect(listpage.Url.OriginalString);
+      #        }
+      #    }
+      #
+      #    private void AddressForm_ItemCommand(object sender, DetailsViewCommandEventArgs e)
+      #    {
+      #        if (e.CommandName == "Cancel")
+      #        {
+      #            this.DataSourceViewSalesTable.CancelEdit();
+      #            this.RedirectToPreviousPage();
+      #        }
+      #    }
+      #    private void AddressForm_ItemUpdate(object sender, DetailsViewUpdatedEventArgs e)
+      #    {
+      #        if (e.Exception == null)
+      #        {
+      #            this.RedirectToPreviousPage();
+      #        }
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

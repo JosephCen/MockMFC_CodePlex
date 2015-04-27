@@ -1,0 +1,50 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SVC
+
+; Microsoft Dynamics AX SERVICE : EchPickingListRegService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICE #EchPickingListRegService
+    PROPERTIES
+      Name                #EchPickingListRegService
+      ExternalName        #EchPickingListRegService
+      Namespace           #http://schemas.microsoft.com/dynamics/2008/01/services
+      Class               #EchPickingListRegService
+      SecurityKey         #echPickingListRegService
+      Description         #
+    ENDPROPERTIES
+    
+    OPERATIONS
+      OPERATION #create
+        PROPERTIES
+          Name                #create
+          Method              #create
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #find
+        PROPERTIES
+          Name                #find
+          Method              #find
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #update
+        PROPERTIES
+          Name                #update
+          Method              #update
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+    ENDOPERATIONS
+    
+  ENDSERVICE
+  
+
+***Element: END

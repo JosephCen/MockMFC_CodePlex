@@ -1,0 +1,978 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #CustPackingSlipJournal
+  PROPERTIES
+    Name                #CustPackingSlipJournal
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #final class FormRun extends ObjectRun
+      #{
+      #    InventDimCtrl_Frm_Mov   inventDimFormSetup;
+      #    ShipCarrierPackage      tmpShipCarrierPackage;
+      # }
+    ENDSOURCE
+    SOURCE #enableBtnSalesDeliverySlip_BR
+      #// <GBR>
+      #public void enableBtnSalesDeliverySlip_BR(boolean _show = true)
+      #{
+      #    ;
+      #
+      #    salesDeliverySlip.enabled(_show);
+      #    salesDeliverySlip.visible(_show);
+      #}
+      #// </GBR>
+      #
+    ENDSOURCE
+    SOURCE #Init
+      #void init()
+      #{
+      #    #winApi;
+      #
+      #    super();
+      #
+      #    if (element.args().record())
+      #    {
+      #        custPackingSlipJour_ds.object(fieldnum(CustPackingSlipJour, InvoiceAccount)).visible(false);
+      #    }
+      #
+      #    element.updateDesign(InventDimFormDesignUpdate::Init);
+      #
+      #    //BP Deviation documented
+      #    shipCarrierTracking.setTmp();
+      #
+      #    //BP Deviation documented
+      #    shipCarrierPackage.setTmp();
+      #
+      #    //BP Deviation documented
+      #    tmpShipCarrierPackage.setTmp();
+      #
+      #    // <GBR>
+      #    this.enableBtnSalesDeliverySlip_BR(BrazilParameters::isEnabled());
+      #    // </GBR>
+      #
+      #}
+    ENDSOURCE
+    SOURCE #updateDesign
+      #void updateDesign(InventDimFormDesignUpdate mode)
+      #{
+      #    SalesLine       salesLine;
+      #    InventMovement  movement = InventMovement::construct(salesLine);
+      #
+      #    switch (mode)
+      #    {
+      #        case InventDimFormDesignUpdate::Init :
+      #            if (!inventDimFormSetup)
+      #            {
+      #                inventDimFormSetup  = InventDimCtrl_Frm_Mov::newFromFormMovement(element, movement);
+      #            }
+      #
+      #        case InventDimFormDesignUpdate::Active :
+      #            inventDimFormSetup.formActiveSetup(movement.inventTable().DimGroupId,movement);
+      #            inventDimFormSetup.formSetControls(true);
+      #            break;
+      #
+      #        case InventDimFormDesignUpdate::FieldChange :
+      #            inventDimFormSetup.formActiveSetup(movement.inventTable().DimGroupId,movement);
+      #            inventDimFormSetup.formSetControls(false);
+      #            break;
+      #
+      #        default : throw error(strfmt("@SYS54195",funcname()));
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #inventDimSetupObject
+      #Object inventDimSetupObject()
+      #{
+      #    return inventDimFormSetup;
+      #}
+      #
+    ENDSOURCE
+    SOURCE #docCursor
+      #public Common docCursor()
+      #{
+      #    Common docCursor;
+      #
+      #    docCursor = super();
+      #
+      #    if (docCursor.TableId == tablenum(InventDim))
+      #    {
+      #        docCursor = custPackingSlipTrans;
+      #    }
+      #
+      #    return docCursor;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #CustPackingSlipJour
+          Table               #CustPackingSlipJour
+          Index               #PackingSlipIdx
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    menuInterCompany.enabled((custPackingSlipJour.InterCompanyCompanyId ? true : false));
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    QueryBuildDataSource  queryDataSourceLink;
+          #    ;
+          #
+          #    super();
+          #
+          #    if (element.args().dataset() == tablenum(SalesTable))
+          #    {
+          #        this.query().dataSourceTable(tablenum(CustPackingSlipJour)).clearDynalinks();
+          #
+          #        queryDataSourceLink = this.query().dataSourceTable(tablenum(CustPackingSlipJour)).addDataSource(tablenum(CustPackingSlipSalesLink));
+          #        queryDataSourceLink.relations(true);
+          #        queryDataSourceLink.addDynalink(fieldnum(CustPackingSlipSalesLink, OrigSalesId),
+          #                                        element.args().record(),
+          #                                        fieldnum(SalesTable, SalesId));
+          #    }
+          #
+          #    // <GIN>
+          #    if ((TaxParameters::checkTaxParameters_IN() || TaxWithholdParameters_IN::checkTaxParameters()) && element.args().dataset() == tablenum(CustInvoiceJour))
+          #    {
+          #        this.query().dataSourceTable(tablenum(CustPackingSlipJour)).clearDynalinks();
+          #
+          #        queryDataSourceLink = this.query().dataSourceTable(tablenum(CustPackingSlipJour)).addDataSource(tablenum(CustPackingSlipSalesLink));
+          #        queryDataSourceLink.relations(true);
+          #        queryDataSourceLink.addDynalink(fieldnum(CustPackingSlipSalesLink, OrigSalesId),
+          #                                        element.args().record(),
+          #                                        fieldnum(CustInvoiceJour, SalesId));
+          #    }
+          #    // </GIN>
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #CustPackingSlipTrans
+          Table               #CustPackingSlipTrans
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #CustPackingSlipJour
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          JoinSource          #CustPackingSlipTrans
+          LinkType            #InnerJoin
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #ShipCarrierTracking
+          Table               #ShipCarrierTracking
+          AllowCheck          #No
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          AutoQuery           #No
+          JoinSource          #CustPackingSlipJour
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #linkActive
+          #// Update ECH_WI_01991 by mengqi.cen on 20130314
+          #public void linkActive()
+          #{
+          #    ShipCarrierPackingSlipJourData  results;
+          #    ShipCarrierTracking             tmpShipTrac1, tmpShipTrac2;
+          #    SkipAOSValidationPermission     permission;
+          #;
+          #    permission  = new SkipAOSValidationPermission();
+          #    permission.assert();
+          #
+          #    results = ShipCarrierStaging::getPackingSlipJourRecords(custPackingSlipJour.SalesId, custPackingSlipJour.PackingSlipId);
+          #    tmpShipTrac1.setTmp();
+          #    tmpShipTrac1.setTmpData(results.parmShipCarrierTracking());
+          #    tmpShipTrac2.setTmp();
+          #    tmpShipTrac2.setTmpData(tmpShipTrac1);
+          #
+          #    delete_from tmpShipTrac1
+          #      exists join tmpShipTrac2
+          #        where tmpShipTrac2.SalesId       == tmpShipTrac1.SalesId
+          #           && tmpShipTrac2.PackingSlipId == tmpShipTrac1.PackingSlipId
+          #           && tmpShipTrac2.RecId         <  tmpShipTrac1.RecId;
+          #
+          #    shipCarrierTracking.setTmpData(tmpShipTrac1);
+          #    tmpShipCarrierPackage.setTmpData(results.parmShipCarrierPackage());
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #ShipCarrierPackage
+          Table               #ShipCarrierPackage
+          AllowCheck          #No
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+          AutoQuery           #No
+          JoinSource          #ShipCarrierTracking
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #linkActive
+          #public void linkActive()
+          #{
+          #    ;
+          #
+          #
+          #    shipCarrierPackage.setTmpData(tmpShipCarrierPackage);
+          #
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    CustPackingSlipTrans CustPackingSlipJour
+    InventDim CustPackingSlipTrans
+    ShipCarrierTracking CustPackingSlipJour
+    ShipCarrierPackage ShipCarrierTracking
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Width               #Column width
+      Height              #Column height
+      Caption             #@SYS23155
+      TitleDatasource     #CustPackingSlipJour
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/04F55F73-AB4B-4216-911C-8FE205389E43.htm
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Tabs                #2
+          DataSource          #CustPackingSlipTrans
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #OverviewGrid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #CustPackingSlipJour
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpJour_InvoiceAccount
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/3e7c5878-ab87-4aed-b04d-1a24a7d005ed.htm
+                        DataSource          #CustPackingSlipJour
+                        DataField           #InvoiceAccount
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpJour_SalesOrderNum
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2efbb8dc-3711-4a52-9e00-0ff3e9a20355.htm
+                        DataSource          #CustPackingSlipJour
+                        DataField           #SalesId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpJour_PackingSlip
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/7d7ba680-18c0-417a-81e5-cd7e6f46e8bb.htm
+                        DataSource          #CustPackingSlipJour
+                        DataField           #PackingSlipId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL DATEEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpJour_DeliveryDate
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/ec40dfcb-55c0-4c52-8ec3-1189fa06443f.htm
+                        DataSource          #CustPackingSlipJour
+                        DataField           #DeliveryDate
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpJour_LedgerVoucher
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/220b39c4-0553-4691-a6c6-f8f1d01d171a.htm
+                        DataSource          #CustPackingSlipJour
+                        DataField           #LedgerVoucher
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpJour_DlvTerm
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/3c060d39-4dd8-403d-a147-e36d5d756a46.htm
+                        DataSource          #CustPackingSlipJour
+                        DataField           #DlvTerm
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpJour_DlvMode
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/7c463e18-6c30-4c27-ad79-89d20522034d.htm
+                        DataSource          #CustPackingSlipJour
+                        DataField           #DlvMode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #CustPackingSlipJour_ShipBlind
+                        BackgroundColor     #Window background
+                        DataSource          #CustPackingSlipJour
+                        DataField           #ShipCarrierBlindShipment
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #groupInterCompany
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/90184382-EAA0-4B27-81F6-1ABF4D379F54.htm
+                        BackgroundColor     #Window background
+                        DataSource          #CustPackingSlipJour
+                        DataGroup           #Intercompany
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #groupInterCompany_InterCompanyCompanyId
+                              DataSource          #CustPackingSlipJour
+                              DataField           #InterCompanyCompanyId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #groupInterCompany_InterCompanyPurchId
+                              DataSource          #CustPackingSlipJour
+                              DataField           #InterCompanyPurchId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL CHECKBOX
+                            PROPERTIES
+                              Name                #groupInterCompany_InterCompanyPosted
+                              DataSource          #CustPackingSlipJour
+                              DataField           #InterCompanyPosted
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPackingSlipJour_ReturnPackingSlipId
+                        DataSource          #CustPackingSlipJour
+                        DataField           #ReturnPackingSlipId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL BUTTONGROUP
+                PROPERTIES
+                  Name                #OverviewButtonGroup
+                  DataSource          #CustPackingSlipJour
+                ENDPROPERTIES
+                
+                CONTAINER
+                  CONTROL MENUBUTTON
+                    PROPERTIES
+                      Name                #SalesPackingSlipShow
+                      HelpText            #@SYS24163
+                      Text                #@SYS105079
+                      MultiSelect         #Yes
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SalesPackingSlipCopy
+                          Text                #@SYS105080
+                          SaveRecord          #No
+                          MenuItemType        #Output
+                          MenuItemName        #SalesPackingSlipCopy
+                          DataSource          #CustPackingSlipJour
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SalesPackingSlipOriginal
+                          Text                #@SYS105081
+                          SaveRecord          #No
+                          MenuItemType        #Output
+                          MenuItemName        #SalesPackingSlipOriginal
+                          DataSource          #CustPackingSlipJour
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #SalesPackingSlip
+                          Text                #@SYS70782
+                          SaveRecord          #No
+                          MenuItemType        #Output
+                          MenuItemName        #SalesPackingSlip
+                          DataSource          #CustPackingSlipJour
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #LedgerTransactVoucher
+                      SaveRecord          #No
+                      MenuItemName        #LedgerTransVoucher1
+                      DataSource          #CustPackingSlipJour
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #MenuItemButton
+                      SaveRecord          #No
+                      MenuItemName        #SalesShippingStat
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #BillOfLading
+                      MenuItemName        #WMSBillOfLading
+                      DataSource          #CustPackingSlipJour
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUBUTTON
+                    PROPERTIES
+                      Name                #MenuInterCompany
+                      AutoDeclaration     #Yes
+                      HelpText            #@SYS75200
+                      ConfigurationKey    #TradeInterCompany
+                      Text                #@SYS74106
+                    ENDPROPERTIES
+                    
+                    METHODS
+                      Version: 3
+                      SOURCE #clicked
+                        #void clicked()
+                        #{;
+                        #    buttonInterCompanyUpdate.enabled(custPackingSlipJour.interCompanyUpdateAllowed());
+                        #
+                        #    super();
+                        #}
+                      ENDSOURCE
+                    ENDMETHODS
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InterCompanyTransferInventDim
+                          MenuItemType        #Action
+                          MenuItemName        #InterCompanyTransferInventDim
+                          DataSource          #CustPackingSlipJour
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #ButtonInterCompanyUpdate
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS87155
+                          Text                #@SYS74252
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #void  clicked()
+                            #{;
+                            #    super();
+                            #
+                            #    custPackingSlipJour.interCompanyUpdate();
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUBUTTON
+                    PROPERTIES
+                      Name                #MenuSendElectronically
+                      HelpText            #@SYS95166
+                      ConfigurationKey    #AIF
+                      SecurityKey         #CustMisc
+                      Text                #@SYS95164
+                      MultiSelect         #Yes
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #SendXMLOriginal
+                          HelpText            #@SYS95167
+                          ConfigurationKey    #AIF
+                          SecurityKey         #CustMisc
+                          Text                #@SYS13700
+                          MultiSelect         #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #void clicked()
+                            #{
+                            #    CustPackingSlipJour     custPackingSlipJourLocal;
+                            #    ;
+                            #
+                            #    for (custPackingSlipJourLocal = custPackingSlipJour_ds.getFirst(true) ? custPackingSlipJour_ds.getFirst(true) : custPackingSlipJour;
+                            #         custPackingSlipJourLocal;
+                            #         custPackingSlipJourLocal = custPackingSlipJour_ds.getNext())
+                            #    {
+                            #        if (custPackingSlipJourLocal.canXMLBeSent())
+                            #        {
+                            #            custPackingSlipJourLocal.sendElectronically(XMLDocPurpose::Original, AifSendMode::Async);
+                            #        }
+                            #        else
+                            #        {
+                            #            warning (strfmt("@SYS99017",custPackingSlipJourLocal.PackingSlipId));
+                            #        }
+                            #    }
+                            #
+                            #    super();
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #SendXMLDuplicate
+                          HelpText            #@SYS95168
+                          ConfigurationKey    #AIF
+                          SecurityKey         #CustMisc
+                          Text                #@SYS6896
+                          MultiSelect         #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #void clicked()
+                            #{
+                            #    CustPackingSlipJour     custPackingSlipJourLocal;
+                            #    ;
+                            #
+                            #    for (custPackingSlipJourLocal = custPackingSlipJour_ds.getFirst(true) ? custPackingSlipJour_ds.getFirst(true) : custPackingSlipJour;
+                            #         custPackingSlipJourLocal;
+                            #         custPackingSlipJourLocal = custPackingSlipJour_ds.getNext())
+                            #    {
+                            #        if (custPackingSlipJourLocal.canXMLBeSent())
+                            #        {
+                            #            custPackingSlipJourLocal.sendElectronically(XMLDocPurpose::Duplicate, AifSendMode::Async);
+                            #        }
+                            #        else
+                            #        {
+                            #            warning (strfmt("@SYS99017",custPackingSlipJourLocal.PackingSlipId));
+                            #        }
+                            #    }
+                            #
+                            #    super();
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #ShipCarrierShipmentInformation
+                      MenuItemName        #ShipCarrierShipmentInformation
+                      DataSource          #ShipCarrierPackage
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL MENUITEMBUTTON
+                    PROPERTIES
+                      Name                #SalesDeliverySlip
+                      AutoDeclaration     #Yes
+                      ConfigurationKey    #CRSEBrazil
+                      MenuItemName        #NFFiscalDocJournal_BR
+                    ENDPROPERTIES
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Lines
+              Caption             #@SYS15451
+              DataSource          #CustPackingSlipJour
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #CustPackingSlipTrans
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPackingSlipTrans_origSalesId
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/a8a3979f-b0fa-48fd-9dfe-70e0231bae45.htm
+                        DataSource          #CustPackingSlipTrans
+                        DataField           #OrigSalesId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpTrans_ItemId
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/89d3c932-15ce-417c-9484-12de5cf512ff.htm
+                        DataSource          #CustPackingSlipTrans
+                        DataField           #ItemId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #InventoryDimensions
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/67F73FF5-6D94-4F45-AF10-E4811516C9B8.htm
+                        BackgroundColor     #Window background
+                        DataSource          #InventDim
+                        DataGroup           #InventoryDimensions
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpTrans_Ordered
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/40bb1c57-069c-4148-9a9e-dde5d319b9b5.htm
+                        DataSource          #CustPackingSlipTrans
+                        DataField           #Ordered
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpTrans_Qty
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/ddafaccc-e63f-4998-8787-21faf3125795.htm
+                        DataSource          #CustPackingSlipTrans
+                        DataField           #Qty
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL REALEDIT
+                      PROPERTIES
+                        Name                #CustPckSlpTrans_Remain
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/0f0dcedc-2d7c-42d0-916e-2d64944b1383.htm
+                        DataSource          #CustPackingSlipTrans
+                        DataField           #Remain
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL BUTTONGROUP
+                PROPERTIES
+                  Name                #LinesButtonGroup
+                ENDPROPERTIES
+                
+                CONTAINER
+                  CONTROL MENUBUTTON
+                    PROPERTIES
+                      Name                #ButtonLineInventory
+                      HelpText            #@SYS28780
+                      Text                #@SYS981
+                      SaveRecord          #No
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #TransactLot
+                          SaveRecord          #No
+                          MenuItemName        #InventTransLot
+                          DataSource          #CustPackingSlipTrans
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL SEPARATOR
+                        PROPERTIES
+                          Name                #Separator
+                          Height              #100
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #InventDimParmFixed
+                          MenuItemName        #InventDimParmFixed
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #ShipmentTracking
+              AutoDeclaration     #Yes
+              ConfigurationKey    #ShipCarrier
+              Caption             #@SYS116717
+              DataSource          #ShipCarrierTracking
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid1
+                  DataSource          #ShipCarrierTracking
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ShipCarrierTracking_WaybillNum
+                        DataSource          #ShipCarrierTracking
+                        DataField           #TrackingNumber
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PackageInfo
+                  FrameType           #None
+                  DataSource          #ShipCarrierPackage
+                  DataGroup           #PackageInfo
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #echDelivery
+                  DataSource          #ShipCarrierPackage
+                  DataGroup           #echDelivery
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

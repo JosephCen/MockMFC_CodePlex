@@ -1,0 +1,474 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: InventItem_PriceDiscTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #InventItem_PriceDiscTable
+    Id 30138
+    PROPERTIES
+      Name                #InventItem_PriceDiscTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class InventItem_PriceDiscTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.UnitId('UnitId')
+        #    #define.ToDate('ToDate')
+        #    #define.SearchAgain('SearchAgain')
+        #    #define.Relation('Relation')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.QuantityAmount('QuantityAmount')
+        #    #define.PriceUnit('PriceUnit')
+        #    #define.PriceInclVAT('PriceInclVAT')
+        #    #define.Percent2('Percent2')
+        #    #define.Percent1('Percent1')
+        #    #define.Markup('Markup')
+        #    #define.ItemRelation('ItemRelation')
+        #    #define.ItemCode('ItemCode')
+        #    #define.InventDimPriceDisc('InventDimPriceDisc')
+        #    #define.FromDate('FromDate')
+        #    #define.DeliveryTime('DeliveryTime')
+        #    #define.Currency('Currency')
+        #    #define.CalendarDays('CalendarDays')
+        #    #define.Amount('Amount')
+        #    #define.AllocateMarkup('AllocateMarkup')
+        #    #define.Agreement('Agreement')
+        #    #define.AccountRelation('AccountRelation')
+        #    #define.AccountCode('AccountCode')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventDimPriceDisc
+        #public AfStronglyTypedDataContainerList createInventDimPriceDisc()
+        #{
+        #    return this.get_NewList(#InventDimPriceDisc);
+        #}
+      ENDSOURCE
+      SOURCE #existsAccountCode
+        #public boolean existsAccountCode()
+        #{
+        #    return this.exists(#AccountCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsAccountRelation
+        #public boolean existsAccountRelation()
+        #{
+        #    return this.exists(#AccountRelation);
+        #}
+      ENDSOURCE
+      SOURCE #existsAgreement
+        #public boolean existsAgreement()
+        #{
+        #    return this.exists(#Agreement);
+        #}
+      ENDSOURCE
+      SOURCE #existsAllocateMarkup
+        #public boolean existsAllocateMarkup()
+        #{
+        #    return this.exists(#AllocateMarkup);
+        #}
+      ENDSOURCE
+      SOURCE #existsAmount
+        #public boolean existsAmount()
+        #{
+        #    return this.exists(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #existsCalendarDays
+        #public boolean existsCalendarDays()
+        #{
+        #    return this.exists(#CalendarDays);
+        #}
+      ENDSOURCE
+      SOURCE #existsCurrency
+        #public boolean existsCurrency()
+        #{
+        #    return this.exists(#Currency);
+        #}
+      ENDSOURCE
+      SOURCE #existsDeliveryTime
+        #public boolean existsDeliveryTime()
+        #{
+        #    return this.exists(#DeliveryTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsFromDate
+        #public boolean existsFromDate()
+        #{
+        #    return this.exists(#FromDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventDimPriceDisc
+        #public boolean existsInventDimPriceDisc()
+        #{
+        #    return this.exists(#InventDimPriceDisc);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemCode
+        #public boolean existsItemCode()
+        #{
+        #    return this.exists(#ItemCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsItemRelation
+        #public boolean existsItemRelation()
+        #{
+        #    return this.exists(#ItemRelation);
+        #}
+      ENDSOURCE
+      SOURCE #existsMarkup
+        #public boolean existsMarkup()
+        #{
+        #    return this.exists(#Markup);
+        #}
+      ENDSOURCE
+      SOURCE #existsPercent1
+        #public boolean existsPercent1()
+        #{
+        #    return this.exists(#Percent1);
+        #}
+      ENDSOURCE
+      SOURCE #existsPercent2
+        #public boolean existsPercent2()
+        #{
+        #    return this.exists(#Percent2);
+        #}
+      ENDSOURCE
+      SOURCE #existsPriceInclVAT
+        #public boolean existsPriceInclVAT()
+        #{
+        #    return this.exists(#PriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #existsPriceUnit
+        #public boolean existsPriceUnit()
+        #{
+        #    return this.exists(#PriceUnit);
+        #}
+      ENDSOURCE
+      SOURCE #existsQuantityAmount
+        #public boolean existsQuantityAmount()
+        #{
+        #    return this.exists(#QuantityAmount);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsRelation
+        #public boolean existsRelation()
+        #{
+        #    return this.exists(#Relation);
+        #}
+      ENDSOURCE
+      SOURCE #existsSearchAgain
+        #public boolean existsSearchAgain()
+        #{
+        #    return this.exists(#SearchAgain);
+        #}
+      ENDSOURCE
+      SOURCE #existsToDate
+        #public boolean existsToDate()
+        #{
+        #    return this.exists(#ToDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsUnitId
+        #public boolean existsUnitId()
+        #{
+        #    return this.exists(#UnitId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#Item_PriceDiscTable);
+        #}
+      ENDSOURCE
+      SOURCE #parmAccountCode
+        #public PriceDiscAccountCode parmAccountCode(PriceDiscAccountCode _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AccountCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AccountCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmAccountRelation
+        #public PriceDiscAccountRelation parmAccountRelation(PriceDiscAccountRelation _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AccountRelation, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AccountRelation);
+        #}
+      ENDSOURCE
+      SOURCE #parmAgreement
+        #public PriceAgreement parmAgreement(PriceAgreement _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Agreement, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Agreement);
+        #}
+      ENDSOURCE
+      SOURCE #parmAllocateMarkup
+        #public NoYes parmAllocateMarkup(NoYes _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AllocateMarkup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AllocateMarkup);
+        #}
+      ENDSOURCE
+      SOURCE #parmAmount
+        #public AmountCur parmAmount(AmountCur _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Amount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #parmCalendarDays
+        #public CalendarDays parmCalendarDays(CalendarDays _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CalendarDays, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CalendarDays);
+        #}
+      ENDSOURCE
+      SOURCE #parmCurrency
+        #public CurrencyCode parmCurrency(CurrencyCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Currency, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Currency);
+        #}
+      ENDSOURCE
+      SOURCE #parmDeliveryTime
+        #public Days parmDeliveryTime(Days _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DeliveryTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DeliveryTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmFromDate
+        #public FromDate parmFromDate(FromDate _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#FromDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#FromDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimPriceDisc
+        #public AfStronglyTypedDataContainerList parmInventDimPriceDisc(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventDimPriceDisc, _value);
+        #    }
+        #
+        #    return this.get_List(#InventDimPriceDisc);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemCode
+        #public PriceDiscItemCode parmItemCode(PriceDiscItemCode _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmItemRelation
+        #public PriceDiscItemRelation parmItemRelation(PriceDiscItemRelation _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ItemRelation, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ItemRelation);
+        #}
+      ENDSOURCE
+      SOURCE #parmMarkup
+        #public PriceMarkup parmMarkup(PriceMarkup _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Markup, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Markup);
+        #}
+      ENDSOURCE
+      SOURCE #parmPercent1
+        #public DiscPct parmPercent1(DiscPct _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Percent1, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Percent1);
+        #}
+      ENDSOURCE
+      SOURCE #parmPercent2
+        #public DiscPct parmPercent2(DiscPct _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Percent2, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Percent2);
+        #}
+      ENDSOURCE
+      SOURCE #parmPriceInclVAT
+        #public RBOPriceInclVAT parmPriceInclVAT(RBOPriceInclVAT _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PriceInclVAT, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PriceInclVAT);
+        #}
+      ENDSOURCE
+      SOURCE #parmPriceUnit
+        #public PriceUnit parmPriceUnit(PriceUnit _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PriceUnit, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PriceUnit);
+        #}
+      ENDSOURCE
+      SOURCE #parmQuantityAmount
+        #public AmountQty parmQuantityAmount(AmountQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#QuantityAmount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#QuantityAmount);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmRelation
+        #public PriceType parmRelation(PriceType _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Relation, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Relation);
+        #}
+      ENDSOURCE
+      SOURCE #parmSearchAgain
+        #public SearchAgain parmSearchAgain(SearchAgain _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SearchAgain, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SearchAgain);
+        #}
+      ENDSOURCE
+      SOURCE #parmToDate
+        #public ToDate parmToDate(ToDate _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ToDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ToDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmUnitId
+        #public UnitID parmUnitId(UnitID _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#UnitId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#UnitId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

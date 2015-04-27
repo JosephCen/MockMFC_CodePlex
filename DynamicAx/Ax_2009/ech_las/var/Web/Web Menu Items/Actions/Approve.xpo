@@ -1,0 +1,22 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : Approve unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #Approve
+    PROPERTIES
+      Name                #Approve
+      Label               #@ECH723
+      HelpText            #@ECH724
+      Object              #echEPROApproveReject
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

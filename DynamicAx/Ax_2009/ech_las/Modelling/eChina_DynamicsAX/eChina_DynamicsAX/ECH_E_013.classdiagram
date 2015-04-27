@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="16ec9abf-740d-4518-a2c5-3fb8a5116e04" name="ECH_E_013" linkedPackageId="a41ec68d-dfc8-41cc-a108-72221b9e6738" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="9c9a8314-28f9-44af-b466-506f144e10b4">
+      <profileInstance Id="2daa83b1-6077-422f-9b57-dc7b6510233d" name="CSharpProfile">
+        <elementDefinition Id="9919bd8d-3ebe-430b-8fa8-b269579ed851" />
+      </profileInstance>
+      <elementDefinition Id="dc23d959-468e-434d-8b6e-e87b4cc490ad" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="0296deba-22be-4cba-928c-ff36d0fca6ea" name="AifPipelineComponentInterface" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="83a24408-dcf5-4d7e-9369-4e0343b215ad" />
+        <ownedOperations>
+          <operation Id="ff853203-0bbb-4da5-9c22-7114bae86591" name="execute" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="27716c46-724e-4547-b8dc-5419807e658c" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="1ffaba0f-fb84-496b-a585-63ef65b6c6f6" name="componentRecId" direction="In">
+                  <elementDefinition Id="f9830788-cd05-4984-9e3a-63aeac228608" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="508c6695-01e7-42a1-b421-f8b244995238" LastKnownName="AifPipelineComponentRecId" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="86d8ba1c-6fb2-42ef-9c32-750c5d55c35d" name="message" direction="In">
+                  <elementDefinition Id="97dd71f5-8daf-416f-a84a-d2c71eca8c41" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="4a4916fb-6776-47c4-aa6e-5dd25aec9830" LastKnownName="AifMessage" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="87609329-b88a-4eea-89a5-f353ec3a2246" name="parms" direction="In">
+                  <elementDefinition Id="0cdfc3cd-046f-4ff6-8ff7-e2f0e3c679c2" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="ac5fcae1-dea0-4df3-845c-a45b4bde9c13" LastKnownName="AifPipelineParms" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="1d6979fc-2ce8-4516-862c-34b21b832af0" direction="Return">
+                  <elementDefinition Id="b64107f7-e714-44b3-ad3e-63fe525e5e96" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="bdecb876-dd31-4415-b263-14a72e4c9e45" LastKnownName="void" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="fd86380a-b546-47f5-b21a-94b38615169b" name="parmConfigMenuItemName" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="ec42bd2d-fc9e-4084-9161-8da315c66f56" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="bc84dc5c-5563-4f19-8ac4-2a9e60951b43" direction="Return">
+                  <elementDefinition Id="edae2999-b897-475c-9e56-45d24a90a2e3" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="81357631-99fc-481e-ad8a-f5d9c6bfcb13" LastKnownName="MenuItemNameDisplay" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="1286aec5-f17a-4080-997e-1624d039d95f" name="parmDescription" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="56852bbe-350b-4538-b10c-70a5ddd51c9e" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f1d43b0b-ab01-49e3-a752-974c43d2b689" direction="Return">
+                  <elementDefinition Id="9fbd2984-35bc-418a-b9cf-3e28aa90915a" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="f381715e-34e0-4705-9418-54451bc8788f" LastKnownName="AifComponentDescription" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="508c6695-01e7-42a1-b421-f8b244995238" name="AifPipelineComponentRecId" isAbstract="false" isLeaf="false" cachedFullName="AifPipelineComponentRecId">
+        <elementDefinition Id="e5e45573-5bdd-4ffe-9aea-0c0765fb1fef" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="4a4916fb-6776-47c4-aa6e-5dd25aec9830" name="AifMessage" isAbstract="false" isLeaf="false" cachedFullName="AifMessage">
+        <elementDefinition Id="256a8c5c-3707-486b-94f2-ffabd5f58685" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="ac5fcae1-dea0-4df3-845c-a45b4bde9c13" name="AifPipelineParms" isAbstract="false" isLeaf="false" cachedFullName="AifPipelineParms">
+        <elementDefinition Id="dad3a706-569b-4c79-a576-e11eef00b54d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="81357631-99fc-481e-ad8a-f5d9c6bfcb13" name="MenuItemNameDisplay" isAbstract="false" isLeaf="false" cachedFullName="MenuItemNameDisplay">
+        <elementDefinition Id="f0538288-db82-4075-a8d2-9f559176c741" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="bdecb876-dd31-4415-b263-14a72e4c9e45" name="void" isAbstract="false" isLeaf="false" cachedFullName="void">
+        <elementDefinition Id="246dfad7-0bf1-4ca9-b16d-b116f6b4939d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="f381715e-34e0-4705-9418-54451bc8788f" name="AifComponentDescription" isAbstract="false" isLeaf="false" cachedFullName="AifComponentDescription">
+        <elementDefinition Id="0829e456-873c-47f9-860d-233d5534419d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="fef1947f-17a8-4bcd-9779-c5d14cd48b9c" name="echAifCUPipelineComponent" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="402be4e3-5e28-4a39-8c4d-48a06752580b" />
+        <suppliersInternal>
+          <interfaceRealization Id="2f31e55d-78c8-4121-bc3a-296f468adfbc">
+            <interfaceMoniker Id="0296deba-22be-4cba-928c-ff36d0fca6ea" LastKnownName="AifPipelineComponentInterface" />
+            <elementDefinition Id="f40d8924-6579-4d63-89b7-613ac49b8f19" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation Id="f3212fd5-65f5-4720-9407-5724cccd66c9" name="execute" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="0fb2a16c-1e48-4ef9-aa30-b15cd29783fd" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="d6dd18de-fea6-4004-9353-ea1c1808c9f9" name="componentRecId" direction="In">
+                  <elementDefinition Id="05373ba0-9f8e-4504-9038-7a49956974d3" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="508c6695-01e7-42a1-b421-f8b244995238" LastKnownName="AifPipelineComponentRecId" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="61de7726-73aa-4253-af95-5569e8042c5f" name="message" direction="In">
+                  <elementDefinition Id="f2cf003a-48b8-4df9-860d-f9a95cffe3dd" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="4a4916fb-6776-47c4-aa6e-5dd25aec9830" LastKnownName="AifMessage" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="c46692ad-1a0f-45f0-8068-834fee4b8868" name="parms" direction="In">
+                  <elementDefinition Id="2f33a53a-ffad-4193-a6f8-b593f69d0bba" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="ac5fcae1-dea0-4df3-845c-a45b4bde9c13" LastKnownName="AifPipelineParms" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f0a28ce2-4661-41c3-b1e3-3abeb68cdd9e" direction="Return">
+                  <elementDefinition Id="61185ecc-7a3b-4b86-96fb-0d78bf1b3bbb" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="bdecb876-dd31-4415-b263-14a72e4c9e45" LastKnownName="void" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="ae589d17-3dee-4733-9354-679340e43330" name="parmConfigMenuItemName" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="5e3fd3b0-8d6f-4440-bc4e-3a6f337bf065" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="b69c5dcf-b0ed-421a-8209-aae2025860eb" direction="Return">
+                  <elementDefinition Id="65aa45c7-8916-4c2c-850c-3bd15306c0da" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="81357631-99fc-481e-ad8a-f5d9c6bfcb13" LastKnownName="MenuItemNameDisplay" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="4e457bd7-2c4c-4b8c-bf4f-e0d233fac8c5" name="parmDescription" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="fd28439c-15c1-446c-8b6c-756f0adb4748" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="779b7f20-aa09-47d3-ad96-5c53fb2deb62" direction="Return">
+                  <elementDefinition Id="f31c4038-ccd6-4a3c-984d-cec99ddbd041" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="f381715e-34e0-4705-9418-54451bc8788f" LastKnownName="AifComponentDescription" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="a41ec68d-dfc8-41cc-a108-72221b9e6738" name="eChina_DynamicsAX">
+    <elementDefinition Id="05b04b8a-9787-416e-ae1b-16c0100adaee" />
+  </package>
+</logicalClassDesignerModel>

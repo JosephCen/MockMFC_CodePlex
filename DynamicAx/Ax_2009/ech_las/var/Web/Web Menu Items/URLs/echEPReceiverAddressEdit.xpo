@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echEPReceiverAddressEdit unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echEPReceiverAddressEdit
+    PROPERTIES
+      Name                #echEPReceiverAddressEdit
+      Label               #@ech753
+      HelpText            #@ech754
+      URL                 #Sales/Enterprise%20Portal/echEPReceiverAddressEdit.aspx
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

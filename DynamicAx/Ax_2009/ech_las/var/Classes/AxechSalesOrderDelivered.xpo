@@ -1,0 +1,255 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechSalesOrderDelivered unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechSalesOrderDelivered
+    Id 30214
+    PROPERTIES
+      Name                #AxechSalesOrderDelivered
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechSalesOrderDelivered axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00909
+        #// *** Customization Date: 14 Aug 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Added extra fields to the interface
+        #
+        #class AxechSalesOrderDelivered extends AxInternalBase
+        #{
+        #    echSalesOrderDelivered echSalesOrderDelivered;
+        #
+        #// CS - ECH_WI_00909 - Marijn Catthoor - 14 Aug 2012
+        #
+        #    echSignDate                 echSignDate;
+        #    echDeliveryNote             echDeliveryNote;
+        #    echSignPerson               echSignPerson;
+        #    SalesId                     salesId;
+        #
+        #// CE - ECH_WI_00909 - Marijn Catthoor - 14 Aug 2012
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echSalesOrderDelivered currentRecord(echSalesOrderDelivered _echSalesOrderDelivered = echSalesOrderDelivered)
+        #{
+        #    if (!prmisdefault(_echSalesOrderDelivered))
+        #    {
+        #        super(_echSalesOrderDelivered);
+        #        echSalesOrderDelivered = _echSalesOrderDelivered;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echSalesOrderDelivered;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #doSave
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00909
+        #// *** Customization Date: 14 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description:   Don't save the record as this is a view, but update the related records
+        #
+        #public void doSave()
+        #{
+        #    SalesTable              salesTable;
+        #    ShipCarrierPackage      shipCarrierPackage;
+        #    ;
+        #
+        #    try
+        #    {
+        #
+        #        ttsbegin;
+        #        // Begin - Avanade.19.Oct.2012.nte.Project : < ECH_WI_01718 >
+        #        /*
+        #        select forupdate salesTable
+        #            where salesTable.SalesId    == this.parmSalesId();
+        #
+        #        if (salesTable)
+        #        {
+        #            salesTable.ECHAggStatus = echAggStatus::DeliveredAtCustomer;
+        #            salesTable.update();
+        #        }
+        #        */
+        #
+        #        select firstonly recId from salesTable
+        #            where salesTable.SalesId    == this.parmSalesId();
+        #
+        #        if (salesTable)
+        #            echUpdateAggStatus::updateStatus(SalesTable.SalesId, echAggStatus::DeliveredAtCustomer);
+        #        // End - Avanade.19.Oct.2012.nte.Project : < ECH_WI_01718 >
+        #
+        #        // update the sign info on the packing slip shipping info
+        #        select firstonly forupdate shipCarrierPackage
+        #            order by PackingSlipId desc
+        #            where shipCarrierPackage.SalesId    == this.parmSalesId();
+        #
+        #        shipCarrierPackage.echSignDate      = this.parmechSignDate();
+        #        shipCarrierPackage.echSignPerson    = this.parmechSignPerson();
+        #        shipCarrierPackage.echDeliveryNote  = this.parmechDeliveryNote();
+        #
+        #        shipCarrierPackage.update();
+        #        ttscommit;
+        #
+        #    }
+        #    catch
+        #    {
+        #        ttsabort;
+        #    }
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echSalesOrderDelivered
+        #public echSalesOrderDelivered echSalesOrderDelivered(echSalesOrderDelivered _echSalesOrderDelivered = echSalesOrderDelivered)
+        #{
+        #    if (!prmisdefault(_echSalesOrderDelivered))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echSalesOrderDelivered);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echSalesOrderDelivered emptyRecord()
+        #{
+        #    echSalesOrderDelivered localechSalesOrderDelivered;
+        #    ;
+        #    return localechSalesOrderDelivered;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechDeliveryNote
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00909
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the delivery note field
+        #
+        #public echDeliveryNote parmechDeliveryNote(echDeliveryNote _echDeliveryNote = echDeliveryNote)
+        #{
+        #    if (_echDeliveryNote)
+        #    {
+        #        echDeliveryNote = _echDeliveryNote;
+        #    }
+        #
+        #    return echDeliveryNote;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechSignDate
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00909
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the sign Date field
+        #
+        #public echSignDate parmechSignDate(echSignDate _echSignDate = echSignDate)
+        #{
+        #    if (_echSignDate)
+        #    {
+        #        echSignDate = _echSignDate;
+        #    }
+        #
+        #    return echSignDate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmechSignPerson
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00909
+        #// *** Customization Date: 13 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the sign Person field
+        #
+        #public echSignPerson parmechSignPerson(echSignPerson _echSignPerson = echSignPerson)
+        #{
+        #    if (_echSignPerson)
+        #    {
+        #        echSignPerson = _echSignPerson;
+        #    }
+        #
+        #    return echSignPerson;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesIdBase parmSalesId(SalesIdBase _salesId = '')
+        #{
+        #    if (_salesId)
+        #    {
+        #        salesId = _salesId;
+        #    }
+        #
+        #    return salesId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSalesId
+        #protected void setSalesId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echSalesOrderDelivered, SalesId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setSalesId();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechSalesOrderDelivered construct()
+        #{
+        #    return new AxechSalesOrderDelivered();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechSalesOrderDelivered
+        #public static AxechSalesOrderDelivered newechSalesOrderDelivered(echSalesOrderDelivered _echSalesOrderDelivered)
+        #{
+        #    AxechSalesOrderDelivered AxechSalesOrderDelivered = AxechSalesOrderDelivered::construct();
+        #    ;
+        #    AxechSalesOrderDelivered.echSalesOrderDelivered(_echSalesOrderDelivered);
+        #
+        #    return AxechSalesOrderDelivered;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

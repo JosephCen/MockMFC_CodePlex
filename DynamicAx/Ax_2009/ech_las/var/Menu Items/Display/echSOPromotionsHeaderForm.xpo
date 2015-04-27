@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSOPromotionsHeaderForm unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSOPromotionsHeaderForm
+    Type: 1
+    PROPERTIES
+      Name                #echSOPromotionsHeaderForm
+      Label               #@SYS115268
+      HelpText            #@ECH252
+      Object              #echSOPromotionsHeaderForm
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

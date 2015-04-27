@@ -1,0 +1,162 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echTmpStockAllocOverAlloc unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echTmpStockAllocOverAlloc
+    Id 30064
+    PROPERTIES
+      Name                #echTmpStockAllocOverAlloc
+      Label               #@ECH768
+      TitleField1         #itemId
+      TitleField2         #itemBarCode
+      Temporary           #Yes
+      ConfigurationKey    #echProcesses
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #itemBarCode
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #itemBarCode
+          Mandatory           #Yes
+          Table               #echTmpStockAllocOverAlloc
+          ExtendedDataType    
+            ARRAY 
+              #ItemBarCode
+              #
+            ENDARRAY
+          StringSize          #80
+        ENDPROPERTIES
+        
+      FIELD #itemId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #itemId
+          AllowEdit           #No
+          Table               #echTmpStockAllocOverAlloc
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #inventDimId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #inventDimId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echTmpStockAllocOverAlloc
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #echItemBarCode
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #echItemBarCode
+          Table               #echTmpStockAllocOverAlloc
+          ExtendedDataType    
+            ARRAY 
+              #EchItemBarCode
+              #
+            ENDARRAY
+          StringSize          #80
+        ENDPROPERTIES
+        
+      FIELD #CountDate
+        Id 30005
+        DATE
+        PROPERTIES
+          Name                #CountDate
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echTmpStockAllocOverAlloc
+          ExtendedDataType    
+            ARRAY 
+              #CountDate
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echOverAllocQty
+        Id 30006
+        REAL
+        PROPERTIES
+          Name                #echOverAllocQty
+          Label               #@ECH763
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          ConfigurationKey    #echProcesses
+          Table               #echTmpStockAllocOverAlloc
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echWMSQty
+        Id 30007
+        REAL
+        PROPERTIES
+          Name                #echWMSQty
+          Label               #@ECH764
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          ConfigurationKey    #echProcesses
+          Table               #echTmpStockAllocOverAlloc
+          ExtendedDataType    
+            ARRAY 
+              #Qty
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #itemId
+          #itemBarCode
+          #echItemBarCode
+          #inventDimId
+          #CountDate
+          #echOverAllocQty
+          #echWMSQty
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

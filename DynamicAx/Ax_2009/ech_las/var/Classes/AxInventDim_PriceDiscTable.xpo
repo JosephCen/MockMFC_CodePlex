@@ -1,0 +1,46 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventDim_PriceDiscTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventDim_PriceDiscTable
+    Id 7091
+    PROPERTIES
+      Name                #AxInventDim_PriceDiscTable
+      Extends             #AxInventDim
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #setInventStyleId
+        #public void setInventStyleId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventDim, InventStyleId)))
+        #    {
+        #        return;
+        #    }
+        #
+        #    //super();
+        #
+        #    axPriceDiscTable.setItemCode();
+        #
+        #    if (axPriceDiscTable.isFieldSet(fieldNum(PriceDiscTable, ItemCode)))
+        #    {
+        #        if (axPriceDiscTable.parmItemCode() != TableGroupAll::Table)
+        #        {
+        #            this.parmInventStyleId('');
+        #        }
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

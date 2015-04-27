@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSoCheckInvoiceParamTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSoCheckInvoiceParamTable
+    Type: 1
+    PROPERTIES
+      Name                #echSoCheckInvoiceParamTable
+      Label               #@ECH176
+      HelpText            #@ECH177
+      Object              #echSoCheckInvoiceParamTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

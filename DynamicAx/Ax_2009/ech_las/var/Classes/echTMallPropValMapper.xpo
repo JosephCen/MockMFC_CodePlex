@@ -1,0 +1,98 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echTMallPropValMapper unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echTMallPropValMapper
+    Id 30335
+    PROPERTIES
+      Name                #echTMallPropValMapper
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echTMallPropValMapper 
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #getPropValFromColor
+        #private echTMallPropertyValueId getPropValFromColor(echItemBarcodeTMallPropValue _barTMallPropVal)
+        #{
+        #    InventDim               _inventDim;
+        #    echColorTMallPropValue  _colorTMallPropVal;
+        #;
+        #    _inventDim = InventDim::find(_barTMallPropVal.inventDimId);
+        #
+        #    select firstonly _colorTMallPropVal
+        #      where _colorTMallPropVal.ColorId == _inventDim.InventColorId;
+        #
+        #    return _colorTMallPropVal.PropValueId;
+        #}
+      ENDSOURCE
+      SOURCE #getPropValFromSize
+        #private echTMallPropertyValueId getPropValFromSize(echItemBarcodeTMallPropValue _barTMallPropVal)
+        #{
+        #    InventDim              _inventDim;
+        #    echSizeTMallPropValue  _sizeTMallPropVal;
+        #;
+        #    _inventDim = InventDim::find(_barTMallPropVal.inventDimId);
+        #
+        #    select firstonly _sizeTMallPropVal
+        #      where _sizeTMallPropVal.SizeId == _inventDim.InventSizeId;
+        #
+        #    return _sizeTMallPropVal.PropValueId;
+        #}
+      ENDSOURCE
+      SOURCE #mapRecord
+        #public boolean mapRecord(echItemBarcodeTMallPropValue _barTMallPropVal)
+        #{
+        #    boolean                   _status;
+        #    echTMallCategoryProperty  _tmallCatProp;
+        #    echTMallPropertyValueId   _tmallPropValId;
+        #;
+        #    select firstonly _tmallCatProp
+        #      where _tmallCatProp.Cid    == _barTMallPropVal.Cid
+        #         && _tmallCatProp.PropId == _barTMallPropVal.PropId;
+        #
+        #    switch (_tmallCatProp.PropMappingType)
+        #    {
+        #        case echTMallPropertyMappingType::Color :
+        #            _tmallPropValId = this.getPropValFromColor(_barTMallPropVal);
+        #            break;
+        #        case echTMallPropertyMappingType::Size :
+        #            _tmallPropValId = this.getPropValFromSize(_barTMallPropVal);
+        #            break;
+        #    }
+        #
+        #    if (_tmallPropValId)
+        #    {
+        #        _status = true;
+        #        _barTMallPropVal.PropValueId = _tmallPropValId;
+        #    }
+        #    else
+        #    {
+        #        _status = false;
+        #    }
+        #
+        #    return _status;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static echTMallPropValMapper construct()
+        #{
+        #;
+        #
+        #    return new echTMallPropValMapper();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

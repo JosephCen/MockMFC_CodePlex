@@ -1,0 +1,53 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : CustPaymModeTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #CustPaymModeTable
+    Id 70
+    FIELDS
+      FIELD #echIsOnlinePay
+        Id 30001
+        ENUM
+        PROPERTIES
+          Name                #echIsOnlinePay
+          ConfigurationKey    #echProcesses
+          Table               #CustPaymModeTable
+          EnumType            #echIsOnlinePay
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS9039
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PaymMode
+          #PaymSumBy
+          #Name
+          #DiscGraceDays
+          #PaymStatus
+          #echIsOnlinePay
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

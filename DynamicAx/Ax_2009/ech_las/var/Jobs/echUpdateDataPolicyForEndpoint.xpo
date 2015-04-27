@@ -1,0 +1,44 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: echUpdateDataPolicyForEndpoint unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #echUpdateDataPolicyForEndpoint
+    #// *** ECHINA - Marijn Catthoor ***
+    #// *** Customization Code: ECH_I_CU01
+    #// *** Customization Date: 21 Mar 2012
+    #// *** Customization Type: Created
+    #// *** Description: Updated the data policy for a certain endpoint
+    #
+    #static void echUpdateDataPolicyForEndpoint(Args _args)
+    #{
+    #    AifEndpointId               endpointId = 'DMO_BTS';
+    #    AifEndpointActionPolicy     actionPolicy;
+    #    AifDataPolicy               dataPolicy;
+    #    AifDocumentField            documentField;
+    #    ;
+    #
+    #    // loop through the actions defined for the endpoint
+    #    while select actionPolicy
+    #        where actionPOlicy.EndpointId == endpointId
+    #    {
+    #        // Update the data policies
+    #        AifEndpointActionParameterSchema::addParameterSchemas(endpointId, actionPolicy.ActionId);
+    #
+    #        // enable all the fields
+    #        update_recordset dataPolicy
+    #            setting IsEnabled = NoYes::Yes
+    #            where   dataPolicy.ActionId     == actionPolicy.ActionId  &&
+    #                    dataPolicy.EndpointId   == endpointId;
+    #
+    #        info(strfmt('Updated action %1 for endpoint %2', actionPolicy.ActionId, endpointId));
+    #    }
+    #
+    #}
+  ENDSOURCE
+
+***Element: END

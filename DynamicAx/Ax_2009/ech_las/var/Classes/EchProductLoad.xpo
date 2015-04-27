@@ -1,0 +1,96 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchProductLoad unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchProductLoad
+    Id 30282
+    PROPERTIES
+      Name                #EchProductLoad
+      Extends             #AifDocument
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchProductLoad extends AifDocument
+        #{
+        #    #define.SenderId('SenderId')
+        #    #define.InventTable('InventTable')
+        #    #define.DocPurpose('DocPurpose')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createInventTable
+        #public AfStronglyTypedDataContainerList createInventTable()
+        #{
+        #    return this.get_NewList(#InventTable);
+        #}
+      ENDSOURCE
+      SOURCE #existsDocPurpose
+        #public boolean existsDocPurpose()
+        #{
+        #    return this.exists(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #existsInventTable
+        #public boolean existsInventTable()
+        #{
+        #    return this.exists(#InventTable);
+        #}
+      ENDSOURCE
+      SOURCE #existsSenderId
+        #public boolean existsSenderId()
+        #{
+        #    return this.exists(#SenderId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchProductLoad);
+        #}
+      ENDSOURCE
+      SOURCE #parmDocPurpose
+        #public XMLDocPurpose parmDocPurpose(XMLDocPurpose _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DocPurpose, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #parmInventTable
+        #public AfStronglyTypedDataContainerList parmInventTable(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#InventTable, _value);
+        #    }
+        #
+        #    return this.get_List(#InventTable);
+        #}
+      ENDSOURCE
+      SOURCE #parmSenderId
+        #public dataAreaId parmSenderId(dataAreaId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SenderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SenderId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

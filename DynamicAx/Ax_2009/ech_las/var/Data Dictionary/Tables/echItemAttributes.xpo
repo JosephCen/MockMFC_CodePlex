@@ -1,0 +1,278 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echItemAttributes unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echItemAttributes
+    Id 30037
+    PROPERTIES
+      Name                #echItemAttributes
+      Label               #@SYS31826
+      TitleField1         #AttributeId
+      TitleField2         #AttributeName
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #InventMisc
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      ClusterIndex        #ItemIdIdx
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Table               #echItemAttributes
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #UnitID
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #UnitID
+          Label               #@ECH261
+          Table               #echItemAttributes
+          ExtendedDataType    
+            ARRAY 
+              #UnitID
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Mandatory
+        Id 30003
+        ENUM
+        PROPERTIES
+          Name                #Mandatory
+          Label               #@SYS22073
+          HelpText            #@ECH263
+          Table               #echItemAttributes
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #Visible
+        Id 30004
+        ENUM
+        PROPERTIES
+          Name                #Visible
+          Label               #@SYS25454
+          HelpText            #@ECH264
+          Table               #echItemAttributes
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #AttributeId
+        Id 30006
+        STRING
+        PROPERTIES
+          Name                #AttributeId
+          Table               #echItemAttributes
+          ExtendedDataType    
+            ARRAY 
+              #echAttributeId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #AttributeName
+        Id 30007
+        STRING
+        PROPERTIES
+          Name                #AttributeName
+          Table               #echItemAttributes
+          ExtendedDataType    
+            ARRAY 
+              #echAttributeName
+              #
+            ENDARRAY
+          StringSize          #100
+        ENDPROPERTIES
+        
+      FIELD #AttributeDesc
+        Id 30008
+        STRING
+        PROPERTIES
+          Name                #AttributeDesc
+          Table               #echItemAttributes
+          ExtendedDataType    
+            ARRAY 
+              #echAttributeDesc
+              #
+            ENDARRAY
+          StringSize          #100
+        ENDPROPERTIES
+        
+      FIELD #AttributeValue
+        Id 30009
+        STRING
+        PROPERTIES
+          Name                #AttributeValue
+          Table               #echItemAttributes
+          ExtendedDataType    
+            ARRAY 
+              #echAttributeValue
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AttributeId
+          #AttributeName
+          #AttributeDesc
+          #AttributeValue
+          #UnitID
+          #ItemId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #UnitID
+          #Mandatory
+          #Visible
+          #AttributeId
+          #AttributeName
+          #AttributeDesc
+          #AttributeValue
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ItemAttributes
+        PROPERTIES
+          Name                #ItemAttributes
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AttributeId
+          #AttributeName
+          #AttributeDesc
+          #AttributeValue
+          #UnitID
+          #Mandatory
+          #Visible
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AttributeId
+          #AttributeName
+          #AttributeDesc
+          #AttributeValue
+          #UnitID
+          #Mandatory
+          #Visible
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ItemIdIdx
+      Id 30001
+      PROPERTIES
+        Name                #ItemIdIdx
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ItemId
+        #AttributeId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #update
+        #// Add ECH_WI_02211 by mengqi.cen on 20130527
+        #//   Change ProductCatalog interface deta update
+        #public void update()
+        #{
+        #;
+        #    super();
+        #    if (strLen(this.ItemId) > 0)
+        #        echSendProductCatalogLog::AddSendItemId(this.ItemId);
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_WI_0244
+        #// *** Customization Date: 25 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: exist method
+        #
+        #public static boolean exist(echPromotionId _id)
+        #{
+        #    echItemAttributes echItemAttributes;
+        #    ;
+        #
+        #    select firstonly RecId from echItemAttributes
+        #        index hint ItemIdIdx
+        #        where echItemAttributes.ItemId == _id;
+        #
+        #    return echItemAttributes.RecId ? true : false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Abdessamad Almask ***
+        #// *** Customization Code: ECH_WI_0244
+        #// *** Customization Date: 25 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: find method
+        #public static echItemAttributes find(ItemId _id, boolean _forUpdate = false)
+        #{
+        #    echItemAttributes echItemAttributes;
+        #    ;
+        #
+        #    echItemAttributes.selectForUpdate(_forUpdate);
+        #
+        #    select firstonly echItemAttributes
+        #        index hint ItemIdIdx
+        #        where echItemAttributes.ItemId == _id;
+        #
+        #    return echItemAttributes;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

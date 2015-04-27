@@ -1,0 +1,233 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echUpdateAggStatus unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echUpdateAggStatus
+    Id 30054
+    PROPERTIES
+      Name                #echUpdateAggStatus
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: update Aggregate status sales order when posting
+        #
+        #class echUpdateAggStatus
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #sendOrderToAIF
+        #// Update ECH_WI_02083 by mengqi.cen on 20130429
+        #//   Change access level of this method from 'protected' to 'public'.
+        #//   Add a new parameter '_aifSendMode'.
+        #//
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01653
+        #// *** Customization Date: 27 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description: Send an AIF message to BizTalk depending on the salesTableType
+        #
+        #public static void sendOrderToAIF(SalesTable _salesOrder, AifSendMode _aifSendMode = AifSendMode::Async)
+        #{
+        #    axdEchSendSalesOrder    axdEchSendSalesOrder;
+        #    ;
+        #
+        #    // check if the current order status is included in the aggregate status constraints table
+        #    if (!echSalesSendAggStatus::exist(_salesOrder.ECHAggStatus))
+        #        return;
+        #
+        #    switch (_salesOrder.SalesType)
+        #    {
+        #        case SalesType::ReturnItem:
+        #            _salesOrder.sendReturnOrderElectronically(XMLDocPurpose::Original, _aifSendMode);
+        #            break;
+        #        default:
+        #            axdEchSendSalesOrder = axdEchSendSalesOrder::construct();
+        #            axdEchSendSalesOrder.setEntityKey(_salesOrder);
+        #            axdEchSendSalesOrder.setAifSendMode(_aifSendMode);
+        #            axdEchSendSalesOrder.sendDocumentsToAif();
+        #            break;
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #updateStatus
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01653
+        #// *** Customization Date: 27 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: moved logic to send the order to new method sendOrderToAIF
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_018
+        #// *** Customization Date: 03 May 2012
+        #// *** Customization Type: modified
+        #// *** Description: send sales order to aif
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: update Aggregate Status
+        #
+        #public static void updateStatus(SalesId   _salesId, echAggStatus _echAggStatus)
+        #{
+        #    SalesTable              salesTableLocal;
+        #    axdEchSendSalesOrder    axdEchSendSalesOrder = axdEchSendSalesOrder::construct();
+        #    ;
+        #
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #    {
+        #        if(_salesId)
+        #        {
+        #            ttsbegin;
+        #            salesTableLocal = SalesTable::find(_salesId,true);
+        #            salesTablelocal.ECHAggStatus = _echAggstatus;
+        #            salesTableLocal.doUpdate();
+        #
+        #            ttscommit;
+        #
+        #// CS - ECH_E_018 - Anthony Christiaens - 03 May 2012
+        #// CS - ECH_WI_01653 - Marijn Catthoor - 27 Sep 2012
+        #
+        #            //axdEchSendSalesOrder.setEntityKey(salesTableLocal);
+        #            //axdEchSendSalesOrder.sendDocumentsToAif();
+        #            echUpdateAggStatus::sendOrderToAIF(salesTableLocal);
+        #// CE - ECH_WI_01653 - Marijn Catthoor - 27 Sep 2012
+        #// CE - ECH_E_018 - Anthony Christiaens - 03 May 2012
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #updateStatusFromSettlement
+        #// Update ECH_WI_02246 by mengqi.cen on 20130608
+        #//   Add logical for receiving value of SalesTable.echRefundedDateTime, when relevant order is a ReturnOrder.
+        #// Update ECH_WI_02193 by mengqi.cen on 20130521
+        #//   Add logical for receiving value of SalesTable.echRefundedDate, when relevant order is a ReturnOrder.
+        #// Update ECH_WI_02127 by mengqi.cen on 20130506
+        #//   Return Order (with sales order status checked if it is in "delivered" status)
+        #//
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01653
+        #// *** Customization Date: 27 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: moved logic to send the order to new method sendOrderToAIF
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01485
+        #// *** Customization Date: 21 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Don't take into account the current sales order status
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01490
+        #// *** Customization Date: 19 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Set status depending on sales order type
+        #
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00824
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Status should be paid instead of refunded
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_018
+        #// *** Customization Date: 03 May 2012
+        #// *** Customization Type: modified
+        #// *** Description: send sales order to aif
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: update status to 'Delivered at customer'
+        #
+        #public static void updateStatusFromSettlement(CustTrans _custTrans)//(SalesId   _salesId, echAggStatus _echAggStatus)
+        #{
+        #    SalesTable              salesTableLocal;
+        #    SalesTable              salesTableOrig;
+        #    CustInvoiceJour         custInvoiceJourLocal;
+        #    axdEchSendSalesOrder    axdEchSendSalesOrder = axdEchSendSalesOrder::construct();
+        #    ;
+        #
+        #    ttsbegin;
+        #    select custInvoiceJourLocal
+        #        where custInvoiceJourLocal.LedgerVoucher == _custTrans.Voucher &&
+        #              custInvoiceJourLocal.InvoiceId     == _custTrans.Invoice;
+        #
+        #    salesTableLocal = SalesTable::find(custInvoiceJourLocal.SalesId,true);
+        #
+        #
+        #
+        #// CS - ECH_WI_01485 - Marijn Catthoor - 21 Sep 2012
+        #
+        #    //if(salesTableLocal.ECHAggStatus == echAggStatus::Invoiced &&
+        #    //   _custTrans.AmountMST      == _custTrans.SettleAmountMST)
+        #    if(_custTrans.AmountMST      == _custTrans.SettleAmountMST)
+        #// CE - ECH_WI_01485 - Marijn Catthoor - 21 Sep 2012
+        #    {
+        #
+        #// CS - ECH_WI_01490 - Marijn Catthoor - 19 Sep 2012
+        #
+        #        if (salesTableLocal.SalesType == SalesType::ReturnItem)
+        #        {
+        #            salesTableLocal.ECHAggStatus    = echAggStatus::Refunded;
+        #            salesTableLocal.echRefundedDateTime =
+        #                DateTimeUtil::newDateTime(systemdateget(), timenow(), DateTimeUtil::getUserPreferredTimeZone());
+        #        }
+        #        else
+        #        {
+        #            salesTableLocal.ECHAggStatus = echAggStatus::Paid;
+        #        }
+        #
+        #// CE - ECH_WI_01490 - Marijn Catthoor - 19 Sep 2012
+        #
+        #        salesTableLocal.doUpdate();
+        #
+        #// CS - ECH_E_018 - Anthony Christiaens - 03 May 2012
+        #// CS - ECH_WI_01653 - Marijn Catthoor - 27 Sep 2012
+        #
+        #            //axdEchSendSalesOrder.setEntityKey(salesTableLocal);
+        #            //axdEchSendSalesOrder.sendDocumentsToAif();
+        #        if (salesTableLocal.SalesType == SalesType::ReturnItem)
+        #        {
+        #            // Due to 'DeliveredAtCustomer' got from WMS to later (mengqi.cen 20130725)
+        #            //   SalesOrder will be sent to ClientLegacy at 'Invoiced'
+        #            //    Relevant ReturnOrder should be sent out when relevant SalesOrder at this status as well.
+        #
+        #            // SalesOrder  will be sent to ClientLegacy at status 'DeliveredAtCustomer'
+        #            // ReturnOrder will be sent to ClientLegacy at status 'Refunded'
+        #            //   RO should not be sent to CL if relevant SO is not sent to CL.
+        #
+        #            salesTableOrig = SalesTable::find(salesTableLocal.echOriginalSalesId());
+        #            if (salesTableOrig.ECHAggStatus    == echAggStatus::Invoiced
+        #                || salesTableOrig.ECHAggStatus == echAggStatus::DeliveredAtCustomer
+        #                || salesTableOrig.ECHAggStatus == echAggStatus::Paid)
+        #                echUpdateAggStatus::sendOrderToAIF(salesTableLocal);
+        #        }
+        #        else
+        #        {
+        #            echUpdateAggStatus::sendOrderToAIF(salesTableLocal);
+        #        }
+        #// CE - ECH_WI_01653 - Marijn Catthoor - 27 Sep 2012
+        #// CE - ECH_E_018 - Anthony Christiaens - 03 May 2012
+        #    }
+        #    ttscommit;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,90 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckInvoice unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckInvoice
+    Id 30059
+    PROPERTIES
+      Name                #echSoCheckInvoice
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the invoice parameter
+        #
+        #class echSoCheckInvoice implements echISoCheck
+        #{
+        #    InventLocationId    inventLocationId;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return menuItemDisplayStr(echSoCheckInvoiceParamTable);
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH134";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean                     execute;
+        #    echSoCheckInvoiceParamTable invoiceTable;
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #    SalesTable                  salesTable = SalesTable::find(_salesId);
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #    ;
+        #
+        #    select firstonly InventlocationId from invoiceTable;
+        #
+        #    if(salesTable.InventLocationId == invoiceTable.InventLocationId
+        #    && salesTable.echInvoiceRequested)
+        #        execute = false;
+        #    else
+        #        execute = true;
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH135";
+        #}
+      ENDSOURCE
+      SOURCE #parmInventLocationId
+        #LedgerAccount parmInventLocationId(InventLocationId   _inventLocationId = inventLocationId)
+        #{
+        #    ;
+        #
+        #    inventLocationId = _inventLocationId;
+        #    return inventLocationId;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

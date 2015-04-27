@@ -1,0 +1,27 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echWMSJournalPost unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echWMSJournalPost
+    PROPERTIES
+      Name                #echWMSJournalPost
+      Label               #@SYS41360
+      HelpText            #@SYS85344
+      Object              #echWMSJournalPost
+      EnumTypeParameter   #NoYes
+      EnumParameter       #Yes
+      RunOn               #Called from
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventMisc
+      NeededAccessLevel   #Edit
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

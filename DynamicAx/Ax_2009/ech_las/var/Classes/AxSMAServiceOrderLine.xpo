@@ -1,0 +1,33 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxSMAServiceOrderLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxSMAServiceOrderLine
+    Id 3308
+    PROPERTIES
+      Name                #AxSMAServiceOrderLine
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #setActivityId
+        #protected void setActivityId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(SMAServiceOrderLine, ActivityId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

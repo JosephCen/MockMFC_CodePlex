@@ -1,0 +1,180 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchReturnOrderIn_echReturnOrderLine unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchReturnOrderIn_echReturnOrderLine
+    Id 30319
+    PROPERTIES
+      Name                #EchReturnOrderIn_echReturnOrderLine
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchReturnOrderIn_echReturnOrderLine extends AfStronglyTypedDataContainer
+        #{
+        #    #define.SkuName('SkuName')
+        #    #define.SkuId('SkuId')
+        #    #define.ReturnOrderId('ReturnOrderId')
+        #    #define.Qty('Qty')
+        #    #define.ProductId('ProductId')
+        #    #define.Price('Price')
+        #    #define.ExtSkuId('ExtSkuId')
+        #    #define.AttachmentCode('AttachmentCode')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsAttachmentCode
+        #public boolean existsAttachmentCode()
+        #{
+        #    return this.exists(#AttachmentCode);
+        #}
+      ENDSOURCE
+      SOURCE #existsExtSkuId
+        #public boolean existsExtSkuId()
+        #{
+        #    return this.exists(#ExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsPrice
+        #public boolean existsPrice()
+        #{
+        #    return this.exists(#Price);
+        #}
+      ENDSOURCE
+      SOURCE #existsProductId
+        #public boolean existsProductId()
+        #{
+        #    return this.exists(#ProductId);
+        #}
+      ENDSOURCE
+      SOURCE #existsQty
+        #public boolean existsQty()
+        #{
+        #    return this.exists(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #existsReturnOrderId
+        #public boolean existsReturnOrderId()
+        #{
+        #    return this.exists(#ReturnOrderId);
+        #}
+      ENDSOURCE
+      SOURCE #existsSkuId
+        #public boolean existsSkuId()
+        #{
+        #    return this.exists(#SkuId);
+        #}
+      ENDSOURCE
+      SOURCE #existsSkuName
+        #public boolean existsSkuName()
+        #{
+        #    return this.exists(#SkuName);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchReturnOrderIn_echReturnOrderLine);
+        #}
+      ENDSOURCE
+      SOURCE #parmAttachmentCode
+        #public echReturnAttachmentCode parmAttachmentCode(echReturnAttachmentCode _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#AttachmentCode, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#AttachmentCode);
+        #}
+      ENDSOURCE
+      SOURCE #parmExtSkuId
+        #public ExtCodeValue parmExtSkuId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ExtSkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ExtSkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmPrice
+        #public Price parmPrice(Price _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Price, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Price);
+        #}
+      ENDSOURCE
+      SOURCE #parmProductId
+        #public ExtCodeValue parmProductId(ExtCodeValue _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ProductId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ProductId);
+        #}
+      ENDSOURCE
+      SOURCE #parmQty
+        #public SalesQty parmQty(SalesQty _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Qty, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Qty);
+        #}
+      ENDSOURCE
+      SOURCE #parmReturnOrderId
+        #public echReturnOrderId parmReturnOrderId(echReturnOrderId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ReturnOrderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ReturnOrderId);
+        #}
+      ENDSOURCE
+      SOURCE #parmSkuId
+        #public echSkuId parmSkuId(echSkuId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SkuId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SkuId);
+        #}
+      ENDSOURCE
+      SOURCE #parmSkuName
+        #public Description parmSkuName(Description _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SkuName, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SkuName);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

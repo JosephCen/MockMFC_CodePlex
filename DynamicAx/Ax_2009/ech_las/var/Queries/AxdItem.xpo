@@ -1,0 +1,704 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: QUE
+
+; Microsoft Dynamics AX Query: AxdItem unloaded
+; --------------------------------------------------------------------------------
+VERSION 18
+
+QUERY #AxdItem
+  PROPERTIES
+    Name                #AxdItem
+    Title               #@SYS15649
+    Version             #464
+    NextUniqueId        #1044
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class QueryRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  BLOCKS
+    BLOCK #InventTable
+      PROPERTIES
+        Name                #InventTable
+        Table               #InventTable
+        UniqueId            #1000
+      ENDPROPERTIES
+      
+      FIELDLIST
+        PROPERTIES
+        ENDPROPERTIES
+        
+      ENDFIELDLIST
+      SORTING
+        FIELD #RecId
+          PROPERTIES
+            Table               #InventTable
+            Field               #RecId
+          ENDPROPERTIES
+          
+      ENDSORTING
+      LINES
+        LINE #ItemId
+        PROPERTIES
+          Name                #ItemId
+          Table               #InventTable
+          Field               #ItemId
+        ENDPROPERTIES
+        
+      ENDLINES
+      BLOCKS
+        BLOCK #InventTableModule
+          PROPERTIES
+            Name                #Sales
+            Table               #InventTableModule
+            UniqueId            #1001
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #ModuleType
+            PROPERTIES
+              Name                #ModuleType
+              Table               #InventTableModule
+              Field               #ModuleType
+              Value               #Sales
+              Status              #Lock
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventTableModule
+          PROPERTIES
+            Name                #Purch
+            Table               #InventTableModule
+            UniqueId            #1002
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #ModuleType
+            PROPERTIES
+              Name                #ModuleType
+              Table               #InventTableModule
+              Field               #ModuleType
+              Value               #Purch
+              Status              #Lock
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventTableModule
+          PROPERTIES
+            Name                #Invent
+            Table               #InventTableModule
+            UniqueId            #1003
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #ModuleType
+            PROPERTIES
+              Name                #ModuleType
+              Table               #InventTableModule
+              Field               #ModuleType
+              Value               #Invent
+              Status              #Lock
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventItemLocation
+          PROPERTIES
+            Name                #InventItemLocation
+            Table               #InventItemLocation
+            UniqueId            #1004
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+            FIELD #RecId
+              PROPERTIES
+                Table               #InventItemLocation
+                Field               #RecId
+              ENDPROPERTIES
+              
+          ENDSORTING
+          LINES
+            LINE #wMSPickingLocation
+            PROPERTIES
+              Name                #wMSPickingLocation
+              Table               #InventItemLocation
+              Field               #wMSPickingLocation
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDim
+                Table               #InventDim
+                UniqueId            #1007
+                JoinMode            #OuterJoin
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #inventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventTxt
+          PROPERTIES
+            Name                #InventTxt
+            Table               #InventTxt
+            UniqueId            #1005
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #DocuRef
+          PROPERTIES
+            Name                #InventTableDocuRef
+            Table               #DocuRef
+            UniqueId            #1006
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+            LINE #Restriction
+            PROPERTIES
+              Name                #Restriction
+              Table               #DocuRef
+              Field               #Restriction
+              Value               #External
+              Status              #Lock
+            ENDPROPERTIES
+            
+            LINE #TypeId
+            PROPERTIES
+              Name                #TypeId
+              Table               #DocuRef
+              Field               #TypeId
+            ENDPROPERTIES
+            
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #dataAreaId
+              DETAILSFIELD #RefCompanyId
+            ASSOCIATION
+              MASTERFIELD  #TableId
+              DETAILSFIELD #RefTableId
+            ASSOCIATION
+              MASTERFIELD  #RecId
+              DETAILSFIELD #RefRecId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventItemSalesSetup
+          PROPERTIES
+            Name                #InventItemSalesSetup
+            Table               #InventItemSalesSetup
+            UniqueId            #1025
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDimSalesSetup
+                Table               #InventDim
+                UniqueId            #1026
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #InventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #DefaultInventDimSalesSetup
+                Table               #InventDim
+                UniqueId            #1027
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #InventItemSalesSetup
+                  MASTERFIELD  #InventDimIdDefault
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventItemPurchSetup
+          PROPERTIES
+            Name                #InventItemPurchSetup
+            Table               #InventItemPurchSetup
+            UniqueId            #1028
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDimPurchSetup
+                Table               #InventDim
+                UniqueId            #1029
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #InventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #DefaultInventDimPurchSetup
+                Table               #InventDim
+                UniqueId            #1030
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #InventItemPurchSetup
+                  MASTERFIELD  #InventDimIdDefault
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventItemInventSetup
+          PROPERTIES
+            Name                #InventItemInventSetup
+            Table               #InventItemInventSetup
+            UniqueId            #1031
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDimInventSetup
+                Table               #InventDim
+                UniqueId            #1033
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #InventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #DefaultInventDimInventSetup
+                Table               #InventDim
+                UniqueId            #1034
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  JOINDATASOURCE #InventItemInventSetup
+                  MASTERFIELD  #InventDimIdDefault
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #echItemAttributes
+          PROPERTIES
+            Name                #echItemAttributes
+            Table               #echItemAttributes
+            UniqueId            #1039
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #PriceDiscTable
+          PROPERTIES
+            Name                #PriceDiscTable
+            Table               #PriceDiscTable
+            UniqueId            #1040
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+            ENDPROPERTIES
+            
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDimPriceDisc
+                Table               #InventDim
+                UniqueId            #1041
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #InventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #ItemRelation
+          ENDASSOCIATIONS
+        ENDBLOCK
+        BLOCK #InventItemBarcode
+          PROPERTIES
+            Name                #InventItemBarcode
+            Table               #InventItemBarcode
+            UniqueId            #1042
+            JoinMode            #OuterJoin
+            Relations           #Yes
+          ENDPROPERTIES
+          
+          FIELDLIST
+            PROPERTIES
+              Dynamic             #No
+            ENDPROPERTIES
+            
+            FIELD #barcodeSetupId
+            FIELD #Blocked
+            FIELD #dataAreaId
+            FIELD #dEL_ModifiedTime
+            FIELD #description
+            FIELD #inventDimId
+            FIELD #itemBarCode
+            FIELD #itemId
+            FIELD #modifiedBy
+            FIELD #modifiedDateTime
+            FIELD #qty
+            FIELD #RBOShowForItem
+            FIELD #RBOVariantId
+            FIELD #RecId
+            FIELD #recVersion
+            FIELD #UnitID
+            FIELD #useForInput
+            FIELD #useForPrinting
+          ENDFIELDLIST
+          SORTING
+          ENDSORTING
+          LINES
+          ENDLINES
+          BLOCKS
+            BLOCK #InventDim
+              PROPERTIES
+                Name                #InventDimBarcode
+                Table               #InventDim
+                UniqueId            #1043
+                FetchMode           #1:1
+                JoinMode            #OuterJoin
+                Relations           #Yes
+              ENDPROPERTIES
+              
+              FIELDLIST
+                PROPERTIES
+                ENDPROPERTIES
+                
+              ENDFIELDLIST
+              SORTING
+              ENDSORTING
+              LINES
+              ENDLINES
+              BLOCKS
+              ENDBLOCKS
+              ASSOCIATIONS
+                ASSOCIATION
+                  MASTERFIELD  #inventDimId
+                  DETAILSFIELD #inventDimId
+              ENDASSOCIATIONS
+            ENDBLOCK
+          ENDBLOCKS
+          ASSOCIATIONS
+            ASSOCIATION
+              MASTERFIELD  #ItemId
+              DETAILSFIELD #itemId
+          ENDASSOCIATIONS
+        ENDBLOCK
+      ENDBLOCKS
+      GROUPBY
+      ENDGROUPBY
+      ORDERBY
+      ENDORDERBY
+    ENDBLOCK
+  ENDBLOCKS
+  DEPENDENTS
+  ENDDEPENDENTS
+  COMPOSITEQUERIES
+  ENDCOMPOSITEQUERIES
+ENDQUERY
+
+
+***Element: END

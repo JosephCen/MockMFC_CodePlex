@@ -1,0 +1,90 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckAmount unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckAmount
+    Id 30067
+    PROPERTIES
+      Name                #echSoCheckAmount
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the invoice parameter
+        #
+        #class echSoCheckAmount  implements echISoCheck
+        #{
+        #    Amount    maxAmount;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return menuItemDisplayStr(echSoCheckAmountTable);
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH161";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00793
+        #// *** Customization Date: 25 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: take currency code into account
+        #
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean                     execute;
+        #    SalesLine                   salesLine;
+        #    SalesTable                  salesTable = SalesTable::find(_salesId);
+        #    echSoCheckAmountTable       maxAmountTable;
+        #    ;
+        #
+        #    select sum(LineAmount) from salesLine
+        #        where salesLine.SalesId == _salesId;
+        #
+        #    select firstonly maxAmount from maxAmountTable;
+        #
+        #// CS - ECH_WI_00793 - Anthony Christiaens - 25 Jun 2012
+        #    execute = salesTable.amountMST(salesLine.LineAmount) > maxAmountTable.maxAmount ? false : true;
+        #// CE - ECH_WI_00793 - Anthony Christiaens - 25 Jun 2012
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH160";
+        #}
+      ENDSOURCE
+      SOURCE #parmMaxAmount
+        #Amount parmMaxAmount(Amount   _maxAmount = maxAmount)
+        #{
+        #    ;
+        #
+        #    maxAmount = _maxAmount;
+        #    return maxAmount;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

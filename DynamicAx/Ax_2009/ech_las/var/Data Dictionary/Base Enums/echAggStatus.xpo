@@ -1,0 +1,157 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : ECHAggStatus unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #ECHAggStatus
+    Id 30003
+    PROPERTIES
+      Name                #ECHAggStatus
+      Label               #@ECH118
+      Help                #@ECH119
+      ConfigurationKey    #echProcesses
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #Blank
+      PROPERTIES
+        Name                #Blank
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #PaymentConfirmed
+      PROPERTIES
+        Name                #PaymentConfirmed
+        Label               #@ECH105
+        EnumValue           #1
+      ENDPROPERTIES
+      
+      #Cancelled
+      PROPERTIES
+        Name                #Cancelled
+        Label               #@SYS107501
+        EnumValue           #2
+      ENDPROPERTIES
+      
+      #ChecksFailed
+      PROPERTIES
+        Name                #ChecksFailed
+        Label               #@ECH106
+        EnumValue           #3
+      ENDPROPERTIES
+      
+      #ChecksOK
+      PROPERTIES
+        Name                #ChecksOK
+        Label               #@ECH107
+        EnumValue           #4
+      ENDPROPERTIES
+      
+      #SendToWMS
+      PROPERTIES
+        Name                #SendToWMS
+        Label               #@ECH108
+        EnumValue           #5
+      ENDPROPERTIES
+      
+      #ShippedToCustomer
+      PROPERTIES
+        Name                #ShippedToCustomer
+        Label               #@ECH109
+        EnumValue           #6
+      ENDPROPERTIES
+      
+      #Invoiced
+      PROPERTIES
+        Name                #Invoiced
+        Label               #@SYS14205
+        EnumValue           #7
+      ENDPROPERTIES
+      
+      #DeliveredAtCustomer
+      PROPERTIES
+        Name                #DeliveredAtCustomer
+        Label               #@ECH110
+        EnumValue           #8
+      ENDPROPERTIES
+      
+      #Paid
+      PROPERTIES
+        Name                #Paid
+        Label               #@SYS15658
+        EnumValue           #9
+      ENDPROPERTIES
+      
+      #WaitShipping
+      PROPERTIES
+        Name                #WaitShipping
+        Label               #@ECH267
+        EnumValue           #10
+      ENDPROPERTIES
+      
+      #Created
+      PROPERTIES
+        Name                #Created
+        Label               #@SYS11408
+        EnumValue           #11
+      ENDPROPERTIES
+      
+      #ProductsReceived
+      PROPERTIES
+        Name                #ProductsReceived
+        Label               #@ECH111
+        EnumValue           #12
+      ENDPROPERTIES
+      
+      #RefundReplacement
+      PROPERTIES
+        Name                #RefundReplacement
+        Label               #@ECH112
+        EnumValue           #13
+      ENDPROPERTIES
+      
+      #ReturnToCustomer
+      PROPERTIES
+        Name                #ReturnToCustomer
+        Label               #@ECH113
+        EnumValue           #14
+      ENDPROPERTIES
+      
+      #Refunded
+      PROPERTIES
+        Name                #Refunded
+        Label               #@ECH114
+        EnumValue           #15
+      ENDPROPERTIES
+      
+      #StockReserved
+      PROPERTIES
+        Name                #StockReserved
+        Label               #@ECH303
+        EnumValue           #16
+      ENDPROPERTIES
+      
+      #Approved
+      PROPERTIES
+        Name                #Approved
+        Label               #@SYS10158
+        EnumValue           #17
+      ENDPROPERTIES
+      
+      #Rejected
+      PROPERTIES
+        Name                #Rejected
+        Label               #@SYS784
+        EnumValue           #18
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

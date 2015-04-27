@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echMessagingPartner unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echMessagingPartner
+    Type: 1
+    PROPERTIES
+      Name                #echMessagingPartner
+      Label               #@ECH18
+      HelpText            #@ECH26
+      Object              #echMessagingPartner
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #BasicSetup
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

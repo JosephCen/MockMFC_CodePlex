@@ -1,0 +1,81 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckQuantityParam unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckQuantityParam
+    Id 30064
+    PROPERTIES
+      Name                #echSoCheckQuantityParam
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: creation
+        #// *** Description: check of the quantity parameter
+        #
+        #class echSoCheckQuantityParam  implements echISoCheck
+        #{
+        #    Integer    maxQuantity;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #configMenuItemName
+        #MenuItemNameDisplay configMenuItemName()
+        #{
+        #    return menuItemDisplayStr(echSolCheckQuantityParamTable);
+        #}
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return "@ECH156";
+        #}
+      ENDSOURCE
+      SOURCE #execute
+        #public boolean execute(SalesId _salesId)
+        #{
+        #    boolean                         execute;
+        #    SalesLine                       salesLine;
+        #    echSolCheckQuantityParamTable   maxQtyTable;
+        #    ;
+        #
+        #    select sum(SalesQty) from salesLine
+        #        where salesLine.SalesId == _salesId;
+        #
+        #    select firstonly maxQuantity from maxQtyTable;
+        #
+        #    execute = salesLine.SalesQty > maxQtyTable.maxQuantity ? false : true;
+        #
+        #    return execute;
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #Name name()
+        #{
+        #    return "@ECH155";
+        #}
+      ENDSOURCE
+      SOURCE #parmMaxQuantity
+        #Integer parmMaxQuantity(Integer   _maxQuantity = maxQuantity)
+        #
+        #{
+        #    ;
+        #    maxQuantity = _maxQuantity;
+        #    return maxQuantity;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

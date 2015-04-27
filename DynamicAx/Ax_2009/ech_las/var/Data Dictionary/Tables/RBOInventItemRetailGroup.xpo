@@ -1,0 +1,94 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : RBOInventItemRetailGroup unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #RBOInventItemRetailGroup
+    Id 17289
+    PROPERTIES
+      Name                #RBOInventItemRetailGroup
+      Label               #@RBO1450
+      FormRef             #RBOInventItemRetailGroup
+      TitleField1         #groupId
+      TitleField2         #name
+      ConfigurationKey    #RetailHeadquarters
+      SecurityKey         #RBOTables
+      CacheLookup         #EntireTable
+      CreateRecIdIndex    #Yes
+      TableGroup          #Group
+      PrimaryIndex        #groupIdx
+      ClusterIndex        #groupIdx
+      ModifiedDateTime    #Yes
+      DEL_modifiedTime    #Yes
+      ModifiedBy          #Yes
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ParentId
+        Id 50006
+        STRING
+        PROPERTIES
+          Name                #ParentId
+          Table               #RBOInventItemRetailGroup
+          ExtendedDataType    
+            ARRAY 
+              #RBORetailGroupId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #LevelId
+        Id 50007
+        ENUM
+        PROPERTIES
+          Name                #LevelId
+          Table               #RBOInventItemRetailGroup
+          EnumType            #LevelId
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #ItemHierarchy
+        PROPERTIES
+          Name                #ItemHierarchy
+          Label               #@ech701
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ParentId
+          #LevelId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #RBOInventItemGroupSectionLocation
+      PROPERTIES
+        Table               #RBOInventItemGroupSectionLocation
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventTable
+      PROPERTIES
+        Table               #InventTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

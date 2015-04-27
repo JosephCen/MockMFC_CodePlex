@@ -1,0 +1,246 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventLocation unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventLocation
+    Id 158
+    PROPERTIES
+      Name                #InventLocation
+      Label               #@SYS7122
+      FormRef             #inventlocations
+      TitleField1         #InventLocationId
+      TitleField2         #Name
+      TableContents       #Base + default data
+      ConfigurationKey    #LogisticsAdvanced
+      SecurityKey         #InventTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Group
+      PrimaryIndex        #InventLocationIdx
+      ClusterIndex        #InventLocationIdx
+      ModifiedDateTime    #Yes
+      DeveloperDocumentation  #@SYS123830
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echMsgPartnerId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerId
+          Table               #InventLocation
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #echIsTemp
+        Id 30002
+        ENUM
+        PROPERTIES
+          Name                #echIsTemp
+          Table               #InventLocation
+          ExtendedDataType    
+            ARRAY 
+              #echTmpInventLocation
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #echStockAllocationPri
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #echStockAllocationPri
+          Label               #@ECH415
+          Mandatory           #Yes
+          Table               #InventLocation
+          ExtendedDataType    
+            ARRAY 
+              #Priority
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #echMsgPartner
+        PROPERTIES
+          Name                #echMsgPartner
+          Label               #@ECH19
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echMsgPartnerId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Reference
+        PROPERTIES
+          Name                #Reference
+          Label               #@SYS15217
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #VendAccount
+          #CustAccount
+          #echMsgPartnerId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Setup
+        PROPERTIES
+          Name                #Setup
+          Label               #@SYS2186
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Name
+          #InventLocationType
+          #InventLocationIdQuarantine
+          #InventLocationIdTransit
+          #InventCountingGroup
+          #echIsTemp
+          #echStockAllocationPri
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #echStockAllocationPriIdx
+      Id 30001
+      PROPERTIES
+        Name                #echStockAllocationPriIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #echStockAllocationPri
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #InventFallbackWarehouse
+      PROPERTIES
+        Table               #InventFallbackWarehouse
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #WMSAisle
+      PROPERTIES
+        Table               #WMSAisle
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #WMSLocation
+      PROPERTIES
+        Table               #WMSLocation
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #validateField
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_E_001
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: modified
+        #// *** Description: validate temp warehouse
+        #
+        #boolean validateField(fieldId id)
+        #{
+        #    InventLocation          inventLocationTransit;
+        #    boolean                 ret;
+        #    echTmpInventLocationId  echTmpInventLocationId;
+        #    ;
+        #    ret = super(id);
+        #
+        #    switch (fieldExt2Id(id))
+        #    {
+        #        case fieldnum(InventLocation,InventLocationIdReqMain):
+        #            ret = this.checkInventLocationIdReqMain() && ret;
+        #            ret = this.checkInventLocationLevel() && ret;
+        #            break;
+        #
+        #        case fieldnum(InventLocation, InventLocationIdQuarantine):
+        #            ret = this.checkQuarantineInventLocation() && ret;
+        #            if (ret)
+        #                ret = this.validateQuarantine();
+        #            break;
+        #
+        #        case fieldnum(InventLocation, InventLocationIdTransit):
+        #            if (this.InventLocationIdTransit)
+        #            {
+        #                inventLocationTransit = InventLocation::find(this.InventLocationIdTransit);
+        #                if (inventLocationTransit && inventLocationTransit.InventLocationType != InventLocationType::Transit)
+        #                {
+        #                    ret = checkFailed(strfmt("@SYS112776", InventLocationType::Transit));
+        #                }
+        #            }
+        #            break;
+        #
+        #        case fieldnum(InventLocation, BranchNumber):
+        #            ret = TaxEnterpriseBranchNumber_BE::checkBranchNumber(this.BranchNumber);
+        #            break;
+        #        // <GBR>
+        #        case fieldnum(InventLocation, VendAccount):
+        #            if (BrazilParameters::isEnabled())
+        #            {
+        #                ret = this.checkVendAccountInventLocation_BR() && ret;
+        #            }
+        #            break;
+        #        case fieldnum(InventLocation, CustAccount):
+        #            if (BrazilParameters::isEnabled())
+        #            {
+        #                ret = this.checkCustAccountInventLocation_BR() && ret;
+        #            }
+        #            break;
+        #        // </GBR>
+        #// CS - ECH_E_001 - Anthony Christiaens - 02 Apr 2012
+        #        case fieldnum(InventLocation, echIsTemp):
+        #            echTmpInventLocationId = InventLocation::echFindTmpInventLocationId(this.InventSiteId);
+        #            if (echTmpInventLocationId)
+        #                ret = checkFailed(strfmt("@ECH120", echTmpInventLocationId, this.InventSiteId));
+        #            break;
+        #// CE - ECH_E_001 - Anthony Christiaens - 02 Apr 2012
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #echFindTmpInventLocationId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ech_e_001
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: find the tmp invent location for a given site
+        #
+        #public static InventLocationId echFindTmpInventLocationId(InventSiteId _inventSiteId)
+        #{
+        #    InventLocation      inventLocation;
+        #    ;
+        #
+        #    select firstonly inventLocationId from inventLocation
+        #    where   inventLocation.echIsTemp    == NoYes::Yes
+        #    &&      inventLocation.InventSiteId == _inventSiteId;
+        #
+        #    return inventLocation.inventLocationId;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

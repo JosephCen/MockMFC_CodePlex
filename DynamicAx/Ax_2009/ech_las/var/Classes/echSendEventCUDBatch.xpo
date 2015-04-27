@@ -1,0 +1,258 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSendEventCUDBatch unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSendEventCUDBatch
+    Id 30106
+    PROPERTIES
+      Name                #echSendEventCUDBatch
+      Extends             #RunBaseBatch
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: send eventCUD records to mapped interface
+        #
+        #class echSendEventCUDBatch extends RunBaseBatch
+        #{
+        #    QueryRun        queryRun;
+        #    Set             eventSet;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: new
+        #
+        #protected void new()
+        #{
+        #    Query                   q;
+        #    ;
+        #
+        #    super();
+        #
+        #    eventSet    = new Set(Types::Int64);
+        #
+        #    q           = new query(querystr(echEventCUDBatch));
+        #    queryRun    = new QueryRun(q);
+        #}
+      ENDSOURCE
+      SOURCE #pack
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: pack
+        #
+        #public container pack()
+        #{
+        #    ;
+        #    return connull();
+        #}
+      ENDSOURCE
+      SOURCE #queryRun
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: queryRun
+        #
+        #public QueryRun queryRun()
+        #{
+        #    return queryRun;
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: add eventCUD to set
+        #
+        #public void run()
+        #{
+        #    #OCCRetryCount
+        #    EchEventCUD                     echEventCUD;
+        #    ;
+        #
+        #    try
+        #    {
+        #        ttsbegin;
+        #        this.setAllEventCUDReady();
+        #
+        #        while (queryRun.next())
+        #        {
+        #            echEventCUD = queryRun.get(tablenum(echEventCUD));
+        #
+        #            if (!eventSet.in(echEventCUD.RecId))
+        #                eventSet.add(echEventCUD.RecId);
+        #        }
+        #
+        #        this.sendEventCUD();
+        #        ttscommit;
+        #    }
+        #    catch (Exception::Deadlock)
+        #    {
+        #        retry;
+        #    }
+        #    catch (Exception::UpdateConflict)
+        #    {
+        #        if (appl.ttsLevel() == 0)
+        #        {
+        #            if (xSession::currentRetryCount() >= #RetryNum)
+        #            {
+        #                throw Exception::UpdateConflictNotRecovered;
+        #            }
+        #            else
+        #            {
+        #                retry;
+        #            }
+        #        }
+        #        else
+        #        {
+        #            throw Exception::UpdateConflict;
+        #        }
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #sendEventCUD
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: send eventCUD to interface
+        #
+        #private void sendEventCUD()
+        #{
+        #    SetEnumerator           setEnum = eventSet.getEnumerator();
+        #    EchEventCUD             echEventCUD;
+        #    AxdSend                 axdSend;
+        #    ;
+        #
+        #    while (setEnum.moveNext())
+        #    {
+        #        echEventCUD = EchEventCUD::find(setEnum.current());
+        #
+        #        if (echEventCUD.Status == BatchStatus::Ready)
+        #        {
+        #            echEventCUD = this.setEventCUDStatus(echEventCUD.RecId, BatchStatus::Executing);
+        #
+        #            switch (echEventCUD.CudTableId)
+        #            {
+        #                case tablenum(SalesTable):
+        #                    axdSend = new axdEchSendSalesUpdate();
+        #                    break;
+        #            }
+        #
+        #            if (axdSend)
+        #            {
+        #                axdSend.setEntityKey(SalesTable::findRecId(echEventCUD.CudRecId));
+        #                axdSend.sendDocumentsToAif();
+        #
+        #                echEventCUD = this.setEventCUDStatus(echEventCUD.RecId, BatchStatus::Finished);
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #setAllEventCUDReady
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: set all eventCUD ready for processing
+        #
+        #private void setAllEventCUDReady()
+        #{
+        #    EchEventCUD echEventCUD;
+        #    ;
+        #
+        #    update_recordset echEventCUD
+        #        setting
+        #            Status = BatchStatus::Ready
+        #        where
+        #            echEventCUD.Status == BatchStatus::Hold;
+        #}
+      ENDSOURCE
+      SOURCE #setEventCUDStatus
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: set eventCUD status
+        #
+        #private echEventCUD setEventCUDStatus(RecId _recId, BatchStatus _batchStatus)
+        #{
+        #    echEventCUD     echEventCUD;
+        #    ;
+        #    ttsbegin;
+        #    echEventCUD         = echEventCUD::find(_recId, true);
+        #    echEventCUD.Status  = _batchStatus;
+        #    echEventCUD.doUpdate();
+        #    ttscommit;
+        #
+        #    return echEventCUD;
+        #}
+      ENDSOURCE
+      SOURCE #unpack
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: unpack
+        #
+        #public boolean unpack(container _packedClass)
+        #{
+        #    ;
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #
+        #server static echSendEventCUDBatch construct()
+        #{
+        #    return new echSendEventCUDBatch();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00798
+        #// *** Customization Date: 03 Jul 2012
+        #// *** Customization Type: created
+        #// *** Description: main
+        #
+        #static void main(Args args)
+        #{
+        #    echSendEventCUDBatch    echSendEventCUDBatch;
+        #;
+        #    echSendEventCUDBatch = echSendEventCUDBatch::construct();
+        #
+        #    if (echSendEventCUDBatch.prompt())
+        #        echSendEventCUDBatch.run();
+        #
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

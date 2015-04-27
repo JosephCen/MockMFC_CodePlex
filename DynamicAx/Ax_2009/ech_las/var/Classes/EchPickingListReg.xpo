@@ -1,0 +1,96 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchPickingListReg unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchPickingListReg
+    Id 30078
+    PROPERTIES
+      Name                #EchPickingListReg
+      Extends             #AifDocument
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchPickingListReg extends AifDocument
+        #{
+        #    #define.WMSPickingRoute('WMSPickingRoute')
+        #    #define.SenderId('SenderId')
+        #    #define.DocPurpose('DocPurpose')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #createWMSPickingRoute
+        #public AfStronglyTypedDataContainerList createWMSPickingRoute()
+        #{
+        #    return this.get_NewList(#WMSPickingRoute);
+        #}
+      ENDSOURCE
+      SOURCE #existsDocPurpose
+        #public boolean existsDocPurpose()
+        #{
+        #    return this.exists(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #existsSenderId
+        #public boolean existsSenderId()
+        #{
+        #    return this.exists(#SenderId);
+        #}
+      ENDSOURCE
+      SOURCE #existsWMSPickingRoute
+        #public boolean existsWMSPickingRoute()
+        #{
+        #    return this.exists(#WMSPickingRoute);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#EchPickingListReg);
+        #}
+      ENDSOURCE
+      SOURCE #parmDocPurpose
+        #public XMLDocPurpose parmDocPurpose(XMLDocPurpose _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#DocPurpose, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#DocPurpose);
+        #}
+      ENDSOURCE
+      SOURCE #parmSenderId
+        #public dataAreaId parmSenderId(dataAreaId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SenderId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SenderId);
+        #}
+      ENDSOURCE
+      SOURCE #parmWMSPickingRoute
+        #public AfStronglyTypedDataContainerList parmWMSPickingRoute(AfStronglyTypedDataContainerList _value = null)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_List(#WMSPickingRoute, _value);
+        #    }
+        #
+        #    return this.get_List(#WMSPickingRoute);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

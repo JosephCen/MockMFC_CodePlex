@@ -1,0 +1,162 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesSalesOrder_echSOPromotionsHeader unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesSalesOrder_echSOPromotionsHeader
+    Id 30122
+    PROPERTIES
+      Name                #SalesSalesOrder_echSOPromotionsHeader
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class SalesSalesOrder_echSOPromotionsHeader extends AfStronglyTypedDataContainer
+        #{
+        #    #define.SalesId('SalesId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.PromotionId('PromotionId')
+        #    #define.PromotionDesc('PromotionDesc')
+        #    #define.Percentage('Percentage')
+        #    #define.Amount('Amount')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsAmount
+        #public boolean existsAmount()
+        #{
+        #    return this.exists(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #existsPercentage
+        #public boolean existsPercentage()
+        #{
+        #    return this.exists(#Percentage);
+        #}
+      ENDSOURCE
+      SOURCE #existsPromotionDesc
+        #public boolean existsPromotionDesc()
+        #{
+        #    return this.exists(#PromotionDesc);
+        #}
+      ENDSOURCE
+      SOURCE #existsPromotionId
+        #public boolean existsPromotionId()
+        #{
+        #    return this.exists(#PromotionId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsSalesId
+        #public boolean existsSalesId()
+        #{
+        #    return this.exists(#SalesId);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#SalesOrder_echSOPromotionsHeader);
+        #}
+      ENDSOURCE
+      SOURCE #parmAmount
+        #public Amount parmAmount(Amount _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Amount, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Amount);
+        #}
+      ENDSOURCE
+      SOURCE #parmPercentage
+        #public Percent parmPercentage(Percent _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Percentage, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Percentage);
+        #}
+      ENDSOURCE
+      SOURCE #parmPromotionDesc
+        #public echPromotionDesc parmPromotionDesc(echPromotionDesc _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PromotionDesc, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PromotionDesc);
+        #}
+      ENDSOURCE
+      SOURCE #parmPromotionId
+        #public echPromotionId parmPromotionId(echPromotionId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PromotionId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PromotionId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesId parmSalesId(SalesId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SalesId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SalesId);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

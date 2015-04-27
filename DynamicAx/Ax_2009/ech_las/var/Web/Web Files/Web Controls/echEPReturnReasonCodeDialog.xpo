@@ -1,0 +1,179 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPReturnReasonCodeDialog unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPReturnReasonCodeDialog
+    PROPERTIES
+      Name                #echEPReturnReasonCodeDialog
+      HelpText            #
+      Filename            #echEPReturnReasonCodeDialog.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPReturnReasonCodeDialog.ascx.cs" Inherits="echEPReturnReasonCodeDialog" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #	
+      #<dynamics:AxDataSource ID="dsechEPReturnReasonCodeDialog" runat="server" 
+      #    DataSetName="echEPCreateReturnOrder" ProviderView="SalesTable">
+      #</dynamics:AxDataSource>
+      #<dynamics:AxForm ID="formechEPReturnReasonCodeDialog" runat="server" 
+      #    CancelText="Cancel" 
+      #    DataMember="SalesTable_Current" DataSourceID="dsechEPReturnReasonCodeDialog" 
+      #    DefaultMode="Edit" AutoGenerateEditButton="True" 
+      #    CommandRowStyle-BorderStyle="None" EditText="OK" InsertText="OK" 
+      #    NewText="Create" UpdateText="OK" DataKeyNames="SalesId,ReturnReasonCodeId">
+      #    <dynamics:AxGroup ID="grpechEPCreateReturnOrder" runat="server">
+      #        <Fields>
+      #            <dynamics:AxBoundField DataField="SalesId" 
+      #                DataSet="echEPCreateReturnOrder" DataSetView="SalesTable" 
+      #                SortExpression="SalesId" HeaderText="<%$ AxLabel:@ECH566 %>">
+      #            </dynamics:AxBoundField>
+      #            <dynamics:AxBoundField DataField="ReturnReasonCodeId" 
+      #                DataSet="echEPCreateReturnOrder" DataSetView="SalesTable" 
+      #                HeaderText="<%$ AxLabel:@ECH759 %>">
+      #            </dynamics:AxBoundField>
+      #        </Fields>
+      #    </dynamics:AxGroup>
+      #</dynamics:AxForm>
+      #
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPReturnReasonCodeDialog_ascx_cs
+      HelpText            #
+      Filename            #echEPReturnReasonCodeDialog.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using Microsoft.Dynamics.Framework.Portal;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #
+      #
+      #public partial class echEPReturnReasonCodeDialog : System.Web.UI.UserControl
+      #{
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #
+      #
+      #    }
+      #    void Page_Init(object sender, EventArgs e)
+      #    {
+      #        this.formechEPReturnReasonCodeDialog.ItemCommand += new DetailsViewCommandEventHandler(ReturnReasonCodeForm_ItemCommand);
+      #    }
+      #
+      #    AxDataSourceView DataSourceViewSalesTable
+      #    {
+      #        get
+      #        {
+      #            //get the datasource view from the current form.
+      #            return this.dsechEPReturnReasonCodeDialog.GetDataSourceView(this.formechEPReturnReasonCodeDialog.DataMember);
+      #        }
+      #    }
+      #
+      #    private ISession AxSession
+      #    {
+      #        get
+      #        {
+      #            AxBaseWebPart webpart = AxBaseWebPart.GetWebpart(this);
+      #            return webpart == null ? null : webpart.Session;
+      #        }
+      #    }
+      #
+      #    private DataSetViewRow getCurrentDataSetViewRow()
+      #    {
+      #        DataSetViewRow Row=null;
+      #        if (this.dsechEPReturnReasonCodeDialog.GetDataSourceView("SalesTable") != null)
+      #        {
+      #            Row = this.dsechEPReturnReasonCodeDialog.GetDataSourceView("SalesTable").DataSetView.GetCurrent(); 
+      #        }
+      #        return Row;
+      #    }
+      #
+      #    private void ReturnReasonCodeForm_ItemCommand(object sender, DetailsViewCommandEventArgs e)
+      #    {
+      #        if (e.CommandName == "Cancel")
+      #        {
+      #            DataSetViewRow currentRow = getCurrentDataSetViewRow();
+      #            this.DataSourceViewSalesTable.CancelEdit();
+      #            IAxaptaObjectAdapter echCreateReturnOrder = this.AxSession.AxaptaAdapter.CreateAxaptaObject("echCreateReturnOrder");
+      #            echCreateReturnOrder.Call("deleteReturnOrder",currentRow.GetFieldValue("SalesId"));
+      #            this.RedirectToPreviousPage();
+      #        }
+      #        else
+      #        {
+      #            DataSetViewRow currentRow = getCurrentDataSetViewRow();
+      #            //this.DataSourceViewSalesTable.EndEdit();
+      #            IAxaptaObjectAdapter echEPRedirectToReturnTableInfo = this.AxSession.AxaptaAdapter.CreateAxaptaObject("echEPRedirectToReturnTableInfo");
+      #            echEPRedirectToReturnTableInfo.Call("echRedirectToReturnTableInfo",currentRow.GetFieldValue("SalesId"));
+      #            //dsechEPCreateReturnOrder.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("echCreateReturnOrder",
+      #            //                                                                          currentRow.GetFieldValue("CustAccount"),
+      #            //                                                                          currentRow.GetFieldValue("SalesId"),
+      #            //                                                                          currentRow.GetFieldValue("ReturnReasonCodeId"));
+      #        }
+      #    }
+      #
+      #    //protected void Sample_PopupClick(object sender, EventArgs e)
+      #    //{
+      #    //    AxUrlMenuItem menuItem = new AxUrlMenuItem("echEPCreateReturnOrder");
+      #    //    AxPopupChild_ReturnReasonCode.op
+      #    //}
+      #
+      #    private void RedirectToPreviousPage()
+      #    {
+      #        if (!string.IsNullOrEmpty(AxWebSession.GetPreviousURL(this.Page)))
+      #        {
+      #            if (AxWebSession.GetPreviousURL(this.Page).ToLower().Contains("minientity"))
+      #            {
+      #                string script = "<script language='javascript'>window.history.back();<script>";
+      #                System.Web.UI.ScriptManager.RegisterStartupScript(formechEPReturnReasonCodeDialog,
+      #                typeof(AxForm), "previous-url", script, false);
+      #            }
+      #            else
+      #            {
+      #                Response.Redirect(AxWebSession.GetPreviousURL(this.Page));
+      #            }
+      #        }
+      #        else
+      #        {
+      #            //AxUrlMenuItem listpage = new AxUrlMenuItem("EPSalesTableList");
+      #            //Response.Redirect(listpage.Url.OriginalString);
+      #        }
+      #    }
+      #    //protected void ImageButton_Click(object sender, EventArgs e)
+      #    //{
+      #    //    //The following lines for, to get the index of the selected row on the grid
+      #         
+      #    //}
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echPromotionLine unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echPromotionLine
+    PROPERTIES
+      Name                #echPromotionLine
+      Label               #@ECH276
+      HelpText            #@ECH251
+      URL                 #Sales/Enterprise%20Portal/echPromotionsLine.aspx
+      ConfigurationKey    #echProcesses
+      WebConfigurationkey #EP
+      SecurityKey         #EPSalesRepTasks
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

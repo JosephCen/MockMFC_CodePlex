@@ -1,0 +1,48 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SysLookup unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SysLookup
+    Id 3497
+    PROPERTIES
+      Name                #SysLookup
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #lookupEnum
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00801
+        #// *** Customization Date: 04 Jul 2012
+        #// *** Customization Type: modified
+        #// *** Description: pass extra parameter
+        #
+        #public static client FormRun lookupEnum(SysDictField _sysDictField, boolean _singleSelection = false)
+        #{
+        #    FormRun formRun;
+        #    Args    args;
+        #    ;
+        #    args        = new Args(formstr(SysLookup));
+        #
+        #    args.parm(int2str(SysLookup::getExtEnumId(_sysDictField)));
+        #// CS - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+        #    args.parmEnumType(enumnum(NoYes));
+        #    args.parmEnum(_singleSelection ? NoYes::Yes : NoYes::No);
+        #// CE - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+        #    formRun     = classFactory.formRunClass(args);
+        #    formRun.init();
+        #
+        #    return formRun;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

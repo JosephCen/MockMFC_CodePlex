@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSoCheckPromotionsTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSoCheckPromotionsTable
+    Type: 1
+    PROPERTIES
+      Name                #echSoCheckPromotionsTable
+      Label               #@ECH149
+      HelpText            #@ECH150
+      Object              #echSoCheckPromotionsTable
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

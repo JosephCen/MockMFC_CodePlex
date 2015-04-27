@@ -1,0 +1,178 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: VIE
+
+; Microsoft Dynamics AX View : echInventDimPriceDiscVw unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  VIEW #echInventDimPriceDiscVw
+    Id 30044
+    PROPERTIES
+      Name                #echInventDimPriceDiscVw
+      Label               #@SYS28190
+      TitleField1         #InventLocationId
+      TitleField2         #ItemRelation
+      ConfigurationKey    #echInterfaces
+      SaveDataPerCompany  #Yes
+      Query               #echInventDimPriceDisc
+    ENDPROPERTIES
+    
+    QUERY #Metadata
+      PROPERTIES
+        Name                #Metadata
+        Version             #1
+      ENDPROPERTIES
+      
+      BLOCKS
+      ENDBLOCKS
+      QUERY #echInventDimPriceDisc
+      ENDQUERY
+      
+    ENDQUERY
+    
+    FIELDS
+      VIEWFIELD #configId
+        Id 30001
+        PROPERTIES
+          Name                #configId
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #ConfigId
+          StringSize          #10
+          DataSource          #InventDim
+          DataField           #configId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #InventColorId
+        Id 30002
+        PROPERTIES
+          Name                #InventColorId
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #InventColorId
+          StringSize          #10
+          DataSource          #InventDim
+          DataField           #InventColorId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #InventSizeId
+        Id 30003
+        PROPERTIES
+          Name                #InventSizeId
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #InventSizeId
+          StringSize          #10
+          DataSource          #InventDim
+          DataField           #InventSizeId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #InventSiteId
+        Id 30004
+        PROPERTIES
+          Name                #InventSiteId
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #InventSiteId
+          StringSize          #10
+          DataSource          #InventDim
+          DataField           #InventSiteId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #InventLocationId
+        Id 30005
+        PROPERTIES
+          Name                #InventLocationId
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #InventLocationId
+          StringSize          #10
+          DataSource          #InventDim
+          DataField           #InventLocationId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #Amount
+        Id 30006
+        PROPERTIES
+          Type                #Real
+          Name                #Amount
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #AmountCur
+          StringSize          #(Memo)
+          DataSource          #PriceDiscTable
+          DataField           #Amount
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #ItemRelation
+        Id 30007
+        PROPERTIES
+          Name                #ItemRelation
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #PriceDiscItemRelation
+          StringSize          #20
+          DataSource          #PriceDiscTable
+          DataField           #ItemRelation
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #QuantityAmount
+        Id 30010
+        PROPERTIES
+          Type                #Real
+          Name                #QuantityAmount
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #AmountQty
+          StringSize          #(Memo)
+          DataSource          #PriceDiscTable
+          DataField           #QuantityAmount
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+      VIEWFIELD #inventDimId
+        Id 30011
+        PROPERTIES
+          Name                #inventDimId
+          Table               #echInventDimPriceDiscVw
+          ExtendedDataType    #InventDimId
+          StringSize          #20
+          DataSource          #PriceDiscTable
+          DataField           #InventDimId
+        ENDPROPERTIES
+        
+      ENDVIEWFIELD
+      
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #configId
+          #InventColorId
+          #InventSizeId
+          #InventSiteId
+          #InventLocationId
+          #Amount
+          #ItemRelation
+          #QuantityAmount
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+  ENDVIEW
+  
+
+***Element: END

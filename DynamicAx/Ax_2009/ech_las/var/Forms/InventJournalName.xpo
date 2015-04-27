@@ -1,0 +1,342 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventJournalName
+  PROPERTIES
+    Name                #InventJournalName
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #final class FormRun extends ObjectRun
+      #{
+      #
+      #}
+    ENDSOURCE
+    SOURCE #enableFields
+      #void enableFields()
+      #{
+      #    ;
+      #    switch(inventJournalName.journalType)
+      #    {
+      #        case InventJournalType::Movement:
+      #            inventJournalName_ds.object(fieldNum(InventJournalName, ledgerAccountIdOffset)).enabled(true);
+      #            break;
+      #        default:
+      #            inventJournalName_ds.object(fieldNum(InventJournalName, ledgerAccountIdOffset)).enabled(false);
+      #    }
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventJournalName
+          Table               #InventJournalName
+          LinkType            #Passive
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD JournalType
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    element.enableFields();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    element.enableFields();
+          #
+          #    // <RETAIL>
+          #
+          #
+          #    InventJournalName.setEnableInfocode();
+          #
+          #    InventJournalName.setEnableAreaCounting();
+          #
+          #
+          #
+          #    // </RETAIL>
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS24045
+      TitleDatasource     #InventJournalName
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/2ED45E87-351B-478A-BFA6-77501D8CA637.htm
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Tabs                #2
+          DataSource          #InventJournalName
+          Columns             #1
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #InventJournalName
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalName_JournalNameId
+                        DataSource          #InventJournalName
+                        DataField           #JournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalName_Description
+                        DataSource          #InventJournalName
+                        DataField           #Description
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #InventJournalName_JournalType
+                        DataSource          #InventJournalName
+                        DataField           #JournalType
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalName_VoucherSeqId
+                        DataSource          #InventJournalName
+                        DataField           #VoucherSeqId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Width               #Column width
+              Height              #Column height
+              Caption             #@SYS2952
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column1
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/4F6170E2-D887-4934-90A7-53FFE1983A3D.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Identification
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/A1B2952E-5072-44E8-9B8C-8A493825E188.htm
+                        DataSource          #InventJournalName
+                        DataGroup           #Identification
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Voucher
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/731C6C32-1C7D-43D1-BB39-B7E2117A0DE3.htm
+                        DataSource          #InventJournalName
+                        DataGroup           #Voucher
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Posting
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/752F02AE-A079-47CC-9461-C31F034A1BD3.htm
+                  DataSource          #InventJournalName
+                  DataGroup           #Posting
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Blocking
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/D4928F80-E0AF-41AE-B7AD-1A17347BFAE0.htm
+                  DataSource          #InventJournalName
+                  DataGroup           #Blocking
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #EchWarehouse
+                  DataSource          #InventJournalName
+                  DataGroup           #EchWarehouse
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Handheld
+              ConfigurationKey    #RetailStoreInventory
+              SecurityKey         #HHTJournals
+              Caption             #@HHT242
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Infocode
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTJournals
+                  DataSource          #InventJournalName
+                  DataGroup           #Infocode
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #AreaCounting
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTJournals
+                  DataSource          #InventJournalName
+                  DataGroup           #AreaCounting
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

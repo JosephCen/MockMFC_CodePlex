@@ -1,0 +1,72 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchPickingListRegService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchPickingListRegService
+    Id 30079
+    PROPERTIES
+      Name                #EchPickingListRegService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchPickingListRegService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #create
+        #
+        #public AifEntityKeyList create(EchPickingListReg _echPickingListReg)
+        #{
+        #    return this.createList(_echPickingListReg);
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #public EchPickingListReg find(AifQueryCriteria _queryCriteria)
+        #{
+        #    EchPickingListReg echPickingListReg = new EchPickingListReg();
+        #    this.findList(_queryCriteria, echPickingListReg);
+        #    return echPickingListReg;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #update
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01300
+        #// *** Customization Date: 05 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: change signature and return the entitykeylist
+        #
+        #
+        #public AifEntityKeyList update(AifEntityKeyList _entityKeyList, EchPickingListReg _echPickingListReg)
+        #{
+        #    this.updateList(_entityKeyList, _echPickingListReg);
+        #    return _entityKeyList;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static EchPickingListRegService construct()
+        #{
+        #    return new EchPickingListRegService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

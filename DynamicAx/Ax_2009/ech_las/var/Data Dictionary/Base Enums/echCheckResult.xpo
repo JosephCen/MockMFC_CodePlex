@@ -1,0 +1,39 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : echCheckResult unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #echCheckResult
+    Id 30005
+    PROPERTIES
+      Name                #echCheckResult
+      Label               #@SYS6769
+      Help                #@ECH125
+      ConfigurationKey    #echProcesses
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #OK
+      PROPERTIES
+        Name                #OK
+        Label               #@SYS5473
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #NOK
+      PROPERTIES
+        Name                #NOK
+        Label               #@ECH165
+        EnumValue           #1
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

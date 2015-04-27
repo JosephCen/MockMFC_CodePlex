@@ -1,0 +1,214 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPInventTableInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPInventTableInfo
+    PROPERTIES
+      Name                #echEPInventTableInfo
+      HelpText            #
+      Filename            #echEPInventTableInfo.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPInventTableInfo.ascx.cs" Inherits="echEPInventTableInfo" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #	Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register Src="AxBaseUserControl.ascx" TagName="AxBaseUserControl" TagPrefix="Ax" %>
+      #
+      #<%@ Register assembly="ECH.AX.EP.CustomControlLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3c4f9127f02b162c" namespace="ECH.AX.EP.CustomControlLibrary" tagprefix="AXGroupInLine" %>
+      #
+      #<style type="text/css">
+      #.AxGroupHeaderCell
+      #{
+      #      text-align: Left;
+      #      color: #5a5a5a;
+      #      width:100px;
+      #      padding: 2px 4px 2px 2px;      
+      #      white-space:nowrap;
+      #}
+      #.AxGroupDataCell
+      #{
+      #      text-align: Left;
+      #      color: #000000;
+      #      width:100px;
+      #      padding: 2px;
+      #      white-space:nowrap;
+      #}
+      #</style>
+      #
+      #<dynamics:AxDataSource ID="dsECHEPInventTableInfo" runat="server" DataSetName="echEPInventTableInfo" />
+      #
+      #<dynamics:AxForm ID="formECHInventTableInfo" runat="server" DataMember="InventTable_Current" DataSourceID="dsECHEPInventTableInfo"
+      #    DataKeyNames="RecId" >
+      #    <table>
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpItemBasicInfo" runat="server" Caption="<%$AxLabel:@ECH655 %>">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="ItemId" HeaderText="<%$AxLabel:@ECH548 %>" />
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="ItemName" HeaderText="<%$AxLabel:@ECH549 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="ItemDescription**" HeaderText="<%$AxLabel:@ECH587 %>" />
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="ItemType" HeaderText="<%$AxLabel:@ECH586 %>" /><%--
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="PrimaryVendorId" />--%>
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="TaxPackagingQty" HeaderText="<%$AxLabel:@ECH588 %>" />
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="NetWeight" HeaderText="<%$AxLabel:@ECH589 %>" />
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="TaraWeight" HeaderText="<%$AxLabel:@ECH590 %>" />
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="GrossWeight**" HeaderText="<%$AxLabel:@ECH591 %>" />
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr>
+      #    </table> 
+      #</dynamics:AxForm>
+      #<dynamics:AxForm ID="AxForm1" runat="server" DataMember="InventTable_Current" DataSourceID="dsECHEPInventTableInfo"
+      #    DataKeyNames="RecId" >
+      #    <table>
+      #        <tr align="left">
+      #            <td>
+      #                <AXGroupInLine:AXGroupRenderInLine ID="grpHierarchy" runat="server" Caption="<%$AxLabel:@ECH673 %>">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="echGetRetailGroupLevelOne**" HeaderText="<%$AxLabel:@ECH592 %>" />
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="echGetRetailGroupLevelTwo**" HeaderText="<%$AxLabel:@ECH593 %>"/>
+      #                        <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="echGetRetailGroupLevelThree**" HeaderText="<%$AxLabel:@ECH594 %>" />
+      #                    </Fields>
+      #                </AXGroupInLine:AXGroupRenderInLine>
+      #            </td>
+      #        </tr>
+      #    </table> 
+      #</dynamics:AxForm>
+      #<dynamics:AxMultiSection ID="MS1" runat="server">
+      #    <dynamics:AxSection ID="grpECHItemChannelInfo" runat="server" Caption="<%$AxLabel:@ECH656 %>" >
+      #            <dynamics:AxGridView ID="gridECHItemChannelInfo" runat="server" DataKeyNames="RecId"
+      #                DataMember="RBOAssortmentItemList" DataSourceID="dsECHEPInventTableInfo" >
+      #                <Columns>
+      #                    <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="RBOAssortmentItemList" DataField="relation" HeaderText="<%$AxLabel:@ECH5409 %>" />
+      #                </Columns>
+      #            </dynamics:AxGridView>
+      #        </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #<%--<dynamics:AxMultiSection ID="AxMultiSection4" runat="server">
+      #    <dynamics:AxSection ID="AxSection3" runat="server" Caption="Item Hierarchy Information" >
+      #            <dynamics:AxGridView ID="gridHierarchy" runat="server" DataKeyNames="RecId"
+      #                DataMember="InventTable" DataSourceID="dsECHEPInventTableInfo" >
+      #                <Columns>
+      #                    <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="echGetRetailGroupLevelOne**" HeaderText="Level One Retail Group" />
+      #                    <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="echGetRetailGroupLevelTwo**" HeaderText="Level Two Retail Group" />
+      #                    <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventTable" DataField="echGetRetailGroupLevelThree**" HeaderText="Level Three Retail Group" />
+      #                </Columns>
+      #            </dynamics:AxGridView>
+      #        </dynamics:AxSection>
+      #</dynamics:AxMultiSection>--%>
+      #<dynamics:AxMultiSection ID="AxMultiSection3" runat="server">
+      #    <dynamics:AxSection ID="AxSection2" runat="server" Caption="<%$AxLabel:@ECH658 %>" >
+      #            <dynamics:AxGridView ID="gridECHItemAttrInfo" runat="server" DataKeyNames="RecId"
+      #                DataMember="echItemAttributes" DataSourceID="dsECHEPInventTableInfo" >
+      #                <Columns>
+      #                    <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="echItemAttributes" DataField="AttributeName" HeaderText="<%$AxLabel:@ECH595 %>" />
+      #                    <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="echItemAttributes" DataField="AttributeValue" HeaderText="<%$AxLabel:@ECH596 %>" />
+      #                </Columns>
+      #            </dynamics:AxGridView>
+      #        </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #<dynamics:AxMultiSection ID="MS2" runat="server" >
+      #    <dynamics:AxSection ID="grpECHItemSkuInfo" runat="server" Caption="<%$AxLabel:@ECH659 %>" >
+      #        <dynamics:AxGridView ID="gridECHItemSKUInfo" runat="server" DataKeyNames="RecId"
+      #            DataMember="InventItemBarcode" DataSourceID="dsECHEPInventTableInfo" >
+      #            <Columns>
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="ItemBarCode" HeaderText="<%$AxLabel:@ECH597 %>"/>
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="echItemBarCode" HeaderText="<%$AxLabel:@ECH598 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="description" HeaderText="<%$AxLabel:@ECH599 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="InventDim!InventSizeId" HeaderText="<%$AxLabel:@ECH550 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="echGetRBOSizeName**" HeaderText="<%$AxLabel:@ECH551 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="InventDim!InventColorId" HeaderText="<%$AxLabel:@ECH552 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="echGetRBOColorName**" HeaderText="<%$AxLabel:@ECH553 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventItemBarCode" DataField="InventDim!InventStyleId" HeaderText="<%$AxLabel:@ECH554 %>" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #<dynamics:AxMultiSection ID="AxMultiSection1" runat="server" >
+      #    <dynamics:AxSection ID="grpECHItemSKUPrice" runat="server" Caption="<%$AxLabel:@ECH660 %>" >
+      #        <dynamics:AxGridView ID="gridECHItemSKUPrice" runat="server" DataKeyNames="RecId"
+      #            DataMember="PriceDiscTable" DataSourceID="dsECHEPInventTableInfo" >
+      #            <Columns>
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="echGetItemBarcode**" HeaderText="<%$AxLabel:@ECH597 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="echGetInventLocationId**" HeaderText="<%$AxLabel:@ECH509 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="DisplayMethod**" HeaderText="<%$AxLabel:@ECH600 %>"/>
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="DisplayMethod**" HeaderText="<%$AxLabel:@ECH601 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="Amount" HeaderText="<%$AxLabel:@ECH602 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="UnitId" HeaderText="<%$AxLabel:@ECH603 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="QuantityAmount" HeaderText="<%$AxLabel:@ECH604 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="FromDate" HeaderText="<%$AxLabel:@ECH605 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="PriceDiscTable" DataField="ToDate" HeaderText="<%$AxLabel:@ECH606 %>" />
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+      #<dynamics:AxMultiSection ID="AxMultiSection2" runat="server" >
+      #    <dynamics:AxSection ID="AxSection1" runat="server" Caption="<%$AxLabel:@ECH661 %>" >
+      #        <dynamics:AxGridView ID="gridEchItemSKUInvent" runat="server" DataKeyNames="RecId"
+      #            DataMember="InventSum" DataSourceID="dsECHEPInventTableInfo" >
+      #            <Columns><%--
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="ItemId" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="InventDimId" />--%>
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="echGetItemBarCode**" HeaderText="<%$AxLabel:@ECH597 %>"/>
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="InventLocationId**" HeaderText="<%$AxLabel:@ECH509 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="PhysicalInvent" HeaderText="<%$AxLabel:@ECH607 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="echGetInventSize**" HeaderText="<%$AxLabel:@ECH550 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="echGetRBOSizeName**" HeaderText="<%$AxLabel:@ECH551 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="echGetInventColor**" HeaderText="<%$AxLabel:@ECH552 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="echGetRBOColorName**" HeaderText="<%$AxLabel:@ECH553 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="ReservPhysical" HeaderText="<%$AxLabel:@ECH608 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="AvailPhysical" HeaderText="<%$AxLabel:@ECH609 %>" />
+      #                <dynamics:AxBoundField DataSet="echEPInventTableInfo" DataSetView="InventSum" DataField="echGetVirtualStock**" HeaderText="<%$AxLabel:@ECH610 %>">
+      #                    <ItemStyle HorizontalAlign="Right" />
+      #                </dynamics:AxBoundField>
+      #            </Columns>
+      #        </dynamics:AxGridView>
+      #    </dynamics:AxSection>
+      #</dynamics:AxMultiSection>
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPInventTableInfo_ascx_cs
+      HelpText            #
+      Filename            #echEPInventTableInfo.ascx.cs
+      RelativePath        #
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #
+      #public partial class echEPInventTableInfo : System.Web.UI.UserControl
+      #{	
+      #    protected void Page_Load(object sender, EventArgs e)
+      #    {
+      #		
+      #
+      #    }
+      #}
+      #
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

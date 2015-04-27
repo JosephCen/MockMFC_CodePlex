@@ -1,0 +1,622 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echEPCreatePartialReturnOrder
+  PROPERTIES
+    Name                #echEPCreatePartialReturnOrder
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    SalesId                 callerSalesId;
+      #
+      #    Map mapLines;
+      #    Map mapDim;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #UpdateBySalesId
+      #public void UpdateBySalesId(SalesId _salesId)
+      #{
+      #    SalesTable  m_SalesTable;
+      #    ;
+      #    select forupdate m_SalesTable
+      #        where m_SalesTable.SalesId == _salesId;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #pack
+      #public container pack()
+      #{
+      #    container ret;
+      #
+      #    ret = [mapLines.pack(),mapDim.pack(),callerSalesId, super()];
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+    SOURCE #unpack
+      #public boolean unpack(container _pack)
+      #{
+      #    container       base;
+      #    container       mapLinesLocal;
+      #    container       mapDimLocal;
+      #    SalesId         callerSalesIdLocal;
+      #
+      #    [mapLinesLocal, mapDimLocal, callerSalesIdLocal, base] = _pack;
+      #
+      #    mapLines        = Map::create(mapLinesLocal);
+      #    mapDim          = Map::create(mapDimLocal);
+      #    callerSalesId   = callerSalesIdLocal;
+      #
+      #    return super(base);
+      #}
+    ENDSOURCE
+    SOURCE #run
+      #public void run()
+      #{
+      #    super();
+      #
+      #    if (salesTable.SalesStatus <= SalesStatus::Backorder)
+      #    {
+      #        // ASP.NET web control will not pick up runtime
+      #        // changes to datasources. The same change must
+      #        // me made in the control
+      #        salesLine_ds.allowEdit(true);
+      #        inventdim_ds.allowEdit(true);
+      #    }
+      #
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    CustTransOpen   custTransOpen;
+      #    CustTrans       custTrans;
+      #    ;
+      #
+      #    if (element.args().dataset() == tablenum(CustTransOpen))
+      #    {
+      #        custTransOpen = element.args().record();
+      #        custTrans     = custTransOpen.custTrans();
+      #        callerSalesId = CustInvoiceJour::findFromCustTransVoucher(custTrans.Invoice, custTrans.Voucher, custTrans.TransDate, custTrans.AccountNum).SalesId;
+      #    }
+      #
+      #    super();
+      #
+      #    if (!mapLines)
+      #        mapLines = new Map(typeId2Type(typeid(recId)), Types::Record);
+      #
+      #    if (!mapDim)
+      #        mapDim   = new Map(typeId2Type(typeid(recId)), Types::Record);
+      #}
+    ENDSOURCE
+    SOURCE #modifySalesOrder
+      #Public boolean modifySalesOrder()
+      #{;
+      #    if (!salesTable.AddressMap::validateAddress())
+      #    {
+      #        return false;
+      #    }
+      #
+      #    try
+      #    {
+      #        EP::modifySalesOrder(salesTable, mapLines.pack(), mapDim.pack());
+      #    }
+      #    catch (Exception::Error)
+      #    {
+      #        return false;
+      #    }
+      #
+      #    return true;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD SalesId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesName
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CustAccount
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD DocumentStatus
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD CurrencyCode
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesStatus
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD SalesType
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryCounty
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    return true;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD DeliveryState
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    return true;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD Deadline
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    QueryBuildRange     rangeSalesId;
+          #    super();
+          #
+          #    if (callerSalesId)
+          #    {
+          #        this.query().dataSourceTable(tablenum(SalesTable)).clearDynalinks();
+          #        rangeSalesId = this.query().dataSourceTable(tablenum(SalesTable)).addRange(fieldnum(SalesTable,SalesId));
+          #        rangeSalesId.value(SysQuery::value(callerSalesId));
+          #        rangeSalesId.status(RangeStatus::Hidden);
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesLine
+          Table               #SalesLine
+          JoinSource          #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD SalesQty
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{;
+                #    salesLine.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+                #    super();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #public void write()
+          #{
+          #    ;
+          #    if (salesLine.RecId)
+          #    {
+          #        salesLine.InventDimId = InventDim::findOrCreate(inventDim).InventDimId;
+          #        salesLine_ds.setCurrentInventDim();
+          #        mapLines.insert(salesLine.RecId, salesLine);
+          #        mapDim.insert(salesLine.RecId, inventDim);
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #setCurrentInventDim
+          #void setCurrentInventDim()
+          #{
+          #    if (salesLine.InventDimId != inventDim.InventDimId)
+          #    {
+          #        inventDim.data(InventDim::find(salesLine.InventDimId));
+          #        inventDim_ds.setCurrent();
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTableLinks
+          Table               #SalesTableLinks
+          JoinSource          #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #BlanketSalesTable
+          Table               #SalesTable
+          JoinSource          #SalesTableLinks
+          LinkType            #OuterJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDim
+          Table               #InventDim
+          JoinSource          #SalesLine
+          LinkType            #InnerJoin
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD inventDimId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD inventBatchId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD wMSLocationId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD wMSPalletId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD inventSerialId
+            PROPERTIES
+              AllowEdit           #No
+            ENDPROPERTIES
+            
+          ENDDATAFIELD
+          
+          DATAFIELD InventLocationId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{;
+                #    super();
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventLocationId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    salesLine_ds.setCurrent();
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventLocationId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD configId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,ConfigId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    salesLine_ds.setCurrent();
+                #
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,ConfigId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSizeId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventSizeId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    salesLine_ds.setCurrent();
+                #
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventSizeId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventColorId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventColorId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    salesLine_ds.setCurrent();
+                #
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventColorId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventSiteId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventSiteId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventSiteId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    salesLine_ds.setCurrent();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD InventStyleId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #validate
+                #
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        ret = salesLine.validateModifyItemDim(inventDim,fieldnum(InventDim,InventStyleId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    salesLine.modifyItemDim(inventDim,fieldnum(InventDim,InventStyleId),InventTable::find(salesLine.ItemId).DimGroupId);
+                #    salesLine_ds.setCurrent();
+                #
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #write
+          #public void write()
+          #{
+          #    if (salesLine.RecId)
+          #    {
+          #        mapDim.insert(salesLine.RecId, inventDim);
+          #        mapLines.insert(salesLine.RecId, salesLine);
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSalesOrderCheckResultTable
+          Table               #echSalesOrderCheckResultTable
+          JoinSource          #SalesTable
+          LinkType            #Active
+          DelayActive         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    SalesLine SalesTable
+    SalesTableLinks SalesTable
+    BlanketSalesTable SalesTableLinks
+    InventDim SalesLine
+    echSalesOrderCheckResultTable SalesTable
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

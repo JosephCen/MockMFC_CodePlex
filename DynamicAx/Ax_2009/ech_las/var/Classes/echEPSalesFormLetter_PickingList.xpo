@@ -1,0 +1,77 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echEPSalesFormLetter_PickingList unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echEPSalesFormLetter_PickingList
+    Id 57723
+    PROPERTIES
+      Name                #echEPSalesFormLetter_PickingList
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echEPSalesFormLetter_PickingList
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #PickingList
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 30 April 2013
+        #// *** Customization Type: created
+        #// *** Description: PickingList
+        #public void PickingList(SalesTable  _salesTable)
+        #{
+        #    SalesFormLetter     m_SalesFormLetter;
+        #    ;
+        #    m_SalesFormLetter = SalesFormLetter::construct(DocumentStatus::PickingList,true);
+        #    m_SalesFormLetter.echSendElectronically(true);
+        #    m_SalesFormLetter.update(_salesTable,systemdateget(),SalesUpdate::All,AccountOrder::None,false,false,false);
+        #}
+      ENDSOURCE
+      SOURCE #Construct
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 30 April 2013
+        #// *** Customization Type: created
+        #// *** Description: construct
+        #Static echEPSalesFormLetter_PickingList Construct()
+        #{
+        #    return new echEPSalesFormLetter_PickingList();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #// *** ECHINA - Steven.qi zhang ***
+        #// *** Customization Code:
+        #// *** Customization Date: 30 April 2013
+        #// *** Customization Type: created
+        #// *** Description: main
+        #static void main(Args _args)
+        #{
+        #    SalesTable                          m_SalesTable;
+        #    echEPSalesFormLetter_PickingList    m_echEPSalesFormLetter_PickingList;
+        #    ;
+        #    m_echEPSalesFormLetter_PickingList = echEPSalesFormLetter_PickingList::Construct();
+        #    m_SalesTable = _args.record();
+        #    if(m_SalesTable.ECHAggStatus == ECHAggStatus::StockReserved)
+        #    {
+        #        m_echEPSalesFormLetter_PickingList.PickingList(m_SalesTable);
+        #    }
+        #    else
+        #    {
+        #        info(strfmt("@ECH758","@SYS11791","@ECH118","@ECH303"));
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

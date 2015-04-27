@@ -1,0 +1,26 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCM
+
+; Microsoft Dynamics AX MANAGEDCONTENTITEM : EPSalesTableListForCheckFailed unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MANAGEDCONTENTITEM #EPSalesTableListForCheckFailed
+    PROPERTIES
+      Name                #EPSalesTableListForCheckFailed
+      Label               #@ECH683
+      HelpText            #@ECH684
+      Object              #EPSalesTableList
+      EnumTypeParameter   #ECHAggStatus
+      EnumParameter       #ChecksFailed
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+      SecurityKey         #EPSalesRepInfo
+    ENDPROPERTIES
+    
+  ENDMANAGEDCONTENTITEM
+  
+
+***Element: END

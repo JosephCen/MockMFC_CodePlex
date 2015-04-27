@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="3e25a5df-f76a-4082-bed8-f1871418dc72" name="ECH_I_OR01" linkedPackageId="bf7c36b3-fc5a-40db-b482-1ee823736130" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <description>Order creation, update and cancellation</description>
+  <profileInstances>
+    <packageHasProfileInstances Id="f048defa-57f9-417f-9c00-e0d7fa08b6b8">
+      <profileInstance Id="56121f74-6235-4b2e-8cc8-274344b7eaa5" name="CSharpProfile">
+        <elementDefinition Id="9919bd8d-3ebe-430b-8fa8-b269579ed851" />
+      </profileInstance>
+      <elementDefinition Id="dc23d959-468e-434d-8b6e-e87b4cc490ad" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="fada99f0-bdc0-4570-9daa-b71cff748415" name="axdSend" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e42ea14d-1353-4ac9-85fa-3cb4081519d1" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="4abccd7a-a749-4688-81d4-eedf240890b3" name="echAxdSendSalesOrder" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="4a8ae81b-0140-465a-b695-095230eed905" />
+        <generalsInternal>
+          <generalization Id="6cea2f62-c79c-4cc0-8f6b-673d09bc4634" isSubstitutable="false">
+            <classMoniker Id="fada99f0-bdc0-4570-9daa-b71cff748415" LastKnownName="axdSend" />
+            <elementDefinition Id="c1321f6a-26f8-43a7-bc49-94a57ced6ae2" />
+          </generalization>
+        </generalsInternal>
+        <ownedOperationsInternal>
+          <operation Id="8e32f481-3b61-47cf-a0c9-1089ac19150e" name="main" isLeaf="false" isStatic="true" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="7c82ed7b-a822-4531-9026-e80d51760cc1" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="d6c5cb55-5f9e-4687-ac51-a691171d9663" name="args" direction="In">
+                  <elementDefinition Id="03da894c-8c75-4641-8e1b-15e96d737d15" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="4fe4b944-0e1d-42de-8167-db1be71987d8" LastKnownName="Args" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="4fe4b944-0e1d-42de-8167-db1be71987d8" name="Args" isAbstract="false" isLeaf="false" cachedFullName="Args">
+        <elementDefinition Id="3b251ebe-9c79-446d-b91b-e5fa84fc96f0" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="bf7c36b3-fc5a-40db-b482-1ee823736130" name="eChina_DynamicsAX">
+    <elementDefinition Id="05b04b8a-9787-416e-ae1b-16c0100adaee" />
+  </package>
+</logicalClassDesignerModel>

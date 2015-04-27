@@ -1,0 +1,45 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBE
+
+; Microsoft Dynamics AX Enumtype : LevelId unloaded
+; --------------------------------------------------------------------------------
+  ENUMTYPEVERSION 1
+  
+  ENUMTYPE #LevelId
+    Id 50001
+    PROPERTIES
+      Name                #LevelId
+      Label               #@ECH689
+      Help                #@ech699
+      UseEnumValue        #Yes
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+      #LevelOne
+      PROPERTIES
+        Name                #LevelOne
+        Label               #@ECH592
+        EnumValue           #0
+      ENDPROPERTIES
+      
+      #LevelTwo
+      PROPERTIES
+        Name                #LevelTwo
+        Label               #@ECH593
+        EnumValue           #1
+      ENDPROPERTIES
+      
+      #LevelThree
+      PROPERTIES
+        Name                #LevelThree
+        Label               #@ECH594
+        EnumValue           #2
+      ENDPROPERTIES
+      
+    ENDTYPEELEMENTS
+  ENDENUMTYPE
+  
+
+***Element: END

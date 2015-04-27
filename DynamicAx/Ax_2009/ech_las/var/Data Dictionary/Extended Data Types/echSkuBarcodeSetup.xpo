@@ -1,0 +1,29 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echSkuBarcodeSetup unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echSkuBarcodeSetup
+  Id 30030
+  STRING
+    PROPERTIES
+      Name                #echSkuBarcodeSetup
+      Label               #@ECH94
+      HelpText            #@ECH93
+      Extends             #BarcodeSetupId
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

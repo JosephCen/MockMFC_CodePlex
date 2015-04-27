@@ -1,0 +1,126 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echColorTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echColorTMallPropValue
+    Id 30075
+    PROPERTIES
+      Name                #echColorTMallPropValue
+      Label               #@ECH850
+      TitleField1         #ColorId
+      TitleField2         #PropValueId
+      ConfigurationKey    #echProcesses
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ColorId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ColorId
+          Table               #echColorTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #RBOColorId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Cid
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #Cid
+          Table               #echColorTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallCategoryId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropId
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #PropId
+          Table               #echColorTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #PropValueId
+        Id 30004
+        INT
+        PROPERTIES
+          Name                #PropValueId
+          Table               #echColorTMallPropValue
+          ExtendedDataType    
+            ARRAY 
+              #echTMallPropertyValueId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ColorId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ColorId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ColorId
+          #Cid
+          #PropId
+          #PropValueId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

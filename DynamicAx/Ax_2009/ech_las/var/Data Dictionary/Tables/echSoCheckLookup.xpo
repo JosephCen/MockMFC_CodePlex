@@ -1,0 +1,67 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSoCheckLookup unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSoCheckLookup
+    Id 30020
+    PROPERTIES
+      Name                #echSoCheckLookup
+      Label               #@ECH212
+      Temporary           #Yes
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustMisc
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #RecId
+      ClusterIndex        #RecId
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ClassName
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ClassName
+          Table               #echSoCheckLookup
+          ExtendedDataType    
+            ARRAY 
+              #ClassName
+              #
+            ENDARRAY
+          StringSize          #40
+        ENDPROPERTIES
+        
+      FIELD #Description
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #Description
+          Table               #echSoCheckLookup
+          ExtendedDataType    
+            ARRAY 
+              #AifComponentDescription
+              #
+            ENDARRAY
+          StringSize          #250
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

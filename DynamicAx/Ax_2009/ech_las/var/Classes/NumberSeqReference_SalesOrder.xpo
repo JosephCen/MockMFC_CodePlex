@@ -1,0 +1,278 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: NumberSeqReference_SalesOrder unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #NumberSeqReference_SalesOrder
+    Id 1447
+    PROPERTIES
+      Name                #NumberSeqReference_SalesOrder
+      Extends             #NumberSeqReference
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #loadModule
+        #// Create ECH_WI_02004 by mengqi.cen on 20130327
+        #//   Add NumSeqRef for echReturnOrderTable
+        #protected void loadModule()
+        #{
+        #    NumberSequenceReference numRef;
+        #    ;
+        #    /* Setup Salesorder numbers */
+        #
+        #    numRef.DataTypeId               = typeId2ExtendedTypeId(typeid(SalesId));
+        #    numRef.ConfigurationKeyId       = configurationkeynum(logisticsBasic);
+        #    numRef.ReferenceHelp            = literalstr("@SYS53946");
+        #    numRef.WizardManual             = NoYes::No;
+        #    numRef.WizardAllowChangeDown    = NoYes::No;
+        #    numRef.WizardAllowChangeUp      = NoYes::No;
+        #    numRef.SortField                = 1;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId               = typeId2ExtendedTypeId(typeid(ReturnItemNum));
+        #    numRef.ReferenceHelp            = literalstr("@SYS53964");
+        #    numRef.WizardContinuous         = false;
+        #    numRef.WizardManual             = NoYes::No;
+        #    numRef.WizardAllowChangeDown    = NoYes::No;
+        #    numRef.WizardAllowChangeUp      = NoYes::No;
+        #    numRef.WizardHighest            = 999999;
+        #    numRef.SortField                = 2;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(QuotationIdBase));
+        #    numRef.ConfigurationKeyId      = configurationkeynum(SalesQuotation);
+        #    numRef.ReferenceLabel          = literalstr("@SYS5864");
+        #    numRef.ReferenceHelp           = literalstr("@SYS91565"); // Unique key for quotation identification. The key is used when creating a quotation.
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 3;
+        #
+        #    this.create(numRef);
+        #
+        #    /* Setup posting numbers */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(QuotationId));
+        #    numRef.ReferenceLabel          = literalstr("@SYS151");
+        #    numRef.ReferenceHelp           = literalstr("@SYS99225"); // Unique key for quotation. The key is used when sending a quotation.
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 4;
+        #
+        #    this.create(numRef);
+        #
+        #    /* Setup posting numbers */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(QuotationConfirmId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS98918");
+        #    numRef.ReferenceHelp           = literalstr("@SYS99226"); // Unique key for quotation. The key is used when confirming a quotation.
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 5;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(ConfirmId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53951");
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 6;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(PickingListId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53953");
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 7;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(PackingSlipId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53952");
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.GroupEnabled            = NoYes::Yes;
+        #    numRef.SortField               = 8;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InvoiceId));
+        #    numRef.ConfigurationKeyId      = configurationkeynum(logisticsBasic);
+        #    numRef.ReferenceLabel          = literalstr("@SYS73521");
+        #    numRef.ReferenceHelp           = literalstr("@SYS53894");
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.GroupEnabled            = NoYes::Yes;
+        #    numRef.SortField               = 9;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(SalesCreditNoteId));
+        #    numRef.ReferenceLabel          = literalstr("@SYS73522");
+        #    numRef.ReferenceHelp           = literalstr("@SYS53897");
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.GroupEnabled            = NoYes::Yes;
+        #    numRef.SortField               = 10;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup voucher numbers */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(SalesPackingSlipVoucher));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53957");
+        #    numRef.DataTypeSameAsId        = typeId2ExtendedTypeId(typeid(PackingSlipId));
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardLowest            = 1000000;
+        #    numRef.WizardHighest           = 9999999;
+        #    numRef.GroupEnabled            = NoYes::Yes;
+        #    numRef.SortField               = 11;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(SalesInvoiceVoucher));
+        #    numRef.ReferenceLabel          = literalstr("@SYS73523");
+        #    numRef.ReferenceHelp           = literalstr("@SYS53907");
+        #    numRef.DataTypeSameAsId        = typeId2ExtendedTypeId(typeid(InvoiceId));
+        #    if (TaxParameters::find().VatBookEnable == NoYes::Yes)
+        #    {
+        #        numRef.AllowSameAs          = true;
+        #    }
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardLowest            = 10000000;
+        #    numRef.WizardHighest           = 19999999;
+        #    numRef.GroupEnabled            = NoYes::Yes;
+        #    numRef.SortField               = 12;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(SalesCreditNoteVoucher));
+        #    numRef.ReferenceLabel          = literalstr("@SYS73524");
+        #    numRef.ReferenceHelp           = literalstr("@SYS53909");
+        #    numRef.DataTypeSameAsId        = typeId2ExtendedTypeId(typeid(SalesCreditNoteId));
+        #    if (TaxParameters::find().VatBookEnable == NoYes::Yes)
+        #    {
+        #        numRef.AllowSameAs          = true;
+        #    }
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardLowest            = 20000000;
+        #    numRef.WizardHighest           = 29999999;
+        #    numRef.GroupEnabled            = NoYes::Yes;
+        #    numRef.SortField               = 13;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #   /* Setup pricedisc journal */
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(PriceDiscJournalNum));
+        #    numRef.ReferenceHelp           = literalstr("@SYS59062");
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 14;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(WMSBillOfLadingId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53848");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 15;
+        #
+        #    this.create(numRef);
+        #
+        #    // <GIN>
+        #    if (isConfigurationkeyEnabled(configurationkeynum(CRSEIndia)))
+        #    {
+        #        numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(CustomsShippingBillVoucher_IN));
+        #        numRef.ReferenceLabel          = literalstr("@GLS5784");
+        #        numRef.ReferenceHelp           = literalstr("@GLS5786");
+        #        numRef.WizardContinuous        = true;
+        #        numRef.WizardManual            = NoYes::No;
+        #        numRef.WizardAllowChangeDown   = NoYes::No;
+        #        numRef.WizardAllowChangeUp     = NoYes::No;
+        #        numRef.WizardLowest            = 10000000;
+        #        numRef.WizardHighest           = 19999999;
+        #        numRef.GroupEnabled            = NoYes::Yes;
+        #        numRef.SortField               = 16;
+        #
+        #        this.create(numRef);
+        #    }
+        #    // </GIN>
+        #
+        #    if (isConfigurationkeyEnabled(configurationkeynum(echProcesses)))
+        #    {
+        #        numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(echReturnOrderId));
+        #        numRef.ReferenceHelp           = literalstr("@ECH679");
+        #        numRef.WizardContinuous        = false;
+        #        numRef.WizardManual            = NoYes::No;
+        #        numRef.WizardAllowChangeDown   = NoYes::No;
+        #        numRef.WizardAllowChangeUp     = NoYes::No;
+        #        numRef.SortField               = 17;
+        #
+        #        this.create(numRef);
+        #    }
+        #    //add by Jason Wu 4/26/2013 begin;
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(ReturnReasonCodeId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS106030");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 18;
+        #
+        #    this.create(numRef);
+        #    //add by Jason Wu 4/26/2013 end;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

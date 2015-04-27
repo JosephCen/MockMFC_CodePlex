@@ -1,0 +1,116 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInvoiceContentTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInvoiceContentTable
+    Id 30063
+    PROPERTIES
+      Name                #echInvoiceContentTable
+      Label               #@ECH312
+      TitleField1         #echInvoiceContent
+      TitleField2         #echMsgPartnerId
+      SecurityKey         #CustTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echInvoiceContent
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #echInvoiceContent
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echInvoiceContentTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceContent
+              #
+            ENDARRAY
+          StringSize          #255
+        ENDPROPERTIES
+        
+      FIELD #echInvoiceContentId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #echInvoiceContentId
+          Mandatory           #Yes
+          Table               #echInvoiceContentTable
+          ExtendedDataType    
+            ARRAY 
+              #echInvoiceContentId
+              #
+            ENDARRAY
+          StringSize          #255
+        ENDPROPERTIES
+        
+      FIELD #echMsgPartnerId
+        Id 50004
+        STRING
+        PROPERTIES
+          Name                #echMsgPartnerId
+          Table               #echInvoiceContentTable
+          ExtendedDataType    
+            ARRAY 
+              #echMsgPartnerId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echInvoiceContentId
+          #echMsgPartnerId
+          #echInvoiceContent
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echInvoiceContent
+        PROPERTIES
+          Name                #echInvoiceContent
+          Label               #@ECH312
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echInvoiceContentId
+          #echInvoiceContent
+          #echMsgPartnerId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #echInvoice
+      Id 50001
+      PROPERTIES
+        Name                #echInvoice
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #echMsgPartnerId
+        #echInvoiceContent
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+  ENDTABLE
+  
+
+***Element: END

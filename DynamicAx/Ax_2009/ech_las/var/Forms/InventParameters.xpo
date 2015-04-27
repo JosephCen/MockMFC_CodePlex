@@ -1,0 +1,1562 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventParameters
+  PROPERTIES
+    Name                #InventParameters
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #class FormRun extends ObjectRun
+      #{
+      #    boolean                 runExecuteDirect;
+      #    TmpIdRef                tmpIdRef;
+      #    fieldId                 tmpFieldId;
+      #    SysFormSplitter_Y       formSplitter;
+      #    NumberSeqReference      numberSeqReference;
+      #}
+      #
+    ENDSOURCE
+    SOURCE #RFIDSetLoggingAccess
+      #void rfidSetLoggingAccess()
+      #{
+      #    if (rfidParameters.CommunicationLoggingLevel == RFIDLoggingLevel::Off)
+      #        rfidParameters_ds.object(fieldnum(RFIDParameters, CommunicationLogFile)).enabled(false);
+      #    else
+      #        rfidParameters_ds.object(fieldnum(RFIDParameters, CommunicationLogFile)).enabled(true);
+      #}
+    ENDSOURCE
+    SOURCE #allowEditListSelectionField
+      #//Disable fields based on fieldId
+      #public void allowEditListSelectionField(fieldId _listSelectionField)
+      #{
+      #    ;
+      #
+      #    switch(_listSelectionField)
+      #    {
+      #        case fieldnum(InventDim,InventLocationId)   :   inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridTransferOrder)).allowEdit(false);
+      #                                                        break;
+      #        case fieldnum(InventDim,InventSiteId)       :   inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridTransferOrder)).allowEdit(false);
+      #                                                        break;
+      #        default                                     :
+      #    }
+      #
+      #}
+      #
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    DictConfigurationKey dictConfigKey = new DictConfigurationKey(configurationkeynum(CRSENetherlands));
+      #    ;
+      #    this.numberSeqPreInit();
+      #
+      #    super();
+      #    inventParameters_ds.object(fieldNum(InventParameters, InventPackingThresholdWeight)).visible(dictConfigKey.enabled());
+      #
+      #    AxdDocumentParameters::find();
+      #    InventParameters::find();
+      #    BOMParameters::find();
+      #    WMSParameters::find();
+      #    RFIDParameters::find();
+      #
+      #    this.numberSeqPostInit();
+      #
+      #    InventDimSetupGrid::loadSetup();
+      #
+      #    this.fillView();
+      #}
+      #
+    ENDSOURCE
+    SOURCE #listSelection
+      #void listSelection()
+      #{
+      #    int idx;
+      #    ;
+      #    if (inventDimSetupGrid.RecId)
+      #        inventDimSetupGrid.write();
+      #
+      #    idx = dimensionList.getNextItem(FormListNext::Selected);
+      #
+      #    if (idx <0)
+      #    {
+      #        element.setupAllowEdit(false);
+      #        tmpFieldId = 0;
+      #        inventDimSetupGrid_ds.executeQuery();
+      #        inventDimSetupGrid_ds.refresh();
+      #        return;
+      #    }
+      #
+      #    element.setupAllowEdit(true);
+      #
+      #    tmpFieldId   = dimensionList.getItem(idx).data();
+      #
+      #    this.allowEditListSelectionField(tmpFieldId);//enable or disable fields based on selected field
+      #
+      #    inventDimSetupGrid_ds.executeQuery();
+      #
+      #    inventDimSetupGrid_ds.refresh();
+      #}
+    ENDSOURCE
+    SOURCE #setupAllowEdit
+      #void setupAllowEdit(boolean _allow)
+      #{
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventTransaction)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventTransaction)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventTransfer)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventTransfer)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventLossProfit)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventLossProfit)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventCounting)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventCounting)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridBOMMain)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridBOMMain)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventQuarantineOrder)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventQuarantineOrder)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventTrans)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridInventTrans)).skip(!_allow);
+      #
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSReception)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSReception)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSReceptionProd)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSReceptionProd)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSShipmentBasis)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSShipmentBasis)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSTransportLines)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSTransportLines)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSPickingLines)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridWMSPickingLines)).skip(!_allow);
+      #
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridTransferOrder)).allowEdit(_allow);
+      #    inventDimSetupGrid_ds.object(fieldnum(InventDimSetupGrid, ShowGridTransferOrder)).skip(!_allow);
+      #
+      #
+      #}
+    ENDSOURCE
+    SOURCE #fillView
+      #void fillView()
+      #{
+      #    ;
+      #    InventDimGlobal::fillParameterFormView(dimensionList);
+      #    element.setupAllowEdit(false);
+      #}
+    ENDSOURCE
+    SOURCE #numberSeqPostInit
+      #void numberSeqPostInit()
+      #{
+      #    boolean     anySameAsActive = NumberSeqReference_Inventory::anySameAsActive();
+      #    ;
+      #
+      #    numberSequenceReference_ds.object(fieldnum(NumberSequenceReference, AllowSameAs)).visible(anySameAsActive);
+      #    labelSameAs.visible(anySameAsActive);
+      #}
+      #
+    ENDSOURCE
+    SOURCE #numberSeqPreInit
+      #// AOSRunMode::Client
+      #void numberSeqPreInit()
+      #{
+      #    runExecuteDirect   = false;
+      #
+      #    NumberSeqReference_Inventory::loadFormModules();
+      #
+      #    tmpIdRef.setTmpData(NumberSequenceReference::configurationKeyTableMulti(
+      #        [InventParameters::numberSeqModule(),
+      #         BOMParameters::numberSeqModule(),
+      #         WMSParameters::numberSeqModule(),
+      #         RFIDParameters::numberSeqModule()
+      #        ]));
+      #}
+      #
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventParameters
+          Table               #InventParameters
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          LinkType            #Passive
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #NumberSequenceReference
+          Table               #NumberSequenceReference
+          Index               #ModuleIdx
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #RemoveFilter
+          #void removeFilter()
+          #{
+          #    runExecuteDirect = false;
+          #    numbersequenceReference_ds.executeQuery();
+          #}
+        ENDSOURCE
+        SOURCE #ExecuteQuery
+          #void executeQuery()
+          #{
+          #    if (runExecuteDirect)
+          #    {
+          #        super();
+          #    }
+          #    else
+          #    {
+          #        runExecuteDirect = true;
+          #
+          #        this.queryRun(NumberSeqReference::buildQueryRunMulti(numberSequenceReference,tmpIdRef,
+          #            [InventParameters::numberSeqModule(),
+          #             BOMParameters::numberSeqModule(),
+          #             WMSParameters::numberSeqModule(),
+          #             RFIDParameters::numberSeqModule()
+          #            ]));
+          #
+          #        numbersequenceReference_ds.research();
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDimSetupGrid
+          Table               #InventDimSetupGrid
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          LinkType            #Passive
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #void executeQuery()
+          #{
+          #    super();
+          #    select inventDimSetupGrid where inventDimSetupGrid.DimFieldId == tmpFieldId;
+          #
+          #
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #BOMParameters
+          Table               #BOMParameters
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #InventParameters
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    ;
+          #    if (!isConfigurationkeyEnabled(new DictTable(tablenum(BOMParameters)).configurationKeyId()))
+          #        bomParameters_ds.linkType(FormLinkType::Passive);
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #WMSParameters
+          Table               #WMSParameters
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #InventParameters
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    ;
+          #    if (!isConfigurationkeyEnabled(new DictTable(tablenum(WMSParameters)).configurationKeyId()))
+          #        wmsParameters_ds.linkType(FormLinkType::Passive);
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #RFIDParameters
+          Table               #RFIDParameters
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #InventParameters
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD CommunicationLoggingLevel
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #    element.rfidSetLoggingAccess();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #    ;
+          #
+          #    ret = super();
+          #
+          #    element.rfidSetLoggingAccess();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    ;
+          #    if (!isConfigurationkeyEnabled(new DictTable(tablenum(RFIDParameters)).configurationKeyId()))
+          #        rfidParameters_ds.linkType(FormLinkType::Passive);
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #AxdDocumentParameters
+          Table               #AxdDocumentParameters
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          JoinSource          #InventParameters
+          LinkType            #InnerJoin
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    ;
+          #    if (!isConfigurationkeyEnabled(new DictTable(tablenum(AxdDocumentParameters)).configurationKeyId()))
+          #    {
+          #        axdDocumentParameters_ds.linkType(FormLinkType::Passive);
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+    BOMParameters InventParameters
+    WMSParameters InventParameters
+    RFIDParameters InventParameters
+    AxdDocumentParameters InventParameters
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS25300
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/8D262D5B-E46B-42C0-8214-DC96F2E7935F.htm
+      Columns             #Auto
+      ArrangeGuide        
+        ARRAY INDEX Columns 
+          #0
+          #0
+        ENDARRAY
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Tabs                #9
+          Columns             #Auto
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS2952
+              Columns             #Auto
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PickAndShipRules
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/885C54D9-74AF-4C22-ABEB-CDCBA38FE915.htm
+                  DataSource          #InventParameters
+                  DataGroup           #PickAndShipRules
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventoryTransactions
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/7DBCAB99-E445-48EF-8F4F-3F72AABD9610.htm
+                  DataSource          #InventParameters
+                  DataGroup           #InventoryTransactions
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Reservation
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/F2845E75-CF9A-41B3-9075-724BD01BD06E.htm
+                  DataSource          #InventParameters
+                  DataGroup           #Reservation
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Close
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/3850DF50-77C3-4125-8C70-B98BFE2FAAB7.htm
+                  DataSource          #InventParameters
+                  DataGroup           #Close
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PhysicalPosting
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/4E3E5B10-BFE8-43B3-B2D7-B9E5D0C61216.htm
+                  DataSource          #InventParameters
+                  DataGroup           #PhysicalPosting
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #NonFinancialTransfer
+                  DataSource          #InventParameters
+                  DataGroup           #NonFinancialTransfer
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Counting
+                  Width               #Column width
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/D5885B26-FED6-420B-979E-FA8BA514A8DD.htm
+                  DataSource          #InventParameters
+                  DataGroup           #Counting
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #StockTransfer_IN
+                  AutoDeclaration     #Yes
+                  ConfigurationKey    #CRSEIndia
+                  Caption             #@GLS5900
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #ActivateStockTransfer_IN
+                        AutoDeclaration     #Yes
+                        Label               #@GLS5903
+                        DataSource          #InventParameters
+                        DataField           #ActivateStockTransfer_IN
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GroupItemStandard
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/0f723bcc-b6f9-469b-9644-ee9be310a8b8.htm
+                  Caption             #@SYS21682
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_DefaultUnitId
+                        DataSource          #InventParameters
+                        DataField           #DefaultUnitId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GroupLocations
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/9D03D649-BAB6-4255-A38A-9BCE554E44FA.htm
+                  Caption             #@SYS20394
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSParameters_defaultPalletTypeId
+                        DataSource          #WMSParameters
+                        DataField           #defaultPalletTypeId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #WMSParameters_manualSortCode
+                        DataSource          #WMSParameters
+                        DataField           #manualSortCode
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #WMSParameters_defaultCheckText
+                        DataSource          #WMSParameters
+                        DataField           #defaultCheckText
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PackingMaterial
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/3E55192E-19C1-48D5-8438-8BA1DE0FDB64.htm
+                  DataSource          #InventParameters
+                  DataGroup           #PackingMaterial
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #FiscalLIFO
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/DA287894-831B-4B36-BCCF-D9B7DCDB402E.htm
+                  DataSource          #InventParameters
+                  DataGroup           #FiscalLIFO
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #LastItemPrice
+                  DataSource          #InventParameters
+                  DataGroup           #LastItemPrice
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Shipping
+                  ConfigurationKey    #ShipCarrier
+                  DataSource          #InventParameters
+                  DataGroup           #ShipCarrier
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #TaxGroup
+                  DataSource          #InventParameters
+                  DataGroup           #TaxGroups
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #echSku
+                  DataSource          #InventParameters
+                  DataGroup           #echSku
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #echEan
+                  DataSource          #InventParameters
+                  DataGroup           #echEan
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #echStockAlloc
+                  DataSource          #InventParameters
+                  DataGroup           #echStockAlloc
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #Group_echIncStockAlloc
+                        DataSource          #InventParameters
+                        DataField           #echIncStockAlloc
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #echStockMovementAutoPosting
+                  Caption             #@ech771
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #InventParameters_echStockMovementAutoPosting
+                        DataSource          #InventParameters
+                        DataField           #echStockMovementAutoPosting
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Journals
+              Caption             #@SYS9020
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #DefaultJournalNames
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/FD15EBAB-10EB-446A-BDEF-1DC17CD648F4.htm
+                  Caption             #@SYS23983
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_MovementJournalNameId
+                        DataSource          #InventParameters
+                        DataField           #MovementJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_LossProfitJournalNameId
+                        DataSource          #InventParameters
+                        DataField           #LossProfitJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_TransferJournalNameId
+                        DataSource          #InventParameters
+                        DataField           #TransferJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_CountJournalNameId
+                        DataSource          #InventParameters
+                        DataField           #CountJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_BOMJournalNameId
+                        DataSource          #InventParameters
+                        DataField           #BOMJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_TagCountingJournalNameId
+                        DataSource          #InventParameters
+                        DataField           #TagCountingJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSParameters_receptionJournalNameId
+                        DataSource          #WMSParameters
+                        DataField           #receptionJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #WMSParameters_productionJournalNameId
+                        DataSource          #WMSParameters
+                        DataField           #productionJournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_FiscalLIFOJournalNameIdInternal
+                        DataSource          #InventParameters
+                        DataField           #FiscalLIFOJournalNameIdInternal
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventParameters_FiscalLIFOJournalNameIdFinal
+                        DataSource          #InventParameters
+                        DataField           #FiscalLIFOJournalNameIdFinal
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #BOM
+              Caption             #@SYS3076
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Check
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/62364AAE-C183-4928-AAF3-B8C643FF1499.htm
+                  DataSource          #BOMParameters
+                  DataGroup           #Check
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #BOMcalculation
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/6C96F258-A26F-4471-94BD-F718EABC2490.htm
+                  DataSource          #BOMParameters
+                  DataGroup           #BOMCalculation
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #BOMcalculation_BOMCalcGroupId
+                        DataSource          #BOMParameters
+                        DataField           #BOMCalcGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #CostControl
+                  DataSource          #InventParameters
+                  DataGroup           #CostControl
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Locations
+              Caption             #@SYS20394
+              Columns             #Auto
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #LocationSizes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/D8D89587-BE26-4754-803B-2F26F6C6FE43.htm
+                  DataSource          #WMSParameters
+                  DataGroup           #LocationSizes
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Transports
+              Caption             #@SYS50385
+              Columns             #Auto
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #DefaultPriorities
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/91F12BEA-8434-4E22-9701-62560C8F0354.htm
+                  DataSource          #WMSParameters
+                  DataGroup           #DefaultPriorities
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #TransferOrders
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/A8E890CE-3134-4105-8D56-5BB942B75F2D.htm
+                  DataSource          #InventParameters
+                  DataGroup           #TransferOrders
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Aif
+              ConfigurationKey    #AIF
+              Caption             #@SYS95172
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventoryJournalName
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/01E86B93-A93E-415A-A9DD-BB702ED5DCEE.htm
+                  DataSource          #AxdDocumentParameters
+                  DataGroup           #InventoryJournalName
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #RFID
+              Caption             #@SYS89295
+              DataSource          #RFIDParameters
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GroupRFID
+                  Width               #Column width
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/34F9DB41-AF11-4FA8-BF11-3CD984DEB93D.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #GroupCommunicationLogging
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/DD76ED31-5E3D-479D-9737-80E4BDB0A4C8.htm
+                        DataSource          #RFIDParameters
+                        DataGroup           #CommunicationLogging
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #GroupCommunicationLogging_CommunicationLoggingLevel
+                              DataSource          #RFIDParameters
+                              DataField           #CommunicationLoggingLevel
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #CommunicationLogFile
+                              AutoDeclaration     #Yes
+                              DataSource          #RFIDParameters
+                              DataField           #CommunicationLogFile
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #GroupEpc
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/B55A4D25-882A-49CB-A2F0-2333813AC7BB.htm
+                        DataSource          #RFIDParameters
+                        DataGroup           #EPC
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL INTEDIT
+                            PROPERTIES
+                              Name                #GroupEpc_EpcPartition
+                              DataSource          #RFIDParameters
+                              DataField           #EPCPartition
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #GroupEpc_EPCTagType
+                              DataSource          #RFIDParameters
+                              DataField           #EPCTagType
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL REALEDIT
+                            PROPERTIES
+                              Name                #GroupEpc_EPCManager
+                              DataSource          #RFIDParameters
+                              DataField           #EPCManager
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #RFIDsynchronizationParameters
+                  Left                #Right edge
+                  MenuItemName        #RFIDSynchronizationParameters
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #QualityManagementTabPage
+              Caption             #@SYS113616
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #QualityManagement
+                  DataSource          #InventParameters
+                  DataGroup           #QualityManagement
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventTestReportSetup
+                  Left                #Right edge
+                  MenuItemName        #InventTestReportSetup
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #InventDimSetup
+              ConfigurationKey    #LogisticsAdvanced
+              Caption             #@SYS53627
+              DataSource          #InventDimSetupGrid
+              Columns             #Auto
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #DimensionListGroup
+                  Height              #Column height
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/34940BF9-38AD-40D1-95DE-4CA2E2B1C20F.htm
+                  Caption             #@SYS53630
+                  DataSource          #InventDimSetupGrid
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL LISTVIEW
+                      PROPERTIES
+                        Name                #dimensionList
+                        Height              #Column height
+                        ViewType            #List
+                        GridLines           #Yes
+                        RowSelect           #Yes
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #selectionChanged
+                          #void selectionChanged(int idx, anytype Data)
+                          #{
+                          #
+                          #    super(idx, Data);
+                          #    element.listSelection();
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #ShowOnOverview
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/83BC0CA6-FD5D-4999-991C-30A836A8EACC.htm
+                  DataSource          #InventDimSetupGrid
+                  DataGroup           #Inventory
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #showWMS
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/33CD55AA-347B-4B99-87B4-944AB2F3117E.htm
+                  ConfigurationKey    #WMSBasic
+                  DataSource          #InventDimSetupGrid
+                  DataGroup           #WarehouseManagement
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #PrintManagementSetup
+              Caption             #@SYS54502
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #PrintMgtmSetup
+                  Caption             #@SYS109702
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #printManagement
+                        HelpText            #@SYS68918
+                        Text                #@SYS54502
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    PrintMgmtSetupContext setupContext = new PrintMgmtSetupContext();
+                          #    ;
+                          #
+                          #    super();
+                          #
+                          #    setupContext.addHierarchyContext(PrintMgmtHierarchyType::Invent, PrintMgmtNodeType::Invent);
+                          #    setupContext.parmCaller(element);
+                          #    setupContext.parmReferencedTableBuffer(null);
+                          #    PrintMgmt::launchSetup(setupContext);
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #NumberSeq
+              Caption             #@SYS26442
+              DataSource          #NumberSequenceReference
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Header
+                  Width               #Column width
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/A074D7F9-4B03-4939-82E2-68EB611D2F86.htm
+                  FrameType           #None
+                  DataSource          #NumberSequenceReference
+                  Columns             #2
+                  ArrangeGuide        
+                    ARRAY INDEX Columns 
+                      #0
+                      #0
+                    ENDARRAY
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #TopIconGroup
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/2B210470-06B2-4D15-ACBE-CAB7278A0AB1.htm
+                        FrameType           #None
+                        DataSource          #NumberSequenceReference
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL WINDOW
+                            PROPERTIES
+                              Name                #InfoIcon
+                              AlignControl        #No
+                              ImageResource       #930
+                              BackStyle           #Transparent
+                              BackgroundColor     #Button face (3D)
+                              ShowLabel           #No
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #TopTextGroup
+                        Width               #Column width
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/E04F25B9-D0D6-4A88-8067-1B8493FB9A22.htm
+                        FrameType           #None
+                        DataSource          #NumberSequenceReference
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #referenceLabel1
+                              AllowEdit           #No
+                              Width               #Column width
+                              Skip                #Yes
+                              Border              #None
+                              ShowLabel           #No
+                              DataSource          #NumberSequenceReference
+                              DataMethod          #referenceLabel
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #referenceHelp
+                              AllowEdit           #No
+                              Width               #Column width
+                              Height              #39
+                              Skip                #Yes
+                              Border              #None
+                              MultiLine           #Yes
+                              ShowLabel           #No
+                              DataSource          #NumberSequenceReference
+                              DataMethod          #referenceHelp
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Grid
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #NumberSequenceReference
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #referenceLabel
+                        AllowEdit           #No
+                        Skip                #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/E528E4C2-72FF-4581-ACA8-F214DDD8DFB1.htm
+                        DataSource          #NumberSequenceReference
+                        DataMethod          #referenceLabel
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #NumberSequenceReference_NumberSequence
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/a41886f1-9996-44ef-95c6-b63459e97e24.htm
+                        DataSource          #NumberSequenceReference
+                        DataField           #NumberSequence
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #NumberSequenceReference_AllowSameAs
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8cd905ce-c83e-499b-9aad-83cf6d523486.htm
+                        BackgroundColor     #Window background
+                        DataSource          #NumberSequenceReference
+                        DataField           #AllowSameAs
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #LabelSameAs
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        Skip                #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/4064C231-00FB-4ACD-A651-0BFCEF9292FF.htm
+                        DataSource          #NumberSequenceReference
+                        DataMethod          #referenceSameAsLabel
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

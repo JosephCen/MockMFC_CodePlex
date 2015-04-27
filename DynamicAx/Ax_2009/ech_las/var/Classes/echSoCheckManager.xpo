@@ -1,0 +1,303 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echSoCheckManager unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echSoCheckManager
+    Id 30058
+    PROPERTIES
+      Name                #echSoCheckManager
+      Extends             #RunBaseBatch
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #canGoBatchJournal
+        #boolean canGoBatchJournal()
+        #{
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #checkSingleSo
+        #// Update ECH_WI_02037 by mengqi.cen on 20130405
+        #// Create ECH_WI_01987 by mengqi.cen on 20130311
+        #public ECHAggStatus checkSingleSo(SalesId _salesId, boolean _bCheckInPickinglist = false)
+        #{
+        #    echSalesOrderCheckTable         componentTable;
+        #    echSalesOrderCheckResultTable   resultTable;
+        #    SysDictClass                    dictClass;
+        #    echISoCheck                     componentInstance;
+        #    ECHAggStatus                    checkStatus;
+        #;
+        #    ttsbegin;
+        #
+        #    delete_from resultTable
+        #      where resultTable.SalesId == _salesId;
+        #
+        #    checkStatus = ECHAggStatus::ChecksOK;
+        #
+        #    while select ClassId from componentTable
+        #        order by Sequence
+        #        where componentTable.Enabled == echCheckEnabled::Enabled
+        #           && (!_bCheckInPickinglist || componentTable.IsCheckInPickingList == NoYes::Yes)
+        #    {
+        #        dictClass = new DictClass(componentTable.ClassId);
+        #
+        #        if (dictClass == null)
+        #            throw error(strfmt("@ECH167", componentTable.ClassId));
+        #
+        #        componentInstance = dictClass.makeObject();
+        #
+        #        resultTable.clear();
+        #
+        #        resultTable.SalesId = _salesId;
+        #        if(componentInstance.execute(_salesId))
+        #            resultTable.Result = echCheckResult::OK;
+        #        else
+        #        {
+        #            resultTable.Result = echCheckResult::NOK;
+        #            checkStatus        = ECHAggStatus::ChecksFailed;
+        #        }
+        #
+        #// CS - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        resultTable.CheckId = componentTable.ClassId;
+        #        resultTable.Check   = componentInstance.name();
+        #// CE - ECH_WI_00662 - Anthony Christiaens - 22 Jun 2012
+        #        resultTable.insert();
+        #    }
+        #    ECHUpdateAggStatus::updateStatus(_salesId, checkStatus);
+        #
+        #    ttscommit;
+        #
+        #    return checkStatus;
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: batch to check all the sales orders
+        #
+        #class echSoCheckManager extends RunBaseBatch
+        #{
+        #    QueryRun    queryRun;
+        #    SalesId     salesId;
+        #
+        #    #define.CurrentVersion(6)
+        #    #localmacro.CurrentList
+        #        salesId
+        #    #endmacro
+        #}
+        #
+      ENDSOURCE
+      SOURCE #description
+        #ClassDescription description()
+        #{
+        #    return strfmt("@ECH218");
+        #}
+      ENDSOURCE
+      SOURCE #initParmDefault
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00768
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: include only sales order
+        #
+        #public void initParmDefault()
+        #{
+        #    Query                   q;
+        #    QueryBuildDataSource    qbds;
+        #    QueryBuildRange         qbr;
+        #    ;
+        #
+        #    super();
+        #
+        #    q = new query();
+        #
+        #    qbds = q.addDataSource(tablenum(SalesTable));
+        #
+        #    qbds.addRange(fieldNum(Salestable, ECHAggStatus)).value(SysQuery::value(ECHAggStatus::PaymentConfirmed));
+        #
+        #// CS - ECH_WI_00768 - Anthony Christiaens - 22 Jun 2012
+        #    qbr = qbds.addRange(fieldNum(Salestable, SalesType));
+        #    qbr.status(1); //visible but cannot edit range
+        #    qbr.value(SysQuery::value(SalesType::Sales));
+        #// CE - ECH_WI_00768 - Anthony Christiaens - 22 Jun 2012
+        #
+        #    queryRun = new QueryRun(q);
+        #
+        #}
+      ENDSOURCE
+      SOURCE #pack
+        #public container pack()
+        #{
+        #    ;
+        #    return [#CurrentVersion, #CurrentList, queryRun.pack()];
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: parm method
+        #
+        #SalesId parmSalesId(SalesId   _salesId = salesId)
+        #{
+        #    ;
+        #
+        #    salesId = _salesId;
+        #    return salesId;
+        #}
+      ENDSOURCE
+      SOURCE #queryRun
+        #public QueryRun queryRun()
+        #{
+        #    return queryRun;
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #// Update ECH_WI_01987 by mengqi.cen on 20130311
+        #//   Move the check logical of each Sales Order into method 'checkSingleSo'
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description: add classId to result table and store name instead of description
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Apr 2012
+        #// *** Customization Type: created
+        #// *** Description: run
+        #
+        #public void run()
+        #{
+        #    SalesTable                      salesTableLocal;
+        #;
+        #    ttsbegin;
+        #
+        #    while(queryRun.next())
+        #    {
+        #        salesTableLocal = queryRun.get(tablenum(salesTable));
+        #
+        #        salesId = salesTableLocal.SalesId;
+        #        this.checkSingleSo(salesId);
+        #    }
+        #
+        #    ttscommit;
+        #}
+      ENDSOURCE
+      SOURCE #runsImpersonated
+        #public boolean runsImpersonated()
+        #{
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #showQuerySelectButton
+        #boolean showQuerySelectButton()
+        #{
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #showQueryValues
+        #public boolean showQueryValues()
+        #{
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #unpack
+        #public boolean unpack(container _packedClass)
+        #{
+        #    Version     version = RunBase::getVersion(_packedClass);
+        #    Boolean     ret;
+        #    container   packedQueryRun;
+        #    ;
+        #
+        #    switch (version)
+        #    {
+        #        case #CurrentVersion:
+        #            [version, #CurrentList, packedQueryRun] = _packedClass;
+        #            if (packedQueryRun)
+        #            {
+        #                queryRun = new QueryRun(packedQueryRun);
+        #            }
+        #            ret = true;
+        #            break;
+        #        default :
+        #            ret = false;
+        #            break;
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: construct method
+        #
+        #public static echSoCheckManager construct()
+        #{
+        #    return new echSoCheckManager() ;
+        #}
+      ENDSOURCE
+      SOURCE #Main
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 05 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: main
+        #
+        #public static void main(Args _args)
+        #{
+        #    #OCCRetryCount
+        #    echSoCheckManager   echSoCheckManager = echSoCheckManager::construct();
+        #    ;
+        #
+        #    if (echSoCheckManager.prompt())
+        #    {
+        #        try
+        #        {
+        #            echSoCheckManager.run();
+        #        }
+        #        catch(Exception::Error)
+        #            throw error("@ECH256");
+        #        catch (Exception::Deadlock)
+        #        {
+        #            retry;
+        #        }
+        #        catch (Exception::UpdateConflict)
+        #        {
+        #            if (appl.ttsLevel() == 0)
+        #            {
+        #                if (xSession::currentRetryCount() >= #RetryNum)
+        #                {
+        #                    throw Exception::UpdateConflictNotRecovered;
+        #                }
+        #                else
+        #                {
+        #                    retry;
+        #                }
+        #            }
+        #            else
+        #            {
+        #                throw Exception::UpdateConflict;
+        #            }
+        #        }
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

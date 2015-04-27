@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{d393b00a-cf27-4e96-99c1-c72e8115dac0}</ProjectGuid>
+    <ArchitectureToolsVersion>1.0.0.0</ArchitectureToolsVersion>
+    <Name>eChina_DynamicsAX</Name>
+    <RootNamespace>eChina_DynamicsAX</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
+  <ItemGroup>
+    <Folder Include="ModelDefinition\" />
+    <Content Include="ECH_E_002.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ECH_E_002.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ECH_E_002.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ECH_E_013.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ECH_E_013.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ECH_E_013.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ECH_I_OR01.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ECH_I_OR01.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ECH_I_OR01.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\eChina_DynamicsAX.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+</Project>

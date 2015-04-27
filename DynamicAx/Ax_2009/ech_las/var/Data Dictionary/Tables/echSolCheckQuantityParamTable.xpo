@@ -1,0 +1,161 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echSolCheckQuantityParamTable unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echSolCheckQuantityParamTable
+    Id 30011
+    PROPERTIES
+      Name                #echSolCheckQuantityParamTable
+      Label               #@ECH128
+      TitleField1         #RecId
+      TitleField2         #maxQuantity
+      ConfigurationKey    #echProcesses
+      SecurityKey         #CustTables
+      MaxAccessMode       #Edit
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #Key
+      ClusterIndex        #Key
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #maxQuantity
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #maxQuantity
+          Label               #@ECH168
+          HelpText            #@ECH169
+          Table               #echSolCheckQuantityParamTable
+          ExtendedDataType    
+            ARRAY 
+              #Integer
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #Key
+        Id 30003
+        INT
+        PROPERTIES
+          Name                #Key
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Visible             #No
+          Table               #echSolCheckQuantityParamTable
+          ExtendedDataType    
+            ARRAY 
+              #ParametersKey
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #RecId
+          #maxQuantity
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Overview
+        PROPERTIES
+          Name                #Overview
+          Label               #@SYS34991
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #maxQuantity
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #Key
+      Id 30002
+      PROPERTIES
+        Name                #Key
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Key
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard exist method
+        #
+        #static boolean exist()
+        #{
+        #    return (select firstonly RecId from echSolCheckQuantityParamTable).RecId != 0;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00662
+        #// *** Customization Date: 22 Jun 2012
+        #// *** Customization Type: modified
+        #// *** Description:
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_002
+        #// *** Customization Date: 02 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: standard find method
+        #
+        #/*
+        #    AOSRunMode::Called
+        #*/
+        #static echSolCheckQuantityParamTable find(boolean _forupdate = false)
+        #{
+        #    echSolCheckQuantityParamTable  parameter;
+        #
+        #    if (_forupdate)
+        #    parameter.selectForUpdate(_forupdate);
+        #
+        #    select firstonly parameter
+        #        index Key
+        #        where parameter.Key == 0;
+        #
+        #    if (!parameter && !parameter.isTmp())
+        #    {
+        #        Company::createParameter(parameter);
+        #    }
+        #
+        #    return parameter;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

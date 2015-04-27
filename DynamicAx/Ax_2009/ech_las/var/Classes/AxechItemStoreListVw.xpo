@@ -1,0 +1,216 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechItemStoreListVw unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechItemStoreListVw
+    Id 30151
+    PROPERTIES
+      Name                #AxechItemStoreListVw
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechItemStoreListVw axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechItemStoreListVw extends AxInternalBase
+        #{
+        #    echItemStoreListVw echItemStoreListVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echItemStoreListVw currentRecord(echItemStoreListVw _echItemStoreListVw = echItemStoreListVw)
+        #{
+        #    if (!prmisdefault(_echItemStoreListVw))
+        #    {
+        #        super(_echItemStoreListVw);
+        #        echItemStoreListVw = _echItemStoreListVw;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echItemStoreListVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echItemStoreListVw
+        #public echItemStoreListVw echItemStoreListVw(echItemStoreListVw _echItemStoreListVw = echItemStoreListVw)
+        #{
+        #    if (!prmisdefault(_echItemStoreListVw))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echItemStoreListVw);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echItemStoreListVw emptyRecord()
+        #{
+        #    echItemStoreListVw localechItemStoreListVw;
+        #    ;
+        #    return localechItemStoreListVw;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmInventLocation
+        #public InventLocationId parmInventLocation(InventLocationId _inventLocation = '')
+        #{
+        #    if (!prmisdefault(_inventLocation))
+        #    {
+        #        this.setField(fieldNum(echItemStoreListVw, InventLocation), _inventLocation);
+        #    }
+        #
+        #    return echItemStoreListVw.InventLocation;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemRelation
+        #public RBOItemRelation parmItemRelation(RBOItemRelation _itemRelation = '')
+        #{
+        #    if (!prmisdefault(_itemRelation))
+        #    {
+        #        this.setField(fieldNum(echItemStoreListVw, ItemRelation), _itemRelation);
+        #    }
+        #
+        #    return echItemStoreListVw.ItemRelation;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmLowestQty
+        #public Qty parmLowestQty(Qty _Qty = 0)
+        #{
+        #    InventLocation  inventLocation;
+        #    InventDim       inventDim;
+        #    ;
+        #
+        #    if (this.parmInventLocation())
+        #    {
+        #        inventLocation = InventLocation::find(this.parmInventLocation());
+        #
+        #        inventDim.InventLocationId = inventLocation.InventLocationId;
+        #        inventDim.InventSiteId     = inventLocation.InventSiteId;
+        #        inventDim                  = InventDim::findOrCreate(inventDim);
+        #
+        #        return InventItemSalesSetup::find(this.parmItemRelation(), inventDim.inventDimId).LowestQty;
+        #    }
+        #    else
+        #        return 0;
+        #}
+      ENDSOURCE
+      SOURCE #parmMultipleQty
+        #public Qty parmMultipleQty(Qty _Qty = 0)
+        #{
+        #    InventLocation  inventLocation;
+        #    InventDim       inventDim;
+        #    ;
+        #
+        #    if (this.parmInventLocation())
+        #    {
+        #        inventLocation = InventLocation::find(this.parmInventLocation());
+        #
+        #        inventDim.InventLocationId = inventLocation.InventLocationId;
+        #        inventDim.InventSiteId     = inventLocation.InventSiteId;
+        #        inventDim                  = InventDim::findOrCreate(inventDim);
+        #
+        #        return InventItemSalesSetup::find(this.parmItemRelation(), inventDim.inventDimId).MultipleQty;
+        #    }
+        #    else
+        #        return 0;
+        #}
+      ENDSOURCE
+      SOURCE #parmStoreId
+        #public RBOStoreId parmStoreId(RBOStoreId _storeId = '')
+        #{
+        #    if (!prmisdefault(_storeId))
+        #    {
+        #        this.setField(fieldNum(echItemStoreListVw, StoreId), _storeId);
+        #    }
+        #
+        #    return echItemStoreListVw.StoreId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventLocation
+        #protected void setInventLocation()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemStoreListVw, InventLocation)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemRelation
+        #protected void setItemRelation()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemStoreListVw, ItemRelation)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setStoreId
+        #protected void setStoreId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemStoreListVw, StoreId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setItemRelation();
+        #    this.setStoreId();
+        #    this.setInventLocation();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechItemStoreListVw construct()
+        #{
+        #    return new AxechItemStoreListVw();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechItemStoreListVw
+        #public static AxechItemStoreListVw newechItemStoreListVw(echItemStoreListVw _echItemStoreListVw)
+        #{
+        #    AxechItemStoreListVw AxechItemStoreListVw = AxechItemStoreListVw::construct();
+        #    ;
+        #    AxechItemStoreListVw.echItemStoreListVw(_echItemStoreListVw);
+        #
+        #    return AxechItemStoreListVw;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

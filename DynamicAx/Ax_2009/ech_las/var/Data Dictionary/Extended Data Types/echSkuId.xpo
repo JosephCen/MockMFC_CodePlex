@@ -1,0 +1,37 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: echSkuId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #echSkuId
+  Id 30010
+  STRING
+    PROPERTIES
+      Name                #echSkuId
+      Label               #@ECH29
+      HelpText            #@ECH30
+      ConfigurationKey    #echInterfaces
+      Extends             #ItemBarCode
+      StringSize          #80
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+      TYPEREFERENCETYPE DATASET
+      PROPERTIES
+        Table               #InventItemBarcode
+        RelatedField        #itemBarCode
+      ENDPROPERTIES
+      
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

@@ -1,0 +1,25 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : echSendInventoryOnHandBatch unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #echSendInventoryOnHandBatch
+    Type: 3
+    PROPERTIES
+      Name                #echSendInventoryOnHandBatch
+      Label               #@ECH84
+      HelpText            #@ECH83
+      ObjectType          #Class
+      Object              #echSendInventoryOnHandBatch
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #InventPeriodic
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

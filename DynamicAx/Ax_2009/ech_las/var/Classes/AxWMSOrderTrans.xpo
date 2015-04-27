@@ -1,0 +1,125 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxWMSOrderTrans unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxWMSOrderTrans
+    Id 17796
+    PROPERTIES
+      Name                #AxWMSOrderTrans
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmEchExtSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 17 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the external SKU ID
+        #
+        #public extCodeValue parmEchExtSkuId(extCodeValue _echExtSkuId = '')
+        #{
+        #    ;
+        #
+        #    return echExternalSkuId::GetExternalSkuId(
+        #        InventDim::find(this.parmInventDimId()).InventLocationId,
+        #        this.parmEchSkuId());
+        #}
+      ENDSOURCE
+      SOURCE #parmEchItemTax
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00905
+        #// *** Customization Date: 21 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Parameter method for the SalesLine TaxItemGroup field
+        #
+        #public TaxItemGroup parmEchItemTax(TaxItemGroup _taxItemGroup = "")
+        #{
+        #    salesLine   salesLine;
+        #    ;
+        #
+        #    select name from salesLine
+        #        where salesLine.InventTransId == this.parmInventTransId();
+        #
+        #    return salesLine.TaxItemGroup;
+        #}
+      ENDSOURCE
+      SOURCE #parmechSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_WI_00103
+        #// *** Customization Date: 27 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: different implementation
+        #
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get sku id
+        #
+        #public echSkuId parmechSkuId(echSkuId _echSkuId = '')
+        #{
+        #    ;
+        #
+        #    return inventItemBarcode::findSkuId(this.parmItemId(), this.parmInventDimId());
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesPrice
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get sales unit
+        #
+        #public SalesPrice parmSalesPrice (SalesPrice _salesPrice = 0)
+        #{
+        #    ;
+        #
+        #    return echWMSOrderTrans::salesLine(this).SalesPrice;
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesUnit
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: get sales unit
+        #
+        #public salesUnit parmSalesUnit(salesUnit _salesUnit = '')
+        #{
+        #    ;
+        #
+        #    return echWMSOrderTrans::salesLine(this).SalesUnit;
+        #}
+      ENDSOURCE
+      SOURCE #setOptimizedPicking
+        #protected void setOptimizedPicking()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSOrderTrans, OptimizedPicking)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setShipmentIdOriginal
+        #protected void setShipmentIdOriginal()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(WMSOrderTrans, ShipmentIdOriginal)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

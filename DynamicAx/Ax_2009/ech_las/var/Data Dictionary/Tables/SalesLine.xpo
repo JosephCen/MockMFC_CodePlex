@@ -1,0 +1,1048 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : SalesLine unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #SalesLine
+    Id 359
+    PROPERTIES
+      Name                #SalesLine
+      Label               #@SYS508
+      TitleField1         #SalesId
+      TitleField2         #ItemId
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #CustTables
+      CacheLookup         #NotInTTS
+      CreateRecIdIndex    #Yes
+      TableGroup          #WorksheetLine
+      PrimaryIndex        #TransIdIdx
+      ClusterIndex        #SalesLineIdx
+      CreatedDateTime     #Yes
+      DeveloperDocumentation  #@SYS124481
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #DeliveryZipCode
+        Id 81
+        STRING
+        PROPERTIES
+          Name                #DeliveryZipCode
+          HelpText            #@SYS17884
+          ConfigurationKey    #TradeMultiShipTo
+          Table               #SalesLine
+          ExtendedDataType    
+            ARRAY 
+              #echAddressZipCodeId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echAdjustFee
+        Id 30001
+        REAL
+        PROPERTIES
+          Name                #echAdjustFee
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesLine
+          ExtendedDataType    
+            ARRAY 
+              #echAdjustFee
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echDiscountFee
+        Id 30002
+        REAL
+        PROPERTIES
+          Name                #echDiscountFee
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesLine
+          ExtendedDataType    
+            ARRAY 
+              #echDiscountFee
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echPromotionCode
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #echPromotionCode
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesLine
+          ExtendedDataType    
+            ARRAY 
+              #echPromotionCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echCouponCode
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #echCouponCode
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #SalesLine
+          ExtendedDataType    
+            ARRAY 
+              #echCouponCode
+              #
+            ENDARRAY
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #echFrontEndLineAmount
+        Id 30005
+        REAL
+        PROPERTIES
+          Name                #echFrontEndLineAmount
+          Label               #@ECH86
+          HelpText            #@ECH85
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          ConfigurationKey    #echInterfaces
+          Table               #SalesLine
+          ExtendedDataType    
+            ARRAY 
+              #SalesLineAmount
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echReservationStatus
+        Id 30007
+        ENUM
+        PROPERTIES
+          Name                #echReservationStatus
+          Table               #SalesLine
+          EnumType            #echReservationStatus
+        ENDPROPERTIES
+        
+      FIELD #echLineId
+        Id 30008
+        STRING
+        PROPERTIES
+          Name                #echLineId
+          Table               #SalesLine
+          ExtendedDataType    
+            ARRAY 
+              #echReturnId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #echDiscountPrice
+        PROPERTIES
+          Name                #echDiscountPrice
+          Label               #@SYS19789
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echAdjustFee
+          #echDiscountFee
+          #echFrontEndLineAmount
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echPromotion
+        PROPERTIES
+          Name                #echPromotion
+          Label               #@SYS118706
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echCouponCode
+          #echPromotionCode
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echReservationStatus
+        PROPERTIES
+          Name                #echReservationStatus
+          Label               #@ECH278
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echReservationStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ExternalReference
+        PROPERTIES
+          Name                #ExternalReference
+          Label               #@SYS21697
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #CustomerLineNum
+          #InvoiceRefRecID
+          #echLineId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Status
+        PROPERTIES
+          Name                #Status
+          Label               #@SYS25587
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #SalesStatus
+          #Blocked
+          #Complete
+          #echReservationStatus
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+      REFERENCE #DeliveryCounty
+        PROPERTIES
+          Name                #DeliveryCounty
+          Table               #AddressCounty
+          Validate            #No
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryCountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryState
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryCounty
+            RelatedField        #CountyId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #DeliveryState
+        PROPERTIES
+          Name                #DeliveryState
+          Table               #AddressState
+          Validate            #No
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryCountryRegionId
+            RelatedField        #CountryRegionId
+          ENDPROPERTIES
+          
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryState
+            RelatedField        #StateId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #DeliveryZipCode
+        PROPERTIES
+          Name                #DeliveryZipCode
+          Table               #AddressZipCode
+          Validate            #No
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #DeliveryZipCode
+            RelatedField        #ZipCode
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #echSOPromotionsLine
+      PROPERTIES
+        Table               #echSOPromotionsLine
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #EximSalesLine_IN
+      PROPERTIES
+        Table               #EximSalesLine_IN
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #InventQualityOrderTable
+      PROPERTIES
+        Table               #InventQualityOrderTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+      #TaxFiscalInfo_BR
+      PROPERTIES
+        Table               #TaxFiscalInfo_BR
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustSalesLineLegalTxt_BR
+      PROPERTIES
+        Table               #CustSalesLineLegalTxt_BR
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustomsExportAssessableValue_IN
+      PROPERTIES
+        Table               #CustomsExportAssessableValue_IN
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustomsExportOrderTable_IN
+      PROPERTIES
+        Table               #CustomsExportOrderTable_IN
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #MarkupTrans
+      PROPERTIES
+        Table               #MarkupTrans
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #DocuRef
+      PROPERTIES
+        Table               #DocuRef
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+      #CustVendCreditInvoicingLine
+      PROPERTIES
+        Table               #CustVendCreditInvoicingLine
+        DeleteAction        #Cascade
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #CreateLine
+        #server void  createLine(boolean         validation              = false,
+        #                        boolean         initFromSalesOrderTable = false,
+        #                        boolean         initFromInventTable     = false,
+        #                        boolean         calcInventQty           = false,
+        #                        boolean         searchMarkup            = true,
+        #                        boolean         searchPrice             = false,
+        #                        boolean         checkReservation        = false,
+        #                        boolean         skipCreditLimitCheck    = false,
+        #                        InventTransId   oldInventTransId        = '')
+        #{
+        #    SalesTable      salesTable;
+        #    InventTable     inventTable;
+        #    boolean         dropInvent = false;
+        #    ;
+        #
+        #    if (initFromSalesOrderTable)
+        #    {
+        #        salesTable = this.salesTable();
+        #        this.initFromSalesTable(salesTable);
+        #    }
+        #
+        #    if (initFromInventTable)
+        #    {
+        #        inventTable = this.inventTable();
+        #
+        #        if (!this.checkInitFromInventTable(inventTable))
+        #            throw error("@SYS18447");
+        #
+        #        this.initFromInventTable(inventTable);
+        #    }
+        #
+        #    if (calcInventQty)
+        #        this.QtyOrdered = this.calcQtyOrdered();
+        #
+        #    this.RemainSalesPhysical    = this.SalesQty;
+        #    this.RemainSalesFinancial   = 0;
+        #    this.RemainInventPhysical   = this.QtyOrdered;
+        #
+        #    if (searchPrice)
+        #    {
+        #        this.setPriceDisc(this.inventDim(True));
+        #    }
+        #
+        #    if (checkReservation)
+        #        this.checkReservation(); // Message to infolog
+        #
+        #    if (validation)
+        #        if (!this.validateWrite(skipCreditLimitCheck))
+        #            throw error("@SYS18447");
+        #
+        #    if (!this.LineNum)
+        #        this.LineNum = SalesLine::lastLineNum(this.SalesId) + 1.0;
+        #
+        #    this.insert(dropInvent,searchMarkup, null, skipCreditLimitCheck);
+        #
+        #    if (oldInventTransId)
+        #    {
+        #        PBATableInstance::copyInstance(this.InventTransId,oldInventTransId);
+        #        PBABOMRouteOccurrence::copyOccurrence(this.InventTransId,oldInventTransId);
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echAllocPromotion
+        #// Create ECH_WI_02045 by mengqi.cen on 20130409
+        #public RoundOff echAllocPromotion()
+        #{
+        #    // Table
+        #    echSOPromotionsLine  promotionsLine;
+        #    // Variable
+        #    RoundOff             discRoundOff;
+        #    Amount               totalDiscAmt;
+        #;
+        #    discRoundOff = 0.00;
+        #    totalDiscAmt = 0.00;
+        #
+        #    TTSBegin;
+        #
+        #    this.LineDisc = 0.00;
+        #
+        #    while select promotionsLine
+        #            where promotionsLine.SalesId      == this.SalesId
+        #               && promotionsLine.SalesLineNum == this.LineNum
+        #    {
+        #        if (promotionsLine.Amount)
+        #        {
+        #            this.LineDisc += Currency::price(promotionsLine.Amount / this.SalesQty, this.CurrencyCode);
+        #            totalDiscAmt  += promotionsLine.Amount;
+        #        }
+        #    }
+        #
+        #    this.LineAmount = this.calcLineAmountForced();
+        #    discRoundOff    = (this.orig().LineAmount - this.LineAmount) - totalDiscAmt;
+        #
+        #    this.update();
+        #
+        #    TTSCommit;
+        #
+        #    return discRoundOff;
+        #}
+      ENDSOURCE
+      SOURCE #echAmountCustRet
+        #public AmountCur echAmountCustRet(SalesType salesType,CustAccount custAccount)
+        #{
+        #    SalesLine m_SalesLine;
+        #    ;
+        #    select sum(LineAmount) from m_SalesLine
+        #        where m_SalesLine.SalesType==salesType &&
+        #            m_SalesLine.CustAccount==custAccount;
+        #    return -m_SalesLine.LineAmount;
+        #}
+      ENDSOURCE
+      SOURCE #echGetItemBarCode
+        #//BP deviation documented
+        #Display ItemBarCode echGetItemBarCode()
+        #{
+        #    InventDim           m_InventDim;
+        #    InventDim           m_InventDimNo;
+        #    InventItemBarcode   m_InventItemBarcode;
+        #    ;
+        #
+        #    select m_InventItemBarcode
+        #        where m_InventItemBarcode.itemId == this.ItemId;
+        #
+        #    if(m_InventItemBarcode)
+        #    {
+        #        select m_InventDim
+        #            where m_InventDim.inventDimId == this.inventDimId;
+        #        if(m_InventDim)
+        #        {
+        #            m_InventDim.InventLocationId = '';
+        #            m_InventDim.InventSiteId = '';
+        #
+        #            m_InventDimNo = InventDim::findDim(m_InventDim);
+        #
+        #            select m_InventItemBarcode
+        #                where m_InventItemBarcode.inventDimId == m_InventDimNo.inventDimId
+        #                    && m_InventItemBarcode.itemId == this.ItemId;
+        #
+        #            return m_InventItemBarcode.itemBarCode;
+        #        }
+        #        else
+        #        {
+        #            return '';
+        #        }
+        #    }
+        #    else
+        #    {
+        #        return '';
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #echGetPromotionDescs
+        #//BP deviation documented
+        #display echPromotionDescs echGetPromotionDescs()
+        #{
+        #    echSOPromotionsLine m_echSOPromotionsLine;
+        #    echPromotionDescs   m_echPromotionDescs;
+        #    ;
+        #    m_echPromotionDescs = "";
+        #    while select m_echSOPromotionsLine
+        #        where m_echSOPromotionsLine.SalesId == this.SalesId
+        #            && m_echSOPromotionsLine.SalesLineNum == this.LineNum
+        #        {
+        #            m_echPromotionDescs =m_echSOPromotionsLine.PromotionDesc +";"+ m_echPromotionDescs;
+        #        }
+        #
+        #    return m_echPromotionDescs;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #echGetPromotionIds
+        #//BP deviation documented
+        #display echPromotionIds echGetPromotionIds()
+        #{
+        #    echSOPromotionsLine m_echSOPromotionsLine;
+        #    echPromotionIds   m_echPromotionIds;
+        #    ;
+        #    m_echPromotionIds = "";
+        #    while select m_echSOPromotionsLine
+        #        where m_echSOPromotionsLine.SalesId == this.SalesId
+        #            && m_echSOPromotionsLine.SalesLineNum == this.LineNum
+        #        {
+        #            m_echPromotionIds = m_echSOPromotionsLine.PromotionId +";"+ m_echPromotionIds;
+        #        }
+        #
+        #    return m_echPromotionIds;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #echGetRBOColorName
+        #//BP deviation documented
+        #display RBOShortName echGetRBOColorName()
+        #{
+        #    RBOColors   m_RBOColors;
+        #    InventDim   m_InventDim;
+        #    ;
+        #    m_InventDim = InventDim::find(this.InventDimId);
+        #    select m_RBOColors
+        #        where m_RBOColors.color == m_InventDim.InventColorId;
+        #
+        #    return m_RBOColors.name;
+        #}
+      ENDSOURCE
+      SOURCE #echGetRBOSizeName
+        #//BP deviation documented
+        #display RBOShortName echGetRBOSizeName()
+        #{
+        #    RBOSizes   m_RBOSizes;
+        #    InventDim   m_InventDim;
+        #    ;
+        #    m_InventDim = InventDim::find(this.InventDimId);
+        #    select m_RBOSizes
+        #        where m_RBOSizes.size == m_InventDim.InventSizeId;
+        #
+        #    return m_RBOSizes.name;
+        #}
+      ENDSOURCE
+      SOURCE #modifiedField
+        #// Update ECH_WI_01981 by mengqi.cen on 20130227
+        #public void modifiedField(fieldId _fieldId)
+        #{
+        #    AxSalesLine                 axSalesLine;
+        #    Object                      formDataSource;
+        #    InventQty                   inventQty;
+        #    CostAmount                  costAmount;
+        #    DlvMode                     dlvMode;
+        #
+        #    // <GIN>
+        #    CompanyInfo                     companyInfoLoc = CompanyInfo::find();
+        #    // </GIN>
+        #    ;
+        #    super(_fieldId);
+        #
+        #    if (this.isFormDataSource())
+        #    {
+        #        if (formDataSourceHasMethod(this.dataSource(),classstr(AxSalesLine)))
+        #        {
+        #            formDataSource = this.dataSource();
+        #            axSalesLine = formDataSource.axSalesLine();
+        #        }
+        #    }
+        #    else
+        #    {
+        #        axSalesLine = this.axSalesLine();
+        #    }
+        #
+        #    if (axSalesLine)
+        #    {
+        #        axSalesLine.setFieldAsTouched(_fieldId);
+        #        axSalesLine.modify();
+        #        if (this.dataSource())
+        #        {
+        #            if (formDataSourceHasMethod(this.dataSource(),identifierstr(fieldModified)))
+        #            {
+        #                formDataSource = this.dataSource();
+        #                formDataSource.fieldModified();
+        #            }
+        #        }
+        #    }
+        #    else
+        #    {
+        #        switch (_fieldId)
+        #        {
+        #            case fieldnum(SalesLine, SalesDeliverNow):
+        #                this.setInventDeliverNow();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, SalesPrice):
+        #                if(this.ReturnStatus != ReturnStatusLine::None)
+        #                {
+        #                    this.LineAmount = this.calcLineAmountForced(this.ExpectedRetQty);
+        #                }
+        #                else
+        #                {
+        #                    this.LineAmount = this.calcLineAmountForced();
+        #                }
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, LinePercent):
+        #                this.LineAmount = this.calcLineAmountForced();
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, LineDisc):
+        #                this.LineAmount = this.calcLineAmountForced();
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, LineAmount):
+        #                this.lineAmountModified();
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, SalesUnit):
+        #                SalesLine::modifySalesQty(this,this.inventDim());
+        #                InventMovement::bufferSetTransQtyUnit(this);
+        #                this.setInventDeliverNow();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, PriceUnit):
+        #                this.LineAmount = this.calcLineAmount();
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ExpectedRetQty):
+        #                SalesLine::modifyExpectedRetQty(this,this.inventDim(),this.InventTransIdReturn ? false : true);
+        #                if (this.ReturnStatus != ReturnStatusLine::None)
+        #                {
+        #                    this.LineAmount = this.calcLineAmount(this.ExpectedRetQty);
+        #
+        #                    if (this.ReturnAllowReservation)
+        #                    {
+        #                        this.SalesQty = this.ExpectedRetQty;
+        #                        SalesLine::modifySalesQty(this,this.inventDim());
+        #                    }
+        #                    // <GIN>
+        #                    if (TaxParameters::checkTaxParameters_IN())
+        #                    {
+        #                        this.assessableValue_IN();
+        #                    }
+        #                    // </GIN>
+        #                }
+        #                break;
+        #
+        #            case fieldnum(SalesLine, SalesQty):
+        #                SalesLine::modifySalesQty(this,this.inventDim());
+        #                break;
+        #
+        #            case fieldnum(SalesLine, SalesMarkup):
+        #                this.LineAmount = this.calcLineAmountForced();
+        #
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, MultiLnDisc):
+        #                this.LineAmount = this.calcLineAmountForced();
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, MultiLnPercent):
+        #                this.LineAmount = this.calcLineAmountForced();
+        #                // <GIN>
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    this.assessableValue_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, InventTransIdReturn):
+        #                [inventQty, costAmount] = InventTrans::calcInvoicedCostValue(this.InventTransIdReturn);
+        #                if (inventQty)
+        #                {
+        #                    this.CostPrice = costAmount/inventQty;
+        #                }
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ProjCategoryId):
+        #                this.setTaxItemGroup(this.TaxItemGroup);
+        #                // <GBR>
+        #                if (BrazilParameters::isEnabled())
+        #                {
+        #                    this.updateTaxGroups_BR();
+        #                    this.initFromTaxIntersection_BR();
+        #                }
+        #                // </GBR>
+        #                this.setProjLinePropertyId();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ActivityNumber):
+        #                this.initFromProjActivity(ProjActivity::find(this.ActivityNumber));
+        #                this.setTaxItemGroup(this.TaxItemGroup);
+        #                this.setProjLinePropertyId();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ProjId):
+        #
+        #                if (this.SalesType  == SalesType::ItemReq)
+        #                {
+        #                    this.CurrencyCode       = this.projTable().currencyId();
+        #                    this.projIdChanged();
+        #                    this.LineDisc          = 0;
+        #                    this.LinePercent       = 0;
+        #                    this.SalesMarkup       = 0;
+        #                    if (this.projTable().Type  == ProjType::FixedPrice)
+        #                        this.SalesPrice    = 0;
+        #                }
+        #
+        #                this.setTaxItemGroup(this.TaxItemGroup);
+        #                break;
+        #
+        #            case fieldnum(SalesLine, PackingUnit):
+        #                this.calcPackingUnitQty();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryAddress):
+        #                this.setListCode();
+        #                this.clearAddressReference();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryCountryRegionId):
+        #                this.AddressMap::formatAddress();
+        #                this.setListCode();
+        #                this.clearAddressReference();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryCounty):
+        #                this.AddressMap::formatAddress();
+        #                this.setListCode();
+        #                this.clearAddressReference();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryState):
+        #                this.AddressMap::formatAddress();
+        #                this.clearAddressReference();
+        #                // <GIN>
+        #                if (TaxParameters::find().SalesTax_IN)
+        #                {
+        #                    this.restoreFormType_IN();
+        #                }
+        #                // </GIN>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryCity):
+        #                this.AddressMap::formatAddress();
+        #                this.clearAddressReference();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryStreet):
+        #                this.AddressMap::formatAddress();
+        #                this.clearAddressReference();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryZipCode):
+        #                // <GBR>
+        #                if (!BrazilParameters::isEnabled())
+        #                {
+        #                // </GBR>
+        #                    if (AddressZipCode::zipCodeCount(this.DeliveryZipCode) > 0)
+        #                        this.AddressMap::modifiedFieldZipCode();
+        #                    this.clearAddressReference();
+        #                // <GBR>
+        #                }
+        #                // </GBR>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryAddress):
+        #                this.setListCode();
+        #                this.clearAddressReference();
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ReceiptDateRequested):
+        #                if (this.ShippingDateRequested > this.ReceiptDateRequested)
+        #                {
+        #                    this.ShippingDateRequested = this.ReceiptDateRequested;
+        #                    this.ConfirmedDlv          = this.ShippingDateConfirmed ? this.ShippingDateConfirmed : this.ShippingDateRequested;
+        #                }
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ShippingDateRequested):
+        #                this.ConfirmedDlv = this.ShippingDateConfirmed ? this.ShippingDateConfirmed : this.ShippingDateRequested;
+        #
+        #                if (this.ShippingDateRequested > this.ReceiptDateRequested)
+        #                    this.ReceiptDateRequested = this.ShippingDateRequested;
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ShippingDateConfirmed):
+        #                this.ConfirmedDlv = this.ShippingDateConfirmed ? this.ShippingDateConfirmed : this.ShippingDateRequested;
+        #
+        #                if (this.ShippingDateConfirmed > this.ReceiptDateConfirmed)
+        #                    this.ReceiptDateConfirmed = this.ShippingDateConfirmed;
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ReceiptDateConfirmed):
+        #                if (this.ShippingDateConfirmed > this.ReceiptDateConfirmed)
+        #                {
+        #                    this.ShippingDateConfirmed = this.ReceiptDateConfirmed;
+        #                    this.ConfirmedDlv          = this.ShippingDateConfirmed ? this.ShippingDateConfirmed : this.ShippingDateRequested;
+        #                }
+        #                break;
+        #
+        #            // Return - begin
+        #            case fieldnum(SalesLine, ReturnDispositionCodeId):
+        #                this.createReturnMarkupTrans(this.salesTable());
+        #                this.returnUpdateBasedOnDispcode();
+        #                // <GBR>
+        #                if (BrazilParameters::isEnabled())
+        #                {
+        #                    // If a user chooses to select Credit only, but then changes his mind,
+        #                    // the tax info from the original order line will be recreated.
+        #                    if (!this.ReturnDispositionCodeId
+        #                        && ReturnDispositionCode::find(
+        #                            this.orig().ReturnDispositionCodeId).DispositionAction ==
+        #                            DispositionAction::CreditOnly)
+        #                    {
+        #                        this.updateReturnedOrderOriginalTaxInfo_BR();
+        #                    }
+        #                    this.update();
+        #                }
+        #                // </GBR>
+        #                break;
+        #
+        #            case fieldnum(SalesLine, ReturnAllowReservation):
+        #                if (this.ReturnStatus == ReturnStatusLine::Awaiting)
+        #                {
+        #                    this.SalesQty = this.ReturnAllowReservation ? this.ExpectedRetQty : 0;
+        #                    SalesLine::modifySalesQty(this,this.inventDim());
+        #                }
+        #                break;
+        #            // Return - end
+        #
+        #            case fieldnum(SalesLine, DlvMode):
+        #                dlvMode = DlvMode::find(this.DlvMode);
+        #                this.ShipCarrierId          = dlvMode.ShipCarrierId;
+        #                this.ShipCarrierDlvType     = dlvMode.ShipCarrierDlvType;
+        #                this.ShipCarrierAccountCode = dlvMode.ShipCarrierAccountCode;
+        #                break;
+        #
+        #            // <GIN>
+        #            case fieldnum(SalesLine, CustomsMaxRetailPrice_IN):
+        #                if (TaxParameters::find().Customs_IN)
+        #                {
+        #                    this.MaximumRetailPrice_IN = Currency::customsCurAmount_IN(this.CustomsMaxRetailPrice_IN, this.CurrencyCode, Direction_IN::Export);
+        #                }
+        #                break;
+        #
+        #            case fieldnum(SalesLine, Name_IN):
+        #                if (TaxParameters::checkTaxParameters_IN())
+        #                {
+        #                    if (this.Name_IN == companyInfoLoc.Name)
+        #                    {
+        #                        this.setTaxInfoOfCompany_IN(companyInfoLoc);
+        #                    }
+        #                    else
+        #                    {
+        #                        this.setTaxInfo_IN(companyInfoLoc);
+        #                    }
+        #                    if (TaxParameters::find().VAT_IN)
+        #                    {
+        #                        this.TaxInventVATCommodityCodeId_IN = TaxInventVATCommodityCode_IN::findFromItemState(this.ItemId, this.State_IN).CommodityCode;
+        #                    }
+        #
+        #                    this.restoreFormType_IN();
+        #                }
+        #                break;
+        #            // </GIN>
+        #
+        #            // <GBR>
+        #            case fieldnum(SalesLine, TaxGroup):
+        #            case fieldnum(SalesLine, TaxItemGroup):
+        #                if (BrazilParameters::isEnabled())
+        #                {
+        #                    this.setMarkupTransTaxInfo_BR();
+        #                    if( this.TaxGroup != "" && this.TaxItemGroup != "")
+        #                    {
+        #                        this.initFromTaxIntersection_BR();
+        #                    }
+        #                }
+        #                break;
+        #
+        #            case fieldnum(SalesLine, CustCFOPId):
+        #                if (BrazilParameters::isEnabled())
+        #                {
+        #                    this.SalesPurch = CFOPMatrix_BR::findCFOPRecord(this.CustCFOPId,
+        #                                                                    this.salesTable().OperationId,
+        #                                                                    SalesPurchTrntype_BR::Sales).SalesPurch;
+        #
+        #                    // For returned orders of the dispostion code Credit Only, the tax information is not allowed.
+        #                    if (this.returnDispositionCode().DispositionAction != DispositionAction::CreditOnly)
+        #                    {
+        #                        this.updateTaxGroups_BR();
+        #                        this.initFromTaxIntersection_BR();
+        #                    }
+        #                    this.updateDeliveryCFOP_BR();
+        #                }
+        #                break;
+        #
+        #            case fieldnum(SalesLine, DeliveryAddressNumber):
+        #            case fieldnum(SalesLine, DeliveryAddressComplement):
+        #            case fieldnum(SalesLine, DeliveryDistrictName):
+        #                if (BrazilParameters::isEnabled())
+        #                {
+        #                    this.AddressMap::formatAddress();
+        #                    this.clearAddressReference();
+        #                }
+        #                break;
+        #            // </GBR>
+        #        }
+        #        this.modifiedFieldDDC(_fieldId);
+        #    }
+        #
+        #    // <GBR>
+        #    if (BrazilParameters::isEnabled())
+        #    {
+        #        this.AddressMap::modifiedField(_fieldId);
+        #    }
+        #    // </GBR>
+        #}
+        #
+      ENDSOURCE
+      SOURCE #modifySalesqty
+        #server static void  modifySalesQty(SalesLine    _salesLine,
+        #                                   InventDim    _inventDim)
+        #{
+        #    SalesReceiptDateRequested   receiptDateRequestedOrig  = _salesLine.ReceiptDateRequested;
+        #    SalesReceiptDateConfirmed   receiptDateConfirmedOrig  = _salesLine.ReceiptDateConfirmed;
+        #    SalesShippingDateRequested  shippingDateRequestedOrig = _salesLine.ShippingDateRequested;
+        #    SalesShippingDateConfirmed  shippingDateConfirmedOrig = _salesLine.ShippingDateConfirmed;
+        #    ;
+        #    if (!_salesLine.interCompanyIsBeingUpdated())
+        #    {
+        #        InventMovement::setMinMaxQty(_salesLine);
+        #
+        #        // Begin - ECH_WI_JosLockSalesPriceDisc
+        #        //_salesLine.SalesPurchLine::resetPriceAgreement();
+        #        _salesLine.initSalesQty();
+        #        //_salesLine.setPriceDisc(_inventDim);
+        #        // End - ECH_WI_JosLockSalesPriceDisc
+        #        _salesLine.calcPackingUnitQty(_inventDim);
+        #
+        #        // <GBR>
+        #        if (!BrazilParameters::isEnabled()
+        #            || SalesOperationType_BR::find(_salesLine.salesTable().OperationId).InventControl)
+        #        {
+        #        //</GBR>
+        #            InventMovement::bufferSetTransQtyUnit(_salesLine);
+        #        // <GBR>
+        #        }
+        #        //</GBR>
+        #
+        #        // <GBR>
+        #        if (!BrazilParameters::isEnabled()
+        #            || !SalesOperationType_BR::find(_salesLine.salesTable().OperationId).InventControl)
+        #        {
+        #        //</GBR>
+        #            _salesLine.setInventDeliverNow();
+        #        // <GBR>
+        #        }
+        #        //</GBR>
+        #
+        #        if (_salesLine.RecId                 !=0                          &&
+        #           (_salesLine.ReceiptDateRequested  != receiptDateRequestedOrig  ||
+        #            _salesLine.ReceiptDateConfirmed  != receiptDateConfirmedOrig  ||
+        #            _salesLine.ShippingDateRequested != shippingDateRequestedOrig ||
+        #            _salesLine.ShippingDateConfirmed != shippingDateConfirmedOrig))
+        #        {
+        #            if (Box::yesNo("@SYS88260",DialogButton::Yes) == DialogButton::No)
+        #            {
+        #                _salesLine.ReceiptDateRequested  = receiptDateRequestedOrig;
+        #                _salesLine.ReceiptDateConfirmed  = receiptDateConfirmedOrig;
+        #                _salesLine.ShippingDateRequested = shippingDateRequestedOrig;
+        #                _salesLine.ShippingDateConfirmed = shippingDateConfirmedOrig;
+        #            }
+        #        }
+        #    }
+        #    else
+        #    {
+        #        _salesLine.SalesQty = _salesLine.orig().SalesQty;
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

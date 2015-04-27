@@ -1,0 +1,325 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echExternalSkuId unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echExternalSkuId
+    Id 30051
+    PROPERTIES
+      Name                #echExternalSkuId
+      Label               #@ECH306
+      TitleField1         #InventLocationId
+      TitleField2         #ItemBarCode
+      ConfigurationKey    #echProcesses
+      SecurityKey         #InventTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemBarCode
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #ItemBarCode
+          AllowEdit           #No
+          Table               #echExternalSkuId
+          ExtendedDataType    
+            ARRAY 
+              #ItemBarCode
+              #
+            ENDARRAY
+          StringSize          #80
+        ENDPROPERTIES
+        
+      FIELD #InventLocationId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #InventLocationId
+          Table               #echExternalSkuId
+          ExtendedDataType    
+            ARRAY 
+              #InventLocationId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #ExtCodeValue
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #ExtCodeValue
+          Label               #@ECH306
+          Table               #echExternalSkuId
+          ExtendedDataType    
+            ARRAY 
+              #ExtCodeValue
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+      FIELD #ExtItemId
+        Id 30004
+        STRING
+        PROPERTIES
+          Name                #ExtItemId
+          Label               #@ECH420
+          Table               #echExternalSkuId
+          ExtendedDataType    
+            ARRAY 
+              #ExtCodeValue
+              #
+            ENDARRAY
+          StringSize          #50
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemBarCode
+          #InventLocationId
+          #ExtCodeValue
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemBarCode
+          #InventLocationId
+          #ExtCodeValue
+          #ExtItemId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AllFields
+        PROPERTIES
+          Name                #AllFields
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemBarCode
+          #InventLocationId
+          #ExtCodeValue
+          #ExtItemId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ExtCodeValueIdx
+      Id 30001
+      PROPERTIES
+        Name                #ExtCodeValueIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #InventLocationId
+        #ExtCodeValue
+      ENDINDEXFIELDS
+      
+      #ItemBarCodeIdx
+      Id 30002
+      PROPERTIES
+        Name                #ItemBarCodeIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #InventLocationId
+        #ItemBarCode
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+      REFERENCE #InventItemBarCode
+        PROPERTIES
+          Name                #InventItemBarCode
+          Table               #InventItemBarcode
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #ItemBarCode
+            RelatedField        #itemBarCode
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #exist
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 07 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Exist method
+        #
+        #public boolean exist(InventLocationId _inventLocationId, ExtCodeValue _extCodeValue)
+        #{
+        #    echExternalSkuId       echExternalSkuId;
+        #    ;
+        #
+        #    select firstonly recId from echExternalSkuId
+        #        where   echExternalSkuId.InventLocationId   == _inventLocationId      &&
+        #                echExternalSkuId.ExtCodeValue       == _extCodeValue;
+        #
+        #    return (echExternalSkuId.RecId ? true : false);
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 07 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Find method
+        #
+        #static public echExternalSkuId find(InventLocationId _inventLocationId, ExtCodeValue _extCodeValue)
+        #{
+        #    echExternalSkuId       echExternalSkuId;
+        #    ;
+        #
+        #    select firstonly echExternalSkuId
+        #        where   echExternalSkuId.InventLocationId   == _inventLocationId      &&
+        #                echExternalSkuId.ExtCodeValue       == _extCodeValue;
+        #
+        #    return echExternalSkuId;
+        #}
+      ENDSOURCE
+      SOURCE #findBarCode
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 07 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: Find method
+        #
+        #static public echExternalSkuId findBarCode(InventLocationId _inventLocationId, ItemBarCode _itemBarCode)
+        #{
+        #    echExternalSkuId       echExternalSkuId;
+        #    ;
+        #
+        #    select firstonly echExternalSkuId
+        #        where   echExternalSkuId.InventLocationId   == _inventLocationId      &&
+        #                echExternalSkuId.ItemBarCode        == _itemBarCode;
+        #
+        #    return echExternalSkuId;
+        #}
+      ENDSOURCE
+      SOURCE #findOrCreate
+        #// Update ECH_WI_02272 by mengqi.cen on 20130615
+        #// Create ECH_WI_02031 by mengqi.cen on 20130326
+        #public static echExternalSkuId findOrCreate(ItemBarCode       _itemBarCode,
+        #                                            InventLocationId  _inventLoc,
+        #                                            ExtCodeValue      _extCodeVal,
+        #                                            ExtCodeValue      _extItemId)
+        #{
+        #    InventItemBarcode _inventBarcode;
+        #    echExternalSkuId  _externalSkuId;
+        #;
+        #    select firstonly tableid from _inventBarcode
+        #      where _inventBarcode.barcodeSetupId == InventParameters::find().echSkuBarcodeSetup
+        #         && _inventBarcode.itemBarCode    == _itemBarCode;
+        #
+        #    if (_inventBarcode)
+        #    {
+        #        ttsbegin;
+        #
+        #        select firstonly forupdate _externalSkuId
+        #          where _externalSkuId.ItemBarCode      == _itemBarCode
+        #             && _externalSkuId.InventLocationId == _inventLoc;
+        #
+        #        if (_externalSkuId.ExtCodeValue != _extCodeVal || _externalSkuId.ExtItemId != _extItemId)
+        #        {
+        #            _externalSkuId.ItemBarCode      = _itemBarCode;
+        #            _externalSkuId.InventLocationId = _inventLoc;
+        #            _externalSkuId.ExtCodeValue     = _extCodeVal;
+        #            _externalSkuId.ExtItemId        = _extItemId;
+        #
+        #            _externalSkuId.write();
+        #        }
+        #
+        #        ttscommit;
+        #    }
+        #
+        #    return _externalSkuId;
+        #}
+      ENDSOURCE
+      SOURCE #GetExternalSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 07 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: This method will return the external sku id. If none found an empty string will be returned
+        #
+        #static ExtCodeValue GetExternalSkuId(InventLocationId _inventLocationId, ItemBarCode _ItemBarCode)
+        #{
+        #    echExternalSkuId    externalSkuId;
+        #    ;
+        #
+        #    // get the external SKU ID record
+        #    externalskuId = echExternalSkuid::findBarCode(_inventLocationId, _ItemBarCode);
+        #
+        #    // if no record is found return an empty string
+        #    if (!externalSkuId)
+        #    {
+        #        return '';
+        #    }
+        #    else
+        #    {
+        #        return externalSkuId.ExtCodeValue;
+        #    }
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #GetInternalSkuId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_00837
+        #// *** Customization Date: 07 Aug 2012
+        #// *** Customization Type: Created
+        #// *** Description: This method will return the internal sku id or throws an error if not found.
+        #
+        #static ItemBarCode GetInternalSkuId(InventLocationId _inventLocationId, ExtCodeValue _externalSkuId)
+        #{
+        #    echExternalSkuId    externalSkuId;
+        #    ;
+        #
+        #    // get the external SKU ID record
+        #    externalskuId = echExternalSkuid::find(_inventLocationId, _externalSkuId);
+        #
+        #    // if no record is found throw an error
+        #    if (!externalSkuId)
+        #    {
+        #        throw error (strfmt("@ECH307", _externalSkuId, _inventlocationId));
+        #    }
+        #    else
+        #    {
+        #        return externalSkuId.ItemBarCode;
+        #    }
+        #
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

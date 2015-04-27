@@ -1,0 +1,76 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echWMSPickingRoute unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echWMSPickingRoute
+    Id 30015
+    PROPERTIES
+      Name                #echWMSPickingRoute
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: WMSPickingRoute handlers
+        #
+        #class echWMSPickingRoute
+        #{
+        #
+        #}
+      ENDSOURCE
+      SOURCE #custTable
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: return custTable
+        #
+        #public static custTable custTable(AxWMSPickingRoute   _axWMSPickingRoute)
+        #{
+        #    ;
+        #
+        #    return CustTable::find(_axWMSPickingRoute.parmCustomer());
+        #}
+      ENDSOURCE
+      SOURCE #salesTable
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: return sales table
+        #
+        #public static salesTable salesTable(AxWMSPickingRoute   _axWMSPickingRoute)
+        #{
+        #    SalesTable              salesTable;
+        #    WMSPickingRouteLink     wmsPickingRouteLink;
+        #    ;
+        #
+        #    if (_axWMSPickingRoute.parmTransType() == InventTransType::Sales &&
+        #        _axWMSPickingRoute.parmPickingRouteID())
+        #    {
+        #        select firstonly OrigInventTransRefId from wmsPickingRouteLink
+        #            where   wmsPickingRouteLink.PickingRouteId  == _axWMSPickingRoute.parmPickingRouteID()
+        #            &&      wmsPickingRouteLink.InventTransType == InventTransType::Sales
+        #        ;
+        #
+        #        salesTable = SalesTable::find(wmsPickingRouteLink.OrigInventTransRefId);
+        #    }
+        #
+        #    return salesTable;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,196 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesFormLetter_Invoice unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesFormLetter_Invoice
+    Id 531
+    PROPERTIES
+      Name                #SalesFormLetter_Invoice
+      Extends             #SalesFormLetter
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #checkIfShipmentUpdated
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Ignore the error that will be thrown when posting from the EP
+        #
+        #private boolean checkIfShipmentUpdated()
+        #{
+        #    ShipCarrierShippingRequest      shippingRequest;
+        #    ShipCarrierPackage              package;
+        #    DataAreaId                      executionDataArea;
+        #    ;
+        #
+        #    //do nothing is shipping module is not turned on
+        #    if (!Global::isConfigurationkeyEnabled(configurationkeynum(ShipCarrier)))
+        #    {
+        #        return true;
+        #    }
+        #
+        #    ttsbegin;
+        #    //transfer records from secured holding table to the main ship carrier tables
+        #    ShipCarrierStaging::transferToMainTables(salesTable.SalesId);
+        #
+        #    //any packing slip in shipping request, but not in package, means the shipping
+        #    //charges has not been updated by 3rd party software
+        #    select forupdate  shippingRequest
+        #        where shippingRequest.SalesId       == salesTable.SalesId   &&
+        #              !shippingRequest.ErrorRetreivingCharge                &&
+        #             (!this.parmShipmentId()        ||
+        #              shippingRequest.wmsShipmentId == this.parmShipmentId())
+        #            notexists join package
+        #            where package.SalesId       == shippingRequest.SalesId  &&
+        #                  package.PackingSlipId == shippingRequest.PackingSlipId;
+        #
+        #    if (shippingRequest.RecId)
+        #    {
+        #        shippingRequest.ErrorRetreivingCharge = NoYes::Yes;
+        #        shippingRequest.update();
+        #
+        #
+        #// CS - ECH_WI_01070 - Marijn Catthoor - 11 Sep 2012
+        #
+        #        if (WebSession() && salesTable.SalesType == SalesType::ReturnItem)
+        #        {
+        #            // commit the transaction and return.
+        #            info(strfmt("@ECH345", shippingRequest.PackingSlipId, shippingRequest.SalesId));
+        #            ttscommit;
+        #            return true;
+        #        }
+        #// CE - ECH_WI_01070 - Marijn Catthoor - 11 Sep 2012
+        #        if (this.isInBatch())
+        #        {
+        #            //"Shipping charges for packing slip %1 of S/O %2 have not been retreived. Invoice posting for this order has been skipped."
+        #            info(strfmt("@SYS116864", shippingRequest.PackingSlipId, shippingRequest.SalesId));
+        #            ttsabort;
+        #            return false;
+        #        }
+        #        else
+        #        {
+        #            executionDataArea = curext();
+        #            //"Shipping charges for packing slip %1 of S/O %2 have not been retreived. Ignore and continue?"
+        #            if (Box::yesNo(strfmt("@SYS116851", shippingRequest.PackingSlipId, shippingRequest.SalesId), DialogButton::No) == DialogButton::No)
+        #            {
+        #                ttsabort;
+        #                 //"Shipping charges have not been retreived."
+        #                throw error("@SYS116945");
+        #            }
+        #            appl.setDefaultCompany(executionDataArea, false);
+        #        }
+        #    }
+        #    ttscommit;
+        #
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #insertJournal
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01070
+        #// *** Customization Date: 11 Sep 2012
+        #// *** Customization Type: Modified
+        #// *** Description: Always update to status Invoiced
+        #
+        # // *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: modification
+        #// *** Description: update Aggregate status to 'Invoiced'
+        #
+        #// *** ECHINA - abdessamad.almask ***
+        #// *** Customization Code: ECH_E_003
+        #// *** Customization Date: 03 Apr 2012
+        #// *** Customization Type: create
+        #// *** Description: update Aggregate status to 'Invoiced' when previous status is Shipping Waiting
+        #
+        #void insertJournal()
+        #{
+        #    CreditCardPaymentJournal    creditCardPaymentJournal;
+        #    CreditCardAuthTrans         creditCardAuthTranslocal;
+        #    ;
+        #
+        #    if (this.interCompanyIsPurchFinancialUpdated())
+        #    {
+        #        // The super() call runs the postUpdate() method which updates the salesTable buffer.
+        #        // Before calling super() set the creditCardSalesTable and creditCardSalesTotals to be
+        #        // used as part of the creditCardDoCaptureOrPostAuthorize() call.
+        #        creditCardSalesTable = salesTable.data();
+        #        creditCardSalesTotals = salesTotals;
+        #
+        #        ttsbegin;
+        #        super();
+        #
+        #        if (this.creditCardDoCaptureOrPostAuthorize())
+        #        {
+        #            ttscommit;
+        #
+        #            creditCardSalesTable.reread();  //reread the salesTable data to capture the data changed during creditCardDoCaptureOrPostAuthorize
+        #            if (creditCardSalesTable.CreditCardCustRefId != 0)
+        #            {
+        #                // Create the payment journal and settle this invoice with credit card payment.
+        #                creditCardPaymentJournal = new CreditCardPaymentJournal(creditCardSalesTable, custInvoiceJour);
+        #                creditCardPaymentJournal.run();
+        #            }
+        #        }
+        #        else
+        #        {
+        #            //Do Capture or Post auth failed, collect the details in the creditCardAuthTrans record and save it anyway after the abort of the main process.
+        #            creditCardAuthTranslocal.data(CreditCardAuthTrans::findLatest(creditCardSalesTable.SalesId));
+        #            ttsabort;
+        #            creditCardAuthTranslocal.insert();  //save the Credit Card auth details with failed details
+        #            //show the proper message if in batch or single user mode.
+        #            if (this.isInBatch())
+        #            {
+        #                info(strfmt("@SYS116944", //"Credit card capture failed for S/O %1. Invoice posting will skip this order."
+        #                            creditCardSalesTable.SalesId));
+        #            }
+        #            else
+        #            {
+        #                throw error("@SYS116946"); //"Credit card capture failed."
+        #            }
+        #        }
+        #
+        #    }
+        #    else
+        #    {
+        #        this.interCompanyPost(false);
+        #    }
+        #    // <RETAIL>
+        #    this.settleInvoicePrepayments(custInvoiceJour.InvoiceId);
+        #    // </RETAIL>
+        #
+        #// CS - ECH_E_003 - abdessamad.almask - 20 Apr 2012
+        #// CS - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #    if (isConfigurationKeyEnabled(configurationKeyNum(echProcesses)))
+        #    {
+        #
+        #// CS - ECH_WI_01070 - Marijn Catthoor - 11 Sep 2012
+        #
+        #//        if(salesTable.SalesType != salesType::ReturnItem)
+        #//            echUpdateAggStatus::updateStatus(salesTable.SalesId, echAggStatus::Invoiced);
+        #//        else
+        #//        {
+        #//            if(salesTable.ECHAggStatus == ECHAggStatus::RefundReplacement)
+        #//                echUpdateAggStatus::updateStatus(salesTable.SalesId, echAggStatus::Invoiced);
+        #//        }
+        #
+        #        echUpdateAggStatus::updateStatus(salesTable.SalesId, echAggStatus::Invoiced);
+        #// CE - ECH_WI_01070 - Marijn Catthoor - 11 Sep 2012
+        #    }
+        #// CE - ECH_E_003 - abdessamad.almask - 03 Apr 2012
+        #// CE - ECH_E_003 - abdessamad.almask - 20 Apr 2012
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

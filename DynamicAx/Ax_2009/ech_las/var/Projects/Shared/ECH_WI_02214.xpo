@@ -1,0 +1,79 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : ECH_WI_02214 unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #ECH_WI_02214
+   SHARED
+  PROPERTIES
+    Name                #ECH_WI_02214
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    GROUP #Tables
+      PROPERTIES
+        Name                #Tables
+        ProjectGroupType    #Tables
+        GroupMask           #
+        PreventEditProperties #No
+      ENDPROPERTIES
+      
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        UTILOBJECTID 315
+        NODETYPE 204
+        NAME #PriceDiscTable
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        UTILOBJECTID 1213
+        NODETYPE 204
+        NAME #InventItemBarcode
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        UTILOBJECTID 1615
+        NODETYPE 204
+        NAME #InventColor
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        UTILOBJECTID 1616
+        NODETYPE 204
+        NAME #InventSize
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        UTILOBJECTID 30037
+        NODETYPE 204
+        NAME #echItemAttributes
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        UTILOBJECTID 175
+        NODETYPE 204
+        NAME #InventTable
+      ENDNODE
+      BEGINNODE
+        FILETYPE 0
+        UTILTYPE 44
+        UTILOBJECTID 17294
+        NODETYPE 204
+        NAME #RBOInventTable
+      ENDNODE
+      ENDGROUP
+      
+  ENDPROJECT
+  
+
+***Element: END

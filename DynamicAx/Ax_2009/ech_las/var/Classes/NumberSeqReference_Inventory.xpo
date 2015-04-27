@@ -1,0 +1,356 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: NumberSeqReference_Inventory unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #NumberSeqReference_Inventory
+    Id 1451
+    PROPERTIES
+      Name                #NumberSeqReference_Inventory
+      Extends             #NumberSeqReference
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #loadModule
+        #// Update ECH_WI_02336 by mengqi.cen on 20130723
+        #//   Record Stock Allocation history in Ax table
+        #//
+        #
+        #/*
+        #Detailed description of how to setup references for number sequences can
+        #be found i method loadModule() on the 'father' class: numberSeqReference.
+        #*/
+        #
+        #
+        #protected void loadModule()
+        #{
+        #    NumberSequenceReference numRef;
+        #
+        #
+        #    /* Setup item id */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(ItemId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53849");
+        #    numRef.WizardContinuous         = false;
+        #    numRef.WizardManual            = NoYes::Yes;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 20;
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup lot id */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventTransId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53828");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardFetchAheadQty     = 10;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 30;
+        #    this.create(numRef);
+        #
+        #    /* Setup invent dimension id  */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventDimId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53832");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardFetchAheadQty     = 10;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 40;
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup journal journal id */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventJournalId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53833");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardFetchAheadQty     = 5;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 100;
+        #    this.create(numRef);
+        #
+        #    /* Setup fiscal LIFO journal journal id */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventFiscalLIFOJournalId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS98506");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardFetchAheadQty     = 5;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 105;
+        #    this.create(numRef);
+        #
+        #    /* Setup journal voucher */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventJournalVoucherId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53837");
+        #    numRef.ReferenceLabel          = literalstr("@SYS3096");
+        #    numRef.WizardContinuous        = false;
+        #//    numRef.WizardFetchAheadQty     = 5;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardLowest            = 8000;
+        #    numRef.WizardHighest           = 9999;
+        #    numRef.SortField               = 110;
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup closing voucher */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventClosingVoucherId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53836");
+        #    numRef.WizardContinuous         = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardLowest            = 10000;
+        #    numRef.WizardHighest           = 11999;
+        #    numRef.SortField               = 200;
+        #    this.create(numRef);
+        #
+        #    /* Setup adjustment voucher */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventAdjustmentVoucherId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53838");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardLowest            = 12000;
+        #    numRef.WizardHighest           = 13999;
+        #    numRef.SortField               = 210;
+        #    this.create(numRef);
+        #
+        #    /* Setup revaluation voucher */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventStdCostRevaluationVoucherId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS104372");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 215;
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup settle transaction */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventSettleTransId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53831");
+        #    numRef.ReferenceLabel          = literalstr("@SYS53840");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardFetchAheadQty     = 50;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 220;
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup batch-serial number */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventBatchSerialId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS53829");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardFetchAheadQty     = 5;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 300;
+        #    this.create(numRef);
+        #
+        #    /* Setup quarantine order number */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventQuarantineId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS58438");
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 400;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup Size number */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventSizeId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS73845");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::Yes;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 500;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #    /* Setup Color number */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventColorId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS73845");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::Yes;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 500;
+        #
+        #    this.create(numRef);
+        #
+        #    // <RETAIL>
+        #
+        #    /* Setup Style number */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventColorId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS73845");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::Yes;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 500;
+        #
+        #    this.create(numRef);
+        #
+        #
+        #
+        #    // </RETAIL>
+        #    /* ID of periodic physial posting */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventPostPhysicalId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS78198");
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 1000;
+        #
+        #    this.create(numRef);
+        #
+        #    /* Voucher of periodic physial posting */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventPostPhysicalVoucher));
+        #    numRef.DataTypeSameAsId        = typeId2ExtendedTypeId(typeid(InventPostPhysicalId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS78199");
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 1001;
+        #
+        #    this.create(numRef);
+        #
+        #    /* Setup transfer order number */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventTransferId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS78474");
+        #    numRef.WizardContinuous        = true;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 450;
+        #
+        #    this.create(numRef);
+        #
+        #    /* Setup transfer order voucher */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventTransferVoucherId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS78599");
+        #    numRef.ReferenceLabel          = literalstr("@SYS78600");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardLowest            = 14000;
+        #    numRef.WizardHighest           = 14999;
+        #    numRef.SortField               = 451;
+        #    this.create(numRef);
+        #
+        #    /* Setup quality order number */
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventQualityOrderId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS113624");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.SortField               = 401;
+        #
+        #    this.create(numRef);
+        #
+        #    /* Setup non conformance number */
+        #
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventNonConformanceID));
+        #    numRef.ReferenceHelp           = literalstr("@SYS113622");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 402;
+        #
+        #    this.create(numRef);
+        #
+        #    /* Setup certificate of analysis number */
+        #    numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(InventCertificateOfAnalysisId));
+        #    numRef.ReferenceHelp           = literalstr("@SYS113623");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::No;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.WizardHighest           = 999999;
+        #    numRef.SortField               = 403;
+        #
+        #    this.create(numRef);
+        #    // <RETAIL>
+        #
+        #    /* Setup Style number */
+        #
+        #    numRef.dataTypeId              = typeId2ExtendedTypeId(typeid(RBOInventStyleId));
+        #    numRef.referenceHelp           = literalstr("@SYS73845");
+        #    numRef.WizardContinuous        = false;
+        #    numRef.WizardManual            = NoYes::Yes;
+        #    numRef.WizardAllowChangeDown   = NoYes::No;
+        #    numRef.WizardAllowChangeUp     = NoYes::No;
+        #    numRef.wizardHighest           = 999999;
+        #    numRef.sortField               = 500;
+        #
+        #    this.create(numRef);
+        #    // </RETAIL>
+        #
+        #    if (isConfigurationkeyEnabled(configurationkeynum(echProcesses)))
+        #    {
+        #        numRef.DataTypeId              = typeId2ExtendedTypeId(typeid(echInventStockQueueSeqId));
+        #        numRef.ReferenceLabel          = literalstr('@ECH831');
+        #        numRef.ReferenceHelp           = literalstr('@ECH833');
+        #        numRef.WizardContinuous        = false;
+        #        numRef.WizardManual            = NoYes::No;
+        #        numRef.WizardAllowChangeDown   = NoYes::No;
+        #        numRef.WizardAllowChangeUp     = NoYes::No;
+        #        numRef.SortField               = 501;
+        #
+        #        this.create(numRef);
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

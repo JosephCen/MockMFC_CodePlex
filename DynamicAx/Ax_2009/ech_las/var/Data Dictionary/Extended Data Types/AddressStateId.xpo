@@ -1,0 +1,31 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: UTS
+
+; Microsoft Dynamics AX String: AddressStateId unloaded
+; --------------------------------------------------------------------------------
+  USERTYPEVERSION 6
+  
+  USERTYPE #AddressStateId
+  Id 532
+  STRING
+    PROPERTIES
+      Name                #AddressStateId
+      Label               #@SYS21816
+      HelpText            #@SYS21819
+      Extends             #Name
+      StringSize          #60
+      ChangeCase          #None
+    ENDPROPERTIES
+    
+    TYPEELEMENTS
+    ENDTYPEELEMENTS
+    
+    TYPEREFERENCES
+    ENDTYPEREFERENCES
+    
+  ENDUSERTYPE
+  
+
+***Element: END

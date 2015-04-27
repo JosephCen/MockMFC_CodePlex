@@ -1,0 +1,582 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesSalesOrder_ShipCarrierStaging unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesSalesOrder_ShipCarrierStaging
+    Id 30121
+    PROPERTIES
+      Name                #SalesSalesOrder_ShipCarrierStaging
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class SalesSalesOrder_ShipCarrierStaging extends AfStronglyTypedDataContainer
+        #{
+        #    #define.WeightText('WeightText')
+        #    #define.Weight('Weight')
+        #    #define.Transferred('Transferred')
+        #    #define.TrackingNumber('TrackingNumber')
+        #    #define.ShippingChargeText('ShippingChargeText')
+        #    #define.ShippingCharge('ShippingCharge')
+        #    #define.ShipDate('ShipDate')
+        #    #define.SalesId('SalesId')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.PublishedRateText('PublishedRateText')
+        #    #define.PublishedRate('PublishedRate')
+        #    #define.PackingSlipId('PackingSlipId')
+        #    #define.PackageId('PackageId')
+        #    #define.OtherChargeText('OtherChargeText')
+        #    #define.OtherCharge3Text('OtherCharge3Text')
+        #    #define.OtherCharge3('OtherCharge3')
+        #    #define.OtherCharge2Text('OtherCharge2Text')
+        #    #define.OtherCharge2('OtherCharge2')
+        #    #define.OtherCharge('OtherCharge')
+        #    #define.HandlingChargeText('HandlingChargeText')
+        #    #define.HandlingCharge3Text('HandlingCharge3Text')
+        #    #define.HandlingCharge3('HandlingCharge3')
+        #    #define.HandlingCharge2Text('HandlingCharge2Text')
+        #    #define.HandlingCharge2('HandlingCharge2')
+        #    #define.HandlingCharge('HandlingCharge')
+        #    #define.FuelSurchargeText('FuelSurchargeText')
+        #    #define.FuelSurcharge('FuelSurcharge')
+        #    #define.EchSignPerson('EchSignPerson')
+        #    #define.EchSignDate('EchSignDate')
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsEchSignDate
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #public boolean existsEchSignDate()
+        #{
+        #    return this.exists(#EchSignDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsEchSignPerson
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #public boolean existsEchSignPerson()
+        #{
+        #    return this.exists(#EchSignPerson);
+        #}
+      ENDSOURCE
+      SOURCE #existsFuelSurcharge
+        #public boolean existsFuelSurcharge()
+        #{
+        #    return this.exists(#FuelSurcharge);
+        #}
+      ENDSOURCE
+      SOURCE #existsFuelSurchargeText
+        #public boolean existsFuelSurchargeText()
+        #{
+        #    return this.exists(#FuelSurchargeText);
+        #}
+      ENDSOURCE
+      SOURCE #existsHandlingCharge
+        #public boolean existsHandlingCharge()
+        #{
+        #    return this.exists(#HandlingCharge);
+        #}
+      ENDSOURCE
+      SOURCE #existsHandlingCharge2
+        #public boolean existsHandlingCharge2()
+        #{
+        #    return this.exists(#HandlingCharge2);
+        #}
+      ENDSOURCE
+      SOURCE #existsHandlingCharge2Text
+        #public boolean existsHandlingCharge2Text()
+        #{
+        #    return this.exists(#HandlingCharge2Text);
+        #}
+      ENDSOURCE
+      SOURCE #existsHandlingCharge3
+        #public boolean existsHandlingCharge3()
+        #{
+        #    return this.exists(#HandlingCharge3);
+        #}
+      ENDSOURCE
+      SOURCE #existsHandlingCharge3Text
+        #public boolean existsHandlingCharge3Text()
+        #{
+        #    return this.exists(#HandlingCharge3Text);
+        #}
+      ENDSOURCE
+      SOURCE #existsHandlingChargeText
+        #public boolean existsHandlingChargeText()
+        #{
+        #    return this.exists(#HandlingChargeText);
+        #}
+      ENDSOURCE
+      SOURCE #existsOtherCharge
+        #public boolean existsOtherCharge()
+        #{
+        #    return this.exists(#OtherCharge);
+        #}
+      ENDSOURCE
+      SOURCE #existsOtherCharge2
+        #public boolean existsOtherCharge2()
+        #{
+        #    return this.exists(#OtherCharge2);
+        #}
+      ENDSOURCE
+      SOURCE #existsOtherCharge2Text
+        #public boolean existsOtherCharge2Text()
+        #{
+        #    return this.exists(#OtherCharge2Text);
+        #}
+      ENDSOURCE
+      SOURCE #existsOtherCharge3
+        #public boolean existsOtherCharge3()
+        #{
+        #    return this.exists(#OtherCharge3);
+        #}
+      ENDSOURCE
+      SOURCE #existsOtherCharge3Text
+        #public boolean existsOtherCharge3Text()
+        #{
+        #    return this.exists(#OtherCharge3Text);
+        #}
+      ENDSOURCE
+      SOURCE #existsOtherChargeText
+        #public boolean existsOtherChargeText()
+        #{
+        #    return this.exists(#OtherChargeText);
+        #}
+      ENDSOURCE
+      SOURCE #existsPackageId
+        #public boolean existsPackageId()
+        #{
+        #    return this.exists(#PackageId);
+        #}
+      ENDSOURCE
+      SOURCE #existsPackingSlipId
+        #public boolean existsPackingSlipId()
+        #{
+        #    return this.exists(#PackingSlipId);
+        #}
+      ENDSOURCE
+      SOURCE #existsPublishedRate
+        #public boolean existsPublishedRate()
+        #{
+        #    return this.exists(#PublishedRate);
+        #}
+      ENDSOURCE
+      SOURCE #existsPublishedRateText
+        #public boolean existsPublishedRateText()
+        #{
+        #    return this.exists(#PublishedRateText);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecId
+        #public boolean existsRecId()
+        #{
+        #    return this.exists(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #existsRecVersion
+        #public boolean existsRecVersion()
+        #{
+        #    return this.exists(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #existsSalesId
+        #public boolean existsSalesId()
+        #{
+        #    return this.exists(#SalesId);
+        #}
+      ENDSOURCE
+      SOURCE #existsShipDate
+        #public boolean existsShipDate()
+        #{
+        #    return this.exists(#ShipDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsShippingCharge
+        #public boolean existsShippingCharge()
+        #{
+        #    return this.exists(#ShippingCharge);
+        #}
+      ENDSOURCE
+      SOURCE #existsShippingChargeText
+        #public boolean existsShippingChargeText()
+        #{
+        #    return this.exists(#ShippingChargeText);
+        #}
+      ENDSOURCE
+      SOURCE #existsTrackingNumber
+        #public boolean existsTrackingNumber()
+        #{
+        #    return this.exists(#TrackingNumber);
+        #}
+      ENDSOURCE
+      SOURCE #existsTransferred
+        #public boolean existsTransferred()
+        #{
+        #    return this.exists(#Transferred);
+        #}
+      ENDSOURCE
+      SOURCE #existsWeight
+        #public boolean existsWeight()
+        #{
+        #    return this.exists(#Weight);
+        #}
+      ENDSOURCE
+      SOURCE #existsWeightText
+        #public boolean existsWeightText()
+        #{
+        #    return this.exists(#WeightText);
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #public void new()
+        #{
+        #    super(#SalesOrder_ShipCarrierStaging);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSignDate
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #public EchSignDate parmEchSignDate(EchSignDate _value = utcDateTimeNull())
+        #{
+        #;
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSignDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSignDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmEchSignPerson
+        #// Create ECH_WI_02004 by mengqi.cen on 20130329
+        #public EchSignPerson parmEchSignPerson(echSignPerson _value = '')
+        #{
+        #;
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#EchSignPerson, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#EchSignPerson);
+        #}
+      ENDSOURCE
+      SOURCE #parmFuelSurcharge
+        #public ShipCarrierRate parmFuelSurcharge(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#FuelSurcharge, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#FuelSurcharge);
+        #}
+      ENDSOURCE
+      SOURCE #parmFuelSurchargeText
+        #public Num parmFuelSurchargeText(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#FuelSurchargeText, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#FuelSurchargeText);
+        #}
+      ENDSOURCE
+      SOURCE #parmHandlingCharge
+        #public ShipCarrierRate parmHandlingCharge(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HandlingCharge, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HandlingCharge);
+        #}
+      ENDSOURCE
+      SOURCE #parmHandlingCharge2
+        #public ShipCarrierRate parmHandlingCharge2(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HandlingCharge2, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HandlingCharge2);
+        #}
+      ENDSOURCE
+      SOURCE #parmHandlingCharge2Text
+        #public Num parmHandlingCharge2Text(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HandlingCharge2Text, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HandlingCharge2Text);
+        #}
+      ENDSOURCE
+      SOURCE #parmHandlingCharge3
+        #public ShipCarrierRate parmHandlingCharge3(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HandlingCharge3, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HandlingCharge3);
+        #}
+      ENDSOURCE
+      SOURCE #parmHandlingCharge3Text
+        #public Num parmHandlingCharge3Text(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HandlingCharge3Text, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HandlingCharge3Text);
+        #}
+      ENDSOURCE
+      SOURCE #parmHandlingChargeText
+        #public Num parmHandlingChargeText(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#HandlingChargeText, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#HandlingChargeText);
+        #}
+      ENDSOURCE
+      SOURCE #parmOtherCharge
+        #public ShipCarrierRate parmOtherCharge(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OtherCharge, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OtherCharge);
+        #}
+      ENDSOURCE
+      SOURCE #parmOtherCharge2
+        #public ShipCarrierRate parmOtherCharge2(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OtherCharge2, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OtherCharge2);
+        #}
+      ENDSOURCE
+      SOURCE #parmOtherCharge2Text
+        #public Num parmOtherCharge2Text(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OtherCharge2Text, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OtherCharge2Text);
+        #}
+      ENDSOURCE
+      SOURCE #parmOtherCharge3
+        #public ShipCarrierRate parmOtherCharge3(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OtherCharge3, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OtherCharge3);
+        #}
+      ENDSOURCE
+      SOURCE #parmOtherCharge3Text
+        #public Num parmOtherCharge3Text(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OtherCharge3Text, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OtherCharge3Text);
+        #}
+      ENDSOURCE
+      SOURCE #parmOtherChargeText
+        #public Num parmOtherChargeText(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#OtherChargeText, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#OtherChargeText);
+        #}
+      ENDSOURCE
+      SOURCE #parmPackageId
+        #public ShipCarrierPackageId parmPackageId(ShipCarrierPackageId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PackageId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PackageId);
+        #}
+      ENDSOURCE
+      SOURCE #parmPackingSlipId
+        #public PackingSlipId parmPackingSlipId(PackingSlipId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PackingSlipId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PackingSlipId);
+        #}
+      ENDSOURCE
+      SOURCE #parmPublishedRate
+        #public ShipCarrierRate parmPublishedRate(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PublishedRate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PublishedRate);
+        #}
+      ENDSOURCE
+      SOURCE #parmPublishedRateText
+        #public Num parmPublishedRateText(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#PublishedRateText, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#PublishedRateText);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecId
+        #public recId parmRecId(recId _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecId);
+        #}
+      ENDSOURCE
+      SOURCE #parmRecVersion
+        #public recVersion parmRecVersion(recVersion _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#RecVersion, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#RecVersion);
+        #}
+      ENDSOURCE
+      SOURCE #parmSalesId
+        #public SalesId parmSalesId(SalesId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#SalesId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#SalesId);
+        #}
+      ENDSOURCE
+      SOURCE #parmShipDate
+        #public SalesShippingDateConfirmed parmShipDate(SalesShippingDateConfirmed _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShipDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShipDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmShippingCharge
+        #public ShipCarrierRate parmShippingCharge(ShipCarrierRate _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShippingCharge, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShippingCharge);
+        #}
+      ENDSOURCE
+      SOURCE #parmShippingChargeText
+        #public Num parmShippingChargeText(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShippingChargeText, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShippingChargeText);
+        #}
+      ENDSOURCE
+      SOURCE #parmTrackingNumber
+        #public ShipCarrierTrackingNum parmTrackingNumber(ShipCarrierTrackingNum _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TrackingNumber, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TrackingNumber);
+        #}
+      ENDSOURCE
+      SOURCE #parmTransferred
+        #public NoYes parmTransferred(NoYes _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Transferred, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Transferred);
+        #}
+      ENDSOURCE
+      SOURCE #parmWeight
+        #public Weight parmWeight(Weight _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#Weight, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#Weight);
+        #}
+      ENDSOURCE
+      SOURCE #parmWeightText
+        #public Num parmWeightText(Num _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#WeightText, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#WeightText);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

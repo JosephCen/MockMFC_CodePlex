@@ -1,0 +1,104 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echEPROApproveReject unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echEPROApproveReject
+    Id 57721
+    PROPERTIES
+      Name                #echEPROApproveReject
+      Extends             #
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echEPROApproveReject
+        #{
+        #    SalesTable              salesTableupd;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #parmEPSalesTable
+        #public SalesTable parmEPSalesTable(SalesId _salesId)
+        #{
+        #    ;
+        #    salesTableupd = SalesTable::find(_salesId);
+        #    return salesTableupd;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesTable
+        #public SalesTable parmSalesTable(SalesTable _salesTable = salesTableupd)
+        #{
+        #    ;
+        #    salesTableupd = _salesTable;
+        #    return salesTableupd;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #ROApproveStatusProcess
+        #void ROApproveStatusProcess(boolean _isApprove)
+        #{
+        #    ;
+        #    ttsbegin;
+        #    salesTableupd.selectForUpdate(true);
+        #    if (_isApprove)
+        #    {
+        #        if (salesTableupd.ECHAggStatus == ECHAggStatus::Approved)
+        #        {
+        #            info(strfmt("%1 %2",salesTableupd.SalesId,"@ECH734"));
+        #        }
+        #        else
+        #        {
+        #            salesTableupd.ECHAggStatus = ECHAggStatus::Approved;
+        #            info(strfmt("%1 %2",salesTableupd.SalesId,"@ECH735"));
+        #        }
+        #    }
+        #    else
+        #    {
+        #        if (salesTableupd.ECHAggStatus == ECHAggStatus::Rejected)
+        #        {
+        #            info(strfmt("%1 %2",salesTableupd.SalesId,"@ECH736"));
+        #        }
+        #        else
+        #        {
+        #            salesTableupd.ECHAggStatus = ECHAggStatus::Rejected;
+        #             info(strfmt("%1 %2",salesTableupd.SalesId,"@ECH737"));
+        #        }
+        #    }
+        #
+        #    salesTableupd.update();
+        #    ttscommit;
+        #
+        #}
+      ENDSOURCE
+      SOURCE #Constuct
+        #static echEPROApproveReject Constuct()
+        #{
+        #    return new echEPROApproveReject();
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #Static void main(Args _args)
+        #{
+        #    echEPROApproveReject    m_echEPROApproveReject;
+        #    SalesTable              m_SalesTable;
+        #    ;
+        #    m_SalesTable = _args.record();
+        #    m_echEPROApproveReject = echEPROApproveReject::Constuct();
+        #    m_echEPROApproveReject.parmSalesTable(m_SalesTable);
+        #    m_echEPROApproveReject.ROApproveStatusProcess(true);
+        #
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

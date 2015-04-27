@@ -1,0 +1,56 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesEditLinesForm_PickingList unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesEditLinesForm_PickingList
+    Id 1227
+    PROPERTIES
+      Name                #SalesEditLinesForm_PickingList
+      Extends             #SalesEditLinesForm
+      RunOn               #Client
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #construct
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ecH_I_OR03
+        #// *** Customization Date: 13 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: return custom classes
+        #
+        #static SalesEditLinesForm  construct(boolean lineOriented)
+        #{
+        #
+        #// CS - ecH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #    if (isconfigurationkeyenabled(configurationkeynum(echProcesses)))
+        #    {
+        #        if (lineOriented)
+        #        {
+        #            return new echSalesEditLinesForm_PickingListTrans();
+        #        }
+        #
+        #        return new echSalesEditLinesForm_PickingList();
+        #    }
+        #// CE - ecH_I_OR03 - Anthony Christiaens - 13 Mar 2012
+        #    else
+        #    {
+        #        if (lineOriented)
+        #        {
+        #            return new SalesEditLinesForm_PickingListTrans();
+        #        }
+        #
+        #        return new SalesEditLinesForm_PickingList();
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

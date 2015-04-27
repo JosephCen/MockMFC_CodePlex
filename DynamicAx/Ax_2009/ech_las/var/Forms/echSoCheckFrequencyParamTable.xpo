@@ -1,0 +1,178 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echSoCheckFrequencyParamTable
+  PROPERTIES
+    Name                #echSoCheckFrequencyParamTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_WI_00662
+      #// *** Customization Date: 25 Jun 2012
+      #// *** Customization Type: created
+      #// *** Description:
+      #
+      #public void init()
+      #{
+      #    ;
+      #    echSoCheckFrequencyParamTable::find();
+      #
+      #    super();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echSoCheckFrequencyParamTable
+          Table               #echSoCheckFrequencyParamTable
+          AllowCheck          #No
+          AllowCreate         #No
+          AllowDelete         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH190
+      TitleDatasource     #echSoCheckFrequencyParamTable
+      DataSource          #echSoCheckFrequencyParamTable
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #OverviewTabPage
+              Caption             #@SYS34991
+              DataSource          #echSoCheckFrequencyParamTable
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #Overview
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSoCheckFrequencyParamTable
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #Overview_numberOfOrders
+                        DataSource          #echSoCheckFrequencyParamTable
+                        DataField           #numberOfOrders
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #Overview_numberOfDays
+                        DataSource          #echSoCheckFrequencyParamTable
+                        DataField           #numberOfDays
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              Caption             #@SYS19924
+              DataSource          #echSoCheckFrequencyParamTable
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #OverviewGroup
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #echSoCheckFrequencyParamTable
+                  DataGroup           #Overview
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_numberOfOrders
+                        DataSource          #echSoCheckFrequencyParamTable
+                        DataField           #numberOfOrders
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #OverviewGroup_numberOfDays
+                        DataSource          #echSoCheckFrequencyParamTable
+                        DataField           #numberOfDays
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

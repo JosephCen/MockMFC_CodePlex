@@ -1,0 +1,157 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echInventOnHandZeroSku unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echInventOnHandZeroSku
+    Id 30078
+    PROPERTIES
+      Name                #echInventOnHandZeroSku
+      Label               #@ECH859
+      TitleField1         #ItemId
+      TitleField2         #HasSent
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #BasicTables
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ItemId
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #ItemId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echInventOnHandZeroSku
+          ExtendedDataType    
+            ARRAY 
+              #ItemId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #InventDimId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #InventDimId
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #echInventOnHandZeroSku
+          ExtendedDataType    
+            ARRAY 
+              #InventDimId
+              #
+            ENDARRAY
+          StringSize          #20
+        ENDPROPERTIES
+        
+      FIELD #HasSent
+        Id 30004
+        ENUM
+        PROPERTIES
+          Name                #HasSent
+          Table               #echInventOnHandZeroSku
+          ExtendedDataType    
+            ARRAY 
+              #NoYesId
+              #
+            ENDARRAY
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoLookup
+        PROPERTIES
+          Name                #AutoLookup
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventDimId
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #All
+        PROPERTIES
+          Name                #All
+          Label               #@SYS80094
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ItemId
+          #InventDimId
+          #HasSent
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ItemDimIdx
+      Id 30001
+      PROPERTIES
+        Name                #ItemDimIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #ItemId
+        #InventDimId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #findOrCreate
+        #// Add ECH_WI_02353 by mengqi.cen on 20130829
+        #//   Send out on-hand inventory of all these sku which has not relevant inventory transaction.
+        #public static echInventOnHandZeroSku findOrCreate(echInventOnHandZeroSku _zeroSku)
+        #{
+        #    echInventOnHandZeroSku zeroSku;
+        #;
+        #    TTSBegin;
+        #
+        #    select firstonly zeroSku
+        #      where zeroSku.ItemId      == _zeroSku.ItemId
+        #         && zeroSku.InventDimId == _zeroSku.InventDimId;
+        #
+        #    if (!zeroSku)
+        #    {
+        #        zeroSku.clear();
+        #        zeroSku.ItemId      = _zeroSku.ItemId;
+        #        zeroSku.InventDimId = _zeroSku.InventDimId;
+        #
+        #        zeroSku.insert();
+        #    }
+        #
+        #    TTSCommit;
+        #
+        #    return zeroSku;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

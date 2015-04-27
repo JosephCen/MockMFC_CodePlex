@@ -1,0 +1,77 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: EchInventOnHandService unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #EchInventOnHandService
+    Id 30037
+    PROPERTIES
+      Name                #EchInventOnHandService
+      Extends             #AifDocumentService
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class EchInventOnHandService extends AifDocumentService
+        #{
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #find
+        #// Update ECH_WI_02353 by mengqi.cen on 20130829
+        #//   Send out on-hand inventory of all these sku which has not relevant inventory transaction.
+        #// Add ECH_WI_02353 by mengqi.cen on 20130822
+        #//   Refind the delta logic of outbound interface 'EchInventOnHand'
+        #// Update ECH_WI_02334 by mengqi.cen on 20130718
+        #//   Split echInventOnhand message into several message
+        #// Add ECH_WI_02230 by mengqi.cen on 20130605
+        #//   Change Inventory On-hand interface delta update
+        #public EchInventOnHand find(AifQueryCriteria _queryCriteria)
+        #{
+        #    EchInventOnHand    echInventOnHand;
+        #    AxdEchInventOnHand axdEchInventOnHand;
+        #;
+        #    echInventOnHand = new EchInventOnHand();
+        #    axdEchInventOnHand = echInventOnHand.getAxdInstance();
+        #
+        #    axdEchInventOnHand.insertZeroSku();
+        #    this.findList(_queryCriteria, echInventOnHand);
+        #    axdEchInventOnHand.updateInventSum();
+        #    axdEchInventOnHand.updateServiceExeLog();
+        #    axdEchInventOnHand.updateZeroSku();
+        #
+        #    return echInventOnHand;
+        #}
+      ENDSOURCE
+      SOURCE #new
+        #protected void new()
+        #{
+        #    ;
+        #    super();
+        #}
+      ENDSOURCE
+      SOURCE #read
+        #public EchInventOnHand read(AifEntityKeyList _entityKeyList)
+        #{
+        #    EchInventOnHand echInventOnHand = new EchInventOnHand();
+        #    this.readList(_entityKeyList, echInventOnHand);
+        #    return echInventOnHand;
+        #}
+      ENDSOURCE
+      SOURCE #construct
+        #public static EchInventOnHandService construct()
+        #{
+        #    return new EchInventOnHandService();
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

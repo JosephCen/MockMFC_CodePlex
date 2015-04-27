@@ -1,0 +1,311 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxInventTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxInventTable
+    Id 6277
+    PROPERTIES
+      Name                #AxInventTable
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmCompanyCity
+        #public AddressCity parmCompanyCity(AddressCity _city = '')
+        #{
+        #    ;
+        #
+        #    return CompanyInfo::find().City;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCompanyName
+        #public CompanyName parmCompanyName(CompanyName _name = '')
+        #{
+        #    ;
+        #
+        #    return CompanyInfo::find().Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCompanyState
+        #public AddressStateId parmCompanyState(AddressStateId _state = '')
+        #{
+        #    ;
+        #
+        #    return CompanyInfo::find().State;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchBrand
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01293
+        #// *** Customization Date: 04 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description:   Parameter method for the brand field (fabricComposition)
+        #
+        #public FSHFabricComposition parmEchBrand(FSHFabricComposition _brand = '')
+        #{
+        #    ;
+        #
+        #    return RBOInventTable::find(this.parmItemId()).fabricComposition;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchLegacySystemId
+        #public echLegacySystemId parmEchLegacySystemId(echLegacySystemId _echLegacySystemId = '')
+        #{
+        #    if (!prmisdefault(_echLegacySystemId))
+        #    {
+        #        this.setField(fieldNum(InventTable, EchLegacySystemId), _echLegacySystemId);
+        #    }
+        #
+        #    return inventTable.EchLegacySystemId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmEchProductGrossWeight
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01293
+        #// *** Customization Date: 04 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description:   Parameter method for the Inventory UnitID
+        #
+        #public ItemGrossWeight parmEchProductGrossWeight(ItemGrossWeight _weight = 0.0)
+        #{
+        #    ;
+        #
+        #    return InventTable::find(this.parmItemId()).grossWeight();
+        #}
+      ENDSOURCE
+      SOURCE #parmEchProductStatus
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01293
+        #// *** Customization Date: 04 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description:   Parameter method for the product status
+        #
+        #public NoYes parmEchProductStatus(NoYes _stopped = NoYes::No)
+        #{
+        #    ;
+        #
+        #    return InventItemInventSetup::find(this.parmItemId(), InventDim::inventDimIdBlank()).Stopped;
+        #}
+      ENDSOURCE
+      SOURCE #parmEchUnitId
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_WI_01293
+        #// *** Customization Date: 04 Sep 2012
+        #// *** Customization Type: Created
+        #// *** Description:   Parameter method for the Inventory UnitID
+        #
+        #public unitId parmEchUnitId(UnitId _unit = '')
+        #{
+        #    ;
+        #
+        #    return InventTableModule::find(this.parmItemId(), ModuleInventPurchSales::Invent).UnitId;
+        #}
+      ENDSOURCE
+      SOURCE #parmInventTxt
+        #public ItemFreeTxt parmInventTxt(ItemFreeTxt _txt = '')
+        #{
+        #    ;
+        #
+        #    return InventTxt::find(this.parmItemId()).Txt;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemGroupName
+        #public Name parmItemGroupName(Name _Name = '')
+        #{
+        #    ;
+        #
+        #    return InventItemGroup::find(this.parmItemGroupId()).Name;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmLowestQty
+        #public Qty parmLowestQty(Qty _Qty = 0)
+        #{
+        #    ;
+        #
+        #    return InventItemSalesSetup::find(this.parmItemId(), '').LowestQty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmMultipleQty
+        #public Qty parmMultipleQty(Qty _Qty = 0)
+        #{
+        #    ;
+        #
+        #    return InventItemSalesSetup::find(this.parmItemId(), '').MultipleQty;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmSalesTaxItemGroup
+        #public TaxItemGroup parmSalesTaxItemGroup(TaxItemGroup _taxItemGroup = '')
+        #{
+        #    ;
+        #
+        #    return InventTableModule::find(this.parmItemId(), ModuleInventPurchSales::Sales).TaxItemGroupId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmTaxServiceCodeId
+        #// Update ECH_WI_01939 by mengqi.cen on 20121224
+        #//     Due to field InventTable.ServiceCodeId is not used in eChina project. Relevant logical should be
+        #//     comment out.
+        #// <GBR>
+        #public TaxServiceCodeId_BR parmTaxServiceCodeId(TaxServiceCodeId_BR _taxServiceCodeId = '')
+        #{
+        #    // Begin - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #    // if (!prmisdefault(_taxServiceCodeId))
+        #    // {
+        #    //     this.setField(fieldnum(InventTable, ServiceCodeId), _taxServiceCodeId);
+        #    // }
+        #    // End - Update ECH_WI_01939 by mengqi.cen on 20121224
+        #
+        #    return inventTable.ServiceCodeId;
+        #}
+        #// </GBR>
+      ENDSOURCE
+      SOURCE #setEchLegacySystemId
+        #protected void setEchLegacySystemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, EchLegacySystemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setExciseTariffCode_IN
+        #protected void setExciseTariffCode_IN()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, ExciseTariffCode_IN)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setExportTariffCode_IN
+        #protected void setExportTariffCode_IN()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, ExportTariffCode_IN)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFiscalLIFOAvoidCalc
+        #protected void setFiscalLIFOAvoidCalc()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, FiscalLIFOAvoidCalc)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFiscalLIFOGroup
+        #protected void setFiscalLIFOGroup()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, FiscalLIFOGroup)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFiscalLIFONormalValue
+        #protected void setFiscalLIFONormalValue()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, FiscalLIFONormalValue)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setFiscalLIFONormalValueCalc
+        #protected void setFiscalLIFONormalValueCalc()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, FiscalLIFONormalValueCalc)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setImportTariffCode_IN
+        #protected void setImportTariffCode_IN()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, ImportTariffCode_IN)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemPriceToleranceGroupId
+        #protected void setItemPriceToleranceGroupId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, ItemPriceToleranceGroupId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setMinimumPalletQuantity
+        #protected void setMinimumPalletQuantity()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, MinimumPalletQuantity)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setNGPCode_FR
+        #protected void setNGPCode_FR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, NGPCode_FR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPBAItemAutoGenerated
+        #protected void setPBAItemAutoGenerated()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, PBAItemAutoGenerated)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setWMSArrivalHandlingTime
+        #protected void setWMSArrivalHandlingTime()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(InventTable, WMSArrivalHandlingTime)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

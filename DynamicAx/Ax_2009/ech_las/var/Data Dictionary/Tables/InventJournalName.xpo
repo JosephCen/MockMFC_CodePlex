@@ -1,0 +1,77 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventJournalName unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventJournalName
+    Id 153
+    PROPERTIES
+      Name                #InventJournalName
+      Label               #@SYS22983
+      FormRef             #InventJournalName
+      TitleField1         #JournalNameId
+      TitleField2         #Description
+      TableContents       #Default data
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      CacheLookup         #EntireTable
+      TableGroup          #Group
+      PrimaryIndex        #NamesIdx
+      ClusterIndex        #NamesIdx
+      DeveloperDocumentation  #@SYS123818
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #EchInventLocationId
+        Id 30001
+        STRING
+        PROPERTIES
+          Name                #EchInventLocationId
+          Label               #@SYS107384
+          Table               #InventJournalName
+          ExtendedDataType    
+            ARRAY 
+              #InventLocationId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #EchWarehouse
+        PROPERTIES
+          Name                #EchWarehouse
+          Label               #@SYS6437
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #EchInventLocationId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+      #InventJournalTable
+      PROPERTIES
+        Table               #InventJournalTable
+        DeleteAction        #Restricted
+      ENDPROPERTIES
+      
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

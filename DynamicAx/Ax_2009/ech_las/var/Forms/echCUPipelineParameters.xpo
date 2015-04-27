@@ -1,0 +1,117 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #echCUPipelineParameters
+  PROPERTIES
+    Name                #echCUPipelineParameters
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #echCUPipelineParameters
+          Table               #echCUPipelineParameters
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@ECH47
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #echCUPipelineParameters_xsltId
+          DataSource          #echCUPipelineParameters
+          DataField           #xsltId
+        ENDPROPERTIES
+        
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #editAxdClassName
+          Label               #@SYS94400
+          DataSource          #echCUPipelineParameters
+          DataMethod          #editAxdClassName
+        ENDPROPERTIES
+        
+        METHODS
+          Version: 3
+          SOURCE #lookup
+            #public void lookup()
+            #{
+            #    object      formRun;
+            #    container   classNames;
+            #    #ResAppl
+            #    ;
+            #
+            #    formRun = classFactory.createPicklist();
+            #    formRun.Init();
+            #
+            #    classNames = echCuPipelineParameters::getAxdClasses();
+            #
+            #    formRun.choices(classNames, #ImageTable);
+            #    formRun.caption("@SYS60851");
+            #    formRun.run();
+            #    formRun.wait();
+            #
+            #    if (formRun.choice())
+            #    {
+            #        echCUPipelineParameters.editAxdClassName(true, formRun.choice());
+            #        echCUPipelineParameters_ds.refresh();
+            #
+            #    }
+            #
+            #
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #editEntityKeyTable
+          Label               #@ECH48
+          DataSource          #echCUPipelineParameters
+          DataMethod          #editEntityKeyTable
+        ENDPROPERTIES
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

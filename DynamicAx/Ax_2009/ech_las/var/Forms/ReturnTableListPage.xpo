@@ -1,0 +1,747 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #ReturnTableListPage
+  PROPERTIES
+    Name                #ReturnTableListPage
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #    // Button Management
+      #    FormButtonManager       formButtonManager;
+      #
+      #    SalesTableForm_Return   salesTableForm;
+      #}
+    ENDSOURCE
+    SOURCE #allowEditMarkupTrans
+      #/// <summary>
+      #/// Enables Misc Charges to be edited.
+      #/// </summary>
+      #/// <returns>
+      #/// true.
+      #/// </returns>
+      #/// <remarks>
+      #/// Called from MarkupTrans form.
+      #/// </remarks>
+      #boolean allowEditMarkupTrans()
+      #{
+      #    return true;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #/// <summary>
+      #/// Calls button rule registration method.
+      #/// </summary>
+      #public void init()
+      #{
+      #    super();
+      #
+      #    this.registerButtonRules(); // Add button rules
+      #
+      #    salesTableForm = SalesTableForm::construct(SalesTableFormId::ReturnOrder, element.args().record());
+      #    salesTableForm.parmFormDataSource(salesTable_ds);
+      #    salesTableForm.parmArgs(this.args());
+      #}
+    ENDSOURCE
+    SOURCE #executeQuery
+      #/// <summary>
+      #/// Rereads all data on form datasource.
+      #/// </summary>
+      #void executeQuery()
+      #{
+      #    ;
+      #
+      #    salesTable_ds.executeQuery();
+      #}
+    ENDSOURCE
+    SOURCE #setButtonAccess
+      #/// <summary>
+      #/// Refreshes the enabled state of all controls.
+      #/// </summary>
+      #public void setButtonAccess()
+      #{;
+      #      this.lockWindowUpdate(true);
+      #      formButtonManager.refresh();
+      #      this.lockWindowUpdate(false);
+      #}
+      #
+    ENDSOURCE
+    SOURCE #registerButtonRules
+      #/// <summary>
+      #/// Registers each control with rules governing the enabled state.
+      #/// </summary>
+      #void registerButtonRules()
+      #{
+      #    ReturnTableButtonStateProvider returnTableButtonStateProvider = new ReturnTableButtonStateProvider();
+      #    ;
+      #    formButtonManager = FormButtonManager::construct();
+      #
+      #    formButtonManager.parmRuleImplementer(returnTableButtonStateProvider);
+      #
+      #    formButtonManager.setDatasources(salesTable);
+      #    formButtonManager.parmMultiselectDatasource(salesTable_ds);
+      #
+      #    formButtonManager.registerButtonRule(groupNew, returnCreateReplacement, methodstr(ReturnTableButtonStateProvider, checkRuleReturnCreateReplacement),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupModify, returnCancel, methodstr(ReturnTableButtonStateProvider, checkRuleReturnCancel),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupModify, delete, methodstr(ReturnTableButtonStateProvider, checkRuleDeleteButton),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupReturn, returnFindSalesOrder, methodstr(ReturnTableButtonStateProvider, checkRuleReturnFindSalesOrder),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupCost, markupTrans_HeadingSales, methodstr(ReturnTableButtonStateProvider, checkRuleMarkupTrans_HeadingSales),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupReceiveOther, returnDocumentReceive, methodstr(ReturnTableButtonStateProvider, checkRuleReturnDocument),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupGeneralOther, returnDocumentGeneral, methodstr(ReturnTableButtonStateProvider, checkRuleReturnDocument),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupReceiveOther, returnAcknowledgmentReceive, methodstr(ReturnTableButtonStateProvider, checkRuleReturnAcknowledgment),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupGeneralOther, returnAcknowledgmentGeneral, methodstr(ReturnTableButtonStateProvider, checkRuleReturnAcknowledgment),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupInquiries, journalInvoice, methodstr(ReturnTableButtonStateProvider, checkRuleJournalInvoice),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupInquiries, replacementOrder, methodstr(ReturnTableButtonStateProvider, checkRuleReplacementOrder),  ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRule(groupJournals, packingSlipJournal, methodstr(ReturnTableButtonStateProvider, checkRuleJournalPackingSlip),  ButtonRuleEffectType::Enabled);
+      #
+      #    formButtonManager.registerButtonRuleOnGroup(groupGeneralList, methodstr(ReturnTableButtonStateProvider, checkRuleExistRecord), ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRuleOnGroup(groupGeneralDocuments, methodstr(ReturnTableButtonStateProvider, checkRuleExistRecord), ButtonRuleEffectType::Enabled);
+      #    formButtonManager.registerButtonRuleOnGroup(groupModify, methodstr(ReturnTableButtonStateProvider, checkRuleExistRecord), ButtonRuleEffectType::Enabled);
+      #
+      #    this.setButtonAccess(); // Call refresh
+      #}
+      #
+    ENDSOURCE
+    SOURCE #allowEditSalesCopying
+      #/// <summary>
+      #/// Enables Find sales order form to be edited.
+      #/// </summary>
+      #/// <returns>
+      #/// true.
+      #/// </returns>
+      #/// <remarks>
+      #/// Called from SalesCopying form.
+      #/// </remarks>
+      #boolean allowEditSalesCopying()
+      #{
+      #    return true;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+      Query               #ReturnTableListPage
+      Version             #9
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #SalesTable
+          Table               #SalesTable
+          AllowEdit           #No
+          AllowCreate         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    element.setButtonAccess();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #reReadLines
+          #/// <summary>
+          #/// Re-reads return order line.
+          #/// </summary>
+          #/// <remarks>
+          #/// This method must be present. Called from Sales Copying form
+          #/// </remarks>
+          #void reReadLines()
+          #{;
+          #
+          #}
+        ENDSOURCE
+        SOURCE #markChanged
+          #/// <summary>
+          #/// Resets enabled state of all action buttons.
+          #/// </summary>
+          #/// <remarks>
+          #/// Called from the system when the selection in the list is changed.
+          #/// </remarks>
+          #public void markChanged()
+          #{
+          #;
+          #    element.setButtonAccess();
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #editSales
+          #/// <summary>
+          #/// Update editable state.
+          #/// </summary>
+          #/// <remarks>
+          #/// This method must be present. Called from Sales Copying form
+          #/// </remarks>
+          #void editSales()
+          #{;
+          #
+          #}
+        ENDSOURCE
+      ENDMETHODS
+      LINKTYPES
+      ENDLINKTYPES
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS104918
+      TitleDatasource     #SalesTable
+      WindowType          #ListPage
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/774fe909-350b-4a6c-8487-13ff24c13217.htm
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #ActionPane
+          Width               #Column width
+          VerticalSpacing     #0
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Receive
+                Caption             #@SYS52744
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupNew
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS5480
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReturnTableForNew
+                          NormalResource      #12021
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ReturnTableForNew
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #ReturnCreateReplacement
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS105835
+                          Text                #@SYS119221
+                          NormalResource      #11130
+                          ShowShortCut        #No
+                          Big                 #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Handles ReturnCreateReplacement button click event.
+                            #/// </summary>
+                            #void clicked()
+                            #{
+                            #    ;
+                            #
+                            #    super();
+                            #    salesTableForm.returnCreateReplacement();
+                            #}
+                            #
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupModify
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS117476
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReturnTableForEdit
+                          Visible             #No
+                          ShowShortCut        #No
+                          MenuItemName        #ReturnTableForEdit
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #Delete
+                          AutoDeclaration     #Yes
+                          NormalResource      #10121
+                          ShowShortCut        #No
+                          MultiSelect         #Yes
+                          Big                 #Yes
+                          Command             #2832
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #ReturnCancel
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS104951
+                          Text                #@SYS117673
+                          NormalResource      #10406
+                          ShowShortCut        #No
+                          MultiSelect         #Yes
+                          Big                 #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Handles ReturnCancel button click event.
+                            #/// </summary>
+                            #void clicked()
+                            #{
+                            #    ;
+                            #
+                            #    super();
+                            #    salesTableForm.returnCancel();
+                            #}
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupReturn
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS108715
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReturnFindSalesOrder
+                          AutoDeclaration     #Yes
+                          NormalResource      #12010
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #ReturnFindSalesOrder_Action
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupCost
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS13774
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #MarkupTrans_HeadingSales
+                          AutoDeclaration     #Yes
+                          NormalResource      #10646
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #MarkupTrans_HeadingSales_Action
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupReceiveOther
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114375
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReturnAcknowledgmentReceive
+                          AutoDeclaration     #Yes
+                          NormalResource      #12022
+                          ShowShortCut        #No
+                          MenuItemType        #Output
+                          MenuItemName        #ReturnAcknowledgment_Action
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReturnDocumentReceive
+                          AutoDeclaration     #Yes
+                          NormalResource      #12023
+                          ShowShortCut        #No
+                          MenuItemType        #Output
+                          MenuItemName        #ReturnDocument_Action
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #PickAndPack
+                Caption             #@SYS114648
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupJournals
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS9020
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #PackingSlipJournal
+                          AutoDeclaration     #Yes
+                          NormalResource      #10667
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #CustPackingSlipJournal_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #Invoice
+                Caption             #@SYS14204
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupInquiries
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS3850
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #JournalInvoice
+                          AutoDeclaration     #Yes
+                          NormalResource      #10610
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          MenuItemName        #CustInvoiceJournal_Action
+                          DataSource          #SalesTable
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL BUTTON
+                        PROPERTIES
+                          Name                #ReplacementOrder
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS105835
+                          Text                #@SYS119221
+                          NormalResource      #12020
+                          ShowShortCut        #No
+                          Big                 #Yes
+                        ENDPROPERTIES
+                        
+                        METHODS
+                          Version: 3
+                          SOURCE #clicked
+                            #/// <summary>
+                            #/// Handles ReplacementOrder button click event.
+                            #/// </summary>
+                            #void clicked()
+                            #{
+                            #    ;
+                            #
+                            #    super();
+                            #    salesTableForm.buttonReplacementOrder();
+                            #}
+                            #
+                          ENDSOURCE
+                        ENDMETHODS
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+            CONTROL ACTIONPANETAB
+              PROPERTIES
+                Name                #General
+                Caption             #@SYS114913
+              ENDPROPERTIES
+              
+                CONTAINER
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupGeneralList
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS6188
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #SendToExcel
+                          Text                #@SYS116525
+                          NormalResource      #10156
+                          ShowShortCut        #No
+                          MultiSelect         #Yes
+                          Big                 #Yes
+                          Command             #4436
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupGeneralDocuments
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114630
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL COMMANDBUTTON
+                        PROPERTIES
+                          Name                #Attachments
+                          AutoDeclaration     #Yes
+                          HelpText            #@SYS22624
+                          SecurityKey         #BasicMisc
+                          Text                #@SYS114630
+                          NormalResource      #10442
+                          ShowShortCut        #No
+                          Big                 #Yes
+                          Primary             #Yes
+                          Command             #2853
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                  CONTROL BUTTONGROUP
+                    PROPERTIES
+                      Name                #GroupGeneralOther
+                      AutoDeclaration     #Yes
+                      Caption             #@SYS114375
+                    ENDPROPERTIES
+                    
+                    CONTAINER
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReturnAcknowledgmentGeneral
+                          AutoDeclaration     #Yes
+                          NormalResource      #12022
+                          ShowShortCut        #No
+                          MenuItemType        #Output
+                          MenuItemName        #ReturnAcknowledgment_Action
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                      CONTROL MENUITEMBUTTON
+                        PROPERTIES
+                          Name                #ReturnDocumentGeneral
+                          AutoDeclaration     #Yes
+                          NormalResource      #12023
+                          ShowShortCut        #No
+                          MenuItemType        #Output
+                          MenuItemName        #ReturnDocument_Action
+                        ENDPROPERTIES
+                        
+                      ENDCONTROL 
+                      
+                    ENDCONTAINER
+                    
+                  ENDCONTROL 
+                  
+                ENDCONTAINER
+                
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #Grid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          VerticalSpacing     #0
+          DataSource          #SalesTable
+          DataGroup           #ReturnListPage
+          DefaultAction       #ReturnTableForEdit
+        ENDPROPERTIES
+        
+          CONTAINER
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_ReturnItemNum
+                VerticalSpacing     #0
+                DataSource          #SalesTable
+                DataField           #ReturnItemNum
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_CustAccount
+                VerticalSpacing     #0
+                DataSource          #SalesTable
+                DataField           #CustAccount
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_InvoiceAccount
+                VerticalSpacing     #0
+                DataSource          #SalesTable
+                DataField           #InvoiceAccount
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #Grid_ReturnReasonCodeId
+                VerticalSpacing     #0
+                DataSource          #SalesTable
+                DataField           #ReturnReasonCodeId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL DATEEDIT
+              PROPERTIES
+                Name                #Grid_ReturnDeadline
+                VerticalSpacing     #0
+                DataSource          #SalesTable
+                DataField           #ReturnDeadline
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #SalesTable_ECHAggStatus
+                DataSource          #SalesTable
+                DataField           #ECHAggStatus
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL COMBOBOX
+              PROPERTIES
+                Name                #Grid_ReturnStatus
+                VerticalSpacing     #0
+                DataSource          #SalesTable
+                DataField           #ReturnStatus
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+            CONTROL STRINGEDIT
+              PROPERTIES
+                Name                #SalesTable_echCancelExceptionId
+                DataSource          #SalesTable
+                DataField           #echCancelExceptionId
+              ENDPROPERTIES
+              
+            ENDCONTROL 
+            
+          ENDCONTAINER
+          
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

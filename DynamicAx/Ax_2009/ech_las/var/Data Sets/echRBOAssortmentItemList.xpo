@@ -1,0 +1,98 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DST
+
+; Microsoft Dynamics AX DataSets unloaded
+; --------------------------------------------------------------------------------
+DSTVERSION 6
+
+DATASET #echRBOAssortmentItemList
+  PROPERTIES
+    Name                #echRBOAssortmentItemList
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #classDeclaration
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_WI_00254
+      #// *** Customization Date: 08 May 2012
+      #// *** Customization Type: created
+      #// *** Description:
+      #
+      #public class DataSetRun extends ObjectRun
+      #{
+      #    InventTable     inventTable;
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_WI_00254
+      #// *** Customization Date: 08 May 2012
+      #// *** Customization Type: created
+      #// *** Description:
+      #
+      #public void init()
+      #{
+      #    if (this.args().record() && this.args().record().TableId == tablenum(InventTable))
+      #        inventTable.data(this.args().record());
+      #
+      #    super();
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #RBOAssortmentItemList
+          Table               #RBOAssortmentItemList
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #executeQuery
+          #// *** ECHINA - Anthony Christiaens ***
+          #// *** Customization Code: ECH_WI_00254
+          #// *** Customization Date: 08 May 2012
+          #// *** Customization Type: created
+          #// *** Description:
+          #
+          #public void executeQuery()
+          #{
+          #    QueryBuildDataSource    qbds = this.query().dataSourceTable(tablenum(RBOAssortmentItemList));
+          #    QueryBuildRange         qbr1, qbr2;
+          #    ;
+          #
+          #    if (inventTable)
+          #    {
+          #        qbds.clearDynalinks();
+          #        qbr1 = SysQuery::findOrCreateRange(qbds, fieldnum(RBOAssortmentItemList, ItemRelation));
+          #        qbr1.value(queryvalue(inventTable.ItemId));
+          #        qbr2 = SysQuery::findOrCreateRange(qbds, fieldnum(RBOAssortmentItemList, itemGroupDepartmentAll));
+          #        qbr2.value(queryvalue(0));
+          #    }
+          #
+          #    super();
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+ENDDATASET
+
+
+***Element: END

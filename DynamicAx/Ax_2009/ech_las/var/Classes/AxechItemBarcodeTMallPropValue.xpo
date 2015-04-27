@@ -1,0 +1,286 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxechItemBarcodeTMallPropValue unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxechItemBarcodeTMallPropValue
+    Id 30328
+    PROPERTIES
+      Name                #AxechItemBarcodeTMallPropValue
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #axOrig
+        #public AxechItemBarcodeTMallPropValue axOrig()
+        #{
+        #    return super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class AxechItemBarcodeTMallPropValue extends AxInternalBase
+        #{
+        #    echItemBarcodeTMallPropValue echItemBarcodeTMallPropValue;
+        #
+        #    AxInventDim     axInventDim;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #currentRecord
+        #public echItemBarcodeTMallPropValue currentRecord(echItemBarcodeTMallPropValue _echItemBarcodeTMallPropValue = echItemBarcodeTMallPropValue)
+        #{
+        #    if (!prmisdefault(_echItemBarcodeTMallPropValue))
+        #    {
+        #        super(_echItemBarcodeTMallPropValue);
+        #        echItemBarcodeTMallPropValue = _echItemBarcodeTMallPropValue;
+        #    }
+        #    else
+        #    {
+        #        super();
+        #    }
+        #
+        #    return echItemBarcodeTMallPropValue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #echItemBarcodeTMallPropValue
+        #public echItemBarcodeTMallPropValue echItemBarcodeTMallPropValue(echItemBarcodeTMallPropValue _echItemBarcodeTMallPropValue = echItemBarcodeTMallPropValue)
+        #{
+        #    if (!prmisdefault(_echItemBarcodeTMallPropValue))
+        #    {
+        #        this.setCurrentRecordFromExternal(_echItemBarcodeTMallPropValue);
+        #    }
+        #
+        #    return this.currentRecord();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #emptyRecord
+        #protected echItemBarcodeTMallPropValue emptyRecord()
+        #{
+        #    echItemBarcodeTMallPropValue localechItemBarcodeTMallPropValue;
+        #    ;
+        #    return localechItemBarcodeTMallPropValue;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #new
+        #void new()
+        #{
+        #    ;
+        #    super();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmCid
+        #public echTMallCategoryId parmCid(echTMallCategoryId _cid = 0)
+        #{
+        #    if (!prmisdefault(_cid))
+        #    {
+        #        this.setField(fieldNum(echItemBarcodeTMallPropValue, Cid), _cid);
+        #    }
+        #
+        #    return echItemBarcodeTMallPropValue.Cid;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmColorSizeName
+        #// Add ECH_WI_02329 by mengqi.cen on 20130904
+        #public Name parmColorSizeName(Name _name = '')
+        #{
+        #    Name                      _colorSizeName;
+        #    InventSize                _inventSize;
+        #    InventColor               _inventColor;
+        #    InventDim                 _inventDim;
+        #    echTMallCategoryProperty  _tmallCatProp;
+        #;
+        #    select firstonly PropMappingType from _tmallCatProp
+        #      where _tmallCatProp.Cid    == this.parmCid()
+        #         && _tmallCatProp.PropId == this.parmPropId();
+        #
+        #    if (_tmallCatProp)
+        #    {
+        #        switch (_tmallCatProp.PropMappingType)
+        #        {
+        #            case echTMallPropertyMappingType::Color :
+        #                select firstonly _inventColor
+        #                  where _inventColor.ItemId == this.parmItemId()
+        #                  join TableId from _inventDim
+        #                    where _inventDim.InventColorId == _inventColor.InventColorId
+        #                       && _inventDim.inventDimId   == this.parmInventDimId();
+        #                _colorSizeName = _inventColor.Name;
+        #                break;
+        #            case echTMallPropertyMappingType::Size :
+        #                select firstonly _inventSize
+        #                  where _inventSize.ItemId == this.parmItemId()
+        #                  join TableId from _inventDim
+        #                    where _inventDim.InventSizeId == _inventSize.InventSizeId
+        #                       && _inventDim.inventDimId  == this.parmInventDimId();
+        #                _colorSizeName = _inventSize.Name;
+        #                break;
+        #        }
+        #    }
+        #
+        #    return _colorSizeName;
+        #}
+      ENDSOURCE
+      SOURCE #parmInventDimId
+        #public InventDimId parmInventDimId(InventDimId _inventDimId = '')
+        #{
+        #    if (!prmisdefault(_inventDimId))
+        #    {
+        #        this.setField(fieldNum(echItemBarcodeTMallPropValue, InventDimId), _inventDimId);
+        #    }
+        #
+        #    return echItemBarcodeTMallPropValue.InventDimId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmItemId
+        #public str parmItemId(str _itemId = '')
+        #{
+        #    DictField   dictField;
+        #    ;
+        #    if (!prmisdefault(_itemId))
+        #    {
+        #        dictField = new DictField(tablenum(echItemBarcodeTMallPropValue),fieldnum(echItemBarcodeTMallPropValue,ItemId));
+        #        this.validateInboundItemIdString(_itemId,dictField);
+        #        if(this.valueMappingInbound())
+        #        {
+        #            _itemId = conpeek(this.axSalesItemId('',_itemId),1);
+        #        }
+        #
+        #        this.setField(fieldNum(echItemBarcodeTMallPropValue, ItemId), _itemId);
+        #    }
+        #
+        #    if (this.valueMappingOutbound())
+        #    {
+        #        return conpeek(this.axSalesItemId('', echItemBarcodeTMallPropValue.ItemId,echItemBarcodeTMallPropValue.inventDim()),1);
+        #    }
+        #    else
+        #    {
+        #        return echItemBarcodeTMallPropValue.ItemId;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPropId
+        #public echTMallPropertyId parmPropId(echTMallPropertyId _propId = 0)
+        #{
+        #    if (!prmisdefault(_propId))
+        #    {
+        #        this.setField(fieldNum(echItemBarcodeTMallPropValue, PropId), _propId);
+        #    }
+        #
+        #    return echItemBarcodeTMallPropValue.PropId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #parmPropValueId
+        #public echTMallPropertyValueId parmPropValueId(echTMallPropertyValueId _propValueId = 0)
+        #{
+        #    if (!prmisdefault(_propValueId))
+        #    {
+        #        this.setField(fieldNum(echItemBarcodeTMallPropValue, PropValueId), _propValueId);
+        #    }
+        #
+        #    return echItemBarcodeTMallPropValue.PropValueId;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setCid
+        #protected void setCid()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemBarcodeTMallPropValue, Cid)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInventDimId
+        #protected void setInventDimId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemBarcodeTMallPropValue, InventDimId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setItemId
+        #protected void setItemId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemBarcodeTMallPropValue, ItemId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPropId
+        #protected void setPropId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemBarcodeTMallPropValue, PropId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setPropValueId
+        #protected void setPropValueId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(echItemBarcodeTMallPropValue, PropValueId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setTableFields
+        #protected void setTableFields()
+        #{
+        #    super();
+        #
+        #    useMapPolicy = false;
+        #
+        #    this.setItemId();
+        #    this.setInventDimId();
+        #    this.setCid();
+        #    this.setPropId();
+        #    this.setPropValueId();
+        #
+        #    useMapPolicy = true;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #construct
+        #static AxechItemBarcodeTMallPropValue construct()
+        #{
+        #    return new AxechItemBarcodeTMallPropValue();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #newechItemBarcodeTMallPropValue
+        #public static AxechItemBarcodeTMallPropValue newechItemBarcodeTMallPropValue(echItemBarcodeTMallPropValue _echItemBarcodeTMallPropValue)
+        #{
+        #    AxechItemBarcodeTMallPropValue AxechItemBarcodeTMallPropValue = AxechItemBarcodeTMallPropValue::construct();
+        #    ;
+        #    AxechItemBarcodeTMallPropValue.echItemBarcodeTMallPropValue(_echItemBarcodeTMallPropValue);
+        #
+        #    return AxechItemBarcodeTMallPropValue;
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,65 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxDocuRef unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxDocuRef
+    Id 7251
+    PROPERTIES
+      Name                #AxDocuRef
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #parmInterCompanySkipUpdate
+        #public InterCompanySkipUpdate parmInterCompanySkipUpdate(InterCompanySkipUpdate _interCompanySkipUpdate = InterCompanySkipUpdate::No)
+        #{
+        #    if (!prmisdefault(_interCompanySkipUpdate))
+        #    {
+        #        this.setField(fieldNum(DocuRef, InterCompanySkipUpdate), _interCompanySkipUpdate);
+        #    }
+        #
+        #    return docuRef.InterCompanySkipUpdate;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setActualCompanyId
+        #protected void setActualCompanyId()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(DocuRef, ActualCompanyId)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setInterCompanySkipUpdate
+        #protected void setInterCompanySkipUpdate()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(DocuRef, InterCompanySkipUpdate)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+      SOURCE #setSmmTable
+        #protected void setSmmTable()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(DocuRef, SmmTable)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

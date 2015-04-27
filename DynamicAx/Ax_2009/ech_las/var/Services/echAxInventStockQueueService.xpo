@@ -1,0 +1,34 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SVC
+
+; Microsoft Dynamics AX SERVICE : echAxInventStockQueueService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICE #echAxInventStockQueueService
+    PROPERTIES
+      Name                #echAxInventStockQueueService
+      ExternalName        #echAxInventStockQueueService
+      Namespace           #http://schemas.microsoft.com/dynamics/2008/01/services
+      Class               #echAxInventStockQueueService
+      SecurityKey         #echAxInventStockQueueService
+      Description         #
+    ENDPROPERTIES
+    
+    OPERATIONS
+      OPERATION #create
+        PROPERTIES
+          Name                #create
+          Method              #create
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+    ENDOPERATIONS
+    
+  ENDSERVICE
+  
+
+***Element: END

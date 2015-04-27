@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : RBOMixAndMatchLineGroupSetup unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #RBOMixAndMatchLineGroupSetup
+    Type: 1
+    PROPERTIES
+      Name                #RBOMixAndMatchLineGroupSetup
+      Label               #@RBO1697
+      HelpText            #@SYS55407
+      Object              #RBOMixAndMatchLineGroupSetup
+      ConfigurationKey    #RetailHeadquarters
+      SecurityKey         #RBO
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

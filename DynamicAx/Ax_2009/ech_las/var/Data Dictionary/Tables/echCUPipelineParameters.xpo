@@ -1,0 +1,186 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : echCUPipelineParameters unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #echCUPipelineParameters
+    Id 30004
+    PROPERTIES
+      Name                #echCUPipelineParameters
+      Label               #@ECH47
+      TitleField1         #xsltId
+      TitleField2         #AifPipelineComponentRecId
+      ConfigurationKey    #echInterfaces
+      SecurityKey         #BasicTables
+      CacheLookup         #Found
+      TableGroup          #Parameter
+      PrimaryIndex        #ComponentIdx
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #AifPipelineComponentRecId
+        Id 30001
+        INT64
+        PROPERTIES
+          Name                #AifPipelineComponentRecId
+          AllowEditOnCreate   #No
+          AllowEdit           #No
+          Table               #echCUPipelineParameters
+          ExtendedDataType    
+            ARRAY 
+              #AifPipelineComponentRecId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #axdClassId
+        Id 30002
+        INT
+        PROPERTIES
+          Name                #axdClassId
+          Table               #echCUPipelineParameters
+          ExtendedDataType    
+            ARRAY 
+              #classId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #xsltId
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #xsltId
+          Table               #echCUPipelineParameters
+          ExtendedDataType    
+            ARRAY 
+              #AifXsltId
+              #
+            ENDARRAY
+          StringSize          #30
+        ENDPROPERTIES
+        
+      FIELD #entityKeyTableId
+        Id 30004
+        INT
+        PROPERTIES
+          Name                #entityKeyTableId
+          Table               #echCUPipelineParameters
+          ExtendedDataType    
+            ARRAY 
+              #RefTableId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AllFields
+        PROPERTIES
+          Name                #AllFields
+          Label               #@SYS6047
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #AifPipelineComponentRecId
+          #axdClassId
+          #xsltId
+          #entityKeyTableId
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #ComponentIdx
+      Id 30001
+      PROPERTIES
+        Name                #ComponentIdx
+        AllowDuplicates     #No
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #AifPipelineComponentRecId
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #editAxdClassName
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: edit method to return the Classname of the axd document
+        #
+        #// BP deviation documented
+        #public edit ClassName editAxdClassName(boolean _set, ClassName _className)
+        #{
+        #    ;
+        #    if (_set)
+        #    {
+        #        this.axdClassId = className2id(_className);
+        #    }
+        #
+        #    return classid2name(this.axdClassId);
+        #}
+      ENDSOURCE
+      SOURCE #editEntityKeyTable
+        #// *** ECHINA - Marijn Catthoor ***
+        #// *** Customization Code: ECH_E_013
+        #// *** Customization Date: 14 Mar 2012
+        #// *** Customization Type: Created
+        #// *** Description: Edit method for the Entity key base table
+        #
+        #// BP deviation documented
+        #public edit TableName editEntityKeyTable(boolean _set, TableName _tableName)
+        #{
+        #    ;
+        #    if(_set)
+        #    {
+        #        this.entityKeyTableId = tablename2id(_tableName);
+        #    }
+        #
+        #    return tableid2name(this.entityKeyTableId);
+        #
+        #}
+      ENDSOURCE
+      SOURCE #getAxdClasses
+        #static server container getAxdClasses()
+        #{
+        #    DictClass           dc;
+        #    List                extendedBy;
+        #    ListEnumerator      le;
+        #    container           classNames;
+        #    ;
+        #
+        #    // create a dictClass object for the axdBase clas
+        #    dc = new DictClass(classnum(AxdBase));
+        #    // get a list of the classes that extends this class
+        #    extendedBy = dc.extendedBy();
+        #    le = extendedBy.getEnumerator();
+        #
+        #    while (le.moveNext())
+        #    {
+        #        classNames = conins(classNames, conlen(classNames) + 1, classid2name(le.current()));
+        #    }
+        #
+        #    return classNames;
+        #
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

@@ -1,0 +1,109 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: echAddressLookup unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #echAddressLookup
+    Id 30302
+    PROPERTIES
+      Name                #echAddressLookup
+      Extends             #
+      RunOn               #Client
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class echAddressLookup 
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #lookupCountyByCountryState
+        #// Create ECH_WI_01981 by mengqi.cen on 20130227
+        #public static client void lookupCountyByCountryState(
+        #    FormControl             _formCtrl,
+        #    AddressCountryRegionId  _countryRegionId,
+        #    AddressStateId          _stateId)
+        #{
+        #    SysTableLookup        lookup;
+        #    Query                 qry;
+        #    QueryBuildDataSource  qbds;
+        #;
+        #    lookup = SysTableLookup::newParameters(tablenum(AddressCounty), _formCtrl);
+        #    lookup.addLookupfield(fieldnum(AddressCounty, CountryRegionId));
+        #    lookup.addLookupfield(fieldnum(AddressCounty, StateId));
+        #    lookup.addLookupfield(fieldnum(AddressCounty, CountyId), true);
+        #    lookup.addLookupfield(fieldnum(AddressCounty, Name));
+        #
+        #    qry = new Query();
+        #    qbds = qry.addDataSource(tablenum(AddressCounty));
+        #    qbds.addRange(fieldnum(AddressCounty, CountryRegionId)).value(queryValue(_countryRegionId));
+        #    qbds.addRange(fieldnum(AddressCounty, StateId)).value(queryValue(_stateId));
+        #
+        #    lookup.parmQuery(qry);
+        #    lookup.performFormLookup();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #lookupStateByCountry
+        #// Create ECH_WI_01981 by mengqi.cen on 20130227
+        #public static client void lookupStateByCountry(
+        #    FormControl             _formCtrl,
+        #    AddressCountryRegionId  _countryRegionId)
+        #{
+        #    SysTableLookup        lookup;
+        #    Query                 qry;
+        #    QueryBuildDataSource  qbds;
+        #;
+        #    lookup = SysTableLookup::newParameters(tablenum(AddressState), _formCtrl);
+        #    lookup.addLookupfield(fieldnum(AddressState, CountryRegionId));
+        #    lookup.addLookupfield(fieldnum(AddressState, StateId), true);
+        #    lookup.addLookupfield(fieldnum(AddressState, Name));
+        #
+        #    qry = new Query();
+        #    qbds = qry.addDataSource(tablenum(AddressState));
+        #    qbds.addRange(fieldnum(AddressState, CountryRegionId)).value(queryValue(_countryRegionId));
+        #
+        #    lookup.parmQuery(qry);
+        #    lookup.performFormLookup();
+        #}
+        #
+      ENDSOURCE
+      SOURCE #lookupZipCodeByCountry
+        #// Create ECH_WI_01981 by mengqi.cen on 20130227
+        #public static client void lookupZipCodeByCountry(
+        #    FormControl             _formCtrl,
+        #    AddressCountryRegionId  _countryRegionId)
+        #{
+        #    SysTableLookup        lookup;
+        #    DictFieldGroup        dictFieldGp;
+        #    int                   i;
+        #    fieldid               fId;
+        #    Query                 qry;
+        #    QueryBuildDataSource  qbds;
+        #;
+        #    lookup = SysTableLookup::newParameters(tablenum(AddressZipCode), _formCtrl);
+        #    dictFieldGp = new DictFieldGroup(tablenum(AddressZipCode), tablefieldgroupstr(AddressZipCode, Overview));
+        #    for (i = 1; i < dictFieldGp.numberOfFields(); ++i)
+        #    {
+        #        fId = dictFieldGp.field(i);
+        #        lookup.addLookupfield(fId, (fId == fieldnum(AddressZipCode, ZipCode)));
+        #    }
+        #
+        #    qry = new Query();
+        #    qbds = qry.addDataSource(tablenum(AddressZipCode));
+        #    qbds.addRange(fieldnum(AddressZipCode, CountryRegionId)).value(queryValue(_countryRegionId));
+        #
+        #    lookup.parmQuery(qry);
+        #    lookup.performFormLookup();
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,149 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : InventParameters unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #InventParameters
+    Id 160
+    PROPERTIES
+      Name                #InventParameters
+      Label               #@SYS24222
+      FormRef             #InventParameters
+      TableContents       #Default data
+      ConfigurationKey    #LogisticsBasic
+      SecurityKey         #InventTables
+      MaxAccessMode       #Edit
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      TableGroup          #Parameter
+      PrimaryIndex        #Key
+      ClusterIndex        #Key
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      DeveloperDocumentation  #@SYS123835
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #echSkuBarcodeSetup
+        Id 30002
+        STRING
+        PROPERTIES
+          Name                #echSkuBarcodeSetup
+          Table               #InventParameters
+          ExtendedDataType    
+            ARRAY 
+              #echSkuBarcodeSetup
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echEanBarcodeSetup
+        Id 30003
+        STRING
+        PROPERTIES
+          Name                #echEanBarcodeSetup
+          Table               #InventParameters
+          ExtendedDataType    
+            ARRAY 
+              #echEanBarcodeSetup
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+      FIELD #echIncStockAlloc
+        Id 30004
+        ENUM
+        PROPERTIES
+          Name                #echIncStockAlloc
+          Label               #@ECH765
+          HelpText            #@ECH766
+          Table               #InventParameters
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #echStockMovementAutoPosting
+        Id 30006
+        ENUM
+        PROPERTIES
+          Name                #echStockMovementAutoPosting
+          Label               #@ech772
+          HelpText            #@ech773
+          Table               #InventParameters
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #echEan
+        PROPERTIES
+          Name                #echEan
+          Label               #@SYS100766
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echEanBarcodeSetup
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echSku
+        PROPERTIES
+          Name                #echSku
+          Label               #@ECH95
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echSkuBarcodeSetup
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echStockAlloc
+        PROPERTIES
+          Name                #echStockAlloc
+          Label               #@ECH53
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echIncStockAlloc
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #echStockMovementAutoPosting
+        PROPERTIES
+          Name                #echStockMovementAutoPosting
+          Label               #@ech771
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #echStockMovementAutoPosting
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      Version: 3
+      SOURCE #numRefEchSkuId
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR01
+        #// *** Customization Date: 08 Mar 2012
+        #// *** Customization Type: create
+        #// *** Description: get number sequence reference
+        #
+        #server static NumberSequenceReference numRefEchSkuId()
+        #{
+        #    return NumberSeqReference::findReference(typeId2ExtendedTypeId(typeid(echSkuId)));
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: END

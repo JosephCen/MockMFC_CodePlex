@@ -1,0 +1,214 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxdSalesPackingSlip unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxdSalesPackingSlip
+    Id 2056
+    PROPERTIES
+      Name                #AxdSalesPackingSlip
+      Extends             #AxdBase
+      RunOn               #Server
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: Ech_I_OR04_3
+        #// *** Customization Date: 30 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: added variable
+        #
+        #class AxdSalesPackingSlip extends AxdBase
+        #{
+        #    boolean                     salesParmUpdateInserted;
+        #    SalesFormLetter_PackingSlip salesFormLetter_PackingSlip;
+        #    List                        docuRefList;
+        #
+        #// CS - Ech_I_OR04_3 - Anthony Christiaens - 30 Mar 2012
+        #    AxSalesParmTable            axSalesParmTableGlobal;
+        #// CE - Ech_I_OR04_3 - Anthony Christiaens - 30 Mar 2012
+        #}
+        #
+      ENDSOURCE
+      SOURCE #initMandatoryFieldsMap
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 29 Mar 2012
+        #// *** Customization Type: created
+        #// *** Description: set additional fields mandatory
+        #
+        #protected void initMandatoryFieldsMap()
+        #{
+        #    super();
+        #
+        #    this.setParmMethodAsMandatory(classnum(AxSalesParmLine),methodstr(AxSalesParmLine,parmInventTransId));
+        #
+        #// CS - ECH_I_OR04_3 - Anthony Christiaens - 29 Mar 2012
+        #    echSalesPackingSlip::initMandatoryFieldsMap(this);
+        #// CE - ECH_I_OR04_3 - Anthony Christiaens - 29 Mar 2012
+        #}
+      ENDSOURCE
+      SOURCE #prepareForSave
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ech_I_OR04_3
+        #// *** Customization Date: 30 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: set global variable
+        #
+        #public boolean prepareForSave(AxdStack _axdStack,  str _dataSourceName)
+        #{
+        #    AxSalesParmTable            axSalesParmTable;
+        #    AxSalesShippingStat         axSalesShippingStat;
+        #    AxSalesParmLine             axSalesParmLine;
+        #    AxInventDim                 axInventDim;
+        #    AxInventDim_SalesParmLine   axInventDim_SalesParmLine;
+        #    AxDocuRef                   axDocuRef;
+        #    SalesParmTable              salesParmTable;
+        #    SalesParmLine               salesParmLine;
+        #    SalesTable                  salesTable;
+        #    SalesLine                   salesLine;
+        #    ;
+        #    switch (classidget(_axdStack.top()))
+        #    {
+        #        case classnum(AxSalesParmTable) :
+        #            axSalesParmTable        = _axdStack.top();
+        #// CS - ech_I_OR04_3 - Anthony Christiaens - 30 Mar 2012
+        #            axSalesParmTableGlobal  = axSalesParmTable;
+        #// CE - ech_I_OR04_3 - Anthony Christiaens - 30 Mar 2012
+        #
+        #            this.checkSalesParmTable(axSalesParmTable);
+        #
+        #            if (!salesParmUpdateInserted)
+        #            {
+        #                this.insertSalesParmUpdate();
+        #            }
+        #            axSalesParmTable.parmParmId(salesFormLetter_PackingSlip.parmId());
+        #            return true;
+        #
+        #        case classnum(AxSalesShippingStat) :
+        #            axSalesShippingStat = _axdStack.top();
+        #
+        #            axSalesParmTable = axSalesShippingStat.parentAxBC();
+        #            axSalesShippingStat.parmParmId(axSalesParmTable.parmParmId());
+        #            axSalesShippingStat.parmSalesId(axSalesParmTable.parmSalesId());
+        #            axSalesShippingStat.parmTableRefId(axSalesParmTable.parmTableRefId());
+        #            return true;
+        #
+        #        case classnum(AxSalesParmLine) :
+        #            axSalesParmLine = _axdStack.top();
+        #            this.checkSalesParmLine(axSalesParmLine);
+        #
+        #            axSalesParmTable = axSalesParmLine.parentAxBC();
+        #            axSalesParmLine.parmParmId(axSalesParmTable.parmParmId());
+        #            axSalesParmLine.parmTableRefId(axSalesParmTable.parmTableRefId());
+        #
+        #            salesLine = SalesLine::findInventTransId(axSalesParmLine.parmInventTransId());
+        #            if (salesLine)
+        #            {
+        #                axSalesParmLine.parmSalesLineRecId(salesLine.RecId);
+        #                if (salesLine.SalesId != axSalesParmTable.parmSalesId())
+        #                {
+        #                    error(strfmt("@SYS97310", salesLine.InventDimId, axSalesParmTable.parmSalesId()));
+        #                }
+        #            }
+        #            else
+        #            {
+        #                error(strfmt("@SYS97082", axSalesParmLine.parmItemId()));
+        #            }
+        #            axSalesParmLine.salesFormLetter(salesFormLetter_PackingSlip);
+        #            return true;
+        #
+        #        case classnum(AxInventDim) :
+        #            axInventDim = _axdStack.top();
+        #
+        #            axSalesParmLine = axInventDim.parentAxBC();
+        #            axInventDim_SalesParmLine = AxInventDim_SalesParmLine::newAxSalesParmLine(axSalesParmLine);
+        #            axSalesParmLine.axInventDim().allDimensions(axInventDim.allDimensions());
+        #
+        #            _axdStack.pop();
+        #            _axdStack.push(axInventDim_SalesParmLine);
+        #            return true;
+        #
+        #        case classnum(AxDocuRef) :
+        #            axDocuRef = _axdStack.top();
+        #
+        #            axDocuRef.parmTypeId(AxdDocumentParameters::find().DocuTypeId);
+        #            switch (axDocuRef.parentAxBC().currentRecord().TableId)
+        #            {
+        #                case tablenum(SalesParmTable):
+        #                    salesParmTable = axDocuRef.parentAxBC().currentRecord();
+        #                    salesTable = SalesTable::find(salesParmTable.SalesId);
+        #                    axDocuRef.parmRefCompanyId(salesTable.DataAreaId);
+        #                    axDocuRef.parmRefRecId(salesTable.RecId);
+        #                    axDocuRef.parmRefTableId(salesTable.TableId);
+        #                    break;
+        #                case tablenum(SalesParmLine):
+        #                    salesParmLine = axDocuRef.parentAxBC().currentRecord();
+        #                    salesLine = SalesLine::findInventTransId(salesParmLine.InventTransId);
+        #                    axDocuRef.parmRefCompanyId(salesLine.DataAreaId);
+        #                    axDocuRef.parmRefRecId(salesLine.RecId);
+        #                    axDocuRef.parmRefTableId(salesLine.TableId);
+        #                    break;
+        #            }
+        #            return true;
+        #
+        #        default :
+        #            error(strfmt("@SYS88979",classId2Name(classidget(_axdStack.top()))));
+        #            return false;
+        #    }
+        #    return false;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #updateNow
+        #// Update ECH_WI_02193 by mengqi.cen on 20130522
+        #//
+        #// *** ECHINA - Anthony Christiaens ***
+        #// *** Customization Code: ECH_I_OR04_3
+        #// *** Customization Date: 28 Mar 2012
+        #// *** Customization Type: modified
+        #// *** Description: post UpdateNow call
+        #
+        #public void updateNow()
+        #{
+        #    echSalesPackingSlip     echSalesPackingSlip = new echSalesPackingSlip(axSalesParmTableGlobal);
+        #    SalesTable              salesTable;
+        #    utcDateTime             shippingDTConfirmed;
+        #    ;
+        #
+        #    if (salesFormLetter_PackingSlip)
+        #    {
+        #        //Post from salesParm tables to custPackingSlip tables
+        #        salesFormLetter_PackingSlip.run();
+        #        salesParmUpdateInserted = false;
+        #
+        #// CS - ECH_I_OR04_3 - Anthony Christiaens - 28 Mar 2012
+        #        echSalesPackingSlip.postUpdateNow(salesFormLetter_PackingSlip.journal());
+        #// CE - ECH_I_OR04_3 - Anthony Christiaens - 28 Mar 2012
+        #
+        #        shippingDTConfirmed =
+        #            DateTimeUtil::newDateTime(axSalesParmTableGlobal.parmShipDate(), axSalesParmTableGlobal.parmShipTime()
+        #                                    , DateTimeUtil::getUserPreferredTimeZone());
+        #        TTSBegin;
+        #        salesTable = SalesTable::find(axSalesParmTableGlobal.parmSalesId(), true);
+        #        salesTable.ShippingDateConfirmed        = axSalesParmTableGlobal.parmShipDate();
+        #        salesTable.echShippingDateTimeConfirmed = shippingDTConfirmed;
+        #        salesTable.update();
+        #        TTSCommit;
+        #    }
+        #    else
+        #    {
+        #        throw error(strfmt("@SYS97083"));
+        #    }
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

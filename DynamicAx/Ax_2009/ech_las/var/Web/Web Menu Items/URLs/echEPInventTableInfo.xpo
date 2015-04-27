@@ -1,0 +1,23 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMU
+
+; Microsoft Dynamics AX URL : echEPInventTableInfo unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  URL #echEPInventTableInfo
+    PROPERTIES
+      Name                #echEPInventTableInfo
+      Label               #@ECH648
+      HelpText            #@ECH695
+      URL                 #Purchase/Enterprise%20Portal/echEPInventTableInfo.aspx
+      ConfigurationKey    #LogisticsBasic
+      WebConfigurationkey #EP
+    ENDPROPERTIES
+    
+  ENDURL
+  
+
+***Element: END

@@ -1,0 +1,219 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesSalesPackingSlip_SalesParmTable unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesSalesPackingSlip_SalesParmTable
+    Id 14027
+    PROPERTIES
+      Name                #SalesSalesPackingSlip_SalesParmTable
+      Extends             #AfStronglyTypedDataContainer
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #classDeclaration
+        #class SalesSalesPackingSlip_SalesParmTable extends AfStronglyTypedDataContainer
+        #{
+        #    #define.echActualShippingFee('echActualShippingFee')
+        #    #define.echSignPerson('echSignPerson')
+        #    #define.echSignDate('echSignDate')
+        #    #define.echDeliveryNote('echDeliveryNote')
+        #    #define.TrackingNumber('TrackingNumber')
+        #    #define.ShipTime('ShipTime')
+        #    #define.ShipDate('ShipDate')
+        #    #define.CarrierId('CarrierId')
+        #    // <GBR>
+        #    #define.RefusedInvoiceId('RefusedInvoiceId')
+        #    #define.Authority_BR('Authority_BR')
+        #    #define.RefProcessNo_BR('RefProcessNo_BR')
+        #    #define.ReturnedInvoiceSeries_BR('ReturnedInvoiceSeries_BR')
+        #    #define.ReturnedInvoiceModel_BR('ReturnedInvoiceModel_BR')
+        #    #define.NFSpecie_BR('NFSpecie_BR')
+        #    // </GBR>
+        #
+        #    #define.Transdate('Transdate')
+        #    #define.Storno('Storno')
+        #    #define.StartDateTime('StartDateTime')
+        #    #define.ShipCarrierId('ShipCarrierId')
+        #    #define.ShipCarrierAddress('ShipCarrierAddress')
+        #    #define.ShipCarrierAccount('ShipCarrierAccount')
+        #    #define.SalesShippingStat('SalesShippingStat')
+        #    #define.SalesParmLine('SalesParmLine')
+        #    #define.SalesName('SalesName')
+        #    #define.SalesId('SalesId')
+        #    #define.ReturnStatus('ReturnStatus')
+        #    #define.ReturnPackingSlipId('ReturnPackingSlipId')
+        #    #define.ReturnItemNum('ReturnItemNum')
+        #    #define.ReturnDeadline('ReturnDeadline')
+        #    #define.RecVersion('RecVersion')
+        #    #define.RecId('RecId')
+        #    #define.ProjId('ProjId')
+        #    #define.ParmJobStatus('ParmJobStatus')
+        #    #define.ParmId('ParmId')
+        #    #define.Ordering('Ordering')
+        #    #define.Log('Log')
+        #    #define.InvoiceAccount('InvoiceAccount')
+        #    #define.InventSiteId('InventSiteId')
+        #    #define.FixedDueDate('FixedDueDate')
+        #    #define.EndDateTime('EndDateTime')
+        #    #define.DocuRefHeader('DocuRefHeader')
+        #    #define.DocumentDate('DocumentDate')
+        #    #define.DlvMode('DlvMode')
+        #    #define.DeliveryName('DeliveryName')
+        #    #define.DeliveryAddress('DeliveryAddress')
+        #    #define.CustBankAccountId('CustBankAccountId')
+        #    #define.CustAccount('CustAccount')
+        #    #define.CurrencyCode('CurrencyCode')
+        #    #define.BatchType('BatchType')
+        #    #define._DocumentHash('_DocumentHash')
+        #
+        #    // <GIN>
+        #    #define.CustomsShippingBillNumber_IN('CustomsShippingBillNumber_IN')
+        #    #define.CustomsExportInvoiceId_IN('CustomsExportInvoiceId_IN')
+        #    #define.TAN_IN('TAN_IN')
+        #    #define.IECNumber_IN('IECNumber_IN')
+        #    #define.STCNumber_IN('STCNumber_IN')
+        #    #define.TIN_IN('TIN_IN')
+        #    #define.ECCNumber_IN('ECCNumber_IN')
+        #    #define.SalesTaxRegistrationNumber_IN('SalesTaxRegistrationNumber_IN')
+        #    #define.EximExportDateTime_IN('EximExportDateTime_IN')
+        #    // </GIN>
+        #
+        #    // <GCN>
+        #    #define.VATInvoiceDescriptionId_CN('VATInvoiceDescriptionId_CN')
+        #    // </GCN>
+        #
+        #    #define.echInvoiceId('echInvoiceId')
+        #    #define.echInvoiceCreated('echInvoiceCreated')
+        #}
+        #
+      ENDSOURCE
+      SOURCE #existsCarrierId
+        #public boolean existsCarrierId()
+        #{
+        #    return this.exists(#CarrierId);
+        #}
+      ENDSOURCE
+      SOURCE #existsechActualShippingFee
+        #public boolean existsechActualShippingFee()
+        #{
+        #    return this.exists(#echActualShippingFee);
+        #}
+      ENDSOURCE
+      SOURCE #existsechInvoiceCreated
+        #public boolean existsechInvoiceCreated()
+        #{
+        #    return this.exists(#echInvoiceCreated);
+        #}
+      ENDSOURCE
+      SOURCE #existsechInvoiceId
+        #public boolean existsechInvoiceId()
+        #{
+        #    return this.exists(#echInvoiceId);
+        #}
+      ENDSOURCE
+      SOURCE #existsShipDate
+        #public boolean existsShipDate()
+        #{
+        #    return this.exists(#ShipDate);
+        #}
+      ENDSOURCE
+      SOURCE #existsShipTime
+        #public boolean existsShipTime()
+        #{
+        #    return this.exists(#ShipTime);
+        #}
+      ENDSOURCE
+      SOURCE #existsTrackingNumber
+        #public boolean existsTrackingNumber()
+        #{
+        #    return this.exists(#TrackingNumber);
+        #}
+      ENDSOURCE
+      SOURCE #parmCarrierId
+        #public ShipCarrierId parmCarrierId(ShipCarrierId _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#CarrierId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#CarrierId);
+        #}
+      ENDSOURCE
+      SOURCE #parmechActualShippingFee
+        #public echActualShippingFee parmechActualShippingFee(echActualShippingFee _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echActualShippingFee, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echActualShippingFee);
+        #}
+      ENDSOURCE
+      SOURCE #parmechInvoiceCreated
+        #public echInvoiceCreated parmechInvoiceCreated(echInvoiceCreated _value = false)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echInvoiceCreated, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echInvoiceCreated);
+        #}
+      ENDSOURCE
+      SOURCE #parmechInvoiceId
+        #public echInvoiceId parmechInvoiceId(echInvoiceId _value = "")
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#echInvoiceId, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#echInvoiceId);
+        #}
+      ENDSOURCE
+      SOURCE #parmShipDate
+        #public SalesShippingDateConfirmed parmShipDate(SalesShippingDateConfirmed _value = dateNull())
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShipDate, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShipDate);
+        #}
+      ENDSOURCE
+      SOURCE #parmShipTime
+        #public SchedTime parmShipTime(SchedTime _value = 0)
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#ShipTime, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#ShipTime);
+        #}
+      ENDSOURCE
+      SOURCE #parmTrackingNumber
+        #public ShipCarrierTrackingNum parmTrackingNumber(ShipCarrierTrackingNum _value = '')
+        #{
+        #    if (!prmisdefault(_value))
+        #    {
+        #        this.set_Attribute(#TrackingNumber, _value);
+        #    }
+        #
+        #    return this.get_Attribute(#TrackingNumber);
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

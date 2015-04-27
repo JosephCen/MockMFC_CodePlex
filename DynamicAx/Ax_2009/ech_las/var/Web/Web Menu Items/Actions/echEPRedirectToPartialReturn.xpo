@@ -1,0 +1,21 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WMA
+
+; Microsoft Dynamics AX ACTION : echEPRedirectToPartialReturn unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  ACTION #echEPRedirectToPartialReturn
+    PROPERTIES
+      Name                #echEPRedirectToPartialReturn
+      Label               #@ech761
+      HelpText            #@ech762
+      Object              #echEPRedirectToPartialReturn
+    ENDPROPERTIES
+    
+  ENDACTION
+  
+
+***Element: END

@@ -1,0 +1,33 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: AxMarkupTrans unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #AxMarkupTrans
+    Id 5791
+    PROPERTIES
+      Name                #AxMarkupTrans
+      Extends             #AxInternalBase
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #setExchRate_BR
+        #protected void setExchRate_BR()
+        #{
+        #    if (this.isMethodExecuted(funcName(), fieldNum(MarkupTrans, ExchRate_BR)))
+        #    {
+        #        return;
+        #    }
+        #}
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

@@ -1,0 +1,16 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: MCR
+
+; Microsoft Dynamics AX Macro: AxdEchReturnOrderInDCT unloaded
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #AxdEchReturnOrderInDCT
+    ##define.EchReturnOrderIn('EchReturnOrderIn')
+    ##define.EchReturnOrderIn_echReturnOrderTable('EchReturnOrderIn.echReturnOrderTable')
+    ##define.EchReturnOrderIn_echReturnOrderLine('EchReturnOrderIn.echReturnOrderLine')
+  ENDSOURCE
+
+***Element: END

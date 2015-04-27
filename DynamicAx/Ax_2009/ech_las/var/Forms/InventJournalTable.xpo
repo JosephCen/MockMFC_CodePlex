@@ -1,0 +1,1544 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #InventJournalTable
+  PROPERTIES
+    Name                #InventJournalTable
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #class FormRun extends ObjectRun
+      #{
+      #    InventJournalFormTable  journalFormTable;
+      #    boolean                 inventDimParmAllowCreate;
+      #    // <RETAIL>
+      #
+      #
+      #    QueryBuildRange         criteriaWorksheetId;
+      #    str                     worksheetString;
+      #    HHTEntryType            entryType;
+      #    // </RETAIL>
+      #    boolean                 inCreate;
+      #    boolean                 inDelete;
+      #}
+    ENDSOURCE
+    SOURCE #enableHHTTabActive
+      #
+      #void enableHHTTabActive()
+      #{
+      #    boolean     enabled_Tab;
+      #    boolean     enabled_PRDocument;
+      #    boolean     enabled_Worksheet;
+      #;
+      #
+      #    enabled_PRDocument  = ((InventJournalTable.JournalType == InventJournalType::Count)   &&
+      #                            InventJournalTable.HHTPRDocument) ? true : false;
+      #
+      #    enabled_Worksheet   = ((InventJournalTable.JournalType == InventJournalType::LossProfit ||
+      #                            InventJournalTable.JournalType == InventJournalType::Count      ||
+      #                            InventJournalTable.JournalType == InventJournalType::TagCounting)&&
+      #                            InventJournalTable.HHTWorksheetId) ? true : false;
+      #
+      #    enabled_Tab         = enabled_PRDocument || enabled_Worksheet ? true : false;
+      #
+      #    HHTHandheld.visible(enabled_Tab);
+      #    Handheld_HHTWorksheetId.visible(enabled_Worksheet);
+      #    Handheld_HHTPRDocument.visible(enabled_PRDocument);
+      #}
+      #
+      #
+    ENDSOURCE
+    SOURCE #enableHHTButtonActive
+      #
+      #
+      #void enableHHTButtonActive() //updateHHTButton()
+      #{
+      #    boolean     enabled;
+      #;
+      #    enabled = (InventJournalTable.JournalType   == InventJournalType::Count)    ? true : false;
+      #
+      #    enabled = !InventJournalTable.HHTPRDocument && enabled                      ? true : false;
+      #
+      #    createNewPRDoc.enabled(enabled);
+      #}
+      #
+    ENDSOURCE
+    SOURCE #comment
+      #void comment()
+      #{
+      #
+      #}
+    ENDSOURCE
+    SOURCE #enableFieldsActive
+      #void enableFieldsActive()
+      #{
+      #    inventJournalTable_ds.object(fieldnum(InventJournalTable, VoucherSeqId)).mandatory(inventJournalTable.voucherSeqIdMandatory());
+      #}
+      #
+    ENDSOURCE
+    SOURCE #enableButtonsActive
+      #void enableButtonsActive(boolean _enableInfolog)
+      #{
+      #    printMenu.enabled(inventJournalTable.RecId != 0);
+      #
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #void init()
+      #{
+      #    // <RETAIL>
+      #    #HHT
+      #
+      #    HHTWorksheetTable   worksheetTable;
+      #    // </RETAIL>
+      #    ;
+      #    inventDimParmAllowCreate = true;
+      #    journalFormTable = new InventJournalFormTable(element);
+      #
+      #    super();
+      #
+      #    journalFormTable.parmCtrlAllOpenPosted(allOpenPosted);
+      #    journalFormTable.parmCtrlJournalTypeGrid(ctrlGridJournalType);
+      #    journalFormTable.parmCtrlJournalIdTab(journalId);
+      #    journalFormTable.parmCtrlJournalIdGrid(ctrlGridJournalId);
+      #    journalFormTable.parmCtrlOverview(gridOverview);
+      #    journalFormTable.parmCtrlMarkUserBlock(markUserBlock);
+      #    journalFormTable.parmCtrlMarkInUseBlock(markInUseBlock);
+      #    journalFormTable.parmCtrlSystemBlocked(systemBlocked);
+      #    journalFormTable.parmCtrlLines(lines);
+      #    journalFormTable.parmCtrlCheckJournal(checkJournal);
+      #    journalFormTable.parmCtrlPostJournal(postJournal);
+      #    journalFormTable.parmCtrlCreateNew(createNew);
+      #    journalFormTable.parmCtrlInfolog(showInfoLog);
+      #    journalFormTable.parmCtrlBlockImage(blockImage);
+      #    journalFormTable.parmCtrlInitTotals(initTotals);
+      #
+      #    journalFormTable.formInitPost();
+      #    // <RETAIL>
+      #
+      #    if (element && element.args().parm())
+      #    {
+      #        entryType = str2enum(entryType, element.args().parm());
+      #        while select worksheetId from worksheetTable
+      #            where worksheetTable.entryType == entryType
+      #        {
+      #            worksheetString += (worksheetTable.worksheetId + ",");
+      #        }
+      #    }
+      #    else
+      #        worksheetString = #Asterisk;
+      #
+      #    Handheld_HHTWorksheetId.visible(false);
+      #    Handheld_HHTPRDocument.visible(false);
+      #    // </RETAIL>
+      #}
+    ENDSOURCE
+    SOURCE #journalForm
+      #JournalForm journalForm()
+      #{
+      #    return journalFormTable;
+      #}
+    ENDSOURCE
+    SOURCE #inventDimParm
+      #// AOSRunMode::Client
+      #InventDimParm inventDimParm()
+      #{
+      #    InventDimParm tmpInventDimParm;
+      #    ;
+      #    InventDimFixedClass::inventDimFixed2InventDimParm(inventJournalTable.InventDimFixed,tmpInventDimParm);
+      #    return tmpInventDimParm;
+      #}
+    ENDSOURCE
+    SOURCE #firstField
+      #void firstField(int _flags=1)
+      #{
+      #    super(_flags);
+      #
+      #    journalFormTable.formFirstFieldPost();
+      #}
+    ENDSOURCE
+    SOURCE #close
+      #void close()
+      #{
+      #    ;
+      #    journalFormTable.formClosePre();
+      #
+      #    super();
+      #}
+    ENDSOURCE
+    SOURCE #timeOutRedraw
+      #void timeOutRedraw()
+      #{
+      #    ;
+      #    journalFormTable.formMethodTimeOutRedraw();
+      #}
+    ENDSOURCE
+    SOURCE #initControls
+      #protected void initControls(Integer _journalTypeId)
+      #{
+      #    InventJournalType curType = _journalTypeId;
+      #    ;
+      #
+      #    switch(curType)
+      #    {
+      #        case InventJournalType::Movement:
+      #        case InventJournalType::LossProfit:
+      #        case InventJournalType::Transfer:
+      #        case InventJournalType::BOM:
+      #        case InventJournalType::project :
+      #                inventCountingList.visible(false);
+      #                inventJournalTag_CheckMissing.visible(false);
+      #                employee.visible(false);
+      #                voucher.visible(true);
+      #                inventory.visible(true);
+      #                inventDimParmView.visible(false);
+      #            break;
+      #        case InventJournalType::Count:
+      #                inventJournalTag_CheckMissing.visible(false);
+      #                employee.visible(true);
+      #                voucher.visible(true);
+      #                inventory.visible(true);
+      #                inventDimParmView.visible(true);
+      #                inventDimParmView.allowEdit(false);
+      #            break;
+      #        case InventJournalType::TagCounting:
+      #                detailSummary.visible(false);
+      #                inventCountingList.visible(false);
+      #                employee.visible(true);
+      #                voucher.visible(false);
+      #                inventory.visible(false);
+      #                inventDimParmView.visible(true);
+      #                inventDimParmView.allowEdit(false);
+      #            break;
+      #    }
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventJournalTable
+          Table               #InventJournalTable
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+          DATAFIELD JournalNameId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #Modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTable.fieldModifiedJournalNameIdPost();
+                #
+                #    element.redraw();
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    ret = journalFormTable.fieldValidateJournalNameIdPost(ret);
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{;
+                #    journalFormTable.designLookupJournalName(_formControl);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD SystemBlocked
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTable.fieldModifiedSystemBlockedPost();
+                #
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+          DATAFIELD BlockUserGroupId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    journalFormTable.fieldModifiedBlockUserGroupId();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #leave
+          #public boolean leave()
+          #{
+          #    boolean ret = true;
+          #    ;
+          #    if (!inCreate && !inDelete)
+          #    {
+          #        ret = journalFormTable.datasourceLeavePre();
+          #    }
+          #
+          #    ret = ret && super();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #void initValue()
+          #{
+          #    ;
+          #    journalFormTable.datasourceInitValuePre();
+          #
+          #    super();
+          #
+          #    journalFormTable.datasourceInitValuePost();
+          #}
+        ENDSOURCE
+        SOURCE #delete
+          #//AOSRunmode::Client
+          #void delete()
+          #{
+          #    ;
+          #    try
+          #    {
+          #        inDelete = true;
+          #        ttsbegin;
+          #
+          #        super();
+          #
+          #        journalFormTable.datasourceDeletePost();
+          #
+          #        ttscommit;
+          #        inDelete = false;
+          #    }
+          #    catch(Exception::Error)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::Error;
+          #    }
+          #    catch(Exception::UpdateConflict)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::UpdateConflict;
+          #    }
+          #    catch(Exception::CodeAccessSecurity)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::CodeAccessSecurity;
+          #    }
+          #    catch(Exception::UpdateConflictNotRecovered)
+          #    {
+          #        inDelete = false;
+          #        throw Exception::UpdateConflictNotRecovered;
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #InUseBlock
+          #//BP Deviation documented
+          #edit JournalMarkInUseBlock inUseBlock(boolean set, JournalTableMap _journalTable, JournalMarkInUseBlock _value)
+          #{
+          #    return journalFormTable.datasourceMethodInUseBlock(set,_journalTable,_value);
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #void init()
+          #{
+          #    super();
+          #
+          #    journalFormTable.datasourceInitPost(inventJournalTable);
+          #    // <RETAIL>
+          #    //
+          #    criteriaWorksheetId = InventJournalTable_ds.query().dataSourceNo(1).addRange(fieldnum(InventJournalTable,HHTWorksheetId));
+          #    // </RETAIL>
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #//AOSRunmode::client
+          #void write()
+          #{
+          #    ttsbegin;
+          #
+          #    super();
+          #
+          #    journalFormTable.datasourceWritePost();
+          #
+          #    //<RETAIL>
+          #
+          #    if(InventJournalTable.JournalType == InventJournalType::Transfer)
+          #    {
+          #        createNewPRDoc.visible(false);
+          #    }
+          #    else
+          #    {
+          #        createNewPRDoc.visible(true);
+          #    }
+          #    //</RETAIL>
+          #
+          #    ttscommit;
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #void executeQuery()
+          #{
+          #    ;
+          #    journalFormTable.datasourceExecuteQueryPre();
+          #
+          #    // <RETAIL>
+          #
+          #    criteriaWorksheetId.value(worksheetString);
+          #
+          #    // </RETAIL>
+          #    super();
+          #
+          #    journalFormTable.datasourceExecuteQueryPost();
+          #}
+        ENDSOURCE
+        SOURCE #reread
+          #void reread()
+          #{
+          #    super();
+          #
+          #    journalFormTable.datasourceReReadPost();
+          #}
+        ENDSOURCE
+        SOURCE #lockImage
+          #//BP Deviation documented
+          #display Integer lockImage(InventJournalTable _journalTable)
+          #{
+          #    return journalFormTable.datasourceMethodLockImage(_journalTable);
+          #}
+        ENDSOURCE
+        SOURCE #validateWrite
+          #boolean validateWrite()
+          #{
+          #    boolean ret;
+          #
+          #    ret = super();
+          #
+          #    ret = journalFormTable.datasourceValidateWritePost(ret);
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #validateDelete
+          #public boolean validateDelete()
+          #{
+          #    boolean ret;
+          #
+          #    ret = super();
+          #
+          #    ret = journalFormTable.datasourceValidateDeletePost(ret);
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #InUseUserId
+          #//BP Deviation documented
+          #display JournalBlockInUseUserId inUseUserId(JournalTableMap _journalTable)
+          #{
+          #    return journalFormTable.datasourceMethodInUseUserId(_journalTable);
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean _append = false)
+          #{
+          #    ;
+          #    inCreate = true;
+          #    if (! journalFormTable.datasourceCreatePre())
+          #    {
+          #        inCreate = false;
+          #        return;
+          #    }
+          #
+          #    super(_append);
+          #
+          #    journalFormTable.datasourceCreatePost();
+          #    inCreate = false;
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #int active()
+          #{
+          #    int     ret;
+          #
+          #
+          #    ;
+          #    journalFormTable.datasourceActivePre();
+          #
+          #    ret = super();
+          #
+          #    // <RETAIL>
+          #
+          #    element.enableHHTButtonActive(); //.updateHHTButton();
+          #    element.enableHHTTabActive(); //.enableTabActive(.updateTabHandheld();
+          #
+          #    // </RETAIL>
+          #
+          #    // Begin - Avanade.30.Oct.2012.nte.Project : < ECH_WI_01594 >
+          #    echSendStockMgmt.enabled(InventJournalTable.JournalType == InventJournalType::LossProfit);
+          #    // End - Avanade.30.Oct.2012.nte.Project : < ECH_WI_01594 >
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #linkActive
+          #void linkActive()
+          #{
+          #    ;
+          #    journalFormTable.datasourceLinkActivePre();
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #InventDimParm
+          Table               #InventDimParm
+          AllowDelete         #No
+          AutoSearch          #No
+          AutoNotify          #No
+          AutoQuery           #No
+          LinkType            #Passive
+          DelayActive         #No
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        Version: 3
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #    journalFormTable.inventDimParmInitPost(inventDimParm);
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #// AOSRunMode::Client
+          #void write()
+          #{
+          #    ;
+          #    inventJournalTable.InventDimFixed = inventDimParm.inventDimFixed();
+          #    inventJournalTable.write();
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #void create(boolean append = false)
+          #{
+          #    if (inventDimParmAllowCreate)
+          #    {
+          #        super(append);
+          #        inventDimParmAllowCreate = false;
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS6140
+      TitleDatasource     #InventJournalTable
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/E7733931-64AE-47DE-B4DA-AACE14A8379A.htm
+      DataSource          #InventJournalTable
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL COMBOBOX
+        PROPERTIES
+          Name                #allOpenPosted
+          AutoDeclaration     #Yes
+          HelpText            #@SYS26572
+          HTMLHelpFile        #HTMLHelpFileAxShared
+          HTMLHelpTopic       #html/A7ECACF9-D909-47F0-88FC-EC3FE3D88065.htm
+          Selection           #255
+          EnumType            #AllOpenPosted
+        ENDPROPERTIES
+        
+        METHODS
+          Version: 3
+          SOURCE #SelectionChange
+            #int selectionChange()
+            #{
+            #    int ret;
+            #
+            #    ret = super();
+            #
+            #    journalFormTable.designSelectionChangeAllOpenPosted();
+            #
+            #    return ret;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          Tabs                #5
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Overview
+              AutoDeclaration     #Yes
+              Caption             #@SYS9039
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GRID
+                PROPERTIES
+                  Name                #gridOverview
+                  AutoDeclaration     #Yes
+                  Width               #Column width
+                  Height              #Column height
+                  DataSource          #InventJournalTable
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalTable_JournalNameId
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/21c7a41b-1cbc-4003-9ed9-d87f1c1daeae.htm
+                        DataSource          #InventJournalTable
+                        DataField           #JournalNameId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #ctrlGridJournalId
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/7e15de1a-ba43-4dab-a0ab-91e83d28d38c.htm
+                        DataSource          #InventJournalTable
+                        DataField           #JournalId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #ctrlGridJournalType
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/8ac392a0-5ee5-4277-b9d2-e08c3bdeb94e.htm
+                        DataSource          #InventJournalTable
+                        DataField           #JournalType
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalTable_Description
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/d3cdad5f-903c-4a67-b918-219e3ee60eab.htm
+                        DataSource          #InventJournalTable
+                        DataField           #Description
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL INTEDIT
+                      PROPERTIES
+                        Name                #InventJournalTable_NumOfLines
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/46154702-566f-4f65-b703-25d2f15cc79d.htm
+                        DataSource          #InventJournalTable
+                        DataField           #NumOfLines
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #InventJournalTable_Posted
+                        AllowEdit           #No
+                        Skip                #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/f6024a9e-bfd8-45fa-bdd1-eed27e69de1a.htm
+                        BackgroundColor     #Window background
+                        DataSource          #InventJournalTable
+                        DataField           #Posted
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL WINDOW
+                      PROPERTIES
+                        Name                #BlockImage
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        Width               #18
+                        Height              #12
+                        AlignControl        #No
+                        Imagemode           #Size to fit
+                        BackStyle           #Transparent
+                        Label               #@SYS10653
+                        DataSource          #InventJournalTable
+                        DataMethod          #LockImage
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #General
+              AutoDeclaration     #Yes
+              Caption             #@SYS2952
+              Columns             #2
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #GeneralColumn1
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/FB34BB3D-BA3D-4246-B32A-71BA8FBFDA97.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Identification
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/BF571814-F3F8-4D2E-9765-352C8528F389.htm
+                        DataSource          #InventJournalTable
+                        DataGroup           #Identification
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #JournalId
+                              AutoDeclaration     #Yes
+                              DataSource          #InventJournalTable
+                              DataField           #JournalId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL COMBOBOX
+                            PROPERTIES
+                              Name                #JournalType
+                              DataSource          #InventJournalTable
+                              DataField           #JournalType
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #JournalNameId
+                              DataSource          #InventJournalTable
+                              DataField           #JournalNameId
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                          CONTROL STRINGEDIT
+                            PROPERTIES
+                              Name                #Description
+                              DataSource          #InventJournalTable
+                              DataField           #Description
+                            ENDPROPERTIES
+                            
+                          ENDCONTROL 
+                          
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Voucher
+                        AutoDeclaration     #Yes
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/1D18A6C4-F322-4BC6-9A17-9E20D491FD7C.htm
+                        DataSource          #InventJournalTable
+                        DataGroup           #Voucher
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Posting
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/05757AF7-84FA-4435-AE6D-4B8BBCD5B4D8.htm
+                  DataSource          #InventJournalTable
+                  DataGroup           #Posting
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #DetailSummary
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTable
+                        DataField           #DetailSummary
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #DeletePostedLines
+                        DataSource          #InventJournalTable
+                        DataField           #DeletePostedLines
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Posting_LedgerAccountIdOffset
+                        DataSource          #InventJournalTable
+                        DataField           #LedgerAccountIdOffset
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Setup
+              Caption             #@SYS2186
+              Columns             #Auto
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Inventory
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/1EA48EBB-4D4D-47DF-86D1-6D52E4140B1B.htm
+                  DataSource          #InventJournalTable
+                  DataGroup           #Inventory
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Employee
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/C5A7B333-7B7B-4D8E-AA47-A15B8913E9B8.htm
+                  Caption             #@SYS99605
+                  DataSource          #InventJournalTable
+                  DataGroup           #Employee
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Employee_EmplId
+                        Label               #@SYS99605
+                        DataSource          #InventJournalTable
+                        DataField           #EmplId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #InventDimParmView
+                  AutoDeclaration     #Yes
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/C52065B9-B16F-4022-871A-1C3694100776.htm
+                  Caption             #@SYS54383
+                  DataSource          #InventDimParm
+                  DataGroup           #FixedView
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #Block
+              Caption             #@SYS50247
+              Columns             #3
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column1
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/91E8DD48-C9E3-4C86-95D6-C50E9763E2BE.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #MarkInUseBlock
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTable
+                        DataMethod          #InUseBlock
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #MarkUserBlock
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS22217
+                        Label               #@SYS3324
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #modified
+                          #boolean modified()
+                          #{
+                          #    boolean ret;
+                          #
+                          #    ret = super();
+                          #
+                          #    journalFormTable.designModifiedMarkUserBlockPost();
+                          #
+                          #    return ret;
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column2
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/D8E5D3E6-BBA9-4EEB-A5A7-5ACD56DD44AB.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #BlockInUseUserId
+                        AutoDeclaration     #Yes
+                        AllowEdit           #No
+                        DataSource          #InventJournalTable
+                        DataMethod          #InUseUserId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalTable_BlockUserId
+                        DataSource          #InventJournalTable
+                        DataField           #BlockUserId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Column3
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/6AE403D5-26CD-4B28-85FB-CB33C8969B7F.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #SystemBlocked
+                        AutoDeclaration     #Yes
+                        DataSource          #InventJournalTable
+                        DataField           #SystemBlocked
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #InventJournalTable_BlockUserGroupId
+                        DataSource          #InventJournalTable
+                        DataField           #BlockUserGroupId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #HistoryTab
+              Caption             #@SYS10575
+              Columns             #Auto
+              ArrangeGuide        
+                ARRAY INDEX Columns 
+                  #0
+                  #0
+                ENDARRAY
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #History
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/250C5286-EA8A-4CEC-B8F7-E9CE2D47D3DF.htm
+                  DataSource          #InventJournalTable
+                  DataGroup           #History
+                  AutoDataGroup       #Yes
+                ENDPROPERTIES
+                
+                  CONTAINER
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #TotalsGroup
+                  HTMLHelpFile        #HTMLHelpFileAxShared
+                  HTMLHelpTopic       #html/342B4F07-1C31-44E0-B06C-84E18643A596.htm
+                  FrameType           #None
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL GROUP
+                      PROPERTIES
+                        Name                #Totals
+                        HTMLHelpFile        #HTMLHelpFileAxShared
+                        HTMLHelpTopic       #html/3ECFCB68-3A81-4EBB-9C62-7ED0A567D134.htm
+                        DataSource          #InventJournalTable
+                        DataGroup           #Totals
+                        AutoDataGroup       #Yes
+                      ENDPROPERTIES
+                      
+                        CONTAINER
+                        ENDCONTAINER
+                        
+                    ENDCONTROL 
+                    
+                    CONTROL BUTTON
+                      PROPERTIES
+                        Name                #InitTotals
+                        AutoDeclaration     #Yes
+                        HelpText            #@SYS85243
+                        Text                #@SYS68968
+                      ENDPROPERTIES
+                      
+                      METHODS
+                        Version: 3
+                        SOURCE #clicked
+                          #void clicked()
+                          #{
+                          #    ;
+                          #    journalFormTable.buttonClickedInitTotals();
+                          #}
+                        ENDSOURCE
+                      ENDMETHODS
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL TABPAGE
+            PROPERTIES
+              Name                #HHTHandheld
+              AutoDeclaration     #Yes
+              ConfigurationKey    #RetailStoreInventory
+              SecurityKey         #HHTJournals
+              Caption             #@HHT242
+              DataSource          #InventJournalTable
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL GROUP
+                PROPERTIES
+                  Name                #Handheld
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTJournals
+                  DataSource          #InventJournalTable
+                  DataGroup           #HHTHandheld
+                ENDPROPERTIES
+                
+                  CONTAINER
+                    CONTROL STRINGEDIT
+                      PROPERTIES
+                        Name                #Handheld_HHTWorksheetId
+                        AutoDeclaration     #Yes
+                        LabelAlignment      #Right
+                        DataSource          #InventJournalTable
+                        DataField           #HHTWorksheetId
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL CHECKBOX
+                      PROPERTIES
+                        Name                #Handheld_HHTPRDocument
+                        AutoDeclaration     #Yes
+                        LabelAlignment      #Right
+                        DataSource          #InventJournalTable
+                        DataField           #HHTPRDocument
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                    CONTROL COMBOBOX
+                      PROPERTIES
+                        Name                #Handheld_M_lowestRetailStatus
+                        AllowEdit           #No
+                        HelpText            #@ECH376
+                        DataSource          #InventJournalTable
+                        DataMethod          #lowestRetailStatus
+                      ENDPROPERTIES
+                      
+                    ENDCONTROL 
+                    
+                  ENDCONTAINER
+                  
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+          DataSource          #InventJournalTable
+        ENDPROPERTIES
+        
+        CONTAINER
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #lines
+              AutoDeclaration     #Yes
+              MenuItemName        #InventJournalTransLossProfit
+              DataSource          #InventJournalTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #checkJournal
+              AutoDeclaration     #Yes
+              MenuItemType        #Action
+              MenuItemName        #InventJournalCheck
+              DataSource          #InventJournalTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #postJournal
+              AutoDeclaration     #Yes
+              MenuItemType        #Action
+              MenuItemName        #InventJournalPost
+              DataSource          #InventJournalTable
+            ENDPROPERTIES
+            
+          ENDCONTROL 
+          
+          CONTROL MENUITEMBUTTON
+            PROPERTIES
+              Name                #createNew
+              AutoDeclaration     #Yes
+              MenuItemName        #JournalTableCreateNew
+              DataSource          #InventJournalTable
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    if (! journalFormTable.buttonClickedCreateNewPre())
+                #        return;
+                #
+                #    super();
+                #
+                #    journalFormTable.buttonClickedCreateNewPost();
+                #}
+                #
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+          CONTROL BUTTON
+            PROPERTIES
+              Name                #showInfoLog
+              AutoDeclaration     #Yes
+              HelpText            #@SYS85244
+              Text                #@SYS2515
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #void clicked()
+                #{
+                #    ;
+                #    super();
+                #
+                #    journalFormTable.buttonClickedShowInfolog();
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Functions
+              HelpText            #@SYS69656
+              Text                #@SYS10340
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventJournalCopy
+                  MenuItemType        #Action
+                  MenuItemName        #InventJournalCopy
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventJournalTag_CheckMissing
+                  AutoDeclaration     #Yes
+                  MenuItemType        #Action
+                  MenuItemName        #InventJournalTag_CheckMissing
+                  DataSource          #InventJournalTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL SEPARATOR
+                PROPERTIES
+                  Name                #Separator
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTJournals
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #createNewPRDoc
+                  AutoDeclaration     #Yes
+                  Enabled             #No
+                  HelpText            #@ECH374
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTJournals
+                  Text                #@HHT728
+                  MenuItemType        #Action
+                  MenuItemName        #HHTPRCreate_Transfer
+                  DataSource          #InventJournalTable
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #    ;
+                    #    switch (InventJournalTable.JournalType)
+                    #    {
+                    #        case InventJournalType::Count           :   createNewPRDoc.menuItemName(menuItemActionStr(HHTPRCreate_ScheduledStockCount)); break;
+                    #    }
+                    #
+                    #    super();
+                    #
+                    #
+                    #
+                    #    element.enableHHTButtonActive(); //.updateHHTButton();
+                    #
+                    #
+                    #}
+                    #
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #echSendStockMgmt
+                  AutoDeclaration     #Yes
+                  MenuItemType        #Action
+                  MenuItemName        #echSendStockMgmt
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #PrintMenu
+              AutoDeclaration     #Yes
+              HelpText            #@SYS24353
+              Text                #@SYS920
+            ENDPROPERTIES
+            
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #Print
+                  Text                #@SYS6790
+                  MenuItemType        #Output
+                  MenuItemName        #inventjournalTrans
+                  DataSource          #InventJournalTable
+                ENDPROPERTIES
+                
+                METHODS
+                  Version: 3
+                  SOURCE #clicked
+                    #void clicked()
+                    #{
+                    #    MenuFunction    menuFunction;
+                    #    Args            args = new Args();
+                    #
+                    #    switch (inventJournalTable.JournalType)
+                    #    {
+                    #        case InventJournalType::Transfer:
+                    #            menuFunction = new MenuFunction(menuitemoutputstr(InventJournalTransTransfer), MenuItemType::Output);
+                    #            break;
+                    #        case InventJournalType::TagCounting:
+                    #            menuFunction = new MenuFunction(menuitemoutputstr(InventJournalTrans_Tag), MenuItemType::Output);
+                    #            break;
+                    #        default:
+                    #            menuFunction = new MenuFunction(menuitemoutputstr(inventJournalTrans), MenuItemType::Output);
+                    #            break;
+                    #    }
+                    #    args.caller(element);
+                    #    args.record(inventJournalTable);
+                    #    args.menuItemName(menuFunction.name());
+                    #    args.menuItemType(menuFunction.type());
+                    #    menuFunction.run(args);
+                    #
+                    #}
+                  ENDSOURCE
+                ENDMETHODS
+              ENDCONTROL 
+              
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #InventCountingList
+                  AutoDeclaration     #Yes
+                  MenuItemType        #Output
+                  MenuItemName        #InventCountingList
+                  DataSource          #InventJournalTable
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+          CONTROL MENUBUTTON
+            PROPERTIES
+              Name                #Inquiry
+              HelpText            #@SYS69470
+              ConfigurationKey    #RetailStoreInventory
+              SecurityKey         #HHTJournals
+              Text                #@SYS3850
+            ENDPROPERTIES
+            
+            METHODS
+              Version: 3
+              SOURCE #clicked
+                #
+                #void clicked()
+                #{
+                #;
+                #    handheldDocuments.enabled(true);
+                #
+                #    if (!(select count(recId) from HHTPRCountingTable
+                #            where HHTPRCountingTable.referenceNo == InventJournalTable.journalId).recId &&
+                #        !(select count(recId) from HHTPRPostedCountingTable
+                #            where HHTPRPostedCountingTable.referenceNo == InventJournalTable.journalId).recId)
+                #    {
+                #        handheldDocuments.enabled(false);
+                #    }
+                #
+                #    super();
+                #}
+                #
+                #
+              ENDSOURCE
+            ENDMETHODS
+            CONTAINER
+              CONTROL MENUITEMBUTTON
+                PROPERTIES
+                  Name                #handheldDocuments
+                  AutoDeclaration     #Yes
+                  ConfigurationKey    #RetailStoreInventory
+                  SecurityKey         #HHTJournals
+                  Text                #@RBO2397
+                  MenuItemName        #HHTPRDocumentsLog
+                ENDPROPERTIES
+                
+              ENDCONTROL 
+              
+            ENDCONTAINER
+            
+          ENDCONTROL 
+          
+        ENDCONTAINER
+        
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

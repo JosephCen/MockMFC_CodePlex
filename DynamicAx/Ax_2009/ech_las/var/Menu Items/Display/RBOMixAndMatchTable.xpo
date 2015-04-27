@@ -1,0 +1,24 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : RBOMixAndMatchTable unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #RBOMixAndMatchTable
+    Type: 1
+    PROPERTIES
+      Name                #RBOMixAndMatchTable
+      Label               #@RBO796
+      HelpText            #@SYS55407
+      Object              #RBOMixAndMatchTable
+      ConfigurationKey    #RetailHeadquarters
+      SecurityKey         #RBO
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: END

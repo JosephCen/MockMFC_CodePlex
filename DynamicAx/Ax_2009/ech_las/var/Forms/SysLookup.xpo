@@ -1,0 +1,253 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 5
+
+FORM #SysLookup
+  PROPERTIES
+    Name                #SysLookup
+  ENDPROPERTIES
+  
+  METHODS
+    Version: 3
+    SOURCE #ClassDeclaration
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_WI_00801
+      #// *** Customization Date: 04 Jul 2012
+      #// *** Customization Type: modified
+      #// *** Description: add variable for single selection
+      #
+      #class FormRun extends ObjectRun
+      #{
+      #    boolean         first;
+      #    boolean         mouseSelect;
+      #    enumId          enumId;
+      #// CS - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+      #    boolean         singleSelection;
+      #// CE - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+      #}
+    ENDSOURCE
+    SOURCE #closeSelect
+      #void closeSelect(str p1)
+      #{
+      #    int     idx;
+      #    FormListItem    formListItem;
+      #
+      #    if (!p1 && mouseSelect)
+      #    {
+      #
+      #        idx = enumList.getNextItem(FormListNext::Selected);
+      #
+      #        while(idx != -1)
+      #        {
+      #            formListItem = enumList.getItem(idx);
+      #            p1 += (strlen(p1) > 0 ? ',' : '')+element.enumString(formListItem.text());
+      #            idx = enumList.getNextItem(FormListNext::Selected, idx);
+      #        }
+      #    }
+      #
+      #    super(p1);
+      #
+      #}
+    ENDSOURCE
+    SOURCE #Task
+      #int task(int p1)
+      #{
+      #    #task
+      #    int ret;
+      #
+      #
+      #    ret = super(p1);
+      #
+      #    if(p1 == #taskEnter)
+      #        element.returnSelection();
+      #
+      #    return ret;
+      #
+      #}
+    ENDSOURCE
+    SOURCE #Run
+      #void run()
+      #{
+      #    FormListItem        formListItem;
+      #    DictEnum            dictEnum = new DictEnum(enumId);
+      #    int                 values;
+      #    int                 idx;
+      #    int                 i;
+      #    ;
+      #    enumList.addColumn(1,new FormListColumn(dictEnum.label() ? dictEnum.label() : dictEnum.name(),1, enumList.widthValue()-15));
+      #
+      #    values = dictEnum.values();
+      #    for (i=0; i < values; i++)
+      #    {
+      #            // BP deviation documented
+      #        formListItem = new FormListItem(dictEnum.index2Label(i));
+      #        formListItem.idx(idx);
+      #        enumList.addItem(formListItem);
+      #        idx = formListItem.idx()+1;
+      #    }
+      #
+      #    formListItem = enumList.getItem(0);
+      #    formListItem.stateFocus(true);
+      #    formListItem.stateSelected(true);
+      #    enumList.setItem(formListItem);
+      #
+      #    enumList.setFocus();
+      #    super();
+      #
+      #}
+    ENDSOURCE
+    SOURCE #NextField
+      #void nextField(int flags=1)
+      #{
+      #    super(flags);
+      #    element.returnSelection();
+      #}
+    ENDSOURCE
+    SOURCE #Init
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_WI_00801
+      #// *** Customization Date: 04 Jul 2012
+      #// *** Customization Type: modified
+      #// *** Description: set single selection
+      #
+      #void init()
+      #{
+      #    super();
+      #
+      #    first           = true;
+      #    enumId          = str2int(element.args().parm());
+      #
+      #// CS - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+      #    if (element.args().parmEnumType() && element.args().parmEnumType() == enumnum(NoYes))
+      #        singleSelection = element.args().parmEnum();
+      #
+      #    EnumList.singleSelection(singleSelection);
+      #// CE - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+      #}
+    ENDSOURCE
+    SOURCE #returnSelection
+      #void returnSelection()
+      #{
+      #    str     selectionString;
+      #    int     idx;
+      #    FormListItem    formListItem;
+      #
+      #    idx = enumList.getNextItem(FormListNext::Selected);
+      #
+      #    while(idx != -1)
+      #    {
+      #        formListItem = enumList.getItem(idx);
+      #        selectionString += (strlen(selectionString) > 0 ? ',' : '')+element.enumString(formListItem.text());
+      #        idx = enumList.getNextItem(FormListNext::Selected, idx);
+      #    }
+      #
+      #    element.closeSelect(selectionString);
+      #}
+    ENDSOURCE
+    SOURCE #EnumString
+      #// *** ECHINA - Anthony Christiaens ***
+      #// *** Customization Code: ECH_WI_00801
+      #// *** Customization Date: 04 Jul 2012
+      #// *** Customization Type: modified
+      #// *** Description: check for single selection
+      #
+      #str enumString(str string)
+      #{
+      #// CS - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+      #    ;
+      #    if(!singleSelection && strscan(string, ' ', 1, strlen(string)))
+      #// CE - ECH_WI_00801 - Anthony Christiaens - 04 Jul 2012
+      #    {
+      #        return '\"' + string + '\"';
+      #    }
+      #    else
+      #    {
+      #        return string;
+      #    }
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+  ENDOBJECTBANK
+  
+  JOINS
+  ENDJOINS
+  
+  DESIGN
+    PROPERTIES
+      Left                #15
+      Top                 #15
+      Frame               #Border
+      WindowType          #Popup
+      SetCompany          #No
+      HTMLHelpFile        #HTMLHelpFileIWorker
+      HTMLHelpTopic       #AxShared.chm::/html/89B6355C-AA24-4842-92E7-F7D571C0919D.htm
+      TopMargin           #2
+      BottomMargin        #0
+      LeftMargin          #0
+      RightMargin         #0
+      HideIfEmpty         #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL LISTVIEW
+        PROPERTIES
+          Name                #EnumList
+          Width               #150
+          Height              #150
+          ViewType            #Report
+          ColumnHeaderButton  #Yes
+          SingleSelection     #No
+        ENDPROPERTIES
+        
+        METHODS
+          Version: 3
+          SOURCE #mouseDown
+            #int mouseDown(int x, int y, int button, boolean ctrl, boolean shift)
+            #{
+            #    int ret;
+            #
+            #    ret = super(x, y, button, ctrl, shift);
+            #    mouseSelect = true;
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+          SOURCE #selectionChanged
+            #void selectionChanged(int idx, anytype data)
+            #{
+            #    int selCount;
+            #    ;
+            #    super(idx, data);
+            #
+            #    selCount = enumList.getSelectedCount();
+            #    if (!first && mouseSelect && selCount != 0)
+            #    {
+            #        mouseSelect = false;
+            #        element.returnSelection();
+            #    }
+            #    else
+            #    {
+            #        first = false;
+            #    }
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+ENDFORM
+
+
+***Element: END

@@ -1,0 +1,992 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: WCL
+
+; Microsoft Dynamics AX WEBCONTROL : echEPReturnTableCreateTunnel unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  WEBCONTROL #echEPReturnTableCreateTunnel
+    PROPERTIES
+      Name                #echEPReturnTableCreateTunnel
+      HelpText            #
+      Filename            #echEPReturnTableCreateTunnel.ascx
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #<%@ Control Language="C#" AutoEventWireup="true" CodeFile="echEPReturnTableCreateTunnel.ascx.cs"
+      #    Inherits="echEPReturnTableCreateTunnel" %>
+      #<%@ Register Assembly="Microsoft.Dynamics.Framework.Portal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      #    Namespace="Microsoft.Dynamics.Framework.Portal.UI.WebControls" TagPrefix="dynamics" %>
+      #<%@ Register Src="AxUtility.ascx" TagName="AxUtility" TagPrefix="Ax" %>
+      #
+      #<%--Fix the padding around the wizard--%>
+      #<link rel="stylesheet" type="text/css" href="/_layouts/ep/stylesheets/AXEP_WebPart_Padding.css" />
+      # 
+      #<dynamics:AxDataSource ID="dsSalesTableCreateTunnel" runat="server" DataSetName="echEPReturnTableCreateTunnel" />
+      #<asp:Wizard ID="wizSalesTableCreateTunnel" runat="server" Width="100%" DisplaySideBar="false"
+      #    DisplayCancelButton="true" ActiveStepIndex="0" OnInit="wizSalesTableCreateTunnel_Init"
+      #    OnPreRender="wizSalesTableCreateTunnel_PreRender">
+      #    <HeaderTemplate>
+      #        <asp:PlaceHolder ID="PlaceHolder1" runat="server" />
+      #    </HeaderTemplate>
+      #    <WizardSteps>
+      #        <asp:WizardStep ID="CustomerStep" runat="server" Title="<%$ AxLabel:@SYS74095 %>">
+      #            <dynamics:AxForm ID="CustomerForm" runat="server" DefaultMode="Edit" DataKeyNames="RecId"
+      #                DataMember="SalesTable_Current" DataSourceID="dsSalesTableCreateTunnel">
+      #                <p>
+      #                    <asp:Literal ID="CustomerDescription" runat="server" Text="<%$ AxLabel:@SYS73732 %>" />
+      #                </p>
+      #                <br />
+      #                <dynamics:AxGroup ID="CustomerGroup" runat="server" BorderStyle="None">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="CustAccount" />
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </dynamics:AxForm>
+      #            <hr />
+      #        </asp:WizardStep>
+      #        <asp:WizardStep ID="InvoiceInformationStep" runat="server" Title="<%$ AxLabel:@SYS95013 %>">
+      #            <dynamics:AxForm ID="InvoiceInformationForm" runat="server" DataSourceID="dsSalesTableCreateTunnel"
+      #                DataKeyNames="RecId" DataMember="SalesTable_Current" DefaultMode="Edit" UpdateOnPostBack="true">
+      #                <p>
+      #                    <asp:Literal ID="InvoiceInformationDescription" runat="server" Text="<%$ AxLabel:@SYS74021 %>" />
+      #                </p>
+      #                <br />
+      #                <dynamics:AxGroup ID="InvoiceInformationGroup" runat="server" BorderStyle="None">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="editContactPersonName**" LookupButtonDisplaySettings="Always" OnLookup="PartyId_Lookup" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="InvoiceAccount" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="VATNum" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="CurrencyCode" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="LanguageId" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="InventSiteId" AutoPostBack="true" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="InventLocationId" LookupButtonDisplaySettings="Always" OnLookup="LocationId_Lookup"
+      #                            AutoPostBack="true" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="ReturnReasonCodeId" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="PurchOrderFormNum" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="CustomerRef" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="ReturnDeadline" /> 
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </dynamics:AxForm>
+      #            <hr />
+      #        </asp:WizardStep>
+      #        <asp:WizardStep ID="OrderLinesStep" runat="server" Title="<%$ AxLabel:@SYS508 %>">
+      #            <p>
+      #                <asp:Literal ID="OrderLinesDescription" runat="server" Text="<%$ AxLabel:@SYS75223 %>" /></p>
+      #            <dynamics:AxGridView ID="OrderLinesGridView" runat="server" DataSourceID="dsSalesTableCreateTunnel"
+      #                ShowFilter="false" DataKeyNames="RecId" DataMember="SalesBasketLine" AllowDelete="true"
+      #                AllowEdit="true" AllowPaging="true">
+      #                <Columns>
+      #                    <dynamics:AxBoundField DataField="ItemId" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine"
+      #                        SortExpression="ItemId" ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataField="itemName**" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" HeaderText="<%$ AxLabel:@SYS5398 %>" />
+      #                    <%--                    <dynamics:AxBoundField DataField="itemDescription**" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine" HeaderText="<%$ AxLabel:@SYS92116 %>" /> --%>
+      #                    <dynamics:AxBoundField DataField="SalesQty" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine"
+      #                        SortExpression="SalesQty" />
+      #                    <dynamics:AxBoundField DataField="SalesPrice" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" SortExpression="SalesPrice" ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataField="LinePercent" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" SortExpression="LinePercent" ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataField="LineDisc" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine"
+      #                        SortExpression="LineDisc" ReadOnly="true" />
+      #                    <dynamics:AxBoundField DataField="LineAmount" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" SortExpression="LineAmount" ReadOnly="true" />
+      #                </Columns>
+      #            </dynamics:AxGridView>
+      #            <br />
+      #            <asp:Button ID="btnAddItem" runat="server" Text="<%$ AxLabel:@SYS74914 %>" />
+      #            <br />
+      #            <dynamics:AxPopupParentControl ID="popupAddItem" runat="server">
+      #                <dynamics:AxPopupField Name="hiddenItemId" />
+      #                <dynamics:AxPopupField Name="hiddenDimensionId" />
+      #                <dynamics:AxPopupField Name="hiddenQuantity" />
+      #                <dynamics:AxPopupField Name="hiddenSiteId" />
+      #                <dynamics:AxPopupField Name="hiddenLocationId" />
+      #            </dynamics:AxPopupParentControl>
+      #            <dynamics:AxPopupParentControl ID="popupPBA" runat="server">
+      #            </dynamics:AxPopupParentControl>
+      #            <hr />
+      #        </asp:WizardStep>
+      #        <asp:WizardStep ID="DeliveryAddressStep" runat="server" Title="<%$ AxLabel:@SYS7924 %>">
+      #            <dynamics:AxForm ID="DeliveryAddressForm" runat="server" DataSourceID="dsSalesTableCreateTunnel"
+      #                DataKeyNames="RecId" DataMember="SalesTable_Current" DefaultMode="Edit" UpdateOnPostBack="true">
+      #                <p>
+      #                    <asp:Literal ID="DeliveryAddressDescription" runat="server" Text="<%$ AxLabel:@SYS74024 %>" /></p>
+      #                <dynamics:AxGroup ID="DeliveryAddressGroup" runat="server" BorderStyle="None">
+      #                    <Fields>
+      #                        <dynamics:AxBoundFieldGroup FieldGroup="DeliveryAddress" DataSet="EPSalesTableCreateTunnel"
+      #                            DataSetView="SalesTable" />
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </dynamics:AxForm>
+      #            <hr />
+      #        </asp:WizardStep>
+      #        <asp:WizardStep ID="AdministrationStep" runat="server" Title="<%$ AxLabel:@SYS9853 %>">
+      #            <dynamics:AxForm ID="AdministrationForm" runat="server" DataSourceID="dsSalesTableCreateTunnel"
+      #                DataKeyNames="RecId" DataMember="SalesTable_Current" DefaultMode="Edit" UpdateOnPostBack="true">
+      #                <dynamics:AxGroup ID="AdministrationGroup" runat="server" BorderStyle="None">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataField="SalesPoolId" DataSet="EPSalesTableCreateTunnel"
+      #                            DataSetView="SalesTable" />
+      #                        <dynamics:AxBoundField DataField="SalesTaker" DataSet="EPSalesTableCreateTunnel"
+      #                            DataSetView="SalesTable" />
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #            </dynamics:AxForm>
+      #            <hr />
+      #        </asp:WizardStep>
+      #        <asp:WizardStep ID="FinishStep" runat="server" Title="<%$ AxLabel:@SYS56579 %>">
+      #            <dynamics:AxForm ID="FinishForm" runat="server" DataSourceID="dsSalesTableCreateTunnel"
+      #                DataKeyNames="RecId" DataMember="SalesTable_Current">
+      #                <p>
+      #                    <asp:Literal ID="FinishDescription" runat="server" Text="<%$ AxLabel:@SYS74025 %>" /></p>
+      #                <dynamics:AxGroup ID="FinishGroupCustomer" runat="server" Caption="<%$ AxLabel:@SYS11779 %>">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="CustAccount" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="CustomerName**" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="editContactPersonName**" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="InventSiteId" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="InventLocationId" />
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #                <br />
+      #                <dynamics:AxGroup ID="FinishGroupDeliveryAddress" runat="server" Caption="<%$ AxLabel:@SYS7924 %>">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="DeliveryAddress" />
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #                <br />
+      #                <dynamics:AxGroup ID="FinishGroupInvoiceInformation" runat="server">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="VATNum" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="InvoiceAccount" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="CurrencyCode" />
+      #                        <dynamics:AxBoundField DataSet="EPSalesTableCreateTunnel" DataSetView="SalesTable"
+      #                            DataField="LanguageId" />
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #                <br />
+      #                <dynamics:AxGroup ID="FinishGroupAdminitration" runat="server" BorderStyle="None"
+      #                    Caption="<%$ AxLabel:@SYS9853 %>">
+      #                    <Fields>
+      #                        <dynamics:AxBoundField DataField="SalesPoolId" DataSet="EPSalesTableCreateTunnel"
+      #                            DataSetView="SalesTable" />
+      #                        <dynamics:AxBoundField DataField="SalesTaker" DataSet="EPSalesTableCreateTunnel"
+      #                            DataSetView="SalesTable" />
+      #                    </Fields>
+      #                </dynamics:AxGroup>
+      #                <br />
+      #                <asp:Label runat="server" ID="lblTotal" Text="<%$ AxLabel:@SYS8311 %>" />
+      #                <a runat="server" id="linkViewTotals">
+      #                    <asp:Literal ID="ltrl" runat="server" Text="<%$AxLabel:@SYS76757 %>" />
+      #                </a>
+      #            </dynamics:AxForm>
+      #            <br />
+      #            <dynamics:AxGridView ID="FinishGridView" runat="server" DataSourceID="dsSalesTableCreateTunnel"
+      #                DataKeyNames="RecId" DataMember="SalesBasketLine" AllowDelete="false" AllowEdit="false"
+      #                ShowFilter="false" AllowPaging="false" AllowSelection="false" Caption="<%$ AxLabel:@SYS508 %>">
+      #                <Columns>
+      #                    <dynamics:AxBoundField DataField="ItemId" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine"
+      #                        SortExpression="ItemId" />
+      #                    <dynamics:AxBoundField DataField="itemName**" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" HeaderText="<%$ AxLabel:@SYS5398 %>" />
+      #                    <%--                    <dynamics:AxBoundField DataField="itemDescription**" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine" HeaderText="<%$ AxLabel:@SYS92116 %>" /> --%>
+      #                    <dynamics:AxBoundField DataField="SalesQty" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine"
+      #                        SortExpression="SalesQty" />
+      #                    <dynamics:AxBoundField DataField="SalesPrice" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" SortExpression="SalesPrice" />
+      #                    <dynamics:AxBoundField DataField="LinePercent" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" SortExpression="LinePercent" />
+      #                    <dynamics:AxBoundField DataField="LineDisc" DataSet="EPSalesTableCreateTunnel" DataSetView="SalesBasketLine"
+      #                        SortExpression="LineDisc" />
+      #                    <dynamics:AxBoundField DataField="LineAmount" DataSet="EPSalesTableCreateTunnel"
+      #                        DataSetView="SalesBasketLine" SortExpression="LineAmount" />
+      #                </Columns>
+      #            </dynamics:AxGridView>
+      #            <hr />
+      #        </asp:WizardStep>
+      #    </WizardSteps>
+      #</asp:Wizard>
+      #
+    ENDSOURCE
+    SOURCEFILE
+    PROPERTIES
+      Name                #echEPReturnTableCreateTunnel_ascx_cs
+      HelpText            #
+      Filename            #echEPReturnTableCreateTunnel.ascx.cs
+      RelativePath        #ep
+      Version             #
+    ENDPROPERTIES
+    
+    SOURCE #
+      #using System;
+      #using System.Text;
+      #using System.Collections;
+      #using System.Web;
+      #using System.Web.Security;
+      #using System.Web.UI;
+      #using System.Web.UI.WebControls;
+      #using System.Web.UI.WebControls.WebParts;
+      #using System.Web.UI.HtmlControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls;
+      #using Microsoft.Dynamics.Framework.Portal.UI.WebControls.WebParts;
+      #using BCProxy = Microsoft.Dynamics.Framework.BusinessConnector.Proxy;
+      #using Microsoft.Dynamics.Framework.Data.Ax;
+      #using Microsoft.Dynamics.Framework.Metadata.Ax;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Adapter;
+      #using Microsoft.Dynamics.Framework.BusinessConnector.Session;
+      #using Microsoft.Dynamics.Framework.Portal.UI;
+      #using ApplicationProxy = Microsoft.Dynamics.Portal.Application.Proxy;
+      #using System.Collections.Generic;
+      #using Microsoft.Dynamics.Framework.Portal;
+      #
+      #public partial class echEPReturnTableCreateTunnel: System.Web.UI.UserControl
+      #{
+      #    const string VIEWSTATE_MultiSiteActive = "MultiSiteActive";
+      #
+      #    private bool isValidCustomer = false;
+      #    private bool isValidInvoiceInformation = false;
+      #    #region "Common Code for Wizard Control Header Navigation."
+      #
+      #    /// <summary>
+      #    /// Code to set the Naviagation hyperlinks in the Wizard header.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizSalesTableCreateTunnel_Init(object sender, EventArgs e)
+      #    {
+      #        //Set Wizard Buttons Text in Ax language
+      #        AxUtility.SetWizardButtonsText(wizSalesTableCreateTunnel);
+      #
+      #        PlaceHolder ph = wizSalesTableCreateTunnel.Controls[0].Controls[0].Controls[0].Controls[1] as PlaceHolder;
+      #        for (int i = 0; i < wizSalesTableCreateTunnel.WizardSteps.Count; i++)
+      #        {
+      #            int j = i;
+      #            LinkButton link = new LinkButton();
+      #            link.Text = wizSalesTableCreateTunnel.WizardSteps[j].Title;
+      #            link.Command += delegate { wizSalesTableCreateTunnel.ActiveStepIndex = Math.Min(j, wizSalesTableCreateTunnel.ActiveStepIndex); };
+      #            link.Font.Underline = false;
+      #            ph.Controls.Add(link);
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Code to set the Naviagation hyperlinks in the Wizard header.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizSalesTableCreateTunnel_PreRender(object sender, EventArgs e)
+      #    {
+      #        System.Web.UI.WebControls.Label lbl;
+      #
+      #        // show links for only old pages
+      #        PlaceHolder ph = wizSalesTableCreateTunnel.Controls[0].Controls[0].Controls[0].Controls[1] as PlaceHolder;
+      #        for (int i = ph.Controls.Count - 1; i >= wizSalesTableCreateTunnel.ActiveStepIndex; i--)
+      #            ph.Controls.RemoveAt(i);
+      #        for (int i = 0; i < wizSalesTableCreateTunnel.ActiveStepIndex; i++)
+      #        {
+      #            lbl = new System.Web.UI.WebControls.Label();
+      #            lbl.Text = " > ";
+      #            ph.Controls.AddAt(2 * i + 1, lbl);
+      #        }
+      #
+      #        // current page
+      #        lbl = new System.Web.UI.WebControls.Label();
+      #        lbl.Text = wizSalesTableCreateTunnel.ActiveStep.Title;
+      #        lbl.Font.Bold = true;
+      #        ph.Controls.Add(lbl);
+      #
+      #        // future pages
+      #        for (int i = wizSalesTableCreateTunnel.ActiveStepIndex + 1; i < wizSalesTableCreateTunnel.WizardSteps.Count; i++)
+      #        {
+      #            lbl = new System.Web.UI.WebControls.Label();
+      #            lbl.Text = " > ";
+      #            ph.Controls.Add(lbl);
+      #
+      #            lbl = new System.Web.UI.WebControls.Label();
+      #            lbl.Text = wizSalesTableCreateTunnel.WizardSteps[i].Title;
+      #            ph.Controls.Add(lbl);
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// since user might navigate out-of-order (i.e. step 5 -> step 3), make previous button ignore
+      #    /// control browsing history by manually forcing index.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizSalesTableCreateTunnel_PreviousButtonClick(object sender, WizardNavigationEventArgs e)
+      #    {
+      #        Page.Validate();
+      #        if (Page.IsValid)
+      #        {
+      #            if (wizSalesTableCreateTunnel.ActiveStepIndex > 0)
+      #            {
+      #                wizSalesTableCreateTunnel.ActiveStepIndex--;
+      #            }
+      #        }
+      #        else
+      #        {
+      #            e.Cancel = true;
+      #        }
+      #    }
+      #
+      #    #endregion
+      #
+      #    /// <summary>
+      #    /// Wizard Page index.
+      #    /// </summary>
+      #    enum TabIndex
+      #    {
+      #        CustomerInfo,
+      #        InvoiceInfo,
+      #        OrderLines,
+      #        DeliveryAddress,
+      #        Administration,
+      #        Finish
+      #    }
+      #
+      #    /// <summary>
+      #    /// Enumeration types for the return values when calling a update function.
+      #    /// </summary>
+      #    enum ReturnType
+      #    {
+      #        Failure,
+      #        Success,
+      #        GotoProductBuilder
+      #    }
+      #
+      #    /// <summary>
+      #    /// Get the AxSession object.
+      #    /// </summary>
+      #    private ISession AxSession
+      #    {
+      #        get
+      #        {
+      #            AxBaseWebPart webpart = AxBaseWebPart.GetWebpart(this);
+      #            return webpart == null ? null : webpart.Session;
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Property to check whether the multisite is active or not.
+      #    /// </summary>
+      #    private bool MultiSiteActive
+      #    {
+      #        get
+      #        {
+      #            if (ViewState[VIEWSTATE_MultiSiteActive] == null)
+      #            {
+      #                ViewState[VIEWSTATE_MultiSiteActive] =
+      #                    dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("multiSiteActive");
+      #            }
+      #
+      #            return (bool)ViewState[VIEWSTATE_MultiSiteActive];
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Property to get the Current SalesTable record.
+      #    /// </summary>
+      #    private DataSetViewRow SalesTableCurrentRow
+      #    {
+      #        get
+      #        {
+      #            return this.dsSalesTableCreateTunnel.GetDataSourceView("SalesTable").DataSetView.GetCurrent();
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Delegates functions for all the events.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void Page_Init(object sender, EventArgs e)
+      #    {
+      #        wizSalesTableCreateTunnel.PreviousButtonClick += new WizardNavigationEventHandler(wizSalesTableCreateTunnel_PreviousButtonClick);
+      #        wizSalesTableCreateTunnel.NextButtonClick += new WizardNavigationEventHandler(wizSalesTableCreateTunnel_NextButtonClick);
+      #        wizSalesTableCreateTunnel.ActiveStepChanged += new EventHandler(wizSalesTableCreateTunnel_ActiveStepChanged);
+      #        wizSalesTableCreateTunnel.FinishButtonClick += new WizardNavigationEventHandler(wizSalesTableCreateTunnel_FinishButtonClick);
+      #        wizSalesTableCreateTunnel.CancelButtonClick += new EventHandler(wizSalesTableCreateTunnel_CancelButtonClick);
+      #        CustomerForm.ItemUpdating += new DetailsViewUpdateEventHandler(CustomerForm_ItemUpdating);
+      #        InvoiceInformationForm.ItemUpdating += new DetailsViewUpdateEventHandler(InvoiceInformationForm_ItemUpdating);
+      #        this.popupAddItem.PopupClosed += new EventHandler(popupAddItem_PopupClosed);
+      #        this.popupPBA.PopupClosed += new EventHandler(popupPBA_PopupClosed);
+      #
+      #    }
+      #
+      #    /// <summary>
+      #    /// 
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    void CustomerForm_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
+      #    {
+      #        try
+      #        {
+      #            isValidCustomer = (bool)dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("initialiseCustomerInfo", e.NewValues["CustAccount"]);
+      #        }
+      #        catch (Exception)
+      #        {
+      #            isValidCustomer = false;
+      #        }
+      #
+      #        e.Cancel = !isValidCustomer;
+      #    }
+      #
+      #    /// <summary>
+      #    /// 
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    void InvoiceInformationForm_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
+      #    {
+      #        try
+      #        {
+      #            isValidInvoiceInformation = (bool)dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("initialiseSalesBasketSiteAndLocation");
+      #        }
+      #        catch (Exception)
+      #        {
+      #            isValidInvoiceInformation = false;
+      #        }
+      #        e.Cancel = !isValidInvoiceInformation;
+      #    }
+      #
+      #    /// <summary>
+      #    /// Event gets fired when a new row is added from the Add Items popup.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    void popupAddItem_PopupClosed(object sender, EventArgs e)
+      #    {
+      #        this.AddItemToGrid();
+      #    }
+      #
+      #    /// <summary>
+      #    /// Event gets fired when a row is added from the Product Builder Wizard.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    void popupPBA_PopupClosed(object sender, EventArgs e)
+      #    {
+      #        BCProxy.FormDataSource dataSource = this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasketLine").DataSetView.MasterDataSource;
+      #        dataSource.reread();
+      #
+      #        //now show it  
+      #        this.OrderLinesGridView.DataBind();
+      #    }
+      #
+      #    /// <summary>
+      #    /// Page load functionality.
+      #    /// </summary>
+      #    /// <param name="e"></param>
+      #    protected override void OnLoad(EventArgs e)
+      #    {
+      #        base.OnLoad(e);
+      #
+      #        this.SetControlVisibility();
+      #    }
+      #
+      #    /// <summary>
+      #    /// Page PreRender functionality.
+      #    /// </summary>
+      #    /// <param name="e"></param>
+      #    protected override void OnPreRender(EventArgs e)
+      #    {
+      #        base.OnPreRender(e);
+      #
+      #        this.SetPopupUrl();
+      #        this.SetViewTotalUrl();
+      #    }
+      #
+      #
+      #    /// <summary>
+      #    /// Opens the Sales Total in a popup window.
+      #    /// </summary>
+      #    private void SetViewTotalUrl()
+      #    {
+      #        DataSetViewRow dsvrSalesTable = this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasket").DataSetView.GetCurrent();
+      #        string windowStatus = Labels.GetLabel("@SYS68926");
+      #
+      #        if (dsvrSalesTable != null)
+      #        {
+      #            using (IAxaptaRecordAdapter record = dsvrSalesTable.GetRecord())
+      #            {
+      #                AxUrlMenuItem urlMenuItem = new AxUrlMenuItem("EPSalesTotalsAll");
+      #                urlMenuItem.MenuItemContext = AxTableContext.Create(AxTableDataKey.Create(this.AxSession, record, null));
+      #                urlMenuItem.RemoveNavigation = true;
+      #
+      #                linkViewTotals.HRef = "#";
+      #                linkViewTotals.Attributes.Add("onfocus", "javascript: window.status = '" + windowStatus + "'");
+      #                linkViewTotals.Attributes.Add("onmouseout", "javascript: window.status = ''");
+      #                linkViewTotals.Attributes.Add("onclick", "javascript: window.open('" + urlMenuItem.Url.OriginalString + "', '', 'width=450,height=300,menubar=0,toolbar=0,status=0'); return false;");
+      #            }
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Set the URL for the popup page
+      #    /// </summary>
+      #    private void SetPopupUrl()
+      #    {
+      #        AxUrlMenuItem axUrl = new AxUrlMenuItem("EPSalesInventorySelection");
+      #        axUrl.RemoveNavigation = true;
+      #        axUrl.ExtraParams.Add("SL", "1");
+      #
+      #        if (this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasket").DataSetView.GetCurrent() != null)
+      #        {
+      #            using (IAxaptaRecordAdapter recordSalesBasket =
+      #                this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasket").DataSetView.GetCurrent().GetRecord())
+      #            {
+      #                axUrl.MenuItemContext = AxTableContext.Create(
+      #                    AxTableDataKey.Create(AxSession, recordSalesBasket, null));
+      #            }
+      #        }
+      #
+      #        this.btnAddItem.Attributes.Add("onclick",
+      #            this.popupAddItem.GetOpenPopupEventReference(axUrl) + "; return false;");
+      #    }
+      #
+      #    /// <summary>
+      #    /// Returns a field given a name. Used to loop over form and grid collections
+      #    /// </summary>
+      #    /// <param name="fields"></param>
+      #    /// <param name="name"></param>
+      #    /// <returns></returns>
+      #    static AxBoundField GetField(DataControlFieldCollection fields, string name)
+      #    {
+      #        foreach (DataControlField field in fields)
+      #        {
+      #            AxBoundField boundField = field as AxBoundField;
+      #            if (boundField != null && String.Compare(boundField.DataField, name, true) == 0)
+      #            {
+      #                return boundField;
+      #            }
+      #        }
+      #        return null;
+      #    }
+      #
+      #    /// <summary>
+      #    /// Set the visibility of the controls.
+      #    /// </summary>
+      #    private void SetControlVisibility()
+      #    {
+      #        AxTableContext context = AxBaseWebPart.GetWebpart(this).ExternalContext;
+      #
+      #        if (context != null)
+      #        {
+      #            if ((context.TableId == TableMetadata.TableNum(AxSession, "CustTable")) ||
+      #                (context.TableId == TableMetadata.TableNum(AxSession, "EPPriceCalc")))
+      #            {
+      #                wizSalesTableCreateTunnel.WizardSteps.Remove(wizSalesTableCreateTunnel.WizardSteps[0]);
+      #            }
+      #        }
+      #
+      #        AxBoundField invoiceInventSiteId = GetField(this.InvoiceInformationGroup.Fields, "InventSiteId");
+      #        invoiceInventSiteId.Visible = MultiSiteActive;
+      #
+      #        AxBoundField finishInventSiteId = GetField(this.FinishGroupCustomer.Fields, "InventSiteId");
+      #        finishInventSiteId.Visible = MultiSiteActive;
+      #
+      #        if (!this.IsSalesTypeJournal())
+      #        {
+      #            wizSalesTableCreateTunnel.WizardSteps.Remove(wizSalesTableCreateTunnel.WizardSteps[(int)TabIndex.Administration]);
+      #            FinishGroupAdminitration.Visible = false;
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Function to add the selected items to the grid.
+      #    /// </summary>
+      #    private void AddItemToGrid()
+      #    {
+      #        object[] paramValues = new object[5];
+      #
+      #        if (!string.IsNullOrEmpty(this.popupAddItem.GetFieldValue("hiddenItemId")) && this.popupAddItem.GetFieldValue("hiddenItemId") != "0")
+      #        {
+      #            // If user has modified the grid values and clicked any of the controls without updating the records. Then
+      #            // this piece of code will automatically update the records in the grid.
+      #            if (this.OrderLinesGridView.SelectedIndex != -1)
+      #            {
+      #                this.OrderLinesGridView.UpdateRow(this.OrderLinesGridView.SelectedIndex, false);
+      #            }
+      #
+      #            // Retrieve the values from the hidden variables.
+      #            paramValues[0] = string.IsNullOrEmpty(this.popupAddItem.GetFieldValue("hiddenItemId")) ? "0" : this.popupAddItem.GetFieldValue("hiddenItemId");
+      #            paramValues[1] = string.IsNullOrEmpty(this.popupAddItem.GetFieldValue("hiddenDimensionId")) ? "0" : this.popupAddItem.GetFieldValue("hiddenDimensionId");
+      #            paramValues[2] = this.popupAddItem.GetFieldValue("hiddenQuantity");
+      #            paramValues[3] = this.popupAddItem.GetFieldValue("hiddenSiteId");
+      #            paramValues[4] = this.popupAddItem.GetFieldValue("hiddenLocationId");
+      #
+      #            // Add the items to the TmpPriceCalc table.
+      #            int retValue = (int)this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("addSalesBasketLine", paramValues);
+      #
+      #            DataSetView orderLineView = this.dsSalesTableCreateTunnel.GetDataSet().DataSetViews["SalesBasketLine"];
+      #
+      #            this.OrderLinesGridView.DataBind();
+      #
+      #            if ((ReturnType)retValue == ReturnType.GotoProductBuilder)
+      #            {
+      #                DataSetViewRow dsvr = orderLineView.GetCurrent();
+      #
+      #                if (dsvr != null)
+      #                {
+      #                    AxUrlMenuItem urlMenuItem = new AxUrlMenuItem("PBAWebForm");
+      #                    urlMenuItem.MenuItemContext = AxTableContext.Create(dsvr.GetDefaultTableDataKey(orderLineView.Metadata.RootDataSource));
+      #                    this.popupPBA.OpenPopup(urlMenuItem);
+      #                }
+      #            }
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Checks whether the SalesType is Journal or not.
+      #    /// </summary>
+      #    private bool IsSalesTypeJournal()
+      #    {
+      #        if (SalesTableCurrentRow != null)
+      #        {
+      #            using (IAxaptaRecordAdapter salesTableRecord = SalesTableCurrentRow.GetRecord())
+      #            {
+      #                if (salesTableRecord != null)
+      #                {
+      #                    return ((ApplicationProxy.SalesType)salesTableRecord.GetField("SalesType") == ApplicationProxy.SalesType.Journal);
+      #                }
+      #            }
+      #        }
+      #
+      #        return false;
+      #    }
+      #
+      #    /// <summary>
+      #    /// This method is called before we go to the next step.  Perform any step-specific clean-up here. 
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizSalesTableCreateTunnel_NextButtonClick(object sender, WizardNavigationEventArgs e)
+      #    {
+      #        Page.Validate();
+      #        if (Page.IsValid)
+      #            e.Cancel = WizardStepChanged(e);
+      #        else
+      #            e.Cancel = true;
+      #    }
+      #
+      #    /// <summary>
+      #    /// This method is called after we enter the next step. Perform any step-specific initialization here. 
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizSalesTableCreateTunnel_ActiveStepChanged(object sender, EventArgs e)
+      #    {
+      #        switch (wizSalesTableCreateTunnel.WizardSteps[wizSalesTableCreateTunnel.ActiveStepIndex].ID.ToUpper())
+      #        {
+      #            case "CUSTOMERSTEP":
+      #                CustomerForm.DataBind();
+      #                break;
+      #            case "INVOICEINFORMATIONSTEP":
+      #                InvoiceInformationForm.DataBind();
+      #                break;
+      #            case "ORDERLINESSTEP":
+      #                OrderLinesGridView.DataBind();
+      #                break;
+      #            case "DELIVERYADDRESSSTEP":
+      #                DeliveryAddressForm.DataBind();
+      #                break;
+      #            case "ADMINISTRATIONSTEP":
+      #                AdministrationForm.DataBind();
+      #                break;
+      #            case "FINISHSTEP":
+      #                FinishForm.DataBind();
+      #                FinishGridView.DataBind();
+      #                break;
+      #        }
+      #    }
+      #
+      #    private bool WizardStepChanged(WizardNavigationEventArgs e)
+      #    {
+      #        bool retValue = false;
+      #
+      #
+      #        switch (wizSalesTableCreateTunnel.WizardSteps[e.CurrentStepIndex].ID.ToUpper())
+      #        {
+      #            case "CUSTOMERSTEP":
+      #                CustomerForm.UpdateItem(true);
+      #                retValue = !isValidCustomer;
+      #                break;
+      #
+      #            case "INVOICEINFORMATIONSTEP":
+      #                InvoiceInformationForm.UpdateItem(true);
+      #                retValue = !isValidInvoiceInformation;
+      #                break;
+      #
+      #            case "ORDERLINESSTEP":
+      #                retValue = !(bool)this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("validateLines");
+      #                break;
+      #
+      #            case "DELIVERYADDRESSSTEP":
+      #                DeliveryAddressForm.UpdateItem(true);
+      #                retValue = !(bool)this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("validateAddress");
+      #                break;
+      #
+      #            case "ADMINISTRATIONSTEP":
+      #                AdministrationForm.UpdateItem(true);
+      #                break;
+      #
+      #            case "FINISHSTEP":
+      #                break;
+      #        }
+      #
+      #        switch (wizSalesTableCreateTunnel.WizardSteps[e.NextStepIndex].ID.ToUpper())
+      #        {
+      #            case "DELIVERYADDRESSSTEP":
+      #                // If user has modified the grid values and clicked any of the controls without updating the records. Then
+      #                // this piece of code will automatically update the records in the grid.
+      #                if (this.OrderLinesGridView.SelectedIndex != -1)
+      #                {
+      #                    this.OrderLinesGridView.UpdateRow(this.OrderLinesGridView.SelectedIndex, false);
+      #                }
+      #
+      #                // Validate whether user has selected any items.
+      #                bool validationFailed = false;
+      #
+      #                if (this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasketLine").DataSetView.GetCurrent() != null)
+      #                {
+      #                    using (IAxaptaRecordAdapter recItems = this.dsSalesTableCreateTunnel.GetDataSourceView("SalesBasketLine").DataSetView.GetCurrent().GetRecord())
+      #                    {
+      #                        if (recItems == null)
+      #                        {
+      #                            validationFailed = true;
+      #                        }
+      #                    }
+      #                }
+      #
+      #                if (validationFailed)
+      #                {
+      #                    using (BCProxy.Info infoLog = new BCProxy.Info(AxSession.AxaptaAdapter))
+      #                    {
+      #                        infoLog.add(BCProxy.Exception.Warning, Labels.GetLabel("@SYS77622"));
+      #                        retValue = true;
+      #                    }
+      #                }
+      #
+      #                break;
+      #
+      #            case "FINISHSTEP":
+      #                this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("formatAddress");
+      #                break;
+      #        }
+      #        return retValue;
+      #    }
+      #
+      #    /// <summary>
+      #    /// Save operation and redirecting to the EPSalesTableInfo page.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizSalesTableCreateTunnel_FinishButtonClick(object sender, WizardNavigationEventArgs e)
+      #    {
+      #        try
+      #        {
+      #            // save the data.
+      #            object salesTable = this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun.AxaptaObjectAdapter.Call("createSalesOrder");
+      #
+      #            // Get the recid of the SaleTable record.
+      #            if (salesTable != null)
+      #            {
+      #                using (IAxaptaRecordAdapter recordSalesTable = this.AxSession.AxaptaAdapter.CreateAxaptaRecord(salesTable))
+      #                {
+      #                    AxUrlMenuItem urlMenuItem = new AxUrlMenuItem("EPSalesReturnItemList");
+      #                    /*urlMenuItem.MenuItemContext = AxTableContext.Create(AxTableDataKey.Create(
+      #                                this.AxSession,
+      #                                recordSalesTable,
+      #                                null));*/
+      #                    Response.Redirect(urlMenuItem.Url.OriginalString);
+      #                }
+      #            }
+      #            else
+      #            {
+      #                using (BCProxy.Info infoLog = new BCProxy.Info(AxSession.AxaptaAdapter))
+      #                {
+      #                    /*
+      #                        @SYS77621        => %1 has not been created. No lines entered.
+      #                        @SYS59595        => Sales orders
+      #                        InfoLog output   => Sales orders has not been created. No lines entered.
+      #                    */
+      #                    infoLog.add(BCProxy.Exception.Info, Labels.GetLabel("@SYS77621").Replace("%1", Labels.GetLabel("@SYS59595")));
+      #                }
+      #            }
+      #        }
+      #        catch (System.Exception ex)
+      #        {
+      #            AxExceptionCategory exceptionCategory;
+      #            // This returns true if the exception can be handled here
+      #            if (!AxControlExceptionHandler.TryHandleException(this, ex, out exceptionCategory))
+      #            {
+      #                // The exception is system fatal - in this case we re-throw.                                    
+      #                throw;
+      #            }
+      #        }
+      #    }
+      #
+      #    /// <summary>
+      #    /// Cancel operation.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void wizSalesTableCreateTunnel_CancelButtonClick(object sender, EventArgs e)
+      #    {
+      #        // Delete the records from SalesQuotationBasket & SalesQuotationBasketLine table
+      #        BCProxy.DataSetRun DataSet = this.dsSalesTableCreateTunnel.GetDataSet().DataSetRun;
+      #        DataSet.AxaptaObjectAdapter.Call("deleteSalesBasketInfo");
+      #
+      #        // Redirect the user.
+      #        if (!String.IsNullOrEmpty(AxWebSession.GetPreviousURL(this.Page)))
+      #        {
+      #            Response.Redirect(AxWebSession.GetPreviousURL(this.Page));
+      #        }
+      #        else
+      #        {
+      #            AxUrlMenuItem listpage = new AxUrlMenuItem("EPSalesTableList");
+      #            Response.Redirect(listpage.Url.OriginalString);
+      #        }
+      #    }
+      #
+      #    #region " Lookups "
+      #
+      #    /// <summary>
+      #    /// Location Id lookup.
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void LocationId_Lookup(object sender, AxLookupEventArgs e)
+      #    {
+      #        string inventSiteId = string.Empty;
+      #        DataSetViewRow dsvRow = this.dsSalesTableCreateTunnel.GetDataSourceView("SalesTable").DataSetView.GetCurrent();
+      #        if (dsvRow != null)
+      #        {
+      #            inventSiteId = (string)dsvRow.GetFieldValue("InventSiteId");
+      #        }
+      #
+      #        this.InventLocationId_Lookup((AxBoundField)sender, e.LookupControl, inventSiteId);
+      #    }
+      #
+      #    protected void InventLocationId_Lookup(AxBoundField boundField, AxLookup lookup, string inventSiteId)
+      #    {
+      #        using (BCProxy.SysDataSetBuilder sysDataSetBuilder = BCProxy.SysDataSetBuilder.constructLookupDataSet(this.AxSession.AxaptaAdapter, TableMetadata.TableNum(this.AxSession, "InventLocation")))
+      #        {
+      #            lookup.LookupDataSet = new Microsoft.Dynamics.Framework.Data.Ax.DataSet(this.AxSession, sysDataSetBuilder.toDataSet());
+      #            // DataSet has to be init'ed before accessing the data sources
+      #            lookup.LookupDataSet.Init();
+      #
+      #            ApplicationProxy.Query appQuery = ApplicationProxy.InventLocation.webLookupBySiteIdQuery(this.AxSession.AxaptaAdapter, inventSiteId);
+      #            lookup.LookupDataSet.DataSetViews[0].MasterDataSource.query(new BCProxy.Query(this.AxSession.AxaptaAdapter, appQuery.AxaptaObjectAdapter));
+      #
+      #            BCProxy.List fieldNameList = BCProxy.List.create(this.AxSession.AxaptaAdapter, ApplicationProxy.InventLocation.webLookupFields(this.AxSession.AxaptaAdapter));
+      #            BCProxy.ListEnumerator fieldNameEnumerator = fieldNameList.getEnumerator();
+      #
+      #            string fieldName;
+      #            while (fieldNameEnumerator.moveNext())
+      #            {//First field will be the selecte field.
+      #                fieldName = (string)fieldNameEnumerator.current();
+      #
+      #                lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.ViewFields[fieldName]));
+      #                if (lookup.SelectField == "")
+      #                {
+      #                    // Specify the select field
+      #                    lookup.SelectField = fieldName;
+      #                }
+      #            }
+      #        }
+      #    }
+      #
+      #
+      #    /// <summary>
+      #    /// Party Id lookup
+      #    /// </summary>
+      #    /// <param name="sender"></param>
+      #    /// <param name="e"></param>
+      #    protected void PartyId_Lookup(object sender, AxLookupEventArgs e)
+      #    {
+      #        AxLookup lookup = e.LookupControl;
+      #
+      #        // Create the lookup dataset - we will do a lookup in the CustGroup table
+      #        using (BCProxy.SysDataSetBuilder sysDataSetBuilder = BCProxy.SysDataSetBuilder.constructLookupDataSet(
+      #            this.AxSession.AxaptaAdapter, TableMetadata.TableNum(this.AxSession, "ContactPerson")))
+      #        {
+      #            // Set the run time generated data set as the lookup data set
+      #            lookup.LookupDataSet = new DataSet(this.AxSession, sysDataSetBuilder.toDataSet());
+      #        }
+      #
+      #        // DataSet has to be init'ed before accessing the data sources
+      #        lookup.LookupDataSet.Init();
+      #
+      #        // Specify the lookup fields used
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.ViewFields["Name"]));
+      #        lookup.Fields.Add(AxBoundFieldFactory.Create(this.AxSession, lookup.LookupDataSetViewMetadata.ViewFields["Email"]));
+      #
+      #        // Get the partyid, based on on the selected CustAccount.
+      #        if (this.SalesTableCurrentRow != null)
+      #        {
+      #            using (IAxaptaRecordAdapter record = SalesTableCurrentRow.GetRecord())
+      #            {
+      #                if (record != null)
+      #                {
+      #                    string custAccount = (string)record.GetField("CustAccount");
+      #
+      #                    if (!string.IsNullOrEmpty(custAccount))
+      #                    {
+      #                        // Filter the lookup 
+      #                        using (BCProxy.Query query = lookup.LookupDataSet.DataSetViews[0].MasterDataSource.query())
+      #                        {
+      #                            using (BCProxy.QueryBuildRange range = query.dataSourceNo(1).addRange(
+      #                                TableDataFieldMetadata.FieldNum(AxSession, "ContactPerson", "CustAccount")))
+      #                            {
+      #                                range.status = (int) BCProxy.RangeStatus.Hidden;
+      #                                range.value = custAccount;
+      #                            }
+      #                        }
+      #                    }
+      #                }
+      #            }
+      #        }
+      #
+      #        lookup.SelectField = "Name";
+      #    }
+      #
+      #    #endregion
+      #}
+    ENDSOURCE
+  ENDSOURCEFILE
+  
+ENDWEBCONTROL
+
+
+***Element: END

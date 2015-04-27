@@ -1,0 +1,76 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: SalesFormLetterEndMultiThread unloaded
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #SalesFormLetterEndMultiThread
+    Id 12636
+    PROPERTIES
+      Name                #SalesFormLetterEndMultiThread
+      Extends             #FormLetterEndMultiThread
+      RunOn               #Called from
+    ENDPROPERTIES
+    
+    METHODS
+      Version: 3
+      SOURCE #formLetterConstruct
+        #// Update ECH_WI_01989 by mengqi.cen on 20130312
+        #//   Route classnum(echSalesFormLetter_PickingList) to DocumentStatus::PickingList.
+        #
+        #/// <summary>
+        #/// Constructs a SalesFormLetter class based on the value of the class variable formLetterClassId.
+        #/// </summary>
+        #/// <returns>
+        #/// The constructed SalesFormLetter class.
+        #/// </returns>
+        #protected SalesFormLetter formLetterConstruct()
+        #{
+        #    // <GIN>
+        #    TaxParameters  taxParamers = TaxParameters::find();
+        #    // </GIN>
+        #    ;
+        #    switch (formLetterClassId)
+        #    {
+        #        case classnum(SalesFormLetter_Confirm) :
+        #            return SalesFormLetter::construct(DocumentStatus::Confirmation,false);
+        #
+        #        // Begin - ECH_WI_01989
+        #        case classnum(echSalesFormLetter_PickingList) :
+        #        // End - ECH_WI_01989
+        #        case classnum(SalesFormLetter_PickingList) :
+        #            return SalesFormLetter::construct(DocumentStatus::PickingList,false);
+        #
+        #        case classnum(SalesFormLetter_PackingSlip) :
+        #            return SalesFormLetter::construct(DocumentStatus::PackingSlip,false);
+        #
+        #        case classnum(SalesFormLetter_PackingSlipProject) :
+        #            return SalesFormLetter::construct(DocumentStatus::ProjectPackingSlip,false);
+        #
+        #        case classnum(SalesFormLetter_Invoice) :
+        #            return SalesFormLetter::construct(DocumentStatus::Invoice,false);
+        #
+        #        case classnum(SalesFormLetter_InvoiceProject) :
+        #            return SalesFormLetter::construct(DocumentStatus::ProjectInvoice,false);
+        #
+        #        case classnum(SalesFormLetter_FreeText) :
+        #            return SalesFormLetter::construct(DocumentStatus::FreeTextInvoice,false);
+        #
+        #        // <GIN>
+        #        case classnum(SalesFormLetter_ShippingBill_IN) :
+        #            if (taxParamers.Customs_IN)
+        #            {
+        #                return SalesFormLetter::construct(DocumentStatus::ShippingBill_IN,false);
+        #            }
+        #        // </GIN>
+        #    }
+        #    throw error(strfmt("@SYS19306",funcname()));
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END

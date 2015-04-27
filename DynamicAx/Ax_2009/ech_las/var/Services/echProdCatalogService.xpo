@@ -1,0 +1,44 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: SVC
+
+; Microsoft Dynamics AX SERVICE : echProdCatalogService unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  SERVICE #echProdCatalogService
+    PROPERTIES
+      Name                #echProdCatalogService
+      ExternalName        #echProdCatalogService
+      Namespace           #http://schemas.microsoft.com/dynamics/2008/01/services
+      Class               #echProdCatalogService
+      SecurityKey         #echProductCatalogService
+      Description         #
+    ENDPROPERTIES
+    
+    OPERATIONS
+      OPERATION #find
+        PROPERTIES
+          Name                #find
+          Method              #find
+          EnableIdempotence   #No
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+      OPERATION #read
+        PROPERTIES
+          Name                #read
+          Method              #read
+          EnableIdempotence   #No
+        ENDPROPERTIES
+        
+      ENDOPERATION
+      
+    ENDOPERATIONS
+    
+  ENDSERVICE
+  
+
+***Element: END
