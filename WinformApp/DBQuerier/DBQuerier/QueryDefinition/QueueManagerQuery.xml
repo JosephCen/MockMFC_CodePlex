@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>Queue Manager</QureyName>
+  <QueryString>
+    <![CDATA[
+    select '' ChannelId, 'Outbound' Direction
+         , dateAdd(hh, 8, CreatedDatetime) CreatedDatetime
+         , case [Status]
+             when 1 then 'Ready'
+             when 2 then 'InProcess'
+             when 3 then 'Hold'
+             when 4 then 'Error'
+             when 6 then 'MalformedXML'
+             else 'UnKnown'
+           end 'Status'
+         , '' SourceEndPointId, DestinationEndPointId, ErrorMessage, ActionId
+         , '' XmlDocument
+     from AifOutboundProcessingQueue
+    union all
+    select ChannelId
+         , case Direction
+             when 1 then 'Outbound'
+             when 2 then 'Inbound'
+             else 'Unknown'
+           end Direction
+         , dateAdd(hh, 8, CreatedDatetime) CreatedDatetime
+         , case [Status]
+             when 1 then 'Ready'
+             when 2 then 'InProcess'
+             when 3 then 'Hold'
+             when 4 then 'Error'
+             when 6 then 'MalformedXML'
+             else 'UnKnown'
+           end 'Status'
+         , SourceEndPointId, DestinationEndPointId, ErrorMessage, ActionId
+         , MessageXml XmlDocument
+     from AifGatewayQueue
+    ]]>
+  </QueryString>
+  <ContextMenu>
+    <MenuItemXmlViewer ItemName="View Xml">
+      <SourceColumn>XmlDocument</SourceColumn>
+    </MenuItemXmlViewer>
+  </ContextMenu>
+</QueryDefination>

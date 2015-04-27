@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>Test Query</QureyName>
+  <QueryString>
+    select O.name, O.object_id, O.parent_object_id, O.type, O.type_desc, O.create_date, O.modify_date
+    from sys.all_objects O
+    where O.object_id != 0
+      and O.type = @type  -- {type}
+  </QueryString>
+  <Parameter Name="type" ParameterType="TrimStr" />
+  <ExtraColumn ColumnName="ExtraCol" SourceColumn="name">
+    <xPath></xPath>
+  </ExtraColumn>
+</QueryDefination>

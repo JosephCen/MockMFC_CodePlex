@@ -136,7 +136,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="QueryDefinition\DocumentHistoryInvOnHandQuery.xml" />
+    <None Include="QueryDefinition\DocumentHistoryQuery.xml" />
+    <None Include="QueryDefinition\DocumentHistoryRetAIQuery.xml" />
+    <None Include="QueryDefinition\DocumentHistorySOCreationQuery.xml" />
+    <None Include="QueryDefinition\QueueManagerQuery.xml" />
+    <None Include="QueryDefinition\ReplacementSOQuery.xml" />
+    <None Include="QueryDefinition\ReturnOrderExtMsgQuery.xml" />
+    <None Include="QueryDefinition\ReturnOrderIAJournalQuery.xml" />
+    <None Include="QueryDefinition\ReturnOrderIAMsgQuery.xml" />
+    <None Include="QueryDefinition\SalesOrderMsgQuery.xml" />
+    <None Include="QueryDefinition\SOPickingListQuery.xml" />
+    <None Include="QueryDefinition\TestQueryDef.xml" />
+    <None Include="QueryDefinition\XmlQueryDef.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\xsd.exe" "$(ProjectDir)DataObj\QueryDef.xsd" /c /l:CS /n:DBQuerier.DataObj</PreBuildEvent>

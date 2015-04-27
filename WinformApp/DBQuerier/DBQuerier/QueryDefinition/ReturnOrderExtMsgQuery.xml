@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>RO External Message</QureyName>
+  <QueryString>
+    <![CDATA[
+    with
+    ExROMsg as
+    (select ExRO.echMsgPartnerId, ExRO.echMsgPartnerExtCode, ExRO.OriginalOrderId, ExRO.DataAreaId
+         , AIF.RecId, MSG.CreatedDatetime, AIF.MessageId
+         , rank() over ( partition by ExRO.RecId order by MSG.CreatedDatetime desc ) CreatedRank
+     from echReturnOrderTable ExRO
+          inner join AifCorrelation AIF
+                     inner join AifMessageLog MSG
+                             on AIF.DataAreaId = MSG.DataAreaId
+                                and AIF.MessageId = MSG.MessageId
+                  on AIF.DataAreaId = ExRO.DataAreaId
+                     and AIF.EntityTableId = 30059 and AIF.EntityRecId = ExRO.RecId)
+    select M.echMsgPartnerId, M.OriginalOrderId, RoT.SalesId ReturnSalesId
+         , DateAdd(hh, 8, M.CreatedDatetime) CreatedDatetime, M.MessageId
+         , D.DocumentXml
+     from ExROMsg M
+          inner join AifDocumentLog D
+                  on M.MessageId = D.MessageId
+                     and D.DataAreaId = M.DataAreaId
+          left join SalesTable RoT
+                 on M.DataAreaId = RoT.DataAreaId
+                    and M.echMsgPartnerId = RoT.echMsgPartnerId and M.echMsgPartnerExtCode = RoT.echExternalROId
+    where M.DataAreaId = 'las'
+      and RoT.SalesId = @ReturnSalesId           -- {ReturnSalesId}
+      and M.OriginalOrderId = @SalesExtId        -- {SalesExtId}
+    ]]>
+  </QueryString>
+  <Parameter Name="ReturnSalesId" ParameterType="TrimStr" />
+  <Parameter Name="SalesExtId" ParameterType="TrimStr" />
+  <ExtraColumn ColumnName="ExtReturnId" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='EchMsgPartnerExtCode']</xPath>
+  </ExtraColumn>
+  <ContextMenu>
+    <MenuItemXmlViewer ItemName="View Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+    </MenuItemXmlViewer>
+    <MenuItemXmlSaver ItemName="Save Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+      <SourceColumn>ReturnSalesId</SourceColumn>
+    </MenuItemXmlSaver>
+  </ContextMenu>
+</QueryDefination>

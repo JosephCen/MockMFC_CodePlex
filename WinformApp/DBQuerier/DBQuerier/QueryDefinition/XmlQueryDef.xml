@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>Test Xml</QureyName>
+  <QueryString>
+    select top 10 ProcessName, DocumentXml, MessageId, CreatedDatetime
+     from AifDocumentLog D
+    where D.DataAreaId = 'las'
+      and D.RecId = @Recid     -- {RecId}
+      and D.MessageId = @MsgId -- {MsgId} 
+  </QueryString>
+  <Parameter Name="RecId" ParameterType="Int64" />
+  <Parameter Name="MsgId" ParameterType="Guid" />
+  <ExtraColumn ColumnName="XmlVal" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='echAggStatus']</xPath><!--//SalesOrder/SalesTable/echAggStatus[1]-->
+  </ExtraColumn>
+</QueryDefination>
