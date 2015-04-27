@@ -85,6 +85,51 @@ namespace DBQuerier.DatabaseObj
             dataTable.AcceptChanges();
         }
 
+        public DataTable AddExtraColumn(DataTable dataTable)
+        {
+            DataTable newDataTbl = new DataTable();
+            IDictionary<String, Int32> colNameSet =
+                dataTable.Columns.Cast<DataColumn>().ToDictionary(c => c.ColumnName, c => c.Ordinal, StringComparer.Ordinal);
+            List<IDataColumnConverter> colConverterList = new List<IDataColumnConverter>();
+
+            newDataTbl.Columns.AddRange(
+                dataTable.Columns.Cast<DataColumn>().Select(c => new DataColumn(c.ColumnName, c.DataType)).ToArray());
+
+            foreach (ExtraColumnDef eachExtraCol in m_ExtraColDefs)
+            {
+                if (colNameSet.ContainsKey(eachExtraCol.SourceColumn))
+                {
+                    IDataColumnConverter colConverter = CreateColumnConverter(eachExtraCol);
+
+                    colConverter.ColumnIndex = colNameSet[eachExtraCol.SourceColumn];
+                    colConverterList.Add(colConverter);
+                    newDataTbl.Columns.Add(eachExtraCol.ColumnName, typeof(String));
+                }
+            }
+
+            Int32 origRowLen = dataTable.Columns.Count;
+            Int32 rowLen = newDataTbl.Columns.Count;
+            Object[] rowData = new Object[rowLen];
+
+            foreach (DataRow r in dataTable.Rows)
+            {
+                DataRow newRow = newDataTbl.NewRow();
+
+                Array.Copy(r.ItemArray, rowData, r.ItemArray.Length);
+                for (Int32 i = 0; i < colConverterList.Count; ++i)
+                {
+                    IDataColumnConverter colConverter = colConverterList[i];
+
+                    rowData[origRowLen + i] = colConverter.Convert(rowData[colConverter.ColumnIndex]);
+                }
+                newRow.ItemArray = rowData;
+                newDataTbl.Rows.Add(newRow);
+            }
+            newDataTbl.AcceptChanges();
+
+            return newDataTbl;
+        }
+
         private IDataColumnConverter CreateColumnConverter(ExtraColumnDef columnDef)
         {
             return (new XmlColumnConverter(columnDef));

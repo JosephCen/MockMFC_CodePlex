@@ -7,11 +7,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using DBQuerier.DataObj;
+using Common.Database;
 
 
 namespace DBQuerier.DatabaseObj
 {
-    class ExQuery
+    class ExQuery : BaseSqlDataQuery
     {
         private QueryDefType m_QueryDef;
         private KeyValuePair<String, String>[] m_QureyLineArr;
@@ -173,6 +174,30 @@ namespace DBQuerier.DatabaseObj
         public ContextMenuDef ContextMenuDef
         {
             get { return m_QueryDef.ContextMenu; }
+        }
+
+        #region BaseSqlDataQuery Member
+
+        protected override String GetConnectionString()
+        {
+            return DBQuerierConfig.Instance.GetConnectionString();
+        }
+
+        protected override void RunQuery_Impl(SqlDataQueryContext ctx)
+        {
+            // Base class 'BaseSqlDataQuery' is not suitable for current class 'ExQuery'.
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        private class QueryArg
+        {
+            public SearchParameterSet[] SearchParmSets
+            { get; set; }
+
+            public DataTable RetDataTable
+            { get; set; }
         }
     }
 }
