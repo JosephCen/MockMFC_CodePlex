@@ -135,14 +135,14 @@ namespace WordAssistant
                 if (MessageBoxResult.Yes == dlgRet)
                 {
                     wndParams = (WindowParams)e.Result;
-                    OpenDestDirAndSeletFile(wndParams.FinalMp3File);
+                    OpenDestDirAndSelectFile(wndParams.FinalMp3File);
                 }
             }
             progBar.Visibility = Visibility.Hidden;
             gridWholeWnd.IsEnabled = true;
         }
 
-        private void OpenDestDirAndSeletFile(String fileName)
+        private void OpenDestDirAndSelectFile(String fileName)
         {
             // Reference 
             //    http://bbs.csdn.net/topics/360258100
