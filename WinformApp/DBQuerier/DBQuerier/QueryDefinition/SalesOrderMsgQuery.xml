@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>SO Message</QureyName>
+  <QueryString>
+    <![CDATA[
+    with
+    SOMsg as
+    (select ST.SalesId, ST.echMsgPartnerId, ST.echMsgPartnerExtCode, ST.DataAreaId, ST.CreatedBy, AIF.RecId, MSG.CreatedDatetime, AIF.MessageId
+          , rank() over ( partition by ST.SalesId order by MSG.CreatedDatetime desc ) CreatedRank
+     from SalesTable ST
+          inner join AifCorrelation AIF
+                     inner join AifMessageLog MSG
+                             on AIF.DataAreaId = MSG.DataAreaId
+                                and AIF.MessageId = MSG.MessageId
+                  on AIF.DataAreaId = ST.DataAreaId
+                     and AIF.EntityTableId = 366 and AIF.EntityRecId = ST.RecId)
+    select M.SalesId, M.echMsgPartnerId, M.echMsgPartnerExtCode
+         , dateAdd(hh, 8, M.CreatedDatetime) CreatedDatetime, M.CreatedBy OrderCreatedBy, M.MessageId
+         , D.DocumentXml
+    from SOMsg M
+         inner join AifDocumentLog D
+                 on M.MessageId = D.MessageId
+                    and D.DataAreaId = M.DataAreaId
+    where M.DataAreaId = 'las'
+      and M.SalesId = @SalesId                    -- {SalesId}
+      and M.echMsgPartnerExtCode = @SalesExtId    -- {SalesExtId}
+    ]]>
+  </QueryString>
+  <Parameter Name="SalesId" ParameterType="TrimStr" TableField="M.SalesId" />
+  <Parameter Name="SalesExtId" ParameterType="TrimStr" TableField="M.echMsgPartnerExtCode" />
+  <ExtraColumn ColumnName="AggStatus" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='echAggStatus']</xPath>
+  </ExtraColumn>
+  <ExtraColumn ColumnName="SkuIds" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='EchSkuId']</xPath>
+  </ExtraColumn>
+  <ExtraColumn ColumnName="LinePromotion" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='echSOPromotionsLine']/*[local-name()='Amount' and number(text())>0]</xPath>
+  </ExtraColumn>
+  <ContextMenu>
+    <MenuItemXmlViewer ItemName="View Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+    </MenuItemXmlViewer>
+    <MenuItemXmlSaver ItemName="Save Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+      <SourceColumn>SalesId</SourceColumn>
+      <SaveDirectory>D:\Joseph_Data\ProjectData\MyProgram\CSharp\DBQuerier\DBQuerier\SaveXmlFolder</SaveDirectory>
+    </MenuItemXmlSaver>
+  </ContextMenu>
+</QueryDefination>

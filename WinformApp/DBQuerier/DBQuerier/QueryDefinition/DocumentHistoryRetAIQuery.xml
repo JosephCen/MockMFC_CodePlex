@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>Document History (Return AI)</QureyName>
+  <QueryString>
+    <![CDATA[
+    select top 100
+          M.ActionId, M.ExternalAction, M.SourceEndPointId, M.DestinationEndPointId, M.MessageId
+         , dateAdd(hh, 8, M.CreatedDatetime) CreatedDatetime, D.[Version], D.DocumentXml
+     from AifMessageLog M
+          inner join AifDocumentLog D
+                     on M.DataAreaId = D.DataAreaId
+                        and M.MessageId = D.MessageId
+    where M.DataAreaId = 'las'
+      and M.ActionId = 'echReturnOrderArrivalService.create'
+      and M.SourceEndPointId = @SrcEndPointId                      -- {SrcEndPointId}
+      and M.DestinationEndPointId = @DestEndPointId                -- {DestEndPointId}
+      and D.[Version] = @DocVersion                                -- {DocVersion}
+      and M.CreatedDatetime <= dateAdd(hh, -8, @CreatedDT_UB)      -- {CreatedDT_UB}
+      and M.CreatedDatetime >= dateAdd(hh, -8, @CreatedDT_LB)      -- {CreatedDT_LB}
+    order by M.CreatedDatetime desc, D.[Version]
+    ]]>
+  </QueryString>
+  <Parameter Name="SrcEndPointId" ParameterType="TrimStr" />
+  <Parameter Name="DestEndPointId" ParameterType="TrimStr" />
+  <Parameter Name="DocVersion" ParameterType="Integer" />
+  <Parameter Name="CreatedDT_UB" ParameterType="DateTime"/>
+  <Parameter Name="CreatedDT_LB" ParameterType="DateTime"/>
+  <ExtraColumn ColumnName="OrigSalesId" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='ReturnItemNum']</xPath>
+  </ExtraColumn>
+  <ExtraColumn ColumnName="ReturnId" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='WMSArrivalOverviewTmp']/*[local-name()='InventTransRefId']</xPath>
+  </ExtraColumn>
+  <ExtraColumn ColumnName="SkuIds" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='EchSkuId']</xPath>
+  </ExtraColumn>
+  <ContextMenu>
+    <MenuItemXmlViewer ItemName="View Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+    </MenuItemXmlViewer>
+  </ContextMenu>
+</QueryDefination>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>SO Picking List</QureyName>
+  <QueryString>
+    <![CDATA[
+    with
+    PRMsg as
+    (select ST.SalesId, ST.echMsgPartnerId, ST.echMsgPartnerExtCode, ST.DataAreaId, ST.CreatedBy, AIF.RecId, MSG.CreatedDatetime, AIF.MessageId
+          , PR.transRefId
+     from WMSPickingRoute PR
+          inner join AifCorrelation AIF
+                     inner join AifMessageLog MSG
+                             on AIF.DataAreaId = MSG.DataAreaId
+                                and AIF.MessageId = MSG.MessageId
+                  on AIF.DataAreaId = PR.DataAreaId
+                     and AIF.EntityTableId = 680 and AIF.EntityRecId = PR.RecId
+          inner join SalesTable ST
+                  on ST.DataAreaId = PR.DataAreaId
+                     and ST.SalesId = PR.transRefId)
+    select M.SalesId, M.echMsgPartnerId, M.echMsgPartnerExtCode
+         , dateAdd(hh, 8, M.CreatedDatetime) CreatedDatetime, M.CreatedBy OrderCreatedBy, M.MessageId
+         , D.DocumentXml
+    from PRMsg M
+         inner join AifDocumentLog D
+                 on M.MessageId = D.MessageId
+                    and D.DataAreaId = M.DataAreaId
+    where M.DataAreaId = 'las'
+      and M.transRefId = @SalesId                  -- {SalesId}
+    ]]>
+  </QueryString>
+  <Parameter Name="SalesId" ParameterType="TrimStr" TableField="M.SalesId" />
+  <ContextMenu>
+    <MenuItemXmlViewer ItemName="View Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+    </MenuItemXmlViewer>
+  </ContextMenu>
+</QueryDefination>

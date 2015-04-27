@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>Replacement SO</QureyName>
+  <QueryString>
+    <![CDATA[
+    select RO.SalesId, RO.EchMsgPartnerId, RO.EchMsgPartnerExtCode
+         , SO.SalesId, SO.EchMsgPartnerId, SO.EchMsgPartnerExtCode, SO.CreatedBy
+     from SalesTable RO
+          inner join SalesTable SO
+                  on RO.DataAreaId = SO.DataAreaId
+                     and SO.SalesType = 3  -- Sales Order
+                     and RO.ReturnItemNum = SO.ReturnItemNum
+    where RO.DataAreaId = 'las'
+      and RO.SalesType = 4 -- Return Order
+      and RO.SalesId = @ReturnSalesId     -- {ReturnSalesId}
+    ]]>
+  </QueryString>
+  <Parameter Name="ReturnSalesId" ParameterType="TrimStr" TableField="RO.SalesId" />
+</QueryDefination>

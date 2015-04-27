@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>RO IA Message</QureyName>
+  <QueryString>
+    <![CDATA[
+    with
+    ROIAMsg as
+    (select JL.InventTransRefId, JH.JournalId, AIF.RecId, MSG.CreatedDatetime, AIF.MessageId
+          , rank() over (partition by JL.InventTransRefId order by MSG.CreatedDatetime desc) CreatedRank
+      from AifCorrelation AIF
+           inner join WMSJournalTable JH
+                      inner join WMSJournalTrans JL
+                              on JH.DataAreaId = JL.DataAreaId
+                                 and JH.JournalId = JL.JournalId
+                   on AIF.DataAreaId = JH.DataAreaId
+                      and AIF.EntityTableId = 670 and AIF.EntityRecId = JH.RecId
+           inner join AifMessageLog MSG
+                   on AIF.DataAreaId = MSG.DataAreaId
+                      and AIF.MessageId = MSG.MessageId)
+    select M.InventTransRefId, M.JournalId, DateAdd(hh, 8, M.CreatedDatetime) CreatedDatetime, M.MessageId
+         , D.DocumentXml
+      from ROIAMsg M
+           inner join AifDocumentLog D
+                   on M.MessageId = D.MessageId
+                      and D.DataAreaId = 'las'
+      where M.InventTransRefId = @ReturnSalesId   -- {ReturnSalesId}
+    ]]>
+  </QueryString>
+  <Parameter Name="ReturnSalesId" ParameterType="TrimStr" TableField="M.InventTransRefId" />
+  <ExtraColumn ColumnName="SkuIds" SourceColumn="DocumentXml">
+    <xPath>//*[local-name()='WMSArrivalDetailTmp']/*[local-name()='EchSkuId']</xPath>
+  </ExtraColumn>
+  <ContextMenu>
+    <MenuItemXmlViewer ItemName="View Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+    </MenuItemXmlViewer>
+    <MenuItemXmlSaver ItemName="Save Xml">
+      <SourceColumn>DocumentXml</SourceColumn>
+      <SourceColumn>InventTransRefId</SourceColumn>
+      <SourceColumn>JournalId</SourceColumn>
+    </MenuItemXmlSaver>
+  </ContextMenu>
+</QueryDefination>

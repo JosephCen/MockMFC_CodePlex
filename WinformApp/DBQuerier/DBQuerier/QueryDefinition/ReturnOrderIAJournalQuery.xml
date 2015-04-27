@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>RO IA Journal</QureyName>
+  <QueryString>
+    <![CDATA[
+    select JL.InventTransRefId, JH.JournalId, JL.ItemId, JL.InventDimId
+         , JL.CreatedBy, JL.ReturnDispositionCodeId DispositionCodeId
+      from WMSJournalTable JH
+           inner join WMSJournalTrans JL
+                   on JH.DataAreaId = JL.DataAreaId
+                      and JH.JournalId = JL.JournalId
+      where JL.DataAreaId = 'las'
+        and JL.InventTransRefId = @ReturnSalesId   -- {ReturnSalesId}
+    ]]>
+  </QueryString>
+  <Parameter Name="ReturnSalesId" ParameterType="TrimStr" TableField="JL.InventTransRefId" />
+</QueryDefination>
