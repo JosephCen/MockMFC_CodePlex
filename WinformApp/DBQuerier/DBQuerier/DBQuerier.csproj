@@ -153,7 +153,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\xsd.exe" "$(ProjectDir)DataObj\QueryDef.xsd" /c /l:CS /n:DBQuerier.DataObj</PreBuildEvent>
+    <PreBuildEvent>IF DEFINED ProgramFiles(x86) (
+  "%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v7.0A\Bin\xsd.exe" "$(ProjectDir)DataObj\QueryDef.xsd" /c /l:CS /n:DBQuerier.DataObj
+) ELSE (
+  "%25ProgramFiles%25\Microsoft SDKs\Windows\v7.1\Bin\xsd.exe" "$(ProjectDir)DataObj\QueryDef.xsd" /c /l:CS /n:DBQuerier.DataObj
+)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
