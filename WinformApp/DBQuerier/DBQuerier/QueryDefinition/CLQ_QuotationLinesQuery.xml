@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<QueryDefination xmlns="http://tempuri.org/QueryDef.xsd">
+  <QureyName>Get Quotation and Lines</QureyName>
+  <QueryString>
+    <![CDATA[
+      SELECT q.quotationCode, qsg.quotationSubGroupCode, qsg.isCustomerPackage
+           , ql.quotationLineSqlId QL_quotationLineSqlId, ql.quotationLineIncId QL_quotationLineIncId, ql.quotationLineOrder QuoLineOrder, t.testCode, ql.additionalColumn2, ql.additionalColumn4, ql.additionalColumn6
+           , qle.quotationLineSqlId QLE_quotationLineSqlId, qle.commercialItemCode
+      FROM Quotations q
+           INNER JOIN QuotationsLines ql
+                      LEFT JOIN QuotationsSubGroupsQuotationsLines sgl
+                                INNER JOIN QuotationsSubGroups qsg
+                                        ON qsg.quotationSubGroupIncId = sgl.quotationSubGroupIncId AND qsg.quotationSubGroupSqlId = sgl.quotationSubGroupSqlId
+                                           AND qsg.isDeleted = 0x0
+                             ON sgl.quotationLineSqlId = ql.quotationLineSqlId AND sgl.quotationLineIncId = ql.quotationLineIncId
+                                AND sgl.isDeleted = 0x0
+                      LEFT JOIN Local_QuotationsLinesExtended qle
+                             ON qle.quotationLineIncId = ql.quotationLineIncId AND qle.quotationLineSqlId = ql.quotationLineSqlId
+                      LEFT JOIN Tests t
+                             ON ql.testSqlId = t.testSqlId AND ql.testIncId = t.testIncId
+                   ON ql.quotationSqlId = q.quotationSqlId AND ql.quotationIncId = q.quotationIncId
+                      AND ql.isDeleted = 0x0
+      WHERE q.quotationCode = @QuotationCode  -- {QuotationCode}
+    ]]>
+  </QueryString>
+  <Parameter Name="QuotationCode" ParameterType="TrimStr" />
+</QueryDefination>
