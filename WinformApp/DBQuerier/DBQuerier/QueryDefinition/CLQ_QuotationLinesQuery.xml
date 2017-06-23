@@ -5,7 +5,8 @@
     <![CDATA[
       SELECT q.quotationCode, qsg.quotationSubGroupCode, qsg.isCustomerPackage
            , ql.quotationLineSqlId QL_quotationLineSqlId, ql.quotationLineIncId QL_quotationLineIncId, ql.quotationLineOrder QuoLineOrder, t.testCode, ql.additionalColumn2, ql.additionalColumn4, ql.additionalColumn6
-           , qle.quotationLineSqlId QLE_quotationLineSqlId, qle.commercialItemCode
+           , qle.quotationLineSqlId QLE_quotationLineSqlId, qle.quotationLineIncId QLE_quotationLineIncId, qle.commercialItemCode
+           , qsg.quotationSubGroupSqlId, qsg.quotationSubGroupIncId
       FROM Quotations q
            INNER JOIN QuotationsLines ql
                       LEFT JOIN QuotationsSubGroupsQuotationsLines sgl
