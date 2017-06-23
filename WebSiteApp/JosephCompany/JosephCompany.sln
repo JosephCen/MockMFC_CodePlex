@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Web.Mvc", "Presentation.Web.Mvc\Presentation.Web.Mvc.csproj", "{8260702D-FA62-40BD-B0D3-9AE96733BE23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Web.Security", "Core.Web.Security\Core.Web.Security.csproj", "{488DEC18-49EC-427B-A911-8341BF53CB5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Web.ShareBlock", "Core.Web.ShareBlock\Core.Web.ShareBlock.csproj", "{F7AAB19B-BAB8-4430-BCE0-FEC2A6C03AEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8260702D-FA62-40BD-B0D3-9AE96733BE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8260702D-FA62-40BD-B0D3-9AE96733BE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8260702D-FA62-40BD-B0D3-9AE96733BE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{488DEC18-49EC-427B-A911-8341BF53CB5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{488DEC18-49EC-427B-A911-8341BF53CB5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{488DEC18-49EC-427B-A911-8341BF53CB5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{488DEC18-49EC-427B-A911-8341BF53CB5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7AAB19B-BAB8-4430-BCE0-FEC2A6C03AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AAB19B-BAB8-4430-BCE0-FEC2A6C03AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AAB19B-BAB8-4430-BCE0-FEC2A6C03AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AAB19B-BAB8-4430-BCE0-FEC2A6C03AEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
