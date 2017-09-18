@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" #>
+<#@ import namespace="System" #>
+<#@ import namespace="CLQCodeGen.CodeTemplates.SubTemplates" #>
+
+<#+
+        protected void WriteSubTemplate(Type templateType, params object[] parameters)
+        {
+            var subTemplate = (BaseSubTemplate)Activator.CreateInstance(templateType, parameters);
+
+            Write(subTemplate.TransformText());
+        }
+#>

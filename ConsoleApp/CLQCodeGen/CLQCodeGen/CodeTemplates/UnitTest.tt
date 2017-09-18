@@ -1,0 +1,138 @@
+﻿<#@ template language="C#" inherits="BaseMainTemplate" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="CLQCodeGen.CodeTemplates.SubTemplates" #>
+<#
+    WriteSubTemplate(typeof(CopyRight), GetUnitTestClassName());
+#>
+<#
+    PrintNamespaces();
+#>
+
+namespace <#= GetUnitTestNamespace() #>
+{
+    [TestClass]
+    public class <#= GetUnitTestClassName() #>
+    {
+        #region Fields
+
+        private <#= GetTargetTypeName() #> <#= GetTargetFieldName() #>;
+
+<#
+    var mockFieldAndTypeList = GetMockFieldAndTypeList();
+
+    foreach (var fieldAndType in mockFieldAndTypeList)
+    {
+        WriteLine($"        private Mock<{fieldAndType.TypeName}> {fieldAndType.Name};");
+    }
+#>
+
+        #endregion
+
+        #region Test Initialise
+
+        [TestInitialize]
+        public void TestInitialise()
+        {
+<#
+    foreach (var fieldAndType in mockFieldAndTypeList)
+    {
+        WriteLine($"            {fieldAndType.Name} = new Mock<{fieldAndType.TypeName}>();");
+    }
+#>
+
+            <#= GetTargetFieldName() #> = new <#= GetTargetTypeName() #>(<#
+    if (mockFieldAndTypeList.Count > 0)
+        WriteLine("");
+
+    for (int i = 0; i < mockFieldAndTypeList.Count; ++i)
+    {
+	    var fieldAndType = mockFieldAndTypeList[i];
+	    var space = "                                    ";
+
+        Write($"{space}{fieldAndType.Name}.Object");
+        if (i + 1 < mockFieldAndTypeList.Count)
+        {
+		    WriteLine(",");
+        }
+    }
+    WriteLine(");");
+
+    foreach (var fieldAndType in mockFieldAndTypeList)
+    {
+        if (fieldAndType.TypeName.Contains("AspectLoader"))
+        {
+            WriteSubTemplate(typeof(SetupAspectLoaderMock), fieldAndType);
+        }
+    }
+#>
+        }
+
+        #endregion
+
+<#
+    WriteSubTemplate(typeof(ConstructorTestMethods), GetTargetTypeName());
+#>
+
+        #region Test Methods
+
+<#
+    foreach (var methodInfo in GetMethodList())
+    {
+#>
+        [TestMethod, TestCategory(TestCategory.UnitTest)]
+        public void <#= GetTargetTypeName() #>_<#= methodInfo.Name #>_()
+        {
+<#
+    if (methodInfo.GetParameters().Any())
+    {
+        var isFirstParam = true;
+
+        Write($"            // {methodInfo.Name}(");
+        foreach (var paramInfo in methodInfo.GetParameters())
+        {
+            Write(isFirstParam ? "" : ", ");
+            Write($"{paramInfo.ParameterType.Name} {paramInfo.Name}");
+            isFirstParam = false;
+        }
+        WriteLine(")");
+    }
+#>
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
+
+<#
+    }
+#>
+        #endregion
+    }
+}
+<#+
+    private void PrintNamespaces()
+    {
+        var namespaceList = GetNamespaces();
+
+        foreach (var ns in namespaceList.Distinct().OrderBy(s => s))
+	    {
+	        WriteLine($"using {ns};");
+	    }
+    }
+
+    private string GetTargetTypeName()
+	{
+	    return GetTargetType().Name;
+	}
+
+	private string GetTargetTypeNameSpace()
+	{
+	    return GetTargetType().Namespace;
+	}
+#>

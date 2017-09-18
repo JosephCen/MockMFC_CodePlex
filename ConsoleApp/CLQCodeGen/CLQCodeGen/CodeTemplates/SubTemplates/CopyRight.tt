@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" inherits="BaseSubTemplate" #>
+//-----------------------------------------------------------------------
+// <copyright file="<#= GetClassName() #>.cs" company="Eurofins">
+//  Copyright <#= GetCurrentYear() #> Eurofins Scientific Ltd, Ireland
+//  Usage reserved to Eurofins Global Franchise Model subscribers.
+// </copyright>
+//-----------------------------------------------------------------------
+

@@ -1,0 +1,28 @@
+﻿<#@ template language="C#" inherits="BaseSubTemplate" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+    foreach (var methodInfo in GetAllMethods())
+    {
+        if (GetIsReturnGenericList(methodInfo) && GetIsSingleReferenceParameter(methodInfo))
+        {
+            var parameterType0 = GetParameterGenericType(methodInfo, 0);
+            var returnType = GetReturnListGenericType(methodInfo);
+            var returnListName = $"{GetVariableNameFromType(returnType)}List";
+#>
+
+            var <#= returnListName #> = new List<<#= returnType.Name #>>
+            {
+                // new EmployeeAspect(),
+                // new EmployeeAspect()
+            };
+
+            <#= GetMockVariableName() #>
+                .Setup(g => g.<#= GetMethodName(methodInfo) #>(It.IsAny<IList<<#= parameterType0.Name #>>>()))
+                .Returns<IList<<#= parameterType0.Name #>>>(
+                    rs => <#= returnListName #>.Where(a => rs.Any(r => r.Equals(a.Reference))).ToList());
+<#
+        }
+    }
+#>

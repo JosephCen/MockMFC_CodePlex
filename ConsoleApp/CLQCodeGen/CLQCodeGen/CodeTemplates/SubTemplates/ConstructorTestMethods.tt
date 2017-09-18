@@ -1,0 +1,35 @@
+﻿<#@ template language="C#" inherits="BaseSubTemplate" #>
+        #region Constructor
+
+        [TestMethod, TestCategory(TestCategory.UnitTest)]
+        public void <#= GetTargetTypeName() #>_ServiceLocator_the_class_is_registered_as_<#= GetTargetInterfaceName() #>()
+        {
+            // Arrange
+            using (var serviceLocator = new ServiceLocator())
+            {
+                // Act
+                var result = serviceLocator
+                                  .Is(typeof(<#= GetTargetTypeName() #>))
+                                  .RegisteredAs<<#= GetTargetInterfaceName() #>>();
+
+                // Assert
+                Assert.IsTrue(result);
+            }
+        }
+
+        [TestMethod, TestCategory(TestCategory.UnitTest)]
+        public void <#= GetTargetTypeName() #>_ServiceLocator_returns_instance()
+        {
+            // Arrange
+            using (var serviceLocator = new ServiceLocator())
+            {
+                // Act
+                var <#= GetInstanceVariableName() #> = serviceLocator.GetInstance<<#= GetTargetInterfaceName() #>>();
+
+                // Assert
+                Assert.IsNotNull(<#= GetInstanceVariableName() #>);
+                Assert.IsInstanceOfType(<#= GetInstanceVariableName() #>, typeof(<#= GetTargetTypeName() #>));
+            }
+        }
+
+        #endregion
