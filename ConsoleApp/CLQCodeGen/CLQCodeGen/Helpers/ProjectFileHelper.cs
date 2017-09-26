@@ -7,35 +7,11 @@ namespace CLQCodeGen.Helpers
 {
     internal class ProjectFileHelper
     {
+        #region Fields
+
         private const string NsMs = "ms"; // Default namespace from Microsoft for project file.
 
-        private class XmlDocumentPair
-        {
-            public XmlDocument Document { get; set; }
-
-            public XmlNamespaceManager NamespaceManager { get; set; }
-        }
-
-        private XmlDocumentPair LoadProjectFile(string fullFileName)
-        {
-            if (!File.Exists(fullFileName))
-            {
-                throw new InvalidOperationException($"Project file '{fullFileName}' is not existing.");
-            }
-
-            var fileXml = new XmlDocument();
-            var nsmgr = new XmlNamespaceManager(fileXml.NameTable);
-
-            nsmgr.AddNamespace(NsMs, "http://schemas.microsoft.com/developer/msbuild/2003");
-            fileXml.Load(fullFileName);
-
-            return 
-                new XmlDocumentPair
-                    {
-                        Document = fileXml,
-                        NamespaceManager = nsmgr
-                    };
-        }
+        #endregion
 
         public string GetRootNamespace(string fullFileName)
         {
@@ -63,9 +39,9 @@ namespace CLQCodeGen.Helpers
             var referenceNodes = fileXml.SelectNodes($"//{NsMs}:ItemGroup/{NsMs}:ProjectReference", nsmgr);
 
             foundProjectFile =
-                referenceNodes.Cast<XmlNode>()
+                referenceNodes.OfType<XmlNode>()
                     .Select(n => n.Attributes["Include"].Value)
-                    .Select(pp => Path.Combine(Path.GetDirectoryName(fullFileName), pp)) //partial path to absolute path
+                    .Select(pp => Path.Combine(Path.GetDirectoryName(fullFileName), pp)) // partial path to absolute path
                     .FirstOrDefault(fn => GetAssemblyName(fn) == assemblyName); // Select project file full name
 
             return !string.IsNullOrEmpty(foundProjectFile);
@@ -73,7 +49,7 @@ namespace CLQCodeGen.Helpers
 
         public string FindReferencedProjectFileByAssemblyName(string fullFileName, string assemblyName)
         {
-            string foundProjectFile = string.Empty;
+            string foundProjectFile;
 
             if (!TryFindReferencedProjectFileByAssemblyName(fullFileName, assemblyName, out foundProjectFile))
             {
@@ -82,5 +58,37 @@ namespace CLQCodeGen.Helpers
 
             return foundProjectFile;
         }
+
+        private XmlDocumentPair LoadProjectFile(string fullFileName)
+        {
+            if (!File.Exists(fullFileName))
+            {
+                throw new InvalidOperationException($"Project file '{fullFileName}' is not existing.");
+            }
+
+            var fileXml = new XmlDocument();
+            var nsmgr = new XmlNamespaceManager(fileXml.NameTable);
+
+            nsmgr.AddNamespace(NsMs, "http://schemas.microsoft.com/developer/msbuild/2003");
+            fileXml.Load(fullFileName);
+
+            return
+                new XmlDocumentPair
+                {
+                    Document = fileXml,
+                    NamespaceManager = nsmgr
+                };
+        }
+
+        #region Inner Object
+
+        private class XmlDocumentPair
+        {
+            public XmlDocument Document { get; set; }
+
+            public XmlNamespaceManager NamespaceManager { get; set; }
+        }
+
+        #endregion
     }
 }

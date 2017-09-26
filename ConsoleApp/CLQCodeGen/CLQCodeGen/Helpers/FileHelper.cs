@@ -4,6 +4,18 @@ namespace CLQCodeGen.Helpers
 {
     public class FileHelper
     {
+        public void SaveAndArchiveOriginal(string fileFullName, string fileContent)
+        {
+            if (File.Exists(fileFullName))
+            {
+                var archivedFileName = CalculateArchivedFileName(fileFullName);
+
+                File.Move(fileFullName, archivedFileName);
+            }
+
+            File.WriteAllText(fileFullName, fileContent);
+        }
+
         private string CalculateArchivedFileName(string fileFullName)
         {
             var archivedFileName = string.Empty;
@@ -16,7 +28,7 @@ namespace CLQCodeGen.Helpers
 
                 for (var i = 0;; ++i)
                 {
-                    var archivedOrder = ".archive" + (i == 0 ? "" : i.ToString());
+                    var archivedOrder = ".archive" + (i == 0 ? string.Empty : i.ToString());
 
                     archivedFileName = Path.Combine(directoryName, $"{fileName}{archivedOrder}{extensionName}");
 
@@ -28,18 +40,6 @@ namespace CLQCodeGen.Helpers
             }
 
             return archivedFileName;
-        }
-
-        public void SaveAndArchiveOriginal(string fileFullName, string fileContent)
-        {
-            if (File.Exists(fileFullName))
-            {
-                var archivedFileName = CalculateArchivedFileName(fileFullName);
-
-                File.Move(fileFullName, archivedFileName);
-            }
-
-            File.WriteAllText(fileFullName, fileContent);
         }
     }
 }

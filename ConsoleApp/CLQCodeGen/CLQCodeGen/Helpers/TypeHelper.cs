@@ -7,6 +7,20 @@ namespace CLQCodeGen.Helpers
 {
     internal class TypeHelper
     {
+        public IList<Type> GetDependencyList(Type targetType)
+        {
+            var ctorMethod = FindConstructorForTest(targetType);
+
+            return ctorMethod.GetParameters().Select(p => p.ParameterType).ToList();
+        }
+
+        public IList<MethodInfo> GetMethodList(Type targetType)
+        {
+            var methodBindingFlags = BindingFlags.Public | BindingFlags.Instance;
+
+            return targetType.GetMethods(methodBindingFlags).Where(m => targetType.Equals(m.DeclaringType)).ToList();
+        }
+
         private ConstructorInfo FindConstructorForTest(Type targetType)
         {
             var ctorBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
@@ -33,20 +47,6 @@ namespace CLQCodeGen.Helpers
             }
 
             return ctorMethod;
-        }
-
-        public IList<Type> GetDependencyList(Type targetType)
-        {
-            var ctorMethod = FindConstructorForTest(targetType);
-
-            return ctorMethod.GetParameters().Select(p => p.ParameterType).ToList();
-        }
-
-        public IList<MethodInfo> GetMethodList(Type targetType)
-        {
-            var methodBindingFlags = BindingFlags.Public | BindingFlags.Instance;
-
-            return targetType.GetMethods(methodBindingFlags).Where(m => targetType.Equals(m.DeclaringType)).ToList();
         }
     }
 }
