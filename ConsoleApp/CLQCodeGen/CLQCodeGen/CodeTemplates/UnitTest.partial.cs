@@ -90,9 +90,12 @@ namespace CLQCodeGen.CodeTemplates
                     throw new InvalidOperationException($"Fail to find assmbly file {assemblyFileName}. You may need to give an assembly file name.");
                 }
 
-                var assembly = Assembly.LoadFile(assemblyFileName);
+                // Just load given assembly file.
+                // var assembly = Assembly.LoadFile(assemblyFileName);
 
-                AddAssemblyFileResolver();
+                // AddAssemblyFileResolver();
+
+                var assembly = Assembly.LoadFrom(assemblyFileName);
 
                 _targetAssembly = assembly;
             }

@@ -12,5 +12,15 @@ namespace CLQCodeGen.CodeTemplates.DataObjects
         {
             get { return this.Type.Name; }
         }
+
+        public FieldAndType Clone()
+        {
+            return 
+                new FieldAndType
+                    {
+                        Name = Name,
+                        Type = Type
+                    };
+        }
     }
 }

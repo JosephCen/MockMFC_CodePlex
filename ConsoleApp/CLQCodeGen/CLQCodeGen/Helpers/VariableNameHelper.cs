@@ -33,5 +33,8 @@ namespace CLQCodeGen.Helpers
         {
             return string.Concat(char.ToUpper(name[0]), name.Substring(1));
         }
+
+        public string ToInFuncName(string name) =>
+            name.StartsWith("_") ? name.Substring(1) : name;
     }
 }

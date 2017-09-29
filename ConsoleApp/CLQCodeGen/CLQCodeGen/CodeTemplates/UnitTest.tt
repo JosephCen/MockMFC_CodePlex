@@ -33,46 +33,9 @@ namespace <#= GetUnitTestNamespace() #>
 
         #endregion
 
-        #region Test Initialise
-
-        [TestInitialize]
-        public void TestInitialise()
-        {
 <#
-    foreach (var fieldAndType in mockFieldAndTypeList)
-    {
-        WriteLine($"            {fieldAndType.Name} = new Mock<{fieldAndType.TypeName}>();");
-    }
+    WriteSubTemplate(typeof(TestInitialise), GetTargetFieldName(), GetTargetType(), GetMockFieldAndTypeList());
 #>
-
-            <#= GetTargetFieldName() #> = new <#= GetTargetTypeName() #>(<#
-    if (mockFieldAndTypeList.Count > 0)
-        WriteLine("");
-
-    for (int i = 0; i < mockFieldAndTypeList.Count; ++i)
-    {
-	    var fieldAndType = mockFieldAndTypeList[i];
-	    var space = "                                    ";
-
-        Write($"{space}{fieldAndType.Name}.Object");
-        if (i + 1 < mockFieldAndTypeList.Count)
-        {
-		    WriteLine(",");
-        }
-    }
-    WriteLine(");");
-
-    foreach (var fieldAndType in mockFieldAndTypeList)
-    {
-        if (fieldAndType.TypeName.Contains("AspectLoader"))
-        {
-            WriteSubTemplate(typeof(SetupAspectLoaderMock), fieldAndType);
-        }
-    }
-#>
-        }
-
-        #endregion
 
 <#
     WriteSubTemplate(typeof(ConstructorTestMethods), GetTargetTypeName());

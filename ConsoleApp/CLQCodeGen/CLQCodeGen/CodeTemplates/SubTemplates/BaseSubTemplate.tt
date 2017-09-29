@@ -1,1 +1,10 @@
 ﻿<#@ template language="C#" #>
+
+<#+
+        protected void WriteSubTemplate(Type templateType, params object[] parameters)
+        {
+            var subTemplate = (BaseSubTemplate)Activator.CreateInstance(templateType, parameters);
+
+            Write(subTemplate.TransformText());
+        }
+#>

@@ -82,6 +82,12 @@
       <DependentUpon>SetupAspectLoaderMock.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeTemplates\SubTemplates\SetupAspectLoaderMock.partial.cs" />
+    <Compile Include="CodeTemplates\SubTemplates\TestInitialise.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestInitialise.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeTemplates\SubTemplates\TestInitialise.partial.cs" />
     <Compile Include="CodeTemplates\UnitTest.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,6 +127,10 @@
     <Content Include="CodeTemplates\SubTemplates\SetupAspectLoaderMock.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>SetupAspectLoaderMock.cs</LastGenOutput>
+    </Content>
+    <Content Include="CodeTemplates\SubTemplates\TestInitialise.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TestInitialise.cs</LastGenOutput>
     </Content>
     <Content Include="CodeTemplates\UnitTest.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

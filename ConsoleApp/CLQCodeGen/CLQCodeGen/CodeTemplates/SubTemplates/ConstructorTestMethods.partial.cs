@@ -1,5 +1,6 @@
-﻿using CLQCodeGen.Helpers;
-using System.Linq;
+﻿using System.Linq;
+
+using CLQCodeGen.Helpers;
 
 namespace CLQCodeGen.CodeTemplates.SubTemplates
 {
