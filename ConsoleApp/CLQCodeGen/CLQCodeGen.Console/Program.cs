@@ -38,6 +38,8 @@ namespace CLQCodeGen.Console
 
         static void Run(string[] args)
         {
+            var fileHelper = new FileHelper();
+
             if (args.Length == 2)
             {
                 var prodAssmName = args[0];
@@ -45,11 +47,20 @@ namespace CLQCodeGen.Console
 
                 var unitTestGenerator = new UnitTest(prodAssmName, targetTypeName);
 
-                var unitTestClassDefination = unitTestGenerator.TransformText();
+                var unitTestClassDefinition = unitTestGenerator.TransformText();
                 var unitTestSourceFileName = Path.Combine(Environment.CurrentDirectory, $"{unitTestGenerator.GetUnitTestClassName()}.cs");
-                var fileHelper = new FileHelper();
 
-                fileHelper.SaveAndArchiveOriginal(unitTestSourceFileName, unitTestClassDefination);
+                fileHelper.SaveAndArchiveOriginal(unitTestSourceFileName, unitTestClassDefinition);
+            }
+            if (args.Length == 1)
+            {
+                var modelTypeSourceFile = Path.IsPathRooted(args[0]) ? args[0] : Path.GetPathRoot(args[0]);
+
+                var generator = new StaticModelType(modelTypeSourceFile);
+
+                var classDefinition = generator.TransformText();
+
+                fileHelper.SaveAndArchiveOriginal(modelTypeSourceFile, classDefinition);
             }
         }
 

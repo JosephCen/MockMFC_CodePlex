@@ -1,0 +1,262 @@
+﻿<#@ template language="C#" inherits="BaseMainTemplate" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="CLQCodeGen.CodeTemplates.SubTemplates" #>
+<#
+    WriteSubTemplate(typeof(CopyRight), GetModelTypeName());
+#>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
+using System.IO;
+using System.Linq;
+using Eurofins.ComLIMS.ApplicationBlock.Logging;
+
+namespace <#= GetModelTypeNamespace() #>
+{
+    /// <summary>
+    /// The quotation document reporting model type.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    [Serializable]
+    public struct <#= GetModelTypeName() #>
+    {
+        #region static
+        
+<#
+        var codePairList = GetCodeNamePairs();
+#>
+        /// <summary>
+        /// Defines the possible code values.
+        /// </summary>
+        public static class Codes
+        {
+<#
+    for (int i = 0; i < codePairList.Count; ++i)
+    {
+        var codePair = codePairList[i];
+    
+        if (i > 0) WriteLine("");
+#>
+            /// <summary>
+            /// The <#= codePair.Code.ToLower() #> type.
+            /// </summary>
+            public const string <#= codePair.CodeVar #> = "<#= codePair.CodeValue #>";
+<#
+    }
+#>
+        }
+
+        /// <summary>
+        /// Defines the possible name values.
+        /// </summary>
+        internal static class Names
+        {
+<#
+    for (int i = 0; i < codePairList.Count; ++i)
+    {
+        var codePair = codePairList[i];
+    
+        if (i > 0) WriteLine("");
+#>
+            public const string <#= codePair.NameVar #> = "<#= codePair.NameValue #>";
+<#
+    }
+#>
+        }
+
+        /// <summary>
+        /// Defines the empty <#= GetModelTypeName() #>.
+        /// </summary>
+        public static readonly <#= GetModelTypeName() #> Empty = new <#= GetModelTypeName() #>();
+
+        #region Define the several possible values
+
+        /// <summary>
+        /// Defines list of all possible QuotationDocumentReportingModelType.
+        /// </summary>
+        public static readonly IEnumerable<<#= GetModelTypeName() #>> All = new[]
+        { 
+<#
+    for (int i = 0; i < codePairList.Count; ++i)
+    {
+        var codePair = codePairList[i];
+        var isLast = (i+1 == codePairList.Count);
+#>
+            <#= codePair.Code #><#= isLast ? "" : "," #>
+<#
+    }
+#>
+        };
+<#
+    for (int i = 0; i < codePairList.Count; ++i)
+    {
+        var codePair = codePairList[i];
+#>
+
+        private static readonly <#= GetModelTypeName() #> <#= codePair.ClassVar #> = new <#= GetModelTypeName() #>(Codes.<#= codePair.CodeVar #>, Names.<#= codePair.NameVar #>);
+
+        /// <summary>
+        /// Gets the <#= codePair.Code.ToLower() #> <#= GetModelTypeName() #>.
+        /// </summary>
+        /// <value>
+        /// The <#= codePair.Code.ToLower() #> type value.
+        /// </value>
+        public static <#= GetModelTypeName() #> <#= codePair.Code #>
+        {
+            get { return <#= codePair.ClassVar #>; }
+        }
+<#
+    }
+#>
+
+        #endregion
+
+        #endregion
+
+        private readonly string _code;
+        private readonly string _name;
+
+        internal <#= GetModelTypeName() #>(string code, string name)
+        {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(code), "code");
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name), "name");
+
+            _code = code;
+            _name = name;
+        }
+
+        #region properties
+
+        /// <summary>
+        /// Gets the code.
+        /// </summary>
+        /// <value>
+        /// The code of <#= GetModelTypeName() #>.
+        /// </value>
+        public string Code
+        {
+            get { return _code; }
+        }
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        /// <value>
+        /// The name of <#= GetModelTypeName() #>.
+        /// </value>
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        #endregion
+
+        #region Caster and IEquatable stuff
+
+        /// <summary>
+        /// Catches an instance of <see cref="<#= GetModelTypeName() #>"></see> given a code.
+        /// </summary>
+        /// <param name="code">The code of <see cref="<#= GetModelTypeName() #>"></see>.</param>
+        /// <returns>An instance of <see cref="<#= GetModelTypeName() #>"></see>.</returns>
+        public static implicit operator <#= GetModelTypeName() #>(string code)
+        {
+            try
+            {
+                return string.IsNullOrEmpty(code)
+                    ? Empty
+                    : All.First(type => string.Equals(type.Code, code, StringComparison.CurrentCultureIgnoreCase));
+            }
+            catch (InvalidOperationException exception)
+            {
+                var loggerProvider = LoggerProvider.Current.Get();
+                loggerProvider.LogException(Loglevel.Error, exception.Message, exception);
+                throw new InvalidDataException(string.Format("<#= GetModelTypeName() #> Code [{0}] is an invalid value.", code), exception);
+            }
+        }
+
+        /// <summary>
+        /// The op_ explicit.
+        /// </summary>
+        /// <param name="type">
+        /// The <#= GetModelTypeName() #>.
+        /// </param>
+        /// <returns>The code of given <#= GetModelTypeName() #>.</returns>
+        public static explicit operator string(<#= GetModelTypeName() #> type)
+        {
+            return type.Code;
+        }
+
+        /// <summary>
+        /// Operator overload for ==.
+        /// </summary>
+        /// <param name="left">The left <see cref="<#= GetModelTypeName() #>"></see>.</param>
+        /// <param name="right">The right <see cref="<#= GetModelTypeName() #>"></see>.</param>
+        /// <returns>
+        ///   <c>true</c> if two <see cref="<#= GetModelTypeName() #>"></see> instances are equal. Otherwise <c>false</c>.
+        /// </returns>
+        public static bool operator ==(<#= GetModelTypeName() #> left, <#= GetModelTypeName() #> right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Operator overload for !=.
+        /// </summary>
+        /// <param name="left">The left <see cref="<#= GetModelTypeName() #>"></see>.</param>
+        /// <param name="right">The right <see cref="<#= GetModelTypeName() #>"></see>.</param>
+        /// <returns>
+        ///   <c>true</c> if two <see cref="<#= GetModelTypeName() #>"></see> instances are not equal. Otherwise <c>false</c>.
+        /// </returns>
+        public static bool operator !=(<#= GetModelTypeName() #> left, <#= GetModelTypeName() #> right)
+        {
+            return !(left == right);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is <#= GetModelTypeName() #>)
+            {
+                var right = (<#= GetModelTypeName() #>)obj;
+                return Code == right.Code;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        [ExcludeFromCodeCoverage]
+        public override int GetHashCode()
+        {
+            return Code.GetHashCode();
+        }
+
+        /// <summary>
+        /// The to string.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            return Code;
+        }
+
+        #endregion
+    }
+}

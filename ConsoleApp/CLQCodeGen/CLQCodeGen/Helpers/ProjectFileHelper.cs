@@ -59,6 +59,38 @@ namespace CLQCodeGen.Helpers
             return foundProjectFile;
         }
 
+        public bool TryFindCurrentProjectFileBySourceFile(string sourceFileName, out string foundProjectFile)
+        {
+            var projectPath = Path.GetDirectoryName(sourceFileName);
+
+            foundProjectFile = string.Empty;
+
+            for (; !string.IsNullOrEmpty(projectPath); projectPath = Path.GetDirectoryName(projectPath))
+            {
+                var csprojFiles = Directory.GetFiles(projectPath, "*.csproj");
+                if (csprojFiles.Length == 1)
+                {
+                    foundProjectFile = csprojFiles.Single();
+
+                    break;
+                }
+            }
+
+            return !string.IsNullOrEmpty(foundProjectFile);
+        }
+
+        public string FindCurrentProjectFileBySourceFile(string sourceFileName)
+        {
+            string foundProjectFile;
+
+            if (!TryFindCurrentProjectFileBySourceFile(sourceFileName, out foundProjectFile))
+            {
+                throw new Exception($"Fail to find project name for source file: {sourceFileName}");
+            }
+
+            return foundProjectFile;
+        }
+
         private XmlDocumentPair LoadProjectFile(string fullFileName)
         {
             if (!File.Exists(fullFileName))

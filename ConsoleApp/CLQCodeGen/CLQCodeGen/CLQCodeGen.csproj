@@ -42,6 +42,14 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=11.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -59,6 +67,12 @@
       <DependentUpon>BaseMainTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeTemplates\DataObjects\FieldAndType.cs" />
+    <Compile Include="CodeTemplates\StaticModelType.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StaticModelType.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeTemplates\StaticModelType.partial.cs" />
     <Compile Include="CodeTemplates\SubTemplates\BaseSubTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,6 +126,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BaseMainTemplate.cs</LastGenOutput>
     </Content>
+    <Content Include="CodeTemplates\StaticModelType.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StaticModelType.cs</LastGenOutput>
+    </Content>
     <Content Include="CodeTemplates\SubTemplates\BaseSubTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BaseSubTemplate.cs</LastGenOutput>
@@ -142,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
