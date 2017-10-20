@@ -54,7 +54,7 @@ namespace CLQCodeGen.Console
             }
             if (args.Length == 1)
             {
-                var modelTypeSourceFile = Path.IsPathRooted(args[0]) ? args[0] : Path.GetPathRoot(args[0]);
+                var modelTypeSourceFile = Path.IsPathRooted(args[0]) ? args[0] : Path.GetFullPath(args[0]);
 
                 var generator = new StaticModelType(modelTypeSourceFile);
 

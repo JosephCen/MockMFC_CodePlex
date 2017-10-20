@@ -68,36 +68,51 @@ namespace <#= GetModelTypeNamespace() #>
 #>
         }
 
-        /// <summary>
-        /// Defines the empty <#= GetModelTypeName() #>.
-        /// </summary>
-        public static readonly <#= GetModelTypeName() #> Empty = new <#= GetModelTypeName() #>();
+        static <#= GetModelTypeName() #>()
+        {
+            Empty = new <#= GetModelTypeName() #>();
+<#
+    foreach (var codePair in codePairList)
+    {
+#>
+            <#= codePair.ClassVar #> = new <#= GetModelTypeName() #>(Codes.<#= codePair.CodeVar #>, Names.<#= codePair.NameVar #>);
+<#
+    }
+#>
 
-        #region Define the several possible values
-
-        /// <summary>
-        /// Defines list of all possible QuotationDocumentReportingModelType.
-        /// </summary>
-        public static readonly IEnumerable<<#= GetModelTypeName() #>> All = new[]
-        { 
+            All = new[]
+            {
 <#
     for (int i = 0; i < codePairList.Count; ++i)
     {
         var codePair = codePairList[i];
         var isLast = (i+1 == codePairList.Count);
 #>
-            <#= codePair.Code #><#= isLast ? "" : "," #>
+                <#= codePair.Code #><#= isLast ? "" : "," #>
 <#
     }
 #>
-        };
+            };
+        }
+
+        /// <summary>
+        /// Defines the empty <#= GetModelTypeName() #>.
+        /// </summary>
+        public static readonly <#= GetModelTypeName() #> Empty;
+
+        #region Define the several possible values
+
+        /// <summary>
+        /// Defines list of all possible QuotationDocumentReportingModelType.
+        /// </summary>
+        public static readonly IEnumerable<<#= GetModelTypeName() #>> All;
 <#
     for (int i = 0; i < codePairList.Count; ++i)
     {
         var codePair = codePairList[i];
 #>
 
-        private static readonly <#= GetModelTypeName() #> <#= codePair.ClassVar #> = new <#= GetModelTypeName() #>(Codes.<#= codePair.CodeVar #>, Names.<#= codePair.NameVar #>);
+        private static readonly <#= GetModelTypeName() #> <#= codePair.ClassVar #>;
 
         /// <summary>
         /// Gets the <#= codePair.Code.ToLower() #> <#= GetModelTypeName() #>.
