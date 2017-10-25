@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{324DE510-FDF8-4011-9B72-C7EBFE9DEEB6}"
+	ProjectSection(SolutionItems) = preProject
+		QuestionList.txt = QuestionList.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C917D1D-A05C-4C5E-A0D1-1D2EB8A5AF28}"
 	ProjectSection(SolutionItems) = preProject

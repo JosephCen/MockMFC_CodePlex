@@ -1,0 +1,3 @@
+Where is the package folder.
+  Default Path: C:\Users\s1ig\.nuget\packages
+  Nuget Config: https://docs.microsoft.com/en-us/nuget/consume-packages/configuring-nuget-behavior
