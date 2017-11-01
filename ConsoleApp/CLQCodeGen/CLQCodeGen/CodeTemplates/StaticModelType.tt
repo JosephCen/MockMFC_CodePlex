@@ -13,12 +13,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using Eurofins.ComLIMS.ApplicationBlock.Logging;
 
 namespace <#= GetModelTypeNamespace() #>
 {
     /// <summary>
-    /// The quotation document reporting model type.
+    /// The <#= string.Join(" ", GetModelTypeNameWords()) #>.
     /// </summary>
     [ExcludeFromCodeCoverage]
     [Serializable]
@@ -187,9 +186,12 @@ namespace <#= GetModelTypeNamespace() #>
             }
             catch (InvalidOperationException exception)
             {
-                var loggerProvider = LoggerProvider.Current.Get();
-                loggerProvider.LogException(Loglevel.Error, exception.Message, exception);
-                throw new InvalidDataException(string.Format("<#= GetModelTypeName() #> Code [{0}] is an invalid value.", code), exception);
+                throw new InvalidDataException(
+                    string.Format(
+                        "<#= GetModelTypeName() #> Code [{0}] is an invalid value. Available codes: [{1}]", 
+                        code,
+                        string.Join(", ", All.Select(t => t.Code))),
+                    exception);
             }
         }
 

@@ -39,25 +39,31 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("using System;\r\nusing System.Collections.Generic;\r\nusing System.Diagnostics.CodeAn" +
                     "alysis;\r\nusing System.Diagnostics.Contracts;\r\nusing System.IO;\r\nusing System.Lin" +
-                    "q;\r\nusing Eurofins.ComLIMS.ApplicationBlock.Logging;\r\n\r\nnamespace ");
+                    "q;\r\n\r\nnamespace ");
             
-            #line 18 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 17 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeNamespace()));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    /// <summary>\r\n    /// The quotation document reporting model type.\r\n   " +
-                    " /// </summary>\r\n    [ExcludeFromCodeCoverage]\r\n    [Serializable]\r\n    public s" +
-                    "truct ");
+            this.Write("\r\n{\r\n    /// <summary>\r\n    /// The ");
             
-            #line 25 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 20 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(" ", GetModelTypeNameWords())));
+            
+            #line default
+            #line hidden
+            this.Write(".\r\n    /// </summary>\r\n    [ExcludeFromCodeCoverage]\r\n    [Serializable]\r\n    pub" +
+                    "lic struct ");
+            
+            #line 24 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        #region static\r\n        \r\n");
             
-            #line 29 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 28 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
         var codePairList = GetCodeNamePairs();
 
@@ -67,7 +73,7 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("        /// <summary>\r\n        /// Defines the possible code values.\r\n        ///" +
                     " </summary>\r\n        public static class Codes\r\n        {\r\n");
             
-            #line 37 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 36 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     for (int i = 0; i < codePairList.Count; ++i)
     {
@@ -80,28 +86,28 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("            /// <summary>\r\n            /// The ");
             
-            #line 45 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 44 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.Code.ToLower()));
             
             #line default
             #line hidden
             this.Write(" type.\r\n            /// </summary>\r\n            public const string ");
             
-            #line 47 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 46 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.CodeVar));
             
             #line default
             #line hidden
             this.Write(" = \"");
             
-            #line 47 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 46 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.CodeValue));
             
             #line default
             #line hidden
             this.Write("\";\r\n");
             
-            #line 48 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 47 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     }
 
@@ -111,7 +117,7 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("        }\r\n\r\n        /// <summary>\r\n        /// Defines the possible name values." +
                     "\r\n        /// </summary>\r\n        internal static class Names\r\n        {\r\n");
             
-            #line 58 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 57 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     for (int i = 0; i < codePairList.Count; ++i)
     {
@@ -124,21 +130,21 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("            public const string ");
             
-            #line 65 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 64 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.NameVar));
             
             #line default
             #line hidden
             this.Write(" = \"");
             
-            #line 65 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 64 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.NameValue));
             
             #line default
             #line hidden
             this.Write("\";\r\n");
             
-            #line 66 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 65 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     }
 
@@ -147,21 +153,21 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("        }\r\n\r\n        static ");
             
-            #line 71 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 70 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("()\r\n        {\r\n            Empty = new ");
             
-            #line 73 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 72 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("();\r\n");
             
-            #line 74 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 73 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     foreach (var codePair in codePairList)
     {
@@ -171,35 +177,35 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("            ");
             
-            #line 78 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 77 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.ClassVar));
             
             #line default
             #line hidden
             this.Write(" = new ");
             
-            #line 78 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 77 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("(Codes.");
             
-            #line 78 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 77 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.CodeVar));
             
             #line default
             #line hidden
             this.Write(", Names.");
             
-            #line 78 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 77 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.NameVar));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 79 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 78 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     }
 
@@ -208,7 +214,7 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("\r\n            All = new[]\r\n            {\r\n");
             
-            #line 85 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 84 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     for (int i = 0; i < codePairList.Count; ++i)
     {
@@ -220,20 +226,20 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("                ");
             
-            #line 91 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 90 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.Code));
             
             #line default
             #line hidden
             
-            #line 91 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 90 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(isLast ? "" : ","));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 92 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 91 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     }
 
@@ -243,14 +249,14 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("            };\r\n        }\r\n\r\n        /// <summary>\r\n        /// Defines the empty" +
                     " ");
             
-            #line 99 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 98 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write(".\r\n        /// </summary>\r\n        public static readonly ");
             
-            #line 101 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 100 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -259,14 +265,14 @@ namespace CLQCodeGen.CodeTemplates
                     "mary>\r\n        /// Defines list of all possible QuotationDocumentReportingModelT" +
                     "ype.\r\n        /// </summary>\r\n        public static readonly IEnumerable<");
             
-            #line 108 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 107 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("> All;\r\n");
             
-            #line 109 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 108 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     for (int i = 0; i < codePairList.Count; ++i)
     {
@@ -277,63 +283,63 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("\r\n        private static readonly ");
             
-            #line 115 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 114 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 115 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 114 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.ClassVar));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n        /// <summary>\r\n        /// Gets the ");
             
-            #line 118 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 117 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.Code.ToLower()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 118 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 117 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write(".\r\n        /// </summary>\r\n        /// <value>\r\n        /// The ");
             
-            #line 121 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 120 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.Code.ToLower()));
             
             #line default
             #line hidden
             this.Write(" type value.\r\n        /// </value>\r\n        public static ");
             
-            #line 123 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 122 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 123 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 122 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.Code));
             
             #line default
             #line hidden
             this.Write("\r\n        {\r\n            get { return ");
             
-            #line 125 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 124 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(codePair.ClassVar));
             
             #line default
             #line hidden
             this.Write("; }\r\n        }\r\n");
             
-            #line 127 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 126 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
     }
 
@@ -343,7 +349,7 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("\r\n        #endregion\r\n\r\n        #endregion\r\n\r\n        private readonly string _co" +
                     "de;\r\n        private readonly string _name;\r\n\r\n        internal ");
             
-            #line 138 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 137 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -365,7 +371,7 @@ namespace CLQCodeGen.CodeTemplates
         /// <value>
         /// The code of ");
             
-            #line 153 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 152 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -374,7 +380,7 @@ namespace CLQCodeGen.CodeTemplates
                     " return _code; }\r\n        }\r\n\r\n        /// <summary>\r\n        /// Gets the name." +
                     "\r\n        /// </summary>\r\n        /// <value>\r\n        /// The name of ");
             
-            #line 164 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 163 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -384,7 +390,7 @@ namespace CLQCodeGen.CodeTemplates
                     "IEquatable stuff\r\n\r\n        /// <summary>\r\n        /// Catches an instance of <s" +
                     "ee cref=\"");
             
-            #line 176 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 175 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -392,21 +398,21 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("\"></see> given a code.\r\n        /// </summary>\r\n        /// <param name=\"code\">Th" +
                     "e code of <see cref=\"");
             
-            #line 178 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 177 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("\"></see>.</param>\r\n        /// <returns>An instance of <see cref=\"");
             
-            #line 179 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 178 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("\"></see>.</returns>\r\n        public static implicit operator ");
             
-            #line 180 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 179 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -421,34 +427,43 @@ namespace CLQCodeGen.CodeTemplates
             }
             catch (InvalidOperationException exception)
             {
-                var loggerProvider = LoggerProvider.Current.Get();
-                loggerProvider.LogException(Loglevel.Error, exception.Message, exception);
-                throw new InvalidDataException(string.Format(""");
+                throw new InvalidDataException(
+                    string.Format(
+                        """);
             
-            #line 192 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 191 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
-            this.Write(" Code [{0}] is an invalid value.\", code), exception);\r\n            }\r\n        }\r\n" +
-                    "\r\n        /// <summary>\r\n        /// The op_ explicit.\r\n        /// </summary>\r\n" +
-                    "        /// <param name=\"type\">\r\n        /// The ");
-            
-            #line 200 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(".\r\n        /// </param>\r\n        /// <returns>The code of given ");
+            this.Write(@" Code [{0}] is an invalid value. Available codes: [{1}]"", 
+                        code,
+                        string.Join("", "", All.Select(t => t.Code))),
+                    exception);
+            }
+        }
+
+        /// <summary>
+        /// The op_ explicit.
+        /// </summary>
+        /// <param name=""type"">
+        /// The ");
             
             #line 202 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
+            this.Write(".\r\n        /// </param>\r\n        /// <returns>The code of given ");
+            
+            #line 204 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
+            
+            #line default
+            #line hidden
             this.Write(".</returns>\r\n        public static explicit operator string(");
             
-            #line 203 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 205 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -457,14 +472,14 @@ namespace CLQCodeGen.CodeTemplates
                     "ry>\r\n        /// Operator overload for ==.\r\n        /// </summary>\r\n        /// " +
                     "<param name=\"left\">The left <see cref=\"");
             
-            #line 211 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 213 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("\"></see>.</param>\r\n        /// <param name=\"right\">The right <see cref=\"");
             
-            #line 212 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 214 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -472,7 +487,7 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("\"></see>.</param>\r\n        /// <returns>\r\n        ///   <c>true</c> if two <see c" +
                     "ref=\"");
             
-            #line 214 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 216 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -480,14 +495,14 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("\"></see> instances are equal. Otherwise <c>false</c>.\r\n        /// </returns>\r\n  " +
                     "      public static bool operator ==(");
             
-            #line 216 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 218 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write(" left, ");
             
-            #line 216 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 218 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -496,14 +511,14 @@ namespace CLQCodeGen.CodeTemplates
                     "/// <summary>\r\n        /// Operator overload for !=.\r\n        /// </summary>\r\n  " +
                     "      /// <param name=\"left\">The left <see cref=\"");
             
-            #line 224 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 226 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write("\"></see>.</param>\r\n        /// <param name=\"right\">The right <see cref=\"");
             
-            #line 225 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 227 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -511,7 +526,7 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("\"></see>.</param>\r\n        /// <returns>\r\n        ///   <c>true</c> if two <see c" +
                     "ref=\"");
             
-            #line 227 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 229 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -519,14 +534,14 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("\"></see> instances are not equal. Otherwise <c>false</c>.\r\n        /// </returns>" +
                     "\r\n        public static bool operator !=(");
             
-            #line 229 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 231 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write(" left, ");
             
-            #line 229 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 231 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
@@ -547,14 +562,14 @@ namespace CLQCodeGen.CodeTemplates
         {
             if (obj is ");
             
-            #line 243 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 245 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default
             #line hidden
             this.Write(")\r\n            {\r\n                var right = (");
             
-            #line 245 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
+            #line 247 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetModelTypeName()));
             
             #line default

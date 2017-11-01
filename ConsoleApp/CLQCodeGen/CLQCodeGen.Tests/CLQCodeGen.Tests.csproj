@@ -59,6 +59,7 @@
     <Compile Include="CodeTemplates\SetupAspectLoaderMockTest.cs" />
     <Compile Include="Helpers\FileHelperTest.cs" />
     <Compile Include="Helpers\TypeHelperTest.cs" />
+    <Compile Include="Helpers\VariableNameHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

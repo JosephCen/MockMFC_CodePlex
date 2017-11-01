@@ -5,7 +5,7 @@ namespace CLQCodeGen.Helpers
 {
     internal class VariableNameHelper
     {
-        public IList<string> SplitIntoWords(string name)
+        public IList<string> SplitIntoWords(string name, bool toLower = false)
         {
             var wordList = new List<string>();
             var wordStrB = new StringBuilder();
@@ -16,7 +16,7 @@ namespace CLQCodeGen.Helpers
 
                 if ((i + 1) >= name.Length || char.IsUpper(name[i + 1]))
                 {
-                    wordList.Add(wordStrB.ToString());
+                    wordList.Add(toLower ? wordStrB.ToString().ToLower() : wordStrB.ToString());
                     wordStrB.Clear();
                 }
             }

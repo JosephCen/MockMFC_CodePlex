@@ -49,6 +49,8 @@ namespace CLQCodeGen.CodeTemplates
             return sourceFilePath.Replace(projectPath, rootNamespace).Replace('\\', '.');
         }
 
+        #region Inner Objects
+
         private class CodeNamePair
         {
             public string Code { get; set; }
@@ -63,6 +65,8 @@ namespace CLQCodeGen.CodeTemplates
 
             public string ClassVar => $"{ Code }Value";
         }
+
+        #endregion
 
         private IList<CodeNamePair> GetCodeNamePairs()
         {
@@ -120,5 +124,8 @@ namespace CLQCodeGen.CodeTemplates
 
             return modelTypeDataFileName;
         }
+
+        private IList<string> GetModelTypeNameWords() =>
+            _variableNameHelper.SplitIntoWords(GetModelTypeName(), true);
     }
 }
