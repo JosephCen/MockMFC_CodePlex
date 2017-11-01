@@ -417,7 +417,7 @@ namespace CLQCodeGen.CodeTemplates
             {
                 return string.IsNullOrEmpty(code)
                     ? Empty
-                    : All.First(type => string.Equals(type.Code, code, StringComparison.CurrentCultureIgnoreCase));
+                    : All.First(type => string.Equals(type.Code, code, StringComparison.OrdinalIgnoreCase));
             }
             catch (InvalidOperationException exception)
             {
