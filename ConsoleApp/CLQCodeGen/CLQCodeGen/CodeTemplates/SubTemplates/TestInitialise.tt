@@ -10,33 +10,39 @@
         public void TestInitialise()
         {
 <#
-    foreach (var fieldAndType in mockFieldAndTypeList)
-    {
-        WriteLine($"            {fieldAndType.Name} = new Mock<{fieldAndType.TypeName}>();");
-    }
+    foreach (var fieldAndType in mockFieldAndTypeList)                                        //
+    {                                                                                         //
+        WriteLine($"            {fieldAndType.Name} = new Mock<{fieldAndType.TypeName}>();"); //
+    }                                                                                         //
 #>
 
-            <#= GetTargetFieldName() #> = new <#= GetTargetTypeName() #>(<#
-    if (mockFieldAndTypeList.Count > 0)
-        WriteLine("");
-
-    for (int i = 0; i < mockFieldAndTypeList.Count; ++i)
-    {
-	    var fieldAndType = mockFieldAndTypeList[i];
-	    var space = "                                    ";
-
-        Write($"{space}{fieldAndType.Name}.Object");
-        if (i + 1 < mockFieldAndTypeList.Count)
-        {
-		    WriteLine(",");
-        }
-    }
-    WriteLine(");");
-
-    foreach (var fieldAndType in mockFieldAndTypeList)
-    {
-        if (mockFieldAndTypeList.Count > inFuncMockThreshold)
-        {
+            <#= GetTargetFieldName() #> = new <#= GetTargetTypeName() #>(<#                   //
+    if (mockFieldAndTypeList.Count > 0)                                                       //
+        WriteLine("");                                                                        //
+                                                                                              //
+    for (int i = 0; i < mockFieldAndTypeList.Count; ++i)                                      //
+    {                                                                                         //
+	    var fieldAndType = mockFieldAndTypeList[i];                                           //
+        var isLast = (i+1 == mockFieldAndTypeList.Count);                                     //
+        var lineEnd = (isLast ? "" : ",\r\n");                                                //
+                                                                                              //
+        if (fieldAndType.TypeExtension.IsLazy)                                                //
+        {                                                                                     //
+#>
+                                    new Lazy<<#= fieldAndType.TypeName #>>(() => <#= fieldAndType.Name #>.Object)<#= lineEnd #><#
+        }                                                                                     //
+        else                                                                                  //
+        {                                                                                     //
+#>
+                                    <#= fieldAndType.Name #>.Object<#= lineEnd #><#
+        }                                                                                     //
+    }                                                                                         //
+    WriteLine(");");                                                                          //
+                                                                                              //
+    foreach (var fieldAndType in mockFieldAndTypeList)                                        //
+    {                                                                                         //
+        if (mockFieldAndTypeList.Count > inFuncMockThreshold)                                 //
+        {                                                                                     //
 #>
 
             Initialise(<#= fieldAndType.Name #>);

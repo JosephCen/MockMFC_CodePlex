@@ -40,10 +40,10 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
             
             #line 12 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
 
-    foreach (var fieldAndType in mockFieldAndTypeList)
-    {
-        WriteLine($"            {fieldAndType.Name} = new Mock<{fieldAndType.TypeName}>();");
-    }
+    foreach (var fieldAndType in mockFieldAndTypeList)                                        //
+    {                                                                                         //
+        WriteLine($"            {fieldAndType.Name} = new Mock<{fieldAndType.TypeName}>();"); //
+    }                                                                                         //
 
             
             #line default
@@ -65,41 +65,92 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
             this.Write("(");
             
             #line 19 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+                   //
+    if (mockFieldAndTypeList.Count > 0)                                                       //
+        WriteLine("");                                                                        //
+                                                                                              //
+    for (int i = 0; i < mockFieldAndTypeList.Count; ++i)                                      //
+    {                                                                                         //
+	    var fieldAndType = mockFieldAndTypeList[i];                                           //
+        var isLast = (i+1 == mockFieldAndTypeList.Count);                                     //
+        var lineEnd = (isLast ? "" : ",\r\n");                                                //
+                                                                                              //
+        if (fieldAndType.TypeExtension.IsLazy)                                                //
+        {                                                                                     //
 
-    if (mockFieldAndTypeList.Count > 0)
-        WriteLine("");
+            
+            #line default
+            #line hidden
+            this.Write("                                    new Lazy<");
+            
+            #line 32 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(fieldAndType.TypeName));
+            
+            #line default
+            #line hidden
+            this.Write(">(() => ");
+            
+            #line 32 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(fieldAndType.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".Object)");
+            
+            #line 32 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(lineEnd));
+            
+            #line default
+            #line hidden
+            
+            #line 32 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
 
-    for (int i = 0; i < mockFieldAndTypeList.Count; ++i)
-    {
-	    var fieldAndType = mockFieldAndTypeList[i];
-	    var space = "                                    ";
+        }                                                                                     //
+        else                                                                                  //
+        {                                                                                     //
 
-        Write($"{space}{fieldAndType.Name}.Object");
-        if (i + 1 < mockFieldAndTypeList.Count)
-        {
-		    WriteLine(",");
-        }
-    }
-    WriteLine(");");
+            
+            #line default
+            #line hidden
+            this.Write("                                    ");
+            
+            #line 37 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(fieldAndType.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".Object");
+            
+            #line 37 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(lineEnd));
+            
+            #line default
+            #line hidden
+            
+            #line 37 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
 
-    foreach (var fieldAndType in mockFieldAndTypeList)
-    {
-        if (mockFieldAndTypeList.Count > inFuncMockThreshold)
-        {
+        }                                                                                     //
+    }                                                                                         //
+    WriteLine(");");                                                                          //
+                                                                                              //
+    foreach (var fieldAndType in mockFieldAndTypeList)                                        //
+    {                                                                                         //
+        if (mockFieldAndTypeList.Count > inFuncMockThreshold)                                 //
+        {                                                                                     //
 
             
             #line default
             #line hidden
             this.Write("\r\n            Initialise(");
             
-            #line 42 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            #line 48 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldAndType.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 43 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            #line 49 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
             
         }
         else
@@ -113,7 +164,7 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
             #line hidden
             this.Write("        }\r\n\r\n");
             
-            #line 53 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            #line 59 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
 
     if (mockFieldAndTypeList.Count > inFuncMockThreshold)
     {
@@ -128,21 +179,21 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
             #line hidden
             this.Write("        private void Initialise(Mock<");
             
-            #line 62 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            #line 68 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(curFieldAndType.TypeName));
             
             #line default
             #line hidden
             this.Write("> ");
             
-            #line 62 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            #line 68 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(curFieldAndType.Name));
             
             #line default
             #line hidden
             this.Write(")\r\n        {\r\n");
             
-            #line 64 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            #line 70 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
  
         SetupMock(curFieldAndType);
 
@@ -151,7 +202,7 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
             #line hidden
             this.Write("        }\r\n\r\n");
             
-            #line 69 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+            #line 75 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
 
         }
     }
@@ -163,7 +214,7 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 74 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
+        #line 80 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\TestInitialise.tt"
 
     private void SetupMock(FieldAndType fieldAndType)
     {

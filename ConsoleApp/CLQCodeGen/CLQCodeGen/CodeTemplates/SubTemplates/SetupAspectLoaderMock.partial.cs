@@ -1,8 +1,8 @@
-﻿using CLQCodeGen.CodeTemplates.DataObjects;
-using CLQCodeGen.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CLQCodeGen.CodeTemplates.DataObjects;
+using CLQCodeGen.Helpers;
 
 namespace CLQCodeGen.CodeTemplates.SubTemplates
 {
@@ -19,7 +19,7 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
             _typeHelper = new TypeHelper();
             _variableNameHelper = new VariableNameHelper();
 
-            _aspectLoaderType = aspectLoaderField.Type;
+            _aspectLoaderType = aspectLoaderField.TypeExtension.Type;
             _mockVariableName = aspectLoaderField.Name;
         }
 

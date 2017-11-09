@@ -20,7 +20,7 @@ namespace CLQCodeGen.CodeTemplates
 
         private Type _targetType;
         private Assembly _targetAssembly;
-        private IList<Type> _dependencyList;
+        private IList<TypeExtension> _dependencyList;
         private IList<MethodInfo> _methodList;
         private bool? _useFullName;
 
@@ -171,7 +171,7 @@ namespace CLQCodeGen.CodeTemplates
             return unitTestNamespace.Replace(unitTestRootNamespace, unitTestRootNamespace.Replace(".Tests", ""));
         }
 
-        private IList<Type> GetDependencyList()
+        private IList<TypeExtension> GetDependencyList()
         {
             if (_dependencyList == null)
             {
@@ -185,7 +185,7 @@ namespace CLQCodeGen.CodeTemplates
         {
             if (!_useFullName.HasValue)
             {
-                var fieldNames = GetDependencyList().Select(t => GetFieldNameFromType(t, false)).ToList();
+                var fieldNames = GetDependencyList().Select(t => GetFieldNameFromType(t.Type, false)).ToList();
                 var isDup = fieldNames.Count > 1 && fieldNames.Distinct().Count() != fieldNames.Count;
 
                 _useFullName = isDup;
@@ -196,7 +196,12 @@ namespace CLQCodeGen.CodeTemplates
 
         private IList<FieldAndType> GetMockFieldAndTypeList() =>
             GetDependencyList()
-                .Select(t => new FieldAndType { Name = $"_{GetFieldNameFromType(t, UseFullName())}Mock", Type = t })
+                .Select(t => 
+                            new FieldAndType
+                            {
+                                Name = $"_{GetFieldNameFromType(t.Type, UseFullName())}Mock",
+                                TypeExtension = t
+                            })
                 .ToList();
 
         private IList<MethodInfo> GetMethodList()
@@ -248,7 +253,12 @@ namespace CLQCodeGen.CodeTemplates
             };
 
             namespaceList.Add(GetTargetTypeNameSpace());
-            namespaceList.AddRange(GetDependencyList().Select(t => t.Namespace));
+            namespaceList.AddRange(GetDependencyList().Select(te => te.Type.Namespace));
+
+            if (GetDependencyList().Any(te => te.IsLazy))
+            {
+                namespaceList.Add("System");
+            }
 
             return namespaceList;
         }

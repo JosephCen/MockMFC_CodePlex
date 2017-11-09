@@ -67,6 +67,7 @@
       <DependentUpon>BaseMainTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeTemplates\DataObjects\FieldAndType.cs" />
+    <Compile Include="CodeTemplates\DataObjects\TypeExtension.cs" />
     <Compile Include="CodeTemplates\StaticModelType.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

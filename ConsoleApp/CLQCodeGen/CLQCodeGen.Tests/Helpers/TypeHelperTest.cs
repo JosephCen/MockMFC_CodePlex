@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text;
 using CLQCodeGen.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -40,6 +42,26 @@ namespace CLQCodeGen.Tests.Helpers
 
                 return;
             }
+        }
+
+        [TestMethod, TestCategory("UnitTest")]
+        public void TestLazyType()
+        {
+            var lazyStrBuilder = new Lazy<StringBuilder>(() => new StringBuilder());
+            var instanceType = lazyStrBuilder.GetType();
+
+            Debug.WriteLine($"TypeName: {instanceType.Name}");
+            Debug.WriteLine($"IsGenericParameter: {instanceType.IsGenericParameter}");
+            Debug.WriteLine($"IsGenericType: {instanceType.IsGenericType}");
+            Debug.WriteLine($"IsGenericTypeDefinition: {instanceType.IsGenericTypeDefinition}");
+
+            var genericTypeDef = instanceType.GetGenericTypeDefinition();
+
+            Debug.WriteLine($"GetGenericTypeDefinition: {genericTypeDef.Name}");
+
+            var genericArguments = instanceType.GetGenericArguments();
+
+            Debug.WriteLine($"GetGenericTypeDefinition: {string.Join(", ", genericArguments.Select(t => t.Name))}");
         }
 
         [TestMethod, TestCategory("UnitTest")]

@@ -2,16 +2,69 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CLQCodeGen.CodeTemplates.DataObjects;
 
 namespace CLQCodeGen.Helpers
 {
     internal class TypeHelper
     {
-        public IList<Type> GetDependencyList(Type targetType)
+        public IList<TypeExtension> GetDependencyList(Type targetType)
         {
             var ctorMethod = FindConstructorForTest(targetType);
+            var paramTypeList = ctorMethod.GetParameters().Select(p => p.ParameterType).ToList();
+            var typeExtensionList = new List<TypeExtension>();
 
-            return ctorMethod.GetParameters().Select(p => p.ParameterType).ToList();
+            foreach (var type in paramTypeList)
+            {
+                Type innerType;
+
+                if (IsLazyType(type, out innerType))
+                {
+                    typeExtensionList.Add(
+                        new TypeExtension
+                        {
+                            IsLazy = true,
+                            Type = innerType
+                        });
+                }
+                else
+                {
+                    typeExtensionList.Add(
+                        new TypeExtension
+                        {
+                            IsLazy = false,
+                            Type = type
+                        });
+                }
+            }
+
+            return typeExtensionList;
+        }
+
+        public bool IsLazyType(Type paramType)
+        {
+            Type innerType;
+
+            return IsLazyType(paramType, out innerType);
+        }
+
+        public bool IsLazyType(Type paramType, out Type innerType)
+        {
+            innerType = null;
+
+            if (paramType.IsGenericType)
+            {
+                var genericTypeDef = paramType.GetGenericTypeDefinition();
+
+                if (genericTypeDef == typeof(Lazy<>))
+                {
+                    innerType = paramType.GetGenericArguments().First();
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public IList<MethodInfo> GetMethodList(Type targetType)
@@ -24,7 +77,12 @@ namespace CLQCodeGen.Helpers
         private ConstructorInfo FindConstructorForTest(Type targetType)
         {
             var ctorBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
-            var ctorMethodArray = targetType.GetConstructors(ctorBindingFlags);
+            var allCtorMethodArray = targetType.GetConstructors(ctorBindingFlags);
+            var ctorMethodArray =
+                    allCtorMethodArray
+                        .Where(ctor => !ctor.IsStatic)
+                        .Where(ctor => !ctor.GetCustomAttributes().Any(a => a is System.Runtime.CompilerServices.CompilerGeneratedAttribute))
+                        .ToArray();
             var ctorMethod = ctorMethodArray.First();
 
             if (ctorMethodArray.Length > 1)
