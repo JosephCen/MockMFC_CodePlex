@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Hosting;
+﻿using KatanaIntro.Components;
+using Microsoft.Owin.Hosting;
 using Owin;
 using System;
 
@@ -23,6 +24,9 @@ namespace KatanaIntro
     {
         public void Configuration(IAppBuilder app)
         {
+            app.UsePassbyWebComponent();
+            app.UseWelcomePage();
+
             app.Run(ctx =>
             {
                 return ctx.Response.WriteAsync("Hello World!");
