@@ -23,7 +23,34 @@
                         Success
                     </button>
                     <button class="btn btn-danger">
+                        <span class="glyphicon glyphicon-sort"></span>
                         Danger
+                    </button>
+                    <div class="btn-group dropup">
+                        <button class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-sort"></span>
+                        </button>
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            @*<span class="sr-only">Toggle Dropdown</span>*@
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Dropup 1</a></li>
+                            <li><a href="#">Dropup 2</a></li>
+                            <li><a href="#">Dropup 3</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group">
+                    <button class="btn btn-default">
+                        <i class="fa fa-camera-retro fa-lg"></i>
+                    </button>
+                    <button class="btn btn-default">
+                        <i class="fa fa-id-card-o"></i>
                     </button>
                 </div>
             </div>
@@ -44,6 +71,53 @@
         </div>
     </div>
 
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="btn-group">
+                        <div class="btn-group dropup">
+                            <button class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <span>Primary</span>
+                            </button>
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span>Dropup 1</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span>Dropup 2</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        <span>Dropup 3</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-success" type="button">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            <span>Success</span>
+                        </button>
+                        <button class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            <span>Default</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 </body>
