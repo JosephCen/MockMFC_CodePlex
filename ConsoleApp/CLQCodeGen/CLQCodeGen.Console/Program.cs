@@ -1,10 +1,12 @@
-﻿using CLQCodeGen.CodeTemplates;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
+using CLQCodeGen.CodeTemplates;
+using CLQCodeGen.Console.GenArguments;
 using CLQCodeGen.Generators;
 using CLQCodeGen.Helpers;
 using CLQCodeGen.ProxyAdapters;
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
+using CommandLine;
 
 namespace CLQCodeGen.Console
 {
@@ -39,29 +41,69 @@ namespace CLQCodeGen.Console
         static void Run(string[] args)
         {
             var fileHelper = new FileHelper();
+            var isSuccess = true;
 
-            if (args.Length == 2)
+            using (var argsParser = new Parser(config => config.HelpWriter = System.Console.Out))
             {
-                var prodAssmName = args[0];
-                var targetTypeName = GetTargetTypeName(args[1]);
+                argsParser.ParseArguments<UnitTestArgument, StaticModelArgument>(args)
+                    .WithParsed<UnitTestArgument>(
+                        argument =>
+                        {
+                            if (argument.Validate())
+                            {
+                                var generator = new UnitTest(argument.ProdAssemblyName, argument.TargetTypeName);
+                                var sourceFileName = Path.GetFullPath($"{generator.GetUnitTestClassName()}.cs");
+                                var classText = generator.TransformText();
 
-                var unitTestGenerator = new UnitTest(prodAssmName, targetTypeName);
+                                fileHelper.SaveAndArchiveOriginal(sourceFileName, classText);
+                            }
+                            else
+                            {
+                                isSuccess = false;
+                            }
+                        })
+                    .WithParsed<StaticModelArgument>(
+                        argument =>
+                        {
+                            if (argument.Validate())
+                            {
+                                var generator = new StaticModelType(argument.StaticModelFile);
+                                var sourceFileName = argument.StaticModelFile;
+                                var classText = generator.TransformText();
 
-                var unitTestClassDefinition = unitTestGenerator.TransformText();
-                var unitTestSourceFileName = Path.Combine(Environment.CurrentDirectory, $"{unitTestGenerator.GetUnitTestClassName()}.cs");
-
-                fileHelper.SaveAndArchiveOriginal(unitTestSourceFileName, unitTestClassDefinition);
+                                fileHelper.SaveAndArchiveOriginal(sourceFileName, classText);
+                            }
+                            else
+                            {
+                                isSuccess = false;
+                            }
+                        })
+                    .WithNotParsed(errs => isSuccess = false);
             }
-            if (args.Length == 1)
-            {
-                var modelTypeSourceFile = Path.IsPathRooted(args[0]) ? args[0] : Path.GetFullPath(args[0]);
 
-                var generator = new StaticModelType(modelTypeSourceFile);
 
-                var classDefinition = generator.TransformText();
+            //if (args.Length == 2)
+            //{
+            //    var prodAssmName = args[0];
+            //    var targetTypeName = GetTargetTypeName(args[1]);
 
-                fileHelper.SaveAndArchiveOriginal(modelTypeSourceFile, classDefinition);
-            }
+            //    var unitTestGenerator = new UnitTest(prodAssmName, targetTypeName);
+
+            //    var unitTestClassDefinition = unitTestGenerator.TransformText();
+            //    var unitTestSourceFileName = Path.Combine(Environment.CurrentDirectory, $"{unitTestGenerator.GetUnitTestClassName()}.cs");
+
+            //    fileHelper.SaveAndArchiveOriginal(unitTestSourceFileName, unitTestClassDefinition);
+            //}
+            //if (args.Length == 1)
+            //{
+            //    var modelTypeSourceFile = Path.IsPathRooted(args[0]) ? args[0] : Path.GetFullPath(args[0]);
+
+            //    var generator = new StaticModelType(modelTypeSourceFile);
+
+            //    var classDefinition = generator.TransformText();
+
+            //    fileHelper.SaveAndArchiveOriginal(modelTypeSourceFile, classDefinition);
+            //}
         }
 
         static string GetTargetTypeName(string arg)
