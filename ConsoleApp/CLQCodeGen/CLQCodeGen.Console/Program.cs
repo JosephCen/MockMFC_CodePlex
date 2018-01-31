@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
+﻿using System.IO;
 using CLQCodeGen.CodeTemplates;
 using CLQCodeGen.Console.GenArguments;
 using CLQCodeGen.Generators;
@@ -12,9 +10,9 @@ namespace CLQCodeGen.Console
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            Run(args);
+            return Run(args) ? 0 : 1;
         }
 
         static void RunInAppDomain(string[] args)
@@ -38,18 +36,20 @@ namespace CLQCodeGen.Console
             }
         }
 
-        static void Run(string[] args)
+        static bool Run(string[] args)
         {
             var fileHelper = new FileHelper();
             var isSuccess = true;
 
-            using (var argsParser = new Parser(config => config.HelpWriter = System.Console.Out))
+            using (var argsParser = new Parser(config => { config.HelpWriter = System.Console.Out; config.CaseSensitive = false; }))
             {
                 argsParser.ParseArguments<UnitTestArgument, StaticModelArgument>(args)
                     .WithParsed<UnitTestArgument>(
                         argument =>
                         {
-                            if (argument.Validate())
+                            isSuccess = isSuccess && argument.Validate();
+
+                            if (isSuccess)
                             {
                                 var generator = new UnitTest(argument.ProdAssemblyName, argument.TargetTypeName);
                                 var sourceFileName = Path.GetFullPath($"{generator.GetUnitTestClassName()}.cs");
@@ -57,67 +57,34 @@ namespace CLQCodeGen.Console
 
                                 fileHelper.SaveAndArchiveOriginal(sourceFileName, classText);
                             }
-                            else
-                            {
-                                isSuccess = false;
-                            }
                         })
                     .WithParsed<StaticModelArgument>(
                         argument =>
                         {
-                            if (argument.Validate())
-                            {
-                                var generator = new StaticModelType(argument.StaticModelFile);
-                                var sourceFileName = argument.StaticModelFile;
-                                var classText = generator.TransformText();
+                            isSuccess = isSuccess && argument.Validate();
 
-                                fileHelper.SaveAndArchiveOriginal(sourceFileName, classText);
-                            }
-                            else
+                            if (isSuccess)
                             {
-                                isSuccess = false;
+                                if (argument.GenSampleConfigJSON && string.IsNullOrEmpty(argument.StaticModelFile))
+                                {
+                                    var sampleJSON = StaticModelType.WriteSampleConfigJSON(System.Environment.CurrentDirectory);
+
+                                    System.Console.WriteLine($"{sampleJSON} has been generated.");
+                                }
+                                else
+                                {
+                                    var generator = new StaticModelType(argument.StaticModelFile);
+                                    var sourceFileName = argument.StaticModelFile;
+                                    var classText = generator.TransformText();
+
+                                    fileHelper.SaveAndArchiveOriginal(sourceFileName, classText);
+                                }
                             }
                         })
                     .WithNotParsed(errs => isSuccess = false);
             }
 
-
-            //if (args.Length == 2)
-            //{
-            //    var prodAssmName = args[0];
-            //    var targetTypeName = GetTargetTypeName(args[1]);
-
-            //    var unitTestGenerator = new UnitTest(prodAssmName, targetTypeName);
-
-            //    var unitTestClassDefinition = unitTestGenerator.TransformText();
-            //    var unitTestSourceFileName = Path.Combine(Environment.CurrentDirectory, $"{unitTestGenerator.GetUnitTestClassName()}.cs");
-
-            //    fileHelper.SaveAndArchiveOriginal(unitTestSourceFileName, unitTestClassDefinition);
-            //}
-            //if (args.Length == 1)
-            //{
-            //    var modelTypeSourceFile = Path.IsPathRooted(args[0]) ? args[0] : Path.GetFullPath(args[0]);
-
-            //    var generator = new StaticModelType(modelTypeSourceFile);
-
-            //    var classDefinition = generator.TransformText();
-
-            //    fileHelper.SaveAndArchiveOriginal(modelTypeSourceFile, classDefinition);
-            //}
-        }
-
-        static string GetTargetTypeName(string arg)
-        {
-            var testSrcFileMatch = Regex.Match(arg, @"(\w+)Test(?:.cs)?");
-
-            return testSrcFileMatch.Success ? testSrcFileMatch.Groups[1].Value : arg;
-        }
-
-        static void TestFunc()
-        {
-            var curPath = Environment.CurrentDirectory;
-
-            var parentPath = System.IO.Path.GetDirectoryName(curPath);
+            return isSuccess;
         }
     }
 }

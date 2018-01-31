@@ -93,21 +93,28 @@ namespace CLQCodeGen.CodeTemplates
             }
             catch (JsonReaderException ex)
             {
-                var sampleFileName = Path.Combine(Path.GetDirectoryName(dataFileName), "StaticModelType.sample.json");
+                WriteSampleConfigJSON(Path.GetDirectoryName(dataFileName));
 
-                if (!File.Exists(sampleFileName))
-                {
-                    var sampleFileContent =
+                throw new InvalidOperationException($"Fail to parse the model data file for class { GetModelTypeName() }.", ex);
+            }
+        }
+
+        public static string WriteSampleConfigJSON(string destDirectory)
+        {
+            var sampleFileName = Path.Combine(destDirectory, "StaticModelType.sample.json");
+
+            if (!File.Exists(sampleFileName))
+            {
+                var sampleFileContent =
 @"{
   'Standard' : 'Standard Quotation',
   'Project' : 'Project Quotation'
 }";
 
-                    File.WriteAllText(sampleFileName, sampleFileContent);
-                }
-
-                throw new InvalidOperationException($"Fail to parse the model data file for class { GetModelTypeName() }.", ex);
+                File.WriteAllText(sampleFileName, sampleFileContent);
             }
+
+            return sampleFileName;
         }
 
         [NotNull]
