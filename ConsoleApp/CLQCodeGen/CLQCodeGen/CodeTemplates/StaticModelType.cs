@@ -165,7 +165,7 @@ namespace CLQCodeGen.CodeTemplates
             
             #line default
             #line hidden
-            this.Write("();\r\n");
+            this.Write("(string.Empty, string.Empty);\r\n");
             
             #line 73 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
@@ -356,8 +356,8 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write(@"(string code, string name)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(code), ""code"");
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name), ""name"");
+            Contract.Requires<ArgumentNullException>(code != null, ""code"");
+            Contract.Requires<ArgumentNullException>(name != null, ""name"");
 
             _code = code;
             _name = name;

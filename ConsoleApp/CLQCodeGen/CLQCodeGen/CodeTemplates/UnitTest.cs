@@ -53,30 +53,37 @@ namespace CLQCodeGen.CodeTemplates
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    [TestClass]\r\n    public class ");
+            this.Write("\r\n{\r\n    /// <summary>\r\n    /// Unit-test for <see cref=\"");
             
             #line 19 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetTargetTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("\"/>.\r\n    /// </summary>\r\n    [TestClass]\r\n    public class ");
+            
+            #line 22 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetUnitTestClassName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        #region Fields\r\n\r\n        private ");
             
-            #line 23 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 26 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetTargetTypeName()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 23 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 26 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetTargetFieldName()));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n");
             
-            #line 25 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 28 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
     var mockFieldAndTypeList = GetMockFieldAndTypeList();
 
@@ -90,7 +97,7 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("\r\n        #endregion\r\n\r\n");
             
-            #line 36 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 39 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
     WriteSubTemplate(typeof(TestInitialise), GetTargetFieldName(), GetTargetType(), GetMockFieldAndTypeList());
 
@@ -99,7 +106,7 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("\r\n");
             
-            #line 40 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 43 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
     WriteSubTemplate(typeof(ConstructorTestMethods), GetTargetTypeName());
 
@@ -108,7 +115,7 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("\r\n        #region Test Methods\r\n\r\n");
             
-            #line 46 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 49 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
     foreach (var methodInfo in GetMethodList())
     {
@@ -118,21 +125,21 @@ namespace CLQCodeGen.CodeTemplates
             #line hidden
             this.Write("        [TestMethod, TestCategory(TestCategory.UnitTest)]\r\n        public void ");
             
-            #line 51 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 54 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetTargetTypeName()));
             
             #line default
             #line hidden
             this.Write("_");
             
-            #line 51 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 54 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(methodInfo.Name));
             
             #line default
             #line hidden
             this.Write("_()\r\n        {\r\n");
             
-            #line 53 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 56 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
     if (methodInfo.GetParameters().Any())
     {
@@ -154,7 +161,7 @@ namespace CLQCodeGen.CodeTemplates
             this.Write("            // Arrange\r\n\r\n            // Act\r\n\r\n            // Assert\r\n        }\r" +
                     "\n\r\n");
             
-            #line 75 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+            #line 78 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
     }
 
@@ -165,7 +172,7 @@ namespace CLQCodeGen.CodeTemplates
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 81 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
+        #line 84 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
     private void PrintNamespaces()
     {

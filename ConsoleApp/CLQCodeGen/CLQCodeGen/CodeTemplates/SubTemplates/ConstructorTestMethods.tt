@@ -1,6 +1,9 @@
 ﻿<#@ template language="C#" inherits="BaseSubTemplate" #>
         #region Constructor
 
+        /// <summary>
+        /// Verify <see cref="<#= GetTargetTypeName() #>"/> is registered as <see cref="<#= GetTargetInterfaceName() #>"/>.
+        /// </summary>
         [TestMethod, TestCategory(TestCategory.UnitTest)]
         public void <#= GetTargetTypeName() #>_ServiceLocator_the_class_is_registered_as_<#= GetTargetInterfaceName() #>()
         {
@@ -17,6 +20,9 @@
             }
         }
 
+        /// <summary>
+        /// Verify instance of <see cref="<#= GetTargetTypeName() #>"/> will be created successful by <see cref="ServiceLocator"/>.
+        /// </summary>
         [TestMethod, TestCategory(TestCategory.UnitTest)]
         public void <#= GetTargetTypeName() #>_ServiceLocator_returns_instance()
         {

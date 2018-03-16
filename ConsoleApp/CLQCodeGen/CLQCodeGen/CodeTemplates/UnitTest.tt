@@ -15,6 +15,9 @@
 
 namespace <#= GetUnitTestNamespace() #>
 {
+    /// <summary>
+    /// Unit-test for <see cref="<#= GetTargetTypeName() #>"/>.
+    /// </summary>
     [TestClass]
     public class <#= GetUnitTestClassName() #>
     {

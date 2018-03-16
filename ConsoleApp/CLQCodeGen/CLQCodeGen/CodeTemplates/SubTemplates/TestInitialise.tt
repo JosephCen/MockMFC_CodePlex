@@ -6,6 +6,9 @@
 #>
         #region Test Initialise
 
+        /// <summary>
+        /// Initialization for each unit-test.
+        /// </summary>
         [TestInitialize]
         public void TestInitialise()
         {

@@ -69,7 +69,7 @@ namespace <#= GetModelTypeNamespace() #>
 
         static <#= GetModelTypeName() #>()
         {
-            Empty = new <#= GetModelTypeName() #>();
+            Empty = new <#= GetModelTypeName() #>(string.Empty, string.Empty);
 <#
     foreach (var codePair in codePairList)
     {
@@ -136,8 +136,8 @@ namespace <#= GetModelTypeNamespace() #>
 
         internal <#= GetModelTypeName() #>(string code, string name)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(code), "code");
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(name), "name");
+            Contract.Requires<ArgumentNullException>(code != null, "code");
+            Contract.Requires<ArgumentNullException>(name != null, "name");
 
             _code = code;
             _name = name;
