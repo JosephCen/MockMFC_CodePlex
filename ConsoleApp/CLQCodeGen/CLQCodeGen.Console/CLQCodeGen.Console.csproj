@@ -66,6 +66,9 @@
       <Name>CLQCodeGen</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tools\Publish.cmd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)Tools\*.*" "$(TargetDir)"</PostBuildEvent>
