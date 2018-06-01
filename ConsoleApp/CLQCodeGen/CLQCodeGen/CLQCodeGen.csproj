@@ -79,18 +79,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BaseSubTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeTemplates\SubTemplates\BaseSubTemplate.partial.cs" />
     <Compile Include="CodeTemplates\SubTemplates\ConstructorTestMethods.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ConstructorTestMethods.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeTemplates\SubTemplates\ConstructorTestMethods.partial.cs" />
-    <Compile Include="CodeTemplates\SubTemplates\CopyRight.cs">
+    <Compile Include="CodeTemplates\SubTemplates\CopyRight\CopyRight.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CopyRight.tt</DependentUpon>
     </Compile>
-    <Compile Include="CodeTemplates\SubTemplates\CopyRight.partial.cs" />
+    <Compile Include="CodeTemplates\SubTemplates\CopyRight\CopyRight.partial.cs" />
+    <Compile Include="CodeTemplates\SubTemplates\CopyRight\CopyRightData.cs" />
     <Compile Include="CodeTemplates\SubTemplates\SetupAspectLoaderMock.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -139,7 +141,7 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ConstructorTestMethods.cs</LastGenOutput>
     </Content>
-    <Content Include="CodeTemplates\SubTemplates\CopyRight.tt">
+    <Content Include="CodeTemplates\SubTemplates\CopyRight\CopyRight.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>CopyRight.cs</LastGenOutput>
     </Content>

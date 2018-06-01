@@ -15,27 +15,6 @@ namespace CLQCodeGen.Console
             return Run(args) ? 0 : 1;
         }
 
-        static void RunInAppDomain(string[] args)
-        {
-            if (args.Length == 3)
-            {
-                var generatorAdapter = new UnitTestGeneratorAdapter();
-                var request = new CallUnitTestGeneratorRequest
-                {
-                    Request = new UnitTestGenerateRequest
-                    {
-                        ProdAssemblyName = args[0],
-                        TargetTypeName = args[1],
-                        UnitTestFileName = args[2]
-                    }
-                };
-
-                var response = generatorAdapter.CallUnitTestGeneratorInIsolateAppDomain(request);
-
-                System.Console.WriteLine($"Is Success: {response.IsSuccess}");
-            }
-        }
-
         static bool Run(string[] args)
         {
             var fileHelper = new FileHelper();

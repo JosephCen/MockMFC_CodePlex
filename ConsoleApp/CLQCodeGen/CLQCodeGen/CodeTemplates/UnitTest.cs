@@ -33,7 +33,7 @@ namespace CLQCodeGen.CodeTemplates
             
             #line 9 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\UnitTest.tt"
 
-    WriteSubTemplate(typeof(CopyRight), GetUnitTestClassName());
+    WriteSubTemplate(typeof(SubTemplates.CopyRight.CopyRight), GetUnitTestClassName());
 
             
             #line default

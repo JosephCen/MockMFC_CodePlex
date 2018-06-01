@@ -32,7 +32,7 @@ namespace CLQCodeGen.CodeTemplates
             
             #line 7 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\StaticModelType.tt"
 
-    WriteSubTemplate(typeof(CopyRight), GetModelTypeName());
+    WriteSubTemplate(typeof(SubTemplates.CopyRight.CopyRight), GetModelTypeName());
 
             
             #line default

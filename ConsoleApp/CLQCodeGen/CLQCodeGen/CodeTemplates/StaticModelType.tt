@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="CLQCodeGen.CodeTemplates.SubTemplates" #>
 <#
-    WriteSubTemplate(typeof(CopyRight), GetModelTypeName());
+    WriteSubTemplate(typeof(SubTemplates.CopyRight.CopyRight), GetModelTypeName());
 #>
 using System;
 using System.Collections.Generic;

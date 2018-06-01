@@ -25,22 +25,8 @@ namespace CLQCodeGen.CodeTemplates.SubTemplates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
         }
-        
-        #line 3 "C:\Users\s1ig\Documents\GitHub\MockMFC_CodePlex\ConsoleApp\CLQCodeGen\CLQCodeGen\CodeTemplates\SubTemplates\BaseSubTemplate.tt"
-
-        protected void WriteSubTemplate(Type templateType, params object[] parameters)
-        {
-            var subTemplate = (BaseSubTemplate)Activator.CreateInstance(templateType, parameters);
-
-            Write(subTemplate.TransformText());
-        }
-
-        
-        #line default
-        #line hidden
     }
     
     #line default

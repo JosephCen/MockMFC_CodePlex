@@ -7,7 +7,7 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="CLQCodeGen.CodeTemplates.SubTemplates" #>
 <#
-    WriteSubTemplate(typeof(CopyRight), GetUnitTestClassName());
+    WriteSubTemplate(typeof(SubTemplates.CopyRight.CopyRight), GetUnitTestClassName());
 #>
 <#
     PrintNamespaces();

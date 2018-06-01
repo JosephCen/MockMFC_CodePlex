@@ -27,7 +27,10 @@ namespace CLQCodeGen.Console.GenArguments
         {
             var testSrcFileMatch = Regex.Match(TargetTypeName, @"(\w+)Test(?:.cs)?");
 
-            TargetTypeName = testSrcFileMatch.Success ? testSrcFileMatch.Groups[1].Value : string.Empty;
+            if (testSrcFileMatch.Success)
+            {
+                TargetTypeName = testSrcFileMatch.Groups[1].Value;
+            }
         }
     }
 }
